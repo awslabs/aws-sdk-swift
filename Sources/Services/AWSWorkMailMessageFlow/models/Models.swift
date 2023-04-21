@@ -57,9 +57,12 @@ public enum GetRawMessageContentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRawMessageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.messageContent = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.messageContent = .data(data)
+        case .stream(let stream):
+            self.messageContent = .stream(stream)
+        case .none:
             self.messageContent = nil
         }
     }
@@ -96,9 +99,8 @@ extension GetRawMessageContentOutputResponseBody: Swift.Decodable {
 
 extension InvalidContentLocation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidContentLocationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -118,7 +120,7 @@ extension InvalidContentLocation {
 /// * The [S3 bucket owner](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-owner-condition.html) is not the same as the calling AWS account.
 ///
 /// * You have an incomplete or missing S3 bucket policy. For more information about policies, see [ Updating message content with AWS Lambda ](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html) in the WorkMail Administrator Guide.
-public struct InvalidContentLocation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidContentLocation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -154,9 +156,8 @@ extension InvalidContentLocationBody: Swift.Decodable {
 
 extension MessageFrozen {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MessageFrozenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -170,7 +171,7 @@ extension MessageFrozen {
 }
 
 /// The requested email is not eligible for update. This is usually the case for a redirected email.
-public struct MessageFrozen: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MessageFrozen: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -206,9 +207,8 @@ extension MessageFrozenBody: Swift.Decodable {
 
 extension MessageRejected {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MessageRejectedBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -222,7 +222,7 @@ extension MessageRejected {
 }
 
 /// The requested email could not be updated due to an error in the MIME content. Check the error message for more information about what caused the error.
-public struct MessageRejected: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MessageRejected: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -402,9 +402,8 @@ extension WorkMailMessageFlowClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -418,7 +417,7 @@ extension ResourceNotFoundException {
 }
 
 /// The requested email message is not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

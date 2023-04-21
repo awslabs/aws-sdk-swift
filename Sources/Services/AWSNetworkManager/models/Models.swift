@@ -112,9 +112,8 @@ public enum AcceptAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension AcceptAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcceptAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
         } else {
@@ -153,9 +152,8 @@ extension AcceptAttachmentOutputResponseBody: Swift.Decodable {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -169,7 +167,7 @@ extension AccessDeniedException {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -366,9 +364,8 @@ public enum AssociateConnectPeerOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeerAssociation = output.connectPeerAssociation
         } else {
@@ -522,9 +519,8 @@ public enum AssociateCustomerGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateCustomerGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateCustomerGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerGatewayAssociation = output.customerGatewayAssociation
         } else {
@@ -666,9 +662,8 @@ public enum AssociateLinkOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkAssociation = output.linkAssociation
         } else {
@@ -822,9 +817,8 @@ public enum AssociateTransitGatewayConnectPeerOutputError: Swift.Error, Swift.Eq
 
 extension AssociateTransitGatewayConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateTransitGatewayConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayConnectPeerAssociation = output.transitGatewayConnectPeerAssociation
         } else {
@@ -1381,9 +1375,8 @@ extension NetworkManagerClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -1401,7 +1394,7 @@ extension ConflictException {
 }
 
 /// There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3179,9 +3172,8 @@ extension NetworkManagerClientTypes {
 
 extension CoreNetworkPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CoreNetworkPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.message = output.message
@@ -3197,7 +3189,7 @@ extension CoreNetworkPolicyException {
 }
 
 /// Describes a core network policy exception.
-public struct CoreNetworkPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CoreNetworkPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3770,9 +3762,8 @@ public enum CreateConnectAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConnectAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConnectAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectAttachment = output.connectAttachment
         } else {
@@ -3989,9 +3980,8 @@ public enum CreateConnectPeerOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeer = output.connectPeer
         } else {
@@ -4191,9 +4181,8 @@ public enum CreateConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -4374,9 +4363,8 @@ public enum CreateCoreNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -4617,9 +4605,8 @@ public enum CreateDeviceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.device = output.device
         } else {
@@ -4761,9 +4748,8 @@ public enum CreateGlobalNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGlobalNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGlobalNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetwork = output.globalNetwork
         } else {
@@ -4965,9 +4951,8 @@ public enum CreateLinkOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.link = output.link
         } else {
@@ -5142,9 +5127,8 @@ public enum CreateSiteOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.site = output.site
         } else {
@@ -5312,9 +5296,8 @@ public enum CreateSiteToSiteVpnAttachmentOutputError: Swift.Error, Swift.Equatab
 
 extension CreateSiteToSiteVpnAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSiteToSiteVpnAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.siteToSiteVpnAttachment = output.siteToSiteVpnAttachment
         } else {
@@ -5482,9 +5465,8 @@ public enum CreateTransitGatewayPeeringOutputError: Swift.Error, Swift.Equatable
 
 extension CreateTransitGatewayPeeringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTransitGatewayPeeringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayPeering = output.transitGatewayPeering
         } else {
@@ -5652,9 +5634,8 @@ public enum CreateTransitGatewayRouteTableAttachmentOutputError: Swift.Error, Sw
 
 extension CreateTransitGatewayRouteTableAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTransitGatewayRouteTableAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRouteTableAttachment = output.transitGatewayRouteTableAttachment
         } else {
@@ -5859,9 +5840,8 @@ public enum CreateVpcAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVpcAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateVpcAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcAttachment = output.vpcAttachment
         } else {
@@ -6076,9 +6056,8 @@ public enum DeleteAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
         } else {
@@ -6180,9 +6159,8 @@ public enum DeleteConnectPeerOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeer = output.connectPeer
         } else {
@@ -6292,9 +6270,8 @@ public enum DeleteConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -6396,9 +6373,8 @@ public enum DeleteCoreNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -6508,9 +6484,8 @@ public enum DeleteCoreNetworkPolicyVersionOutputError: Swift.Error, Swift.Equata
 
 extension DeleteCoreNetworkPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCoreNetworkPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -6620,9 +6595,8 @@ public enum DeleteDeviceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.device = output.device
         } else {
@@ -6724,9 +6698,8 @@ public enum DeleteGlobalNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGlobalNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGlobalNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetwork = output.globalNetwork
         } else {
@@ -6836,9 +6809,8 @@ public enum DeleteLinkOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.link = output.link
         } else {
@@ -6940,9 +6912,8 @@ public enum DeletePeeringOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePeeringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePeeringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.peering = output.peering
         } else {
@@ -7123,9 +7094,8 @@ public enum DeleteSiteOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.site = output.site
         } else {
@@ -7235,9 +7205,8 @@ public enum DeregisterTransitGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension DeregisterTransitGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeregisterTransitGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRegistration = output.transitGatewayRegistration
         } else {
@@ -7364,9 +7333,8 @@ public enum DescribeGlobalNetworksOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGlobalNetworksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGlobalNetworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetworks = output.globalNetworks
             self.nextToken = output.nextToken
@@ -7715,9 +7683,8 @@ public enum DisassociateConnectPeerOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeerAssociation = output.connectPeerAssociation
         } else {
@@ -7827,9 +7794,8 @@ public enum DisassociateCustomerGatewayOutputError: Swift.Error, Swift.Equatable
 
 extension DisassociateCustomerGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateCustomerGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerGatewayAssociation = output.customerGatewayAssociation
         } else {
@@ -7962,9 +7928,8 @@ public enum DisassociateLinkOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkAssociation = output.linkAssociation
         } else {
@@ -8074,9 +8039,8 @@ public enum DisassociateTransitGatewayConnectPeerOutputError: Swift.Error, Swift
 
 extension DisassociateTransitGatewayConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateTransitGatewayConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayConnectPeerAssociation = output.transitGatewayConnectPeerAssociation
         } else {
@@ -8257,9 +8221,8 @@ public enum GetConnectAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConnectAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectAttachment = output.connectAttachment
         } else {
@@ -8396,9 +8359,8 @@ public enum GetConnectPeerAssociationsOutputError: Swift.Error, Swift.Equatable 
 
 extension GetConnectPeerAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectPeerAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeerAssociations = output.connectPeerAssociations
             self.nextToken = output.nextToken
@@ -8517,9 +8479,8 @@ public enum GetConnectPeerOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeer = output.connectPeer
         } else {
@@ -8662,9 +8623,8 @@ public enum GetConnectionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
             self.nextToken = output.nextToken
@@ -8816,9 +8776,8 @@ public enum GetCoreNetworkChangeEventsOutputError: Swift.Error, Swift.Equatable 
 
 extension GetCoreNetworkChangeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCoreNetworkChangeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkChangeEvents = output.coreNetworkChangeEvents
             self.nextToken = output.nextToken
@@ -8970,9 +8929,8 @@ public enum GetCoreNetworkChangeSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCoreNetworkChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCoreNetworkChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkChanges = output.coreNetworkChanges
             self.nextToken = output.nextToken
@@ -9091,9 +9049,8 @@ public enum GetCoreNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -9218,9 +9175,8 @@ public enum GetCoreNetworkPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCoreNetworkPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCoreNetworkPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -9357,9 +9313,8 @@ public enum GetCustomerGatewayAssociationsOutputError: Swift.Error, Swift.Equata
 
 extension GetCustomerGatewayAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCustomerGatewayAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerGatewayAssociations = output.customerGatewayAssociations
             self.nextToken = output.nextToken
@@ -9521,9 +9476,8 @@ public enum GetDevicesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devices = output.devices
             self.nextToken = output.nextToken
@@ -9683,9 +9637,8 @@ public enum GetLinkAssociationsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLinkAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLinkAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkAssociations = output.linkAssociations
             self.nextToken = output.nextToken
@@ -9863,9 +9816,8 @@ public enum GetLinksOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLinksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLinksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.links = output.links
             self.nextToken = output.nextToken
@@ -10047,9 +9999,8 @@ public enum GetNetworkResourceCountsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetNetworkResourceCountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkResourceCountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkResourceCounts = output.networkResourceCounts
             self.nextToken = output.nextToken
@@ -10273,9 +10224,8 @@ public enum GetNetworkResourceRelationshipsOutputError: Swift.Error, Swift.Equat
 
 extension GetNetworkResourceRelationshipsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkResourceRelationshipsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.relationships = output.relationships
@@ -10499,9 +10449,8 @@ public enum GetNetworkResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetNetworkResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkResources = output.networkResources
             self.nextToken = output.nextToken
@@ -10847,9 +10796,8 @@ public enum GetNetworkRoutesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetNetworkRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkSegmentEdge = output.coreNetworkSegmentEdge
             self.networkRoutes = output.networkRoutes
@@ -11103,9 +11051,8 @@ public enum GetNetworkTelemetryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetNetworkTelemetryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNetworkTelemetryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkTelemetry = output.networkTelemetry
             self.nextToken = output.nextToken
@@ -11222,9 +11169,8 @@ public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyDocument = output.policyDocument
         } else {
@@ -11332,9 +11278,8 @@ public enum GetRouteAnalysisOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRouteAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRouteAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.routeAnalysis = output.routeAnalysis
         } else {
@@ -11434,9 +11379,8 @@ public enum GetSiteToSiteVpnAttachmentOutputError: Swift.Error, Swift.Equatable 
 
 extension GetSiteToSiteVpnAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSiteToSiteVpnAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.siteToSiteVpnAttachment = output.siteToSiteVpnAttachment
         } else {
@@ -11571,9 +11515,8 @@ public enum GetSitesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSitesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSitesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sites = output.sites
@@ -11729,9 +11672,8 @@ public enum GetTransitGatewayConnectPeerAssociationsOutputError: Swift.Error, Sw
 
 extension GetTransitGatewayConnectPeerAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTransitGatewayConnectPeerAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.transitGatewayConnectPeerAssociations = output.transitGatewayConnectPeerAssociations
@@ -11850,9 +11792,8 @@ public enum GetTransitGatewayPeeringOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTransitGatewayPeeringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTransitGatewayPeeringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayPeering = output.transitGatewayPeering
         } else {
@@ -11987,9 +11928,8 @@ public enum GetTransitGatewayRegistrationsOutputError: Swift.Error, Swift.Equata
 
 extension GetTransitGatewayRegistrationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTransitGatewayRegistrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.transitGatewayRegistrations = output.transitGatewayRegistrations
@@ -12108,9 +12048,8 @@ public enum GetTransitGatewayRouteTableAttachmentOutputError: Swift.Error, Swift
 
 extension GetTransitGatewayRouteTableAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTransitGatewayRouteTableAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRouteTableAttachment = output.transitGatewayRouteTableAttachment
         } else {
@@ -12210,9 +12149,8 @@ public enum GetVpcAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVpcAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetVpcAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcAttachment = output.vpcAttachment
         } else {
@@ -12391,9 +12329,8 @@ extension InternalServerException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12407,7 +12344,7 @@ extension InternalServerException {
 }
 
 /// The request has failed due to an internal error.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12844,9 +12781,8 @@ public enum ListAttachmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAttachmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAttachmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachments = output.attachments
             self.nextToken = output.nextToken
@@ -12996,9 +12932,8 @@ public enum ListConnectPeersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConnectPeersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConnectPeersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeers = output.connectPeers
             self.nextToken = output.nextToken
@@ -13142,9 +13077,8 @@ public enum ListCoreNetworkPolicyVersionsOutputError: Swift.Error, Swift.Equatab
 
 extension ListCoreNetworkPolicyVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCoreNetworkPolicyVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicyVersions = output.coreNetworkPolicyVersions
             self.nextToken = output.nextToken
@@ -13278,9 +13212,8 @@ public enum ListCoreNetworksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCoreNetworksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCoreNetworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworks = output.coreNetworks
             self.nextToken = output.nextToken
@@ -13406,9 +13339,8 @@ public enum ListOrganizationServiceAccessStatusOutputError: Swift.Error, Swift.E
 
 extension ListOrganizationServiceAccessStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOrganizationServiceAccessStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationStatus = output.organizationStatus
@@ -13565,9 +13497,8 @@ public enum ListPeeringsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPeeringsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPeeringsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.peerings = output.peerings
@@ -13686,9 +13617,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -14934,9 +14864,8 @@ public enum PutCoreNetworkPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutCoreNetworkPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutCoreNetworkPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -15161,9 +15090,8 @@ public enum RegisterTransitGatewayOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterTransitGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterTransitGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRegistration = output.transitGatewayRegistration
         } else {
@@ -15265,9 +15193,8 @@ public enum RejectAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension RejectAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RejectAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
         } else {
@@ -15351,9 +15278,8 @@ extension NetworkManagerClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.context = output.context
             self.message = output.message
@@ -15373,7 +15299,7 @@ extension ResourceNotFoundException {
 }
 
 /// The specified resource could not be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15516,9 +15442,8 @@ public enum RestoreCoreNetworkPolicyVersionOutputError: Swift.Error, Swift.Equat
 
 extension RestoreCoreNetworkPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestoreCoreNetworkPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -16201,9 +16126,8 @@ extension NetworkManagerClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.limitCode = output.limitCode
             self.message = output.message
@@ -16225,7 +16149,7 @@ extension ServiceQuotaExceededException {
 }
 
 /// A service limit was exceeded.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16582,9 +16506,8 @@ public enum StartOrganizationServiceAccessUpdateOutputError: Swift.Error, Swift.
 
 extension StartOrganizationServiceAccessUpdateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartOrganizationServiceAccessUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationStatus = output.organizationStatus
         } else {
@@ -16748,9 +16671,8 @@ public enum StartRouteAnalysisOutputError: Swift.Error, Swift.Equatable {
 
 extension StartRouteAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartRouteAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.routeAnalysis = output.routeAnalysis
         } else {
@@ -16951,9 +16873,8 @@ extension ThrottlingException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16967,7 +16888,7 @@ extension ThrottlingException {
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17615,9 +17536,8 @@ public enum UpdateConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -17743,9 +17663,8 @@ public enum UpdateCoreNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -17968,9 +17887,8 @@ public enum UpdateDeviceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.device = output.device
         } else {
@@ -18096,9 +18014,8 @@ public enum UpdateGlobalNetworkOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGlobalNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGlobalNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetwork = output.globalNetwork
         } else {
@@ -18270,9 +18187,8 @@ public enum UpdateLinkOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.link = output.link
         } else {
@@ -18419,9 +18335,8 @@ public enum UpdateNetworkResourceMetadataOutputError: Swift.Error, Swift.Equatab
 
 extension UpdateNetworkResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateNetworkResourceMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.resourceArn = output.resourceArn
@@ -18597,9 +18512,8 @@ public enum UpdateSiteOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.site = output.site
         } else {
@@ -18773,9 +18687,8 @@ public enum UpdateVpcAttachmentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVpcAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateVpcAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcAttachment = output.vpcAttachment
         } else {
@@ -18814,9 +18727,8 @@ extension UpdateVpcAttachmentOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message
@@ -18834,7 +18746,7 @@ extension ValidationException {
 }
 
 /// The input fails to satisfy the constraints.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

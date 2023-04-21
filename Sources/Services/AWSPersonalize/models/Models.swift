@@ -1672,9 +1672,8 @@ public enum CreateBatchInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBatchInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBatchInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchInferenceJobArn = output.batchInferenceJobArn
         } else {
@@ -1893,9 +1892,8 @@ public enum CreateBatchSegmentJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBatchSegmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBatchSegmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchSegmentJobArn = output.batchSegmentJobArn
         } else {
@@ -2075,9 +2073,8 @@ public enum CreateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCampaignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.campaignArn = output.campaignArn
         } else {
@@ -2271,9 +2268,8 @@ public enum CreateDatasetExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDatasetExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDatasetExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetExportJobArn = output.datasetExportJobArn
         } else {
@@ -2448,9 +2444,8 @@ public enum CreateDatasetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDatasetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDatasetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetGroupArn = output.datasetGroupArn
             self.domain = output.domain
@@ -2670,9 +2665,8 @@ public enum CreateDatasetImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDatasetImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDatasetImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetImportJobArn = output.datasetImportJobArn
         } else {
@@ -2860,9 +2854,8 @@ public enum CreateDatasetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetArn = output.datasetArn
         } else {
@@ -3018,9 +3011,8 @@ public enum CreateEventTrackerOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEventTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEventTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventTrackerArn = output.eventTrackerArn
             self.trackingId = output.trackingId
@@ -3202,9 +3194,8 @@ public enum CreateFilterOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.filterArn = output.filterArn
         } else {
@@ -3372,9 +3363,8 @@ public enum CreateMetricAttributionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMetricAttributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricAttributionArn = output.metricAttributionArn
         } else {
@@ -3555,9 +3545,8 @@ public enum CreateRecommenderOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRecommenderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRecommenderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommenderArn = output.recommenderArn
         } else {
@@ -3695,9 +3684,8 @@ public enum CreateSchemaOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.schemaArn = output.schemaArn
         } else {
@@ -3913,9 +3901,8 @@ public enum CreateSolutionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSolutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSolutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.solutionArn = output.solutionArn
         } else {
@@ -4082,9 +4069,8 @@ public enum CreateSolutionVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSolutionVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSolutionVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.solutionVersionArn = output.solutionVersionArn
         } else {
@@ -6352,9 +6338,8 @@ public enum DescribeAlgorithmOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAlgorithmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAlgorithmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.algorithm = output.algorithm
         } else {
@@ -6465,9 +6450,8 @@ public enum DescribeBatchInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeBatchInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeBatchInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchInferenceJob = output.batchInferenceJob
         } else {
@@ -6578,9 +6562,8 @@ public enum DescribeBatchSegmentJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeBatchSegmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeBatchSegmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchSegmentJob = output.batchSegmentJob
         } else {
@@ -6691,9 +6674,8 @@ public enum DescribeCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCampaignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.campaign = output.campaign
         } else {
@@ -6804,9 +6786,8 @@ public enum DescribeDatasetExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDatasetExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDatasetExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetExportJob = output.datasetExportJob
         } else {
@@ -6925,9 +6906,8 @@ public enum DescribeDatasetGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDatasetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDatasetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetGroup = output.datasetGroup
         } else {
@@ -7038,9 +7018,8 @@ public enum DescribeDatasetImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDatasetImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDatasetImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetImportJob = output.datasetImportJob
         } else {
@@ -7159,9 +7138,8 @@ public enum DescribeDatasetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataset = output.dataset
         } else {
@@ -7272,9 +7250,8 @@ public enum DescribeEventTrackerOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventTracker = output.eventTracker
         } else {
@@ -7385,9 +7362,8 @@ public enum DescribeFeatureTransformationOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeFeatureTransformationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFeatureTransformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.featureTransformation = output.featureTransformation
         } else {
@@ -7498,9 +7474,8 @@ public enum DescribeFilterOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFilterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.filter = output.filter
         } else {
@@ -7611,9 +7586,8 @@ public enum DescribeMetricAttributionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMetricAttributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricAttribution = output.metricAttribution
         } else {
@@ -7724,9 +7698,8 @@ public enum DescribeRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recipe = output.recipe
         } else {
@@ -7837,9 +7810,8 @@ public enum DescribeRecommenderOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRecommenderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRecommenderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommender = output.recommender
         } else {
@@ -7950,9 +7922,8 @@ public enum DescribeSchemaOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.schema = output.schema
         } else {
@@ -8063,9 +8034,8 @@ public enum DescribeSolutionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSolutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSolutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.solution = output.solution
         } else {
@@ -8176,9 +8146,8 @@ public enum DescribeSolutionVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSolutionVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSolutionVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.solutionVersion = output.solutionVersion
         } else {
@@ -8815,9 +8784,8 @@ public enum GetSolutionMetricsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSolutionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSolutionMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.solutionVersionArn = output.solutionVersionArn
@@ -9243,9 +9211,8 @@ extension PersonalizeClientTypes {
 
 extension InvalidInputException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9259,7 +9226,7 @@ extension InvalidInputException {
 }
 
 /// Provide a valid value for the field or parameter.
-public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9295,9 +9262,8 @@ extension InvalidInputExceptionBody: Swift.Decodable {
 
 extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9311,7 +9277,7 @@ extension InvalidNextTokenException {
 }
 
 /// The token is not valid.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9347,9 +9313,8 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9363,7 +9328,7 @@ extension LimitExceededException {
 }
 
 /// The limit on the number of requests per second has been exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9494,9 +9459,8 @@ public enum ListBatchInferenceJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBatchInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBatchInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchInferenceJobs = output.batchInferenceJobs
             self.nextToken = output.nextToken
@@ -9649,9 +9613,8 @@ public enum ListBatchSegmentJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBatchSegmentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBatchSegmentJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.batchSegmentJobs = output.batchSegmentJobs
             self.nextToken = output.nextToken
@@ -9804,9 +9767,8 @@ public enum ListCampaignsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCampaignsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCampaignsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.campaigns = output.campaigns
             self.nextToken = output.nextToken
@@ -9959,9 +9921,8 @@ public enum ListDatasetExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDatasetExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDatasetExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetExportJobs = output.datasetExportJobs
             self.nextToken = output.nextToken
@@ -10100,9 +10061,8 @@ public enum ListDatasetGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDatasetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDatasetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetGroups = output.datasetGroups
             self.nextToken = output.nextToken
@@ -10255,9 +10215,8 @@ public enum ListDatasetImportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDatasetImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDatasetImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetImportJobs = output.datasetImportJobs
             self.nextToken = output.nextToken
@@ -10410,9 +10369,8 @@ public enum ListDatasetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDatasetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDatasetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasets = output.datasets
             self.nextToken = output.nextToken
@@ -10565,9 +10523,8 @@ public enum ListEventTrackersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEventTrackersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEventTrackersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventTrackers = output.eventTrackers
             self.nextToken = output.nextToken
@@ -10720,9 +10677,8 @@ public enum ListFiltersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFiltersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.filters = output.filters
             self.nextToken = output.nextToken
@@ -10875,9 +10831,8 @@ public enum ListMetricAttributionMetricsOutputError: Swift.Error, Swift.Equatabl
 
 extension ListMetricAttributionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMetricAttributionMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.nextToken = output.nextToken
@@ -11030,9 +10985,8 @@ public enum ListMetricAttributionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMetricAttributionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMetricAttributionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricAttributions = output.metricAttributions
             self.nextToken = output.nextToken
@@ -11197,9 +11151,8 @@ public enum ListRecipesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRecipesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRecipesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recipes = output.recipes
@@ -11352,9 +11305,8 @@ public enum ListRecommendersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRecommendersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRecommendersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommenders = output.recommenders
@@ -11493,9 +11445,8 @@ public enum ListSchemasOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSchemasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSchemasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.schemas = output.schemas
@@ -11650,9 +11601,8 @@ public enum ListSolutionVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolutionVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolutionVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.solutionVersions = output.solutionVersions
@@ -11805,9 +11755,8 @@ public enum ListSolutionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.solutions = output.solutions
@@ -11939,9 +11888,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -13003,9 +12951,8 @@ extension PersonalizeClientTypes {
 
 extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13019,7 +12966,7 @@ extension ResourceAlreadyExistsException {
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13055,9 +13002,8 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13071,7 +13017,7 @@ extension ResourceInUseException {
 }
 
 /// The specified resource is in use.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13107,9 +13053,8 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13123,7 +13068,7 @@ extension ResourceNotFoundException {
 }
 
 /// Could not find the specified resource.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13910,9 +13855,8 @@ public enum StartRecommenderOutputError: Swift.Error, Swift.Equatable {
 
 extension StartRecommenderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartRecommenderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommenderArn = output.recommenderArn
         } else {
@@ -14025,9 +13969,8 @@ public enum StopRecommenderOutputError: Swift.Error, Swift.Equatable {
 
 extension StopRecommenderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopRecommenderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommenderArn = output.recommenderArn
         } else {
@@ -14310,9 +14253,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TooManyTagKeysException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagKeysExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14326,7 +14268,7 @@ extension TooManyTagKeysException {
 }
 
 /// The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
-public struct TooManyTagKeysException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagKeysException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14362,9 +14304,8 @@ extension TooManyTagKeysExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14378,7 +14319,7 @@ extension TooManyTagsException {
 }
 
 /// You have exceeded the maximum number of tags you can apply to this resource.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14714,9 +14655,8 @@ public enum UpdateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCampaignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.campaignArn = output.campaignArn
         } else {
@@ -14890,9 +14830,8 @@ public enum UpdateMetricAttributionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateMetricAttributionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMetricAttributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricAttributionArn = output.metricAttributionArn
         } else {
@@ -15018,9 +14957,8 @@ public enum UpdateRecommenderOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRecommenderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRecommenderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommenderArn = output.recommenderArn
         } else {

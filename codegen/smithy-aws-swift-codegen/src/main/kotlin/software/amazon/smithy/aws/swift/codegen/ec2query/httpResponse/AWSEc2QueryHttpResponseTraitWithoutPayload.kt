@@ -36,7 +36,7 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if let data = httpResponse.body.toBytes()?.getData(),")
+            writer.write("if let data = try httpResponse.body.toData(),")
             writer.indent()
             writer.write("let responseDecoder = decoder {")
             renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)

@@ -1339,9 +1339,8 @@ public enum DescribeJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.action = output.action
             self.archiveId = output.archiveId
@@ -1763,9 +1762,8 @@ public enum DescribeVaultOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.lastInventoryDate = output.lastInventoryDate
@@ -2064,9 +2062,8 @@ public enum GetDataRetrievalPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDataRetrievalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDataRetrievalPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -2229,9 +2226,12 @@ extension GetJobOutputOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.body = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.body = .data(data)
+        case .stream(let stream):
+            self.body = .stream(stream)
+        case .none:
             self.body = nil
         }
         self.status = httpResponse.statusCode.rawValue
@@ -2371,13 +2371,9 @@ public enum GetVaultAccessPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: GlacierClientTypes.VaultAccessPolicy = try responseDecoder.decode(responseBody: data)
-                self.policy = output
-            } else {
-                self.policy = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: GlacierClientTypes.VaultAccessPolicy = try responseDecoder.decode(responseBody: data)
+            self.policy = output
         } else {
             self.policy = nil
         }
@@ -2483,9 +2479,8 @@ public enum GetVaultLockOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVaultLockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetVaultLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.expirationDate = output.expirationDate
@@ -2623,13 +2618,9 @@ public enum GetVaultNotificationsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVaultNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: GlacierClientTypes.VaultNotificationConfig = try responseDecoder.decode(responseBody: data)
-                self.vaultNotificationConfig = output
-            } else {
-                self.vaultNotificationConfig = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: GlacierClientTypes.VaultNotificationConfig = try responseDecoder.decode(responseBody: data)
+            self.vaultNotificationConfig = output
         } else {
             self.vaultNotificationConfig = nil
         }
@@ -3051,15 +3042,15 @@ public struct InitiateJobInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let jobParameters = input.operationInput.jobParameters {
-                let jobParametersdata = try encoder.encode(jobParameters)
-                let jobParametersbody = ClientRuntime.HttpBody.data(jobParametersdata)
-                input.builder.withBody(jobParametersbody)
+                let jobParametersData = try encoder.encode(jobParameters)
+                let jobParametersBody = ClientRuntime.HttpBody.data(jobParametersData)
+                input.builder.withBody(jobParametersBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let jobParametersdata = "{}".data(using: .utf8)!
-                    let jobParametersbody = ClientRuntime.HttpBody.data(jobParametersdata)
-                    input.builder.withBody(jobParametersbody)
+                    let jobParametersData = "{}".data(using: .utf8)!
+                    let jobParametersBody = ClientRuntime.HttpBody.data(jobParametersData)
+                    input.builder.withBody(jobParametersBody)
                 }
             }
         } catch let err {
@@ -3347,15 +3338,15 @@ public struct InitiateVaultLockInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let policy = input.operationInput.policy {
-                let policydata = try encoder.encode(policy)
-                let policybody = ClientRuntime.HttpBody.data(policydata)
-                input.builder.withBody(policybody)
+                let policyData = try encoder.encode(policy)
+                let policyBody = ClientRuntime.HttpBody.data(policyData)
+                input.builder.withBody(policyBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let policydata = "{}".data(using: .utf8)!
-                    let policybody = ClientRuntime.HttpBody.data(policydata)
-                    input.builder.withBody(policybody)
+                    let policyData = "{}".data(using: .utf8)!
+                    let policyBody = ClientRuntime.HttpBody.data(policyData)
+                    input.builder.withBody(policyBody)
                 }
             }
         } catch let err {
@@ -3521,9 +3512,8 @@ extension GlacierClientTypes {
 
 extension InsufficientCapacityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InsufficientCapacityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -3541,7 +3531,7 @@ extension InsufficientCapacityException {
 }
 
 /// Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
-public struct InsufficientCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InsufficientCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3591,9 +3581,8 @@ extension InsufficientCapacityExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -3611,7 +3600,7 @@ extension InvalidParameterValueException {
 }
 
 /// Returned if a parameter of the request is incorrectly specified.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3929,9 +3918,8 @@ extension GlacierClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -3949,7 +3937,7 @@ extension LimitExceededException {
 }
 
 /// Returned if the request results in a vault or account limit being exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4111,9 +4099,8 @@ public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobList = output.jobList
             self.marker = output.marker
@@ -4265,9 +4252,8 @@ public enum ListMultipartUploadsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMultipartUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.uploadsList = output.uploadsList
@@ -4427,9 +4413,8 @@ public enum ListPartsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.archiveDescription = output.archiveDescription
             self.creationDate = output.creationDate
@@ -4595,9 +4580,8 @@ public enum ListProvisionedCapacityOutputError: Swift.Error, Swift.Equatable {
 
 extension ListProvisionedCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProvisionedCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.provisionedCapacityList = output.provisionedCapacityList
         } else {
@@ -4713,9 +4697,8 @@ public enum ListTagsForVaultOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -4849,9 +4832,8 @@ public enum ListVaultsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListVaultsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVaultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.vaultList = output.vaultList
@@ -4910,9 +4892,8 @@ extension ListVaultsOutputResponseBody: Swift.Decodable {
 
 extension MissingParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MissingParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -4930,7 +4911,7 @@ extension MissingParameterValueException {
 }
 
 /// Returned if a required header or parameter is missing from the request.
-public struct MissingParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MissingParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5139,9 +5120,8 @@ extension GlacierClientTypes {
 
 extension PolicyEnforcedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PolicyEnforcedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -5159,7 +5139,7 @@ extension PolicyEnforcedException {
 }
 
 /// Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
-public struct PolicyEnforcedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PolicyEnforcedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5504,9 +5484,8 @@ public struct RemoveTagsFromVaultOutputResponse: Swift.Equatable {
 
 extension RequestTimeoutException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -5524,7 +5503,7 @@ extension RequestTimeoutException {
 }
 
 /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
-public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5577,9 +5556,8 @@ extension RequestTimeoutExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -5597,7 +5575,7 @@ extension ResourceNotFoundException {
 }
 
 /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5856,9 +5834,8 @@ extension GlacierClientTypes {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -5876,7 +5853,7 @@ extension ServiceUnavailableException {
 }
 
 /// Returned if the service cannot complete the request.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6035,15 +6012,15 @@ public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware 
         do {
             let encoder = context.getEncoder()
             if let policy = input.operationInput.policy {
-                let policydata = try encoder.encode(policy)
-                let policybody = ClientRuntime.HttpBody.data(policydata)
-                input.builder.withBody(policybody)
+                let policyData = try encoder.encode(policy)
+                let policyBody = ClientRuntime.HttpBody.data(policyData)
+                input.builder.withBody(policyBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let policydata = "{}".data(using: .utf8)!
-                    let policybody = ClientRuntime.HttpBody.data(policydata)
-                    input.builder.withBody(policybody)
+                    let policyData = "{}".data(using: .utf8)!
+                    let policyBody = ClientRuntime.HttpBody.data(policyData)
+                    input.builder.withBody(policyBody)
                 }
             }
         } catch let err {
@@ -6175,15 +6152,15 @@ public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware
         do {
             let encoder = context.getEncoder()
             if let vaultNotificationConfig = input.operationInput.vaultNotificationConfig {
-                let vaultNotificationConfigdata = try encoder.encode(vaultNotificationConfig)
-                let vaultNotificationConfigbody = ClientRuntime.HttpBody.data(vaultNotificationConfigdata)
-                input.builder.withBody(vaultNotificationConfigbody)
+                let vaultNotificationConfigData = try encoder.encode(vaultNotificationConfig)
+                let vaultNotificationConfigBody = ClientRuntime.HttpBody.data(vaultNotificationConfigData)
+                input.builder.withBody(vaultNotificationConfigBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let vaultNotificationConfigdata = "{}".data(using: .utf8)!
-                    let vaultNotificationConfigbody = ClientRuntime.HttpBody.data(vaultNotificationConfigdata)
-                    input.builder.withBody(vaultNotificationConfigbody)
+                    let vaultNotificationConfigData = "{}".data(using: .utf8)!
+                    let vaultNotificationConfigBody = ClientRuntime.HttpBody.data(vaultNotificationConfigData)
+                    input.builder.withBody(vaultNotificationConfigBody)
                 }
             }
         } catch let err {
@@ -6418,9 +6395,8 @@ public struct UploadArchiveInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.stream(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -6438,7 +6414,7 @@ extension UploadArchiveInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let body = self.body {
-            try encodeContainer.encode(body.toBytes().getData(), forKey: .body)
+            try encodeContainer.encode(body, forKey: .body)
         }
     }
 }
@@ -6675,9 +6651,8 @@ public struct UploadMultipartPartInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.stream(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -6695,7 +6670,7 @@ extension UploadMultipartPartInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let body = self.body {
-            try encodeContainer.encode(body.toBytes().getData(), forKey: .body)
+            try encodeContainer.encode(body, forKey: .body)
         }
     }
 }

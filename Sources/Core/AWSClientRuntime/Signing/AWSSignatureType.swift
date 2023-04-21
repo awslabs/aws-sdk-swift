@@ -12,6 +12,7 @@ public enum AWSSignatureType {
     case requestQueryParams
     case requestChunk
     case requestTrailingHeaders
+    case requestEvent
 }
 
 extension AWSSignatureType {
@@ -21,6 +22,7 @@ extension AWSSignatureType {
         case .requestHeaders: return .requestHeaders
         case .requestQueryParams: return .requestQueryParams
         case .requestTrailingHeaders: return .requestTrailingHeaders
+        case .requestEvent: return .requestEvent
         }
     }
 }

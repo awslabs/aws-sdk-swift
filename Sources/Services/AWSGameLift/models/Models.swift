@@ -840,9 +840,8 @@ public enum ClaimGameServerOutputError: Swift.Error, Swift.Equatable {
 
 extension ClaimGameServerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClaimGameServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServer = output.gameServer
         } else {
@@ -1131,9 +1130,8 @@ extension GameLiftClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1147,7 +1145,7 @@ extension ConflictException {
 }
 
 /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1312,9 +1310,8 @@ public enum CreateAliasOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
         } else {
@@ -1507,9 +1504,8 @@ extension CreateBuildOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension CreateBuildOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBuildOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.build = output.build
             self.storageLocation = output.storageLocation
@@ -2039,9 +2035,8 @@ public enum CreateFleetLocationsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFleetLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFleetLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -2145,9 +2140,8 @@ public enum CreateFleetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetAttributes = output.fleetAttributes
             self.locationStates = output.locationStates
@@ -2450,9 +2444,8 @@ public enum CreateGameServerGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGameServerGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroup = output.gameServerGroup
         } else {
@@ -2701,9 +2694,8 @@ public enum CreateGameSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGameSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGameSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSession = output.gameSession
         } else {
@@ -2954,9 +2946,8 @@ public enum CreateGameSessionQueueOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGameSessionQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGameSessionQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionQueue = output.gameSessionQueue
         } else {
@@ -3099,9 +3090,8 @@ public enum CreateLocationOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.location = output.location
         } else {
@@ -3431,9 +3421,8 @@ public enum CreateMatchmakingConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension CreateMatchmakingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMatchmakingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
         } else {
@@ -3587,9 +3576,8 @@ public enum CreateMatchmakingRuleSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMatchmakingRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMatchmakingRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleSet = output.ruleSet
         } else {
@@ -3736,9 +3724,8 @@ public enum CreatePlayerSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePlayerSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePlayerSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.playerSession = output.playerSession
         } else {
@@ -3908,9 +3895,8 @@ public enum CreatePlayerSessionsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePlayerSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePlayerSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.playerSessions = output.playerSessions
         } else {
@@ -4095,9 +4081,8 @@ public enum CreateScriptOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateScriptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateScriptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.script = output.script
         } else {
@@ -4225,9 +4210,8 @@ public enum CreateVpcPeeringAuthorizationOutputError: Swift.Error, Swift.Equatab
 
 extension CreateVpcPeeringAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateVpcPeeringAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcPeeringAuthorization = output.vpcPeeringAuthorization
         } else {
@@ -4705,9 +4689,8 @@ public enum DeleteFleetLocationsOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFleetLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFleetLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -4911,9 +4894,8 @@ public enum DeleteGameServerGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGameServerGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroup = output.gameServerGroup
         } else {
@@ -5961,9 +5943,8 @@ public enum DescribeAliasOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
         } else {
@@ -6078,9 +6059,8 @@ public enum DescribeBuildOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeBuildOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeBuildOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.build = output.build
         } else {
@@ -6208,9 +6188,8 @@ public enum DescribeComputeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeComputeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeComputeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compute = output.compute
         } else {
@@ -6336,9 +6315,8 @@ public enum DescribeEC2InstanceLimitsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEC2InstanceLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEC2InstanceLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ec2InstanceLimits = output.ec2InstanceLimits
         } else {
@@ -6497,9 +6475,8 @@ public enum DescribeFleetAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFleetAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetAttributes = output.fleetAttributes
             self.nextToken = output.nextToken
@@ -6668,9 +6645,8 @@ public enum DescribeFleetCapacityOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFleetCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetCapacity = output.fleetCapacity
             self.nextToken = output.nextToken
@@ -6852,9 +6828,8 @@ public enum DescribeFleetEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFleetEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
@@ -7038,9 +7013,8 @@ public enum DescribeFleetLocationAttributesOutputError: Swift.Error, Swift.Equat
 
 extension DescribeFleetLocationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetLocationAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -7209,9 +7183,8 @@ public enum DescribeFleetLocationCapacityOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeFleetLocationCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetLocationCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetCapacity = output.fleetCapacity
         } else {
@@ -7341,9 +7314,8 @@ public enum DescribeFleetLocationUtilizationOutputError: Swift.Error, Swift.Equa
 
 extension DescribeFleetLocationUtilizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetLocationUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetUtilization = output.fleetUtilization
         } else {
@@ -7472,9 +7444,8 @@ public enum DescribeFleetPortSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFleetPortSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetPortSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -7673,9 +7644,8 @@ public enum DescribeFleetUtilizationOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFleetUtilizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetUtilization = output.fleetUtilization
             self.nextToken = output.nextToken
@@ -7809,9 +7779,8 @@ public enum DescribeGameServerGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameServerGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroup = output.gameServerGroup
         } else {
@@ -8035,9 +8004,8 @@ public enum DescribeGameServerInstancesOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeGameServerInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameServerInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerInstances = output.gameServerInstances
             self.nextToken = output.nextToken
@@ -8123,9 +8091,8 @@ public enum DescribeGameServerOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGameServerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServer = output.gameServer
         } else {
@@ -8315,9 +8282,8 @@ public enum DescribeGameSessionDetailsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeGameSessionDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameSessionDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionDetails = output.gameSessionDetails
             self.nextToken = output.nextToken
@@ -8451,9 +8417,8 @@ public enum DescribeGameSessionPlacementOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeGameSessionPlacementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameSessionPlacementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionPlacement = output.gameSessionPlacement
         } else {
@@ -8603,9 +8568,8 @@ public enum DescribeGameSessionQueuesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGameSessionQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameSessionQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionQueues = output.gameSessionQueues
             self.nextToken = output.nextToken
@@ -8814,9 +8778,8 @@ public enum DescribeGameSessionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeGameSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeGameSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessions = output.gameSessions
             self.nextToken = output.nextToken
@@ -9000,9 +8963,8 @@ public enum DescribeInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.nextToken = output.nextToken
@@ -9181,9 +9143,8 @@ public enum DescribeMatchmakingConfigurationsOutputError: Swift.Error, Swift.Equ
 
 extension DescribeMatchmakingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMatchmakingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurations = output.configurations
             self.nextToken = output.nextToken
@@ -9327,9 +9288,8 @@ public enum DescribeMatchmakingOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMatchmakingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMatchmakingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ticketList = output.ticketList
         } else {
@@ -9488,9 +9448,8 @@ public enum DescribeMatchmakingRuleSetsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeMatchmakingRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMatchmakingRuleSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.ruleSets = output.ruleSets
@@ -9692,9 +9651,8 @@ public enum DescribePlayerSessionsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePlayerSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePlayerSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.playerSessions = output.playerSessions
@@ -9828,9 +9786,8 @@ public enum DescribeRuntimeConfigurationOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeRuntimeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRuntimeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.runtimeConfiguration = output.runtimeConfiguration
         } else {
@@ -10009,9 +9966,8 @@ public enum DescribeScalingPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeScalingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeScalingPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scalingPolicies = output.scalingPolicies
@@ -10145,9 +10101,8 @@ public enum DescribeScriptOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeScriptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeScriptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.script = output.script
         } else {
@@ -10240,9 +10195,8 @@ public enum DescribeVpcPeeringAuthorizationsOutputError: Swift.Error, Swift.Equa
 
 extension DescribeVpcPeeringAuthorizationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeVpcPeeringAuthorizationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcPeeringAuthorizations = output.vpcPeeringAuthorizations
         } else {
@@ -10365,9 +10319,8 @@ public enum DescribeVpcPeeringConnectionsOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeVpcPeeringConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeVpcPeeringConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcPeeringConnections = output.vpcPeeringConnections
         } else {
@@ -11763,9 +11716,8 @@ extension GameLiftClientTypes {
 
 extension FleetCapacityExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FleetCapacityExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11779,7 +11731,7 @@ extension FleetCapacityExceededException {
 }
 
 /// The specified fleet has no available instances to fulfill a CreateGameSession request. Clients can retry such requests immediately or after a waiting period.
-public struct FleetCapacityExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FleetCapacityExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13451,9 +13403,8 @@ extension GameLiftClientTypes {
 
 extension GameSessionFullException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GameSessionFullExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13467,7 +13418,7 @@ extension GameSessionFullException {
 }
 
 /// The game instance is currently full and cannot allow the requested player(s) to join. Clients can retry such requests immediately or after a waiting period.
-public struct GameSessionFullException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct GameSessionFullException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14140,9 +14091,8 @@ extension GetComputeAccessOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetComputeAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComputeAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeArn = output.computeArn
             self.computeName = output.computeName
@@ -14310,9 +14260,8 @@ public enum GetComputeAuthTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension GetComputeAuthTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComputeAuthTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authToken = output.authToken
             self.computeArn = output.computeArn
@@ -14477,9 +14426,8 @@ public enum GetGameSessionLogUrlOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGameSessionLogUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGameSessionLogUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.preSignedUrl = output.preSignedUrl
         } else {
@@ -14607,9 +14555,8 @@ public enum GetInstanceAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInstanceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInstanceAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceAccess = output.instanceAccess
         } else {
@@ -14648,9 +14595,8 @@ extension GetInstanceAccessOutputResponseBody: Swift.Decodable {
 
 extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IdempotentParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14664,7 +14610,7 @@ extension IdempotentParameterMismatchException {
 }
 
 /// A game session with this custom ID string already exists in this fleet. Resolve this conflict before retrying this request.
-public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15050,9 +14996,8 @@ extension GameLiftClientTypes {
 
 extension InternalServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15066,7 +15011,7 @@ extension InternalServiceException {
 }
 
 /// The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
-public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15102,9 +15047,8 @@ extension InternalServiceExceptionBody: Swift.Decodable {
 
 extension InvalidFleetStatusException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidFleetStatusExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15118,7 +15062,7 @@ extension InvalidFleetStatusException {
 }
 
 /// The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
-public struct InvalidFleetStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFleetStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15154,9 +15098,8 @@ extension InvalidFleetStatusExceptionBody: Swift.Decodable {
 
 extension InvalidGameSessionStatusException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidGameSessionStatusExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15170,7 +15113,7 @@ extension InvalidGameSessionStatusException {
 }
 
 /// The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
-public struct InvalidGameSessionStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGameSessionStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15206,9 +15149,8 @@ extension InvalidGameSessionStatusExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15222,7 +15164,7 @@ extension InvalidRequestException {
 }
 
 /// One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15414,9 +15356,8 @@ extension GameLiftClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15430,7 +15371,7 @@ extension LimitExceededException {
 }
 
 /// The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15579,9 +15520,8 @@ public enum ListAliasesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
             self.nextToken = output.nextToken
@@ -15742,9 +15682,8 @@ public enum ListBuildsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBuildsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBuildsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.builds = output.builds
             self.nextToken = output.nextToken
@@ -15912,9 +15851,8 @@ public enum ListComputeOutputError: Swift.Error, Swift.Equatable {
 
 extension ListComputeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListComputeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeList = output.computeList
             self.nextToken = output.nextToken
@@ -16083,9 +16021,8 @@ public enum ListFleetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFleetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetIds = output.fleetIds
             self.nextToken = output.nextToken
@@ -16228,9 +16165,8 @@ public enum ListGameServerGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGameServerGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGameServerGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroups = output.gameServerGroups
             self.nextToken = output.nextToken
@@ -16398,9 +16334,8 @@ public enum ListGameServersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGameServersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGameServersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServers = output.gameServers
             self.nextToken = output.nextToken
@@ -16567,9 +16502,8 @@ public enum ListLocationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locations = output.locations
             self.nextToken = output.nextToken
@@ -16712,9 +16646,8 @@ public enum ListScriptsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListScriptsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListScriptsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scripts = output.scripts
@@ -16848,9 +16781,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -17786,9 +17718,8 @@ extension GameLiftClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17802,7 +17733,7 @@ extension NotFoundException {
 }
 
 /// THe requested resources was not found. The resource was either not created yet or deleted.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17873,9 +17804,8 @@ extension GameLiftClientTypes {
 
 extension OutOfCapacityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OutOfCapacityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17889,7 +17819,7 @@ extension OutOfCapacityException {
 }
 
 /// The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
-public struct OutOfCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OutOfCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18789,9 +18719,8 @@ public enum PutScalingPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.name = output.name
         } else {
@@ -18967,9 +18896,8 @@ public enum RegisterComputeOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterComputeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterComputeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compute = output.compute
         } else {
@@ -19136,9 +19064,8 @@ public enum RegisterGameServerOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterGameServerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterGameServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServer = output.gameServer
         } else {
@@ -19258,9 +19185,8 @@ extension RequestUploadCredentialsOutputResponse: Swift.CustomDebugStringConvert
 
 extension RequestUploadCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestUploadCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storageLocation = output.storageLocation
             self.uploadCredentials = output.uploadCredentials
@@ -19387,9 +19313,8 @@ public enum ResolveAliasOutputError: Swift.Error, Swift.Equatable {
 
 extension ResolveAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResolveAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -19584,9 +19509,8 @@ public enum ResumeGameServerGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension ResumeGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResumeGameServerGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroup = output.gameServerGroup
         } else {
@@ -20412,9 +20336,8 @@ public enum SearchGameSessionsOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchGameSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchGameSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessions = output.gameSessions
             self.nextToken = output.nextToken
@@ -20680,9 +20603,8 @@ public enum StartFleetActionsOutputError: Swift.Error, Swift.Equatable {
 
 extension StartFleetActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartFleetActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -20929,9 +20851,8 @@ public enum StartGameSessionPlacementOutputError: Swift.Error, Swift.Equatable {
 
 extension StartGameSessionPlacementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartGameSessionPlacementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionPlacement = output.gameSessionPlacement
         } else {
@@ -21099,9 +21020,8 @@ public enum StartMatchBackfillOutputError: Swift.Error, Swift.Equatable {
 
 extension StartMatchBackfillOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartMatchBackfillOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.matchmakingTicket = output.matchmakingTicket
         } else {
@@ -21253,9 +21173,8 @@ public enum StartMatchmakingOutputError: Swift.Error, Swift.Equatable {
 
 extension StartMatchmakingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartMatchmakingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.matchmakingTicket = output.matchmakingTicket
         } else {
@@ -21409,9 +21328,8 @@ public enum StopFleetActionsOutputError: Swift.Error, Swift.Equatable {
 
 extension StopFleetActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopFleetActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -21536,9 +21454,8 @@ public enum StopGameSessionPlacementOutputError: Swift.Error, Swift.Equatable {
 
 extension StopGameSessionPlacementOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopGameSessionPlacementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionPlacement = output.gameSessionPlacement
         } else {
@@ -21764,9 +21681,8 @@ public enum SuspendGameServerGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension SuspendGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SuspendGameServerGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroup = output.gameServerGroup
         } else {
@@ -21963,9 +21879,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TaggingFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TaggingFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21979,7 +21894,7 @@ extension TaggingFailedException {
 }
 
 /// The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
-public struct TaggingFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TaggingFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22087,9 +22002,8 @@ extension GameLiftClientTypes {
 
 extension TerminalRoutingStrategyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TerminalRoutingStrategyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22103,7 +22017,7 @@ extension TerminalRoutingStrategyException {
 }
 
 /// The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
-public struct TerminalRoutingStrategyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TerminalRoutingStrategyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22139,9 +22053,8 @@ extension TerminalRoutingStrategyExceptionBody: Swift.Decodable {
 
 extension UnauthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22155,7 +22068,7 @@ extension UnauthorizedException {
 }
 
 /// The client failed authentication. Clients should not retry such requests.
-public struct UnauthorizedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnauthorizedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22191,9 +22104,8 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
 
 extension UnsupportedRegionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedRegionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22207,7 +22119,7 @@ extension UnsupportedRegionException {
 }
 
 /// The requested operation is not supported in the Region specified.
-public struct UnsupportedRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22466,9 +22378,8 @@ public enum UpdateAliasOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
         } else {
@@ -22607,9 +22518,8 @@ public enum UpdateBuildOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBuildOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateBuildOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.build = output.build
         } else {
@@ -22818,9 +22728,8 @@ public enum UpdateFleetAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFleetAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFleetAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -23001,9 +22910,8 @@ public enum UpdateFleetCapacityOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFleetCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFleetCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -23192,9 +23100,8 @@ public enum UpdateFleetPortSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFleetPortSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFleetPortSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
@@ -23385,9 +23292,8 @@ public enum UpdateGameServerGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGameServerGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServerGroup = output.gameServerGroup
         } else {
@@ -23551,9 +23457,8 @@ public enum UpdateGameServerOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGameServerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGameServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameServer = output.gameServer
         } else {
@@ -23724,9 +23629,8 @@ public enum UpdateGameSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGameSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGameSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSession = output.gameSession
         } else {
@@ -23949,9 +23853,8 @@ public enum UpdateGameSessionQueueOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGameSessionQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGameSessionQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gameSessionQueue = output.gameSessionQueue
         } else {
@@ -24250,9 +24153,8 @@ public enum UpdateMatchmakingConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension UpdateMatchmakingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMatchmakingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
         } else {
@@ -24382,9 +24284,8 @@ public enum UpdateRuntimeConfigurationOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateRuntimeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRuntimeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.runtimeConfiguration = output.runtimeConfiguration
         } else {
@@ -24547,9 +24448,8 @@ public enum UpdateScriptOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateScriptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateScriptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.script = output.script
         } else {
@@ -24662,9 +24562,8 @@ public enum ValidateMatchmakingRuleSetOutputError: Swift.Error, Swift.Equatable 
 
 extension ValidateMatchmakingRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidateMatchmakingRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.valid = output.valid
         } else {

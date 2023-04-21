@@ -94,9 +94,8 @@ public enum AcceptDomainTransferFromAnotherAwsAccountOutputError: Swift.Error, S
 
 extension AcceptDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcceptDomainTransferFromAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -229,9 +228,8 @@ public enum AssociateDelegationSignerToDomainOutputError: Swift.Error, Swift.Equ
 
 extension AssociateDelegationSignerToDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateDelegationSignerToDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -420,9 +418,8 @@ public enum CancelDomainTransferToAnotherAwsAccountOutputError: Swift.Error, Swi
 
 extension CancelDomainTransferToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CancelDomainTransferToAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -558,9 +555,8 @@ public enum CheckDomainAvailabilityOutputError: Swift.Error, Swift.Equatable {
 
 extension CheckDomainAvailabilityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CheckDomainAvailabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availability = output.availability
         } else {
@@ -698,9 +694,8 @@ public enum CheckDomainTransferabilityOutputError: Swift.Error, Swift.Equatable 
 
 extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CheckDomainTransferabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transferability = output.transferability
         } else {
@@ -1872,9 +1867,8 @@ public enum DeleteDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -2184,9 +2178,8 @@ public enum DisableDomainTransferLockOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableDomainTransferLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -2317,9 +2310,8 @@ public enum DisassociateDelegationSignerFromDomainOutputError: Swift.Error, Swif
 
 extension DisassociateDelegationSignerFromDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateDelegationSignerFromDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -2453,9 +2445,8 @@ extension Route53DomainsClientTypes {
 
 extension DnssecLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DnssecLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2469,7 +2460,7 @@ extension DnssecLimitExceeded {
 }
 
 /// This error is returned if you call AssociateDelegationSignerToDomain when the specified domain has reached the maximum number of DS records. You can't add any additional DS records unless you delete an existing one first.
-public struct DnssecLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DnssecLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2610,9 +2601,8 @@ extension Route53DomainsClientTypes {
 
 extension DomainLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DomainLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2626,7 +2616,7 @@ extension DomainLimitExceeded {
 }
 
 /// The number of domains has exceeded the allowed threshold for the account.
-public struct DomainLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DomainLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2893,9 +2883,8 @@ extension Route53DomainsClientTypes {
 
 extension DuplicateRequest {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DuplicateRequestBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2909,7 +2898,7 @@ extension DuplicateRequest {
 }
 
 /// The request is already in progress for the domain.
-public struct DuplicateRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicateRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3109,9 +3098,8 @@ public enum EnableDomainTransferLockOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableDomainTransferLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -3868,9 +3856,8 @@ public enum GetContactReachabilityStatusOutputError: Swift.Error, Swift.Equatabl
 
 extension GetContactReachabilityStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContactReachabilityStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.status = output.status
@@ -3997,9 +3984,8 @@ extension GetDomainDetailOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDomainDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abuseContactEmail = output.abuseContactEmail
             self.abuseContactPhone = output.abuseContactPhone
@@ -4385,9 +4371,8 @@ public enum GetDomainSuggestionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDomainSuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDomainSuggestionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggestionsList = output.suggestionsList
         } else {
@@ -4506,9 +4491,8 @@ public enum GetOperationDetailOutputError: Swift.Error, Swift.Equatable {
 
 extension GetOperationDetailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOperationDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -4628,9 +4612,8 @@ extension GetOperationDetailOutputResponseBody: Swift.Decodable {
 
 extension InvalidInput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidInputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4644,7 +4627,7 @@ extension InvalidInput {
 }
 
 /// The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-public struct InvalidInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4831,9 +4814,8 @@ public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domains = output.domains
             self.nextPageMarker = output.nextPageMarker
@@ -5058,9 +5040,8 @@ public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageMarker = output.nextPageMarker
             self.operations = output.operations
@@ -5243,9 +5224,8 @@ public enum ListPricesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPricesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPricesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageMarker = output.nextPageMarker
             self.prices = output.prices
@@ -5378,9 +5358,8 @@ public enum ListTagsForDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -5487,9 +5466,8 @@ extension Route53DomainsClientTypes {
 
 extension OperationLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OperationLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5503,7 +5481,7 @@ extension OperationLimitExceeded {
 }
 
 /// The number of operations or jobs running exceeded the allowed threshold for the account.
-public struct OperationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OperationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6199,9 +6177,8 @@ public enum RegisterDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -6316,9 +6293,8 @@ public enum RejectDomainTransferFromAnotherAwsAccountOutputError: Swift.Error, S
 
 extension RejectDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RejectDomainTransferFromAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -6462,9 +6438,8 @@ public enum RenewDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension RenewDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RenewDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -6576,9 +6551,8 @@ public enum ResendContactReachabilityEmailOutputError: Swift.Error, Swift.Equata
 
 extension ResendContactReachabilityEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResendContactReachabilityEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.emailAddress = output.emailAddress
@@ -6795,9 +6769,8 @@ extension RetrieveDomainAuthCodeOutputResponse: Swift.CustomDebugStringConvertib
 
 extension RetrieveDomainAuthCodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RetrieveDomainAuthCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authCode = output.authCode
         } else {
@@ -6957,9 +6930,8 @@ extension Route53DomainsClientTypes {
 
 extension TLDRulesViolation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TLDRulesViolationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6973,7 +6945,7 @@ extension TLDRulesViolation {
 }
 
 /// The top-level domain does not support this operation.
-public struct TLDRulesViolation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TLDRulesViolation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7297,9 +7269,8 @@ public enum TransferDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension TransferDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransferDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7429,9 +7400,8 @@ public enum TransferDomainToAnotherAwsAccountOutputError: Swift.Error, Swift.Equ
 
 extension TransferDomainToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransferDomainToAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.password = output.password
@@ -7526,9 +7496,8 @@ extension Route53DomainsClientTypes {
 
 extension UnsupportedTLD {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedTLDBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7542,7 +7511,7 @@ extension UnsupportedTLD {
 }
 
 /// Amazon Route 53 does not support this top-level domain (TLD).
-public struct UnsupportedTLD: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedTLD: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7711,9 +7680,8 @@ public enum UpdateDomainContactOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateDomainContactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDomainContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7868,9 +7836,8 @@ public enum UpdateDomainContactPrivacyOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateDomainContactPrivacyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDomainContactPrivacyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -8032,9 +7999,8 @@ public enum UpdateDomainNameserversOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateDomainNameserversOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDomainNameserversOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -8289,9 +8255,8 @@ public enum ViewBillingOutputError: Swift.Error, Swift.Equatable {
 
 extension ViewBillingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ViewBillingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingRecords = output.billingRecords
             self.nextPageMarker = output.nextPageMarker

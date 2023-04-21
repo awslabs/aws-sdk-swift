@@ -66,7 +66,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             """
             extension ComplexError {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-                    if let data = httpResponse.body.toBytes()?.getData(),
+                    if let data = try httpResponse.body.toData(),
                         let responseDecoder = decoder {
                         let output: AWSClientRuntime.Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.errors.error.nested
@@ -92,7 +92,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
                 public var _headers: ClientRuntime.Headers?
                 public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?

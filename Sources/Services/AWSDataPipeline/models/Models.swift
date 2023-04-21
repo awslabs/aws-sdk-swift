@@ -363,9 +363,8 @@ public enum CreatePipelineOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pipelineId = output.pipelineId
         } else {
@@ -717,9 +716,8 @@ public enum DescribeObjectsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreResults = output.hasMoreResults
             self.marker = output.marker
@@ -878,9 +876,8 @@ public enum DescribePipelinesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pipelineDescriptionList = output.pipelineDescriptionList
         } else {
@@ -1035,9 +1032,8 @@ public enum EvaluateExpressionOutputError: Swift.Error, Swift.Equatable {
 
 extension EvaluateExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EvaluateExpressionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluatedExpression = output.evaluatedExpression
         } else {
@@ -1223,9 +1219,8 @@ public enum GetPipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPipelineDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.parameterObjects = output.parameterObjects
             self.parameterValues = output.parameterValues
@@ -1357,9 +1352,8 @@ extension DataPipelineClientTypes {
 
 extension InternalServiceError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServiceErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1373,7 +1367,7 @@ extension InternalServiceError {
 }
 
 /// An internal service error occurred.
-public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1410,9 +1404,8 @@ extension InternalServiceErrorBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1426,7 +1419,7 @@ extension InvalidRequestException {
 }
 
 /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1535,9 +1528,8 @@ public enum ListPipelinesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreResults = output.hasMoreResults
             self.marker = output.marker
@@ -1892,9 +1884,8 @@ extension DataPipelineClientTypes {
 
 extension PipelineDeletedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PipelineDeletedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1908,7 +1899,7 @@ extension PipelineDeletedException {
 }
 
 /// The specified pipeline has been deleted.
-public struct PipelineDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PipelineDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2092,9 +2083,8 @@ extension DataPipelineClientTypes {
 
 extension PipelineNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PipelineNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2108,7 +2098,7 @@ extension PipelineNotFoundException {
 }
 
 /// The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-public struct PipelineNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PipelineNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2314,9 +2304,8 @@ public enum PollForTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension PollForTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PollForTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.taskObject = output.taskObject
         } else {
@@ -2506,9 +2495,8 @@ public enum PutPipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
 
 extension PutPipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutPipelineDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errored = output.errored
             self.validationErrors = output.validationErrors
@@ -2760,9 +2748,8 @@ public enum QueryObjectsOutputError: Swift.Error, Swift.Equatable {
 
 extension QueryObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: QueryObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreResults = output.hasMoreResults
             self.ids = output.ids
@@ -3047,9 +3034,8 @@ public enum ReportTaskProgressOutputError: Swift.Error, Swift.Equatable {
 
 extension ReportTaskProgressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReportTaskProgressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.canceled = output.canceled
         } else {
@@ -3187,9 +3173,8 @@ public enum ReportTaskRunnerHeartbeatOutputError: Swift.Error, Swift.Equatable {
 
 extension ReportTaskRunnerHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReportTaskRunnerHeartbeatOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.terminate = output.terminate
         } else {
@@ -3586,9 +3571,8 @@ extension DataPipelineClientTypes {
 
 extension TaskNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TaskNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3602,7 +3586,7 @@ extension TaskNotFoundException {
 }
 
 /// The specified task was not found.
-public struct TaskNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TaskNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3901,9 +3885,8 @@ public enum ValidatePipelineDefinitionOutputError: Swift.Error, Swift.Equatable 
 
 extension ValidatePipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidatePipelineDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errored = output.errored
             self.validationErrors = output.validationErrors

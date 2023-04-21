@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AuthException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AuthException {
 }
 
 /// Either your AWS credentials are not valid or you do not have access to the EC2 instance.
-public struct AuthException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AuthException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -56,9 +55,8 @@ extension AuthExceptionBody: Swift.Decodable {
 
 extension EC2InstanceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EC2InstanceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -72,7 +70,7 @@ extension EC2InstanceNotFoundException {
 }
 
 /// The specified instance was not found.
-public struct EC2InstanceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -108,9 +106,8 @@ extension EC2InstanceNotFoundExceptionBody: Swift.Decodable {
 
 extension EC2InstanceStateInvalidException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EC2InstanceStateInvalidExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -124,7 +121,7 @@ extension EC2InstanceStateInvalidException {
 }
 
 /// Unable to connect because the instance is not in a valid state. Connecting to a stopped or terminated instance is not supported. If the instance is stopped, start your instance, and try to connect again.
-public struct EC2InstanceStateInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceStateInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -160,9 +157,8 @@ extension EC2InstanceStateInvalidExceptionBody: Swift.Decodable {
 
 extension EC2InstanceTypeInvalidException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EC2InstanceTypeInvalidExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -176,7 +172,7 @@ extension EC2InstanceTypeInvalidException {
 }
 
 /// The instance type is not supported for connecting via the serial console. Only Nitro instance types are currently supported.
-public struct EC2InstanceTypeInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceTypeInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -212,9 +208,8 @@ extension EC2InstanceTypeInvalidExceptionBody: Swift.Decodable {
 
 extension EC2InstanceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EC2InstanceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -228,7 +223,7 @@ extension EC2InstanceUnavailableException {
 }
 
 /// The instance is currently unavailable. Wait a few minutes and try again.
-public struct EC2InstanceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -264,9 +259,8 @@ extension EC2InstanceUnavailableExceptionBody: Swift.Decodable {
 
 extension InvalidArgsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidArgsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -280,7 +274,7 @@ extension InvalidArgsException {
 }
 
 /// One of the parameters is not valid.
-public struct InvalidArgsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArgsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -436,9 +430,8 @@ public enum SendSSHPublicKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension SendSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestId = output.requestId
             self.success = output.success
@@ -602,9 +595,8 @@ public enum SendSerialConsoleSSHPublicKeyOutputError: Swift.Error, Swift.Equatab
 
 extension SendSerialConsoleSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendSerialConsoleSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestId = output.requestId
             self.success = output.success
@@ -653,9 +645,8 @@ extension SendSerialConsoleSSHPublicKeyOutputResponseBody: Swift.Decodable {
 
 extension SerialConsoleAccessDisabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SerialConsoleAccessDisabledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -669,7 +660,7 @@ extension SerialConsoleAccessDisabledException {
 }
 
 /// Your account is not authorized to use the EC2 Serial Console. To authorize your account, run the EnableSerialConsoleAccess API. For more information, see [EnableSerialConsoleAccess](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EnableSerialConsoleAccess.html) in the Amazon EC2 API Reference.
-public struct SerialConsoleAccessDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SerialConsoleAccessDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -705,9 +696,8 @@ extension SerialConsoleAccessDisabledExceptionBody: Swift.Decodable {
 
 extension SerialConsoleSessionLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SerialConsoleSessionLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -721,7 +711,7 @@ extension SerialConsoleSessionLimitExceededException {
 }
 
 /// The instance currently has 1 active serial console session. Only 1 session is supported at a time.
-public struct SerialConsoleSessionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SerialConsoleSessionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -757,9 +747,8 @@ extension SerialConsoleSessionLimitExceededExceptionBody: Swift.Decodable {
 
 extension SerialConsoleSessionUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SerialConsoleSessionUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -773,7 +762,7 @@ extension SerialConsoleSessionUnavailableException {
 }
 
 /// Unable to start a serial console session. Please try again.
-public struct SerialConsoleSessionUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SerialConsoleSessionUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -809,9 +798,8 @@ extension SerialConsoleSessionUnavailableExceptionBody: Swift.Decodable {
 
 extension ServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -825,7 +813,7 @@ extension ServiceException {
 }
 
 /// The service encountered an error. Follow the instructions in the error message and try again.
-public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -861,9 +849,8 @@ extension ServiceExceptionBody: Swift.Decodable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -877,7 +864,7 @@ extension ThrottlingException {
 }
 
 /// The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

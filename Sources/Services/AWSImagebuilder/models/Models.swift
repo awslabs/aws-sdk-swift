@@ -323,9 +323,8 @@ extension ImagebuilderClientTypes {
 
 extension CallRateLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CallRateLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -339,7 +338,7 @@ extension CallRateLimitExceededException {
 }
 
 /// You have exceeded the permitted request rate for the specific operation.
-public struct CallRateLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CallRateLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -472,9 +471,8 @@ public enum CancelImageCreationOutputError: Swift.Error, Swift.Equatable {
 
 extension CancelImageCreationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CancelImageCreationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imageBuildVersionArn = output.imageBuildVersionArn
@@ -533,9 +531,8 @@ extension CancelImageCreationOutputResponseBody: Swift.Decodable {
 
 extension ClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -549,7 +546,7 @@ extension ClientException {
 }
 
 /// These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
-public struct ClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2241,9 +2238,8 @@ public enum CreateComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.componentBuildVersionArn = output.componentBuildVersionArn
@@ -2602,9 +2598,8 @@ public enum CreateContainerRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateContainerRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateContainerRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.containerRecipeArn = output.containerRecipeArn
@@ -2827,9 +2822,8 @@ public enum CreateDistributionConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension CreateDistributionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDistributionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.distributionConfigurationArn = output.distributionConfigurationArn
@@ -3083,9 +3077,8 @@ public enum CreateImageOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imageBuildVersionArn = output.imageBuildVersionArn
@@ -3390,9 +3383,8 @@ public enum CreateImagePipelineOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateImagePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateImagePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imagePipelineArn = output.imagePipelineArn
@@ -3689,9 +3681,8 @@ public enum CreateImageRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateImageRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateImageRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imageRecipeArn = output.imageRecipeArn
@@ -4044,9 +4035,8 @@ public enum CreateInfrastructureConfigurationOutputError: Swift.Error, Swift.Equ
 
 extension CreateInfrastructureConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateInfrastructureConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.infrastructureConfigurationArn = output.infrastructureConfigurationArn
@@ -4389,9 +4379,8 @@ public enum DeleteComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentBuildVersionArn = output.componentBuildVersionArn
             self.requestId = output.requestId
@@ -4517,9 +4506,8 @@ public enum DeleteContainerRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteContainerRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteContainerRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.containerRecipeArn = output.containerRecipeArn
             self.requestId = output.requestId
@@ -4645,9 +4633,8 @@ public enum DeleteDistributionConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension DeleteDistributionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDistributionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.distributionConfigurationArn = output.distributionConfigurationArn
             self.requestId = output.requestId
@@ -4773,9 +4760,8 @@ public enum DeleteImageOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageBuildVersionArn = output.imageBuildVersionArn
             self.requestId = output.requestId
@@ -4901,9 +4887,8 @@ public enum DeleteImagePipelineOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteImagePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteImagePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imagePipelineArn = output.imagePipelineArn
             self.requestId = output.requestId
@@ -5029,9 +5014,8 @@ public enum DeleteImageRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteImageRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteImageRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageRecipeArn = output.imageRecipeArn
             self.requestId = output.requestId
@@ -5157,9 +5141,8 @@ public enum DeleteInfrastructureConfigurationOutputError: Swift.Error, Swift.Equ
 
 extension DeleteInfrastructureConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteInfrastructureConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.infrastructureConfigurationArn = output.infrastructureConfigurationArn
             self.requestId = output.requestId
@@ -6056,9 +6039,8 @@ extension ImagebuilderClientTypes {
 
 extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6072,7 +6054,7 @@ extension ForbiddenException {
 }
 
 /// You are not authorized to perform the requested operation.
-public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6183,9 +6165,8 @@ public enum GetComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.component = output.component
             self.requestId = output.requestId
@@ -6309,9 +6290,8 @@ public enum GetComponentPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetComponentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComponentPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
             self.requestId = output.requestId
@@ -6435,9 +6415,8 @@ public enum GetContainerRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetContainerRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContainerRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.containerRecipe = output.containerRecipe
             self.requestId = output.requestId
@@ -6561,9 +6540,8 @@ public enum GetContainerRecipePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetContainerRecipePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContainerRecipePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
             self.requestId = output.requestId
@@ -6687,9 +6665,8 @@ public enum GetDistributionConfigurationOutputError: Swift.Error, Swift.Equatabl
 
 extension GetDistributionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDistributionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.distributionConfiguration = output.distributionConfiguration
             self.requestId = output.requestId
@@ -6813,9 +6790,8 @@ public enum GetImageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.image = output.image
             self.requestId = output.requestId
@@ -6939,9 +6915,8 @@ public enum GetImagePipelineOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImagePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetImagePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imagePipeline = output.imagePipeline
             self.requestId = output.requestId
@@ -7065,9 +7040,8 @@ public enum GetImagePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImagePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetImagePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
             self.requestId = output.requestId
@@ -7191,9 +7165,8 @@ public enum GetImageRecipeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImageRecipeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetImageRecipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageRecipe = output.imageRecipe
             self.requestId = output.requestId
@@ -7317,9 +7290,8 @@ public enum GetImageRecipePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImageRecipePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetImageRecipePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
             self.requestId = output.requestId
@@ -7444,9 +7416,8 @@ public enum GetInfrastructureConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension GetInfrastructureConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInfrastructureConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.infrastructureConfiguration = output.infrastructureConfiguration
             self.requestId = output.requestId
@@ -7571,9 +7542,8 @@ public enum GetWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endTime = output.endTime
             self.imageBuildVersionArn = output.imageBuildVersionArn
@@ -7807,9 +7777,8 @@ public enum GetWorkflowStepExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWorkflowStepExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWorkflowStepExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.action = output.action
             self.description = output.description
@@ -8008,9 +7977,8 @@ extension GetWorkflowStepExecutionOutputResponseBody: Swift.Decodable {
 
 extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IdempotentParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8024,7 +7992,7 @@ extension IdempotentParameterMismatchException {
 }
 
 /// You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10179,9 +10147,8 @@ public enum ImportComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.componentBuildVersionArn = output.componentBuildVersionArn
@@ -10414,9 +10381,8 @@ public enum ImportVmImageOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportVmImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportVmImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imageArn = output.imageArn
@@ -11068,9 +11034,8 @@ extension ImagebuilderClientTypes {
 
 extension InvalidPaginationTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPaginationTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11084,7 +11049,7 @@ extension InvalidPaginationTokenException {
 }
 
 /// You have provided an invalid pagination token in your request.
-public struct InvalidPaginationTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPaginationTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11120,9 +11085,8 @@ extension InvalidPaginationTokenExceptionBody: Swift.Decodable {
 
 extension InvalidParameterCombinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11136,7 +11100,7 @@ extension InvalidParameterCombinationException {
 }
 
 /// You have specified two or more mutually exclusive parameters. Review the error message for details.
-public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11172,9 +11136,8 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11188,7 +11151,7 @@ extension InvalidParameterException {
 }
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11224,9 +11187,8 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11240,7 +11202,7 @@ extension InvalidParameterValueException {
 }
 
 /// The value that you provided for the specified parameter is invalid.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11276,9 +11238,8 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11292,7 +11253,7 @@ extension InvalidRequestException {
 }
 
 /// You have requested an action that that the service doesn't support.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11328,9 +11289,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
 
 extension InvalidVersionNumberException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidVersionNumberExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11344,7 +11304,7 @@ extension InvalidVersionNumberException {
 }
 
 /// Your version number is out of bounds or does not follow the required syntax.
-public struct InvalidVersionNumberException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidVersionNumberException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11655,9 +11615,8 @@ public enum ListComponentBuildVersionsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListComponentBuildVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListComponentBuildVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentSummaryList = output.componentSummaryList
             self.nextToken = output.nextToken
@@ -11878,9 +11837,8 @@ public enum ListComponentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentVersionList = output.componentVersionList
             self.nextToken = output.nextToken
@@ -12085,9 +12043,8 @@ public enum ListContainerRecipesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListContainerRecipesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListContainerRecipesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.containerRecipeSummaryList = output.containerRecipeSummaryList
             self.nextToken = output.nextToken
@@ -12272,9 +12229,8 @@ public enum ListDistributionConfigurationsOutputError: Swift.Error, Swift.Equata
 
 extension ListDistributionConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDistributionConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.distributionConfigurationSummaryList = output.distributionConfigurationSummaryList
             self.nextToken = output.nextToken
@@ -12482,9 +12438,8 @@ public enum ListImageBuildVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImageBuildVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImageBuildVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageSummaryList = output.imageSummaryList
             self.nextToken = output.nextToken
@@ -12660,9 +12615,8 @@ public enum ListImagePackagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImagePackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImagePackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imagePackageList = output.imagePackageList
             self.nextToken = output.nextToken
@@ -12866,9 +12820,8 @@ public enum ListImagePipelineImagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImagePipelineImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImagePipelineImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageSummaryList = output.imageSummaryList
             self.nextToken = output.nextToken
@@ -13065,9 +13018,8 @@ public enum ListImagePipelinesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImagePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImagePipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imagePipelineList = output.imagePipelineList
             self.nextToken = output.nextToken
@@ -13270,9 +13222,8 @@ public enum ListImageRecipesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImageRecipesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImageRecipesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageRecipeSummaryList = output.imageRecipeSummaryList
             self.nextToken = output.nextToken
@@ -13433,9 +13384,8 @@ public enum ListImageScanFindingAggregationsOutputError: Swift.Error, Swift.Equa
 
 extension ListImageScanFindingAggregationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImageScanFindingAggregationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregationType = output.aggregationType
             self.nextToken = output.nextToken
@@ -13652,9 +13602,8 @@ public enum ListImageScanFindingsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImageScanFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImageScanFindingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.findings = output.findings
             self.nextToken = output.nextToken
@@ -13885,9 +13834,8 @@ public enum ListImagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageVersionList = output.imageVersionList
             self.nextToken = output.nextToken
@@ -14072,9 +14020,8 @@ public enum ListInfrastructureConfigurationsOutputError: Swift.Error, Swift.Equa
 
 extension ListInfrastructureConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInfrastructureConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.infrastructureConfigurationSummaryList = output.infrastructureConfigurationSummaryList
             self.nextToken = output.nextToken
@@ -14199,9 +14146,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -14355,9 +14301,8 @@ public enum ListWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageBuildVersionArn = output.imageBuildVersionArn
             self.message = output.message
@@ -14551,9 +14496,8 @@ public enum ListWorkflowStepExecutionsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListWorkflowStepExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkflowStepExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageBuildVersionArn = output.imageBuildVersionArn
             self.message = output.message
@@ -15170,9 +15114,8 @@ public enum PutComponentPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutComponentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutComponentPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentArn = output.componentArn
             self.requestId = output.requestId
@@ -15318,9 +15261,8 @@ public enum PutContainerRecipePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutContainerRecipePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutContainerRecipePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.containerRecipeArn = output.containerRecipeArn
             self.requestId = output.requestId
@@ -15466,9 +15408,8 @@ public enum PutImagePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutImagePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutImagePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageArn = output.imageArn
             self.requestId = output.requestId
@@ -15614,9 +15555,8 @@ public enum PutImageRecipePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension PutImageRecipePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutImageRecipePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imageRecipeArn = output.imageRecipeArn
             self.requestId = output.requestId
@@ -15745,9 +15685,8 @@ extension ImagebuilderClientTypes {
 
 extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15761,7 +15700,7 @@ extension ResourceAlreadyExistsException {
 }
 
 /// The resource that you are trying to create already exists.
-public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15797,9 +15736,8 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ResourceDependencyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceDependencyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15813,7 +15751,7 @@ extension ResourceDependencyException {
 }
 
 /// You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-public struct ResourceDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15849,9 +15787,8 @@ extension ResourceDependencyExceptionBody: Swift.Decodable {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15865,7 +15802,7 @@ extension ResourceInUseException {
 }
 
 /// The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15901,9 +15838,8 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15917,7 +15853,7 @@ extension ResourceNotFoundException {
 }
 
 /// At least one of the resources referenced by your request does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16127,9 +16063,8 @@ extension ImagebuilderClientTypes {
 
 extension ServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16143,7 +16078,7 @@ extension ServiceException {
 }
 
 /// This exception is thrown when the service encounters an unrecoverable exception.
-public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16179,9 +16114,8 @@ extension ServiceExceptionBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16195,7 +16129,7 @@ extension ServiceQuotaExceededException {
 }
 
 /// You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16231,9 +16165,8 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16247,7 +16180,7 @@ extension ServiceUnavailableException {
 }
 
 /// The service is unable to process your request at this time.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16447,9 +16380,8 @@ public enum StartImagePipelineExecutionOutputError: Swift.Error, Swift.Equatable
 
 extension StartImagePipelineExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartImagePipelineExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imageBuildVersionArn = output.imageBuildVersionArn
@@ -16919,9 +16851,8 @@ public enum UpdateDistributionConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension UpdateDistributionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateDistributionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.distributionConfigurationArn = output.distributionConfigurationArn
@@ -17198,9 +17129,8 @@ public enum UpdateImagePipelineOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateImagePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateImagePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.imagePipelineArn = output.imagePipelineArn
@@ -17529,9 +17459,8 @@ public enum UpdateInfrastructureConfigurationOutputError: Swift.Error, Swift.Equ
 
 extension UpdateInfrastructureConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateInfrastructureConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.infrastructureConfigurationArn = output.infrastructureConfigurationArn

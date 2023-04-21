@@ -121,9 +121,8 @@ extension HealthClientTypes {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -137,7 +136,7 @@ extension ConcurrentModificationException {
 }
 
 /// [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
-public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -312,9 +311,8 @@ public enum DescribeAffectedAccountsForOrganizationOutputError: Swift.Error, Swi
 
 extension DescribeAffectedAccountsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAffectedAccountsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.affectedAccounts = output.affectedAccounts
             self.eventScopeCode = output.eventScopeCode
@@ -508,9 +506,8 @@ public enum DescribeAffectedEntitiesForOrganizationOutputError: Swift.Error, Swi
 
 extension DescribeAffectedEntitiesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAffectedEntitiesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.failedSet = output.failedSet
@@ -695,9 +692,8 @@ public enum DescribeAffectedEntitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAffectedEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAffectedEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -834,9 +830,8 @@ public enum DescribeEntityAggregatesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEntityAggregatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEntityAggregatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entityAggregates = output.entityAggregates
         } else {
@@ -990,9 +985,8 @@ public enum DescribeEventAggregatesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventAggregatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventAggregatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventAggregates = output.eventAggregates
             self.nextToken = output.nextToken
@@ -1144,9 +1138,8 @@ public enum DescribeEventDetailsForOrganizationOutputError: Swift.Error, Swift.E
 
 extension DescribeEventDetailsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventDetailsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedSet = output.failedSet
             self.successfulSet = output.successfulSet
@@ -1307,9 +1300,8 @@ public enum DescribeEventDetailsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedSet = output.failedSet
             self.successfulSet = output.successfulSet
@@ -1483,9 +1475,8 @@ public enum DescribeEventTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventTypes = output.eventTypes
             self.nextToken = output.nextToken
@@ -1650,9 +1641,8 @@ public enum DescribeEventsForOrganizationOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeEventsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
@@ -1817,9 +1807,8 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
@@ -1925,9 +1914,8 @@ public enum DescribeHealthServiceStatusForOrganizationOutputError: Swift.Error, 
 
 extension DescribeHealthServiceStatusForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeHealthServiceStatusForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthServiceAccessStatusForOrganization = output.healthServiceAccessStatusForOrganization
         } else {
@@ -3338,9 +3326,8 @@ extension HealthClientTypes {
 
 extension InvalidPaginationToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPaginationTokenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3354,7 +3341,7 @@ extension InvalidPaginationToken {
 }
 
 /// The specified pagination token (nextToken) is not valid.
-public struct InvalidPaginationToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPaginationToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3972,9 +3959,8 @@ extension HealthClientTypes {
 
 extension UnsupportedLocale {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedLocaleBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3988,7 +3974,7 @@ extension UnsupportedLocale {
 }
 
 /// The specified locale is not supported.
-public struct UnsupportedLocale: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedLocale: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

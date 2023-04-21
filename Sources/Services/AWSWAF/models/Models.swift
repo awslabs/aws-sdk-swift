@@ -627,9 +627,8 @@ public enum CreateByteMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSet = output.byteMatchSet
             self.changeToken = output.changeToken
@@ -771,9 +770,8 @@ public enum CreateGeoMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.geoMatchSet = output.geoMatchSet
@@ -915,9 +913,8 @@ public enum CreateIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.ipSet = output.ipSet
@@ -1126,9 +1123,8 @@ public enum CreateRateBasedRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.rule = output.rule
@@ -1266,9 +1262,8 @@ public enum CreateRegexMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.regexMatchSet = output.regexMatchSet
@@ -1406,9 +1401,8 @@ public enum CreateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.regexPatternSet = output.regexPatternSet
@@ -1589,9 +1583,8 @@ public enum CreateRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.ruleGroup = output.ruleGroup
@@ -1774,9 +1767,8 @@ public enum CreateRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.rule = output.rule
@@ -1918,9 +1910,8 @@ public enum CreateSizeConstraintSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.sizeConstraintSet = output.sizeConstraintSet
@@ -2063,9 +2054,8 @@ public enum CreateSqlInjectionMatchSetOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.sqlInjectionMatchSet = output.sqlInjectionMatchSet
@@ -2336,9 +2326,8 @@ public enum CreateWebACLMigrationStackOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateWebACLMigrationStackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWebACLMigrationStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.s3ObjectUrl = output.s3ObjectUrl
         } else {
@@ -2416,9 +2405,8 @@ public enum CreateWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.webACL = output.webACL
@@ -2561,9 +2549,8 @@ public enum CreateXssMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.xssMatchSet = output.xssMatchSet
@@ -2706,9 +2693,8 @@ public enum DeleteByteMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -2840,9 +2826,8 @@ public enum DeleteGeoMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -2974,9 +2959,8 @@ public enum DeleteIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3280,9 +3264,8 @@ public enum DeleteRateBasedRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3414,9 +3397,8 @@ public enum DeleteRegexMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3548,9 +3530,8 @@ public enum DeleteRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3686,9 +3667,8 @@ public enum DeleteRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3824,9 +3804,8 @@ public enum DeleteRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3958,9 +3937,8 @@ public enum DeleteSizeConstraintSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -4093,9 +4071,8 @@ public enum DeleteSqlInjectionMatchSetOutputError: Swift.Error, Swift.Equatable 
 
 extension DeleteSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -4232,9 +4209,8 @@ public enum DeleteWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -4367,9 +4343,8 @@ public enum DeleteXssMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -5591,9 +5566,8 @@ public enum GetByteMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSet = output.byteMatchSet
         } else {
@@ -5688,9 +5662,8 @@ public enum GetChangeTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChangeTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetChangeTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -5801,9 +5774,8 @@ public enum GetChangeTokenStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChangeTokenStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetChangeTokenStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeTokenStatus = output.changeTokenStatus
         } else {
@@ -5916,9 +5888,8 @@ public enum GetGeoMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.geoMatchSet = output.geoMatchSet
         } else {
@@ -6031,9 +6002,8 @@ public enum GetIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSet = output.ipSet
         } else {
@@ -6148,9 +6118,8 @@ public enum GetLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -6261,9 +6230,8 @@ public enum GetPermissionPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPermissionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -6438,9 +6406,8 @@ public enum GetRateBasedRuleManagedKeysOutputError: Swift.Error, Swift.Equatable
 
 extension GetRateBasedRuleManagedKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRateBasedRuleManagedKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedKeys = output.managedKeys
             self.nextMarker = output.nextMarker
@@ -6524,9 +6491,8 @@ public enum GetRateBasedRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
@@ -6639,9 +6605,8 @@ public enum GetRegexMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.regexMatchSet = output.regexMatchSet
         } else {
@@ -6754,9 +6719,8 @@ public enum GetRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.regexPatternSet = output.regexPatternSet
         } else {
@@ -6867,9 +6831,8 @@ public enum GetRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroup = output.ruleGroup
         } else {
@@ -6982,9 +6945,8 @@ public enum GetRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
@@ -7142,9 +7104,8 @@ public enum GetSampledRequestsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSampledRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.populationSize = output.populationSize
             self.sampledRequests = output.sampledRequests
@@ -7286,9 +7247,8 @@ public enum GetSizeConstraintSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sizeConstraintSet = output.sizeConstraintSet
         } else {
@@ -7408,9 +7368,8 @@ public enum GetSqlInjectionMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sqlInjectionMatchSet = output.sqlInjectionMatchSet
         } else {
@@ -7530,9 +7489,8 @@ public enum GetWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webACL = output.webACL
         } else {
@@ -7654,9 +7612,8 @@ public enum GetXssMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.xssMatchSet = output.xssMatchSet
         } else {
@@ -8198,9 +8155,8 @@ public enum ListActivatedRulesInRuleGroupOutputError: Swift.Error, Swift.Equatab
 
 extension ListActivatedRulesInRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListActivatedRulesInRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activatedRules = output.activatedRules
             self.nextMarker = output.nextMarker
@@ -8341,9 +8297,8 @@ public enum ListByteMatchSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListByteMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListByteMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSets = output.byteMatchSets
             self.nextMarker = output.nextMarker
@@ -8484,9 +8439,8 @@ public enum ListGeoMatchSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGeoMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGeoMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.geoMatchSets = output.geoMatchSets
             self.nextMarker = output.nextMarker
@@ -8627,9 +8581,8 @@ public enum ListIPSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSets = output.ipSets
             self.nextMarker = output.nextMarker
@@ -8772,9 +8725,8 @@ public enum ListLoggingConfigurationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
             self.nextMarker = output.nextMarker
@@ -8915,9 +8867,8 @@ public enum ListRateBasedRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRateBasedRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRateBasedRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
@@ -9058,9 +9009,8 @@ public enum ListRegexMatchSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRegexMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRegexMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexMatchSets = output.regexMatchSets
@@ -9201,9 +9151,8 @@ public enum ListRegexPatternSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRegexPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexPatternSets = output.regexPatternSets
@@ -9342,9 +9291,8 @@ public enum ListRuleGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
@@ -9485,9 +9433,8 @@ public enum ListRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
@@ -9628,9 +9575,8 @@ public enum ListSizeConstraintSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSizeConstraintSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSizeConstraintSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sizeConstraintSets = output.sizeConstraintSets
@@ -9772,9 +9718,8 @@ public enum ListSqlInjectionMatchSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSqlInjectionMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSqlInjectionMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sqlInjectionMatchSets = output.sqlInjectionMatchSets
@@ -9916,9 +9861,8 @@ public enum ListSubscribedRuleGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSubscribedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSubscribedRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
@@ -10080,9 +10024,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tagInfoForResource = output.tagInfoForResource
@@ -10214,9 +10157,8 @@ public enum ListWebACLsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWebACLsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.webACLs = output.webACLs
@@ -10358,9 +10300,8 @@ public enum ListXssMatchSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListXssMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListXssMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.xssMatchSets = output.xssMatchSets
@@ -10934,9 +10875,8 @@ public enum PutLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -13202,9 +13142,8 @@ public enum UpdateByteMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13371,9 +13310,8 @@ public enum UpdateGeoMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13543,9 +13481,8 @@ public enum UpdateIPSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13721,9 +13658,8 @@ public enum UpdateRateBasedRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13884,9 +13820,8 @@ public enum UpdateRegexMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14047,9 +13982,8 @@ public enum UpdateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14208,9 +14142,8 @@ public enum UpdateRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14379,9 +14312,8 @@ public enum UpdateRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14550,9 +14482,8 @@ public enum UpdateSizeConstraintSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14720,9 +14651,8 @@ public enum UpdateSqlInjectionMatchSetOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14905,9 +14835,8 @@ public enum UpdateWebACLOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -15075,9 +15004,8 @@ public enum UpdateXssMatchSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -15117,9 +15045,8 @@ extension UpdateXssMatchSetOutputResponseBody: Swift.Decodable {
 
 extension WAFBadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFBadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15133,7 +15060,7 @@ extension WAFBadRequestException {
 }
 
 ///
-public struct WAFBadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFBadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15169,9 +15096,8 @@ extension WAFBadRequestExceptionBody: Swift.Decodable {
 
 extension WAFDisallowedNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFDisallowedNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15185,7 +15111,7 @@ extension WAFDisallowedNameException {
 }
 
 /// The name specified is invalid.
-public struct WAFDisallowedNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFDisallowedNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15221,9 +15147,8 @@ extension WAFDisallowedNameExceptionBody: Swift.Decodable {
 
 extension WAFEntityMigrationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFEntityMigrationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.migrationErrorReason = output.migrationErrorReason
@@ -15255,7 +15180,7 @@ extension WAFEntityMigrationException {
 /// * S3_BUCKET_INVALID_REGION - The S3 bucket is not in the same Region as the web ACL.
 ///
 /// * S3_INTERNAL_ERROR - AWS WAF failed to create the template in the S3 bucket for another reason.
-public struct WAFEntityMigrationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFEntityMigrationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15305,9 +15230,8 @@ extension WAFEntityMigrationExceptionBody: Swift.Decodable {
 
 extension WAFInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15321,7 +15245,7 @@ extension WAFInternalErrorException {
 }
 
 /// The operation failed because of a system problem, even though the request was valid. Retry your request.
-public struct WAFInternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFInternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15365,7 +15289,7 @@ extension WAFInvalidAccountException {
 }
 
 /// The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-public struct WAFInvalidAccountException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFInvalidAccountException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15379,9 +15303,8 @@ public struct WAFInvalidAccountException: AWSClientRuntime.AWSHttpServiceError, 
 
 extension WAFInvalidOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15405,7 +15328,7 @@ extension WAFInvalidOperationException {
 /// * You tried to add a Rule to a WebACL, but the Rule already exists in the specified WebACL.
 ///
 /// * You tried to add a ByteMatchTuple to a ByteMatchSet, but the ByteMatchTuple already exists in the specified WebACL.
-public struct WAFInvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFInvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15441,9 +15364,8 @@ extension WAFInvalidOperationExceptionBody: Swift.Decodable {
 
 extension WAFInvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.field = output.field
             self.parameter = output.parameter
@@ -15479,7 +15401,7 @@ extension WAFInvalidParameterException {
 /// * You tried to update a ByteMatchSet with a Field of HEADER but no value for Data.
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
-public struct WAFInvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFInvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15529,9 +15451,8 @@ extension WAFInvalidParameterExceptionBody: Swift.Decodable {
 
 extension WAFInvalidPermissionPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidPermissionPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15561,7 +15482,7 @@ extension WAFInvalidPermissionPolicyException {
 /// * The user making the request must be the owner of the RuleGroup.
 ///
 /// * Your policy must be composed using IAM Policy version 2012-10-17.
-public struct WAFInvalidPermissionPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFInvalidPermissionPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15597,9 +15518,8 @@ extension WAFInvalidPermissionPolicyExceptionBody: Swift.Decodable {
 
 extension WAFInvalidRegexPatternException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFInvalidRegexPatternExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15613,7 +15533,7 @@ extension WAFInvalidRegexPatternException {
 }
 
 /// The regular expression (regex) you specified in RegexPatternString is invalid.
-public struct WAFInvalidRegexPatternException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFInvalidRegexPatternException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15649,9 +15569,8 @@ extension WAFInvalidRegexPatternExceptionBody: Swift.Decodable {
 
 extension WAFLimitsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFLimitsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15665,7 +15584,7 @@ extension WAFLimitsExceededException {
 }
 
 /// The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
-public struct WAFLimitsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFLimitsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15701,9 +15620,8 @@ extension WAFLimitsExceededExceptionBody: Swift.Decodable {
 
 extension WAFNonEmptyEntityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFNonEmptyEntityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15725,7 +15643,7 @@ extension WAFNonEmptyEntityException {
 /// * You tried to delete a ByteMatchSet that contains one or more ByteMatchTuple objects.
 ///
 /// * You tried to delete an IPSet that references one or more IP addresses.
-public struct WAFNonEmptyEntityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFNonEmptyEntityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15761,9 +15679,8 @@ extension WAFNonEmptyEntityExceptionBody: Swift.Decodable {
 
 extension WAFNonexistentContainerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFNonexistentContainerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15785,7 +15702,7 @@ extension WAFNonexistentContainerException {
 /// * You tried to add an IP address to or delete an IP address from an IPSet that doesn't exist.
 ///
 /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
-public struct WAFNonexistentContainerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFNonexistentContainerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15821,9 +15738,8 @@ extension WAFNonexistentContainerExceptionBody: Swift.Decodable {
 
 extension WAFNonexistentItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFNonexistentItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15837,7 +15753,7 @@ extension WAFNonexistentItemException {
 }
 
 /// The operation failed because the referenced object doesn't exist.
-public struct WAFNonexistentItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFNonexistentItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15873,9 +15789,8 @@ extension WAFNonexistentItemExceptionBody: Swift.Decodable {
 
 extension WAFReferencedItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFReferencedItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15893,7 +15808,7 @@ extension WAFReferencedItemException {
 /// * You tried to delete a ByteMatchSet that is still referenced by a Rule.
 ///
 /// * You tried to delete a Rule that is still referenced by a WebACL.
-public struct WAFReferencedItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFReferencedItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15929,9 +15844,8 @@ extension WAFReferencedItemExceptionBody: Swift.Decodable {
 
 extension WAFServiceLinkedRoleErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFServiceLinkedRoleErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15945,7 +15859,7 @@ extension WAFServiceLinkedRoleErrorException {
 }
 
 /// AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-public struct WAFServiceLinkedRoleErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFServiceLinkedRoleErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15981,9 +15895,8 @@ extension WAFServiceLinkedRoleErrorExceptionBody: Swift.Decodable {
 
 extension WAFStaleDataException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFStaleDataExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15997,7 +15910,7 @@ extension WAFStaleDataException {
 }
 
 /// The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-public struct WAFStaleDataException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFStaleDataException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16033,9 +15946,8 @@ extension WAFStaleDataExceptionBody: Swift.Decodable {
 
 extension WAFSubscriptionNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFSubscriptionNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16049,7 +15961,7 @@ extension WAFSubscriptionNotFoundException {
 }
 
 /// The specified subscription does not exist.
-public struct WAFSubscriptionNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFSubscriptionNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16085,9 +15997,8 @@ extension WAFSubscriptionNotFoundExceptionBody: Swift.Decodable {
 
 extension WAFTagOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFTagOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16101,7 +16012,7 @@ extension WAFTagOperationException {
 }
 
 ///
-public struct WAFTagOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFTagOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16137,9 +16048,8 @@ extension WAFTagOperationExceptionBody: Swift.Decodable {
 
 extension WAFTagOperationInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WAFTagOperationInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16153,7 +16063,7 @@ extension WAFTagOperationInternalErrorException {
 }
 
 ///
-public struct WAFTagOperationInternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WAFTagOperationInternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

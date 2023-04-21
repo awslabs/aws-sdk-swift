@@ -78,7 +78,7 @@ extension ForbiddenException {
 }
 
 /// The caller is not authorized to invoke this operation.
-public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -148,9 +148,8 @@ public enum GetConnectionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectedAt = output.connectedAt
             self.identity = output.identity
@@ -216,7 +215,7 @@ extension GoneException {
 }
 
 /// The connection with the provided id no longer exists.
-public struct GoneException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct GoneException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -284,7 +283,7 @@ extension LimitExceededException {
 }
 
 /// The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -298,9 +297,8 @@ public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swif
 
 extension PayloadTooLargeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PayloadTooLargeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -314,7 +312,7 @@ extension PayloadTooLargeException {
 }
 
 /// The data has exceeded the maximum size allowed.
-public struct PayloadTooLargeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PayloadTooLargeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -362,9 +360,9 @@ public struct PostToConnectionInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let data = input.operationInput.data {
-            let datadata = data
-            let databody = ClientRuntime.HttpBody.data(datadata)
-            input.builder.withBody(databody)
+            let dataData = data
+            let dataBody = ClientRuntime.HttpBody.data(dataData)
+            input.builder.withBody(dataBody)
         }
         return try await next.handle(context: context, input: input)
     }

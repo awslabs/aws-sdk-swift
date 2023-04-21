@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -171,9 +170,8 @@ extension Route53RecoveryReadinessClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -187,7 +185,7 @@ extension ConflictException {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -349,9 +347,8 @@ public enum CreateCellOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCellOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCellOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cellArn = output.cellArn
             self.cellName = output.cellName
@@ -535,9 +532,8 @@ public enum CreateCrossAccountAuthorizationOutputError: Swift.Error, Swift.Equat
 
 extension CreateCrossAccountAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCrossAccountAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossAccountAuthorization = output.crossAccountAuthorization
         } else {
@@ -691,9 +687,8 @@ public enum CreateReadinessCheckOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateReadinessCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateReadinessCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.readinessCheckArn = output.readinessCheckArn
             self.readinessCheckName = output.readinessCheckName
@@ -897,9 +892,8 @@ public enum CreateRecoveryGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRecoveryGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRecoveryGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cells = output.cells
             self.recoveryGroupArn = output.recoveryGroupArn
@@ -1126,9 +1120,8 @@ public enum CreateResourceSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateResourceSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateResourceSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceSetArn = output.resourceSetArn
             self.resourceSetName = output.resourceSetName
@@ -1739,9 +1732,8 @@ public enum GetArchitectureRecommendationsOutputError: Swift.Error, Swift.Equata
 
 extension GetArchitectureRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetArchitectureRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastAuditTimestamp = output.lastAuditTimestamp
             self.nextToken = output.nextToken
@@ -1870,9 +1862,8 @@ public enum GetCellOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCellOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCellOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cellArn = output.cellArn
             self.cellName = output.cellName
@@ -2064,9 +2055,8 @@ public enum GetCellReadinessSummaryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCellReadinessSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCellReadinessSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.readiness = output.readiness
@@ -2195,9 +2185,8 @@ public enum GetReadinessCheckOutputError: Swift.Error, Swift.Equatable {
 
 extension GetReadinessCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReadinessCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.readinessCheckArn = output.readinessCheckArn
             self.readinessCheckName = output.readinessCheckName
@@ -2369,9 +2358,8 @@ public enum GetReadinessCheckResourceStatusOutputError: Swift.Error, Swift.Equat
 
 extension GetReadinessCheckResourceStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReadinessCheckResourceStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.readiness = output.readiness
@@ -2525,9 +2513,8 @@ public enum GetReadinessCheckStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetReadinessCheckStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReadinessCheckStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
             self.nextToken = output.nextToken
@@ -2675,9 +2662,8 @@ public enum GetRecoveryGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRecoveryGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecoveryGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cells = output.cells
             self.recoveryGroupArn = output.recoveryGroupArn
@@ -2850,9 +2836,8 @@ public enum GetRecoveryGroupReadinessSummaryOutputError: Swift.Error, Swift.Equa
 
 extension GetRecoveryGroupReadinessSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecoveryGroupReadinessSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.readiness = output.readiness
@@ -2981,9 +2966,8 @@ public enum GetResourceSetOutputError: Swift.Error, Swift.Equatable {
 
 extension GetResourceSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetResourceSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceSetArn = output.resourceSetArn
             self.resourceSetName = output.resourceSetName
@@ -3080,9 +3064,8 @@ extension GetResourceSetOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3096,7 +3079,7 @@ extension InternalServerException {
 }
 
 /// An unexpected error occurred.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3208,9 +3191,8 @@ public enum ListCellsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCellsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCellsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cells = output.cells
             self.nextToken = output.nextToken
@@ -3344,9 +3326,8 @@ public enum ListCrossAccountAuthorizationsOutputError: Swift.Error, Swift.Equata
 
 extension ListCrossAccountAuthorizationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCrossAccountAuthorizationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossAccountAuthorizations = output.crossAccountAuthorizations
             self.nextToken = output.nextToken
@@ -3480,9 +3461,8 @@ public enum ListReadinessChecksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReadinessChecksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReadinessChecksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.readinessChecks = output.readinessChecks
@@ -3616,9 +3596,8 @@ public enum ListRecoveryGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRecoveryGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRecoveryGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryGroups = output.recoveryGroups
@@ -3752,9 +3731,8 @@ public enum ListResourceSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourceSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourceSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceSets = output.resourceSets
@@ -3954,9 +3932,8 @@ public enum ListRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.rules = output.rules
@@ -4071,9 +4048,8 @@ public enum ListTagsForResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -4604,9 +4580,8 @@ extension Route53RecoveryReadinessClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4620,7 +4595,7 @@ extension ResourceNotFoundException {
 }
 
 /// The requested resource does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5056,9 +5031,8 @@ extension Route53RecoveryReadinessClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5072,7 +5046,7 @@ extension ThrottlingException {
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5295,9 +5269,8 @@ public enum UpdateCellOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCellOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCellOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cellArn = output.cellArn
             self.cellName = output.cellName
@@ -5490,9 +5463,8 @@ public enum UpdateReadinessCheckOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateReadinessCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateReadinessCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.readinessCheckArn = output.readinessCheckArn
             self.readinessCheckName = output.readinessCheckName
@@ -5669,9 +5641,8 @@ public enum UpdateRecoveryGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRecoveryGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRecoveryGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cells = output.cells
             self.recoveryGroupArn = output.recoveryGroupArn
@@ -5870,9 +5841,8 @@ public enum UpdateResourceSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateResourceSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateResourceSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceSetArn = output.resourceSetArn
             self.resourceSetName = output.resourceSetName
@@ -5969,9 +5939,8 @@ extension UpdateResourceSetOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5985,7 +5954,7 @@ extension ValidationException {
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

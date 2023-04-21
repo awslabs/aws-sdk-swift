@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// Specifies that you do not have the permissions required to perform this operation.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -926,9 +925,8 @@ public enum DescribeLimitsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.onDemandStreamCount = output.onDemandStreamCount
             self.onDemandStreamCountLimit = output.onDemandStreamCountLimit
@@ -1098,9 +1096,8 @@ public enum DescribeStreamConsumerOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStreamConsumerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStreamConsumerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumerDescription = output.consumerDescription
         } else {
@@ -1267,9 +1264,8 @@ public enum DescribeStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.streamDescription = output.streamDescription
         } else {
@@ -1397,9 +1393,8 @@ public enum DescribeStreamSummaryOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeStreamSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStreamSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.streamDescriptionSummary = output.streamDescriptionSummary
         } else {
@@ -1573,9 +1568,8 @@ public enum DisableEnhancedMonitoringOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableEnhancedMonitoringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableEnhancedMonitoringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentShardLevelMetrics = output.currentShardLevelMetrics
             self.desiredShardLevelMetrics = output.desiredShardLevelMetrics
@@ -1797,9 +1791,8 @@ public enum EnableEnhancedMonitoringOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableEnhancedMonitoringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableEnhancedMonitoringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentShardLevelMetrics = output.currentShardLevelMetrics
             self.desiredShardLevelMetrics = output.desiredShardLevelMetrics
@@ -1985,9 +1978,8 @@ extension KinesisClientTypes {
 
 extension ExpiredIteratorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExpiredIteratorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2001,7 +1993,7 @@ extension ExpiredIteratorException {
 }
 
 /// The provided iterator exceeds the maximum age allowed.
-public struct ExpiredIteratorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ExpiredIteratorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2038,9 +2030,8 @@ extension ExpiredIteratorExceptionBody: Swift.Decodable {
 
 extension ExpiredNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExpiredNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2054,7 +2045,7 @@ extension ExpiredNextTokenException {
 }
 
 /// The pagination token passed to the operation is expired.
-public struct ExpiredNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ExpiredNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2205,9 +2196,8 @@ public enum GetRecordsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.childShards = output.childShards
             self.millisBehindLatest = output.millisBehindLatest
@@ -2444,9 +2434,8 @@ public enum GetShardIteratorOutputError: Swift.Error, Swift.Equatable {
 
 extension GetShardIteratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetShardIteratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.shardIterator = output.shardIterator
         } else {
@@ -2664,7 +2653,7 @@ extension InternalFailureException: Swift.Codable {
 }
 
 /// The processing of the request failed because of an unknown error, exception, or failure.
-public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2684,9 +2673,8 @@ public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Sw
 
 extension InvalidArgumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2700,7 +2688,7 @@ extension InvalidArgumentException {
 }
 
 /// A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
-public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2756,9 +2744,8 @@ extension KMSAccessDeniedException: Swift.Codable {
 
 extension KMSAccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSAccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2772,7 +2759,7 @@ extension KMSAccessDeniedException {
 }
 
 /// The ciphertext references a key that doesn't exist or that you don't have access to.
-public struct KMSAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2828,9 +2815,8 @@ extension KMSDisabledException: Swift.Codable {
 
 extension KMSDisabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSDisabledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2844,7 +2830,7 @@ extension KMSDisabledException {
 }
 
 /// The request was rejected because the specified customer master key (CMK) isn't enabled.
-public struct KMSDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2900,9 +2886,8 @@ extension KMSInvalidStateException: Swift.Codable {
 
 extension KMSInvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSInvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2916,7 +2901,7 @@ extension KMSInvalidStateException {
 }
 
 /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
-public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2972,9 +2957,8 @@ extension KMSNotFoundException: Swift.Codable {
 
 extension KMSNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2988,7 +2972,7 @@ extension KMSNotFoundException {
 }
 
 /// The request was rejected because the specified entity or resource can't be found.
-public struct KMSNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3044,9 +3028,8 @@ extension KMSOptInRequired: Swift.Codable {
 
 extension KMSOptInRequired {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSOptInRequiredBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3060,7 +3043,7 @@ extension KMSOptInRequired {
 }
 
 /// The Amazon Web Services access key ID needs a subscription for the service.
-public struct KMSOptInRequired: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSOptInRequired: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3116,9 +3099,8 @@ extension KMSThrottlingException: Swift.Codable {
 
 extension KMSThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3132,7 +3114,7 @@ extension KMSThrottlingException {
 }
 
 /// The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
-public struct KMSThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3169,9 +3151,8 @@ extension KMSThrottlingExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3185,7 +3166,7 @@ extension LimitExceededException {
 }
 
 /// The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3373,9 +3354,8 @@ public enum ListShardsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListShardsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListShardsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.shards = output.shards
@@ -3547,9 +3527,8 @@ public enum ListStreamConsumersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStreamConsumersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStreamConsumersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumers = output.consumers
             self.nextToken = output.nextToken
@@ -3705,9 +3684,8 @@ public enum ListStreamsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreStreams = output.hasMoreStreams
             self.nextToken = output.nextToken
@@ -3909,9 +3887,8 @@ public enum ListTagsForStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreTags = output.hasMoreTags
             self.tags = output.tags
@@ -4150,9 +4127,8 @@ extension KinesisClientTypes {
 
 extension ProvisionedThroughputExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ProvisionedThroughputExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4166,7 +4142,7 @@ extension ProvisionedThroughputExceededException {
 }
 
 /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
-public struct ProvisionedThroughputExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ProvisionedThroughputExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4353,9 +4329,8 @@ public enum PutRecordOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRecordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.encryptionType = output.encryptionType
             self.sequenceNumber = output.sequenceNumber
@@ -4546,9 +4521,8 @@ public enum PutRecordsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.encryptionType = output.encryptionType
             self.failedRecordCount = output.failedRecordCount
@@ -4915,9 +4889,8 @@ public enum RegisterStreamConsumerOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterStreamConsumerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterStreamConsumerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumer = output.consumer
         } else {
@@ -5101,9 +5074,8 @@ extension ResourceInUseException: Swift.Codable {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5117,7 +5089,7 @@ extension ResourceInUseException {
 }
 
 /// The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5173,9 +5145,8 @@ extension ResourceNotFoundException: Swift.Codable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5189,7 +5160,7 @@ extension ResourceNotFoundException {
 }
 
 /// The requested resource could not be found. The stream might not be specified correctly.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6637,102 +6608,9 @@ extension KinesisClientTypes {
 
 }
 
-extension KinesisClientTypes.SubscribeToShardEventStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case internalfailureexception = "InternalFailureException"
-        case kmsaccessdeniedexception = "KMSAccessDeniedException"
-        case kmsdisabledexception = "KMSDisabledException"
-        case kmsinvalidstateexception = "KMSInvalidStateException"
-        case kmsnotfoundexception = "KMSNotFoundException"
-        case kmsoptinrequired = "KMSOptInRequired"
-        case kmsthrottlingexception = "KMSThrottlingException"
-        case resourceinuseexception = "ResourceInUseException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case subscribetoshardevent = "SubscribeToShardEvent"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .internalfailureexception(internalfailureexception):
-                try container.encode(internalfailureexception, forKey: .internalfailureexception)
-            case let .kmsaccessdeniedexception(kmsaccessdeniedexception):
-                try container.encode(kmsaccessdeniedexception, forKey: .kmsaccessdeniedexception)
-            case let .kmsdisabledexception(kmsdisabledexception):
-                try container.encode(kmsdisabledexception, forKey: .kmsdisabledexception)
-            case let .kmsinvalidstateexception(kmsinvalidstateexception):
-                try container.encode(kmsinvalidstateexception, forKey: .kmsinvalidstateexception)
-            case let .kmsnotfoundexception(kmsnotfoundexception):
-                try container.encode(kmsnotfoundexception, forKey: .kmsnotfoundexception)
-            case let .kmsoptinrequired(kmsoptinrequired):
-                try container.encode(kmsoptinrequired, forKey: .kmsoptinrequired)
-            case let .kmsthrottlingexception(kmsthrottlingexception):
-                try container.encode(kmsthrottlingexception, forKey: .kmsthrottlingexception)
-            case let .resourceinuseexception(resourceinuseexception):
-                try container.encode(resourceinuseexception, forKey: .resourceinuseexception)
-            case let .resourcenotfoundexception(resourcenotfoundexception):
-                try container.encode(resourcenotfoundexception, forKey: .resourcenotfoundexception)
-            case let .subscribetoshardevent(subscribetoshardevent):
-                try container.encode(subscribetoshardevent, forKey: .subscribetoshardevent)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
-        }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let subscribetoshardeventDecoded = try values.decodeIfPresent(KinesisClientTypes.SubscribeToShardEvent.self, forKey: .subscribetoshardevent)
-        if let subscribetoshardevent = subscribetoshardeventDecoded {
-            self = .subscribetoshardevent(subscribetoshardevent)
-            return
-        }
-        let resourcenotfoundexceptionDecoded = try values.decodeIfPresent(ResourceNotFoundException.self, forKey: .resourcenotfoundexception)
-        if let resourcenotfoundexception = resourcenotfoundexceptionDecoded {
-            self = .resourcenotfoundexception(resourcenotfoundexception)
-            return
-        }
-        let resourceinuseexceptionDecoded = try values.decodeIfPresent(ResourceInUseException.self, forKey: .resourceinuseexception)
-        if let resourceinuseexception = resourceinuseexceptionDecoded {
-            self = .resourceinuseexception(resourceinuseexception)
-            return
-        }
-        let kmsdisabledexceptionDecoded = try values.decodeIfPresent(KMSDisabledException.self, forKey: .kmsdisabledexception)
-        if let kmsdisabledexception = kmsdisabledexceptionDecoded {
-            self = .kmsdisabledexception(kmsdisabledexception)
-            return
-        }
-        let kmsinvalidstateexceptionDecoded = try values.decodeIfPresent(KMSInvalidStateException.self, forKey: .kmsinvalidstateexception)
-        if let kmsinvalidstateexception = kmsinvalidstateexceptionDecoded {
-            self = .kmsinvalidstateexception(kmsinvalidstateexception)
-            return
-        }
-        let kmsaccessdeniedexceptionDecoded = try values.decodeIfPresent(KMSAccessDeniedException.self, forKey: .kmsaccessdeniedexception)
-        if let kmsaccessdeniedexception = kmsaccessdeniedexceptionDecoded {
-            self = .kmsaccessdeniedexception(kmsaccessdeniedexception)
-            return
-        }
-        let kmsnotfoundexceptionDecoded = try values.decodeIfPresent(KMSNotFoundException.self, forKey: .kmsnotfoundexception)
-        if let kmsnotfoundexception = kmsnotfoundexceptionDecoded {
-            self = .kmsnotfoundexception(kmsnotfoundexception)
-            return
-        }
-        let kmsoptinrequiredDecoded = try values.decodeIfPresent(KMSOptInRequired.self, forKey: .kmsoptinrequired)
-        if let kmsoptinrequired = kmsoptinrequiredDecoded {
-            self = .kmsoptinrequired(kmsoptinrequired)
-            return
-        }
-        let kmsthrottlingexceptionDecoded = try values.decodeIfPresent(KMSThrottlingException.self, forKey: .kmsthrottlingexception)
-        if let kmsthrottlingexception = kmsthrottlingexceptionDecoded {
-            self = .kmsthrottlingexception(kmsthrottlingexception)
-            return
-        }
-        let internalfailureexceptionDecoded = try values.decodeIfPresent(InternalFailureException.self, forKey: .internalfailureexception)
-        if let internalfailureexception = internalfailureexceptionDecoded {
-            self = .internalfailureexception(internalfailureexception)
-            return
-        }
-        self = .sdkUnknown("")
+extension KinesisClientTypes.SubscribeToShardEventStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        fatalError("Not implemented")
     }
 }
 
@@ -6741,24 +6619,6 @@ extension KinesisClientTypes {
     public enum SubscribeToShardEventStream: Swift.Equatable {
         /// After you call [SubscribeToShard], Kinesis Data Streams sends events of this type to your consumer. For an example of how to handle these events, see [Enhanced Fan-Out Using the Kinesis Data Streams API].
         case subscribetoshardevent(KinesisClientTypes.SubscribeToShardEvent)
-        /// The requested resource could not be found. The stream might not be specified correctly.
-        case resourcenotfoundexception(ResourceNotFoundException)
-        /// The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
-        case resourceinuseexception(ResourceInUseException)
-        /// The request was rejected because the specified customer master key (CMK) isn't enabled.
-        case kmsdisabledexception(KMSDisabledException)
-        /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
-        case kmsinvalidstateexception(KMSInvalidStateException)
-        /// The ciphertext references a key that doesn't exist or that you don't have access to.
-        case kmsaccessdeniedexception(KMSAccessDeniedException)
-        /// The request was rejected because the specified entity or resource can't be found.
-        case kmsnotfoundexception(KMSNotFoundException)
-        /// The Amazon Web Services access key ID needs a subscription for the service.
-        case kmsoptinrequired(KMSOptInRequired)
-        /// The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
-        case kmsthrottlingexception(KMSThrottlingException)
-        /// The processing of the request failed because of an unknown error, exception, or failure.
-        case internalfailureexception(InternalFailureException)
         case sdkUnknown(Swift.String)
     }
 
@@ -6870,9 +6730,8 @@ public enum SubscribeToShardOutputError: Swift.Error, Swift.Equatable {
 
 extension SubscribeToShardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SubscribeToShardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventStream = output.eventStream
         } else {
@@ -6884,29 +6743,13 @@ extension SubscribeToShardOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct SubscribeToShardOutputResponse: Swift.Equatable {
     /// The event stream that your consumer can use to read records from the shard.
     /// This member is required.
-    public var eventStream: KinesisClientTypes.SubscribeToShardEventStream?
+    public var eventStream: AsyncThrowingStream<KinesisClientTypes.SubscribeToShardEventStream, Swift.Error>?
 
     public init (
-        eventStream: KinesisClientTypes.SubscribeToShardEventStream? = nil
+        eventStream: AsyncThrowingStream<KinesisClientTypes.SubscribeToShardEventStream, Swift.Error>? = nil
     )
     {
         self.eventStream = eventStream
-    }
-}
-
-struct SubscribeToShardOutputResponseBody: Swift.Equatable {
-    let eventStream: KinesisClientTypes.SubscribeToShardEventStream?
-}
-
-extension SubscribeToShardOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventStream = "EventStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eventStreamDecoded = try containerValues.decodeIfPresent(KinesisClientTypes.SubscribeToShardEventStream.self, forKey: .eventStream)
-        eventStream = eventStreamDecoded
     }
 }
 
@@ -7083,9 +6926,8 @@ public enum UpdateShardCountOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateShardCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateShardCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentShardCount = output.currentShardCount
             self.streamARN = output.streamARN
@@ -7253,9 +7095,8 @@ public struct UpdateStreamModeOutputResponse: Swift.Equatable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7269,7 +7110,7 @@ extension ValidationException {
 }
 
 /// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

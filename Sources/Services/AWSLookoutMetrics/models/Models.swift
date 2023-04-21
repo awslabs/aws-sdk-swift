@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1935,9 +1934,8 @@ extension LookoutMetricsClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -1955,7 +1953,7 @@ extension ConflictException {
 }
 
 /// There was a conflict processing the request. Try your request again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2223,9 +2221,8 @@ public enum CreateAlertOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAlertOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAlertOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alertArn = output.alertArn
         } else {
@@ -2405,9 +2402,8 @@ public enum CreateAnomalyDetectorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAnomalyDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAnomalyDetectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectorArn = output.anomalyDetectorArn
         } else {
@@ -2711,9 +2707,8 @@ public enum CreateMetricSetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMetricSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMetricSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricSetArn = output.metricSetArn
         } else {
@@ -3316,9 +3311,8 @@ public enum DescribeAlertOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAlertOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAlertOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alert = output.alert
         } else {
@@ -3471,9 +3465,8 @@ public enum DescribeAnomalyDetectionExecutionsOutputError: Swift.Error, Swift.Eq
 
 extension DescribeAnomalyDetectionExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAnomalyDetectionExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionList = output.executionList
             self.nextToken = output.nextToken
@@ -3609,9 +3602,8 @@ public enum DescribeAnomalyDetectorOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAnomalyDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAnomalyDetectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectorArn = output.anomalyDetectorArn
             self.anomalyDetectorConfig = output.anomalyDetectorConfig
@@ -3818,9 +3810,8 @@ public enum DescribeMetricSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMetricSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMetricSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectorArn = output.anomalyDetectorArn
             self.creationTime = output.creationTime
@@ -4107,9 +4098,8 @@ public enum DetectMetricSetConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectMetricSetConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectMetricSetConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectedMetricSetConfig = output.detectedMetricSetConfig
         } else {
@@ -5012,9 +5002,8 @@ public enum GetAnomalyGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAnomalyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAnomalyGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyGroup = output.anomalyGroup
         } else {
@@ -5143,9 +5132,8 @@ public enum GetDataQualityMetricsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDataQualityMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDataQualityMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectorDataQualityMetricList = output.anomalyDetectorDataQualityMetricList
         } else {
@@ -5308,9 +5296,8 @@ public enum GetFeedbackOutputError: Swift.Error, Swift.Equatable {
 
 extension GetFeedbackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetFeedbackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyGroupTimeSeriesFeedback = output.anomalyGroupTimeSeriesFeedback
             self.nextToken = output.nextToken
@@ -5445,9 +5432,8 @@ public enum GetSampleDataOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSampleDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSampleDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.headerValues = output.headerValues
             self.sampleRows = output.sampleRows
@@ -5588,9 +5574,8 @@ extension LookoutMetricsClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5604,7 +5589,7 @@ extension InternalServerException {
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5911,9 +5896,8 @@ public enum ListAlertsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAlertsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAlertsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alertSummaryList = output.alertSummaryList
             self.nextToken = output.nextToken
@@ -6060,9 +6044,8 @@ public enum ListAnomalyDetectorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAnomalyDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAnomalyDetectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectorSummaryList = output.anomalyDetectorSummaryList
             self.nextToken = output.nextToken
@@ -6247,9 +6230,8 @@ public enum ListAnomalyGroupRelatedMetricsOutputError: Swift.Error, Swift.Equata
 
 extension ListAnomalyGroupRelatedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAnomalyGroupRelatedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interMetricImpactList = output.interMetricImpactList
             self.nextToken = output.nextToken
@@ -6422,9 +6404,8 @@ public enum ListAnomalyGroupSummariesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAnomalyGroupSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAnomalyGroupSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyGroupStatistics = output.anomalyGroupStatistics
             self.anomalyGroupSummaryList = output.anomalyGroupSummaryList
@@ -6620,9 +6601,8 @@ public enum ListAnomalyGroupTimeSeriesOutputError: Swift.Error, Swift.Equatable 
 
 extension ListAnomalyGroupTimeSeriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAnomalyGroupTimeSeriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyGroupId = output.anomalyGroupId
             self.metricName = output.metricName
@@ -6820,9 +6800,8 @@ public enum ListMetricSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMetricSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMetricSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricSetSummaryList = output.metricSetSummaryList
             self.nextToken = output.nextToken
@@ -6937,9 +6916,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7748,9 +7726,8 @@ extension LookoutMetricsClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -7768,7 +7745,7 @@ extension ResourceNotFoundException {
 }
 
 /// The specified resource cannot be found. Check the ARN of the resource and try again.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8064,9 +8041,8 @@ extension LookoutMetricsClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -8088,7 +8064,7 @@ extension ServiceQuotaExceededException {
 }
 
 /// The request exceeded the service's quotas. Check the service quotas and try again.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8468,9 +8444,8 @@ extension LookoutMetricsClientTypes {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8484,7 +8459,7 @@ extension TooManyRequestsException {
 }
 
 /// The request was denied due to too many requests being submitted at the same time.
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8736,9 +8711,8 @@ public enum UpdateAlertOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAlertOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAlertOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alertArn = output.alertArn
         } else {
@@ -8891,9 +8865,8 @@ public enum UpdateAnomalyDetectorOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAnomalyDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAnomalyDetectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectorArn = output.anomalyDetectorArn
         } else {
@@ -9144,9 +9117,8 @@ public enum UpdateMetricSetOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateMetricSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMetricSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricSetArn = output.metricSetArn
         } else {
@@ -9185,9 +9157,8 @@ extension UpdateMetricSetOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message
@@ -9205,7 +9176,7 @@ extension ValidationException {
 }
 
 /// The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

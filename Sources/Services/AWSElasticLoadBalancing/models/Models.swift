@@ -70,7 +70,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension AccessPointNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AccessPointNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -85,7 +85,7 @@ extension AccessPointNotFoundException {
 }
 
 /// The specified load balancer does not exist.
-public struct AccessPointNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessPointNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -470,9 +470,8 @@ public enum ApplySecurityGroupsToLoadBalancerOutputError: Swift.Error, Swift.Equ
 
 extension ApplySecurityGroupsToLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApplySecurityGroupsToLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityGroups = output.securityGroups
         } else {
@@ -642,9 +641,8 @@ public enum AttachLoadBalancerToSubnetsOutputError: Swift.Error, Swift.Equatable
 
 extension AttachLoadBalancerToSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AttachLoadBalancerToSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subnets = output.subnets
         } else {
@@ -773,7 +771,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension CertificateNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CertificateNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -788,7 +786,7 @@ extension CertificateNotFoundException {
 }
 
 /// The specified ARN does not refer to a valid SSL certificate in AWS Identity and Access Management (IAM) or AWS Certificate Manager (ACM). Note that if you recently uploaded the certificate to IAM, this error might indicate that the certificate is not fully available yet.
-public struct CertificateNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CertificateNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -904,9 +902,8 @@ public enum ConfigureHealthCheckOutputError: Swift.Error, Swift.Equatable {
 
 extension ConfigureHealthCheckOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConfigureHealthCheckOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthCheck = output.healthCheck
         } else {
@@ -1658,9 +1655,8 @@ public enum CreateLoadBalancerOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dnsName = output.dnsName
         } else {
@@ -2172,7 +2168,7 @@ public struct DeleteLoadBalancerPolicyOutputResponse: Swift.Equatable {
 
 extension DependencyThrottleException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DependencyThrottleExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2187,7 +2183,7 @@ extension DependencyThrottleException {
 }
 
 /// A request made by Elastic Load Balancing to another service exceeds the maximum request rate permitted for your account.
-public struct DependencyThrottleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DependencyThrottleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2331,9 +2327,8 @@ public enum DeregisterInstancesFromLoadBalancerOutputError: Swift.Error, Swift.E
 
 extension DeregisterInstancesFromLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeregisterInstancesFromLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
         } else {
@@ -2466,9 +2461,8 @@ public enum DescribeAccountLimitsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.limits = output.limits
             self.nextMarker = output.nextMarker
@@ -2642,9 +2636,8 @@ public enum DescribeInstanceHealthOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeInstanceHealthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeInstanceHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceStates = output.instanceStates
         } else {
@@ -2772,9 +2765,8 @@ public enum DescribeLoadBalancerAttributesOutputError: Swift.Error, Swift.Equata
 
 extension DescribeLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLoadBalancerAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerAttributes = output.loadBalancerAttributes
         } else {
@@ -2921,9 +2913,8 @@ public enum DescribeLoadBalancerPoliciesOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeLoadBalancerPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLoadBalancerPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyDescriptions = output.policyDescriptions
         } else {
@@ -3074,9 +3065,8 @@ public enum DescribeLoadBalancerPolicyTypesOutputError: Swift.Error, Swift.Equat
 
 extension DescribeLoadBalancerPolicyTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLoadBalancerPolicyTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyTypeDescriptions = output.policyTypeDescriptions
         } else {
@@ -3251,9 +3241,8 @@ public enum DescribeLoadBalancersOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLoadBalancersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerDescriptions = output.loadBalancerDescriptions
             self.nextMarker = output.nextMarker
@@ -3415,9 +3404,8 @@ public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagDescriptions = output.tagDescriptions
         } else {
@@ -3583,9 +3571,8 @@ public enum DetachLoadBalancerFromSubnetsOutputError: Swift.Error, Swift.Equatab
 
 extension DetachLoadBalancerFromSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetachLoadBalancerFromSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subnets = output.subnets
         } else {
@@ -3751,9 +3738,8 @@ public enum DisableAvailabilityZonesForLoadBalancerOutputError: Swift.Error, Swi
 
 extension DisableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableAvailabilityZonesForLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZones = output.availabilityZones
         } else {
@@ -3811,7 +3797,7 @@ extension DisableAvailabilityZonesForLoadBalancerOutputResponseBody: Swift.Decod
 
 extension DuplicateAccessPointNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateAccessPointNameExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3826,7 +3812,7 @@ extension DuplicateAccessPointNameException {
 }
 
 /// The specified load balancer name already exists for this account.
-public struct DuplicateAccessPointNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicateAccessPointNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3862,7 +3848,7 @@ extension DuplicateAccessPointNameExceptionBody: Swift.Decodable {
 
 extension DuplicateListenerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateListenerExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3877,7 +3863,7 @@ extension DuplicateListenerException {
 }
 
 /// A listener already exists for the specified load balancer name and port, but with a different instance port, protocol, or SSL certificate.
-public struct DuplicateListenerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicateListenerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3913,7 +3899,7 @@ extension DuplicateListenerExceptionBody: Swift.Decodable {
 
 extension DuplicatePolicyNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicatePolicyNameExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3928,7 +3914,7 @@ extension DuplicatePolicyNameException {
 }
 
 /// A policy with the specified name already exists for this load balancer.
-public struct DuplicatePolicyNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicatePolicyNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3964,7 +3950,7 @@ extension DuplicatePolicyNameExceptionBody: Swift.Decodable {
 
 extension DuplicateTagKeysException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DuplicateTagKeysExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -3979,7 +3965,7 @@ extension DuplicateTagKeysException {
 }
 
 /// A tag key was specified more than once.
-public struct DuplicateTagKeysException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicateTagKeysException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4121,9 +4107,8 @@ public enum EnableAvailabilityZonesForLoadBalancerOutputError: Swift.Error, Swif
 
 extension EnableAvailabilityZonesForLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableAvailabilityZonesForLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZones = output.availabilityZones
         } else {
@@ -4385,7 +4370,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension InvalidConfigurationRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidConfigurationRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4400,7 +4385,7 @@ extension InvalidConfigurationRequestException {
 }
 
 /// The requested configuration change is not valid.
-public struct InvalidConfigurationRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidConfigurationRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4436,7 +4421,7 @@ extension InvalidConfigurationRequestExceptionBody: Swift.Decodable {
 
 extension InvalidEndPointException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidEndPointExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4451,7 +4436,7 @@ extension InvalidEndPointException {
 }
 
 /// The specified endpoint is not valid.
-public struct InvalidEndPointException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidEndPointException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4487,7 +4472,7 @@ extension InvalidEndPointExceptionBody: Swift.Decodable {
 
 extension InvalidSchemeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSchemeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4502,7 +4487,7 @@ extension InvalidSchemeException {
 }
 
 /// The specified value for the schema is not valid. You can only specify a scheme for load balancers in a VPC.
-public struct InvalidSchemeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSchemeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4538,7 +4523,7 @@ extension InvalidSchemeExceptionBody: Swift.Decodable {
 
 extension InvalidSecurityGroupException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSecurityGroupExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4553,7 +4538,7 @@ extension InvalidSecurityGroupException {
 }
 
 /// One or more of the specified security groups do not exist.
-public struct InvalidSecurityGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSecurityGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4589,7 +4574,7 @@ extension InvalidSecurityGroupExceptionBody: Swift.Decodable {
 
 extension InvalidSubnetException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSubnetExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4604,7 +4589,7 @@ extension InvalidSubnetException {
 }
 
 /// The specified VPC has no associated Internet gateway.
-public struct InvalidSubnetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSubnetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4885,7 +4870,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension ListenerNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ListenerNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4900,7 +4885,7 @@ extension ListenerNotFoundException {
 }
 
 /// The load balancer does not have a listener configured at the specified port.
-public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4936,7 +4921,7 @@ extension ListenerNotFoundExceptionBody: Swift.Decodable {
 
 extension LoadBalancerAttributeNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LoadBalancerAttributeNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -4951,7 +4936,7 @@ extension LoadBalancerAttributeNotFoundException {
 }
 
 /// The specified load balancer attribute does not exist.
-public struct LoadBalancerAttributeNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LoadBalancerAttributeNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5513,9 +5498,8 @@ public enum ModifyLoadBalancerAttributesOutputError: Swift.Error, Swift.Equatabl
 
 extension ModifyLoadBalancerAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModifyLoadBalancerAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerAttributes = output.loadBalancerAttributes
             self.loadBalancerName = output.loadBalancerName
@@ -5566,7 +5550,7 @@ extension ModifyLoadBalancerAttributesOutputResponseBody: Swift.Decodable {
 
 extension OperationNotPermittedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationNotPermittedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5581,7 +5565,7 @@ extension OperationNotPermittedException {
 }
 
 /// This operation is not allowed.
-public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6004,7 +5988,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension PolicyNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PolicyNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6019,7 +6003,7 @@ extension PolicyNotFoundException {
 }
 
 /// One or more of the specified policies do not exist.
-public struct PolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6136,7 +6120,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension PolicyTypeNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PolicyTypeNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6151,7 +6135,7 @@ extension PolicyTypeNotFoundException {
 }
 
 /// One or more of the specified policy types do not exist.
-public struct PolicyTypeNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PolicyTypeNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6295,9 +6279,8 @@ public enum RegisterInstancesWithLoadBalancerOutputError: Swift.Error, Swift.Equ
 
 extension RegisterInstancesWithLoadBalancerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterInstancesWithLoadBalancerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
         } else {
@@ -6922,7 +6905,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension SubnetNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SubnetNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6937,7 +6920,7 @@ extension SubnetNotFoundException {
 }
 
 /// One or more of the specified subnets do not exist.
-public struct SubnetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SubnetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7125,7 +7108,7 @@ extension ElasticLoadBalancingClientTypes {
 
 extension TooManyAccessPointsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyAccessPointsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7140,7 +7123,7 @@ extension TooManyAccessPointsException {
 }
 
 /// The quota for the number of load balancers has been reached.
-public struct TooManyAccessPointsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyAccessPointsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7176,7 +7159,7 @@ extension TooManyAccessPointsExceptionBody: Swift.Decodable {
 
 extension TooManyPoliciesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyPoliciesExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7191,7 +7174,7 @@ extension TooManyPoliciesException {
 }
 
 /// The quota for the number of policies for this load balancer has been reached.
-public struct TooManyPoliciesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyPoliciesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7227,7 +7210,7 @@ extension TooManyPoliciesExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTagsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7242,7 +7225,7 @@ extension TooManyTagsException {
 }
 
 /// The quota for the number of tags that can be assigned to a load balancer has been reached.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7278,7 +7261,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
 
 extension UnsupportedProtocolException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<UnsupportedProtocolExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -7293,7 +7276,7 @@ extension UnsupportedProtocolException {
 }
 
 /// The specified protocol or signature version is not supported.
-public struct UnsupportedProtocolException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedProtocolException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

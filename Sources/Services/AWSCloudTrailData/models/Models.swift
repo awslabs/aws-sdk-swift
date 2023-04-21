@@ -108,9 +108,8 @@ extension CloudTrailDataClientTypes {
 
 extension ChannelInsufficientPermission {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelInsufficientPermissionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -124,7 +123,7 @@ extension ChannelInsufficientPermission {
 }
 
 /// The caller's account ID must be the same as the channel owner's account ID.
-public struct ChannelInsufficientPermission: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ChannelInsufficientPermission: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -160,9 +159,8 @@ extension ChannelInsufficientPermissionBody: Swift.Decodable {
 
 extension ChannelNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -176,7 +174,7 @@ extension ChannelNotFound {
 }
 
 /// The channel could not be found.
-public struct ChannelNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ChannelNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -212,9 +210,8 @@ extension ChannelNotFoundBody: Swift.Decodable {
 
 extension ChannelUnsupportedSchema {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChannelUnsupportedSchemaBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -228,7 +225,7 @@ extension ChannelUnsupportedSchema {
 }
 
 /// The schema type of the event is not supported.
-public struct ChannelUnsupportedSchema: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ChannelUnsupportedSchema: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -264,9 +261,8 @@ extension ChannelUnsupportedSchemaBody: Swift.Decodable {
 
 extension DuplicatedAuditEventId {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DuplicatedAuditEventIdBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -280,7 +276,7 @@ extension DuplicatedAuditEventId {
 }
 
 /// Two or more entries in the request have the same event ID.
-public struct DuplicatedAuditEventId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicatedAuditEventId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -316,9 +312,8 @@ extension DuplicatedAuditEventIdBody: Swift.Decodable {
 
 extension InvalidChannelARN {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidChannelARNBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -332,7 +327,7 @@ extension InvalidChannelARN {
 }
 
 /// The specified channel ARN is not a valid channel ARN.
-public struct InvalidChannelARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidChannelARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -488,9 +483,8 @@ public enum PutAuditEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutAuditEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutAuditEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.successful = output.successful
@@ -617,9 +611,8 @@ extension CloudTrailDataClientTypes {
 
 extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -633,7 +626,7 @@ extension UnsupportedOperationException {
 }
 
 /// The operation requested is not supported in this region or account.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

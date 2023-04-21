@@ -202,9 +202,8 @@ public enum AssociateFirewallPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateFirewallPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateFirewallPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.firewallName = output.firewallName
@@ -403,9 +402,8 @@ public enum AssociateSubnetsOutputError: Swift.Error, Swift.Equatable {
 
 extension AssociateSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociateSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.firewallName = output.firewallName
@@ -938,9 +936,8 @@ public enum CreateFirewallOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFirewallOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFirewallOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewall = output.firewall
             self.firewallStatus = output.firewallStatus
@@ -1140,9 +1137,8 @@ public enum CreateFirewallPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFirewallPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFirewallPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallPolicyResponse = output.firewallPolicyResponse
             self.updateToken = output.updateToken
@@ -1402,9 +1398,8 @@ public enum CreateRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroupResponse = output.ruleGroupResponse
             self.updateToken = output.updateToken
@@ -1590,9 +1585,8 @@ public enum CreateTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension CreateTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
             self.updateToken = output.updateToken
@@ -1785,9 +1779,8 @@ public enum DeleteFirewallOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFirewallOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFirewallOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewall = output.firewall
             self.firewallStatus = output.firewallStatus
@@ -1927,9 +1920,8 @@ public enum DeleteFirewallPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFirewallPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFirewallPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallPolicyResponse = output.firewallPolicyResponse
         } else {
@@ -2160,9 +2152,8 @@ public enum DeleteRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroupResponse = output.ruleGroupResponse
         } else {
@@ -2291,9 +2282,8 @@ public enum DeleteTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension DeleteTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
         } else {
@@ -2420,9 +2410,8 @@ public enum DescribeFirewallOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFirewallOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFirewallOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewall = output.firewall
             self.firewallStatus = output.firewallStatus
@@ -2568,9 +2557,8 @@ public enum DescribeFirewallPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFirewallPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFirewallPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallPolicy = output.firewallPolicy
             self.firewallPolicyResponse = output.firewallPolicyResponse
@@ -2718,9 +2706,8 @@ public enum DescribeLoggingConfigurationOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.loggingConfiguration = output.loggingConfiguration
@@ -2845,9 +2832,8 @@ public enum DescribeResourcePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -3056,9 +3042,8 @@ public enum DescribeRuleGroupMetadataOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRuleGroupMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRuleGroupMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacity = output.capacity
             self.description = output.description
@@ -3187,9 +3172,8 @@ public enum DescribeRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroup = output.ruleGroup
             self.ruleGroupResponse = output.ruleGroupResponse
@@ -3337,9 +3321,8 @@ public enum DescribeTLSInspectionConfigurationOutputError: Swift.Error, Swift.Eq
 
 extension DescribeTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tlsInspectionConfiguration = output.tlsInspectionConfiguration
             self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
@@ -3564,9 +3547,8 @@ public enum DisassociateSubnetsOutputError: Swift.Error, Swift.Equatable {
 
 extension DisassociateSubnetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisassociateSubnetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.firewallName = output.firewallName
@@ -4737,9 +4719,8 @@ extension NetworkFirewallClientTypes {
 
 extension InsufficientCapacityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InsufficientCapacityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4753,7 +4734,7 @@ extension InsufficientCapacityException {
 }
 
 /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-public struct InsufficientCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InsufficientCapacityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4789,9 +4770,8 @@ extension InsufficientCapacityExceptionBody: Swift.Decodable {
 
 extension InternalServerError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4805,7 +4785,7 @@ extension InternalServerError {
 }
 
 /// Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
-public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4841,9 +4821,8 @@ extension InternalServerErrorBody: Swift.Decodable {
 
 extension InvalidOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4857,7 +4836,7 @@ extension InvalidOperationException {
 }
 
 /// The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
-public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4893,9 +4872,8 @@ extension InvalidOperationExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4915,7 +4893,7 @@ extension InvalidRequestException {
 /// * You tried to update a property with a value that isn't among the available types.
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4951,9 +4929,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
 
 extension InvalidResourcePolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidResourcePolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4967,7 +4944,7 @@ extension InvalidResourcePolicyException {
 }
 
 /// The policy statement failed validation.
-public struct InvalidResourcePolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidResourcePolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5003,9 +4980,8 @@ extension InvalidResourcePolicyExceptionBody: Swift.Decodable {
 
 extension InvalidTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5019,7 +4995,7 @@ extension InvalidTokenException {
 }
 
 /// The token you provided is stale or isn't valid for the operation.
-public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5055,9 +5031,8 @@ extension InvalidTokenExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5071,7 +5046,7 @@ extension LimitExceededException {
 }
 
 /// Unable to perform the operation because doing so would violate a limit setting.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5192,9 +5167,8 @@ public enum ListFirewallPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFirewallPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFirewallPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallPolicies = output.firewallPolicies
             self.nextToken = output.nextToken
@@ -5361,9 +5335,8 @@ public enum ListFirewallsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFirewallsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFirewallsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewalls = output.firewalls
             self.nextToken = output.nextToken
@@ -5542,9 +5515,8 @@ public enum ListRuleGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.ruleGroups = output.ruleGroups
@@ -5687,9 +5659,8 @@ public enum ListTLSInspectionConfigurationsOutputError: Swift.Error, Swift.Equat
 
 extension ListTLSInspectionConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTLSInspectionConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tlsInspectionConfigurations = output.tlsInspectionConfigurations
@@ -5847,9 +5818,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -5983,9 +5953,8 @@ extension NetworkFirewallClientTypes {
 
 extension LogDestinationPermissionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LogDestinationPermissionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5999,7 +5968,7 @@ extension LogDestinationPermissionException {
 }
 
 /// Unable to send logs to a configured logging destination.
-public struct LogDestinationPermissionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LogDestinationPermissionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6790,9 +6759,8 @@ extension NetworkFirewallClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6806,7 +6774,7 @@ extension ResourceNotFoundException {
 }
 
 /// Unable to locate a resource using the parameters that you provided.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6842,9 +6810,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ResourceOwnerCheckException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceOwnerCheckExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6858,7 +6825,7 @@ extension ResourceOwnerCheckException {
 }
 
 /// Unable to change the resource because your account doesn't own it.
-public struct ResourceOwnerCheckException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceOwnerCheckException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9193,9 +9160,8 @@ extension NetworkFirewallClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9209,7 +9175,7 @@ extension ThrottlingException {
 }
 
 /// Unable to process the request due to throttling limitations.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9310,9 +9276,8 @@ extension NetworkFirewallClientTypes {
 
 extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9326,7 +9291,7 @@ extension UnsupportedOperationException {
 }
 
 /// The operation you requested isn't supported by Network Firewall.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9589,9 +9554,8 @@ public enum UpdateFirewallDeleteProtectionOutputError: Swift.Error, Swift.Equata
 
 extension UpdateFirewallDeleteProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFirewallDeleteProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleteProtection = output.deleteProtection
             self.firewallArn = output.firewallArn
@@ -9773,9 +9737,8 @@ public enum UpdateFirewallDescriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFirewallDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFirewallDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.firewallArn = output.firewallArn
@@ -9959,9 +9922,8 @@ public enum UpdateFirewallEncryptionConfigurationOutputError: Swift.Error, Swift
 
 extension UpdateFirewallEncryptionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFirewallEncryptionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.encryptionConfiguration = output.encryptionConfiguration
             self.firewallArn = output.firewallArn
@@ -10146,9 +10108,8 @@ public enum UpdateFirewallPolicyChangeProtectionOutputError: Swift.Error, Swift.
 
 extension UpdateFirewallPolicyChangeProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFirewallPolicyChangeProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.firewallName = output.firewallName
@@ -10368,9 +10329,8 @@ public enum UpdateFirewallPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFirewallPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateFirewallPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallPolicyResponse = output.firewallPolicyResponse
             self.updateToken = output.updateToken
@@ -10524,9 +10484,8 @@ public enum UpdateLoggingConfigurationOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.firewallName = output.firewallName
@@ -10771,9 +10730,8 @@ public enum UpdateRuleGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroupResponse = output.ruleGroupResponse
             self.updateToken = output.updateToken
@@ -10940,9 +10898,8 @@ public enum UpdateSubnetChangeProtectionOutputError: Swift.Error, Swift.Equatabl
 
 extension UpdateSubnetChangeProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSubnetChangeProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.firewallArn = output.firewallArn
             self.firewallName = output.firewallName
@@ -11150,9 +11107,8 @@ public enum UpdateTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension UpdateTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
             self.updateToken = output.updateToken

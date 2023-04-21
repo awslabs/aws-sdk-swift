@@ -780,9 +780,8 @@ public enum ApplyEnvironmentManagedActionOutputError: Swift.Error, Swift.Equatab
 
 extension ApplyEnvironmentManagedActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApplyEnvironmentManagedActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.actionDescription = output.actionDescription
             self.actionId = output.actionId
@@ -1267,9 +1266,8 @@ public enum CheckDNSAvailabilityOutputError: Swift.Error, Swift.Equatable {
 
 extension CheckDNSAvailabilityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CheckDNSAvailabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.available = output.available
             self.fullyQualifiedCNAME = output.fullyQualifiedCNAME
@@ -1324,7 +1322,7 @@ extension CheckDNSAvailabilityOutputResponseBody: Swift.Decodable {
 
 extension CodeBuildNotInServiceRegionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CodeBuildNotInServiceRegionExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1339,7 +1337,7 @@ extension CodeBuildNotInServiceRegionException {
 }
 
 /// AWS CodeBuild is not available in the specified region.
-public struct CodeBuildNotInServiceRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CodeBuildNotInServiceRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1493,9 +1491,8 @@ public enum ComposeEnvironmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ComposeEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ComposeEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environments = output.environments
             self.nextToken = output.nextToken
@@ -2198,9 +2195,8 @@ public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.application = output.application
         } else {
@@ -2432,9 +2428,8 @@ public enum CreateApplicationVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersion = output.applicationVersion
         } else {
@@ -2688,9 +2683,8 @@ public enum CreateConfigurationTemplateOutputError: Swift.Error, Swift.Equatable
 
 extension CreateConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
             self.dateCreated = output.dateCreated
@@ -3137,9 +3131,8 @@ public enum CreateEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortableOperationInProgress = output.abortableOperationInProgress
             self.applicationName = output.applicationName
@@ -3599,9 +3592,8 @@ public enum CreatePlatformVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePlatformVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePlatformVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.builder = output.builder
             self.platformSummary = output.platformSummary
@@ -3695,9 +3687,8 @@ public enum CreateStorageLocationOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStorageLocationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStorageLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.s3Bucket = output.s3Bucket
         } else {
@@ -4229,9 +4220,8 @@ public enum DeletePlatformVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePlatformVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePlatformVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.platformSummary = output.platformSummary
         } else {
@@ -4382,9 +4372,8 @@ public enum DescribeAccountAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceQuotas = output.resourceQuotas
         } else {
@@ -4548,9 +4537,8 @@ public enum DescribeApplicationVersionsOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeApplicationVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeApplicationVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersions = output.applicationVersions
             self.nextToken = output.nextToken
@@ -4709,9 +4697,8 @@ public enum DescribeApplicationsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
         } else {
@@ -4917,9 +4904,8 @@ public enum DescribeConfigurationOptionsOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeConfigurationOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.options = output.options
             self.platformArn = output.platformArn
@@ -5087,9 +5073,8 @@ public enum DescribeConfigurationSettingsOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeConfigurationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSettings = output.configurationSettings
         } else {
@@ -5264,9 +5249,8 @@ public enum DescribeEnvironmentHealthOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEnvironmentHealthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEnvironmentHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationMetrics = output.applicationMetrics
             self.causes = output.causes
@@ -5494,9 +5478,8 @@ public enum DescribeEnvironmentManagedActionHistoryOutputError: Swift.Error, Swi
 
 extension DescribeEnvironmentManagedActionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEnvironmentManagedActionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedActionHistoryItems = output.managedActionHistoryItems
             self.nextToken = output.nextToken
@@ -5653,9 +5636,8 @@ public enum DescribeEnvironmentManagedActionsOutputError: Swift.Error, Swift.Equ
 
 extension DescribeEnvironmentManagedActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEnvironmentManagedActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedActions = output.managedActions
         } else {
@@ -5791,9 +5773,8 @@ public enum DescribeEnvironmentResourcesOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeEnvironmentResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEnvironmentResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environmentResources = output.environmentResources
         } else {
@@ -6028,9 +6009,8 @@ public enum DescribeEnvironmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environments = output.environments
             self.nextToken = output.nextToken
@@ -6284,9 +6264,8 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
@@ -6482,9 +6461,8 @@ public enum DescribeInstancesHealthOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeInstancesHealthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeInstancesHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceHealthList = output.instanceHealthList
             self.nextToken = output.nextToken
@@ -6630,9 +6608,8 @@ public enum DescribePlatformVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePlatformVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePlatformVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.platformDescription = output.platformDescription
         } else {
@@ -6750,7 +6727,7 @@ public struct DisassociateEnvironmentOperationsRoleOutputResponse: Swift.Equatab
 
 extension ElasticBeanstalkServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ElasticBeanstalkServiceExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6765,7 +6742,7 @@ extension ElasticBeanstalkServiceException {
 }
 
 /// A generic service exception has occurred.
-public struct ElasticBeanstalkServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ElasticBeanstalkServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8207,7 +8184,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension InsufficientPrivilegesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientPrivilegesExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8222,7 +8199,7 @@ extension InsufficientPrivilegesException {
 }
 
 /// The specified account does not have sufficient privileges for one or more AWS services.
-public struct InsufficientPrivilegesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InsufficientPrivilegesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8259,7 +8236,7 @@ extension InsufficientPrivilegesExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8274,7 +8251,7 @@ extension InvalidRequestException {
 }
 
 /// One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8524,9 +8501,8 @@ public enum ListAvailableSolutionStacksOutputError: Swift.Error, Swift.Equatable
 
 extension ListAvailableSolutionStacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAvailableSolutionStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.solutionStackDetails = output.solutionStackDetails
             self.solutionStacks = output.solutionStacks
@@ -8758,9 +8734,8 @@ public enum ListPlatformBranchesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPlatformBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPlatformBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.platformBranchSummaryList = output.platformBranchSummaryList
@@ -8943,9 +8918,8 @@ public enum ListPlatformVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPlatformVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPlatformVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.platformSummaryList = output.platformSummaryList
@@ -9083,9 +9057,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.resourceTags = output.resourceTags
@@ -9493,7 +9466,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension ManagedActionInvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ManagedActionInvalidStateExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9508,7 +9481,7 @@ extension ManagedActionInvalidStateException {
 }
 
 /// Cannot modify the managed action in its current state.
-public struct ManagedActionInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ManagedActionInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9657,7 +9630,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension OperationInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationInProgressExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9672,7 +9645,7 @@ extension OperationInProgressException {
 }
 
 /// Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-public struct OperationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OperationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10692,7 +10665,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension PlatformVersionStillReferencedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PlatformVersionStillReferencedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10707,7 +10680,7 @@ extension PlatformVersionStillReferencedException {
 }
 
 /// You cannot delete the platform version because there are still environments running on it.
-public struct PlatformVersionStillReferencedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PlatformVersionStillReferencedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10975,7 +10948,7 @@ public struct RequestEnvironmentInfoOutputResponse: Swift.Equatable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10990,7 +10963,7 @@ extension ResourceNotFoundException {
 }
 
 /// A resource doesn't exist for the specified Amazon Resource Name (ARN).
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11137,7 +11110,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension ResourceTypeNotSupportedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceTypeNotSupportedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11152,7 +11125,7 @@ extension ResourceTypeNotSupportedException {
 }
 
 /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
-public struct ResourceTypeNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceTypeNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11363,9 +11336,8 @@ public enum RetrieveEnvironmentInfoOutputError: Swift.Error, Swift.Equatable {
 
 extension RetrieveEnvironmentInfoOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RetrieveEnvironmentInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environmentInfo = output.environmentInfo
         } else {
@@ -11468,7 +11440,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension S3LocationNotInServiceRegionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<S3LocationNotInServiceRegionExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11489,7 +11461,7 @@ extension S3LocationNotInServiceRegionException {
 /// * PDX/us-west-2
 ///
 /// * DUB/eu-west-1
-public struct S3LocationNotInServiceRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct S3LocationNotInServiceRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11526,7 +11498,7 @@ extension S3LocationNotInServiceRegionExceptionBody: Swift.Decodable {
 
 extension S3SubscriptionRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<S3SubscriptionRequiredExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11541,7 +11513,7 @@ extension S3SubscriptionRequiredException {
 }
 
 /// The specified account does not have a subscription to Amazon S3.
-public struct S3SubscriptionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct S3SubscriptionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11951,7 +11923,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension SourceBundleDeletionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SourceBundleDeletionExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11966,7 +11938,7 @@ extension SourceBundleDeletionException {
 }
 
 /// Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
-public struct SourceBundleDeletionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SourceBundleDeletionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12508,9 +12480,8 @@ public enum TerminateEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension TerminateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TerminateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortableOperationInProgress = output.abortableOperationInProgress
             self.applicationName = output.applicationName
@@ -12789,7 +12760,7 @@ extension TerminateEnvironmentOutputResponseBody: Swift.Decodable {
 
 extension TooManyApplicationVersionsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyApplicationVersionsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12804,7 +12775,7 @@ extension TooManyApplicationVersionsException {
 }
 
 /// The specified account has reached its limit of application versions.
-public struct TooManyApplicationVersionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyApplicationVersionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12841,7 +12812,7 @@ extension TooManyApplicationVersionsExceptionBody: Swift.Decodable {
 
 extension TooManyApplicationsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyApplicationsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12856,7 +12827,7 @@ extension TooManyApplicationsException {
 }
 
 /// The specified account has reached its limit of applications.
-public struct TooManyApplicationsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyApplicationsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12893,7 +12864,7 @@ extension TooManyApplicationsExceptionBody: Swift.Decodable {
 
 extension TooManyBucketsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyBucketsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12908,7 +12879,7 @@ extension TooManyBucketsException {
 }
 
 /// The specified account has reached its limit of Amazon S3 buckets.
-public struct TooManyBucketsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyBucketsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12945,7 +12916,7 @@ extension TooManyBucketsExceptionBody: Swift.Decodable {
 
 extension TooManyConfigurationTemplatesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyConfigurationTemplatesExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12960,7 +12931,7 @@ extension TooManyConfigurationTemplatesException {
 }
 
 /// The specified account has reached its limit of configuration templates.
-public struct TooManyConfigurationTemplatesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyConfigurationTemplatesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12997,7 +12968,7 @@ extension TooManyConfigurationTemplatesExceptionBody: Swift.Decodable {
 
 extension TooManyEnvironmentsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyEnvironmentsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -13012,7 +12983,7 @@ extension TooManyEnvironmentsException {
 }
 
 /// The specified account has reached its limit of environments.
-public struct TooManyEnvironmentsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyEnvironmentsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13049,7 +13020,7 @@ extension TooManyEnvironmentsExceptionBody: Swift.Decodable {
 
 extension TooManyPlatformsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyPlatformsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -13064,7 +13035,7 @@ extension TooManyPlatformsException {
 }
 
 /// You have exceeded the maximum number of allowed platforms associated with the account.
-public struct TooManyPlatformsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyPlatformsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13101,7 +13072,7 @@ extension TooManyPlatformsExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTagsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -13116,7 +13087,7 @@ extension TooManyTagsException {
 }
 
 /// The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13265,9 +13236,8 @@ public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.application = output.application
         } else {
@@ -13387,9 +13357,8 @@ public enum UpdateApplicationResourceLifecycleOutputError: Swift.Error, Swift.Eq
 
 extension UpdateApplicationResourceLifecycleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateApplicationResourceLifecycleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
             self.resourceLifecycleConfig = output.resourceLifecycleConfig
@@ -13528,9 +13497,8 @@ public enum UpdateApplicationVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersion = output.applicationVersion
         } else {
@@ -13738,9 +13706,8 @@ public enum UpdateConfigurationTemplateOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
             self.dateCreated = output.dateCreated
@@ -14138,9 +14105,8 @@ public enum UpdateEnvironmentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortableOperationInProgress = output.abortableOperationInProgress
             self.applicationName = output.applicationName
@@ -14708,9 +14674,8 @@ public enum ValidateConfigurationSettingsOutputError: Swift.Error, Swift.Equatab
 
 extension ValidateConfigurationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidateConfigurationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
         } else {

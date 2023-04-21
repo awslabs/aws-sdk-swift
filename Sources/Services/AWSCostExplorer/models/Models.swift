@@ -639,9 +639,8 @@ extension CostExplorerClientTypes {
 
 extension BillExpirationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BillExpirationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -655,7 +654,7 @@ extension BillExpirationException {
 }
 
 /// The requested report expired. Update the date interval and try again.
-public struct BillExpirationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BillExpirationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2179,9 +2178,8 @@ public enum CreateAnomalyMonitorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAnomalyMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
         } else {
@@ -2331,9 +2329,8 @@ public enum CreateAnomalySubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAnomalySubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriptionArn = output.subscriptionArn
         } else {
@@ -2569,9 +2566,8 @@ public enum CreateCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
             self.effectiveStart = output.effectiveStart
@@ -2767,9 +2763,8 @@ extension CostExplorerClientTypes {
 
 extension DataUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DataUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2783,7 +2778,7 @@ extension DataUnavailableException {
 }
 
 /// The requested data is unavailable.
-public struct DataUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DataUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3102,9 +3097,8 @@ public enum DeleteCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatabl
 
 extension DeleteCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
             self.effectiveEnd = output.effectiveEnd
@@ -3237,9 +3231,8 @@ public enum DescribeCostCategoryDefinitionOutputError: Swift.Error, Swift.Equata
 
 extension DescribeCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategory = output.costCategory
         } else {
@@ -4470,9 +4463,8 @@ extension CostExplorerClientTypes {
 
 extension GenerationExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerationExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4486,7 +4478,7 @@ extension GenerationExistsException {
 }
 
 /// A request to generate a recommendation is already in progress.
-public struct GenerationExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct GenerationExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4764,9 +4756,8 @@ public enum GetAnomaliesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAnomaliesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAnomaliesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalies = output.anomalies
             self.nextPageToken = output.nextPageToken
@@ -4934,9 +4925,8 @@ public enum GetAnomalyMonitorsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAnomalyMonitorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAnomalyMonitorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyMonitors = output.anomalyMonitors
             self.nextPageToken = output.nextPageToken
@@ -5116,9 +5106,8 @@ public enum GetAnomalySubscriptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAnomalySubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAnomalySubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalySubscriptions = output.anomalySubscriptions
             self.nextPageToken = output.nextPageToken
@@ -5341,9 +5330,8 @@ public enum GetCostAndUsageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCostAndUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCostAndUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValueAttributes = output.dimensionValueAttributes
             self.groupDefinitions = output.groupDefinitions
@@ -5603,9 +5591,8 @@ public enum GetCostAndUsageWithResourcesOutputError: Swift.Error, Swift.Equatabl
 
 extension GetCostAndUsageWithResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCostAndUsageWithResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValueAttributes = output.dimensionValueAttributes
             self.groupDefinitions = output.groupDefinitions
@@ -5930,9 +5917,8 @@ public enum GetCostCategoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCostCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCostCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryNames = output.costCategoryNames
             self.costCategoryValues = output.costCategoryValues
@@ -6209,9 +6195,8 @@ public enum GetCostForecastOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCostForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCostForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastResultsByTime = output.forecastResultsByTime
             self.total = output.total
@@ -6597,9 +6582,8 @@ public enum GetDimensionValuesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDimensionValuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDimensionValuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValues = output.dimensionValues
             self.nextPageToken = output.nextPageToken
@@ -7001,9 +6985,8 @@ public enum GetReservationCoverageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetReservationCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReservationCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coveragesByTime = output.coveragesByTime
             self.nextPageToken = output.nextPageToken
@@ -7304,9 +7287,8 @@ public enum GetReservationPurchaseRecommendationOutputError: Swift.Error, Swift.
 
 extension GetReservationPurchaseRecommendationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReservationPurchaseRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.nextPageToken = output.nextPageToken
@@ -7594,9 +7576,8 @@ public enum GetReservationUtilizationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetReservationUtilizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetReservationUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.total = output.total
@@ -7835,9 +7816,8 @@ public enum GetRightsizingRecommendationOutputError: Swift.Error, Swift.Equatabl
 
 extension GetRightsizingRecommendationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRightsizingRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.metadata = output.metadata
@@ -8135,9 +8115,8 @@ public enum GetSavingsPlansCoverageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSavingsPlansCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSavingsPlansCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.savingsPlansCoverages = output.savingsPlansCoverages
@@ -8355,9 +8334,8 @@ public enum GetSavingsPlansPurchaseRecommendationOutputError: Swift.Error, Swift
 
 extension GetSavingsPlansPurchaseRecommendationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSavingsPlansPurchaseRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.nextPageToken = output.nextPageToken
@@ -8592,9 +8570,8 @@ public enum GetSavingsPlansUtilizationDetailsOutputError: Swift.Error, Swift.Equ
 
 extension GetSavingsPlansUtilizationDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSavingsPlansUtilizationDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.savingsPlansUtilizationDetails = output.savingsPlansUtilizationDetails
@@ -8810,9 +8787,8 @@ public enum GetSavingsPlansUtilizationOutputError: Swift.Error, Swift.Equatable 
 
 extension GetSavingsPlansUtilizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSavingsPlansUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.savingsPlansUtilizationsByTime = output.savingsPlansUtilizationsByTime
             self.total = output.total
@@ -9100,9 +9076,8 @@ public enum GetTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.returnSize = output.returnSize
@@ -9357,9 +9332,8 @@ public enum GetUsageForecastOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUsageForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetUsageForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastResultsByTime = output.forecastResultsByTime
             self.total = output.total
@@ -9752,9 +9726,8 @@ extension CostExplorerClientTypes {
 
 extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9768,7 +9741,7 @@ extension InvalidNextTokenException {
 }
 
 /// The pagination token is invalid. Try again without a pagination token.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9804,9 +9777,8 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9820,7 +9792,7 @@ extension LimitExceededException {
 }
 
 /// You made too many calls in a short period of time. Try again later.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9987,9 +9959,8 @@ public enum ListCostAllocationTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCostAllocationTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCostAllocationTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costAllocationTags = output.costAllocationTags
             self.nextToken = output.nextToken
@@ -10140,9 +10111,8 @@ public enum ListCostCategoryDefinitionsOutputError: Swift.Error, Swift.Equatable
 
 extension ListCostCategoryDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCostCategoryDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryReferences = output.costCategoryReferences
             self.nextToken = output.nextToken
@@ -10319,9 +10289,8 @@ public enum ListSavingsPlansPurchaseRecommendationGenerationOutputError: Swift.E
 
 extension ListSavingsPlansPurchaseRecommendationGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.generationSummaryList = output.generationSummaryList
             self.nextPageToken = output.nextPageToken
@@ -10451,9 +10420,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTags = output.resourceTags
         } else {
@@ -11095,9 +11063,8 @@ public enum ProvideAnomalyFeedbackOutputError: Swift.Error, Swift.Equatable {
 
 extension ProvideAnomalyFeedbackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ProvideAnomalyFeedbackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyId = output.anomalyId
         } else {
@@ -11359,9 +11326,8 @@ extension CostExplorerClientTypes {
 
 extension RequestChangedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestChangedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11375,7 +11341,7 @@ extension RequestChangedException {
 }
 
 /// Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-public struct RequestChangedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RequestChangedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12197,9 +12163,8 @@ extension CostExplorerClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -12215,7 +12180,7 @@ extension ResourceNotFoundException {
 }
 
 /// The specified ARN in the request doesn't exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13892,9 +13857,8 @@ extension CostExplorerClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13908,7 +13872,7 @@ extension ServiceQuotaExceededException {
 }
 
 /// You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14111,9 +14075,8 @@ public enum StartSavingsPlansPurchaseRecommendationGenerationOutputError: Swift.
 
 extension StartSavingsPlansPurchaseRecommendationGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.estimatedCompletionTime = output.estimatedCompletionTime
             self.generationStartedTime = output.generationStartedTime
@@ -14712,9 +14675,8 @@ extension CostExplorerClientTypes {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -14730,7 +14692,7 @@ extension TooManyTagsException {
 }
 
 /// Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14830,9 +14792,8 @@ extension CostExplorerClientTypes {
 
 extension UnknownMonitorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnknownMonitorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14846,7 +14807,7 @@ extension UnknownMonitorException {
 }
 
 /// The cost anomaly monitor does not exist for the account.
-public struct UnknownMonitorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnknownMonitorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14882,9 +14843,8 @@ extension UnknownMonitorExceptionBody: Swift.Decodable {
 
 extension UnknownSubscriptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnknownSubscriptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14898,7 +14858,7 @@ extension UnknownSubscriptionException {
 }
 
 /// The cost anomaly subscription does not exist for the account.
-public struct UnknownSubscriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnknownSubscriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14934,9 +14894,8 @@ extension UnknownSubscriptionExceptionBody: Swift.Decodable {
 
 extension UnresolvableUsageUnitException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnresolvableUsageUnitExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14950,7 +14909,7 @@ extension UnresolvableUsageUnitException {
 }
 
 /// Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
-public struct UnresolvableUsageUnitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnresolvableUsageUnitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15177,9 +15136,8 @@ public enum UpdateAnomalyMonitorOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAnomalyMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
         } else {
@@ -15398,9 +15356,8 @@ public enum UpdateAnomalySubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAnomalySubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriptionArn = output.subscriptionArn
         } else {
@@ -15577,9 +15534,8 @@ public enum UpdateCostAllocationTagsStatusOutputError: Swift.Error, Swift.Equata
 
 extension UpdateCostAllocationTagsStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCostAllocationTagsStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -15787,9 +15743,8 @@ public enum UpdateCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatabl
 
 extension UpdateCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
             self.effectiveStart = output.effectiveStart

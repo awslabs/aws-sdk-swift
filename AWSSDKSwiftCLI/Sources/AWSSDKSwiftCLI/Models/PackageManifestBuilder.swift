@@ -10,15 +10,20 @@ import PackageDescription
 
 /// Builds the contents of the package manifest file.
 struct PackageManifestBuilder {
+    struct Service {
+        let name: String
+        let includeIntegrationTests: Bool
+    }
+
     let clientRuntimeVersion: Version
     let crtVersion: Version
-    let services: [String]
+    let services: [Service]
     let basePackageContents: () throws -> String
     
     init(
         clientRuntimeVersion: Version,
         crtVersion: Version,
-        services: [String],
+        services: [Service],
         basePackageContents: @escaping () throws -> String
     ) {
         self.clientRuntimeVersion = clientRuntimeVersion
@@ -30,7 +35,7 @@ struct PackageManifestBuilder {
     init(
         clientRuntimeVersion: Version,
         crtVersion: Version,
-        services: [String]
+        services: [Service]
     ) {
         self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services) {
             // Returns the contents of the base package manifest stored in the bundle at `Resources/Package.Base.swift`
@@ -75,7 +80,10 @@ struct PackageManifestBuilder {
             buildDependencies(),
             "",
             // Add the generated content that defines the list of services to include
-            buildServiceTargets()
+            buildServiceTargets(),
+            "",
+            // Add the generated content that defines the list of services with integration tests to include
+            buildIntegrationTestsTargets()
         ]
         return contents.joined(separator: .newline)
     }
@@ -125,11 +133,38 @@ struct PackageManifestBuilder {
         
         var lines: [String] = []
         lines += ["let \(propertyName): [String] = ["]
-        lines += services.map { "    \($0.wrappedInQuotes())," }
+        lines += services.map { "    \($0.name.wrappedInQuotes())," }
         lines += ["]"]
         lines += [""]
         lines += ["\(propertyName).forEach(addServiceTarget)"]
         
+        return lines.joined(separator: .newline)
+    }
+
+    /// Builds the list of services to add integration test targets for..
+    /// This generates an array of strings, where the each item is a name of a service
+    /// and calls the `addIntegrationTestTarget` for each item.
+    ///
+    ///```
+    ///let servicesWithIntegrationTests: [String] = [
+    ///    "Service Name 1",
+    ///    "Service Name 2",
+    ///    "Service Name 3"
+    ///    // etc...
+    ///]
+    ///serviceTagets.forEach(addIntegrationTestTarget)
+    ///```
+    ///
+    private func buildIntegrationTestsTargets() -> String {
+        let propertyName = "servicesWithIntegrationTests"
+
+        var lines: [String] = []
+        lines += ["let \(propertyName): [String] = ["]
+        lines += services.filter(\.includeIntegrationTests).map { "    \($0.name.wrappedInQuotes())," }
+        lines += ["]"]
+        lines += [""]
+        lines += ["\(propertyName).forEach(addIntegrationTestTarget)"]
+
         return lines.joined(separator: .newline)
     }
 }

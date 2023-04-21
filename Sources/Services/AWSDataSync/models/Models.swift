@@ -375,9 +375,8 @@ public enum CreateAgentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAgentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAgentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArn = output.agentArn
         } else {
@@ -575,9 +574,8 @@ public enum CreateLocationEfsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationEfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationEfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -750,9 +748,8 @@ public enum CreateLocationFsxLustreOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationFsxLustreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationFsxLustreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -944,9 +941,8 @@ public enum CreateLocationFsxOntapOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationFsxOntapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationFsxOntapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -1131,9 +1127,8 @@ public enum CreateLocationFsxOpenZfsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationFsxOpenZfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationFsxOpenZfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -1352,9 +1347,8 @@ public enum CreateLocationFsxWindowsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationFsxWindowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationFsxWindowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -1647,9 +1641,8 @@ public enum CreateLocationHdfsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationHdfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationHdfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -1823,9 +1816,8 @@ public enum CreateLocationNfsOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationNfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -2077,9 +2069,8 @@ public enum CreateLocationObjectStorageOutputError: Swift.Error, Swift.Equatable
 
 extension CreateLocationObjectStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationObjectStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -2277,9 +2268,8 @@ public enum CreateLocationS3OutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationS3OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationS3OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -2509,9 +2499,8 @@ public enum CreateLocationSmbOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLocationSmbOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLocationSmbOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
         } else {
@@ -2757,9 +2746,8 @@ public enum CreateTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.taskArn = output.taskArn
         } else {
@@ -3121,9 +3109,8 @@ public enum DescribeAgentOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAgentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAgentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArn = output.agentArn
             self.creationTime = output.creationTime
@@ -3296,9 +3283,8 @@ public enum DescribeLocationEfsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationEfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationEfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPointArn = output.accessPointArn
             self.creationTime = output.creationTime
@@ -3470,9 +3456,8 @@ public enum DescribeLocationFsxLustreOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationFsxLustreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationFsxLustreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.locationArn = output.locationArn
@@ -3622,9 +3607,8 @@ public enum DescribeLocationFsxOntapOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationFsxOntapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationFsxOntapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`protocol` = output.`protocol`
             self.creationTime = output.creationTime
@@ -3804,9 +3788,8 @@ public enum DescribeLocationFsxOpenZfsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeLocationFsxOpenZfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationFsxOpenZfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`protocol` = output.`protocol`
             self.creationTime = output.creationTime
@@ -3966,9 +3949,8 @@ public enum DescribeLocationFsxWindowsOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeLocationFsxWindowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationFsxWindowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.domain = output.domain
@@ -4138,9 +4120,8 @@ public enum DescribeLocationHdfsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationHdfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationHdfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArns = output.agentArns
             self.authenticationType = output.authenticationType
@@ -4380,9 +4361,8 @@ public enum DescribeLocationNfsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationNfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.locationArn = output.locationArn
@@ -4535,9 +4515,8 @@ public enum DescribeLocationObjectStorageOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeLocationObjectStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationObjectStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessKey = output.accessKey
             self.agentArns = output.agentArns
@@ -4729,9 +4708,8 @@ public enum DescribeLocationS3OutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationS3OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationS3OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArns = output.agentArns
             self.creationTime = output.creationTime
@@ -4903,9 +4881,8 @@ public enum DescribeLocationSmbOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeLocationSmbOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLocationSmbOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArns = output.agentArns
             self.creationTime = output.creationTime
@@ -5087,9 +5064,8 @@ public enum DescribeTaskExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTaskExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bytesCompressed = output.bytesCompressed
             self.bytesTransferred = output.bytesTransferred
@@ -5340,9 +5316,8 @@ public enum DescribeTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogGroupArn = output.cloudWatchLogGroupArn
             self.creationTime = output.creationTime
@@ -6131,9 +6106,8 @@ extension DataSyncClientTypes {
 
 extension InternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -6149,7 +6123,7 @@ extension InternalException {
 }
 
 /// This exception is thrown when an error occurs in the DataSync service.
-public struct InternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6192,9 +6166,8 @@ extension InternalExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.datasyncErrorCode = output.datasyncErrorCode
             self.errorCode = output.errorCode
@@ -6212,7 +6185,7 @@ extension InvalidRequestException {
 }
 
 /// This exception is thrown when the client submits a malformed request.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6346,9 +6319,8 @@ public enum ListAgentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAgentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAgentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agents = output.agents
             self.nextToken = output.nextToken
@@ -6515,9 +6487,8 @@ public enum ListLocationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locations = output.locations
             self.nextToken = output.nextToken
@@ -6673,9 +6644,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -6830,9 +6800,8 @@ public enum ListTaskExecutionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTaskExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTaskExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.taskExecutions = output.taskExecutions
@@ -6999,9 +6968,8 @@ public enum ListTasksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tasks = output.tasks
@@ -8381,9 +8349,8 @@ public enum StartTaskExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartTaskExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.taskExecutionArn = output.taskExecutionArn
         } else {

@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension InternalDependencyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalDependencyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension InternalDependencyException {
 }
 
 /// Your request caused an exception with an internal dependency. Contact customer support.
-public struct InternalDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -56,9 +55,8 @@ extension InternalDependencyExceptionBody: Swift.Decodable {
 
 extension InternalFailure {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalFailureBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -72,7 +70,7 @@ extension InternalFailure {
 }
 
 /// An internal failure occurred.
-public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -237,9 +235,8 @@ extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.outputLocation = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvokeEndpointAsyncOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inferenceId = output.inferenceId
         } else {
@@ -298,9 +295,9 @@ public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.data(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyData = body
+            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -488,9 +485,12 @@ extension InvokeEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.invokedProductionVariant = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.body = data
-        } else {
+        case .stream(let stream):
+            self.body = try stream.readToEnd()
+        case .none:
             self.body = nil
         }
     }
@@ -539,9 +539,8 @@ extension InvokeEndpointOutputResponseBody: Swift.Decodable {
 
 extension ModelError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModelErrorBody = try responseDecoder.decode(responseBody: data)
             self.logStreamArn = output.logStreamArn
             self.message = output.message
@@ -561,7 +560,7 @@ extension ModelError {
 }
 
 /// Model (owned by the customer in the container) returned 4xx or 5xx error code.
-public struct ModelError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ModelError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -621,9 +620,8 @@ extension ModelErrorBody: Swift.Decodable {
 
 extension ModelNotReadyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModelNotReadyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -637,7 +635,7 @@ extension ModelNotReadyException {
 }
 
 /// Either a serverless endpoint variant's resources are still being provisioned, or a multi-model endpoint is still downloading or loading the target model. Wait and try your request again.
-public struct ModelNotReadyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ModelNotReadyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -673,9 +671,8 @@ extension ModelNotReadyExceptionBody: Swift.Decodable {
 
 extension ServiceUnavailable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -689,7 +686,7 @@ extension ServiceUnavailable {
 }
 
 /// The service is unavailable. Try your call again.
-public struct ServiceUnavailable: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceUnavailable: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -725,9 +722,8 @@ extension ServiceUnavailableBody: Swift.Decodable {
 
 extension ValidationError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -741,7 +737,7 @@ extension ValidationError {
 }
 
 /// Inspect your request and try again.
-public struct ValidationError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

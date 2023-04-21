@@ -263,9 +263,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension AcceleratorNotDisabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcceleratorNotDisabledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -279,7 +278,7 @@ extension AcceleratorNotDisabledException {
 }
 
 /// The accelerator that you specified could not be disabled.
-public struct AcceleratorNotDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AcceleratorNotDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -315,9 +314,8 @@ extension AcceleratorNotDisabledExceptionBody: Swift.Decodable {
 
 extension AcceleratorNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcceleratorNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -331,7 +329,7 @@ extension AcceleratorNotFoundException {
 }
 
 /// The accelerator that you specified doesn't exist.
-public struct AcceleratorNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AcceleratorNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -399,9 +397,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -415,7 +412,7 @@ extension AccessDeniedException {
 }
 
 /// You don't have access permission.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -558,9 +555,8 @@ public enum AddCustomRoutingEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension AddCustomRoutingEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddCustomRoutingEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointDescriptions = output.endpointDescriptions
             self.endpointGroupArn = output.endpointGroupArn
@@ -723,9 +719,8 @@ public enum AddEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension AddEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AddEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointDescriptions = output.endpointDescriptions
             self.endpointGroupArn = output.endpointGroupArn
@@ -861,9 +856,8 @@ public enum AdvertiseByoipCidrOutputError: Swift.Error, Swift.Equatable {
 
 extension AdvertiseByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AdvertiseByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byoipCidr = output.byoipCidr
         } else {
@@ -1059,9 +1053,8 @@ public struct AllowCustomRoutingTrafficOutputResponse: Swift.Equatable {
 
 extension AssociatedEndpointGroupFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociatedEndpointGroupFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1075,7 +1068,7 @@ extension AssociatedEndpointGroupFoundException {
 }
 
 /// The listener that you specified has an endpoint group associated with it. You must remove all dependent resources from a listener before you can delete it.
-public struct AssociatedEndpointGroupFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AssociatedEndpointGroupFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1111,9 +1104,8 @@ extension AssociatedEndpointGroupFoundExceptionBody: Swift.Decodable {
 
 extension AssociatedListenerFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AssociatedListenerFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1127,7 +1119,7 @@ extension AssociatedListenerFoundException {
 }
 
 /// The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
-public struct AssociatedListenerFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AssociatedListenerFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1297,9 +1289,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension ByoipCidrNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ByoipCidrNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1313,7 +1304,7 @@ extension ByoipCidrNotFoundException {
 }
 
 /// The CIDR that you specified was not found or is incorrect.
-public struct ByoipCidrNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ByoipCidrNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1487,9 +1478,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1503,7 +1493,7 @@ extension ConflictException {
 }
 
 /// You can't use both of those options.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1698,9 +1688,8 @@ public enum CreateAcceleratorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
@@ -1900,9 +1889,8 @@ public enum CreateCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equata
 
 extension CreateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCustomRoutingAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
@@ -2076,9 +2064,8 @@ public enum CreateCustomRoutingEndpointGroupOutputError: Swift.Error, Swift.Equa
 
 extension CreateCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCustomRoutingEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
@@ -2233,9 +2220,8 @@ public enum CreateCustomRoutingListenerOutputError: Swift.Error, Swift.Equatable
 
 extension CreateCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCustomRoutingListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
@@ -2502,9 +2488,8 @@ public enum CreateEndpointGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
@@ -2684,9 +2669,8 @@ public enum CreateListenerOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
@@ -4107,9 +4091,8 @@ public enum DeprovisionByoipCidrOutputError: Swift.Error, Swift.Equatable {
 
 extension DeprovisionByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeprovisionByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byoipCidr = output.byoipCidr
         } else {
@@ -4222,9 +4205,8 @@ public enum DescribeAcceleratorAttributesOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
@@ -4337,9 +4319,8 @@ public enum DescribeAcceleratorOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
@@ -4452,9 +4433,8 @@ public enum DescribeCustomRoutingAcceleratorAttributesOutputError: Swift.Error, 
 
 extension DescribeCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCustomRoutingAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
@@ -4567,9 +4547,8 @@ public enum DescribeCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equa
 
 extension DescribeCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCustomRoutingAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
@@ -4682,9 +4661,8 @@ public enum DescribeCustomRoutingEndpointGroupOutputError: Swift.Error, Swift.Eq
 
 extension DescribeCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCustomRoutingEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
@@ -4797,9 +4775,8 @@ public enum DescribeCustomRoutingListenerOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCustomRoutingListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
@@ -4912,9 +4889,8 @@ public enum DescribeEndpointGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
@@ -5027,9 +5003,8 @@ public enum DescribeListenerOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
@@ -5185,9 +5160,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension EndpointAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EndpointAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5201,7 +5175,7 @@ extension EndpointAlreadyExistsException {
 }
 
 /// The endpoint that you specified doesn't exist.
-public struct EndpointAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EndpointAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5516,9 +5490,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension EndpointGroupAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EndpointGroupAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5532,7 +5505,7 @@ extension EndpointGroupAlreadyExistsException {
 }
 
 /// The endpoint group that you specified already exists.
-public struct EndpointGroupAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EndpointGroupAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5568,9 +5541,8 @@ extension EndpointGroupAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension EndpointGroupNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EndpointGroupNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5584,7 +5556,7 @@ extension EndpointGroupNotFoundException {
 }
 
 /// The endpoint group that you specified doesn't exist.
-public struct EndpointGroupNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EndpointGroupNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5666,9 +5638,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension EndpointNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EndpointNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5682,7 +5653,7 @@ extension EndpointNotFoundException {
 }
 
 /// The endpoint that you specified doesn't exist.
-public struct EndpointNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EndpointNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5788,9 +5759,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension IncorrectCidrStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncorrectCidrStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5804,7 +5774,7 @@ extension IncorrectCidrStateException {
 }
 
 /// The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
-public struct IncorrectCidrStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IncorrectCidrStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5840,9 +5810,8 @@ extension IncorrectCidrStateExceptionBody: Swift.Decodable {
 
 extension InternalServiceErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServiceErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5856,7 +5825,7 @@ extension InternalServiceErrorException {
 }
 
 /// There was an internal error for Global Accelerator.
-public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5892,9 +5861,8 @@ extension InternalServiceErrorExceptionBody: Swift.Decodable {
 
 extension InvalidArgumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5908,7 +5876,7 @@ extension InvalidArgumentException {
 }
 
 /// An argument that you specified is invalid.
-public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5944,9 +5912,8 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
 
 extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5960,7 +5927,7 @@ extension InvalidNextTokenException {
 }
 
 /// There isn't another item to return.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5996,9 +5963,8 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 
 extension InvalidPortRangeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPortRangeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6012,7 +5978,7 @@ extension InvalidPortRangeException {
 }
 
 /// The port numbers that you specified are not valid numbers or are not unique for this accelerator.
-public struct InvalidPortRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPortRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6180,9 +6146,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6196,7 +6161,7 @@ extension LimitExceededException {
 }
 
 /// Processing your request would cause you to exceed an Global Accelerator limit.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6317,9 +6282,8 @@ public enum ListAcceleratorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAcceleratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerators = output.accelerators
             self.nextToken = output.nextToken
@@ -6464,9 +6428,8 @@ public enum ListByoipCidrsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListByoipCidrsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListByoipCidrsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byoipCidrs = output.byoipCidrs
             self.nextToken = output.nextToken
@@ -6609,9 +6572,8 @@ public enum ListCustomRoutingAcceleratorsOutputError: Swift.Error, Swift.Equatab
 
 extension ListCustomRoutingAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomRoutingAcceleratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerators = output.accelerators
             self.nextToken = output.nextToken
@@ -6769,9 +6731,8 @@ public enum ListCustomRoutingEndpointGroupsOutputError: Swift.Error, Swift.Equat
 
 extension ListCustomRoutingEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomRoutingEndpointGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroups = output.endpointGroups
             self.nextToken = output.nextToken
@@ -6929,9 +6890,8 @@ public enum ListCustomRoutingListenersOutputError: Swift.Error, Swift.Equatable 
 
 extension ListCustomRoutingListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomRoutingListenersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
             self.nextToken = output.nextToken
@@ -7102,9 +7062,8 @@ public enum ListCustomRoutingPortMappingsByDestinationOutputError: Swift.Error, 
 
 extension ListCustomRoutingPortMappingsByDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomRoutingPortMappingsByDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationPortMappings = output.destinationPortMappings
             self.nextToken = output.nextToken
@@ -7276,9 +7235,8 @@ public enum ListCustomRoutingPortMappingsOutputError: Swift.Error, Swift.Equatab
 
 extension ListCustomRoutingPortMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomRoutingPortMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.portMappings = output.portMappings
@@ -7436,9 +7394,8 @@ public enum ListEndpointGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEndpointGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroups = output.endpointGroups
             self.nextToken = output.nextToken
@@ -7596,9 +7553,8 @@ public enum ListListenersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListListenersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
             self.nextToken = output.nextToken
@@ -7730,9 +7686,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7857,9 +7812,8 @@ extension GlobalAcceleratorClientTypes {
 
 extension ListenerNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListenerNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7873,7 +7827,7 @@ extension ListenerNotFoundException {
 }
 
 /// The listener that you specified doesn't exist.
-public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ListenerNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8219,9 +8173,8 @@ public enum ProvisionByoipCidrOutputError: Swift.Error, Swift.Equatable {
 
 extension ProvisionByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ProvisionByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byoipCidr = output.byoipCidr
         } else {
@@ -8689,9 +8642,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TransactionInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TransactionInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8705,7 +8657,7 @@ extension TransactionInProgressException {
 }
 
 /// There's already a transaction in progress. Another transaction can't be processed.
-public struct TransactionInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TransactionInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8962,9 +8914,8 @@ public enum UpdateAcceleratorAttributesOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
@@ -9115,9 +9066,8 @@ public enum UpdateAcceleratorOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
@@ -9268,9 +9218,8 @@ public enum UpdateCustomRoutingAcceleratorAttributesOutputError: Swift.Error, Sw
 
 extension UpdateCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCustomRoutingAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
@@ -9419,9 +9368,8 @@ public enum UpdateCustomRoutingAcceleratorOutputError: Swift.Error, Swift.Equata
 
 extension UpdateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCustomRoutingAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
@@ -9563,9 +9511,8 @@ public enum UpdateCustomRoutingListenerOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCustomRoutingListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
@@ -9802,9 +9749,8 @@ public enum UpdateEndpointGroupOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
@@ -9969,9 +9915,8 @@ public enum UpdateListenerOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
@@ -10088,9 +10033,8 @@ public enum WithdrawByoipCidrOutputError: Swift.Error, Swift.Equatable {
 
 extension WithdrawByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WithdrawByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byoipCidr = output.byoipCidr
         } else {

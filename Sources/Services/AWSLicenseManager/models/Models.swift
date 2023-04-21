@@ -86,9 +86,8 @@ public enum AcceptGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension AcceptGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AcceptGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
             self.status = output.status
@@ -147,9 +146,8 @@ extension AcceptGrantOutputResponseBody: Swift.Decodable {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -163,7 +161,7 @@ extension AccessDeniedException {
 }
 
 /// Access to resource denied.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -278,9 +276,8 @@ extension LicenseManagerClientTypes {
 
 extension AuthorizationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorizationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -294,7 +291,7 @@ extension AuthorizationException {
 }
 
 /// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
-public struct AuthorizationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AuthorizationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -695,9 +692,8 @@ public enum CheckoutBorrowLicenseOutputError: Swift.Error, Swift.Equatable {
 
 extension CheckoutBorrowLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CheckoutBorrowLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkoutMetadata = output.checkoutMetadata
             self.entitlementsAllowed = output.entitlementsAllowed
@@ -1000,9 +996,8 @@ public enum CheckoutLicenseOutputError: Swift.Error, Swift.Equatable {
 
 extension CheckoutLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CheckoutLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkoutType = output.checkoutType
             self.entitlementsAllowed = output.entitlementsAllowed
@@ -1152,9 +1147,8 @@ extension LicenseManagerClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1168,7 +1162,7 @@ extension ConflictException {
 }
 
 /// There was a conflict processing the request. Try your request again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1487,9 +1481,8 @@ public enum CreateGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
             self.status = output.status
@@ -1727,9 +1720,8 @@ public enum CreateGrantVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGrantVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGrantVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
             self.status = output.status
@@ -2012,9 +2004,8 @@ public enum CreateLicenseConfigurationOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurationArn = output.licenseConfigurationArn
         } else {
@@ -2159,9 +2150,8 @@ public enum CreateLicenseConversionTaskForResourceOutputError: Swift.Error, Swif
 
 extension CreateLicenseConversionTaskForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLicenseConversionTaskForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConversionTaskId = output.licenseConversionTaskId
         } else {
@@ -2589,9 +2579,8 @@ public enum CreateLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.E
 
 extension CreateLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLicenseManagerReportGeneratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseManagerReportGeneratorArn = output.licenseManagerReportGeneratorArn
         } else {
@@ -2664,9 +2653,8 @@ public enum CreateLicenseOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseArn = output.licenseArn
             self.status = output.status
@@ -2974,9 +2962,8 @@ public enum CreateLicenseVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLicenseVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLicenseVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseArn = output.licenseArn
             self.status = output.status
@@ -3192,9 +3179,8 @@ public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.token = output.token
             self.tokenId = output.tokenId
@@ -3406,9 +3392,8 @@ public enum DeleteGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
             self.status = output.status
@@ -3746,9 +3731,8 @@ public enum DeleteLicenseOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletionDate = output.deletionDate
             self.status = output.status
@@ -4169,9 +4153,8 @@ extension LicenseManagerClientTypes {
 
 extension EntitlementNotAllowedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EntitlementNotAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4185,7 +4168,7 @@ extension EntitlementNotAllowedException {
 }
 
 /// The entitlement is not allowed.
-public struct EntitlementNotAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EntitlementNotAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4490,9 +4473,8 @@ public enum ExtendLicenseConsumptionOutputError: Swift.Error, Swift.Equatable {
 
 extension ExtendLicenseConsumptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExtendLicenseConsumptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expiration = output.expiration
             self.licenseConsumptionToken = output.licenseConsumptionToken
@@ -4541,9 +4523,8 @@ extension ExtendLicenseConsumptionOutputResponseBody: Swift.Decodable {
 
 extension FailedDependencyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FailedDependencyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -4559,7 +4540,7 @@ extension FailedDependencyException {
 }
 
 /// A dependency required to run the API is missing.
-public struct FailedDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FailedDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4659,9 +4640,8 @@ extension LicenseManagerClientTypes {
 
 extension FilterLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FilterLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4675,7 +4655,7 @@ extension FilterLimitExceededException {
 }
 
 /// The request uses too many filters or too many filter values.
-public struct FilterLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FilterLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4813,9 +4793,8 @@ public enum GetAccessTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
         } else {
@@ -4948,9 +4927,8 @@ public enum GetGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grant = output.grant
         } else {
@@ -5067,9 +5045,8 @@ public enum GetLicenseConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.automatedDiscoveryInformation = output.automatedDiscoveryInformation
             self.consumedLicenseSummaryList = output.consumedLicenseSummaryList
@@ -5391,9 +5368,8 @@ public enum GetLicenseConversionTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLicenseConversionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLicenseConversionTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationLicenseContext = output.destinationLicenseContext
             self.endTime = output.endTime
@@ -5656,9 +5632,8 @@ public enum GetLicenseManagerReportGeneratorOutputError: Swift.Error, Swift.Equa
 
 extension GetLicenseManagerReportGeneratorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLicenseManagerReportGeneratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportGenerator = output.reportGenerator
         } else {
@@ -5729,9 +5704,8 @@ public enum GetLicenseOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLicenseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLicenseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.license = output.license
         } else {
@@ -5850,9 +5824,8 @@ public enum GetLicenseUsageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLicenseUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLicenseUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseUsage = output.licenseUsage
         } else {
@@ -5947,9 +5920,8 @@ public enum GetServiceSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetServiceSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.enableCrossAccountsDiscovery = output.enableCrossAccountsDiscovery
             self.licenseManagerResourceShareArn = output.licenseManagerResourceShareArn
@@ -6436,9 +6408,8 @@ extension LicenseManagerClientTypes {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6452,7 +6423,7 @@ extension InvalidParameterValueException {
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6488,9 +6459,8 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 
 extension InvalidResourceStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidResourceStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6504,7 +6474,7 @@ extension InvalidResourceStateException {
 }
 
 /// License Manager cannot allocate a license to a resource because of its state. For example, you cannot allocate a license to an instance in the process of shutting down.
-public struct InvalidResourceStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidResourceStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7862,9 +7832,8 @@ extension LicenseManagerClientTypes {
 
 extension LicenseUsageException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LicenseUsageExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7878,7 +7847,7 @@ extension LicenseUsageException {
 }
 
 /// You do not have enough licenses available to support a new resource launch.
-public struct LicenseUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LicenseUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8018,9 +7987,8 @@ public enum ListAssociationsForLicenseConfigurationOutputError: Swift.Error, Swi
 
 extension ListAssociationsForLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAssociationsForLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurationAssociations = output.licenseConfigurationAssociations
             self.nextToken = output.nextToken
@@ -8229,9 +8197,8 @@ public enum ListDistributedGrantsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDistributedGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDistributedGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextToken = output.nextToken
@@ -8391,9 +8358,8 @@ public enum ListFailuresForLicenseConfigurationOperationsOutputError: Swift.Erro
 
 extension ListFailuresForLicenseConfigurationOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFailuresForLicenseConfigurationOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseOperationFailureList = output.licenseOperationFailureList
             self.nextToken = output.nextToken
@@ -8596,9 +8562,8 @@ public enum ListLicenseConfigurationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLicenseConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLicenseConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurations = output.licenseConfigurations
             self.nextToken = output.nextToken
@@ -8769,9 +8734,8 @@ public enum ListLicenseConversionTasksOutputError: Swift.Error, Swift.Equatable 
 
 extension ListLicenseConversionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLicenseConversionTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConversionTasks = output.licenseConversionTasks
             self.nextToken = output.nextToken
@@ -8950,9 +8914,8 @@ public enum ListLicenseManagerReportGeneratorsOutputError: Swift.Error, Swift.Eq
 
 extension ListLicenseManagerReportGeneratorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLicenseManagerReportGeneratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reportGenerators = output.reportGenerators
@@ -9112,9 +9075,8 @@ public enum ListLicenseSpecificationsForResourceOutputError: Swift.Error, Swift.
 
 extension ListLicenseSpecificationsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLicenseSpecificationsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseSpecifications = output.licenseSpecifications
             self.nextToken = output.nextToken
@@ -9274,9 +9236,8 @@ public enum ListLicenseVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLicenseVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLicenseVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
             self.nextToken = output.nextToken
@@ -9481,9 +9442,8 @@ public enum ListLicensesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLicensesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLicensesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
             self.nextToken = output.nextToken
@@ -9675,9 +9635,8 @@ public enum ListReceivedGrantsForOrganizationOutputError: Swift.Error, Swift.Equ
 
 extension ListReceivedGrantsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReceivedGrantsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextToken = output.nextToken
@@ -9886,9 +9845,8 @@ public enum ListReceivedGrantsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReceivedGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReceivedGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextToken = output.nextToken
@@ -10067,9 +10025,8 @@ public enum ListReceivedLicensesForOrganizationOutputError: Swift.Error, Swift.E
 
 extension ListReceivedLicensesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReceivedLicensesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
             self.nextToken = output.nextToken
@@ -10278,9 +10235,8 @@ public enum ListReceivedLicensesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReceivedLicensesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReceivedLicensesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenses = output.licenses
             self.nextToken = output.nextToken
@@ -10467,9 +10423,8 @@ public enum ListResourceInventoryOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourceInventoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourceInventoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceInventoryList = output.resourceInventoryList
@@ -10605,9 +10560,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -10794,9 +10748,8 @@ public enum ListTokensOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTokensOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTokensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tokens = output.tokens
@@ -10988,9 +10941,8 @@ public enum ListUsageForLicenseConfigurationOutputError: Swift.Error, Swift.Equa
 
 extension ListUsageForLicenseConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListUsageForLicenseConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.licenseConfigurationUsageList = output.licenseConfigurationUsageList
             self.nextToken = output.nextToken
@@ -11138,9 +11090,8 @@ extension LicenseManagerClientTypes {
 
 extension NoEntitlementsAllowedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoEntitlementsAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11154,7 +11105,7 @@ extension NoEntitlementsAllowedException {
 }
 
 /// There are no entitlements found for this license, or the entitlement maximum count is reached.
-public struct NoEntitlementsAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoEntitlementsAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11457,9 +11408,8 @@ extension LicenseManagerClientTypes {
 
 extension RateLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RateLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11473,7 +11423,7 @@ extension RateLimitExceededException {
 }
 
 /// Too many requests have been submitted. Try again after a brief wait.
-public struct RateLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RateLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11631,9 +11581,8 @@ extension RedirectException {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RedirectExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11647,7 +11596,7 @@ extension RedirectException {
 }
 
 /// This is not the correct Region for the resource. Try again.
-public struct RedirectException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RedirectException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11768,9 +11717,8 @@ public enum RejectGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension RejectGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RejectGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantArn = output.grantArn
             self.status = output.status
@@ -12288,9 +12236,8 @@ extension LicenseManagerClientTypes {
 
 extension ResourceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12304,7 +12251,7 @@ extension ResourceLimitExceededException {
 }
 
 /// Your resource limits have been exceeded.
-public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12340,9 +12287,8 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12356,7 +12302,7 @@ extension ResourceNotFoundException {
 }
 
 /// The resource cannot be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12478,9 +12424,8 @@ extension LicenseManagerClientTypes {
 
 extension ServerInternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServerInternalExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12494,7 +12439,7 @@ extension ServerInternalException {
 }
 
 /// The server experienced an internal error. Try again.
-public struct ServerInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServerInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12836,9 +12781,8 @@ extension LicenseManagerClientTypes {
 
 extension UnsupportedDigitalSignatureMethodException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedDigitalSignatureMethodExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12852,7 +12796,7 @@ extension UnsupportedDigitalSignatureMethodException {
 }
 
 /// The digital signature method is unsupported. Try your request again.
-public struct UnsupportedDigitalSignatureMethodException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedDigitalSignatureMethodException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13661,9 +13605,8 @@ public struct UpdateServiceSettingsOutputResponse: Swift.Equatable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13677,7 +13620,7 @@ extension ValidationException {
 }
 
 /// The provided input is not valid. Try your request again.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

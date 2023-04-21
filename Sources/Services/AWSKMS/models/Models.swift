@@ -114,9 +114,8 @@ extension KMSClientTypes {
 
 extension AlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -130,7 +129,7 @@ extension AlreadyExistsException {
 }
 
 /// The request was rejected because it attempted to create a resource that already exists.
-public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -251,9 +250,8 @@ public enum CancelKeyDeletionOutputError: Swift.Error, Swift.Equatable {
 
 extension CancelKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CancelKeyDeletionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
         } else {
@@ -292,9 +290,8 @@ extension CancelKeyDeletionOutputResponseBody: Swift.Decodable {
 
 extension CloudHsmClusterInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CloudHsmClusterInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -308,7 +305,7 @@ extension CloudHsmClusterInUseException {
 }
 
 /// The request was rejected because the specified CloudHSM cluster is already associated with an CloudHSM key store in the account, or it shares a backup history with an CloudHSM key store in the account. Each CloudHSM key store in the account must be associated with a different CloudHSM cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
-public struct CloudHsmClusterInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudHsmClusterInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -344,9 +341,8 @@ extension CloudHsmClusterInUseExceptionBody: Swift.Decodable {
 
 extension CloudHsmClusterInvalidConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CloudHsmClusterInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -369,7 +365,7 @@ extension CloudHsmClusterInvalidConfigurationException {
 ///
 ///
 /// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
-public struct CloudHsmClusterInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudHsmClusterInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -405,9 +401,8 @@ extension CloudHsmClusterInvalidConfigurationExceptionBody: Swift.Decodable {
 
 extension CloudHsmClusterNotActiveException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CloudHsmClusterNotActiveExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -421,7 +416,7 @@ extension CloudHsmClusterNotActiveException {
 }
 
 /// The request was rejected because the CloudHSM cluster associated with the CloudHSM key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
-public struct CloudHsmClusterNotActiveException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudHsmClusterNotActiveException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -457,9 +452,8 @@ extension CloudHsmClusterNotActiveExceptionBody: Swift.Decodable {
 
 extension CloudHsmClusterNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CloudHsmClusterNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -473,7 +467,7 @@ extension CloudHsmClusterNotFoundException {
 }
 
 /// The request was rejected because KMS cannot find the CloudHSM cluster with the specified cluster ID. Retry the request with a different cluster ID.
-public struct CloudHsmClusterNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudHsmClusterNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -509,9 +503,8 @@ extension CloudHsmClusterNotFoundExceptionBody: Swift.Decodable {
 
 extension CloudHsmClusterNotRelatedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CloudHsmClusterNotRelatedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -525,7 +518,7 @@ extension CloudHsmClusterNotRelatedException {
 }
 
 /// The request was rejected because the specified CloudHSM cluster has a different cluster certificate than the original cluster. You cannot use the operation to specify an unrelated cluster for an CloudHSM key store. Specify an CloudHSM cluster that shares a backup history with the original cluster. This includes clusters that were created from a backup of the current cluster, and clusters that were created from the same backup that produced the current cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
-public struct CloudHsmClusterNotRelatedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudHsmClusterNotRelatedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1107,9 +1100,8 @@ public enum CreateCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCustomKeyStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCustomKeyStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customKeyStoreId = output.customKeyStoreId
         } else {
@@ -1337,9 +1329,8 @@ public enum CreateGrantOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateGrantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateGrantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grantId = output.grantId
             self.grantToken = output.grantToken
@@ -1684,9 +1675,8 @@ public enum CreateKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyMetadata = output.keyMetadata
         } else {
@@ -1725,9 +1715,8 @@ extension CreateKeyOutputResponseBody: Swift.Decodable {
 
 extension CustomKeyStoreHasCMKsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CustomKeyStoreHasCMKsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1741,7 +1730,7 @@ extension CustomKeyStoreHasCMKsException {
 }
 
 /// The request was rejected because the custom key store contains KMS keys. After verifying that you do not need to use the KMS keys, use the [ScheduleKeyDeletion] operation to delete the KMS keys. After they are deleted, you can delete the custom key store.
-public struct CustomKeyStoreHasCMKsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomKeyStoreHasCMKsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1777,9 +1766,8 @@ extension CustomKeyStoreHasCMKsExceptionBody: Swift.Decodable {
 
 extension CustomKeyStoreInvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CustomKeyStoreInvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1803,7 +1791,7 @@ extension CustomKeyStoreInvalidStateException {
 /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
 ///
 /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
-public struct CustomKeyStoreInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomKeyStoreInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1839,9 +1827,8 @@ extension CustomKeyStoreInvalidStateExceptionBody: Swift.Decodable {
 
 extension CustomKeyStoreNameInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CustomKeyStoreNameInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1855,7 +1842,7 @@ extension CustomKeyStoreNameInUseException {
 }
 
 /// The request was rejected because the specified custom key store name is already assigned to another custom key store in the account. Try again with a custom key store name that is unique in the account.
-public struct CustomKeyStoreNameInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomKeyStoreNameInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1891,9 +1878,8 @@ extension CustomKeyStoreNameInUseExceptionBody: Swift.Decodable {
 
 extension CustomKeyStoreNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CustomKeyStoreNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1907,7 +1893,7 @@ extension CustomKeyStoreNotFoundException {
 }
 
 /// The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
-public struct CustomKeyStoreNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomKeyStoreNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2475,9 +2461,8 @@ extension DecryptOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension DecryptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DecryptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.encryptionAlgorithm = output.encryptionAlgorithm
             self.keyId = output.keyId
@@ -2805,9 +2790,8 @@ public struct DeleteImportedKeyMaterialOutputResponse: Swift.Equatable {
 
 extension DependencyTimeoutException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DependencyTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2821,7 +2805,7 @@ extension DependencyTimeoutException {
 }
 
 /// The system timed out while trying to fulfill the request. You can retry the request.
-public struct DependencyTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DependencyTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2966,9 +2950,8 @@ public enum DescribeCustomKeyStoresOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCustomKeyStoresOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCustomKeyStoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customKeyStores = output.customKeyStores
             self.nextMarker = output.nextMarker
@@ -3147,9 +3130,8 @@ public enum DescribeKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyMetadata = output.keyMetadata
         } else {
@@ -3382,9 +3364,8 @@ public struct DisableKeyRotationOutputResponse: Swift.Equatable {
 
 extension DisabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisabledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3398,7 +3379,7 @@ extension DisabledException {
 }
 
 /// The request was rejected because the specified KMS key is not enabled.
-public struct DisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3887,9 +3868,8 @@ public enum EncryptOutputError: Swift.Error, Swift.Equatable {
 
 extension EncryptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EncryptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.encryptionAlgorithm = output.encryptionAlgorithm
@@ -4018,9 +3998,8 @@ extension KMSClientTypes {
 
 extension ExpiredImportTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExpiredImportTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4034,7 +4013,7 @@ extension ExpiredImportTokenException {
 }
 
 /// The request was rejected because the specified import token is expired. Use [GetParametersForImport] to get a new import token and public key, use the new public key to encrypt the key material, and then try the request again.
-public struct ExpiredImportTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ExpiredImportTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4242,9 +4221,8 @@ extension GenerateDataKeyOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GenerateDataKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateDataKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.keyId = output.keyId
@@ -4466,9 +4444,8 @@ extension GenerateDataKeyPairOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension GenerateDataKeyPairOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateDataKeyPairOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.keyPairSpec = output.keyPairSpec
@@ -4705,9 +4682,8 @@ public enum GenerateDataKeyPairWithoutPlaintextOutputError: Swift.Error, Swift.E
 
 extension GenerateDataKeyPairWithoutPlaintextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateDataKeyPairWithoutPlaintextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.keyPairSpec = output.keyPairSpec
@@ -4943,9 +4919,8 @@ public enum GenerateDataKeyWithoutPlaintextOutputError: Swift.Error, Swift.Equat
 
 extension GenerateDataKeyWithoutPlaintextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateDataKeyWithoutPlaintextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.keyId = output.keyId
@@ -5131,9 +5106,8 @@ public enum GenerateMacOutputError: Swift.Error, Swift.Equatable {
 
 extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateMacOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.mac = output.mac
@@ -5286,9 +5260,8 @@ extension GenerateRandomOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GenerateRandomOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GenerateRandomOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.plaintext = output.plaintext
         } else {
@@ -5425,9 +5398,8 @@ public enum GetKeyPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetKeyPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetKeyPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -5553,9 +5525,8 @@ public enum GetKeyRotationStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetKeyRotationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetKeyRotationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyRotationEnabled = output.keyRotationEnabled
         } else {
@@ -5712,9 +5683,8 @@ extension GetParametersForImportOutputResponse: Swift.CustomDebugStringConvertib
 
 extension GetParametersForImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetParametersForImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importToken = output.importToken
             self.keyId = output.keyId
@@ -5906,9 +5876,8 @@ public enum GetPublicKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerMasterKeySpec = output.customerMasterKeySpec
             self.encryptionAlgorithms = output.encryptionAlgorithms
@@ -6451,9 +6420,8 @@ public struct ImportKeyMaterialOutputResponse: Swift.Equatable {
 
 extension IncorrectKeyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncorrectKeyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6467,7 +6435,7 @@ extension IncorrectKeyException {
 }
 
 /// The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
-public struct IncorrectKeyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IncorrectKeyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6503,9 +6471,8 @@ extension IncorrectKeyExceptionBody: Swift.Decodable {
 
 extension IncorrectKeyMaterialException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncorrectKeyMaterialExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6519,7 +6486,7 @@ extension IncorrectKeyMaterialException {
 }
 
 /// The request was rejected because the key material in the request is, expired, invalid, or is not the same key material that was previously imported into this KMS key.
-public struct IncorrectKeyMaterialException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IncorrectKeyMaterialException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6555,9 +6522,8 @@ extension IncorrectKeyMaterialExceptionBody: Swift.Decodable {
 
 extension IncorrectTrustAnchorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IncorrectTrustAnchorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6571,7 +6537,7 @@ extension IncorrectTrustAnchorException {
 }
 
 /// The request was rejected because the trust anchor certificate in the request to create an CloudHSM key store is not the trust anchor certificate for the specified CloudHSM cluster. When you [initialize the CloudHSM cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create the trust anchor certificate and save it in the customerCA.crt file.
-public struct IncorrectTrustAnchorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IncorrectTrustAnchorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6607,9 +6573,8 @@ extension IncorrectTrustAnchorExceptionBody: Swift.Decodable {
 
 extension InvalidAliasNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidAliasNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6623,7 +6588,7 @@ extension InvalidAliasNameException {
 }
 
 /// The request was rejected because the specified alias name is not valid.
-public struct InvalidAliasNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidAliasNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6659,9 +6624,8 @@ extension InvalidAliasNameExceptionBody: Swift.Decodable {
 
 extension InvalidArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6675,7 +6639,7 @@ extension InvalidArnException {
 }
 
 /// The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
-public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6711,9 +6675,8 @@ extension InvalidArnExceptionBody: Swift.Decodable {
 
 extension InvalidCiphertextException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidCiphertextExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6727,7 +6690,7 @@ extension InvalidCiphertextException {
 }
 
 /// From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
-public struct InvalidCiphertextException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidCiphertextException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6763,9 +6726,8 @@ extension InvalidCiphertextExceptionBody: Swift.Decodable {
 
 extension InvalidGrantIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidGrantIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6779,7 +6741,7 @@ extension InvalidGrantIdException {
 }
 
 /// The request was rejected because the specified GrantId is not valid.
-public struct InvalidGrantIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGrantIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6815,9 +6777,8 @@ extension InvalidGrantIdExceptionBody: Swift.Decodable {
 
 extension InvalidGrantTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidGrantTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6831,7 +6792,7 @@ extension InvalidGrantTokenException {
 }
 
 /// The request was rejected because the specified grant token is not valid.
-public struct InvalidGrantTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGrantTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6867,9 +6828,8 @@ extension InvalidGrantTokenExceptionBody: Swift.Decodable {
 
 extension InvalidImportTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidImportTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6883,7 +6843,7 @@ extension InvalidImportTokenException {
 }
 
 /// The request was rejected because the provided import token is invalid or is associated with a different KMS key.
-public struct InvalidImportTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidImportTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6919,9 +6879,8 @@ extension InvalidImportTokenExceptionBody: Swift.Decodable {
 
 extension InvalidKeyUsageException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidKeyUsageExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6942,7 +6901,7 @@ extension InvalidKeyUsageException {
 ///
 ///
 /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
-public struct InvalidKeyUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidKeyUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6978,9 +6937,8 @@ extension InvalidKeyUsageExceptionBody: Swift.Decodable {
 
 extension InvalidMarkerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidMarkerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6994,7 +6952,7 @@ extension InvalidMarkerException {
 }
 
 /// The request was rejected because the marker that specifies where pagination should next begin is not valid.
-public struct InvalidMarkerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMarkerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7030,9 +6988,8 @@ extension InvalidMarkerExceptionBody: Swift.Decodable {
 
 extension KMSInternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSInternalExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7046,7 +7003,7 @@ extension KMSInternalException {
 }
 
 /// The request was rejected because an internal exception occurred. The request can be retried.
-public struct KMSInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7082,9 +7039,8 @@ extension KMSInternalExceptionBody: Swift.Decodable {
 
 extension KMSInvalidMacException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSInvalidMacExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7098,7 +7054,7 @@ extension KMSInvalidMacException {
 }
 
 /// The request was rejected because the HMAC verification failed. HMAC verification fails when the HMAC computed by using the specified message, HMAC KMS key, and MAC algorithm does not match the HMAC specified in the request.
-public struct KMSInvalidMacException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSInvalidMacException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7134,9 +7090,8 @@ extension KMSInvalidMacExceptionBody: Swift.Decodable {
 
 extension KMSInvalidSignatureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSInvalidSignatureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7150,7 +7105,7 @@ extension KMSInvalidSignatureException {
 }
 
 /// The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
-public struct KMSInvalidSignatureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSInvalidSignatureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7186,9 +7141,8 @@ extension KMSInvalidSignatureExceptionBody: Swift.Decodable {
 
 extension KMSInvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KMSInvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7206,7 +7160,7 @@ extension KMSInvalidStateException {
 /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
 ///
 /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
-public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7743,9 +7697,8 @@ extension KMSClientTypes {
 
 extension KeyUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: KeyUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7759,7 +7712,7 @@ extension KeyUnavailableException {
 }
 
 /// The request was rejected because the specified KMS key was not available. You can retry the request.
-public struct KeyUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KeyUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7830,9 +7783,8 @@ extension KMSClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7846,7 +7798,7 @@ extension LimitExceededException {
 }
 
 /// The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7990,9 +7942,8 @@ public enum ListAliasesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
             self.nextMarker = output.nextMarker
@@ -8197,9 +8148,8 @@ public enum ListGrantsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextMarker = output.nextMarker
@@ -8376,9 +8326,8 @@ public enum ListKeyPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListKeyPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListKeyPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.policyNames = output.policyNames
@@ -8531,9 +8480,8 @@ public enum ListKeysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keys = output.keys
             self.nextMarker = output.nextMarker
@@ -8708,9 +8656,8 @@ public enum ListResourceTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourceTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tags = output.tags
@@ -8880,9 +8827,8 @@ public enum ListRetirableGrantsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRetirableGrantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRetirableGrantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.nextMarker = output.nextMarker
@@ -8988,9 +8934,8 @@ extension KMSClientTypes {
 
 extension MalformedPolicyDocumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MalformedPolicyDocumentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9004,7 +8949,7 @@ extension MalformedPolicyDocumentException {
 }
 
 /// The request was rejected because the specified policy is not syntactically or semantically correct.
-public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MalformedPolicyDocumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9216,9 +9161,8 @@ extension KMSClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9232,7 +9176,7 @@ extension NotFoundException {
 }
 
 /// The request was rejected because the specified entity or resource could not be found.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9692,9 +9636,8 @@ public enum ReEncryptOutputError: Swift.Error, Swift.Equatable {
 
 extension ReEncryptOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReEncryptOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ciphertextBlob = output.ciphertextBlob
             self.destinationEncryptionAlgorithm = output.destinationEncryptionAlgorithm
@@ -9957,9 +9900,8 @@ public enum ReplicateKeyOutputError: Swift.Error, Swift.Equatable {
 
 extension ReplicateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReplicateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.replicaKeyMetadata = output.replicaKeyMetadata
             self.replicaPolicy = output.replicaPolicy
@@ -10351,9 +10293,8 @@ public enum ScheduleKeyDeletionOutputError: Swift.Error, Swift.Equatable {
 
 extension ScheduleKeyDeletionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ScheduleKeyDeletionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletionDate = output.deletionDate
             self.keyId = output.keyId
@@ -10592,9 +10533,8 @@ public enum SignOutputError: Swift.Error, Swift.Equatable {
 
 extension SignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SignOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.signature = output.signature
@@ -10763,9 +10703,8 @@ extension KMSClientTypes {
 
 extension TagException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10779,7 +10718,7 @@ extension TagException {
 }
 
 /// The request was rejected because one or more tags are not valid.
-public struct TagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10937,9 +10876,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10953,7 +10891,7 @@ extension UnsupportedOperationException {
 }
 
 /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11947,9 +11885,8 @@ public enum VerifyMacOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifyMacOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: VerifyMacOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.macAlgorithm = output.macAlgorithm
@@ -12046,9 +11983,8 @@ public enum VerifyOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: VerifyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyId = output.keyId
             self.signatureValid = output.signatureValid
@@ -12136,9 +12072,8 @@ extension KMSClientTypes {
 
 extension XksKeyAlreadyInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksKeyAlreadyInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12152,7 +12087,7 @@ extension XksKeyAlreadyInUseException {
 }
 
 /// The request was rejected because the (XksKeyId) is already associated with a KMS key in this external key store. Each KMS key in an external key store must be associated with a different external key.
-public struct XksKeyAlreadyInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksKeyAlreadyInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12223,9 +12158,8 @@ extension KMSClientTypes {
 
 extension XksKeyInvalidConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksKeyInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12239,7 +12173,7 @@ extension XksKeyInvalidConfigurationException {
 }
 
 /// The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
-public struct XksKeyInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksKeyInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12275,9 +12209,8 @@ extension XksKeyInvalidConfigurationExceptionBody: Swift.Decodable {
 
 extension XksKeyNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksKeyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12291,7 +12224,7 @@ extension XksKeyNotFoundException {
 }
 
 /// The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
-public struct XksKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12491,9 +12424,8 @@ extension KMSClientTypes {
 
 extension XksProxyIncorrectAuthenticationCredentialException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyIncorrectAuthenticationCredentialExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12507,7 +12439,7 @@ extension XksProxyIncorrectAuthenticationCredentialException {
 }
 
 /// The request was rejected because the proxy credentials failed to authenticate to the specified external key store proxy. The specified external key store proxy rejected a status request from KMS due to invalid credentials. This can indicate an error in the credentials or in the identification of the external key store proxy.
-public struct XksProxyIncorrectAuthenticationCredentialException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyIncorrectAuthenticationCredentialException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12543,9 +12475,8 @@ extension XksProxyIncorrectAuthenticationCredentialExceptionBody: Swift.Decodabl
 
 extension XksProxyInvalidConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12559,7 +12490,7 @@ extension XksProxyInvalidConfigurationException {
 }
 
 /// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message.
-public struct XksProxyInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12595,9 +12526,8 @@ extension XksProxyInvalidConfigurationExceptionBody: Swift.Decodable {
 
 extension XksProxyInvalidResponseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyInvalidResponseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12611,7 +12541,7 @@ extension XksProxyInvalidResponseException {
 }
 
 /// KMS cannot interpret the response it received from the external key store proxy. The problem might be a poorly constructed response, but it could also be a transient network issue. If you see this error repeatedly, report it to the proxy vendor.
-public struct XksProxyInvalidResponseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyInvalidResponseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12647,9 +12577,8 @@ extension XksProxyInvalidResponseExceptionBody: Swift.Decodable {
 
 extension XksProxyUriEndpointInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyUriEndpointInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12663,7 +12592,7 @@ extension XksProxyUriEndpointInUseException {
 }
 
 /// The request was rejected because the concatenation of the XksProxyUriEndpoint is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy address.
-public struct XksProxyUriEndpointInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyUriEndpointInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12699,9 +12628,8 @@ extension XksProxyUriEndpointInUseExceptionBody: Swift.Decodable {
 
 extension XksProxyUriInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyUriInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12715,7 +12643,7 @@ extension XksProxyUriInUseException {
 }
 
 /// The request was rejected because the concatenation of the XksProxyUriEndpoint and XksProxyUriPath is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy API address.
-public struct XksProxyUriInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyUriInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12751,9 +12679,8 @@ extension XksProxyUriInUseExceptionBody: Swift.Decodable {
 
 extension XksProxyUriUnreachableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyUriUnreachableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12767,7 +12694,7 @@ extension XksProxyUriUnreachableException {
 }
 
 /// KMS was unable to reach the specified XksProxyUriPath. The path must be reachable before you create the external key store or update its settings. This exception is also thrown when the external key store proxy response to a GetHealthStatus request indicates that all external key manager instances are unavailable.
-public struct XksProxyUriUnreachableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyUriUnreachableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12803,9 +12730,8 @@ extension XksProxyUriUnreachableExceptionBody: Swift.Decodable {
 
 extension XksProxyVpcEndpointServiceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyVpcEndpointServiceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12819,7 +12745,7 @@ extension XksProxyVpcEndpointServiceInUseException {
 }
 
 /// The request was rejected because the specified Amazon VPC endpoint service is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an Amazon Web Services account and Region must use a different Amazon VPC endpoint service.
-public struct XksProxyVpcEndpointServiceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyVpcEndpointServiceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12855,9 +12781,8 @@ extension XksProxyVpcEndpointServiceInUseExceptionBody: Swift.Decodable {
 
 extension XksProxyVpcEndpointServiceInvalidConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyVpcEndpointServiceInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12871,7 +12796,7 @@ extension XksProxyVpcEndpointServiceInvalidConfigurationException {
 }
 
 /// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
-public struct XksProxyVpcEndpointServiceInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyVpcEndpointServiceInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12907,9 +12832,8 @@ extension XksProxyVpcEndpointServiceInvalidConfigurationExceptionBody: Swift.Dec
 
 extension XksProxyVpcEndpointServiceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: XksProxyVpcEndpointServiceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12923,7 +12847,7 @@ extension XksProxyVpcEndpointServiceNotFoundException {
 }
 
 /// The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
-public struct XksProxyVpcEndpointServiceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct XksProxyVpcEndpointServiceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

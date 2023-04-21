@@ -769,7 +769,7 @@ extension CloudWatchClientTypes {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConcurrentModificationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -784,7 +784,7 @@ extension ConcurrentModificationException {
 }
 
 /// More than one process tried to modify a resource at the same time.
-public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -885,7 +885,7 @@ extension CloudWatchClientTypes {
 
 extension DashboardInvalidInputError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DashboardInvalidInputErrorBody> = try responseDecoder.decode(responseBody: data)
             self.dashboardValidationMessages = output.error.dashboardValidationMessages
@@ -902,7 +902,7 @@ extension DashboardInvalidInputError {
 }
 
 /// Some part of the dashboard data is invalid.
-public struct DashboardInvalidInputError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DashboardInvalidInputError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -962,7 +962,7 @@ extension DashboardInvalidInputErrorBody: Swift.Decodable {
 
 extension DashboardNotFoundError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<DashboardNotFoundErrorBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -977,7 +977,7 @@ extension DashboardNotFoundError {
 }
 
 /// The specified dashboard does not exist.
-public struct DashboardNotFoundError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DashboardNotFoundError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1689,9 +1689,8 @@ public enum DeleteInsightRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -1998,9 +1997,8 @@ public enum DescribeAlarmHistoryOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAlarmHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAlarmHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmHistoryItems = output.alarmHistoryItems
             self.nextToken = output.nextToken
@@ -2225,9 +2223,8 @@ public enum DescribeAlarmsForMetricOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAlarmsForMetricOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAlarmsForMetricOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricAlarms = output.metricAlarms
         } else {
@@ -2490,9 +2487,8 @@ public enum DescribeAlarmsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAlarmsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAlarmsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compositeAlarms = output.compositeAlarms
             self.metricAlarms = output.metricAlarms
@@ -2765,9 +2761,8 @@ public enum DescribeAnomalyDetectorsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeAnomalyDetectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAnomalyDetectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectors = output.anomalyDetectors
             self.nextToken = output.nextToken
@@ -2911,9 +2906,8 @@ public enum DescribeInsightRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.insightRules = output.insightRules
             self.nextToken = output.nextToken
@@ -3269,9 +3263,8 @@ public enum DisableInsightRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -3526,9 +3519,8 @@ public enum EnableInsightRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -3685,9 +3677,8 @@ public enum GetDashboardOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDashboardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDashboardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardArn = output.dashboardArn
             self.dashboardBody = output.dashboardBody
@@ -3927,9 +3918,8 @@ public enum GetInsightRuleReportOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInsightRuleReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInsightRuleReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateValue = output.aggregateValue
             self.aggregationStatistic = output.aggregationStatistic
@@ -4240,9 +4230,8 @@ public enum GetMetricDataOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMetricDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMetricDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
             self.metricDataResults = output.metricDataResults
@@ -4594,9 +4583,8 @@ public enum GetMetricStatisticsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMetricStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMetricStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datapoints = output.datapoints
             self.label = output.label
@@ -4738,9 +4726,8 @@ public enum GetMetricStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMetricStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMetricStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationDate = output.creationDate
@@ -5041,9 +5028,8 @@ public enum GetMetricWidgetImageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMetricWidgetImageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMetricWidgetImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricWidgetImage = output.metricWidgetImage
         } else {
@@ -5468,7 +5454,7 @@ extension CloudWatchClientTypes {
 
 extension InternalServiceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InternalServiceFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5483,7 +5469,7 @@ extension InternalServiceFault {
 }
 
 /// Request processing has failed due to some unknown error, exception, or failure.
-public struct InternalServiceFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServiceFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5520,7 +5506,7 @@ extension InternalServiceFaultBody: Swift.Decodable {
 
 extension InvalidFormatFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidFormatFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5535,7 +5521,7 @@ extension InvalidFormatFault {
 }
 
 /// Data was not syntactically valid JSON.
-public struct InvalidFormatFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFormatFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5572,7 +5558,7 @@ extension InvalidFormatFaultBody: Swift.Decodable {
 
 extension InvalidNextToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidNextTokenBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5587,7 +5573,7 @@ extension InvalidNextToken {
 }
 
 /// The next token specified is invalid.
-public struct InvalidNextToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5624,7 +5610,7 @@ extension InvalidNextTokenBody: Swift.Decodable {
 
 extension InvalidParameterCombinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterCombinationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5639,7 +5625,7 @@ extension InvalidParameterCombinationException {
 }
 
 /// Parameters were used together that cannot be used together.
-public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5676,7 +5662,7 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterValueExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5691,7 +5677,7 @@ extension InvalidParameterValueException {
 }
 
 /// The value of an input parameter is bad or out-of-range.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5763,7 +5749,7 @@ extension CloudWatchClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5778,7 +5764,7 @@ extension LimitExceededException {
 }
 
 /// The operation exceeded one or more limits.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5814,7 +5800,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension LimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -5829,7 +5815,7 @@ extension LimitExceededFault {
 }
 
 /// The quota for alarms for this customer has already been reached.
-public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5945,9 +5931,8 @@ public enum ListDashboardsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDashboardsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDashboardsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardEntries = output.dashboardEntries
             self.nextToken = output.nextToken
@@ -6107,9 +6092,8 @@ public enum ListManagedInsightRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListManagedInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListManagedInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRules = output.managedRules
             self.nextToken = output.nextToken
@@ -6259,9 +6243,8 @@ public enum ListMetricStreamsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMetricStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMetricStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -6488,9 +6471,8 @@ public enum ListMetricsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.nextToken = output.nextToken
@@ -6655,9 +6637,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8366,7 +8347,7 @@ extension CloudWatchClientTypes {
 
 extension MissingRequiredParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<MissingRequiredParameterExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8381,7 +8362,7 @@ extension MissingRequiredParameterException {
 }
 
 /// An input parameter that is required is missing.
-public struct MissingRequiredParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MissingRequiredParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9084,9 +9065,8 @@ public enum PutDashboardOutputError: Swift.Error, Swift.Equatable {
 
 extension PutDashboardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutDashboardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardValidationMessages = output.dashboardValidationMessages
         } else {
@@ -9379,9 +9359,8 @@ public enum PutManagedInsightRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension PutManagedInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutManagedInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -10398,9 +10377,8 @@ public enum PutMetricStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension PutMetricStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutMetricStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -10516,7 +10494,7 @@ extension CloudWatchClientTypes {
 
 extension ResourceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10531,7 +10509,7 @@ extension ResourceNotFound {
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10568,7 +10546,7 @@ extension ResourceNotFoundBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10587,7 +10565,7 @@ extension ResourceNotFoundException {
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

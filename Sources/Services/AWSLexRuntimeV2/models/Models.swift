@@ -23,9 +23,8 @@ extension AccessDeniedException: Swift.Codable {
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -39,7 +38,7 @@ extension AccessDeniedException {
 }
 
 ///
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -333,9 +332,8 @@ extension BadGatewayException: Swift.Codable {
 
 extension BadGatewayException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadGatewayExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -349,7 +347,7 @@ extension BadGatewayException {
 }
 
 ///
-public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -660,9 +658,8 @@ extension ConflictException: Swift.Codable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -676,7 +673,7 @@ extension ConflictException {
 }
 
 ///
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -893,9 +890,8 @@ public enum DeleteSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
             self.botId = output.botId
@@ -983,9 +979,8 @@ extension DependencyFailedException: Swift.Codable {
 
 extension DependencyFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DependencyFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -999,7 +994,7 @@ extension DependencyFailedException {
 }
 
 ///
-public struct DependencyFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DependencyFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1339,9 +1334,8 @@ public enum GetSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
@@ -1836,9 +1830,8 @@ extension InternalServerException: Swift.Codable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1852,7 +1845,7 @@ extension InternalServerException {
 }
 
 ///
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2383,9 +2376,12 @@ extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.sessionState = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.audioStream = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.audioStream = .data(data)
+        case .stream(let stream):
+            self.audioStream = .stream(stream)
+        case .none:
             self.audioStream = nil
         }
     }
@@ -2598,9 +2594,8 @@ public enum RecognizeTextOutputError: Swift.Error, Swift.Equatable {
 
 extension RecognizeTextOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RecognizeTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
@@ -2728,9 +2723,8 @@ public struct RecognizeUtteranceInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let inputStream = input.operationInput.inputStream {
-            let inputStreamdata = inputStream
-            let inputStreambody = ClientRuntime.HttpBody.stream(inputStreamdata)
-            input.builder.withBody(inputStreambody)
+            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
+            input.builder.withBody(inputStreamBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -2753,7 +2747,7 @@ extension RecognizeUtteranceInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputStream = self.inputStream {
-            try encodeContainer.encode(inputStream.toBytes().getData(), forKey: .inputStream)
+            try encodeContainer.encode(inputStream, forKey: .inputStream)
         }
     }
 }
@@ -2983,9 +2977,12 @@ extension RecognizeUtteranceOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.sessionState = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.audioStream = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.audioStream = .data(data)
+        case .stream(let stream):
+            self.audioStream = .stream(stream)
+        case .none:
             self.audioStream = nil
         }
     }
@@ -3122,9 +3119,8 @@ extension ResourceNotFoundException: Swift.Codable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3138,7 +3134,7 @@ extension ResourceNotFoundException {
 }
 
 ///
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3732,15 +3728,20 @@ public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let requestEventStream = input.operationInput.requestEventStream {
-                let requestEventStreamdata = try encoder.encode(requestEventStream)
-                let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
-                input.builder.withBody(requestEventStreambody)
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: requestEventStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let requestEventStreamdata = "{}".data(using: .utf8)!
-                    let requestEventStreambody = ClientRuntime.HttpBody.data(requestEventStreamdata)
-                    input.builder.withBody(requestEventStreambody)
+                    let requestEventStreamData = "{}".data(using: .utf8)!
+                    let requestEventStreamBody = ClientRuntime.HttpBody.data(requestEventStreamData)
+                    input.builder.withBody(requestEventStreamBody)
                 }
             }
         } catch let err {
@@ -3752,19 +3753,6 @@ public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias MInput = ClientRuntime.SerializeStepInput<StartConversationInput>
     public typealias MOutput = ClientRuntime.OperationOutput<StartConversationOutputResponse>
     public typealias Context = ClientRuntime.HttpContext
-}
-
-extension StartConversationInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestEventStream
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let requestEventStream = self.requestEventStream {
-            try encodeContainer.encode(requestEventStream, forKey: .requestEventStream)
-        }
-    }
 }
 
 extension StartConversationInput: ClientRuntime.HeaderProvider {
@@ -3809,7 +3797,7 @@ public struct StartConversationInput: Swift.Equatable {
     public var localeId: Swift.String?
     /// Represents the stream of events to Amazon Lex V2 from your application. The events are encoded as HTTP/2 data frames.
     /// This member is required.
-    public var requestEventStream: LexRuntimeV2ClientTypes.StartConversationRequestEventStream?
+    public var requestEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationRequestEventStream, Swift.Error>?
     /// The identifier of the user session that is having the conversation.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -3819,7 +3807,7 @@ public struct StartConversationInput: Swift.Equatable {
         botId: Swift.String? = nil,
         conversationMode: LexRuntimeV2ClientTypes.ConversationMode? = nil,
         localeId: Swift.String? = nil,
-        requestEventStream: LexRuntimeV2ClientTypes.StartConversationRequestEventStream? = nil,
+        requestEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationRequestEventStream, Swift.Error>? = nil,
         sessionId: Swift.String? = nil
     )
     {
@@ -3829,22 +3817,6 @@ public struct StartConversationInput: Swift.Equatable {
         self.localeId = localeId
         self.requestEventStream = requestEventStream
         self.sessionId = sessionId
-    }
-}
-
-struct StartConversationInputBody: Swift.Equatable {
-    let requestEventStream: LexRuntimeV2ClientTypes.StartConversationRequestEventStream?
-}
-
-extension StartConversationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestEventStream
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestEventStreamDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.StartConversationRequestEventStream.self, forKey: .requestEventStream)
-        requestEventStream = requestEventStreamDecoded
     }
 }
 
@@ -3878,13 +3850,10 @@ public enum StartConversationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartConversationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: LexRuntimeV2ClientTypes.StartConversationResponseEventStream = try responseDecoder.decode(responseBody: data)
-                self.responseEventStream = output
-            } else {
-                self.responseEventStream = nil
-            }
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.responseEventStream = decoderStream.toAsyncStream()
         } else {
             self.responseEventStream = nil
         }
@@ -3893,96 +3862,49 @@ extension StartConversationOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct StartConversationOutputResponse: Swift.Equatable {
     /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
-    public var responseEventStream: LexRuntimeV2ClientTypes.StartConversationResponseEventStream?
+    public var responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>?
 
     public init (
-        responseEventStream: LexRuntimeV2ClientTypes.StartConversationResponseEventStream? = nil
+        responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>? = nil
     )
     {
         self.responseEventStream = responseEventStream
     }
 }
 
-struct StartConversationOutputResponseBody: Swift.Equatable {
-    let responseEventStream: LexRuntimeV2ClientTypes.StartConversationResponseEventStream?
-}
-
-extension StartConversationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case responseEventStream
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let responseEventStreamDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.StartConversationResponseEventStream.self, forKey: .responseEventStream)
-        responseEventStream = responseEventStreamDecoded
-    }
-}
-
-extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioinputevent = "AudioInputEvent"
-        case configurationevent = "ConfigurationEvent"
-        case dtmfinputevent = "DTMFInputEvent"
-        case disconnectionevent = "DisconnectionEvent"
-        case playbackcompletionevent = "PlaybackCompletionEvent"
-        case textinputevent = "TextInputEvent"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRuntime.MessageMarshallable {
+    public func marshall(encoder: ClientRuntime.RequestEncoder) throws -> ClientRuntime.EventStream.Message {
+        var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
+        var payload: ClientRuntime.Data? = nil
         switch self {
-            case let .audioinputevent(audioinputevent):
-                try container.encode(audioinputevent, forKey: .audioinputevent)
-            case let .configurationevent(configurationevent):
-                try container.encode(configurationevent, forKey: .configurationevent)
-            case let .dtmfinputevent(dtmfinputevent):
-                try container.encode(dtmfinputevent, forKey: .dtmfinputevent)
-            case let .disconnectionevent(disconnectionevent):
-                try container.encode(disconnectionevent, forKey: .disconnectionevent)
-            case let .playbackcompletionevent(playbackcompletionevent):
-                try container.encode(playbackcompletionevent, forKey: .playbackcompletionevent)
-            case let .textinputevent(textinputevent):
-                try container.encode(textinputevent, forKey: .textinputevent)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        case .configurationevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .audioinputevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("AudioInputEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .dtmfinputevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("DTMFInputEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .textinputevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("TextInputEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .playbackcompletionevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("PlaybackCompletionEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .disconnectionevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("DisconnectionEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .sdkUnknown(_):
+            throw ClientRuntime.ClientError.serializationFailed("cannot serialize the unknown event type!")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let configurationeventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.ConfigurationEvent.self, forKey: .configurationevent)
-        if let configurationevent = configurationeventDecoded {
-            self = .configurationevent(configurationevent)
-            return
-        }
-        let audioinputeventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.AudioInputEvent.self, forKey: .audioinputevent)
-        if let audioinputevent = audioinputeventDecoded {
-            self = .audioinputevent(audioinputevent)
-            return
-        }
-        let dtmfinputeventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.DTMFInputEvent.self, forKey: .dtmfinputevent)
-        if let dtmfinputevent = dtmfinputeventDecoded {
-            self = .dtmfinputevent(dtmfinputevent)
-            return
-        }
-        let textinputeventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.TextInputEvent.self, forKey: .textinputevent)
-        if let textinputevent = textinputeventDecoded {
-            self = .textinputevent(textinputevent)
-            return
-        }
-        let playbackcompletioneventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.PlaybackCompletionEvent.self, forKey: .playbackcompletionevent)
-        if let playbackcompletionevent = playbackcompletioneventDecoded {
-            self = .playbackcompletionevent(playbackcompletionevent)
-            return
-        }
-        let disconnectioneventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.DisconnectionEvent.self, forKey: .disconnectionevent)
-        if let disconnectionevent = disconnectioneventDecoded {
-            self = .disconnectionevent(disconnectionevent)
-            return
-        }
-        self = .sdkUnknown("")
+        return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
     }
 }
 
@@ -4012,134 +3934,58 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
-extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accessdeniedexception = "AccessDeniedException"
-        case audioresponseevent = "AudioResponseEvent"
-        case badgatewayexception = "BadGatewayException"
-        case conflictexception = "ConflictException"
-        case dependencyfailedexception = "DependencyFailedException"
-        case heartbeatevent = "HeartbeatEvent"
-        case intentresultevent = "IntentResultEvent"
-        case internalserverexception = "InternalServerException"
-        case playbackinterruptionevent = "PlaybackInterruptionEvent"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case textresponseevent = "TextResponseEvent"
-        case throttlingexception = "ThrottlingException"
-        case transcriptevent = "TranscriptEvent"
-        case validationexception = "ValidationException"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .accessdeniedexception(accessdeniedexception):
-                try container.encode(accessdeniedexception, forKey: .accessdeniedexception)
-            case let .audioresponseevent(audioresponseevent):
-                try container.encode(audioresponseevent, forKey: .audioresponseevent)
-            case let .badgatewayexception(badgatewayexception):
-                try container.encode(badgatewayexception, forKey: .badgatewayexception)
-            case let .conflictexception(conflictexception):
-                try container.encode(conflictexception, forKey: .conflictexception)
-            case let .dependencyfailedexception(dependencyfailedexception):
-                try container.encode(dependencyfailedexception, forKey: .dependencyfailedexception)
-            case let .heartbeatevent(heartbeatevent):
-                try container.encode(heartbeatevent, forKey: .heartbeatevent)
-            case let .intentresultevent(intentresultevent):
-                try container.encode(intentresultevent, forKey: .intentresultevent)
-            case let .internalserverexception(internalserverexception):
-                try container.encode(internalserverexception, forKey: .internalserverexception)
-            case let .playbackinterruptionevent(playbackinterruptionevent):
-                try container.encode(playbackinterruptionevent, forKey: .playbackinterruptionevent)
-            case let .resourcenotfoundexception(resourcenotfoundexception):
-                try container.encode(resourcenotfoundexception, forKey: .resourcenotfoundexception)
-            case let .textresponseevent(textresponseevent):
-                try container.encode(textresponseevent, forKey: .textresponseevent)
-            case let .throttlingexception(throttlingexception):
-                try container.encode(throttlingexception, forKey: .throttlingexception)
-            case let .transcriptevent(transcriptevent):
-                try container.encode(transcriptevent, forKey: .transcriptevent)
-            case let .validationexception(validationexception):
-                try container.encode(validationexception, forKey: .validationexception)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "PlaybackInterruptionEvent":
+                self = .playbackinterruptionevent(try decoder.decode(responseBody: message.payload))
+            case "TranscriptEvent":
+                self = .transcriptevent(try decoder.decode(responseBody: message.payload))
+            case "IntentResultEvent":
+                self = .intentresultevent(try decoder.decode(responseBody: message.payload))
+            case "TextResponseEvent":
+                self = .textresponseevent(try decoder.decode(responseBody: message.payload))
+            case "AudioResponseEvent":
+                self = .audioresponseevent(try decoder.decode(responseBody: message.payload))
+            case "HeartbeatEvent":
+                self = .heartbeatevent(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "AccessDeniedException":
+                    return try decoder.decode(responseBody: message.payload) as AccessDeniedException
+                case "ResourceNotFoundException":
+                    return try decoder.decode(responseBody: message.payload) as ResourceNotFoundException
+                case "ValidationException":
+                    return try decoder.decode(responseBody: message.payload) as ValidationException
+                case "ThrottlingException":
+                    return try decoder.decode(responseBody: message.payload) as ThrottlingException
+                case "InternalServerException":
+                    return try decoder.decode(responseBody: message.payload) as InternalServerException
+                case "ConflictException":
+                    return try decoder.decode(responseBody: message.payload) as ConflictException
+                case "DependencyFailedException":
+                    return try decoder.decode(responseBody: message.payload) as DependencyFailedException
+                case "BadGatewayException":
+                    return try decoder.decode(responseBody: message.payload) as BadGatewayException
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let playbackinterruptioneventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.PlaybackInterruptionEvent.self, forKey: .playbackinterruptionevent)
-        if let playbackinterruptionevent = playbackinterruptioneventDecoded {
-            self = .playbackinterruptionevent(playbackinterruptionevent)
-            return
-        }
-        let transcripteventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.TranscriptEvent.self, forKey: .transcriptevent)
-        if let transcriptevent = transcripteventDecoded {
-            self = .transcriptevent(transcriptevent)
-            return
-        }
-        let intentresulteventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.IntentResultEvent.self, forKey: .intentresultevent)
-        if let intentresultevent = intentresulteventDecoded {
-            self = .intentresultevent(intentresultevent)
-            return
-        }
-        let textresponseeventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.TextResponseEvent.self, forKey: .textresponseevent)
-        if let textresponseevent = textresponseeventDecoded {
-            self = .textresponseevent(textresponseevent)
-            return
-        }
-        let audioresponseeventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.AudioResponseEvent.self, forKey: .audioresponseevent)
-        if let audioresponseevent = audioresponseeventDecoded {
-            self = .audioresponseevent(audioresponseevent)
-            return
-        }
-        let heartbeateventDecoded = try values.decodeIfPresent(LexRuntimeV2ClientTypes.HeartbeatEvent.self, forKey: .heartbeatevent)
-        if let heartbeatevent = heartbeateventDecoded {
-            self = .heartbeatevent(heartbeatevent)
-            return
-        }
-        let accessdeniedexceptionDecoded = try values.decodeIfPresent(AccessDeniedException.self, forKey: .accessdeniedexception)
-        if let accessdeniedexception = accessdeniedexceptionDecoded {
-            self = .accessdeniedexception(accessdeniedexception)
-            return
-        }
-        let resourcenotfoundexceptionDecoded = try values.decodeIfPresent(ResourceNotFoundException.self, forKey: .resourcenotfoundexception)
-        if let resourcenotfoundexception = resourcenotfoundexceptionDecoded {
-            self = .resourcenotfoundexception(resourcenotfoundexception)
-            return
-        }
-        let validationexceptionDecoded = try values.decodeIfPresent(ValidationException.self, forKey: .validationexception)
-        if let validationexception = validationexceptionDecoded {
-            self = .validationexception(validationexception)
-            return
-        }
-        let throttlingexceptionDecoded = try values.decodeIfPresent(ThrottlingException.self, forKey: .throttlingexception)
-        if let throttlingexception = throttlingexceptionDecoded {
-            self = .throttlingexception(throttlingexception)
-            return
-        }
-        let internalserverexceptionDecoded = try values.decodeIfPresent(InternalServerException.self, forKey: .internalserverexception)
-        if let internalserverexception = internalserverexceptionDecoded {
-            self = .internalserverexception(internalserverexception)
-            return
-        }
-        let conflictexceptionDecoded = try values.decodeIfPresent(ConflictException.self, forKey: .conflictexception)
-        if let conflictexception = conflictexceptionDecoded {
-            self = .conflictexception(conflictexception)
-            return
-        }
-        let dependencyfailedexceptionDecoded = try values.decodeIfPresent(DependencyFailedException.self, forKey: .dependencyfailedexception)
-        if let dependencyfailedexception = dependencyfailedexceptionDecoded {
-            self = .dependencyfailedexception(dependencyfailedexception)
-            return
-        }
-        let badgatewayexceptionDecoded = try values.decodeIfPresent(BadGatewayException.self, forKey: .badgatewayexception)
-        if let badgatewayexception = badgatewayexceptionDecoded {
-            self = .badgatewayexception(badgatewayexception)
-            return
-        }
-        self = .sdkUnknown("")
     }
 }
 
@@ -4158,22 +4004,6 @@ extension LexRuntimeV2ClientTypes {
         case audioresponseevent(LexRuntimeV2ClientTypes.AudioResponseEvent)
         /// Event that Amazon Lex V2 sends to indicate that the stream is still open between the client application and Amazon Lex V2
         case heartbeatevent(LexRuntimeV2ClientTypes.HeartbeatEvent)
-        /// Exception thrown when the credentials passed with the request are invalid or expired. Also thrown when the credentials in the request do not have permission to access the StartConversation operation.
-        case accessdeniedexception(AccessDeniedException)
-        /// Exception thrown if one of the input parameters points to a resource that does not exist. For example, if the bot ID specified does not exist.
-        case resourcenotfoundexception(ResourceNotFoundException)
-        /// Exception thrown when one or more parameters could not be validated. The message contains the name of the field that isn't valid.
-        case validationexception(ValidationException)
-        /// Exception thrown when your application exceeds the maximum number of concurrent requests.
-        case throttlingexception(ThrottlingException)
-        /// An error occurred with Amazon Lex V2.
-        case internalserverexception(InternalServerException)
-        /// Exception thrown when two clients are using the same AWS account, Amazon Lex V2 bot, and session ID.
-        case conflictexception(ConflictException)
-        ///
-        case dependencyfailedexception(DependencyFailedException)
-        ///
-        case badgatewayexception(BadGatewayException)
         case sdkUnknown(Swift.String)
     }
 
@@ -4353,9 +4183,8 @@ extension ThrottlingException: Swift.Codable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4369,7 +4198,7 @@ extension ThrottlingException {
 }
 
 ///
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4470,9 +4299,8 @@ extension ValidationException: Swift.Codable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4486,7 +4314,7 @@ extension ValidationException {
 }
 
 ///
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

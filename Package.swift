@@ -104,6 +104,18 @@ func addServiceTarget(_ name: String) {
     ]
 }
 
+func addIntegrationTestTarget(_ name: String) {
+    let integrationTestName = "\(name)IntegrationTests"
+    package.targets += [
+        .testTarget(
+            name: integrationTestName,
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            path: "./IntegrationTests/Services/\(integrationTestName)",
+            resources: [.process("Resources")]
+        )
+    ]
+}
+
 
 // MARK: - Generated
 
@@ -458,3 +470,8 @@ let serviceTargets: [String] = [
 ]
 
 serviceTargets.forEach(addServiceTarget)
+
+let servicesWithIntegrationTests: [String] = [
+]
+
+servicesWithIntegrationTests.forEach(addIntegrationTestTarget)

@@ -176,7 +176,7 @@ extension BatchEntryIdsNotDistinct {
 }
 
 /// Two or more batch entries in the request have the same Id.
-public struct BatchEntryIdsNotDistinct: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BatchEntryIdsNotDistinct: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -198,7 +198,7 @@ extension BatchRequestTooLong {
 }
 
 /// The length of all the messages put together is more than the limit.
-public struct BatchRequestTooLong: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BatchRequestTooLong: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -391,9 +391,8 @@ public enum ChangeMessageVisibilityBatchOutputError: Swift.Error, Swift.Equatabl
 
 extension ChangeMessageVisibilityBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ChangeMessageVisibilityBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.successful = output.successful
@@ -918,9 +917,8 @@ public enum CreateQueueOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateQueueOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queueUrl = output.queueUrl
         } else {
@@ -1072,9 +1070,8 @@ public enum DeleteMessageBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteMessageBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteMessageBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.successful = output.successful
@@ -1418,7 +1415,7 @@ extension EmptyBatchRequest {
 }
 
 /// The batch request doesn't contain any entries.
-public struct EmptyBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EmptyBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1604,9 +1601,8 @@ public enum GetQueueAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetQueueAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetQueueAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
         } else {
@@ -1743,9 +1739,8 @@ public enum GetQueueUrlOutputError: Swift.Error, Swift.Equatable {
 
 extension GetQueueUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetQueueUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queueUrl = output.queueUrl
         } else {
@@ -1794,7 +1789,7 @@ extension InvalidAttributeName {
 }
 
 /// The specified attribute doesn't exist.
-public struct InvalidAttributeName: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidAttributeName: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1816,7 +1811,7 @@ extension InvalidBatchEntryId {
 }
 
 /// The Id of a batch entry in a batch request doesn't abide by the specification.
-public struct InvalidBatchEntryId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidBatchEntryId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1838,7 +1833,7 @@ extension InvalidIdFormat {
 }
 
 /// The specified receipt handle isn't valid for the current version.
-public struct InvalidIdFormat: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidIdFormat: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1860,7 +1855,7 @@ extension InvalidMessageContents {
 }
 
 /// The message contains characters outside the allowed set.
-public struct InvalidMessageContents: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMessageContents: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1964,9 +1959,8 @@ public enum ListDeadLetterSourceQueuesOutputError: Swift.Error, Swift.Equatable 
 
 extension ListDeadLetterSourceQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDeadLetterSourceQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queueUrls = output.queueUrls
@@ -2099,9 +2093,8 @@ public enum ListQueueTagsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListQueueTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListQueueTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -2245,9 +2238,8 @@ public enum ListQueuesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queueUrls = output.queueUrls
@@ -2621,7 +2613,7 @@ extension MessageNotInflight {
 }
 
 /// The specified message isn't in flight.
-public struct MessageNotInflight: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MessageNotInflight: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2855,7 +2847,7 @@ extension OverLimit {
 }
 
 /// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of inflight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-public struct OverLimit: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OverLimit: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2877,7 +2869,7 @@ extension PurgeQueueInProgress {
 }
 
 /// Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
-public struct PurgeQueueInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PurgeQueueInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3071,7 +3063,7 @@ extension QueueDeletedRecently {
 }
 
 /// You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
-public struct QueueDeletedRecently: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct QueueDeletedRecently: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3093,7 +3085,7 @@ extension QueueDoesNotExist {
 }
 
 /// The specified queue doesn't exist.
-public struct QueueDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct QueueDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3115,7 +3107,7 @@ extension QueueNameExists {
 }
 
 /// A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
-public struct QueueNameExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct QueueNameExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3137,7 +3129,7 @@ extension ReceiptHandleIsInvalid {
 }
 
 /// The specified receipt handle isn't valid.
-public struct ReceiptHandleIsInvalid: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReceiptHandleIsInvalid: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3392,9 +3384,8 @@ public enum ReceiveMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension ReceiveMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReceiveMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
         } else {
@@ -3654,9 +3645,8 @@ public enum SendMessageBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension SendMessageBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendMessageBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.successful = output.successful
@@ -4233,9 +4223,8 @@ public enum SendMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension SendMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.md5OfMessageAttributes = output.md5OfMessageAttributes
             self.md5OfMessageBody = output.md5OfMessageBody
@@ -4633,7 +4622,7 @@ extension TooManyEntriesInBatchRequest {
 }
 
 /// The batch request contains more entries than permissible.
-public struct TooManyEntriesInBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyEntriesInBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4655,7 +4644,7 @@ extension UnsupportedOperation {
 }
 
 /// Error code 400. Unsupported operation.
-public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

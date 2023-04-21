@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// Your IAM user or role does not have permission to call the Amazon Lex V2 APIs required to migrate your bot.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -56,9 +55,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -72,7 +70,7 @@ extension BadRequestException {
 }
 
 /// The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -705,9 +703,8 @@ extension LexModelBuildingClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -721,7 +718,7 @@ extension ConflictException {
 }
 
 /// There was a conflict processing the request. Try your request again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -995,9 +992,8 @@ public enum CreateBotVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateBotVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBotVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortStatement = output.abortStatement
             self.checksum = output.checksum
@@ -1292,9 +1288,8 @@ public enum CreateIntentVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateIntentVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateIntentVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.conclusionStatement = output.conclusionStatement
@@ -1626,9 +1621,8 @@ public enum CreateSlotTypeVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSlotTypeVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSlotTypeVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.createdDate = output.createdDate
@@ -2841,9 +2835,8 @@ public enum GetBotAliasOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botName = output.botName
             self.botVersion = output.botVersion
@@ -3042,9 +3035,8 @@ public enum GetBotAliasesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBotAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliases = output.botAliases
             self.nextToken = output.nextToken
@@ -3182,9 +3174,8 @@ extension GetBotChannelAssociationOutputResponse: Swift.CustomDebugStringConvert
 
 extension GetBotChannelAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotChannelAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAlias = output.botAlias
             self.botConfiguration = output.botConfiguration
@@ -3416,9 +3407,8 @@ public enum GetBotChannelAssociationsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBotChannelAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotChannelAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botChannelAssociations = output.botChannelAssociations
             self.nextToken = output.nextToken
@@ -3543,9 +3533,8 @@ public enum GetBotOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortStatement = output.abortStatement
             self.checksum = output.checksum
@@ -3847,9 +3836,8 @@ public enum GetBotVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBotVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bots = output.bots
             self.nextToken = output.nextToken
@@ -3991,9 +3979,8 @@ public enum GetBotsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bots = output.bots
             self.nextToken = output.nextToken
@@ -4110,9 +4097,8 @@ public enum GetBuiltinIntentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBuiltinIntentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBuiltinIntentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.signature = output.signature
             self.slots = output.slots
@@ -4279,9 +4265,8 @@ public enum GetBuiltinIntentsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBuiltinIntentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBuiltinIntentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.intents = output.intents
             self.nextToken = output.nextToken
@@ -4429,9 +4414,8 @@ public enum GetBuiltinSlotTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBuiltinSlotTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBuiltinSlotTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.slotTypes = output.slotTypes
@@ -4593,9 +4577,8 @@ public enum GetExportOutputError: Swift.Error, Swift.Equatable {
 
 extension GetExportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportStatus = output.exportStatus
             self.exportType = output.exportType
@@ -4759,9 +4742,8 @@ public enum GetImportOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.failureReason = output.failureReason
@@ -4936,9 +4918,8 @@ public enum GetIntentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIntentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIntentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.conclusionStatement = output.conclusionStatement
@@ -5267,9 +5248,8 @@ public enum GetIntentVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIntentVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIntentVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.intents = output.intents
             self.nextToken = output.nextToken
@@ -5411,9 +5391,8 @@ public enum GetIntentsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIntentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIntentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.intents = output.intents
             self.nextToken = output.nextToken
@@ -5530,9 +5509,8 @@ public enum GetMigrationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alerts = output.alerts
             self.migrationId = output.migrationId
@@ -5780,9 +5758,8 @@ public enum GetMigrationsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMigrationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMigrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.migrationSummaries = output.migrationSummaries
             self.nextToken = output.nextToken
@@ -5907,9 +5884,8 @@ public enum GetSlotTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSlotTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSlotTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.createdDate = output.createdDate
@@ -6140,9 +6116,8 @@ public enum GetSlotTypeVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSlotTypeVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSlotTypeVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.slotTypes = output.slotTypes
@@ -6284,9 +6259,8 @@ public enum GetSlotTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSlotTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSlotTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.slotTypes = output.slotTypes
@@ -6435,9 +6409,8 @@ public enum GetUtterancesViewOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUtterancesViewOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetUtterancesViewOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botName = output.botName
             self.utterances = output.utterances
@@ -6688,9 +6661,8 @@ extension LexModelBuildingClientTypes {
 
 extension InternalFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6704,7 +6676,7 @@ extension InternalFailureException {
 }
 
 /// An internal Amazon Lex error occurred. Try your request again.
-public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6802,9 +6774,8 @@ extension LimitExceededException {
         } else {
             self.retryAfterSeconds = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6818,7 +6789,7 @@ extension LimitExceededException {
 }
 
 /// The request exceeded a limit. Try your request again.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6916,9 +6887,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7634,9 +7604,8 @@ extension LexModelBuildingClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7650,7 +7619,7 @@ extension NotFoundException {
 }
 
 /// The resource specified in the request was not found. Check the resource and try again.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7776,9 +7745,8 @@ extension LexModelBuildingClientTypes {
 
 extension PreconditionFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PreconditionFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7792,7 +7760,7 @@ extension PreconditionFailedException {
 }
 
 /// The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-public struct PreconditionFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PreconditionFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8083,9 +8051,8 @@ public enum PutBotAliasOutputError: Swift.Error, Swift.Equatable {
 
 extension PutBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutBotAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botName = output.botName
             self.botVersion = output.botVersion
@@ -8528,9 +8495,8 @@ public enum PutBotOutputError: Swift.Error, Swift.Equatable {
 
 extension PutBotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortStatement = output.abortStatement
             self.checksum = output.checksum
@@ -9089,9 +9055,8 @@ public enum PutIntentOutputError: Swift.Error, Swift.Equatable {
 
 extension PutIntentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutIntentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.conclusionStatement = output.conclusionStatement
@@ -9534,9 +9499,8 @@ public enum PutSlotTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension PutSlotTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutSlotTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.createVersion = output.createVersion
@@ -9731,9 +9695,8 @@ extension LexModelBuildingClientTypes {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exampleReference = output.exampleReference
             self.referenceType = output.referenceType
@@ -9753,7 +9716,7 @@ extension ResourceInUseException {
 ///
 ///
 ///     "name": string, "version": string } }
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10501,9 +10464,8 @@ public enum StartImportOutputError: Swift.Error, Swift.Equatable {
 
 extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.importId = output.importId
@@ -10749,9 +10711,8 @@ public enum StartMigrationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.migrationId = output.migrationId
             self.migrationStrategy = output.migrationStrategy

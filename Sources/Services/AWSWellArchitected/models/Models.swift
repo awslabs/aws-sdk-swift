@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1555,9 +1554,8 @@ extension WellArchitectedClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -1575,7 +1573,7 @@ extension ConflictException {
 }
 
 /// The resource has already been processed, was deleted, or is too large.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1863,9 +1861,8 @@ public enum CreateLensShareOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLensShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLensShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.shareId = output.shareId
         } else {
@@ -2019,9 +2016,8 @@ public enum CreateLensVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateLensVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLensVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensArn = output.lensArn
             self.lensVersion = output.lensVersion
@@ -2174,9 +2170,8 @@ public enum CreateMilestoneOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMilestoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMilestoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.milestoneNumber = output.milestoneNumber
             self.workloadId = output.workloadId
@@ -2643,9 +2638,8 @@ public enum CreateWorkloadOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.workloadArn = output.workloadArn
             self.workloadId = output.workloadId
@@ -2812,9 +2806,8 @@ public enum CreateWorkloadShareOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWorkloadShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.shareId = output.shareId
             self.workloadId = output.workloadId
@@ -3489,9 +3482,8 @@ public enum ExportLensOutputError: Swift.Error, Swift.Equatable {
 
 extension ExportLensOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExportLensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensJSON = output.lensJSON
         } else {
@@ -3625,9 +3617,8 @@ public enum GetAnswerOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAnswerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.answer = output.answer
             self.lensAlias = output.lensAlias
@@ -3804,9 +3795,8 @@ public enum GetConsolidatedReportOutputError: Swift.Error, Swift.Equatable {
 
 extension GetConsolidatedReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConsolidatedReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.base64String = output.base64String
             self.metrics = output.metrics
@@ -3952,9 +3942,8 @@ public enum GetLensOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLensOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lens = output.lens
         } else {
@@ -4080,9 +4069,8 @@ public enum GetLensReviewOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLensReviewOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensReview = output.lensReview
             self.milestoneNumber = output.milestoneNumber
@@ -4229,9 +4217,8 @@ public enum GetLensReviewReportOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLensReviewReportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLensReviewReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensReviewReport = output.lensReviewReport
             self.milestoneNumber = output.milestoneNumber
@@ -4377,9 +4364,8 @@ public enum GetLensVersionDifferenceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLensVersionDifferenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetLensVersionDifferenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseLensVersion = output.baseLensVersion
             self.latestLensVersion = output.latestLensVersion
@@ -4538,9 +4524,8 @@ public enum GetMilestoneOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMilestoneOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMilestoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.milestone = output.milestone
             self.workloadId = output.workloadId
@@ -4652,9 +4637,8 @@ public enum GetWorkloadOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.workload = output.workload
         } else {
@@ -4825,9 +4809,8 @@ public enum ImportLensOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportLensOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportLensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensArn = output.lensArn
             self.status = output.status
@@ -5008,9 +4991,8 @@ extension WellArchitectedClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5024,7 +5006,7 @@ extension InternalServerException {
 }
 
 /// There is a problem with the Well-Architected Tool API service.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6056,9 +6038,8 @@ public enum ListAnswersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAnswersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAnswersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.answerSummaries = output.answerSummaries
             self.lensAlias = output.lensAlias
@@ -6306,9 +6287,8 @@ public enum ListCheckDetailsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCheckDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCheckDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkDetails = output.checkDetails
             self.nextToken = output.nextToken
@@ -6515,9 +6495,8 @@ public enum ListCheckSummariesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCheckSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCheckSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checkSummaries = output.checkSummaries
             self.nextToken = output.nextToken
@@ -6686,9 +6665,8 @@ public enum ListLensReviewImprovementsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListLensReviewImprovementsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLensReviewImprovementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.improvementSummaries = output.improvementSummaries
             self.lensAlias = output.lensAlias
@@ -6882,9 +6860,8 @@ public enum ListLensReviewsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLensReviewsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLensReviewsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensReviewSummaries = output.lensReviewSummaries
             self.milestoneNumber = output.milestoneNumber
@@ -7065,9 +7042,8 @@ public enum ListLensSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLensSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLensSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensShareSummaries = output.lensShareSummaries
             self.nextToken = output.nextToken
@@ -7226,9 +7202,8 @@ public enum ListLensesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLensesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLensesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensSummaries = output.lensSummaries
             self.nextToken = output.nextToken
@@ -7385,9 +7360,8 @@ public enum ListMilestonesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMilestonesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMilestonesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.milestoneSummaries = output.milestoneSummaries
             self.nextToken = output.nextToken
@@ -7555,9 +7529,8 @@ public enum ListNotificationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notificationSummaries = output.notificationSummaries
@@ -7716,9 +7689,8 @@ public enum ListShareInvitationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListShareInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListShareInvitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.shareInvitationSummaries = output.shareInvitationSummaries
@@ -7832,9 +7804,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7985,9 +7956,8 @@ public enum ListWorkloadSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorkloadSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkloadSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.workloadId = output.workloadId
@@ -8156,9 +8126,8 @@ public enum ListWorkloadsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorkloadsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkloadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.workloadSummaries = output.workloadSummaries
@@ -8905,9 +8874,8 @@ extension WellArchitectedClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -8925,7 +8893,7 @@ extension ResourceNotFoundException {
 }
 
 /// The requested resource was not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9023,9 +8991,8 @@ extension WellArchitectedClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -9047,7 +9014,7 @@ extension ServiceQuotaExceededException {
 }
 
 /// The user has reached their resource quota.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9527,9 +9494,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -9547,7 +9513,7 @@ extension ThrottlingException {
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9896,9 +9862,8 @@ public enum UpdateAnswerOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateAnswerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.answer = output.answer
             self.lensAlias = output.lensAlias
@@ -10175,9 +10140,8 @@ public enum UpdateLensReviewOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateLensReviewOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lensReview = output.lensReview
             self.workloadId = output.workloadId
@@ -10316,9 +10280,8 @@ public enum UpdateShareInvitationOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateShareInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateShareInvitationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.shareInvitation = output.shareInvitation
         } else {
@@ -10739,9 +10702,8 @@ public enum UpdateWorkloadOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.workload = output.workload
         } else {
@@ -10878,9 +10840,8 @@ public enum UpdateWorkloadShareOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateWorkloadShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.workloadId = output.workloadId
             self.workloadShare = output.workloadShare
@@ -11048,9 +11009,8 @@ public struct UpgradeLensReviewOutputResponse: Swift.Equatable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message
@@ -11068,7 +11028,7 @@ extension ValidationException {
 }
 
 /// The user input is not valid.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

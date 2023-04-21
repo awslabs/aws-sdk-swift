@@ -52,6 +52,30 @@ public class AWSSigV4Signer {
         }
     }
 
+    /// Signs the event payload and returns the signed event with :date and :chunk-signature headers
+    /// - Parameters:
+    ///   - payload: The event payload to sign
+    ///   - previousSignature: The signature of the previous event, this is used to calculate the signature of
+    ///                        the current event payload like a rolling signature calculation.
+    ///   - signingConfig: The signing configuration
+    /// - Returns: The signed event with :date and :chunk-signature headers
+    static func signEvent(payload: Data,
+                          previousSignature: String,
+                          signingConfig: AWSSigningConfig) async throws -> SigningResult<EventStream.Message> {
+        let signature = try await Signer.signEvent(event: payload,
+                                                   previousSignature: previousSignature,
+                                                   config: try signingConfig.toCRTType())
+        let binarySignature = signature.hexaData
+
+        let message = EventStream.Message(headers: [ .init(name: ":date",
+                                                           value: .timestamp(signingConfig.date)),
+                                                     .init(name: ":chunk-signature",
+                                                           value: .byteArray(binarySignature))],
+                                           payload: payload)
+
+        return SigningResult(output: message, signature: signature)
+    }
+
     public static func sigV4SignedRequest(
         requestBuilder: SdkHttpRequestBuilder,
         signingConfig: AWSSigningConfig
@@ -74,4 +98,9 @@ public class AWSSigV4Signer {
             return nil
         }
     }
+}
+
+public struct SigningResult<T> {
+    public let output: T
+    public let signature: String
 }

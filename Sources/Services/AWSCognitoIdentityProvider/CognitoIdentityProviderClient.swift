@@ -208,6 +208,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddCustomAttributesInput, AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>(id: "addCustomAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCustomAttributesInput, AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCustomAttributesInput, AddCustomAttributesOutputResponse>())
@@ -224,7 +225,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -244,6 +245,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminAddUserToGroupInput, AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>(id: "adminAddUserToGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutputResponse>())
@@ -260,7 +262,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -280,6 +282,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminConfirmSignUpInput, AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>(id: "adminConfirmSignUp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutputResponse>())
@@ -296,7 +299,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -316,6 +319,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminCreateUserInput, AdminCreateUserOutputResponse, AdminCreateUserOutputError>(id: "adminCreateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminCreateUserInput, AdminCreateUserOutputResponse, AdminCreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminCreateUserInput, AdminCreateUserOutputResponse>())
@@ -332,7 +336,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminCreateUserOutputResponse, AdminCreateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminCreateUserOutputResponse, AdminCreateUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminCreateUserOutputResponse, AdminCreateUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -352,6 +356,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminDeleteUserInput, AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>(id: "adminDeleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDeleteUserInput, AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDeleteUserInput, AdminDeleteUserOutputResponse>())
@@ -368,7 +373,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -388,6 +393,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>(id: "adminDeleteUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutputResponse>())
@@ -404,7 +410,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -424,6 +430,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>(id: "adminDisableProviderForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutputResponse>())
@@ -440,7 +447,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -460,6 +467,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminDisableUserInput, AdminDisableUserOutputResponse, AdminDisableUserOutputError>(id: "adminDisableUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDisableUserInput, AdminDisableUserOutputResponse, AdminDisableUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDisableUserInput, AdminDisableUserOutputResponse>())
@@ -476,7 +484,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminDisableUserOutputResponse, AdminDisableUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminDisableUserOutputResponse, AdminDisableUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminDisableUserOutputResponse, AdminDisableUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -496,6 +504,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminEnableUserInput, AdminEnableUserOutputResponse, AdminEnableUserOutputError>(id: "adminEnableUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminEnableUserInput, AdminEnableUserOutputResponse, AdminEnableUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminEnableUserInput, AdminEnableUserOutputResponse>())
@@ -512,7 +521,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminEnableUserOutputResponse, AdminEnableUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminEnableUserOutputResponse, AdminEnableUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminEnableUserOutputResponse, AdminEnableUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -532,6 +541,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminForgetDeviceInput, AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>(id: "adminForgetDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutputResponse>())
@@ -548,7 +558,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -568,6 +578,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminGetDeviceInput, AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>(id: "adminGetDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminGetDeviceInput, AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminGetDeviceInput, AdminGetDeviceOutputResponse>())
@@ -584,7 +595,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -604,6 +615,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminGetUserInput, AdminGetUserOutputResponse, AdminGetUserOutputError>(id: "adminGetUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminGetUserInput, AdminGetUserOutputResponse, AdminGetUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminGetUserInput, AdminGetUserOutputResponse>())
@@ -620,7 +632,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminGetUserOutputResponse, AdminGetUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminGetUserOutputResponse, AdminGetUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminGetUserOutputResponse, AdminGetUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -640,6 +652,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminInitiateAuthInput, AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>(id: "adminInitiateAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutputResponse>())
@@ -656,7 +669,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -676,6 +689,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>(id: "adminLinkProviderForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutputResponse>())
@@ -692,7 +706,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -712,6 +726,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminListDevicesInput, AdminListDevicesOutputResponse, AdminListDevicesOutputError>(id: "adminListDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminListDevicesInput, AdminListDevicesOutputResponse, AdminListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminListDevicesInput, AdminListDevicesOutputResponse>())
@@ -728,7 +743,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminListDevicesOutputResponse, AdminListDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminListDevicesOutputResponse, AdminListDevicesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminListDevicesOutputResponse, AdminListDevicesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -748,6 +763,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>(id: "adminListGroupsForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse>())
@@ -764,7 +780,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -784,6 +800,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>(id: "adminListUserAuthEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse>())
@@ -800,7 +817,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -820,6 +837,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>(id: "adminRemoveUserFromGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutputResponse>())
@@ -836,7 +854,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -856,6 +874,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminResetUserPasswordInput, AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>(id: "adminResetUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutputResponse>())
@@ -872,7 +891,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -892,6 +911,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>(id: "adminRespondToAuthChallenge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutputResponse>())
@@ -908,7 +928,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -928,6 +948,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>(id: "adminSetUserMFAPreference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutputResponse>())
@@ -944,7 +965,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -964,6 +985,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminSetUserPasswordInput, AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>(id: "adminSetUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutputResponse>())
@@ -980,7 +1002,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1000,6 +1022,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminSetUserSettingsInput, AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>(id: "adminSetUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutputResponse>())
@@ -1016,7 +1039,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1036,6 +1059,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>(id: "adminUpdateAuthEventFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutputResponse>())
@@ -1052,7 +1076,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1072,6 +1096,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>(id: "adminUpdateDeviceStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutputResponse>())
@@ -1088,7 +1113,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1108,6 +1133,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>(id: "adminUpdateUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutputResponse>())
@@ -1124,7 +1150,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1144,6 +1170,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>(id: "adminUserGlobalSignOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutputResponse>())
@@ -1160,7 +1187,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1178,6 +1205,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>(id: "associateSoftwareToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutputResponse>())
@@ -1192,7 +1220,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1210,6 +1238,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ChangePasswordInput, ChangePasswordOutputResponse, ChangePasswordOutputError>(id: "changePassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangePasswordInput, ChangePasswordOutputResponse, ChangePasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangePasswordInput, ChangePasswordOutputResponse>())
@@ -1224,7 +1253,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ChangePasswordOutputResponse, ChangePasswordOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangePasswordOutputResponse, ChangePasswordOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangePasswordOutputResponse, ChangePasswordOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1242,6 +1271,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmDeviceInput, ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>(id: "confirmDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmDeviceInput, ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmDeviceInput, ConfirmDeviceOutputResponse>())
@@ -1256,7 +1286,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1274,6 +1304,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>(id: "confirmForgotPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutputResponse>())
@@ -1288,7 +1319,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1306,6 +1337,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmSignUpInput, ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>(id: "confirmSignUp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmSignUpInput, ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmSignUpInput, ConfirmSignUpOutputResponse>())
@@ -1320,7 +1352,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1340,6 +1372,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>(id: "createGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutputResponse>())
@@ -1356,7 +1389,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutputResponse, CreateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1376,6 +1409,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(id: "createIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse>())
@@ -1392,7 +1426,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1412,6 +1446,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateResourceServerInput, CreateResourceServerOutputResponse, CreateResourceServerOutputError>(id: "createResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceServerInput, CreateResourceServerOutputResponse, CreateResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceServerInput, CreateResourceServerOutputResponse>())
@@ -1428,7 +1463,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceServerOutputResponse, CreateResourceServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceServerOutputResponse, CreateResourceServerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResourceServerOutputResponse, CreateResourceServerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1448,6 +1483,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserImportJobInput, CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>(id: "createUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserImportJobInput, CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserImportJobInput, CreateUserImportJobOutputResponse>())
@@ -1464,7 +1500,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1484,6 +1520,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserPoolInput, CreateUserPoolOutputResponse, CreateUserPoolOutputError>(id: "createUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserPoolInput, CreateUserPoolOutputResponse, CreateUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserPoolInput, CreateUserPoolOutputResponse>())
@@ -1500,7 +1537,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserPoolOutputResponse, CreateUserPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserPoolOutputResponse, CreateUserPoolOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserPoolOutputResponse, CreateUserPoolOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1520,6 +1557,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserPoolClientInput, CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>(id: "createUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutputResponse>())
@@ -1536,7 +1574,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1556,6 +1594,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserPoolDomainInput, CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>(id: "createUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutputResponse>())
@@ -1572,7 +1611,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1592,6 +1631,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>(id: "deleteGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutputResponse>())
@@ -1608,7 +1648,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1628,6 +1668,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(id: "deleteIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse>())
@@ -1644,7 +1685,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1664,6 +1705,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourceServerInput, DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>(id: "deleteResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceServerInput, DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceServerInput, DeleteResourceServerOutputResponse>())
@@ -1680,7 +1722,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1698,6 +1740,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
@@ -1712,7 +1755,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1730,6 +1773,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserAttributesInput, DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>(id: "deleteUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutputResponse>())
@@ -1744,7 +1788,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1764,6 +1808,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserPoolInput, DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>(id: "deleteUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPoolInput, DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPoolInput, DeleteUserPoolOutputResponse>())
@@ -1780,7 +1825,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1800,6 +1845,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserPoolClientInput, DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>(id: "deleteUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutputResponse>())
@@ -1816,7 +1862,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1836,6 +1882,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>(id: "deleteUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutputResponse>())
@@ -1852,7 +1899,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1872,6 +1919,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeIdentityProviderInput, DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>(id: "describeIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutputResponse>())
@@ -1888,7 +1936,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1908,6 +1956,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeResourceServerInput, DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>(id: "describeResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourceServerInput, DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourceServerInput, DescribeResourceServerOutputResponse>())
@@ -1924,7 +1973,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1944,6 +1993,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>(id: "describeRiskConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutputResponse>())
@@ -1960,7 +2010,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1980,6 +2030,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserImportJobInput, DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>(id: "describeUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutputResponse>())
@@ -1996,7 +2047,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2016,6 +2067,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserPoolInput, DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>(id: "describeUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserPoolInput, DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserPoolInput, DescribeUserPoolOutputResponse>())
@@ -2032,7 +2084,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2052,6 +2104,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserPoolClientInput, DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>(id: "describeUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutputResponse>())
@@ -2068,7 +2121,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2088,6 +2141,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>(id: "describeUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutputResponse>())
@@ -2104,7 +2158,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2122,6 +2176,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ForgetDeviceInput, ForgetDeviceOutputResponse, ForgetDeviceOutputError>(id: "forgetDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgetDeviceInput, ForgetDeviceOutputResponse, ForgetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgetDeviceInput, ForgetDeviceOutputResponse>())
@@ -2136,7 +2191,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ForgetDeviceOutputResponse, ForgetDeviceOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ForgetDeviceOutputResponse, ForgetDeviceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ForgetDeviceOutputResponse, ForgetDeviceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2154,6 +2209,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ForgotPasswordInput, ForgotPasswordOutputResponse, ForgotPasswordOutputError>(id: "forgotPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgotPasswordInput, ForgotPasswordOutputResponse, ForgotPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgotPasswordInput, ForgotPasswordOutputResponse>())
@@ -2168,7 +2224,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ForgotPasswordOutputResponse, ForgotPasswordOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ForgotPasswordOutputResponse, ForgotPasswordOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ForgotPasswordOutputResponse, ForgotPasswordOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2188,6 +2244,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCSVHeaderInput, GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>(id: "getCSVHeader")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCSVHeaderInput, GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCSVHeaderInput, GetCSVHeaderOutputResponse>())
@@ -2204,7 +2261,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2222,6 +2279,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>(id: "getDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutputResponse>())
@@ -2236,7 +2294,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2256,6 +2314,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutputResponse, GetGroupOutputError>(id: "getGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutputResponse, GetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutputResponse>())
@@ -2272,7 +2331,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutputResponse, GetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutputResponse, GetGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutputResponse, GetGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2292,6 +2351,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>(id: "getIdentityProviderByIdentifier")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutputResponse>())
@@ -2308,7 +2368,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2328,6 +2388,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSigningCertificateInput, GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>(id: "getSigningCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningCertificateInput, GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningCertificateInput, GetSigningCertificateOutputResponse>())
@@ -2344,7 +2405,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2364,6 +2425,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUICustomizationInput, GetUICustomizationOutputResponse, GetUICustomizationOutputError>(id: "getUICustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUICustomizationInput, GetUICustomizationOutputResponse, GetUICustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUICustomizationInput, GetUICustomizationOutputResponse>())
@@ -2380,7 +2442,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUICustomizationOutputResponse, GetUICustomizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUICustomizationOutputResponse, GetUICustomizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUICustomizationOutputResponse, GetUICustomizationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2398,6 +2460,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutputResponse, GetUserOutputError>(id: "getUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutputResponse, GetUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutputResponse>())
@@ -2412,7 +2475,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetUserOutputResponse, GetUserOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutputResponse, GetUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserOutputResponse, GetUserOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2430,6 +2493,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>(id: "getUserAttributeVerificationCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutputResponse>())
@@ -2444,7 +2508,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2464,6 +2528,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>(id: "getUserPoolMfaConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutputResponse>())
@@ -2480,7 +2545,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2498,6 +2563,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<GlobalSignOutInput, GlobalSignOutOutputResponse, GlobalSignOutOutputError>(id: "globalSignOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GlobalSignOutInput, GlobalSignOutOutputResponse, GlobalSignOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GlobalSignOutInput, GlobalSignOutOutputResponse>())
@@ -2512,7 +2578,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GlobalSignOutOutputResponse, GlobalSignOutOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GlobalSignOutOutputResponse, GlobalSignOutOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GlobalSignOutOutputResponse, GlobalSignOutOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2530,6 +2596,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateAuthInput, InitiateAuthOutputResponse, InitiateAuthOutputError>(id: "initiateAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateAuthInput, InitiateAuthOutputResponse, InitiateAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateAuthInput, InitiateAuthOutputResponse>())
@@ -2544,7 +2611,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<InitiateAuthOutputResponse, InitiateAuthOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateAuthOutputResponse, InitiateAuthOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateAuthOutputResponse, InitiateAuthOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2562,6 +2629,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
@@ -2576,7 +2644,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2596,6 +2664,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>(id: "listGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutputResponse>())
@@ -2612,7 +2681,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutputResponse, ListGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2632,6 +2701,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>())
@@ -2648,7 +2718,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2668,6 +2738,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceServersInput, ListResourceServersOutputResponse, ListResourceServersOutputError>(id: "listResourceServers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceServersInput, ListResourceServersOutputResponse, ListResourceServersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceServersInput, ListResourceServersOutputResponse>())
@@ -2684,7 +2755,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceServersOutputResponse, ListResourceServersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceServersOutputResponse, ListResourceServersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceServersOutputResponse, ListResourceServersOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2704,6 +2775,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2720,7 +2792,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2740,6 +2812,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserImportJobsInput, ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>(id: "listUserImportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserImportJobsInput, ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserImportJobsInput, ListUserImportJobsOutputResponse>())
@@ -2756,7 +2829,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2776,6 +2849,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>(id: "listUserPoolClients")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse>())
@@ -2792,7 +2866,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2812,6 +2886,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserPoolsInput, ListUserPoolsOutputResponse, ListUserPoolsOutputError>(id: "listUserPools")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoolsInput, ListUserPoolsOutputResponse, ListUserPoolsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserPoolsInput, ListUserPoolsOutputResponse>())
@@ -2828,7 +2903,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserPoolsOutputResponse, ListUserPoolsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoolsOutputResponse, ListUserPoolsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserPoolsOutputResponse, ListUserPoolsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2848,6 +2923,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>(id: "listUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutputResponse>())
@@ -2864,7 +2940,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutputResponse, ListUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutputResponse, ListUsersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutputResponse, ListUsersOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2884,6 +2960,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUsersInGroupInput, ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>(id: "listUsersInGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInGroupInput, ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInGroupInput, ListUsersInGroupOutputResponse>())
@@ -2900,7 +2977,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2918,6 +2995,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResendConfirmationCodeInput, ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>(id: "resendConfirmationCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutputResponse>())
@@ -2932,7 +3010,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2950,6 +3028,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<RespondToAuthChallengeInput, RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>(id: "respondToAuthChallenge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutputResponse>())
@@ -2964,7 +3043,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2982,6 +3061,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeTokenInput, RevokeTokenOutputResponse, RevokeTokenOutputError>(id: "revokeToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeTokenInput, RevokeTokenOutputResponse, RevokeTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeTokenInput, RevokeTokenOutputResponse>())
@@ -2996,7 +3076,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RevokeTokenOutputResponse, RevokeTokenOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeTokenOutputResponse, RevokeTokenOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeTokenOutputResponse, RevokeTokenOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3016,6 +3096,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetRiskConfigurationInput, SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>(id: "setRiskConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutputResponse>())
@@ -3032,7 +3113,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3052,6 +3133,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetUICustomizationInput, SetUICustomizationOutputResponse, SetUICustomizationOutputError>(id: "setUICustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUICustomizationInput, SetUICustomizationOutputResponse, SetUICustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUICustomizationInput, SetUICustomizationOutputResponse>())
@@ -3068,7 +3150,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetUICustomizationOutputResponse, SetUICustomizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetUICustomizationOutputResponse, SetUICustomizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetUICustomizationOutputResponse, SetUICustomizationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3086,6 +3168,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>(id: "setUserMFAPreference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutputResponse>())
@@ -3100,7 +3183,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3120,6 +3203,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>(id: "setUserPoolMfaConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutputResponse>())
@@ -3136,7 +3220,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3154,6 +3238,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetUserSettingsInput, SetUserSettingsOutputResponse, SetUserSettingsOutputError>(id: "setUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUserSettingsInput, SetUserSettingsOutputResponse, SetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUserSettingsInput, SetUserSettingsOutputResponse>())
@@ -3168,7 +3253,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SetUserSettingsOutputResponse, SetUserSettingsOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetUserSettingsOutputResponse, SetUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetUserSettingsOutputResponse, SetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3186,6 +3271,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<SignUpInput, SignUpOutputResponse, SignUpOutputError>(id: "signUp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignUpInput, SignUpOutputResponse, SignUpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignUpInput, SignUpOutputResponse>())
@@ -3200,7 +3286,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SignUpOutputResponse, SignUpOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignUpOutputResponse, SignUpOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignUpOutputResponse, SignUpOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3220,6 +3306,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartUserImportJobInput, StartUserImportJobOutputResponse, StartUserImportJobOutputError>(id: "startUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartUserImportJobInput, StartUserImportJobOutputResponse, StartUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartUserImportJobInput, StartUserImportJobOutputResponse>())
@@ -3236,7 +3323,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartUserImportJobOutputResponse, StartUserImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartUserImportJobOutputResponse, StartUserImportJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartUserImportJobOutputResponse, StartUserImportJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3256,6 +3343,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopUserImportJobInput, StopUserImportJobOutputResponse, StopUserImportJobOutputError>(id: "stopUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopUserImportJobInput, StopUserImportJobOutputResponse, StopUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopUserImportJobInput, StopUserImportJobOutputResponse>())
@@ -3272,7 +3360,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopUserImportJobOutputResponse, StopUserImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopUserImportJobOutputResponse, StopUserImportJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopUserImportJobOutputResponse, StopUserImportJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3292,6 +3380,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -3308,7 +3397,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3328,6 +3417,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -3344,7 +3434,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3362,6 +3452,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>(id: "updateAuthEventFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutputResponse>())
@@ -3376,7 +3467,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3394,6 +3485,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDeviceStatusInput, UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>(id: "updateDeviceStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutputResponse>())
@@ -3408,7 +3500,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3428,6 +3520,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>(id: "updateGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutputResponse>())
@@ -3444,7 +3537,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3464,6 +3557,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(id: "updateIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse>())
@@ -3480,7 +3574,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3500,6 +3594,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceServerInput, UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>(id: "updateResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceServerInput, UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceServerInput, UpdateResourceServerOutputResponse>())
@@ -3516,7 +3611,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3534,6 +3629,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserAttributesInput, UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>(id: "updateUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutputResponse>())
@@ -3548,7 +3644,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3568,6 +3664,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserPoolInput, UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>(id: "updateUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserPoolInput, UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserPoolInput, UpdateUserPoolOutputResponse>())
@@ -3584,7 +3681,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3604,6 +3701,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserPoolClientInput, UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>(id: "updateUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutputResponse>())
@@ -3620,7 +3718,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3640,6 +3738,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cognito-idp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>(id: "updateUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutputResponse>())
@@ -3656,7 +3755,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3674,6 +3773,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifySoftwareTokenInput, VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>(id: "verifySoftwareToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutputResponse>())
@@ -3688,7 +3788,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3706,6 +3806,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyUserAttributeInput, VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>(id: "verifyUserAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutputResponse>())
@@ -3720,7 +3821,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

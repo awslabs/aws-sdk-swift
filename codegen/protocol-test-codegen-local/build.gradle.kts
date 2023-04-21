@@ -39,6 +39,10 @@ val codegenTests = listOf(
     CodegenTest(
         "aws.protocoltests.waiters#Waiters",
         "Waiters"
+    ),
+    CodegenTest(
+        "aws.protocoltests.restjson#TestService",
+        "EventStream"
     )
 )
 
@@ -91,7 +95,7 @@ tasks["clean"].doFirst {
 
 
 fun exposeLocalTestsToMainGradleTestSuite() {
-    val enabledProtocols = listOf("rest_json_extras", "aws-restjson")
+    val enabledProtocols = listOf("rest_json_extras", "aws-restjson", "eventstream")
     enabledProtocols.forEach {
         tasks.register<ProtocolTestTask>("testProtocol-${it}") {
             dependsOn(tasks.build)

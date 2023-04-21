@@ -96,7 +96,7 @@ class PresignerGenerator : SwiftIntegration {
                 }
                 val requestBuilderName = "presignedRequestBuilder"
                 val builtRequestName = "builtRequest"
-                writer.write("let $requestBuilderName = try await $operationStackName.presignedRequest(context: context.build(), input: input, next: \$N())", NoopHandler)
+                writer.write("let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, next: \$N())", NoopHandler)
                 writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
                     writer.write("return nil")
                 }

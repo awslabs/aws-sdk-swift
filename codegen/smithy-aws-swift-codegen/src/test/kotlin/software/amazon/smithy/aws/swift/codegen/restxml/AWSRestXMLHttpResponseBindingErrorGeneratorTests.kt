@@ -71,7 +71,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     } else {
                         self.header = nil
                     }
-                    if let data = httpResponse.body.toBytes()?.getData(),
+                    if let data = try httpResponse.body.toData(),
                         let responseDecoder = decoder {
                         let output: AWSClientRuntime.ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.error.nested
@@ -96,7 +96,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
                 public var _headers: ClientRuntime.Headers?
                 public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?
@@ -136,7 +136,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     } else {
                         self.header = nil
                     }
-                    if let data = httpResponse.body.toBytes()?.getData(),
+                    if let data = try httpResponse.body.toData(),
                         let responseDecoder = decoder {
                         let output: ComplexXMLErrorNoErrorWrappingBody = try responseDecoder.decode(responseBody: data)
                         self.nested = output.nested

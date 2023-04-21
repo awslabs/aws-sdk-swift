@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension ActorDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActorDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension ActorDoesNotExistException {
 }
 
 /// The specified Amazon Resource Name (ARN) does not exist in the AWS account.
-public struct ActorDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ActorDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -207,9 +206,8 @@ extension CodeCommitClientTypes {
 
 extension ApprovalRuleContentRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleContentRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -223,7 +221,7 @@ extension ApprovalRuleContentRequiredException {
 }
 
 /// The content for the approval rule is empty. You must provide some content for an approval rule. The content cannot be null.
-public struct ApprovalRuleContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -260,9 +258,8 @@ extension ApprovalRuleContentRequiredExceptionBody: Swift.Decodable {
 
 extension ApprovalRuleDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -276,7 +273,7 @@ extension ApprovalRuleDoesNotExistException {
 }
 
 /// The specified approval rule does not exist.
-public struct ApprovalRuleDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -368,9 +365,8 @@ extension CodeCommitClientTypes {
 
 extension ApprovalRuleNameAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleNameAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -384,7 +380,7 @@ extension ApprovalRuleNameAlreadyExistsException {
 }
 
 /// An approval rule with that name already exists. Approval rule names must be unique within the scope of a pull request.
-public struct ApprovalRuleNameAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleNameAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -421,9 +417,8 @@ extension ApprovalRuleNameAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ApprovalRuleNameRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -437,7 +432,7 @@ extension ApprovalRuleNameRequiredException {
 }
 
 /// An approval rule name is required, but was not specified.
-public struct ApprovalRuleNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -624,9 +619,8 @@ extension CodeCommitClientTypes {
 
 extension ApprovalRuleTemplateContentRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleTemplateContentRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -640,7 +634,7 @@ extension ApprovalRuleTemplateContentRequiredException {
 }
 
 /// The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
-public struct ApprovalRuleTemplateContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleTemplateContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -677,9 +671,8 @@ extension ApprovalRuleTemplateContentRequiredExceptionBody: Swift.Decodable {
 
 extension ApprovalRuleTemplateDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleTemplateDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -693,7 +686,7 @@ extension ApprovalRuleTemplateDoesNotExistException {
 }
 
 /// The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
-public struct ApprovalRuleTemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleTemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -730,9 +723,8 @@ extension ApprovalRuleTemplateDoesNotExistExceptionBody: Swift.Decodable {
 
 extension ApprovalRuleTemplateInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleTemplateInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -746,7 +738,7 @@ extension ApprovalRuleTemplateInUseException {
 }
 
 /// The approval rule template is associated with one or more repositories. You cannot delete a template that is associated with a repository. Remove all associations, and then try again.
-public struct ApprovalRuleTemplateInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleTemplateInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -783,9 +775,8 @@ extension ApprovalRuleTemplateInUseExceptionBody: Swift.Decodable {
 
 extension ApprovalRuleTemplateNameAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleTemplateNameAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -799,7 +790,7 @@ extension ApprovalRuleTemplateNameAlreadyExistsException {
 }
 
 /// You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
-public struct ApprovalRuleTemplateNameAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleTemplateNameAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -836,9 +827,8 @@ extension ApprovalRuleTemplateNameAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ApprovalRuleTemplateNameRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalRuleTemplateNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -852,7 +842,7 @@ extension ApprovalRuleTemplateNameRequiredException {
 }
 
 /// An approval rule template name is required, but was not specified.
-public struct ApprovalRuleTemplateNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalRuleTemplateNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -966,9 +956,8 @@ extension CodeCommitClientTypes {
 
 extension ApprovalStateRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ApprovalStateRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -982,7 +971,7 @@ extension ApprovalStateRequiredException {
 }
 
 /// An approval state is required, but was not specified.
-public struct ApprovalStateRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApprovalStateRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1134,9 +1123,8 @@ public struct AssociateApprovalRuleTemplateWithRepositoryOutputResponse: Swift.E
 
 extension AuthorDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AuthorDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1150,7 +1138,7 @@ extension AuthorDoesNotExistException {
 }
 
 /// The specified Amazon Resource Name (ARN) does not exist in the AWS account.
-public struct AuthorDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AuthorDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1355,9 +1343,8 @@ public enum BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError: Swift
 
 extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedRepositoryNames = output.associatedRepositoryNames
             self.errors = output.errors
@@ -1717,9 +1704,8 @@ public enum BatchDescribeMergeConflictsOutputError: Swift.Error, Swift.Equatable
 
 extension BatchDescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDescribeMergeConflictsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.conflicts = output.conflicts
@@ -1997,9 +1983,8 @@ public enum BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError: Sw
 
 extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.disassociatedRepositoryNames = output.disassociatedRepositoryNames
             self.errors = output.errors
@@ -2236,9 +2221,8 @@ public enum BatchGetCommitsOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetCommitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetCommitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commits = output.commits
             self.errors = output.errors
@@ -2402,9 +2386,8 @@ public enum BatchGetRepositoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.repositories = output.repositories
             self.repositoriesNotFound = output.repositoriesNotFound
@@ -2472,9 +2455,8 @@ extension BatchGetRepositoriesOutputResponseBody: Swift.Decodable {
 
 extension BeforeCommitIdAndAfterCommitIdAreSameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BeforeCommitIdAndAfterCommitIdAreSameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2488,7 +2470,7 @@ extension BeforeCommitIdAndAfterCommitIdAreSameException {
 }
 
 /// The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
-public struct BeforeCommitIdAndAfterCommitIdAreSameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BeforeCommitIdAndAfterCommitIdAreSameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2525,9 +2507,8 @@ extension BeforeCommitIdAndAfterCommitIdAreSameExceptionBody: Swift.Decodable {
 
 extension BlobIdDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BlobIdDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2541,7 +2522,7 @@ extension BlobIdDoesNotExistException {
 }
 
 /// The specified blob does not exist.
-public struct BlobIdDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BlobIdDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2578,9 +2559,8 @@ extension BlobIdDoesNotExistExceptionBody: Swift.Decodable {
 
 extension BlobIdRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BlobIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2594,7 +2574,7 @@ extension BlobIdRequiredException {
 }
 
 /// A blob ID is required, but was not specified.
-public struct BlobIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BlobIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2694,9 +2674,8 @@ extension CodeCommitClientTypes {
 
 extension BranchDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BranchDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2710,7 +2689,7 @@ extension BranchDoesNotExistException {
 }
 
 /// The specified branch does not exist.
-public struct BranchDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BranchDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2792,9 +2771,8 @@ extension CodeCommitClientTypes {
 
 extension BranchNameExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BranchNameExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2808,7 +2786,7 @@ extension BranchNameExistsException {
 }
 
 /// Cannot create the branch with the specified name because the commit conflicts with an existing branch with the same name. Branch names must be unique.
-public struct BranchNameExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BranchNameExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2845,9 +2823,8 @@ extension BranchNameExistsExceptionBody: Swift.Decodable {
 
 extension BranchNameIsTagNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BranchNameIsTagNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2861,7 +2838,7 @@ extension BranchNameIsTagNameException {
 }
 
 /// The specified branch name is not valid because it is a tag name. Enter the name of a branch in the repository. For a list of valid branch names, use [ListBranches].
-public struct BranchNameIsTagNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BranchNameIsTagNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2898,9 +2875,8 @@ extension BranchNameIsTagNameExceptionBody: Swift.Decodable {
 
 extension BranchNameRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BranchNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2914,7 +2890,7 @@ extension BranchNameRequiredException {
 }
 
 /// A branch name is required, but was not specified.
-public struct BranchNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BranchNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2951,9 +2927,8 @@ extension BranchNameRequiredExceptionBody: Swift.Decodable {
 
 extension CannotDeleteApprovalRuleFromTemplateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CannotDeleteApprovalRuleFromTemplateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2967,7 +2942,7 @@ extension CannotDeleteApprovalRuleFromTemplateException {
 }
 
 /// The approval rule cannot be deleted from the pull request because it was created by an approval rule template and applied to the pull request automatically.
-public struct CannotDeleteApprovalRuleFromTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CannotDeleteApprovalRuleFromTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3004,9 +2979,8 @@ extension CannotDeleteApprovalRuleFromTemplateExceptionBody: Swift.Decodable {
 
 extension CannotModifyApprovalRuleFromTemplateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CannotModifyApprovalRuleFromTemplateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3020,7 +2994,7 @@ extension CannotModifyApprovalRuleFromTemplateException {
 }
 
 /// The approval rule cannot be modified for the pull request because it was created by an approval rule template and applied to the pull request automatically.
-public struct CannotModifyApprovalRuleFromTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CannotModifyApprovalRuleFromTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3092,9 +3066,8 @@ extension CodeCommitClientTypes {
 
 extension ClientRequestTokenRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ClientRequestTokenRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3108,7 +3081,7 @@ extension ClientRequestTokenRequiredException {
 }
 
 /// A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
-public struct ClientRequestTokenRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ClientRequestTokenRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3294,9 +3267,8 @@ extension CodeCommitClientTypes {
 
 extension CommentContentRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommentContentRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3310,7 +3282,7 @@ extension CommentContentRequiredException {
 }
 
 /// The comment is empty. You must provide some content for a comment. The content cannot be null.
-public struct CommentContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommentContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3347,9 +3319,8 @@ extension CommentContentRequiredExceptionBody: Swift.Decodable {
 
 extension CommentContentSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommentContentSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3363,7 +3334,7 @@ extension CommentContentSizeLimitExceededException {
 }
 
 /// The comment is too large. Comments are limited to 1,000 characters.
-public struct CommentContentSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommentContentSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3400,9 +3371,8 @@ extension CommentContentSizeLimitExceededExceptionBody: Swift.Decodable {
 
 extension CommentDeletedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommentDeletedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3416,7 +3386,7 @@ extension CommentDeletedException {
 }
 
 /// This comment has already been deleted. You cannot edit or delete a deleted comment.
-public struct CommentDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommentDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3453,9 +3423,8 @@ extension CommentDeletedExceptionBody: Swift.Decodable {
 
 extension CommentDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommentDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3469,7 +3438,7 @@ extension CommentDoesNotExistException {
 }
 
 /// No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
-public struct CommentDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommentDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3506,9 +3475,8 @@ extension CommentDoesNotExistExceptionBody: Swift.Decodable {
 
 extension CommentIdRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommentIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3522,7 +3490,7 @@ extension CommentIdRequiredException {
 }
 
 /// The comment ID is missing or null. A comment ID is required.
-public struct CommentIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommentIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3559,9 +3527,8 @@ extension CommentIdRequiredExceptionBody: Swift.Decodable {
 
 extension CommentNotCreatedByCallerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommentNotCreatedByCallerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3575,7 +3542,7 @@ extension CommentNotCreatedByCallerException {
 }
 
 /// You cannot modify or delete this comment. Only comment authors can modify or delete their comments.
-public struct CommentNotCreatedByCallerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommentNotCreatedByCallerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3943,9 +3910,8 @@ extension CodeCommitClientTypes {
 
 extension CommitDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3959,7 +3925,7 @@ extension CommitDoesNotExistException {
 }
 
 /// The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
-public struct CommitDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3996,9 +3962,8 @@ extension CommitDoesNotExistExceptionBody: Swift.Decodable {
 
 extension CommitIdDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitIdDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4012,7 +3977,7 @@ extension CommitIdDoesNotExistException {
 }
 
 /// The specified commit ID does not exist.
-public struct CommitIdDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitIdDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4049,9 +4014,8 @@ extension CommitIdDoesNotExistExceptionBody: Swift.Decodable {
 
 extension CommitIdRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4065,7 +4029,7 @@ extension CommitIdRequiredException {
 }
 
 /// A commit ID was not specified.
-public struct CommitIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4102,9 +4066,8 @@ extension CommitIdRequiredExceptionBody: Swift.Decodable {
 
 extension CommitIdsLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitIdsLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4118,7 +4081,7 @@ extension CommitIdsLimitExceededException {
 }
 
 /// The maximum number of allowed commit IDs in a batch request is 100. Verify that your batch requests contains no more than 100 commit IDs, and then try again.
-public struct CommitIdsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitIdsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4155,9 +4118,8 @@ extension CommitIdsLimitExceededExceptionBody: Swift.Decodable {
 
 extension CommitIdsListRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitIdsListRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4171,7 +4133,7 @@ extension CommitIdsListRequiredException {
 }
 
 /// A list of commit IDs is required, but was either not specified or the list was empty.
-public struct CommitIdsListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitIdsListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4208,9 +4170,8 @@ extension CommitIdsListRequiredExceptionBody: Swift.Decodable {
 
 extension CommitMessageLengthExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitMessageLengthExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4224,7 +4185,7 @@ extension CommitMessageLengthExceededException {
 }
 
 /// The commit message is too long. Provide a shorter string.
-public struct CommitMessageLengthExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitMessageLengthExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4261,9 +4222,8 @@ extension CommitMessageLengthExceededExceptionBody: Swift.Decodable {
 
 extension CommitRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CommitRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4277,7 +4237,7 @@ extension CommitRequiredException {
 }
 
 /// A commit was not specified.
-public struct CommitRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CommitRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4314,9 +4274,8 @@ extension CommitRequiredExceptionBody: Swift.Decodable {
 
 extension ConcurrentReferenceUpdateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentReferenceUpdateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4330,7 +4289,7 @@ extension ConcurrentReferenceUpdateException {
 }
 
 /// The merge cannot be completed because the target branch has been modified. Another user might have modified the target branch while the merge was in progress. Wait a few minutes, and then try again.
-public struct ConcurrentReferenceUpdateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConcurrentReferenceUpdateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4831,9 +4790,8 @@ public enum CreateApprovalRuleTemplateOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
@@ -5295,9 +5253,8 @@ public enum CreateCommitOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.filesAdded = output.filesAdded
@@ -5541,9 +5498,8 @@ public enum CreatePullRequestApprovalRuleOutputError: Swift.Error, Swift.Equatab
 
 extension CreatePullRequestApprovalRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePullRequestApprovalRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRule = output.approvalRule
         } else {
@@ -5750,9 +5706,8 @@ public enum CreatePullRequestOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -5925,9 +5880,8 @@ public enum CreateRepositoryOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.repositoryMetadata = output.repositoryMetadata
         } else {
@@ -6230,9 +6184,8 @@ public enum CreateUnreferencedMergeCommitOutputError: Swift.Error, Swift.Equatab
 
 extension CreateUnreferencedMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateUnreferencedMergeCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.treeId = output.treeId
@@ -6281,9 +6234,8 @@ extension CreateUnreferencedMergeCommitOutputResponseBody: Swift.Decodable {
 
 extension DefaultBranchCannotBeDeletedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefaultBranchCannotBeDeletedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6297,7 +6249,7 @@ extension DefaultBranchCannotBeDeletedException {
 }
 
 /// The specified branch is the default branch for the repository, and cannot be deleted. To delete this branch, you must first set another branch as the default branch.
-public struct DefaultBranchCannotBeDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DefaultBranchCannotBeDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6408,9 +6360,8 @@ public enum DeleteApprovalRuleTemplateOutputError: Swift.Error, Swift.Equatable 
 
 extension DeleteApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplateId = output.approvalRuleTemplateId
         } else {
@@ -6554,9 +6505,8 @@ public enum DeleteBranchOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletedBranch = output.deletedBranch
         } else {
@@ -6672,9 +6622,8 @@ public enum DeleteCommentContentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCommentContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCommentContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comment = output.comment
         } else {
@@ -6948,9 +6897,8 @@ public enum DeleteFileOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteFileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blobId = output.blobId
             self.commitId = output.commitId
@@ -7128,9 +7076,8 @@ public enum DeletePullRequestApprovalRuleOutputError: Swift.Error, Swift.Equatab
 
 extension DeletePullRequestApprovalRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePullRequestApprovalRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleId = output.approvalRuleId
         } else {
@@ -7253,9 +7200,8 @@ public enum DeleteRepositoryOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.repositoryId = output.repositoryId
         } else {
@@ -7509,9 +7455,8 @@ public enum DescribeMergeConflictsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMergeConflictsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.conflictMetadata = output.conflictMetadata
@@ -7755,9 +7700,8 @@ public enum DescribePullRequestEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePullRequestEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePullRequestEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pullRequestEvents = output.pullRequestEvents
@@ -7871,9 +7815,8 @@ extension CodeCommitClientTypes {
 
 extension DirectoryNameConflictsWithFileNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DirectoryNameConflictsWithFileNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7887,7 +7830,7 @@ extension DirectoryNameConflictsWithFileNameException {
 }
 
 /// A file cannot be added to the repository because the specified path name has the same name as a file that already exists in this repository. Either provide a different name for the file, or specify a different path for the file.
-public struct DirectoryNameConflictsWithFileNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DirectoryNameConflictsWithFileNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8037,9 +7980,8 @@ public struct DisassociateApprovalRuleTemplateFromRepositoryOutputResponse: Swif
 
 extension EncryptionIntegrityChecksFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EncryptionIntegrityChecksFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8053,7 +7995,7 @@ extension EncryptionIntegrityChecksFailedException {
 }
 
 /// An encryption integrity check failed.
-public struct EncryptionIntegrityChecksFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EncryptionIntegrityChecksFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8090,9 +8032,8 @@ extension EncryptionIntegrityChecksFailedExceptionBody: Swift.Decodable {
 
 extension EncryptionKeyAccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EncryptionKeyAccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8106,7 +8047,7 @@ extension EncryptionKeyAccessDeniedException {
 }
 
 /// An encryption key could not be accessed.
-public struct EncryptionKeyAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EncryptionKeyAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8143,9 +8084,8 @@ extension EncryptionKeyAccessDeniedExceptionBody: Swift.Decodable {
 
 extension EncryptionKeyDisabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EncryptionKeyDisabledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8159,7 +8099,7 @@ extension EncryptionKeyDisabledException {
 }
 
 /// The encryption key is disabled.
-public struct EncryptionKeyDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EncryptionKeyDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8196,9 +8136,8 @@ extension EncryptionKeyDisabledExceptionBody: Swift.Decodable {
 
 extension EncryptionKeyNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EncryptionKeyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8212,7 +8151,7 @@ extension EncryptionKeyNotFoundException {
 }
 
 /// No encryption key was found.
-public struct EncryptionKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EncryptionKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8249,9 +8188,8 @@ extension EncryptionKeyNotFoundExceptionBody: Swift.Decodable {
 
 extension EncryptionKeyUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EncryptionKeyUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8265,7 +8203,7 @@ extension EncryptionKeyUnavailableException {
 }
 
 /// The encryption key is not available.
-public struct EncryptionKeyUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EncryptionKeyUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8405,9 +8343,8 @@ public enum EvaluatePullRequestApprovalRulesOutputError: Swift.Error, Swift.Equa
 
 extension EvaluatePullRequestApprovalRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EvaluatePullRequestApprovalRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluation = output.evaluation
         } else {
@@ -8601,9 +8538,8 @@ extension CodeCommitClientTypes {
 
 extension FileContentAndSourceFileSpecifiedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileContentAndSourceFileSpecifiedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8617,7 +8553,7 @@ extension FileContentAndSourceFileSpecifiedException {
 }
 
 /// The commit cannot be created because both a source file and file content have been specified for the same file. You cannot provide both. Either specify a source file or provide the file content directly.
-public struct FileContentAndSourceFileSpecifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileContentAndSourceFileSpecifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8654,9 +8590,8 @@ extension FileContentAndSourceFileSpecifiedExceptionBody: Swift.Decodable {
 
 extension FileContentRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileContentRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8670,7 +8605,7 @@ extension FileContentRequiredException {
 }
 
 /// The file cannot be added because it is empty. Empty files cannot be added to the repository with this API.
-public struct FileContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8707,9 +8642,8 @@ extension FileContentRequiredExceptionBody: Swift.Decodable {
 
 extension FileContentSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileContentSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8723,7 +8657,7 @@ extension FileContentSizeLimitExceededException {
 }
 
 /// The file cannot be added because it is too large. The maximum file size is 6 MB, and the combined file content change size is 7 MB. Consider making these changes using a Git client.
-public struct FileContentSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileContentSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8760,9 +8694,8 @@ extension FileContentSizeLimitExceededExceptionBody: Swift.Decodable {
 
 extension FileDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8776,7 +8709,7 @@ extension FileDoesNotExistException {
 }
 
 /// The specified file does not exist. Verify that you have used the correct file name, full path, and extension.
-public struct FileDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8813,9 +8746,8 @@ extension FileDoesNotExistExceptionBody: Swift.Decodable {
 
 extension FileEntryRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileEntryRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8829,7 +8761,7 @@ extension FileEntryRequiredException {
 }
 
 /// The commit cannot be created because no files have been specified as added, updated, or changed (PutFile or DeleteFile) for the commit.
-public struct FileEntryRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileEntryRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8921,9 +8853,8 @@ extension CodeCommitClientTypes {
 
 extension FileModeRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileModeRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8937,7 +8868,7 @@ extension FileModeRequiredException {
 }
 
 /// The commit cannot be created because no file mode has been specified. A file mode is required to update mode permissions for a file.
-public struct FileModeRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileModeRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9064,9 +8995,8 @@ extension CodeCommitClientTypes {
 
 extension FileNameConflictsWithDirectoryNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileNameConflictsWithDirectoryNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9080,7 +9010,7 @@ extension FileNameConflictsWithDirectoryNameException {
 }
 
 /// A file cannot be added to the repository because the specified file name has the same name as a directory in this repository. Either provide another name for the file, or add the file in a directory that does not match the file name.
-public struct FileNameConflictsWithDirectoryNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileNameConflictsWithDirectoryNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9117,9 +9047,8 @@ extension FileNameConflictsWithDirectoryNameExceptionBody: Swift.Decodable {
 
 extension FilePathConflictsWithSubmodulePathException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FilePathConflictsWithSubmodulePathExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9133,7 +9062,7 @@ extension FilePathConflictsWithSubmodulePathException {
 }
 
 /// The commit cannot be created because a specified file path points to a submodule. Verify that the destination files have valid file paths that do not point to a submodule.
-public struct FilePathConflictsWithSubmodulePathException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FilePathConflictsWithSubmodulePathException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9225,9 +9154,8 @@ extension CodeCommitClientTypes {
 
 extension FileTooLargeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FileTooLargeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9241,7 +9169,7 @@ extension FileTooLargeException {
 }
 
 /// The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-public struct FileTooLargeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FileTooLargeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9333,9 +9261,8 @@ extension CodeCommitClientTypes {
 
 extension FolderContentSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FolderContentSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9349,7 +9276,7 @@ extension FolderContentSizeLimitExceededException {
 }
 
 /// The commit cannot be created because at least one of the overall changes in the commit results in a folder whose contents exceed the limit of 6 MB. Either reduce the number and size of your changes, or split the changes across multiple folders.
-public struct FolderContentSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FolderContentSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9386,9 +9313,8 @@ extension FolderContentSizeLimitExceededExceptionBody: Swift.Decodable {
 
 extension FolderDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: FolderDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9402,7 +9328,7 @@ extension FolderDoesNotExistException {
 }
 
 /// The specified folder does not exist. Either the folder name is not correct, or you did not enter the full path to the folder.
-public struct FolderDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FolderDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9513,9 +9439,8 @@ public enum GetApprovalRuleTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
@@ -9661,9 +9586,8 @@ public enum GetBlobOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBlobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBlobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
         } else {
@@ -9806,9 +9730,8 @@ public enum GetBranchOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBranchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.branch = output.branch
         } else {
@@ -9934,9 +9857,8 @@ public enum GetCommentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCommentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCommentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comment = output.comment
         } else {
@@ -10093,9 +10015,8 @@ public enum GetCommentReactionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCommentReactionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCommentReactionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reactionsForComment = output.reactionsForComment
@@ -10297,9 +10218,8 @@ public enum GetCommentsForComparedCommitOutputError: Swift.Error, Swift.Equatabl
 
 extension GetCommentsForComparedCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCommentsForComparedCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commentsForComparedCommitData = output.commentsForComparedCommitData
             self.nextToken = output.nextToken
@@ -10519,9 +10439,8 @@ public enum GetCommentsForPullRequestOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCommentsForPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCommentsForPullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commentsForPullRequestData = output.commentsForPullRequestData
             self.nextToken = output.nextToken
@@ -10683,9 +10602,8 @@ public enum GetCommitOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commit = output.commit
         } else {
@@ -10899,9 +10817,8 @@ public enum GetDifferencesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDifferencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDifferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.differences = output.differences
             self.nextToken = output.nextToken
@@ -11080,9 +10997,8 @@ public enum GetFileOutputError: Swift.Error, Swift.Equatable {
 
 extension GetFileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blobId = output.blobId
             self.commitId = output.commitId
@@ -11296,9 +11212,8 @@ public enum GetFolderOutputError: Swift.Error, Swift.Equatable {
 
 extension GetFolderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetFolderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.files = output.files
@@ -11579,9 +11494,8 @@ public enum GetMergeCommitOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMergeCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.destinationCommitId = output.destinationCommitId
@@ -11849,9 +11763,8 @@ public enum GetMergeConflictsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMergeConflictsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.conflictMetadataList = output.conflictMetadataList
@@ -12103,9 +12016,8 @@ public enum GetMergeOptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMergeOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMergeOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.destinationCommitId = output.destinationCommitId
@@ -12288,9 +12200,8 @@ public enum GetPullRequestApprovalStatesOutputError: Swift.Error, Swift.Equatabl
 
 extension GetPullRequestApprovalStatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPullRequestApprovalStatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvals = output.approvals
         } else {
@@ -12422,9 +12333,8 @@ public enum GetPullRequestOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -12565,9 +12475,8 @@ public enum GetPullRequestOverrideStateOutputError: Swift.Error, Swift.Equatable
 
 extension GetPullRequestOverrideStateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetPullRequestOverrideStateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.overridden = output.overridden
             self.overrider = output.overrider
@@ -12701,9 +12610,8 @@ public enum GetRepositoryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.repositoryMetadata = output.repositoryMetadata
         } else {
@@ -12828,9 +12736,8 @@ public enum GetRepositoryTriggersOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRepositoryTriggersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationId = output.configurationId
             self.triggers = output.triggers
@@ -12889,9 +12796,8 @@ extension GetRepositoryTriggersOutputResponseBody: Swift.Decodable {
 
 extension IdempotencyParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IdempotencyParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12905,7 +12811,7 @@ extension IdempotencyParameterMismatchException {
 }
 
 /// The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
-public struct IdempotencyParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IdempotencyParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12942,9 +12848,8 @@ extension IdempotencyParameterMismatchExceptionBody: Swift.Decodable {
 
 extension InvalidActorArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidActorArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12958,7 +12863,7 @@ extension InvalidActorArnException {
 }
 
 /// The Amazon Resource Name (ARN) is not valid. Make sure that you have provided the full ARN for the user who initiated the change for the pull request, and then try again.
-public struct InvalidActorArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidActorArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12995,9 +12900,8 @@ extension InvalidActorArnExceptionBody: Swift.Decodable {
 
 extension InvalidApprovalRuleContentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidApprovalRuleContentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13011,7 +12915,7 @@ extension InvalidApprovalRuleContentException {
 }
 
 /// The content for the approval rule is not valid.
-public struct InvalidApprovalRuleContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApprovalRuleContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13048,9 +12952,8 @@ extension InvalidApprovalRuleContentExceptionBody: Swift.Decodable {
 
 extension InvalidApprovalRuleNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidApprovalRuleNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13064,7 +12967,7 @@ extension InvalidApprovalRuleNameException {
 }
 
 /// The name for the approval rule is not valid.
-public struct InvalidApprovalRuleNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApprovalRuleNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13101,9 +13004,8 @@ extension InvalidApprovalRuleNameExceptionBody: Swift.Decodable {
 
 extension InvalidApprovalRuleTemplateContentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidApprovalRuleTemplateContentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13117,7 +13019,7 @@ extension InvalidApprovalRuleTemplateContentException {
 }
 
 /// The content of the approval rule template is not valid.
-public struct InvalidApprovalRuleTemplateContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApprovalRuleTemplateContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13154,9 +13056,8 @@ extension InvalidApprovalRuleTemplateContentExceptionBody: Swift.Decodable {
 
 extension InvalidApprovalRuleTemplateDescriptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidApprovalRuleTemplateDescriptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13170,7 +13071,7 @@ extension InvalidApprovalRuleTemplateDescriptionException {
 }
 
 /// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-public struct InvalidApprovalRuleTemplateDescriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApprovalRuleTemplateDescriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13207,9 +13108,8 @@ extension InvalidApprovalRuleTemplateDescriptionExceptionBody: Swift.Decodable {
 
 extension InvalidApprovalRuleTemplateNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidApprovalRuleTemplateNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13223,7 +13123,7 @@ extension InvalidApprovalRuleTemplateNameException {
 }
 
 /// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-public struct InvalidApprovalRuleTemplateNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApprovalRuleTemplateNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13260,9 +13160,8 @@ extension InvalidApprovalRuleTemplateNameExceptionBody: Swift.Decodable {
 
 extension InvalidApprovalStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidApprovalStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13276,7 +13175,7 @@ extension InvalidApprovalStateException {
 }
 
 /// The state for the approval is not valid. Valid values include APPROVE and REVOKE.
-public struct InvalidApprovalStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApprovalStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13313,9 +13212,8 @@ extension InvalidApprovalStateExceptionBody: Swift.Decodable {
 
 extension InvalidAuthorArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidAuthorArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13329,7 +13227,7 @@ extension InvalidAuthorArnException {
 }
 
 /// The Amazon Resource Name (ARN) is not valid. Make sure that you have provided the full ARN for the author of the pull request, and then try again.
-public struct InvalidAuthorArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidAuthorArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13366,9 +13264,8 @@ extension InvalidAuthorArnExceptionBody: Swift.Decodable {
 
 extension InvalidBlobIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidBlobIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13382,7 +13279,7 @@ extension InvalidBlobIdException {
 }
 
 /// The specified blob is not valid.
-public struct InvalidBlobIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidBlobIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13419,9 +13316,8 @@ extension InvalidBlobIdExceptionBody: Swift.Decodable {
 
 extension InvalidBranchNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidBranchNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13435,7 +13331,7 @@ extension InvalidBranchNameException {
 }
 
 /// The specified reference name is not valid.
-public struct InvalidBranchNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidBranchNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13472,9 +13368,8 @@ extension InvalidBranchNameExceptionBody: Swift.Decodable {
 
 extension InvalidClientRequestTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidClientRequestTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13488,7 +13383,7 @@ extension InvalidClientRequestTokenException {
 }
 
 /// The client request token is not valid.
-public struct InvalidClientRequestTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidClientRequestTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13525,9 +13420,8 @@ extension InvalidClientRequestTokenExceptionBody: Swift.Decodable {
 
 extension InvalidCommentIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidCommentIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13541,7 +13435,7 @@ extension InvalidCommentIdException {
 }
 
 /// The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-public struct InvalidCommentIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidCommentIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13578,9 +13472,8 @@ extension InvalidCommentIdExceptionBody: Swift.Decodable {
 
 extension InvalidCommitException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidCommitExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13594,7 +13487,7 @@ extension InvalidCommitException {
 }
 
 /// The specified commit is not valid.
-public struct InvalidCommitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidCommitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13631,9 +13524,8 @@ extension InvalidCommitExceptionBody: Swift.Decodable {
 
 extension InvalidCommitIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidCommitIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13647,7 +13539,7 @@ extension InvalidCommitIdException {
 }
 
 /// The specified commit ID is not valid.
-public struct InvalidCommitIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidCommitIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13684,9 +13576,8 @@ extension InvalidCommitIdExceptionBody: Swift.Decodable {
 
 extension InvalidConflictDetailLevelException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidConflictDetailLevelExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13700,7 +13591,7 @@ extension InvalidConflictDetailLevelException {
 }
 
 /// The specified conflict detail level is not valid.
-public struct InvalidConflictDetailLevelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidConflictDetailLevelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13737,9 +13628,8 @@ extension InvalidConflictDetailLevelExceptionBody: Swift.Decodable {
 
 extension InvalidConflictResolutionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidConflictResolutionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13753,7 +13643,7 @@ extension InvalidConflictResolutionException {
 }
 
 /// The specified conflict resolution list is not valid.
-public struct InvalidConflictResolutionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidConflictResolutionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13790,9 +13680,8 @@ extension InvalidConflictResolutionExceptionBody: Swift.Decodable {
 
 extension InvalidConflictResolutionStrategyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidConflictResolutionStrategyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13806,7 +13695,7 @@ extension InvalidConflictResolutionStrategyException {
 }
 
 /// The specified conflict resolution strategy is not valid.
-public struct InvalidConflictResolutionStrategyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidConflictResolutionStrategyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13843,9 +13732,8 @@ extension InvalidConflictResolutionStrategyExceptionBody: Swift.Decodable {
 
 extension InvalidContinuationTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidContinuationTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13859,7 +13747,7 @@ extension InvalidContinuationTokenException {
 }
 
 /// The specified continuation token is not valid.
-public struct InvalidContinuationTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidContinuationTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13896,9 +13784,8 @@ extension InvalidContinuationTokenExceptionBody: Swift.Decodable {
 
 extension InvalidDeletionParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidDeletionParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13912,7 +13799,7 @@ extension InvalidDeletionParameterException {
 }
 
 /// The specified deletion parameter is not valid.
-public struct InvalidDeletionParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeletionParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13949,9 +13836,8 @@ extension InvalidDeletionParameterExceptionBody: Swift.Decodable {
 
 extension InvalidDescriptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidDescriptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13965,7 +13851,7 @@ extension InvalidDescriptionException {
 }
 
 /// The pull request description is not valid. Descriptions cannot be more than 1,000 characters.
-public struct InvalidDescriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDescriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14002,9 +13888,8 @@ extension InvalidDescriptionExceptionBody: Swift.Decodable {
 
 extension InvalidDestinationCommitSpecifierException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidDestinationCommitSpecifierExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14018,7 +13903,7 @@ extension InvalidDestinationCommitSpecifierException {
 }
 
 /// The destination commit specifier is not valid. You must provide a valid branch name, tag, or full commit ID.
-public struct InvalidDestinationCommitSpecifierException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDestinationCommitSpecifierException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14055,9 +13940,8 @@ extension InvalidDestinationCommitSpecifierExceptionBody: Swift.Decodable {
 
 extension InvalidEmailException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidEmailExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14071,7 +13955,7 @@ extension InvalidEmailException {
 }
 
 /// The specified email address either contains one or more characters that are not allowed, or it exceeds the maximum number of characters allowed for an email address.
-public struct InvalidEmailException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidEmailException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14108,9 +13992,8 @@ extension InvalidEmailExceptionBody: Swift.Decodable {
 
 extension InvalidFileLocationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidFileLocationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14124,7 +14007,7 @@ extension InvalidFileLocationException {
 }
 
 /// The location of the file is not valid. Make sure that you include the file name and extension.
-public struct InvalidFileLocationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFileLocationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14161,9 +14044,8 @@ extension InvalidFileLocationExceptionBody: Swift.Decodable {
 
 extension InvalidFileModeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidFileModeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14177,7 +14059,7 @@ extension InvalidFileModeException {
 }
 
 /// The specified file mode permission is not valid. For a list of valid file mode permissions, see [PutFile].
-public struct InvalidFileModeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFileModeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14214,9 +14096,8 @@ extension InvalidFileModeExceptionBody: Swift.Decodable {
 
 extension InvalidFilePositionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidFilePositionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14230,7 +14111,7 @@ extension InvalidFilePositionException {
 }
 
 /// The position is not valid. Make sure that the line number exists in the version of the file you want to comment on.
-public struct InvalidFilePositionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFilePositionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14267,9 +14148,8 @@ extension InvalidFilePositionExceptionBody: Swift.Decodable {
 
 extension InvalidMaxConflictFilesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidMaxConflictFilesExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14283,7 +14163,7 @@ extension InvalidMaxConflictFilesException {
 }
 
 /// The specified value for the number of conflict files to return is not valid.
-public struct InvalidMaxConflictFilesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMaxConflictFilesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14320,9 +14200,8 @@ extension InvalidMaxConflictFilesExceptionBody: Swift.Decodable {
 
 extension InvalidMaxMergeHunksException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidMaxMergeHunksExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14336,7 +14215,7 @@ extension InvalidMaxMergeHunksException {
 }
 
 /// The specified value for the number of merge hunks to return is not valid.
-public struct InvalidMaxMergeHunksException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMaxMergeHunksException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14373,9 +14252,8 @@ extension InvalidMaxMergeHunksExceptionBody: Swift.Decodable {
 
 extension InvalidMaxResultsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidMaxResultsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14389,7 +14267,7 @@ extension InvalidMaxResultsException {
 }
 
 /// The specified number of maximum results is not valid.
-public struct InvalidMaxResultsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMaxResultsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14426,9 +14304,8 @@ extension InvalidMaxResultsExceptionBody: Swift.Decodable {
 
 extension InvalidMergeOptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidMergeOptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14442,7 +14319,7 @@ extension InvalidMergeOptionException {
 }
 
 /// The specified merge option is not valid for this operation. Not all merge strategies are supported for all operations.
-public struct InvalidMergeOptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMergeOptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14479,9 +14356,8 @@ extension InvalidMergeOptionExceptionBody: Swift.Decodable {
 
 extension InvalidOrderException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidOrderExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14495,7 +14371,7 @@ extension InvalidOrderException {
 }
 
 /// The specified sort order is not valid.
-public struct InvalidOrderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOrderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14532,9 +14408,8 @@ extension InvalidOrderExceptionBody: Swift.Decodable {
 
 extension InvalidOverrideStatusException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidOverrideStatusExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14548,7 +14423,7 @@ extension InvalidOverrideStatusException {
 }
 
 /// The override status is not valid. Valid statuses are OVERRIDE and REVOKE.
-public struct InvalidOverrideStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOverrideStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14585,9 +14460,8 @@ extension InvalidOverrideStatusExceptionBody: Swift.Decodable {
 
 extension InvalidParentCommitIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParentCommitIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14601,7 +14475,7 @@ extension InvalidParentCommitIdException {
 }
 
 /// The parent commit ID is not valid. The commit ID cannot be empty, and must match the head commit ID for the branch of the repository where you want to add or update a file.
-public struct InvalidParentCommitIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParentCommitIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14638,9 +14512,8 @@ extension InvalidParentCommitIdExceptionBody: Swift.Decodable {
 
 extension InvalidPathException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPathExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14654,7 +14527,7 @@ extension InvalidPathException {
 }
 
 /// The specified path is not valid.
-public struct InvalidPathException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPathException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14691,9 +14564,8 @@ extension InvalidPathExceptionBody: Swift.Decodable {
 
 extension InvalidPullRequestEventTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPullRequestEventTypeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14707,7 +14579,7 @@ extension InvalidPullRequestEventTypeException {
 }
 
 /// The pull request event type is not valid.
-public struct InvalidPullRequestEventTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPullRequestEventTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14744,9 +14616,8 @@ extension InvalidPullRequestEventTypeExceptionBody: Swift.Decodable {
 
 extension InvalidPullRequestIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPullRequestIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14760,7 +14631,7 @@ extension InvalidPullRequestIdException {
 }
 
 /// The pull request ID is not valid. Make sure that you have provided the full ID and that the pull request is in the specified repository, and then try again.
-public struct InvalidPullRequestIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPullRequestIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14797,9 +14668,8 @@ extension InvalidPullRequestIdExceptionBody: Swift.Decodable {
 
 extension InvalidPullRequestStatusException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPullRequestStatusExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14813,7 +14683,7 @@ extension InvalidPullRequestStatusException {
 }
 
 /// The pull request status is not valid. The only valid values are OPEN and CLOSED.
-public struct InvalidPullRequestStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPullRequestStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14850,9 +14720,8 @@ extension InvalidPullRequestStatusExceptionBody: Swift.Decodable {
 
 extension InvalidPullRequestStatusUpdateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidPullRequestStatusUpdateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14866,7 +14735,7 @@ extension InvalidPullRequestStatusUpdateException {
 }
 
 /// The pull request status update is not valid. The only valid update is from OPEN to CLOSED.
-public struct InvalidPullRequestStatusUpdateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPullRequestStatusUpdateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14903,9 +14772,8 @@ extension InvalidPullRequestStatusUpdateExceptionBody: Swift.Decodable {
 
 extension InvalidReactionUserArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidReactionUserArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14919,7 +14787,7 @@ extension InvalidReactionUserArnException {
 }
 
 /// The Amazon Resource Name (ARN) of the user or identity is not valid.
-public struct InvalidReactionUserArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidReactionUserArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14956,9 +14824,8 @@ extension InvalidReactionUserArnExceptionBody: Swift.Decodable {
 
 extension InvalidReactionValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidReactionValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14972,7 +14839,7 @@ extension InvalidReactionValueException {
 }
 
 /// The value of the reaction is not valid. For more information, see the [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
-public struct InvalidReactionValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidReactionValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15009,9 +14876,8 @@ extension InvalidReactionValueExceptionBody: Swift.Decodable {
 
 extension InvalidReferenceNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidReferenceNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15025,7 +14891,7 @@ extension InvalidReferenceNameException {
 }
 
 /// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/master). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
-public struct InvalidReferenceNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidReferenceNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15062,9 +14928,8 @@ extension InvalidReferenceNameExceptionBody: Swift.Decodable {
 
 extension InvalidRelativeFileVersionEnumException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRelativeFileVersionEnumExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15078,7 +14943,7 @@ extension InvalidRelativeFileVersionEnumException {
 }
 
 /// Either the enum is not in a valid format, or the specified file version enum is not valid in respect to the current file version.
-public struct InvalidRelativeFileVersionEnumException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRelativeFileVersionEnumException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15115,9 +14980,8 @@ extension InvalidRelativeFileVersionEnumExceptionBody: Swift.Decodable {
 
 extension InvalidReplacementContentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidReplacementContentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15131,7 +14995,7 @@ extension InvalidReplacementContentException {
 }
 
 /// Automerge was specified for resolving the conflict, but the replacement type is not valid or content is missing.
-public struct InvalidReplacementContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidReplacementContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15168,9 +15032,8 @@ extension InvalidReplacementContentExceptionBody: Swift.Decodable {
 
 extension InvalidReplacementTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidReplacementTypeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15184,7 +15047,7 @@ extension InvalidReplacementTypeException {
 }
 
 /// Automerge was specified for resolving the conflict, but the specified replacement type is not valid.
-public struct InvalidReplacementTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidReplacementTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15221,9 +15084,8 @@ extension InvalidReplacementTypeExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryDescriptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryDescriptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15237,7 +15099,7 @@ extension InvalidRepositoryDescriptionException {
 }
 
 /// The specified repository description is not valid.
-public struct InvalidRepositoryDescriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryDescriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15274,9 +15136,8 @@ extension InvalidRepositoryDescriptionExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15290,7 +15151,7 @@ extension InvalidRepositoryNameException {
 }
 
 /// A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-public struct InvalidRepositoryNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15327,9 +15188,8 @@ extension InvalidRepositoryNameExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryTriggerBranchNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryTriggerBranchNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15343,7 +15203,7 @@ extension InvalidRepositoryTriggerBranchNameException {
 }
 
 /// One or more branch names specified for the trigger is not valid.
-public struct InvalidRepositoryTriggerBranchNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryTriggerBranchNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15380,9 +15240,8 @@ extension InvalidRepositoryTriggerBranchNameExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryTriggerCustomDataException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryTriggerCustomDataExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15396,7 +15255,7 @@ extension InvalidRepositoryTriggerCustomDataException {
 }
 
 /// The custom data provided for the trigger is not valid.
-public struct InvalidRepositoryTriggerCustomDataException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryTriggerCustomDataException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15433,9 +15292,8 @@ extension InvalidRepositoryTriggerCustomDataExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryTriggerDestinationArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryTriggerDestinationArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15449,7 +15307,7 @@ extension InvalidRepositoryTriggerDestinationArnException {
 }
 
 /// The Amazon Resource Name (ARN) for the trigger is not valid for the specified destination. The most common reason for this error is that the ARN does not meet the requirements for the service type.
-public struct InvalidRepositoryTriggerDestinationArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryTriggerDestinationArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15486,9 +15344,8 @@ extension InvalidRepositoryTriggerDestinationArnExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryTriggerEventsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryTriggerEventsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15502,7 +15359,7 @@ extension InvalidRepositoryTriggerEventsException {
 }
 
 /// One or more events specified for the trigger is not valid. Check to make sure that all events specified match the requirements for allowed events.
-public struct InvalidRepositoryTriggerEventsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryTriggerEventsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15539,9 +15396,8 @@ extension InvalidRepositoryTriggerEventsExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryTriggerNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryTriggerNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15555,7 +15411,7 @@ extension InvalidRepositoryTriggerNameException {
 }
 
 /// The name of the trigger is not valid.
-public struct InvalidRepositoryTriggerNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryTriggerNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15592,9 +15448,8 @@ extension InvalidRepositoryTriggerNameExceptionBody: Swift.Decodable {
 
 extension InvalidRepositoryTriggerRegionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRepositoryTriggerRegionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15608,7 +15463,7 @@ extension InvalidRepositoryTriggerRegionException {
 }
 
 /// The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
-public struct InvalidRepositoryTriggerRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRepositoryTriggerRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15645,9 +15500,8 @@ extension InvalidRepositoryTriggerRegionExceptionBody: Swift.Decodable {
 
 extension InvalidResourceArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidResourceArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15661,7 +15515,7 @@ extension InvalidResourceArnException {
 }
 
 /// The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
-public struct InvalidResourceArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidResourceArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15698,9 +15552,8 @@ extension InvalidResourceArnExceptionBody: Swift.Decodable {
 
 extension InvalidRevisionIdException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRevisionIdExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15714,7 +15567,7 @@ extension InvalidRevisionIdException {
 }
 
 /// The revision ID is not valid. Use GetPullRequest to determine the value.
-public struct InvalidRevisionIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRevisionIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15751,9 +15604,8 @@ extension InvalidRevisionIdExceptionBody: Swift.Decodable {
 
 extension InvalidRuleContentSha256Exception {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRuleContentSha256ExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15767,7 +15619,7 @@ extension InvalidRuleContentSha256Exception {
 }
 
 /// The SHA-256 hash signature for the rule content is not valid.
-public struct InvalidRuleContentSha256Exception: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRuleContentSha256Exception: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15804,9 +15656,8 @@ extension InvalidRuleContentSha256ExceptionBody: Swift.Decodable {
 
 extension InvalidSortByException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidSortByExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15820,7 +15671,7 @@ extension InvalidSortByException {
 }
 
 /// The specified sort by value is not valid.
-public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15857,9 +15708,8 @@ extension InvalidSortByExceptionBody: Swift.Decodable {
 
 extension InvalidSourceCommitSpecifierException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidSourceCommitSpecifierExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15873,7 +15723,7 @@ extension InvalidSourceCommitSpecifierException {
 }
 
 /// The source commit specifier is not valid. You must provide a valid branch name, tag, or full commit ID.
-public struct InvalidSourceCommitSpecifierException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSourceCommitSpecifierException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15910,9 +15760,8 @@ extension InvalidSourceCommitSpecifierExceptionBody: Swift.Decodable {
 
 extension InvalidSystemTagUsageException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidSystemTagUsageExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15926,7 +15775,7 @@ extension InvalidSystemTagUsageException {
 }
 
 /// The specified tag is not valid. Key names cannot be prefixed with aws:.
-public struct InvalidSystemTagUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSystemTagUsageException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15963,9 +15812,8 @@ extension InvalidSystemTagUsageExceptionBody: Swift.Decodable {
 
 extension InvalidTagKeysListException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTagKeysListExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15979,7 +15827,7 @@ extension InvalidTagKeysListException {
 }
 
 /// The list of tags is not valid.
-public struct InvalidTagKeysListException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagKeysListException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16016,9 +15864,8 @@ extension InvalidTagKeysListExceptionBody: Swift.Decodable {
 
 extension InvalidTagsMapException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTagsMapExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16032,7 +15879,7 @@ extension InvalidTagsMapException {
 }
 
 /// The map of tags is not valid.
-public struct InvalidTagsMapException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagsMapException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16069,9 +15916,8 @@ extension InvalidTagsMapExceptionBody: Swift.Decodable {
 
 extension InvalidTargetBranchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTargetBranchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16085,7 +15931,7 @@ extension InvalidTargetBranchException {
 }
 
 /// The specified target branch is not valid.
-public struct InvalidTargetBranchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTargetBranchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16122,9 +15968,8 @@ extension InvalidTargetBranchExceptionBody: Swift.Decodable {
 
 extension InvalidTargetException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTargetExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16138,7 +15983,7 @@ extension InvalidTargetException {
 }
 
 /// The target for the pull request is not valid. A target must contain the full values for the repository name, source branch, and destination branch for the pull request.
-public struct InvalidTargetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTargetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16175,9 +16020,8 @@ extension InvalidTargetExceptionBody: Swift.Decodable {
 
 extension InvalidTargetsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTargetsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16191,7 +16035,7 @@ extension InvalidTargetsException {
 }
 
 /// The targets for the pull request is not valid or not in a valid format. Targets are a list of target objects. Each target object must contain the full values for the repository name, source branch, and destination branch for a pull request.
-public struct InvalidTargetsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTargetsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16228,9 +16072,8 @@ extension InvalidTargetsExceptionBody: Swift.Decodable {
 
 extension InvalidTitleException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTitleExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16244,7 +16087,7 @@ extension InvalidTitleException {
 }
 
 /// The title of the pull request is not valid. Pull request titles cannot exceed 100 characters in length.
-public struct InvalidTitleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTitleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16419,9 +16262,8 @@ public enum ListApprovalRuleTemplatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListApprovalRuleTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListApprovalRuleTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplateNames = output.approvalRuleTemplateNames
             self.nextToken = output.nextToken
@@ -16591,9 +16433,8 @@ public enum ListAssociatedApprovalRuleTemplatesForRepositoryOutputError: Swift.E
 
 extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplateNames = output.approvalRuleTemplateNames
             self.nextToken = output.nextToken
@@ -16750,9 +16591,8 @@ public enum ListBranchesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.branches = output.branches
             self.nextToken = output.nextToken
@@ -16953,9 +16793,8 @@ public enum ListPullRequestsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPullRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPullRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pullRequestIds = output.pullRequestIds
@@ -17126,9 +16965,8 @@ public enum ListRepositoriesForApprovalRuleTemplateOutputError: Swift.Error, Swi
 
 extension ListRepositoriesForApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRepositoriesForApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositoryNames = output.repositoryNames
@@ -17284,9 +17122,8 @@ public enum ListRepositoriesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositories = output.repositories
@@ -17433,9 +17270,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -17548,9 +17384,8 @@ extension CodeCommitClientTypes {
 
 extension ManualMergeRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ManualMergeRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17564,7 +17399,7 @@ extension ManualMergeRequiredException {
 }
 
 /// The pull request cannot be merged automatically into the destination branch. You must manually merge the branches and resolve any conflicts.
-public struct ManualMergeRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ManualMergeRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17601,9 +17436,8 @@ extension ManualMergeRequiredExceptionBody: Swift.Decodable {
 
 extension MaximumBranchesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumBranchesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17617,7 +17451,7 @@ extension MaximumBranchesExceededException {
 }
 
 /// The number of branches for the trigger was exceeded.
-public struct MaximumBranchesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumBranchesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17654,9 +17488,8 @@ extension MaximumBranchesExceededExceptionBody: Swift.Decodable {
 
 extension MaximumConflictResolutionEntriesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumConflictResolutionEntriesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17670,7 +17503,7 @@ extension MaximumConflictResolutionEntriesExceededException {
 }
 
 /// The number of allowed conflict resolution entries was exceeded.
-public struct MaximumConflictResolutionEntriesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumConflictResolutionEntriesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17707,9 +17540,8 @@ extension MaximumConflictResolutionEntriesExceededExceptionBody: Swift.Decodable
 
 extension MaximumFileContentToLoadExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumFileContentToLoadExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17723,7 +17555,7 @@ extension MaximumFileContentToLoadExceededException {
 }
 
 /// The number of files to load exceeds the allowed limit.
-public struct MaximumFileContentToLoadExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumFileContentToLoadExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17760,9 +17592,8 @@ extension MaximumFileContentToLoadExceededExceptionBody: Swift.Decodable {
 
 extension MaximumFileEntriesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumFileEntriesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17776,7 +17607,7 @@ extension MaximumFileEntriesExceededException {
 }
 
 /// The number of specified files to change as part of this commit exceeds the maximum number of files that can be changed in a single commit. Consider using a Git client for these changes.
-public struct MaximumFileEntriesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumFileEntriesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17813,9 +17644,8 @@ extension MaximumFileEntriesExceededExceptionBody: Swift.Decodable {
 
 extension MaximumItemsToCompareExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumItemsToCompareExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17829,7 +17659,7 @@ extension MaximumItemsToCompareExceededException {
 }
 
 /// The number of items to compare between the source or destination branches and the merge base has exceeded the maximum allowed.
-public struct MaximumItemsToCompareExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumItemsToCompareExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17866,9 +17696,8 @@ extension MaximumItemsToCompareExceededExceptionBody: Swift.Decodable {
 
 extension MaximumNumberOfApprovalsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumNumberOfApprovalsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17882,7 +17711,7 @@ extension MaximumNumberOfApprovalsExceededException {
 }
 
 /// The number of approvals required for the approval rule exceeds the maximum number allowed.
-public struct MaximumNumberOfApprovalsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumNumberOfApprovalsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17919,9 +17748,8 @@ extension MaximumNumberOfApprovalsExceededExceptionBody: Swift.Decodable {
 
 extension MaximumOpenPullRequestsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumOpenPullRequestsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17935,7 +17763,7 @@ extension MaximumOpenPullRequestsExceededException {
 }
 
 /// You cannot create the pull request because the repository has too many open pull requests. The maximum number of open pull requests for a repository is 1,000. Close one or more open pull requests, and then try again.
-public struct MaximumOpenPullRequestsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumOpenPullRequestsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17972,9 +17800,8 @@ extension MaximumOpenPullRequestsExceededExceptionBody: Swift.Decodable {
 
 extension MaximumRepositoryNamesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumRepositoryNamesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17988,7 +17815,7 @@ extension MaximumRepositoryNamesExceededException {
 }
 
 /// The maximum number of allowed repository names was exceeded. Currently, this number is 100.
-public struct MaximumRepositoryNamesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumRepositoryNamesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18025,9 +17852,8 @@ extension MaximumRepositoryNamesExceededExceptionBody: Swift.Decodable {
 
 extension MaximumRepositoryTriggersExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumRepositoryTriggersExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18041,7 +17867,7 @@ extension MaximumRepositoryTriggersExceededException {
 }
 
 /// The number of triggers allowed for the repository was exceeded.
-public struct MaximumRepositoryTriggersExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumRepositoryTriggersExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18078,9 +17904,8 @@ extension MaximumRepositoryTriggersExceededExceptionBody: Swift.Decodable {
 
 extension MaximumRuleTemplatesAssociatedWithRepositoryException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaximumRuleTemplatesAssociatedWithRepositoryExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18094,7 +17919,7 @@ extension MaximumRuleTemplatesAssociatedWithRepositoryException {
 }
 
 /// The maximum number of approval rule templates for a repository has been exceeded. You cannot associate more than 25 approval rule templates with a repository.
-public struct MaximumRuleTemplatesAssociatedWithRepositoryException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaximumRuleTemplatesAssociatedWithRepositoryException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18275,9 +18100,8 @@ public enum MergeBranchesByFastForwardOutputError: Swift.Error, Swift.Equatable 
 
 extension MergeBranchesByFastForwardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergeBranchesByFastForwardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.treeId = output.treeId
@@ -18594,9 +18418,8 @@ public enum MergeBranchesBySquashOutputError: Swift.Error, Swift.Equatable {
 
 extension MergeBranchesBySquashOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergeBranchesBySquashOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.treeId = output.treeId
@@ -18913,9 +18736,8 @@ public enum MergeBranchesByThreeWayOutputError: Swift.Error, Swift.Equatable {
 
 extension MergeBranchesByThreeWayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergeBranchesByThreeWayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.treeId = output.treeId
@@ -19194,9 +19016,8 @@ extension CodeCommitClientTypes {
 
 extension MergeOptionRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergeOptionRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -19210,7 +19031,7 @@ extension MergeOptionRequiredException {
 }
 
 /// A merge option or stategy is required, and none was provided.
-public struct MergeOptionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MergeOptionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -19413,9 +19234,8 @@ public enum MergePullRequestByFastForwardOutputError: Swift.Error, Swift.Equatab
 
 extension MergePullRequestByFastForwardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergePullRequestByFastForwardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -19707,9 +19527,8 @@ public enum MergePullRequestBySquashOutputError: Swift.Error, Swift.Equatable {
 
 extension MergePullRequestBySquashOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergePullRequestBySquashOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -20001,9 +19820,8 @@ public enum MergePullRequestByThreeWayOutputError: Swift.Error, Swift.Equatable 
 
 extension MergePullRequestByThreeWayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MergePullRequestByThreeWayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -20042,9 +19860,8 @@ extension MergePullRequestByThreeWayOutputResponseBody: Swift.Decodable {
 
 extension MultipleConflictResolutionEntriesException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MultipleConflictResolutionEntriesExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20058,7 +19875,7 @@ extension MultipleConflictResolutionEntriesException {
 }
 
 /// More than one conflict resolution entries exists for the conflict. A conflict can have only one conflict resolution entry.
-public struct MultipleConflictResolutionEntriesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MultipleConflictResolutionEntriesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20095,9 +19912,8 @@ extension MultipleConflictResolutionEntriesExceptionBody: Swift.Decodable {
 
 extension MultipleRepositoriesInPullRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MultipleRepositoriesInPullRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20111,7 +19927,7 @@ extension MultipleRepositoriesInPullRequestException {
 }
 
 /// You cannot include more than one repository in a pull request. Make sure you have specified only one repository name in your request, and then try again.
-public struct MultipleRepositoriesInPullRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MultipleRepositoriesInPullRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20148,9 +19964,8 @@ extension MultipleRepositoriesInPullRequestExceptionBody: Swift.Decodable {
 
 extension NameLengthExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NameLengthExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20164,7 +19979,7 @@ extension NameLengthExceededException {
 }
 
 /// The user name is not valid because it has exceeded the character limit for author names.
-public struct NameLengthExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NameLengthExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20201,9 +20016,8 @@ extension NameLengthExceededExceptionBody: Swift.Decodable {
 
 extension NoChangeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoChangeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20217,7 +20031,7 @@ extension NoChangeException {
 }
 
 /// The commit cannot be created because no changes will be made to the repository as a result of this commit. A commit must contain at least one change.
-public struct NoChangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoChangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20254,9 +20068,8 @@ extension NoChangeExceptionBody: Swift.Decodable {
 
 extension NumberOfRuleTemplatesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NumberOfRuleTemplatesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20270,7 +20083,7 @@ extension NumberOfRuleTemplatesExceededException {
 }
 
 /// The maximum number of approval rule templates has been exceeded for this AWS Region.
-public struct NumberOfRuleTemplatesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NumberOfRuleTemplatesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20307,9 +20120,8 @@ extension NumberOfRuleTemplatesExceededExceptionBody: Swift.Decodable {
 
 extension NumberOfRulesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NumberOfRulesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20323,7 +20135,7 @@ extension NumberOfRulesExceededException {
 }
 
 /// The approval rule cannot be added. The pull request has the maximum number of approval rules associated with it.
-public struct NumberOfRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NumberOfRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20530,9 +20342,8 @@ extension CodeCommitClientTypes {
 
 extension OverrideAlreadySetException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OverrideAlreadySetExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20546,7 +20357,7 @@ extension OverrideAlreadySetException {
 }
 
 /// The pull request has already had its approval rules set to override.
-public struct OverrideAlreadySetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OverrideAlreadySetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20749,9 +20560,8 @@ extension CodeCommitClientTypes {
 
 extension OverrideStatusRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OverrideStatusRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20765,7 +20575,7 @@ extension OverrideStatusRequiredException {
 }
 
 /// An override status is required, but no value was provided. Valid values include OVERRIDE and REVOKE.
-public struct OverrideStatusRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OverrideStatusRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20802,9 +20612,8 @@ extension OverrideStatusRequiredExceptionBody: Swift.Decodable {
 
 extension ParentCommitDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ParentCommitDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20818,7 +20627,7 @@ extension ParentCommitDoesNotExistException {
 }
 
 /// The parent commit ID is not valid because it does not exist. The specified parent commit ID does not exist in the specified branch of the repository.
-public struct ParentCommitDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ParentCommitDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20855,9 +20664,8 @@ extension ParentCommitDoesNotExistExceptionBody: Swift.Decodable {
 
 extension ParentCommitIdOutdatedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ParentCommitIdOutdatedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20871,7 +20679,7 @@ extension ParentCommitIdOutdatedException {
 }
 
 /// The file could not be added because the provided parent commit ID is not the current tip of the specified branch. To view the full commit ID of the current head of the branch, use [GetBranch].
-public struct ParentCommitIdOutdatedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ParentCommitIdOutdatedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20908,9 +20716,8 @@ extension ParentCommitIdOutdatedExceptionBody: Swift.Decodable {
 
 extension ParentCommitIdRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ParentCommitIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20924,7 +20731,7 @@ extension ParentCommitIdRequiredException {
 }
 
 /// A parent commit ID is required. To view the full commit ID of a branch in a repository, use [GetBranch] or a Git command (for example, git pull or git log).
-public struct ParentCommitIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ParentCommitIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -20961,9 +20768,8 @@ extension ParentCommitIdRequiredExceptionBody: Swift.Decodable {
 
 extension PathDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PathDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20977,7 +20783,7 @@ extension PathDoesNotExistException {
 }
 
 /// The specified path does not exist.
-public struct PathDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PathDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21014,9 +20820,8 @@ extension PathDoesNotExistExceptionBody: Swift.Decodable {
 
 extension PathRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PathRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21030,7 +20835,7 @@ extension PathRequiredException {
 }
 
 /// The folderPath for a location cannot be null.
-public struct PathRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PathRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21243,9 +21048,8 @@ public enum PostCommentForComparedCommitOutputError: Swift.Error, Swift.Equatabl
 
 extension PostCommentForComparedCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PostCommentForComparedCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.afterBlobId = output.afterBlobId
             self.afterCommitId = output.afterCommitId
@@ -21542,9 +21346,8 @@ public enum PostCommentForPullRequestOutputError: Swift.Error, Swift.Equatable {
 
 extension PostCommentForPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PostCommentForPullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.afterBlobId = output.afterBlobId
             self.afterCommitId = output.afterCommitId
@@ -21762,9 +21565,8 @@ public enum PostCommentReplyOutputError: Swift.Error, Swift.Equatable {
 
 extension PostCommentReplyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PostCommentReplyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comment = output.comment
         } else {
@@ -21962,9 +21764,8 @@ extension CodeCommitClientTypes {
 
 extension PullRequestAlreadyClosedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PullRequestAlreadyClosedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21978,7 +21779,7 @@ extension PullRequestAlreadyClosedException {
 }
 
 /// The pull request status cannot be updated because it is already closed.
-public struct PullRequestAlreadyClosedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PullRequestAlreadyClosedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22015,9 +21816,8 @@ extension PullRequestAlreadyClosedExceptionBody: Swift.Decodable {
 
 extension PullRequestApprovalRulesNotSatisfiedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PullRequestApprovalRulesNotSatisfiedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22031,7 +21831,7 @@ extension PullRequestApprovalRulesNotSatisfiedException {
 }
 
 /// The pull request cannot be merged because one or more approval rules applied to the pull request have conditions that have not been met.
-public struct PullRequestApprovalRulesNotSatisfiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PullRequestApprovalRulesNotSatisfiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22068,9 +21868,8 @@ extension PullRequestApprovalRulesNotSatisfiedExceptionBody: Swift.Decodable {
 
 extension PullRequestCannotBeApprovedByAuthorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PullRequestCannotBeApprovedByAuthorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22084,7 +21883,7 @@ extension PullRequestCannotBeApprovedByAuthorException {
 }
 
 /// The approval cannot be applied because the user approving the pull request matches the user who created the pull request. You cannot approve a pull request that you created.
-public struct PullRequestCannotBeApprovedByAuthorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PullRequestCannotBeApprovedByAuthorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22186,9 +21985,8 @@ extension CodeCommitClientTypes {
 
 extension PullRequestDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PullRequestDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22202,7 +22000,7 @@ extension PullRequestDoesNotExistException {
 }
 
 /// The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
-public struct PullRequestDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PullRequestDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22427,9 +22225,8 @@ extension CodeCommitClientTypes {
 
 extension PullRequestIdRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PullRequestIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22443,7 +22240,7 @@ extension PullRequestIdRequiredException {
 }
 
 /// A pull request ID is required, but none was provided.
-public struct PullRequestIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PullRequestIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22667,9 +22464,8 @@ extension CodeCommitClientTypes {
 
 extension PullRequestStatusRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PullRequestStatusRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22683,7 +22479,7 @@ extension PullRequestStatusRequiredException {
 }
 
 /// A pull request status is required, but none was provided.
-public struct PullRequestStatusRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PullRequestStatusRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22986,9 +22782,8 @@ extension CodeCommitClientTypes {
 
 extension PutFileEntryConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutFileEntryConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -23002,7 +22797,7 @@ extension PutFileEntryConflictException {
 }
 
 /// The commit cannot be created because one or more files specified in the commit reference both a file and a folder.
-public struct PutFileEntryConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PutFileEntryConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23266,9 +23061,8 @@ public enum PutFileOutputError: Swift.Error, Swift.Equatable {
 
 extension PutFileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blobId = output.blobId
             self.commitId = output.commitId
@@ -23466,9 +23260,8 @@ public enum PutRepositoryTriggersOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRepositoryTriggersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationId = output.configurationId
         } else {
@@ -23575,9 +23368,8 @@ extension CodeCommitClientTypes {
 
 extension ReactionLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReactionLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -23591,7 +23383,7 @@ extension ReactionLimitExceededException {
 }
 
 /// The number of reactions has been exceeded. Reactions are limited to one reaction per user for each individual comment ID.
-public struct ReactionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReactionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23683,9 +23475,8 @@ extension CodeCommitClientTypes {
 
 extension ReactionValueRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReactionValueRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -23699,7 +23490,7 @@ extension ReactionValueRequiredException {
 }
 
 /// A reaction value is required.
-public struct ReactionValueRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReactionValueRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23736,9 +23527,8 @@ extension ReactionValueRequiredExceptionBody: Swift.Decodable {
 
 extension ReferenceDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReferenceDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -23752,7 +23542,7 @@ extension ReferenceDoesNotExistException {
 }
 
 /// The specified reference does not exist. You must provide a full commit ID.
-public struct ReferenceDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReferenceDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23789,9 +23579,8 @@ extension ReferenceDoesNotExistExceptionBody: Swift.Decodable {
 
 extension ReferenceNameRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReferenceNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -23805,7 +23594,7 @@ extension ReferenceNameRequiredException {
 }
 
 /// A reference name is required, but none was provided.
-public struct ReferenceNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReferenceNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23842,9 +23631,8 @@ extension ReferenceNameRequiredExceptionBody: Swift.Decodable {
 
 extension ReferenceTypeNotSupportedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReferenceTypeNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -23858,7 +23646,7 @@ extension ReferenceTypeNotSupportedException {
 }
 
 /// The specified reference is not a supported type.
-public struct ReferenceTypeNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReferenceTypeNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23994,9 +23782,8 @@ extension CodeCommitClientTypes {
 
 extension ReplacementContentRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReplacementContentRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24010,7 +23797,7 @@ extension ReplacementContentRequiredException {
 }
 
 /// USE_NEW_CONTENT was specified, but no replacement content has been provided.
-public struct ReplacementContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReplacementContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24085,9 +23872,8 @@ extension CodeCommitClientTypes {
 
 extension ReplacementTypeRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ReplacementTypeRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24101,7 +23887,7 @@ extension ReplacementTypeRequiredException {
 }
 
 /// A replacement type is required.
-public struct ReplacementTypeRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ReplacementTypeRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24138,9 +23924,8 @@ extension ReplacementTypeRequiredExceptionBody: Swift.Decodable {
 
 extension RepositoryDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24154,7 +23939,7 @@ extension RepositoryDoesNotExistException {
 }
 
 /// The specified repository does not exist.
-public struct RepositoryDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24191,9 +23976,8 @@ extension RepositoryDoesNotExistExceptionBody: Swift.Decodable {
 
 extension RepositoryLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24207,7 +23991,7 @@ extension RepositoryLimitExceededException {
 }
 
 /// A repository resource limit was exceeded.
-public struct RepositoryLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24369,9 +24153,8 @@ extension CodeCommitClientTypes {
 
 extension RepositoryNameExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryNameExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24385,7 +24168,7 @@ extension RepositoryNameExistsException {
 }
 
 /// The specified repository name already exists.
-public struct RepositoryNameExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryNameExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24467,9 +24250,8 @@ extension CodeCommitClientTypes {
 
 extension RepositoryNameRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24483,7 +24265,7 @@ extension RepositoryNameRequiredException {
 }
 
 /// A repository name is required, but was not specified.
-public struct RepositoryNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24520,9 +24302,8 @@ extension RepositoryNameRequiredExceptionBody: Swift.Decodable {
 
 extension RepositoryNamesRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryNamesRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24536,7 +24317,7 @@ extension RepositoryNamesRequiredException {
 }
 
 /// At least one repository name object is required, but was not specified.
-public struct RepositoryNamesRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryNamesRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24573,9 +24354,8 @@ extension RepositoryNamesRequiredExceptionBody: Swift.Decodable {
 
 extension RepositoryNotAssociatedWithPullRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryNotAssociatedWithPullRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24589,7 +24369,7 @@ extension RepositoryNotAssociatedWithPullRequestException {
 }
 
 /// The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
-public struct RepositoryNotAssociatedWithPullRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryNotAssociatedWithPullRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24728,9 +24508,8 @@ extension CodeCommitClientTypes {
 
 extension RepositoryTriggerBranchNameListRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryTriggerBranchNameListRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24744,7 +24523,7 @@ extension RepositoryTriggerBranchNameListRequiredException {
 }
 
 /// At least one branch name is required, but was not specified in the trigger configuration.
-public struct RepositoryTriggerBranchNameListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryTriggerBranchNameListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24781,9 +24560,8 @@ extension RepositoryTriggerBranchNameListRequiredExceptionBody: Swift.Decodable 
 
 extension RepositoryTriggerDestinationArnRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryTriggerDestinationArnRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24797,7 +24575,7 @@ extension RepositoryTriggerDestinationArnRequiredException {
 }
 
 /// A destination ARN for the target service for the trigger is required, but was not specified.
-public struct RepositoryTriggerDestinationArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryTriggerDestinationArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24872,9 +24650,8 @@ extension CodeCommitClientTypes {
 
 extension RepositoryTriggerEventsListRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryTriggerEventsListRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24888,7 +24665,7 @@ extension RepositoryTriggerEventsListRequiredException {
 }
 
 /// At least one event for the trigger is required, but was not specified.
-public struct RepositoryTriggerEventsListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryTriggerEventsListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24970,9 +24747,8 @@ extension CodeCommitClientTypes {
 
 extension RepositoryTriggerNameRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryTriggerNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -24986,7 +24762,7 @@ extension RepositoryTriggerNameRequiredException {
 }
 
 /// A name for the trigger is required, but was not specified.
-public struct RepositoryTriggerNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryTriggerNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25023,9 +24799,8 @@ extension RepositoryTriggerNameRequiredExceptionBody: Swift.Decodable {
 
 extension RepositoryTriggersListRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RepositoryTriggersListRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25039,7 +24814,7 @@ extension RepositoryTriggersListRequiredException {
 }
 
 /// The list of triggers for the repository is required, but was not specified.
-public struct RepositoryTriggersListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RepositoryTriggersListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25076,9 +24851,8 @@ extension RepositoryTriggersListRequiredExceptionBody: Swift.Decodable {
 
 extension ResourceArnRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceArnRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25092,7 +24866,7 @@ extension ResourceArnRequiredException {
 }
 
 /// A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
-public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25129,9 +24903,8 @@ extension ResourceArnRequiredExceptionBody: Swift.Decodable {
 
 extension RestrictedSourceFileException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RestrictedSourceFileExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25145,7 +24918,7 @@ extension RestrictedSourceFileException {
 }
 
 /// The commit cannot be created because one of the changes specifies copying or moving a .gitkeep file.
-public struct RestrictedSourceFileException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RestrictedSourceFileException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25182,9 +24955,8 @@ extension RestrictedSourceFileExceptionBody: Swift.Decodable {
 
 extension RevisionIdRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevisionIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25198,7 +24970,7 @@ extension RevisionIdRequiredException {
 }
 
 /// A revision ID is required, but was not provided.
-public struct RevisionIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RevisionIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25235,9 +25007,8 @@ extension RevisionIdRequiredExceptionBody: Swift.Decodable {
 
 extension RevisionNotCurrentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RevisionNotCurrentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25251,7 +25022,7 @@ extension RevisionNotCurrentException {
 }
 
 /// The revision ID provided in the request does not match the current revision ID. Use GetPullRequest to retrieve the current revision ID.
-public struct RevisionNotCurrentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RevisionNotCurrentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25288,9 +25059,8 @@ extension RevisionNotCurrentExceptionBody: Swift.Decodable {
 
 extension SameFileContentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SameFileContentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25304,7 +25074,7 @@ extension SameFileContentException {
 }
 
 /// The file was not added or updated because the content of the file is exactly the same as the content of that file in the repository and branch that you specified.
-public struct SameFileContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SameFileContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25341,9 +25111,8 @@ extension SameFileContentExceptionBody: Swift.Decodable {
 
 extension SamePathRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SamePathRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25357,7 +25126,7 @@ extension SamePathRequestException {
 }
 
 /// The commit cannot be created because one or more changes in this commit duplicate actions in the same file path. For example, you cannot make the same delete request to the same file in the same file path twice, or make a delete request and a move request to the same file as part of the same commit.
-public struct SamePathRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SamePathRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25473,9 +25242,8 @@ extension CodeCommitClientTypes {
 
 extension SourceAndDestinationAreSameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SourceAndDestinationAreSameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25489,7 +25257,7 @@ extension SourceAndDestinationAreSameException {
 }
 
 /// The source branch and destination branch for the pull request are the same. You must specify different branches for the source and destination.
-public struct SourceAndDestinationAreSameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SourceAndDestinationAreSameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25526,9 +25294,8 @@ extension SourceAndDestinationAreSameExceptionBody: Swift.Decodable {
 
 extension SourceFileOrContentRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SourceFileOrContentRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25542,7 +25309,7 @@ extension SourceFileOrContentRequiredException {
 }
 
 /// The commit cannot be created because no source files or file content have been specified for the commit.
-public struct SourceFileOrContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SourceFileOrContentRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25745,9 +25512,8 @@ extension CodeCommitClientTypes {
 
 extension TagKeysListRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagKeysListRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25761,7 +25527,7 @@ extension TagKeysListRequiredException {
 }
 
 /// A list of tag keys is required. The list cannot be empty or null.
-public struct TagKeysListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagKeysListRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25798,9 +25564,8 @@ extension TagKeysListRequiredExceptionBody: Swift.Decodable {
 
 extension TagPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25814,7 +25579,7 @@ extension TagPolicyException {
 }
 
 /// The tag policy is not valid.
-public struct TagPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25972,9 +25737,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TagsMapRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagsMapRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25988,7 +25752,7 @@ extension TagsMapRequiredException {
 }
 
 /// A map of tags is required.
-public struct TagsMapRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagsMapRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26082,9 +25846,8 @@ extension CodeCommitClientTypes {
 
 extension TargetRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TargetRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -26098,7 +25861,7 @@ extension TargetRequiredException {
 }
 
 /// A pull request target is required. It cannot be empty or null. A pull request target must contain the full values for the repository name, source branch, and destination branch for the pull request.
-public struct TargetRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TargetRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26135,9 +25898,8 @@ extension TargetRequiredExceptionBody: Swift.Decodable {
 
 extension TargetsRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TargetsRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -26151,7 +25913,7 @@ extension TargetsRequiredException {
 }
 
 /// An array of target objects is required. It cannot be empty or null.
-public struct TargetsRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TargetsRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26324,9 +26086,8 @@ public enum TestRepositoryTriggersOutputError: Swift.Error, Swift.Equatable {
 
 extension TestRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TestRepositoryTriggersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedExecutions = output.failedExecutions
             self.successfulExecutions = output.successfulExecutions
@@ -26394,9 +26155,8 @@ extension TestRepositoryTriggersOutputResponseBody: Swift.Decodable {
 
 extension TipOfSourceReferenceIsDifferentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TipOfSourceReferenceIsDifferentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -26410,7 +26170,7 @@ extension TipOfSourceReferenceIsDifferentException {
 }
 
 /// The tip of the source branch in the destination repository does not match the tip of the source branch specified in your request. The pull request might have been updated. Make sure that you have the latest changes.
-public struct TipOfSourceReferenceIsDifferentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TipOfSourceReferenceIsDifferentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26447,9 +26207,8 @@ extension TipOfSourceReferenceIsDifferentExceptionBody: Swift.Decodable {
 
 extension TipsDivergenceExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TipsDivergenceExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -26463,7 +26222,7 @@ extension TipsDivergenceExceededException {
 }
 
 /// The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-public struct TipsDivergenceExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TipsDivergenceExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26500,9 +26259,8 @@ extension TipsDivergenceExceededExceptionBody: Swift.Decodable {
 
 extension TitleRequiredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TitleRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -26516,7 +26274,7 @@ extension TitleRequiredException {
 }
 
 /// A pull request title is required. It cannot be empty or null.
-public struct TitleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TitleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26553,9 +26311,8 @@ extension TitleRequiredExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -26569,7 +26326,7 @@ extension TooManyTagsException {
 }
 
 /// The maximum number of tags for an AWS CodeCommit resource has been exceeded.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26832,9 +26589,8 @@ public enum UpdateApprovalRuleTemplateContentOutputError: Swift.Error, Swift.Equ
 
 extension UpdateApprovalRuleTemplateContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateApprovalRuleTemplateContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
@@ -26963,9 +26719,8 @@ public enum UpdateApprovalRuleTemplateDescriptionOutputError: Swift.Error, Swift
 
 extension UpdateApprovalRuleTemplateDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateApprovalRuleTemplateDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
@@ -27094,9 +26849,8 @@ public enum UpdateApprovalRuleTemplateNameOutputError: Swift.Error, Swift.Equata
 
 extension UpdateApprovalRuleTemplateNameOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateApprovalRuleTemplateNameOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
@@ -27231,9 +26985,8 @@ public enum UpdateCommentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCommentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCommentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comment = output.comment
         } else {
@@ -27538,9 +27291,8 @@ public enum UpdatePullRequestApprovalRuleContentOutputError: Swift.Error, Swift.
 
 extension UpdatePullRequestApprovalRuleContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePullRequestApprovalRuleContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approvalRule = output.approvalRule
         } else {
@@ -27807,9 +27559,8 @@ public enum UpdatePullRequestDescriptionOutputError: Swift.Error, Swift.Equatabl
 
 extension UpdatePullRequestDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePullRequestDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -27952,9 +27703,8 @@ public enum UpdatePullRequestStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePullRequestStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePullRequestStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
@@ -28087,9 +27837,8 @@ public enum UpdatePullRequestTitleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePullRequestTitleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePullRequestTitleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {

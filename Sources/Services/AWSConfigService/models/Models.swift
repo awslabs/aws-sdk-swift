@@ -1250,9 +1250,8 @@ public enum BatchGetAggregateResourceConfigOutputError: Swift.Error, Swift.Equat
 
 extension BatchGetAggregateResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetAggregateResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseConfigurationItems = output.baseConfigurationItems
             self.unprocessedResourceIdentifiers = output.unprocessedResourceIdentifiers
@@ -1403,9 +1402,8 @@ public enum BatchGetResourceConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchGetResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchGetResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseConfigurationItems = output.baseConfigurationItems
             self.unprocessedResourceKeys = output.unprocessedResourceKeys
@@ -3939,9 +3937,8 @@ extension ConfigClientTypes {
 
 extension ConformancePackTemplateValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConformancePackTemplateValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3955,7 +3952,7 @@ extension ConformancePackTemplateValidationException {
 }
 
 /// You have specified a template that is not valid or supported.
-public struct ConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5089,9 +5086,8 @@ public enum DeleteRemediationExceptionsOutputError: Swift.Error, Swift.Equatable
 
 extension DeleteRemediationExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRemediationExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedBatches = output.failedBatches
         } else {
@@ -5473,9 +5469,8 @@ public enum DeliverConfigSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension DeliverConfigSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeliverConfigSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configSnapshotId = output.configSnapshotId
         } else {
@@ -5812,9 +5807,8 @@ public enum DescribeAggregateComplianceByConfigRulesOutputError: Swift.Error, Sw
 
 extension DescribeAggregateComplianceByConfigRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAggregateComplianceByConfigRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateComplianceByConfigRules = output.aggregateComplianceByConfigRules
             self.nextToken = output.nextToken
@@ -5984,9 +5978,8 @@ public enum DescribeAggregateComplianceByConformancePacksOutputError: Swift.Erro
 
 extension DescribeAggregateComplianceByConformancePacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAggregateComplianceByConformancePacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateComplianceByConformancePacks = output.aggregateComplianceByConformancePacks
             self.nextToken = output.nextToken
@@ -6129,9 +6122,8 @@ public enum DescribeAggregationAuthorizationsOutputError: Swift.Error, Swift.Equ
 
 extension DescribeAggregationAuthorizationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeAggregationAuthorizationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregationAuthorizations = output.aggregationAuthorizations
             self.nextToken = output.nextToken
@@ -6311,9 +6303,8 @@ public enum DescribeComplianceByConfigRuleOutputError: Swift.Error, Swift.Equata
 
 extension DescribeComplianceByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeComplianceByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceByConfigRules = output.complianceByConfigRules
             self.nextToken = output.nextToken
@@ -6504,9 +6495,8 @@ public enum DescribeComplianceByResourceOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeComplianceByResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeComplianceByResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceByResources = output.complianceByResources
             self.nextToken = output.nextToken
@@ -6675,9 +6665,8 @@ public enum DescribeConfigRuleEvaluationStatusOutputError: Swift.Error, Swift.Eq
 
 extension DescribeConfigRuleEvaluationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigRuleEvaluationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configRulesEvaluationStatus = output.configRulesEvaluationStatus
             self.nextToken = output.nextToken
@@ -6881,9 +6870,8 @@ public enum DescribeConfigRulesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConfigRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configRules = output.configRules
             self.nextToken = output.nextToken
@@ -7072,9 +7060,8 @@ public enum DescribeConfigurationAggregatorSourcesStatusOutputError: Swift.Error
 
 extension DescribeConfigurationAggregatorSourcesStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationAggregatorSourcesStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregatedSourceStatusList = output.aggregatedSourceStatusList
             self.nextToken = output.nextToken
@@ -7243,9 +7230,8 @@ public enum DescribeConfigurationAggregatorsOutputError: Swift.Error, Swift.Equa
 
 extension DescribeConfigurationAggregatorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationAggregatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationAggregators = output.configurationAggregators
             self.nextToken = output.nextToken
@@ -7385,9 +7371,8 @@ public enum DescribeConfigurationRecorderStatusOutputError: Swift.Error, Swift.E
 
 extension DescribeConfigurationRecorderStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationRecorderStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationRecordersStatus = output.configurationRecordersStatus
         } else {
@@ -7518,9 +7503,8 @@ public enum DescribeConfigurationRecordersOutputError: Swift.Error, Swift.Equata
 
 extension DescribeConfigurationRecordersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationRecordersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationRecorders = output.configurationRecorders
         } else {
@@ -7683,9 +7667,8 @@ public enum DescribeConformancePackComplianceOutputError: Swift.Error, Swift.Equ
 
 extension DescribeConformancePackComplianceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConformancePackComplianceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackName = output.conformancePackName
             self.conformancePackRuleComplianceList = output.conformancePackRuleComplianceList
@@ -7864,9 +7847,8 @@ public enum DescribeConformancePackStatusOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeConformancePackStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConformancePackStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackStatusDetails = output.conformancePackStatusDetails
             self.nextToken = output.nextToken
@@ -8035,9 +8017,8 @@ public enum DescribeConformancePacksOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConformancePacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConformancePacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackDetails = output.conformancePackDetails
             self.nextToken = output.nextToken
@@ -8177,9 +8158,8 @@ public enum DescribeDeliveryChannelStatusOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeDeliveryChannelStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDeliveryChannelStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryChannelsStatus = output.deliveryChannelsStatus
         } else {
@@ -8310,9 +8290,8 @@ public enum DescribeDeliveryChannelsOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDeliveryChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDeliveryChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryChannels = output.deliveryChannels
         } else {
@@ -8472,9 +8451,8 @@ public enum DescribeOrganizationConfigRuleStatusesOutputError: Swift.Error, Swif
 
 extension DescribeOrganizationConfigRuleStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOrganizationConfigRuleStatusesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationConfigRuleStatuses = output.organizationConfigRuleStatuses
@@ -8643,9 +8621,8 @@ public enum DescribeOrganizationConfigRulesOutputError: Swift.Error, Swift.Equat
 
 extension DescribeOrganizationConfigRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOrganizationConfigRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationConfigRules = output.organizationConfigRules
@@ -8814,9 +8791,8 @@ public enum DescribeOrganizationConformancePackStatusesOutputError: Swift.Error,
 
 extension DescribeOrganizationConformancePackStatusesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOrganizationConformancePackStatusesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationConformancePackStatuses = output.organizationConformancePackStatuses
@@ -8985,9 +8961,8 @@ public enum DescribeOrganizationConformancePacksOutputError: Swift.Error, Swift.
 
 extension DescribeOrganizationConformancePacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeOrganizationConformancePacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationConformancePacks = output.organizationConformancePacks
@@ -9130,9 +9105,8 @@ public enum DescribePendingAggregationRequestsOutputError: Swift.Error, Swift.Eq
 
 extension DescribePendingAggregationRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePendingAggregationRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pendingAggregationRequests = output.pendingAggregationRequests
@@ -9270,9 +9244,8 @@ public enum DescribeRemediationConfigurationsOutputError: Swift.Error, Swift.Equ
 
 extension DescribeRemediationConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRemediationConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.remediationConfigurations = output.remediationConfigurations
         } else {
@@ -9440,9 +9413,8 @@ public enum DescribeRemediationExceptionsOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeRemediationExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRemediationExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.remediationExceptions = output.remediationExceptions
@@ -9622,9 +9594,8 @@ public enum DescribeRemediationExecutionStatusOutputError: Swift.Error, Swift.Eq
 
 extension DescribeRemediationExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRemediationExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.remediationExecutionStatuses = output.remediationExecutionStatuses
@@ -9779,9 +9750,8 @@ public enum DescribeRetentionConfigurationsOutputError: Swift.Error, Swift.Equat
 
 extension DescribeRetentionConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRetentionConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.retentionConfigurations = output.retentionConfigurations
@@ -10771,9 +10741,8 @@ public enum GetAggregateComplianceDetailsByConfigRuleOutputError: Swift.Error, S
 
 extension GetAggregateComplianceDetailsByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAggregateComplianceDetailsByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateEvaluationResults = output.aggregateEvaluationResults
             self.nextToken = output.nextToken
@@ -10955,9 +10924,8 @@ public enum GetAggregateConfigRuleComplianceSummaryOutputError: Swift.Error, Swi
 
 extension GetAggregateConfigRuleComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAggregateConfigRuleComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateComplianceCounts = output.aggregateComplianceCounts
             self.groupByKey = output.groupByKey
@@ -11149,9 +11117,8 @@ public enum GetAggregateConformancePackComplianceSummaryOutputError: Swift.Error
 
 extension GetAggregateConformancePackComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAggregateConformancePackComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateConformancePackComplianceSummaries = output.aggregateConformancePackComplianceSummaries
             self.groupByKey = output.groupByKey
@@ -11343,9 +11310,8 @@ public enum GetAggregateDiscoveredResourceCountsOutputError: Swift.Error, Swift.
 
 extension GetAggregateDiscoveredResourceCountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAggregateDiscoveredResourceCountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupByKey = output.groupByKey
             self.groupedResourceCounts = output.groupedResourceCounts
@@ -11513,9 +11479,8 @@ public enum GetAggregateResourceConfigOutputError: Swift.Error, Swift.Equatable 
 
 extension GetAggregateResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAggregateResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationItem = output.configurationItem
         } else {
@@ -11677,9 +11642,8 @@ public enum GetComplianceDetailsByConfigRuleOutputError: Swift.Error, Swift.Equa
 
 extension GetComplianceDetailsByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComplianceDetailsByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
             self.nextToken = output.nextToken
@@ -11868,9 +11832,8 @@ public enum GetComplianceDetailsByResourceOutputError: Swift.Error, Swift.Equata
 
 extension GetComplianceDetailsByResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComplianceDetailsByResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
             self.nextToken = output.nextToken
@@ -11977,9 +11940,8 @@ public enum GetComplianceSummaryByConfigRuleOutputError: Swift.Error, Swift.Equa
 
 extension GetComplianceSummaryByConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComplianceSummaryByConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceSummary = output.complianceSummary
         } else {
@@ -12101,9 +12063,8 @@ public enum GetComplianceSummaryByResourceTypeOutputError: Swift.Error, Swift.Eq
 
 extension GetComplianceSummaryByResourceTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetComplianceSummaryByResourceTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.complianceSummariesByResourceType = output.complianceSummariesByResourceType
         } else {
@@ -12266,9 +12227,8 @@ public enum GetConformancePackComplianceDetailsOutputError: Swift.Error, Swift.E
 
 extension GetConformancePackComplianceDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConformancePackComplianceDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackName = output.conformancePackName
             self.conformancePackRuleEvaluationResults = output.conformancePackRuleEvaluationResults
@@ -12447,9 +12407,8 @@ public enum GetConformancePackComplianceSummaryOutputError: Swift.Error, Swift.E
 
 extension GetConformancePackComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetConformancePackComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackComplianceSummaryList = output.conformancePackComplianceSummaryList
             self.nextToken = output.nextToken
@@ -12576,9 +12535,8 @@ public enum GetCustomRulePolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCustomRulePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCustomRulePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
         } else {
@@ -12726,9 +12684,8 @@ public enum GetDiscoveredResourceCountsOutputError: Swift.Error, Swift.Equatable
 
 extension GetDiscoveredResourceCountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetDiscoveredResourceCountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceCounts = output.resourceCounts
@@ -12914,9 +12871,8 @@ public enum GetOrganizationConfigRuleDetailedStatusOutputError: Swift.Error, Swi
 
 extension GetOrganizationConfigRuleDetailedStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOrganizationConfigRuleDetailedStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationConfigRuleDetailedStatus = output.organizationConfigRuleDetailedStatus
@@ -13086,9 +13042,8 @@ public enum GetOrganizationConformancePackDetailedStatusOutputError: Swift.Error
 
 extension GetOrganizationConformancePackDetailedStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOrganizationConformancePackDetailedStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationConformancePackDetailedStatuses = output.organizationConformancePackDetailedStatuses
@@ -13218,9 +13173,8 @@ public enum GetOrganizationCustomRulePolicyOutputError: Swift.Error, Swift.Equat
 
 extension GetOrganizationCustomRulePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOrganizationCustomRulePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyText = output.policyText
         } else {
@@ -13413,9 +13367,8 @@ public enum GetResourceConfigHistoryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetResourceConfigHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetResourceConfigHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationItems = output.configurationItems
             self.nextToken = output.nextToken
@@ -13544,9 +13497,8 @@ public enum GetResourceEvaluationSummaryOutputError: Swift.Error, Swift.Equatabl
 
 extension GetResourceEvaluationSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetResourceEvaluationSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compliance = output.compliance
             self.evaluationContext = output.evaluationContext
@@ -13717,9 +13669,8 @@ public enum GetStoredQueryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetStoredQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetStoredQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storedQuery = output.storedQuery
         } else {
@@ -13805,9 +13756,8 @@ extension ConfigClientTypes {
 
 extension IdempotentParameterMismatch {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IdempotentParameterMismatchBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13821,7 +13771,7 @@ extension IdempotentParameterMismatch {
 }
 
 /// Using the same client token with one or more different parameters. Specify a new client token with the parameter changes and try again.
-public struct IdempotentParameterMismatch: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IdempotentParameterMismatch: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13857,9 +13807,8 @@ extension IdempotentParameterMismatchBody: Swift.Decodable {
 
 extension InsufficientDeliveryPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InsufficientDeliveryPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13873,7 +13822,7 @@ extension InsufficientDeliveryPolicyException {
 }
 
 /// Your Amazon S3 bucket policy does not permit Config to write to it.
-public struct InsufficientDeliveryPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InsufficientDeliveryPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13910,9 +13859,8 @@ extension InsufficientDeliveryPolicyExceptionBody: Swift.Decodable {
 
 extension InsufficientPermissionsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InsufficientPermissionsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13938,7 +13886,7 @@ extension InsufficientPermissionsException {
 /// * You do not have permission to call IAM GetRole action or create a service-linked role.
 ///
 /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
-public struct InsufficientPermissionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InsufficientPermissionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13975,9 +13923,8 @@ extension InsufficientPermissionsExceptionBody: Swift.Decodable {
 
 extension InvalidConfigurationRecorderNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidConfigurationRecorderNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13991,7 +13938,7 @@ extension InvalidConfigurationRecorderNameException {
 }
 
 /// You have provided a configuration recorder name that is not valid.
-public struct InvalidConfigurationRecorderNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidConfigurationRecorderNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14028,9 +13975,8 @@ extension InvalidConfigurationRecorderNameExceptionBody: Swift.Decodable {
 
 extension InvalidDeliveryChannelNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidDeliveryChannelNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14044,7 +13990,7 @@ extension InvalidDeliveryChannelNameException {
 }
 
 /// The specified delivery channel name is not valid.
-public struct InvalidDeliveryChannelNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeliveryChannelNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14081,9 +14027,8 @@ extension InvalidDeliveryChannelNameExceptionBody: Swift.Decodable {
 
 extension InvalidExpressionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidExpressionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14097,7 +14042,7 @@ extension InvalidExpressionException {
 }
 
 /// The syntax of the query is incorrect.
-public struct InvalidExpressionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidExpressionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14134,9 +14079,8 @@ extension InvalidExpressionExceptionBody: Swift.Decodable {
 
 extension InvalidLimitException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidLimitExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14150,7 +14094,7 @@ extension InvalidLimitException {
 }
 
 /// The specified limit is outside the allowable range.
-public struct InvalidLimitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLimitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14187,9 +14131,8 @@ extension InvalidLimitExceptionBody: Swift.Decodable {
 
 extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14203,7 +14146,7 @@ extension InvalidNextTokenException {
 }
 
 /// The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14240,9 +14183,8 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14256,7 +14198,7 @@ extension InvalidParameterValueException {
 }
 
 /// One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14293,9 +14235,8 @@ extension InvalidParameterValueExceptionBody: Swift.Decodable {
 
 extension InvalidRecordingGroupException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRecordingGroupExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14309,7 +14250,7 @@ extension InvalidRecordingGroupException {
 }
 
 /// Config throws an exception if the recording group does not contain a valid list of resource types. Values that are not valid might also be incorrectly formatted.
-public struct InvalidRecordingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRecordingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14346,9 +14287,8 @@ extension InvalidRecordingGroupExceptionBody: Swift.Decodable {
 
 extension InvalidResultTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidResultTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14362,7 +14302,7 @@ extension InvalidResultTokenException {
 }
 
 /// The specified ResultToken is not valid.
-public struct InvalidResultTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidResultTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14399,9 +14339,8 @@ extension InvalidResultTokenExceptionBody: Swift.Decodable {
 
 extension InvalidRoleException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRoleExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14415,7 +14354,7 @@ extension InvalidRoleException {
 }
 
 /// You have provided a null or empty role ARN.
-public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14452,9 +14391,8 @@ extension InvalidRoleExceptionBody: Swift.Decodable {
 
 extension InvalidS3KeyPrefixException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidS3KeyPrefixExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14468,7 +14406,7 @@ extension InvalidS3KeyPrefixException {
 }
 
 /// The specified Amazon S3 key prefix is not valid.
-public struct InvalidS3KeyPrefixException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidS3KeyPrefixException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14505,9 +14443,8 @@ extension InvalidS3KeyPrefixExceptionBody: Swift.Decodable {
 
 extension InvalidS3KmsKeyArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidS3KmsKeyArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14521,7 +14458,7 @@ extension InvalidS3KmsKeyArnException {
 }
 
 /// The specified Amazon KMS Key ARN is not valid.
-public struct InvalidS3KmsKeyArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidS3KmsKeyArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14558,9 +14495,8 @@ extension InvalidS3KmsKeyArnExceptionBody: Swift.Decodable {
 
 extension InvalidSNSTopicARNException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidSNSTopicARNExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14574,7 +14510,7 @@ extension InvalidSNSTopicARNException {
 }
 
 /// The specified Amazon SNS topic does not exist.
-public struct InvalidSNSTopicARNException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSNSTopicARNException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14611,9 +14547,8 @@ extension InvalidSNSTopicARNExceptionBody: Swift.Decodable {
 
 extension InvalidTimeRangeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTimeRangeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14627,7 +14562,7 @@ extension InvalidTimeRangeException {
 }
 
 /// The specified time range is not valid. The earlier time is not chronologically before the later time.
-public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14664,9 +14599,8 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
 
 extension LastDeliveryChannelDeleteFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LastDeliveryChannelDeleteFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14680,7 +14614,7 @@ extension LastDeliveryChannelDeleteFailedException {
 }
 
 /// You cannot delete the delivery channel you specified because the configuration recorder is running.
-public struct LastDeliveryChannelDeleteFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LastDeliveryChannelDeleteFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14717,9 +14651,8 @@ extension LastDeliveryChannelDeleteFailedExceptionBody: Swift.Decodable {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14733,7 +14666,7 @@ extension LimitExceededException {
 }
 
 /// For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14895,9 +14828,8 @@ public enum ListAggregateDiscoveredResourcesOutputError: Swift.Error, Swift.Equa
 
 extension ListAggregateDiscoveredResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAggregateDiscoveredResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceIdentifiers = output.resourceIdentifiers
@@ -15076,9 +15008,8 @@ public enum ListConformancePackComplianceScoresOutputError: Swift.Error, Swift.E
 
 extension ListConformancePackComplianceScoresOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConformancePackComplianceScoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackComplianceScores = output.conformancePackComplianceScores
             self.nextToken = output.nextToken
@@ -15286,9 +15217,8 @@ public enum ListDiscoveredResourcesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDiscoveredResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDiscoveredResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceIdentifiers = output.resourceIdentifiers
@@ -15444,9 +15374,8 @@ public enum ListResourceEvaluationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourceEvaluationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourceEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceEvaluations = output.resourceEvaluations
@@ -15587,9 +15516,8 @@ public enum ListStoredQueriesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStoredQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStoredQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.storedQueryMetadata = output.storedQueryMetadata
@@ -15747,9 +15675,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -15807,9 +15734,8 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension MaxActiveResourcesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxActiveResourcesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15823,7 +15749,7 @@ extension MaxActiveResourcesExceededException {
 }
 
 /// You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
-public struct MaxActiveResourcesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxActiveResourcesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15860,9 +15786,8 @@ extension MaxActiveResourcesExceededExceptionBody: Swift.Decodable {
 
 extension MaxNumberOfConfigRulesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfConfigRulesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15876,7 +15801,7 @@ extension MaxNumberOfConfigRulesExceededException {
 }
 
 /// Failed to add the Config rule because the account already contains the maximum number of 150 rules. Consider deleting any deactivated rules before you add new rules.
-public struct MaxNumberOfConfigRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfConfigRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15913,9 +15838,8 @@ extension MaxNumberOfConfigRulesExceededExceptionBody: Swift.Decodable {
 
 extension MaxNumberOfConfigurationRecordersExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfConfigurationRecordersExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15929,7 +15853,7 @@ extension MaxNumberOfConfigurationRecordersExceededException {
 }
 
 /// You have reached the limit of the number of recorders you can create.
-public struct MaxNumberOfConfigurationRecordersExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfConfigurationRecordersExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15966,9 +15890,8 @@ extension MaxNumberOfConfigurationRecordersExceededExceptionBody: Swift.Decodabl
 
 extension MaxNumberOfConformancePacksExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfConformancePacksExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15982,7 +15905,7 @@ extension MaxNumberOfConformancePacksExceededException {
 }
 
 /// You have reached the limit of the number of conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfConformancePacksExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfConformancePacksExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16019,9 +15942,8 @@ extension MaxNumberOfConformancePacksExceededExceptionBody: Swift.Decodable {
 
 extension MaxNumberOfDeliveryChannelsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfDeliveryChannelsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16035,7 +15957,7 @@ extension MaxNumberOfDeliveryChannelsExceededException {
 }
 
 /// You have reached the limit of the number of delivery channels you can create.
-public struct MaxNumberOfDeliveryChannelsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfDeliveryChannelsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16072,9 +15994,8 @@ extension MaxNumberOfDeliveryChannelsExceededExceptionBody: Swift.Decodable {
 
 extension MaxNumberOfOrganizationConfigRulesExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfOrganizationConfigRulesExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16088,7 +16009,7 @@ extension MaxNumberOfOrganizationConfigRulesExceededException {
 }
 
 /// You have reached the limit of the number of organization Config rules you can create. For more information, see see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfOrganizationConfigRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfOrganizationConfigRulesExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16125,9 +16046,8 @@ extension MaxNumberOfOrganizationConfigRulesExceededExceptionBody: Swift.Decodab
 
 extension MaxNumberOfOrganizationConformancePacksExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfOrganizationConformancePacksExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16141,7 +16061,7 @@ extension MaxNumberOfOrganizationConformancePacksExceededException {
 }
 
 /// You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfOrganizationConformancePacksExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfOrganizationConformancePacksExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16178,9 +16098,8 @@ extension MaxNumberOfOrganizationConformancePacksExceededExceptionBody: Swift.De
 
 extension MaxNumberOfRetentionConfigurationsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MaxNumberOfRetentionConfigurationsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16194,7 +16113,7 @@ extension MaxNumberOfRetentionConfigurationsExceededException {
 }
 
 /// Failed to add the retention configuration because a retention configuration with that name already exists.
-public struct MaxNumberOfRetentionConfigurationsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MaxNumberOfRetentionConfigurationsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16469,9 +16388,8 @@ extension ConfigClientTypes {
 
 extension NoAvailableConfigurationRecorderException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoAvailableConfigurationRecorderExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16485,7 +16403,7 @@ extension NoAvailableConfigurationRecorderException {
 }
 
 /// There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
-public struct NoAvailableConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoAvailableConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16522,9 +16440,8 @@ extension NoAvailableConfigurationRecorderExceptionBody: Swift.Decodable {
 
 extension NoAvailableDeliveryChannelException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoAvailableDeliveryChannelExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16538,7 +16455,7 @@ extension NoAvailableDeliveryChannelException {
 }
 
 /// There is no delivery channel available to record configurations.
-public struct NoAvailableDeliveryChannelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoAvailableDeliveryChannelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16575,9 +16492,8 @@ extension NoAvailableDeliveryChannelExceptionBody: Swift.Decodable {
 
 extension NoAvailableOrganizationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoAvailableOrganizationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16591,7 +16507,7 @@ extension NoAvailableOrganizationException {
 }
 
 /// Organization is no longer available.
-public struct NoAvailableOrganizationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoAvailableOrganizationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16628,9 +16544,8 @@ extension NoAvailableOrganizationExceptionBody: Swift.Decodable {
 
 extension NoRunningConfigurationRecorderException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoRunningConfigurationRecorderExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16644,7 +16559,7 @@ extension NoRunningConfigurationRecorderException {
 }
 
 /// There is no configuration recorder running.
-public struct NoRunningConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoRunningConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16681,9 +16596,8 @@ extension NoRunningConfigurationRecorderExceptionBody: Swift.Decodable {
 
 extension NoSuchBucketException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchBucketExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16697,7 +16611,7 @@ extension NoSuchBucketException {
 }
 
 /// The specified Amazon S3 bucket does not exist.
-public struct NoSuchBucketException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchBucketException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16734,9 +16648,8 @@ extension NoSuchBucketExceptionBody: Swift.Decodable {
 
 extension NoSuchConfigRuleException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchConfigRuleExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16750,7 +16663,7 @@ extension NoSuchConfigRuleException {
 }
 
 /// The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-public struct NoSuchConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16787,9 +16700,8 @@ extension NoSuchConfigRuleExceptionBody: Swift.Decodable {
 
 extension NoSuchConfigRuleInConformancePackException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchConfigRuleInConformancePackExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16803,7 +16715,7 @@ extension NoSuchConfigRuleInConformancePackException {
 }
 
 /// Config rule that you passed in the filter does not exist.
-public struct NoSuchConfigRuleInConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchConfigRuleInConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16840,9 +16752,8 @@ extension NoSuchConfigRuleInConformancePackExceptionBody: Swift.Decodable {
 
 extension NoSuchConfigurationAggregatorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchConfigurationAggregatorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16856,7 +16767,7 @@ extension NoSuchConfigurationAggregatorException {
 }
 
 /// You have specified a configuration aggregator that does not exist.
-public struct NoSuchConfigurationAggregatorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchConfigurationAggregatorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16893,9 +16804,8 @@ extension NoSuchConfigurationAggregatorExceptionBody: Swift.Decodable {
 
 extension NoSuchConfigurationRecorderException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchConfigurationRecorderExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16909,7 +16819,7 @@ extension NoSuchConfigurationRecorderException {
 }
 
 /// You have specified a configuration recorder that does not exist.
-public struct NoSuchConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchConfigurationRecorderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16946,9 +16856,8 @@ extension NoSuchConfigurationRecorderExceptionBody: Swift.Decodable {
 
 extension NoSuchConformancePackException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchConformancePackExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16962,7 +16871,7 @@ extension NoSuchConformancePackException {
 }
 
 /// You specified one or more conformance packs that do not exist.
-public struct NoSuchConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16999,9 +16908,8 @@ extension NoSuchConformancePackExceptionBody: Swift.Decodable {
 
 extension NoSuchDeliveryChannelException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchDeliveryChannelExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17015,7 +16923,7 @@ extension NoSuchDeliveryChannelException {
 }
 
 /// You have specified a delivery channel that does not exist.
-public struct NoSuchDeliveryChannelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchDeliveryChannelException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17052,9 +16960,8 @@ extension NoSuchDeliveryChannelExceptionBody: Swift.Decodable {
 
 extension NoSuchOrganizationConfigRuleException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchOrganizationConfigRuleExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17068,7 +16975,7 @@ extension NoSuchOrganizationConfigRuleException {
 }
 
 /// The Config rule in the request is not valid. Verify that the rule is an organization Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-public struct NoSuchOrganizationConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchOrganizationConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17105,9 +17012,8 @@ extension NoSuchOrganizationConfigRuleExceptionBody: Swift.Decodable {
 
 extension NoSuchOrganizationConformancePackException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchOrganizationConformancePackExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17121,7 +17027,7 @@ extension NoSuchOrganizationConformancePackException {
 }
 
 /// Config organization conformance pack that you passed in the filter does not exist. For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
-public struct NoSuchOrganizationConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchOrganizationConformancePackException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17158,9 +17064,8 @@ extension NoSuchOrganizationConformancePackExceptionBody: Swift.Decodable {
 
 extension NoSuchRemediationConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchRemediationConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17174,7 +17079,7 @@ extension NoSuchRemediationConfigurationException {
 }
 
 /// You specified an Config rule without a remediation configuration.
-public struct NoSuchRemediationConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchRemediationConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17211,9 +17116,8 @@ extension NoSuchRemediationConfigurationExceptionBody: Swift.Decodable {
 
 extension NoSuchRemediationExceptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchRemediationExceptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17227,7 +17131,7 @@ extension NoSuchRemediationExceptionException {
 }
 
 /// You tried to delete a remediation exception that does not exist.
-public struct NoSuchRemediationExceptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchRemediationExceptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17264,9 +17168,8 @@ extension NoSuchRemediationExceptionExceptionBody: Swift.Decodable {
 
 extension NoSuchRetentionConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NoSuchRetentionConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17280,7 +17183,7 @@ extension NoSuchRetentionConfigurationException {
 }
 
 /// You have specified a retention configuration that does not exist.
-public struct NoSuchRetentionConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchRetentionConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17317,9 +17220,8 @@ extension NoSuchRetentionConfigurationExceptionBody: Swift.Decodable {
 
 extension OrganizationAccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OrganizationAccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17344,7 +17246,7 @@ extension OrganizationAccessDeniedException {
 ///
 ///
 /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-public struct OrganizationAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OrganizationAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17449,9 +17351,8 @@ extension ConfigClientTypes {
 
 extension OrganizationAllFeaturesNotEnabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OrganizationAllFeaturesNotEnabledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17465,7 +17366,7 @@ extension OrganizationAllFeaturesNotEnabledException {
 }
 
 /// Config resource cannot be created because your organization does not have all features enabled.
-public struct OrganizationAllFeaturesNotEnabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OrganizationAllFeaturesNotEnabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18096,9 +17997,8 @@ extension ConfigClientTypes {
 
 extension OrganizationConformancePackTemplateValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OrganizationConformancePackTemplateValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18112,7 +18012,7 @@ extension OrganizationConformancePackTemplateValidationException {
 }
 
 /// You have specified a template that is not valid or supported.
-public struct OrganizationConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OrganizationConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18978,9 +18878,8 @@ extension ConfigClientTypes {
 
 extension OversizedConfigurationItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OversizedConfigurationItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18994,7 +18893,7 @@ extension OversizedConfigurationItemException {
 }
 
 /// The configuration item size is outside the allowable range.
-public struct OversizedConfigurationItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OversizedConfigurationItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -19218,9 +19117,8 @@ public enum PutAggregationAuthorizationOutputError: Swift.Error, Swift.Equatable
 
 extension PutAggregationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutAggregationAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregationAuthorization = output.aggregationAuthorization
         } else {
@@ -19511,9 +19409,8 @@ public enum PutConfigurationAggregatorOutputError: Swift.Error, Swift.Equatable 
 
 extension PutConfigurationAggregatorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutConfigurationAggregatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationAggregator = output.configurationAggregator
         } else {
@@ -19801,9 +19698,8 @@ public enum PutConformancePackOutputError: Swift.Error, Swift.Equatable {
 
 extension PutConformancePackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutConformancePackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.conformancePackArn = output.conformancePackArn
         } else {
@@ -20048,9 +19944,8 @@ public enum PutEvaluationsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutEvaluationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedEvaluations = output.failedEvaluations
         } else {
@@ -20338,9 +20233,8 @@ public enum PutOrganizationConfigRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension PutOrganizationConfigRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutOrganizationConfigRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationConfigRuleArn = output.organizationConfigRuleArn
         } else {
@@ -20559,9 +20453,8 @@ public enum PutOrganizationConformancePackOutputError: Swift.Error, Swift.Equata
 
 extension PutOrganizationConformancePackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutOrganizationConformancePackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationConformancePackArn = output.organizationConformancePackArn
         } else {
@@ -20684,9 +20577,8 @@ public enum PutRemediationConfigurationsOutputError: Swift.Error, Swift.Equatabl
 
 extension PutRemediationConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRemediationConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedBatches = output.failedBatches
         } else {
@@ -20855,9 +20747,8 @@ public enum PutRemediationExceptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRemediationExceptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRemediationExceptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedBatches = output.failedBatches
         } else {
@@ -21138,9 +21029,8 @@ public enum PutRetentionConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension PutRetentionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutRetentionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.retentionConfiguration = output.retentionConfiguration
         } else {
@@ -21277,9 +21167,8 @@ public enum PutStoredQueryOutputError: Swift.Error, Swift.Equatable {
 
 extension PutStoredQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutStoredQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queryArn = output.queryArn
         } else {
@@ -22050,9 +21939,8 @@ extension ConfigClientTypes {
 
 extension RemediationInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RemediationInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22066,7 +21954,7 @@ extension RemediationInProgressException {
 }
 
 /// Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
-public struct RemediationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RemediationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22177,9 +22065,8 @@ extension ConfigClientTypes {
 
 extension ResourceConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22193,7 +22080,7 @@ extension ResourceConcurrentModificationException {
 }
 
 /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
-public struct ResourceConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22736,9 +22623,8 @@ extension ConfigClientTypes {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22766,7 +22652,7 @@ extension ResourceInUseException {
 /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
 ///
 /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22850,9 +22736,8 @@ extension ConfigClientTypes {
 
 extension ResourceNotDiscoveredException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotDiscoveredExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22866,7 +22751,7 @@ extension ResourceNotDiscoveredException {
 }
 
 /// You have specified a resource that is either unknown or has not been discovered.
-public struct ResourceNotDiscoveredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotDiscoveredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22903,9 +22788,8 @@ extension ResourceNotDiscoveredExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22919,7 +22803,7 @@ extension ResourceNotFoundException {
 }
 
 /// You have specified a resource that does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24118,9 +24002,8 @@ public enum SelectAggregateResourceConfigOutputError: Swift.Error, Swift.Equatab
 
 extension SelectAggregateResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SelectAggregateResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queryInfo = output.queryInfo
@@ -24286,9 +24169,8 @@ public enum SelectResourceConfigOutputError: Swift.Error, Swift.Equatable {
 
 extension SelectResourceConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SelectResourceConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queryInfo = output.queryInfo
@@ -24887,9 +24769,8 @@ public enum StartRemediationExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartRemediationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartRemediationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedItems = output.failedItems
             self.failureMessage = output.failureMessage
@@ -25068,9 +24949,8 @@ public enum StartResourceEvaluationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartResourceEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartResourceEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceEvaluationId = output.resourceEvaluationId
         } else {
@@ -25690,9 +25570,8 @@ extension ConfigClientTypes {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25706,7 +25585,7 @@ extension TooManyTagsException {
 }
 
 /// You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25850,9 +25729,8 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -25866,7 +25744,7 @@ extension ValidationException {
 }
 
 /// The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

@@ -2091,9 +2091,8 @@ public enum CountClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatab
 
 extension CountClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountClosedWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -2265,9 +2264,8 @@ public enum CountOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable
 
 extension CountOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountOpenWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -2403,9 +2401,8 @@ public enum CountPendingActivityTasksOutputError: Swift.Error, Swift.Equatable {
 
 extension CountPendingActivityTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountPendingActivityTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -2541,9 +2538,8 @@ public enum CountPendingDecisionTasksOutputError: Swift.Error, Swift.Equatable {
 
 extension CountPendingDecisionTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CountPendingDecisionTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.count = output.count
             self.truncated = output.truncated
@@ -3156,9 +3152,8 @@ extension SWFClientTypes {
 
 extension DefaultUndefinedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DefaultUndefinedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3172,7 +3167,7 @@ extension DefaultUndefinedFault {
 }
 
 /// The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type. If these parameters aren't set and no default parameters were defined in the workflow type, this error is displayed.
-public struct DefaultUndefinedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DefaultUndefinedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3571,9 +3566,8 @@ public enum DescribeActivityTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeActivityTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeActivityTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.typeInfo = output.typeInfo
@@ -3701,9 +3695,8 @@ public enum DescribeDomainOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.domainInfo = output.domainInfo
@@ -3840,9 +3833,8 @@ public enum DescribeWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionConfiguration = output.executionConfiguration
             self.executionInfo = output.executionInfo
@@ -4010,9 +4002,8 @@ public enum DescribeWorkflowTypeOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorkflowTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorkflowTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.typeInfo = output.typeInfo
@@ -4068,9 +4059,8 @@ extension DescribeWorkflowTypeOutputResponseBody: Swift.Decodable {
 
 extension DomainAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DomainAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4084,7 +4074,7 @@ extension DomainAlreadyExistsFault {
 }
 
 /// Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
-public struct DomainAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DomainAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4157,9 +4147,8 @@ extension SWFClientTypes {
 
 extension DomainDeprecatedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DomainDeprecatedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4173,7 +4162,7 @@ extension DomainDeprecatedFault {
 }
 
 /// Returned when the specified domain has been deprecated.
-public struct DomainDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DomainDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4895,9 +4884,8 @@ public enum GetWorkflowExecutionHistoryOutputError: Swift.Error, Swift.Equatable
 
 extension GetWorkflowExecutionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWorkflowExecutionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextPageToken = output.nextPageToken
@@ -5985,9 +5973,8 @@ extension SWFClientTypes {
 
 extension LimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6001,7 +5988,7 @@ extension LimitExceededFault {
 }
 
 /// Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
-public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6171,9 +6158,8 @@ public enum ListActivityTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListActivityTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListActivityTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.typeInfos = output.typeInfos
@@ -6413,9 +6399,8 @@ public enum ListClosedWorkflowExecutionsOutputError: Swift.Error, Swift.Equatabl
 
 extension ListClosedWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListClosedWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionInfos = output.executionInfos
             self.nextPageToken = output.nextPageToken
@@ -6581,9 +6566,8 @@ public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainInfos = output.domainInfos
             self.nextPageToken = output.nextPageToken
@@ -6800,9 +6784,8 @@ public enum ListOpenWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListOpenWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOpenWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionInfos = output.executionInfos
             self.nextPageToken = output.nextPageToken
@@ -6936,9 +6919,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7119,9 +7101,8 @@ public enum ListWorkflowTypesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorkflowTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorkflowTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.typeInfos = output.typeInfos
@@ -7238,9 +7219,8 @@ extension SWFClientTypes {
 
 extension OperationNotPermittedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OperationNotPermittedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7254,7 +7234,7 @@ extension OperationNotPermittedFault {
 }
 
 /// Returned when the caller doesn't have sufficient permissions to invoke the action.
-public struct OperationNotPermittedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OperationNotPermittedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7390,9 +7370,8 @@ public enum PollForActivityTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension PollForActivityTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PollForActivityTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activityId = output.activityId
             self.activityType = output.activityType
@@ -7622,9 +7601,8 @@ public enum PollForDecisionTaskOutputError: Swift.Error, Swift.Equatable {
 
 extension PollForDecisionTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PollForDecisionTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextPageToken = output.nextPageToken
@@ -7822,9 +7800,8 @@ public enum RecordActivityTaskHeartbeatOutputError: Swift.Error, Swift.Equatable
 
 extension RecordActivityTaskHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RecordActivityTaskHeartbeatOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cancelRequested = output.cancelRequested
         } else {
@@ -11380,9 +11357,8 @@ public enum StartWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.runId = output.runId
         } else {
@@ -11930,9 +11906,8 @@ extension SWFClientTypes {
 
 extension TooManyTagsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11946,7 +11921,7 @@ extension TooManyTagsFault {
 }
 
 /// You've exceeded the number of tags allowed for a domain.
-public struct TooManyTagsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTagsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11982,9 +11957,8 @@ extension TooManyTagsFaultBody: Swift.Decodable {
 
 extension TypeAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TypeAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11998,7 +11972,7 @@ extension TypeAlreadyExistsFault {
 }
 
 /// Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
-public struct TypeAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TypeAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12035,9 +12009,8 @@ extension TypeAlreadyExistsFaultBody: Swift.Decodable {
 
 extension TypeDeprecatedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TypeDeprecatedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12051,7 +12024,7 @@ extension TypeDeprecatedFault {
 }
 
 /// Returned when the specified activity or workflow type was already deprecated.
-public struct TypeDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TypeDeprecatedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12366,9 +12339,8 @@ public struct UndeprecateWorkflowTypeOutputResponse: Swift.Equatable {
 
 extension UnknownResourceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UnknownResourceFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12382,7 +12354,7 @@ extension UnknownResourceFault {
 }
 
 /// Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-public struct UnknownResourceFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnknownResourceFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12575,9 +12547,8 @@ extension SWFClientTypes {
 
 extension WorkflowExecutionAlreadyStartedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: WorkflowExecutionAlreadyStartedFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12591,7 +12562,7 @@ extension WorkflowExecutionAlreadyStartedFault {
 }
 
 /// Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
-public struct WorkflowExecutionAlreadyStartedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct WorkflowExecutionAlreadyStartedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

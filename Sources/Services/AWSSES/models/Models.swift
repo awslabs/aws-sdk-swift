@@ -4,7 +4,7 @@ import ClientRuntime
 
 extension AccountSendingPausedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AccountSendingPausedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -19,7 +19,7 @@ extension AccountSendingPausedException {
 }
 
 /// Indicates that email sending is disabled for your entire Amazon SES account. You can enable or disable email sending for your Amazon SES account using [UpdateAccountSendingEnabled].
-public struct AccountSendingPausedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccountSendingPausedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -102,7 +102,7 @@ extension SESClientTypes {
 
 extension AlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -119,7 +119,7 @@ extension AlreadyExistsException {
 }
 
 /// Indicates that a resource could not be created because of a naming conflict.
-public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -661,7 +661,7 @@ extension SESClientTypes {
 
 extension CannotDeleteException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CannotDeleteExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -678,7 +678,7 @@ extension CannotDeleteException {
 }
 
 /// Indicates that the delete operation could not be completed.
-public struct CannotDeleteException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CannotDeleteException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -991,7 +991,7 @@ extension SESClientTypes {
 
 extension ConfigurationSetAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConfigurationSetAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -1008,7 +1008,7 @@ extension ConfigurationSetAlreadyExistsException {
 }
 
 /// Indicates that the configuration set could not be created because of a naming conflict.
-public struct ConfigurationSetAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConfigurationSetAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1090,7 +1090,7 @@ extension SESClientTypes {
 
 extension ConfigurationSetDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConfigurationSetDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -1107,7 +1107,7 @@ extension ConfigurationSetDoesNotExistException {
 }
 
 /// Indicates that the configuration set does not exist.
-public struct ConfigurationSetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConfigurationSetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1151,7 +1151,7 @@ extension ConfigurationSetDoesNotExistExceptionBody: Swift.Decodable {
 
 extension ConfigurationSetSendingPausedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ConfigurationSetSendingPausedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -1168,7 +1168,7 @@ extension ConfigurationSetSendingPausedException {
 }
 
 /// Indicates that email sending is disabled for the configuration set. You can enable or disable email sending for a configuration set using [UpdateConfigurationSetSendingEnabled].
-public struct ConfigurationSetSendingPausedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConfigurationSetSendingPausedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2083,7 +2083,7 @@ extension SESClientTypes {
 
 extension CustomVerificationEmailInvalidContentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CustomVerificationEmailInvalidContentExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -2098,7 +2098,7 @@ extension CustomVerificationEmailInvalidContentException {
 }
 
 /// Indicates that custom verification email template provided content is invalid.
-public struct CustomVerificationEmailInvalidContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomVerificationEmailInvalidContentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2209,7 +2209,7 @@ extension SESClientTypes {
 
 extension CustomVerificationEmailTemplateAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CustomVerificationEmailTemplateAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.customVerificationEmailTemplateName = output.error.customVerificationEmailTemplateName
@@ -2226,7 +2226,7 @@ extension CustomVerificationEmailTemplateAlreadyExistsException {
 }
 
 /// Indicates that a custom verification email template with the name you specified already exists.
-public struct CustomVerificationEmailTemplateAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomVerificationEmailTemplateAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2270,7 +2270,7 @@ extension CustomVerificationEmailTemplateAlreadyExistsExceptionBody: Swift.Decod
 
 extension CustomVerificationEmailTemplateDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CustomVerificationEmailTemplateDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.customVerificationEmailTemplateName = output.error.customVerificationEmailTemplateName
@@ -2287,7 +2287,7 @@ extension CustomVerificationEmailTemplateDoesNotExistException {
 }
 
 /// Indicates that a custom verification email template with the name you specified does not exist.
-public struct CustomVerificationEmailTemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomVerificationEmailTemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3299,9 +3299,8 @@ public enum DescribeActiveReceiptRuleSetOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeActiveReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeActiveReceiptRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.rules = output.rules
@@ -3474,9 +3473,8 @@ public enum DescribeConfigurationSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSet = output.configurationSet
             self.deliveryOptions = output.deliveryOptions
@@ -3656,9 +3654,8 @@ public enum DescribeReceiptRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeReceiptRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReceiptRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
@@ -3767,9 +3764,8 @@ public enum DescribeReceiptRuleSetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeReceiptRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeReceiptRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.rules = output.rules
@@ -4163,7 +4159,7 @@ extension SESClientTypes {
 
 extension EventDestinationAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EventDestinationAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -4182,7 +4178,7 @@ extension EventDestinationAlreadyExistsException {
 }
 
 /// Indicates that the event destination could not be created because of a naming conflict.
-public struct EventDestinationAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EventDestinationAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4234,7 +4230,7 @@ extension EventDestinationAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension EventDestinationDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<EventDestinationDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -4253,7 +4249,7 @@ extension EventDestinationDoesNotExistException {
 }
 
 /// Indicates that the event destination does not exist.
-public struct EventDestinationDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EventDestinationDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4402,7 +4398,7 @@ extension SESClientTypes {
 
 extension FromEmailAddressNotVerifiedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<FromEmailAddressNotVerifiedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.fromEmailAddress = output.error.fromEmailAddress
@@ -4419,7 +4415,7 @@ extension FromEmailAddressNotVerifiedException {
 }
 
 /// Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
-public struct FromEmailAddressNotVerifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FromEmailAddressNotVerifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4501,9 +4497,8 @@ public enum GetAccountSendingEnabledOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccountSendingEnabledOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccountSendingEnabledOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.enabled = output.enabled
         } else {
@@ -4612,9 +4607,8 @@ public enum GetCustomVerificationEmailTemplateOutputError: Swift.Error, Swift.Eq
 
 extension GetCustomVerificationEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCustomVerificationEmailTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failureRedirectionURL = output.failureRedirectionURL
             self.fromEmailAddress = output.fromEmailAddress
@@ -4797,9 +4791,8 @@ public enum GetIdentityDkimAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIdentityDkimAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIdentityDkimAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dkimAttributes = output.dkimAttributes
         } else {
@@ -4950,9 +4943,8 @@ public enum GetIdentityMailFromDomainAttributesOutputError: Swift.Error, Swift.E
 
 extension GetIdentityMailFromDomainAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIdentityMailFromDomainAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mailFromDomainAttributes = output.mailFromDomainAttributes
         } else {
@@ -5103,9 +5095,8 @@ public enum GetIdentityNotificationAttributesOutputError: Swift.Error, Swift.Equ
 
 extension GetIdentityNotificationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIdentityNotificationAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.notificationAttributes = output.notificationAttributes
         } else {
@@ -5268,9 +5259,8 @@ public enum GetIdentityPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIdentityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policies = output.policies
         } else {
@@ -5421,9 +5411,8 @@ public enum GetIdentityVerificationAttributesOutputError: Swift.Error, Swift.Equ
 
 extension GetIdentityVerificationAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetIdentityVerificationAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.verificationAttributes = output.verificationAttributes
         } else {
@@ -5520,9 +5509,8 @@ public enum GetSendQuotaOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSendQuotaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSendQuotaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.max24HourSend = output.max24HourSend
             self.maxSendRate = output.maxSendRate
@@ -5621,9 +5609,8 @@ public enum GetSendStatisticsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSendStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSendStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sendDataPoints = output.sendDataPoints
         } else {
@@ -5748,9 +5735,8 @@ public enum GetTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.template = output.template
         } else {
@@ -6108,7 +6094,7 @@ extension SESClientTypes {
 
 extension InvalidCloudWatchDestinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidCloudWatchDestinationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -6127,7 +6113,7 @@ extension InvalidCloudWatchDestinationException {
 }
 
 /// Indicates that the Amazon CloudWatch destination is invalid. See the error message for details.
-public struct InvalidCloudWatchDestinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidCloudWatchDestinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6179,7 +6165,7 @@ extension InvalidCloudWatchDestinationExceptionBody: Swift.Decodable {
 
 extension InvalidConfigurationSetException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidConfigurationSetExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6194,7 +6180,7 @@ extension InvalidConfigurationSetException {
 }
 
 /// Indicates that the configuration set is invalid. See the error message for details.
-public struct InvalidConfigurationSetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidConfigurationSetException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6230,7 +6216,7 @@ extension InvalidConfigurationSetExceptionBody: Swift.Decodable {
 
 extension InvalidDeliveryOptionsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDeliveryOptionsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6245,7 +6231,7 @@ extension InvalidDeliveryOptionsException {
 }
 
 /// Indicates that provided delivery option is invalid.
-public struct InvalidDeliveryOptionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeliveryOptionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6281,7 +6267,7 @@ extension InvalidDeliveryOptionsExceptionBody: Swift.Decodable {
 
 extension InvalidFirehoseDestinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidFirehoseDestinationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -6300,7 +6286,7 @@ extension InvalidFirehoseDestinationException {
 }
 
 /// Indicates that the Amazon Kinesis Firehose destination is invalid. See the error message for details.
-public struct InvalidFirehoseDestinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFirehoseDestinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6352,7 +6338,7 @@ extension InvalidFirehoseDestinationExceptionBody: Swift.Decodable {
 
 extension InvalidLambdaFunctionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidLambdaFunctionExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.functionArn = output.error.functionArn
@@ -6369,7 +6355,7 @@ extension InvalidLambdaFunctionException {
 }
 
 /// Indicates that the provided AWS Lambda function is invalid, or that Amazon SES could not execute the provided function, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
-public struct InvalidLambdaFunctionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLambdaFunctionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6413,7 +6399,7 @@ extension InvalidLambdaFunctionExceptionBody: Swift.Decodable {
 
 extension InvalidPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidPolicyExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6428,7 +6414,7 @@ extension InvalidPolicyException {
 }
 
 /// Indicates that the provided policy is invalid. Check the error stack for more information about what caused the error.
-public struct InvalidPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6464,7 +6450,7 @@ extension InvalidPolicyExceptionBody: Swift.Decodable {
 
 extension InvalidRenderingParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRenderingParameterExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6481,7 +6467,7 @@ extension InvalidRenderingParameterException {
 }
 
 /// Indicates that one or more of the replacement values you provided is invalid. This error may occur when the TemplateData object contains invalid JSON.
-public struct InvalidRenderingParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRenderingParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6524,7 +6510,7 @@ extension InvalidRenderingParameterExceptionBody: Swift.Decodable {
 
 extension InvalidS3ConfigurationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidS3ConfigurationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.bucket = output.error.bucket
@@ -6541,7 +6527,7 @@ extension InvalidS3ConfigurationException {
 }
 
 /// Indicates that the provided Amazon S3 bucket or AWS KMS encryption key is invalid, or that Amazon SES could not publish to the bucket, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
-public struct InvalidS3ConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidS3ConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6585,7 +6571,7 @@ extension InvalidS3ConfigurationExceptionBody: Swift.Decodable {
 
 extension InvalidSNSDestinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSNSDestinationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -6604,7 +6590,7 @@ extension InvalidSNSDestinationException {
 }
 
 /// Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
-public struct InvalidSNSDestinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSNSDestinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6656,7 +6642,7 @@ extension InvalidSNSDestinationExceptionBody: Swift.Decodable {
 
 extension InvalidSnsTopicException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidSnsTopicExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6673,7 +6659,7 @@ extension InvalidSnsTopicException {
 }
 
 /// Indicates that the provided Amazon SNS topic is invalid, or that Amazon SES could not publish to the topic, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
-public struct InvalidSnsTopicException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSnsTopicException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6717,7 +6703,7 @@ extension InvalidSnsTopicExceptionBody: Swift.Decodable {
 
 extension InvalidTemplateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTemplateExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6734,7 +6720,7 @@ extension InvalidTemplateException {
 }
 
 /// Indicates that the template that you specified could not be rendered. This issue may occur when a template refers to a partial that does not exist.
-public struct InvalidTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6777,7 +6763,7 @@ extension InvalidTemplateExceptionBody: Swift.Decodable {
 
 extension InvalidTrackingOptionsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTrackingOptionsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6796,7 +6782,7 @@ extension InvalidTrackingOptionsException {
 /// * When the tracking domain you specified is not verified in Amazon SES.
 ///
 /// * When the tracking domain you specified is not a valid domain or subdomain.
-public struct InvalidTrackingOptionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTrackingOptionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6967,7 +6953,7 @@ extension SESClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6982,7 +6968,7 @@ extension LimitExceededException {
 }
 
 /// Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7094,9 +7080,8 @@ public enum ListConfigurationSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConfigurationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSets = output.configurationSets
             self.nextToken = output.nextToken
@@ -7240,9 +7225,8 @@ public enum ListCustomVerificationEmailTemplatesOutputError: Swift.Error, Swift.
 
 extension ListCustomVerificationEmailTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCustomVerificationEmailTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customVerificationEmailTemplates = output.customVerificationEmailTemplates
             self.nextToken = output.nextToken
@@ -7397,9 +7381,8 @@ public enum ListIdentitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListIdentitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identities = output.identities
             self.nextToken = output.nextToken
@@ -7534,9 +7517,8 @@ public enum ListIdentityPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListIdentityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListIdentityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyNames = output.policyNames
         } else {
@@ -7634,9 +7616,8 @@ public enum ListReceiptFiltersOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReceiptFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReceiptFiltersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.filters = output.filters
         } else {
@@ -7759,9 +7740,8 @@ public enum ListReceiptRuleSetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListReceiptRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListReceiptRuleSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.ruleSets = output.ruleSets
@@ -7904,9 +7884,8 @@ public enum ListTemplatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templatesMetadata = output.templatesMetadata
@@ -8011,9 +7990,8 @@ public enum ListVerifiedEmailAddressesOutputError: Swift.Error, Swift.Equatable 
 
 extension ListVerifiedEmailAddressesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListVerifiedEmailAddressesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.verifiedEmailAddresses = output.verifiedEmailAddresses
         } else {
@@ -8071,7 +8049,7 @@ extension ListVerifiedEmailAddressesOutputResponseBody: Swift.Decodable {
 
 extension MailFromDomainNotVerifiedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<MailFromDomainNotVerifiedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8086,7 +8064,7 @@ extension MailFromDomainNotVerifiedException {
 }
 
 /// Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
-public struct MailFromDomainNotVerifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MailFromDomainNotVerifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8251,7 +8229,7 @@ extension SESClientTypes {
 
 extension MessageRejected {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<MessageRejectedBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8266,7 +8244,7 @@ extension MessageRejected {
 }
 
 /// Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
-public struct MessageRejected: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MessageRejected: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8357,7 +8335,7 @@ extension SESClientTypes {
 
 extension MissingRenderingAttributeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<MissingRenderingAttributeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8374,7 +8352,7 @@ extension MissingRenderingAttributeException {
 }
 
 /// Indicates that one or more of the replacement values for the specified template was not specified. Ensure that the TemplateData object contains references to all of the replacement tags in the specified template.
-public struct MissingRenderingAttributeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MissingRenderingAttributeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8452,7 +8430,7 @@ extension SESClientTypes {
 
 extension ProductionAccessNotGrantedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ProductionAccessNotGrantedExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8467,7 +8445,7 @@ extension ProductionAccessNotGrantedException {
 }
 
 /// Indicates that the account has not been granted production access.
-public struct ProductionAccessNotGrantedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ProductionAccessNotGrantedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9461,7 +9439,7 @@ extension SESClientTypes {
 
 extension RuleDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<RuleDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9478,7 +9456,7 @@ extension RuleDoesNotExistException {
 }
 
 /// Indicates that the provided receipt rule does not exist.
-public struct RuleDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RuleDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9522,7 +9500,7 @@ extension RuleDoesNotExistExceptionBody: Swift.Decodable {
 
 extension RuleSetDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<RuleSetDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -9539,7 +9517,7 @@ extension RuleSetDoesNotExistException {
 }
 
 /// Indicates that the provided receipt rule set does not exist.
-public struct RuleSetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RuleSetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9921,9 +9899,8 @@ public enum SendBounceOutputError: Swift.Error, Swift.Equatable {
 
 extension SendBounceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendBounceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -10232,9 +10209,8 @@ public enum SendBulkTemplatedEmailOutputError: Swift.Error, Swift.Equatable {
 
 extension SendBulkTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendBulkTemplatedEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -10391,9 +10367,8 @@ public enum SendCustomVerificationEmailOutputError: Swift.Error, Swift.Equatable
 
 extension SendCustomVerificationEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendCustomVerificationEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -10727,9 +10702,8 @@ public enum SendEmailOutputError: Swift.Error, Swift.Equatable {
 
 extension SendEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -10990,9 +10964,8 @@ public enum SendRawEmailOutputError: Swift.Error, Swift.Equatable {
 
 extension SendRawEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendRawEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -11277,9 +11250,8 @@ public enum SendTemplatedEmailOutputError: Swift.Error, Swift.Equatable {
 
 extension SendTemplatedEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SendTemplatedEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -12121,7 +12093,7 @@ extension SESClientTypes {
 
 extension TemplateDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TemplateDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -12138,7 +12110,7 @@ extension TemplateDoesNotExistException {
 }
 
 /// Indicates that the Template object you specified does not exist in your Amazon SES account.
-public struct TemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TemplateDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12309,9 +12281,8 @@ public enum TestRenderTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension TestRenderTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TestRenderTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.renderedTemplate = output.renderedTemplate
         } else {
@@ -12418,7 +12389,7 @@ extension SESClientTypes {
 
 extension TrackingOptionsAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TrackingOptionsAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -12435,7 +12406,7 @@ extension TrackingOptionsAlreadyExistsException {
 }
 
 /// Indicates that the configuration set you specified already contains a TrackingOptions object.
-public struct TrackingOptionsAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TrackingOptionsAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12479,7 +12450,7 @@ extension TrackingOptionsAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension TrackingOptionsDoesNotExistException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TrackingOptionsDoesNotExistExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.configurationSetName = output.error.configurationSetName
@@ -12496,7 +12467,7 @@ extension TrackingOptionsDoesNotExistException {
 }
 
 /// Indicates that the TrackingOptions object you specified does not exist.
-public struct TrackingOptionsDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TrackingOptionsDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13413,9 +13384,8 @@ public enum VerifyDomainDkimOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifyDomainDkimOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: VerifyDomainDkimOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dkimTokens = output.dkimTokens
         } else {
@@ -13540,9 +13510,8 @@ public enum VerifyDomainIdentityOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifyDomainIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: VerifyDomainIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.verificationToken = output.verificationToken
         } else {

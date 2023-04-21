@@ -128,9 +128,8 @@ extension CloudSearchDomainClientTypes {
 
 extension DocumentServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DocumentServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.status = output.status
@@ -146,7 +145,7 @@ extension DocumentServiceException {
 }
 
 /// Information about any problems encountered while processing an upload request.
-public struct DocumentServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DocumentServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -557,9 +556,8 @@ extension CloudSearchDomainClientTypes {
 
 extension SearchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -573,7 +571,7 @@ extension SearchException {
 }
 
 /// Information about any problems encountered while processing a search request.
-public struct SearchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SearchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -824,9 +822,8 @@ public enum SearchOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.facets = output.facets
             self.hits = output.hits
@@ -1113,9 +1110,8 @@ public enum SuggestOutputError: Swift.Error, Swift.Equatable {
 
 extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SuggestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.suggest = output.suggest
@@ -1277,9 +1273,8 @@ public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let documents = input.operationInput.documents {
-            let documentsdata = documents
-            let documentsbody = ClientRuntime.HttpBody.stream(documentsdata)
-            input.builder.withBody(documentsbody)
+            let documentsBody = ClientRuntime.HttpBody(byteStream: documents)
+            input.builder.withBody(documentsBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -1297,7 +1292,7 @@ extension UploadDocumentsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let documents = self.documents {
-            try encodeContainer.encode(documents.toBytes().getData(), forKey: .documents)
+            try encodeContainer.encode(documents, forKey: .documents)
         }
     }
 }
@@ -1391,9 +1386,8 @@ public enum UploadDocumentsOutputError: Swift.Error, Swift.Equatable {
 
 extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UploadDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adds = output.adds
             self.deletes = output.deletes
