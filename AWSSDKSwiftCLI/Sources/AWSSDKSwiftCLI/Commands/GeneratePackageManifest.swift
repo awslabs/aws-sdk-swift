@@ -31,6 +31,9 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     
     @Option(help: "The names of the services to include in the package manifest. This defaults to all services located in aws-sdk-swift/Sources/Services")
     var services: [String] = []
+
+    @Flag(help: "If the package manifest should include the integration tests.")
+    var includesIntegrationTests: Bool = false
     
     func run() throws {
         let generatePackageManifest = GeneratePackageManifest.standard(
@@ -38,7 +41,8 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             packageFileName: packageFileName,
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
-            services: services.isEmpty ? nil : services
+            services: services.isEmpty ? nil : services,
+            includesIntegrationTests: includesIntegrationTests
         )
         try generatePackageManifest.run()
     }
@@ -61,11 +65,13 @@ struct GeneratePackageManifest {
     /// The list of services to include as products
     /// If `nil` then the list is populated with the names of all items within the `Sources/Services` directory
     let services: [String]?
+    /// If the package manifest should include the integration tests.
+    let includesIntegrationTests: Bool
     
     typealias BuildPackageManifest = (
         _ clientRuntimeVersion: Version,
         _ crtVersion: Version,
-        _ services: [String]
+        _ services: [PackageManifestBuilder.Service]
     ) throws -> String
     /// Returns the contents of the package manifest file given the versions of dependencies and the list of services.
     let buildPackageManifest: BuildPackageManifest
@@ -85,7 +91,13 @@ struct GeneratePackageManifest {
     /// - Returns: The contents of the generated package manifest.
     func generatePackageManifestContents() throws -> String {
         let versions = try resolveVersions()
-        let services = try resolveServices()
+        let servicesWithIntegrationTests = try includesIntegrationTests ? resolveServicesWithIntegrationTests() : []
+        let services = try resolveServices().map {
+            PackageManifestBuilder.Service(
+                name: $0,
+                includeIntegrationTests: servicesWithIntegrationTests.contains($0)
+            )
+        }
         log("Creating package manifest contents...")
         let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
         log("Successfully created package manifest contents")
@@ -170,6 +182,21 @@ struct GeneratePackageManifest {
         log("Resolved list of services: \(resolvedServices.count)")
         return resolvedServices
     }
+
+    /// Returns the list of services to include in the package manifest.
+    /// If an explicit list of services was provided by the command, then this returns the specified services.
+    /// Otherwise, this returns the list of services that exist within `Sources/Services`
+    ///
+    /// - Returns: The list of services to include in the package manifest
+    func resolveServicesWithIntegrationTests() throws -> [String] {
+        log("Resolving services with integration tests...")
+        let resolvedServices = try FileManager
+            .default
+            .integrationTests()
+            .map { $0.replacingOccurrences(of: "IntegrationTests", with: "") }
+        log("List of services with integration tests: \(resolvedServices.count)")
+        return resolvedServices
+    }
 }
 
 // MARK: - Factory
@@ -191,14 +218,16 @@ extension GeneratePackageManifest {
         packageFileName: String,
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
-        services: [String]? = nil
+        services: [String]? = nil,
+        includesIntegrationTests: Bool = false
     ) -> Self {
         GeneratePackageManifest(
             repoPath: repoPath,
             packageFileName: packageFileName,
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
-            services: services
+            services: services,
+            includesIntegrationTests: includesIntegrationTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
             let builder = PackageManifestBuilder(
                 clientRuntimeVersion: _clientRuntimeVersion,

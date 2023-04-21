@@ -29,13 +29,23 @@ class PackageManifestBuilderTests: XCTestCase {
     ]
     
     serviceTargets.forEach(addServiceTarget)
+
+    let servicesWithIntegrationTests: [String] = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+    ]
+
+    servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
     """
     
     func testBuild() {
         let subjeect = PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
-            services: ["A","B","C","D","E"],
+            services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0, includeIntegrationTests: true) },
             basePackageContents: { "<contents of base package>" }
         )
         let result = try! subjeect.build()
