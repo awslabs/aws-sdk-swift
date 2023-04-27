@@ -7,6 +7,8 @@ package software.amazon.smithy.aws.swift.codegen.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
+import software.amazon.smithy.aws.swift.codegen.MessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_1Trait
 import software.amazon.smithy.model.shapes.OperationShape
@@ -50,5 +52,21 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
         operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
+    }
+
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        var streamingShapes = outputStreamingShapes(ctx)
+        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
+        streamingShapes.forEach { streamingMember ->
+            messageUnmarshallableGenerator.render(streamingMember)
+        }
+    }
+
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        val streamingShapes = inputStreamingShapes(ctx)
+        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
+        for (streamingShape in streamingShapes) {
+            messageMarshallableGenerator.render(streamingShape)
+        }
     }
 }
