@@ -25,7 +25,9 @@ fi
 ./scripts/mergeModels.sh Sources/Services
 
 # Regenerate the package manifest
-./scripts/generatePackageSwift.swift > Package.swift
+cd AWSSDKSwiftCLI
+swift run AWSSDKSwiftCLI generate-package-manifest ../
+cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK
 if [ -x "$(command -v osascript)" ]; then
