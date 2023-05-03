@@ -43,7 +43,7 @@ jobs:
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./gradlew --stop
-          ./scripts/mergeModels.sh release
+          ./scripts/mergeModels.sh Sources/Services
           cd AWSSDKSwiftCLI
           swift run AWSSDKSwiftCLI generate-package-manifest ../
           cd ..
