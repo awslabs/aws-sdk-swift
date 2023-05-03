@@ -16,6 +16,7 @@ env:
   AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
   AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
   SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
+  AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
   codegen-build-test:
@@ -41,9 +42,11 @@ jobs:
           AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
-          ./scripts/mergeModels.sh release
-          ./scripts/generatePackageSwift.swift > Package.swift
-          cat Package.swift
           ./gradlew --stop
+          ./scripts/mergeModels.sh release
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI generate-package-manifest ../
+          cd ..
+          cat Package.swift
           swift build --build-tests
           swift test --skip-build --parallel
