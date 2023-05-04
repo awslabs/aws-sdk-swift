@@ -43,6 +43,73 @@ extension FMSClientTypes {
     }
 }
 
+extension FMSClientTypes.AccountScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accounts = "Accounts"
+        case allAccountsEnabled = "AllAccountsEnabled"
+        case excludeSpecifiedAccounts = "ExcludeSpecifiedAccounts"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for awsaccountid0 in accounts {
+                try accountsContainer.encode(awsaccountid0)
+            }
+        }
+        if allAccountsEnabled != false {
+            try encodeContainer.encode(allAccountsEnabled, forKey: .allAccountsEnabled)
+        }
+        if excludeSpecifiedAccounts != false {
+            try encodeContainer.encode(excludeSpecifiedAccounts, forKey: .excludeSpecifiedAccounts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accounts)
+        var accountsDecoded0:[Swift.String]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [Swift.String]()
+            for string0 in accountsContainer {
+                if let string0 = string0 {
+                    accountsDecoded0?.append(string0)
+                }
+            }
+        }
+        accounts = accountsDecoded0
+        let allAccountsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allAccountsEnabled) ?? false
+        allAccountsEnabled = allAccountsEnabledDecoded
+        let excludeSpecifiedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excludeSpecifiedAccounts) ?? false
+        excludeSpecifiedAccounts = excludeSpecifiedAccountsDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Configures the accounts within the administrator's Organizations organization that the specified Firewall Manager administrator can apply policies to.
+    public struct AccountScope: Swift.Equatable {
+        /// The list of accounts within the organization that the specified Firewall Manager administrator either can or cannot apply policies to, based on the value of ExcludeSpecifiedAccounts. If ExcludeSpecifiedAccounts is set to true, then the Firewall Manager administrator can apply policies to all members of the organization except for the accounts in this list. If ExcludeSpecifiedAccounts is set to false, then the Firewall Manager administrator can only apply policies to the accounts in this list.
+        public var accounts: [Swift.String]?
+        /// A boolean value that indicates if the administrator can apply policies to all accounts within an organization. If true, the administrator can apply policies to all accounts within the organization. You can either enable management of all accounts through this operation, or you can specify a list of accounts to manage in AccountScope$Accounts. You cannot specify both.
+        public var allAccountsEnabled: Swift.Bool
+        /// A boolean value that excludes the accounts in AccountScope$Accounts from the administrator's scope. If true, the Firewall Manager administrator can apply policies to all members of the organization except for the accounts listed in AccountScope$Accounts. You can either specify a list of accounts to exclude by AccountScope$Accounts, or you can enable management of all accounts by AccountScope$AllAccountsEnabled. You cannot specify both.
+        public var excludeSpecifiedAccounts: Swift.Bool
+
+        public init (
+            accounts: [Swift.String]? = nil,
+            allAccountsEnabled: Swift.Bool = false,
+            excludeSpecifiedAccounts: Swift.Bool = false
+        )
+        {
+            self.accounts = accounts
+            self.allAccountsEnabled = allAccountsEnabled
+            self.excludeSpecifiedAccounts = excludeSpecifiedAccounts
+        }
+    }
+
+}
+
 extension FMSClientTypes.ActionTarget: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -83,6 +150,134 @@ extension FMSClientTypes {
         {
             self.description = description
             self.resourceId = resourceId
+        }
+    }
+
+}
+
+extension FMSClientTypes.AdminAccountSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccount = "AdminAccount"
+        case defaultAdmin = "DefaultAdmin"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminAccount = self.adminAccount {
+            try encodeContainer.encode(adminAccount, forKey: .adminAccount)
+        }
+        if defaultAdmin != false {
+            try encodeContainer.encode(defaultAdmin, forKey: .defaultAdmin)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adminAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminAccount)
+        adminAccount = adminAccountDecoded
+        let defaultAdminDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultAdmin) ?? false
+        defaultAdmin = defaultAdminDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FMSClientTypes.OrganizationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Contains high level information about the Firewall Manager administrator account.
+    public struct AdminAccountSummary: Swift.Equatable {
+        /// The Amazon Web Services account ID of the Firewall Manager administrator's account.
+        public var adminAccount: Swift.String?
+        /// A boolean value that indicates if the administrator is the default administrator. If true, then this is the default administrator account. The default administrator can manage third-party firewalls and has full administrative scope. There is only one default administrator account per organization. For information about Firewall Manager default administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html) in the Firewall Manager Developer Guide.
+        public var defaultAdmin: Swift.Bool
+        /// The current status of the request to onboard a member account as an Firewall Manager administator.
+        ///
+        /// * ONBOARDING - The account is onboarding to Firewall Manager as an administrator.
+        ///
+        /// * ONBOARDING_COMPLETE - Firewall Manager The account is onboarded to Firewall Manager as an administrator, and can perform actions on the resources defined in their [AdminScope].
+        ///
+        /// * OFFBOARDING - The account is being removed as an Firewall Manager administrator.
+        ///
+        /// * OFFBOARDING_COMPLETE - The account has been removed as an Firewall Manager administrator.
+        public var status: FMSClientTypes.OrganizationStatus?
+
+        public init (
+            adminAccount: Swift.String? = nil,
+            defaultAdmin: Swift.Bool = false,
+            status: FMSClientTypes.OrganizationStatus? = nil
+        )
+        {
+            self.adminAccount = adminAccount
+            self.defaultAdmin = defaultAdmin
+            self.status = status
+        }
+    }
+
+}
+
+extension FMSClientTypes.AdminScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountScope = "AccountScope"
+        case organizationalUnitScope = "OrganizationalUnitScope"
+        case policyTypeScope = "PolicyTypeScope"
+        case regionScope = "RegionScope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountScope = self.accountScope {
+            try encodeContainer.encode(accountScope, forKey: .accountScope)
+        }
+        if let organizationalUnitScope = self.organizationalUnitScope {
+            try encodeContainer.encode(organizationalUnitScope, forKey: .organizationalUnitScope)
+        }
+        if let policyTypeScope = self.policyTypeScope {
+            try encodeContainer.encode(policyTypeScope, forKey: .policyTypeScope)
+        }
+        if let regionScope = self.regionScope {
+            try encodeContainer.encode(regionScope, forKey: .regionScope)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountScopeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.AccountScope.self, forKey: .accountScope)
+        accountScope = accountScopeDecoded
+        let organizationalUnitScopeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.OrganizationalUnitScope.self, forKey: .organizationalUnitScope)
+        organizationalUnitScope = organizationalUnitScopeDecoded
+        let regionScopeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.RegionScope.self, forKey: .regionScope)
+        regionScope = regionScopeDecoded
+        let policyTypeScopeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.PolicyTypeScope.self, forKey: .policyTypeScope)
+        policyTypeScope = policyTypeScopeDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Defines the resources that the Firewall Manager administrator can manage. For more information about administrative scope, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html) in the Firewall Manager Developer Guide.
+    public struct AdminScope: Swift.Equatable {
+        /// Defines the accounts that the specified Firewall Manager administrator can apply policies to.
+        public var accountScope: FMSClientTypes.AccountScope?
+        /// Defines the Organizations organizational units that the specified Firewall Manager administrator can apply policies to. For more information about OUs in Organizations, see [Managing organizational units (OUs) ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide.
+        public var organizationalUnitScope: FMSClientTypes.OrganizationalUnitScope?
+        /// Defines the Firewall Manager policy types that the specified Firewall Manager administrator can create and manage.
+        public var policyTypeScope: FMSClientTypes.PolicyTypeScope?
+        /// Defines the Amazon Web Services Regions that the specified Firewall Manager administrator can perform actions in.
+        public var regionScope: FMSClientTypes.RegionScope?
+
+        public init (
+            accountScope: FMSClientTypes.AccountScope? = nil,
+            organizationalUnitScope: FMSClientTypes.OrganizationalUnitScope? = nil,
+            policyTypeScope: FMSClientTypes.PolicyTypeScope? = nil,
+            regionScope: FMSClientTypes.RegionScope? = nil
+        )
+        {
+            self.accountScope = accountScope
+            self.organizationalUnitScope = organizationalUnitScope
+            self.policyTypeScope = policyTypeScope
+            self.regionScope = regionScope
         }
     }
 
@@ -374,7 +569,7 @@ extension AssociateAdminAccountInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateAdminAccountInput: Swift.Equatable {
-    /// The Amazon Web Services account ID to associate with Firewall Manager as the Firewall Manager administrator account. This must be an Organizations member account. For more information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
+    /// The Amazon Web Services account ID to associate with Firewall Manager as the Firewall Manager default administrator account. This account must be a member account of the organization in Organizations whose resources you want to protect. For more information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
     /// This member is required.
     public var adminAccount: Swift.String?
 
@@ -801,7 +996,7 @@ public struct BatchAssociateResourceInput: Swift.Equatable {
     /// The uniform resource identifiers (URIs) of resources that should be associated to the resource set. The URIs must be Amazon Resource Names (ARNs).
     /// This member is required.
     public var items: [Swift.String]?
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var resourceSetIdentifier: Swift.String?
 
@@ -892,7 +1087,7 @@ public struct BatchAssociateResourceOutputResponse: Swift.Equatable {
     /// The resources that failed to associate to the resource set.
     /// This member is required.
     public var failedItems: [FMSClientTypes.FailedItem]?
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var resourceSetIdentifier: Swift.String?
 
@@ -965,7 +1160,7 @@ public struct BatchDisassociateResourceInput: Swift.Equatable {
     /// The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Resource Names (ARNs).
     /// This member is required.
     public var items: [Swift.String]?
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var resourceSetIdentifier: Swift.String?
 
@@ -1054,7 +1249,7 @@ public struct BatchDisassociateResourceOutputResponse: Swift.Equatable {
     /// The resources that failed to disassociate from the resource set.
     /// This member is required.
     public var failedItems: [FMSClientTypes.FailedItem]?
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var resourceSetIdentifier: Swift.String?
 
@@ -1202,6 +1397,38 @@ extension FMSClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CustomerPolicyScopeIdType(rawValue: rawValue) ?? CustomerPolicyScopeIdType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FMSClientTypes {
+    public enum CustomerPolicyStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case outOfAdminScope
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomerPolicyStatus] {
+            return [
+                .active,
+                .outOfAdminScope,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .outOfAdminScope: return "OUT_OF_ADMIN_SCOPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomerPolicyStatus(rawValue: rawValue) ?? CustomerPolicyStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -1362,7 +1589,7 @@ extension DeletePolicyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteAllPolicyResources != false {
+        if let deleteAllPolicyResources = self.deleteAllPolicyResources {
             try encodeContainer.encode(deleteAllPolicyResources, forKey: .deleteAllPolicyResources)
         }
         if let policyId = self.policyId {
@@ -1395,13 +1622,13 @@ public struct DeletePolicyInput: Swift.Equatable {
     ///
     ///
     /// After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope.
-    public var deleteAllPolicyResources: Swift.Bool
+    public var deleteAllPolicyResources: Swift.Bool?
     /// The ID of the policy that you want to delete. You can retrieve this ID from PutPolicy and ListPolicies.
     /// This member is required.
     public var policyId: Swift.String?
 
     public init (
-        deleteAllPolicyResources: Swift.Bool = false,
+        deleteAllPolicyResources: Swift.Bool? = nil,
         policyId: Swift.String? = nil
     )
     {
@@ -1412,7 +1639,7 @@ public struct DeletePolicyInput: Swift.Equatable {
 
 struct DeletePolicyInputBody: Swift.Equatable {
     let policyId: Swift.String?
-    let deleteAllPolicyResources: Swift.Bool
+    let deleteAllPolicyResources: Swift.Bool?
 }
 
 extension DeletePolicyInputBody: Swift.Decodable {
@@ -1425,7 +1652,7 @@ extension DeletePolicyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
         policyId = policyIdDecoded
-        let deleteAllPolicyResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAllPolicyResources) ?? false
+        let deleteAllPolicyResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAllPolicyResources)
         deleteAllPolicyResources = deleteAllPolicyResourcesDecoded
     }
 }
@@ -1574,7 +1801,7 @@ extension DeleteResourceSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteResourceSetInput: Swift.Equatable {
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -3168,9 +3395,9 @@ extension GetAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetAdminAccountOutputResponse: Swift.Equatable {
-    /// The Amazon Web Services account that is set as the Firewall Manager administrator.
+    /// The account that is set as the Firewall Manager default administrator.
     public var adminAccount: Swift.String?
-    /// The status of the Amazon Web Services account that you set as the Firewall Manager administrator.
+    /// The status of the account that you set as the Firewall Manager default administrator.
     public var roleStatus: FMSClientTypes.AccountRoleStatus?
 
     public init (
@@ -3203,6 +3430,140 @@ extension GetAdminAccountOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetAdminScopeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccount = "AdminAccount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminAccount = self.adminAccount {
+            try encodeContainer.encode(adminAccount, forKey: .adminAccount)
+        }
+    }
+}
+
+extension GetAdminScopeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetAdminScopeInput: Swift.Equatable {
+    /// The administator account that you want to get the details for.
+    /// This member is required.
+    public var adminAccount: Swift.String?
+
+    public init (
+        adminAccount: Swift.String? = nil
+    )
+    {
+        self.adminAccount = adminAccount
+    }
+}
+
+struct GetAdminScopeInputBody: Swift.Equatable {
+    let adminAccount: Swift.String?
+}
+
+extension GetAdminScopeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccount = "AdminAccount"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adminAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminAccount)
+        adminAccount = adminAccountDecoded
+    }
+}
+
+extension GetAdminScopeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetAdminScopeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalErrorException" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetAdminScopeOutputError: Swift.Error, Swift.Equatable {
+    case internalErrorException(InternalErrorException)
+    case invalidInputException(InvalidInputException)
+    case invalidOperationException(InvalidOperationException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAdminScopeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetAdminScopeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.adminScope = output.adminScope
+            self.status = output.status
+        } else {
+            self.adminScope = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetAdminScopeOutputResponse: Swift.Equatable {
+    /// Contains details about the administrative scope of the requested account.
+    public var adminScope: FMSClientTypes.AdminScope?
+    /// The current status of the request to onboard a member account as an Firewall Manager administator.
+    ///
+    /// * ONBOARDING - The account is onboarding to Firewall Manager as an administrator.
+    ///
+    /// * ONBOARDING_COMPLETE - Firewall Manager The account is onboarded to Firewall Manager as an administrator, and can perform actions on the resources defined in their [AdminScope].
+    ///
+    /// * OFFBOARDING - The account is being removed as an Firewall Manager administrator.
+    ///
+    /// * OFFBOARDING_COMPLETE - The account has been removed as an Firewall Manager administrator.
+    public var status: FMSClientTypes.OrganizationStatus?
+
+    public init (
+        adminScope: FMSClientTypes.AdminScope? = nil,
+        status: FMSClientTypes.OrganizationStatus? = nil
+    )
+    {
+        self.adminScope = adminScope
+        self.status = status
+    }
+}
+
+struct GetAdminScopeOutputResponseBody: Swift.Equatable {
+    let adminScope: FMSClientTypes.AdminScope?
+    let status: FMSClientTypes.OrganizationStatus?
+}
+
+extension GetAdminScopeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminScope = "AdminScope"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adminScopeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.AdminScope.self, forKey: .adminScope)
+        adminScope = adminScopeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FMSClientTypes.OrganizationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 extension GetAppsListInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultList = "DefaultList"
@@ -3211,7 +3572,7 @@ extension GetAppsListInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if defaultList != false {
+        if let defaultList = self.defaultList {
             try encodeContainer.encode(defaultList, forKey: .defaultList)
         }
         if let listId = self.listId {
@@ -3228,13 +3589,13 @@ extension GetAppsListInput: ClientRuntime.URLPathProvider {
 
 public struct GetAppsListInput: Swift.Equatable {
     /// Specifies whether the list to retrieve is a default list owned by Firewall Manager.
-    public var defaultList: Swift.Bool
+    public var defaultList: Swift.Bool?
     /// The ID of the Firewall Manager applications list that you want the details for.
     /// This member is required.
     public var listId: Swift.String?
 
     public init (
-        defaultList: Swift.Bool = false,
+        defaultList: Swift.Bool? = nil,
         listId: Swift.String? = nil
     )
     {
@@ -3245,7 +3606,7 @@ public struct GetAppsListInput: Swift.Equatable {
 
 struct GetAppsListInputBody: Swift.Equatable {
     let listId: Swift.String?
-    let defaultList: Swift.Bool
+    let defaultList: Swift.Bool?
 }
 
 extension GetAppsListInputBody: Swift.Decodable {
@@ -3258,7 +3619,7 @@ extension GetAppsListInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let listIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .listId)
         listId = listIdDecoded
-        let defaultListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultList) ?? false
+        let defaultListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultList)
         defaultList = defaultListDecoded
     }
 }
@@ -3923,7 +4284,7 @@ extension GetProtocolsListInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if defaultList != false {
+        if let defaultList = self.defaultList {
             try encodeContainer.encode(defaultList, forKey: .defaultList)
         }
         if let listId = self.listId {
@@ -3940,13 +4301,13 @@ extension GetProtocolsListInput: ClientRuntime.URLPathProvider {
 
 public struct GetProtocolsListInput: Swift.Equatable {
     /// Specifies whether the list to retrieve is a default list owned by Firewall Manager.
-    public var defaultList: Swift.Bool
+    public var defaultList: Swift.Bool?
     /// The ID of the Firewall Manager protocols list that you want the details for.
     /// This member is required.
     public var listId: Swift.String?
 
     public init (
-        defaultList: Swift.Bool = false,
+        defaultList: Swift.Bool? = nil,
         listId: Swift.String? = nil
     )
     {
@@ -3957,7 +4318,7 @@ public struct GetProtocolsListInput: Swift.Equatable {
 
 struct GetProtocolsListInputBody: Swift.Equatable {
     let listId: Swift.String?
-    let defaultList: Swift.Bool
+    let defaultList: Swift.Bool?
 }
 
 extension GetProtocolsListInputBody: Swift.Decodable {
@@ -3970,7 +4331,7 @@ extension GetProtocolsListInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let listIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .listId)
         listId = listIdDecoded
-        let defaultListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultList) ?? false
+        let defaultListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultList)
         defaultList = defaultListDecoded
     }
 }
@@ -4071,7 +4432,7 @@ extension GetResourceSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResourceSetInput: Swift.Equatable {
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4729,6 +5090,294 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListAdminAccountsForOrganizationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListAdminAccountsForOrganizationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListAdminAccountsForOrganizationInput: Swift.Equatable {
+    /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAdminAccountsForOrganizationInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAdminAccountsForOrganizationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListAdminAccountsForOrganizationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListAdminAccountsForOrganizationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalErrorException" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListAdminAccountsForOrganizationOutputError: Swift.Error, Swift.Equatable {
+    case internalErrorException(InternalErrorException)
+    case invalidOperationException(InvalidOperationException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAdminAccountsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListAdminAccountsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.adminAccounts = output.adminAccounts
+            self.nextToken = output.nextToken
+        } else {
+            self.adminAccounts = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAdminAccountsForOrganizationOutputResponse: Swift.Equatable {
+    /// A list of Firewall Manager administrator accounts within the organization that were onboarded as administrators by [AssociateAdminAccount] or [PutAdminAccount].
+    public var adminAccounts: [FMSClientTypes.AdminAccountSummary]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        adminAccounts: [FMSClientTypes.AdminAccountSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.adminAccounts = adminAccounts
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAdminAccountsForOrganizationOutputResponseBody: Swift.Equatable {
+    let adminAccounts: [FMSClientTypes.AdminAccountSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListAdminAccountsForOrganizationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccounts = "AdminAccounts"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adminAccountsContainer = try containerValues.decodeIfPresent([FMSClientTypes.AdminAccountSummary?].self, forKey: .adminAccounts)
+        var adminAccountsDecoded0:[FMSClientTypes.AdminAccountSummary]? = nil
+        if let adminAccountsContainer = adminAccountsContainer {
+            adminAccountsDecoded0 = [FMSClientTypes.AdminAccountSummary]()
+            for structure0 in adminAccountsContainer {
+                if let structure0 = structure0 {
+                    adminAccountsDecoded0?.append(structure0)
+                }
+            }
+        }
+        adminAccounts = adminAccountsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListAdminsManagingAccountInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListAdminsManagingAccountInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListAdminsManagingAccountInput: Swift.Equatable {
+    /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAdminsManagingAccountInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAdminsManagingAccountInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListAdminsManagingAccountOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListAdminsManagingAccountOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalErrorException" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListAdminsManagingAccountOutputError: Swift.Error, Swift.Equatable {
+    case internalErrorException(InternalErrorException)
+    case invalidInputException(InvalidInputException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAdminsManagingAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListAdminsManagingAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.adminAccounts = output.adminAccounts
+            self.nextToken = output.nextToken
+        } else {
+            self.adminAccounts = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAdminsManagingAccountOutputResponse: Swift.Equatable {
+    /// The list of accounts who manage member accounts within their [AdminScope].
+    public var adminAccounts: [Swift.String]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        adminAccounts: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.adminAccounts = adminAccounts
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAdminsManagingAccountOutputResponseBody: Swift.Equatable {
+    let adminAccounts: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension ListAdminsManagingAccountOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccounts = "AdminAccounts"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adminAccountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .adminAccounts)
+        var adminAccountsDecoded0:[Swift.String]? = nil
+        if let adminAccountsContainer = adminAccountsContainer {
+            adminAccountsDecoded0 = [Swift.String]()
+            for string0 in adminAccountsContainer {
+                if let string0 = string0 {
+                    adminAccountsDecoded0?.append(string0)
+                }
+            }
+        }
+        adminAccounts = adminAccountsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListAppsListsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultLists = "DefaultLists"
@@ -4738,7 +5387,7 @@ extension ListAppsListsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if defaultLists != false {
+        if let defaultLists = self.defaultLists {
             try encodeContainer.encode(defaultLists, forKey: .defaultLists)
         }
         if let maxResults = self.maxResults {
@@ -4758,7 +5407,7 @@ extension ListAppsListsInput: ClientRuntime.URLPathProvider {
 
 public struct ListAppsListsInput: Swift.Equatable {
     /// Specifies whether the lists to retrieve are default lists owned by Firewall Manager.
-    public var defaultLists: Swift.Bool
+    public var defaultLists: Swift.Bool?
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify this, Firewall Manager returns all available objects.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -4766,7 +5415,7 @@ public struct ListAppsListsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init (
-        defaultLists: Swift.Bool = false,
+        defaultLists: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4778,7 +5427,7 @@ public struct ListAppsListsInput: Swift.Equatable {
 }
 
 struct ListAppsListsInputBody: Swift.Equatable {
-    let defaultLists: Swift.Bool
+    let defaultLists: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -4792,7 +5441,7 @@ extension ListAppsListsInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let defaultListsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultLists) ?? false
+        let defaultListsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultLists)
         defaultLists = defaultListsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5522,7 +6171,7 @@ extension ListProtocolsListsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if defaultLists != false {
+        if let defaultLists = self.defaultLists {
             try encodeContainer.encode(defaultLists, forKey: .defaultLists)
         }
         if let maxResults = self.maxResults {
@@ -5542,7 +6191,7 @@ extension ListProtocolsListsInput: ClientRuntime.URLPathProvider {
 
 public struct ListProtocolsListsInput: Swift.Equatable {
     /// Specifies whether the lists to retrieve are default lists owned by Firewall Manager.
-    public var defaultLists: Swift.Bool
+    public var defaultLists: Swift.Bool?
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify this, Firewall Manager returns all available objects.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -5550,7 +6199,7 @@ public struct ListProtocolsListsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init (
-        defaultLists: Swift.Bool = false,
+        defaultLists: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5562,7 +6211,7 @@ public struct ListProtocolsListsInput: Swift.Equatable {
 }
 
 struct ListProtocolsListsInputBody: Swift.Equatable {
-    let defaultLists: Swift.Bool
+    let defaultLists: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5576,7 +6225,7 @@ extension ListProtocolsListsInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let defaultListsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultLists) ?? false
+        let defaultListsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultLists)
         defaultLists = defaultListsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5698,7 +6347,7 @@ extension ListResourceSetResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListResourceSetResourcesInput: Swift.Equatable {
-    /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+    /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var identifier: Swift.String?
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -7616,6 +8265,111 @@ extension FMSClientTypes {
 
 }
 
+extension FMSClientTypes {
+    public enum OrganizationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case offboarding
+        case offboardingcomplete
+        case onboarding
+        case onboardingcomplete
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationStatus] {
+            return [
+                .offboarding,
+                .offboardingcomplete,
+                .onboarding,
+                .onboardingcomplete,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .offboarding: return "OFFBOARDING"
+            case .offboardingcomplete: return "OFFBOARDING_COMPLETE"
+            case .onboarding: return "ONBOARDING"
+            case .onboardingcomplete: return "ONBOARDING_COMPLETE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrganizationStatus(rawValue: rawValue) ?? OrganizationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FMSClientTypes.OrganizationalUnitScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allOrganizationalUnitsEnabled = "AllOrganizationalUnitsEnabled"
+        case excludeSpecifiedOrganizationalUnits = "ExcludeSpecifiedOrganizationalUnits"
+        case organizationalUnits = "OrganizationalUnits"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if allOrganizationalUnitsEnabled != false {
+            try encodeContainer.encode(allOrganizationalUnitsEnabled, forKey: .allOrganizationalUnitsEnabled)
+        }
+        if excludeSpecifiedOrganizationalUnits != false {
+            try encodeContainer.encode(excludeSpecifiedOrganizationalUnits, forKey: .excludeSpecifiedOrganizationalUnits)
+        }
+        if let organizationalUnits = organizationalUnits {
+            var organizationalUnitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnits)
+            for organizationalunitid0 in organizationalUnits {
+                try organizationalUnitsContainer.encode(organizationalunitid0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationalUnitsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .organizationalUnits)
+        var organizationalUnitsDecoded0:[Swift.String]? = nil
+        if let organizationalUnitsContainer = organizationalUnitsContainer {
+            organizationalUnitsDecoded0 = [Swift.String]()
+            for string0 in organizationalUnitsContainer {
+                if let string0 = string0 {
+                    organizationalUnitsDecoded0?.append(string0)
+                }
+            }
+        }
+        organizationalUnits = organizationalUnitsDecoded0
+        let allOrganizationalUnitsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allOrganizationalUnitsEnabled) ?? false
+        allOrganizationalUnitsEnabled = allOrganizationalUnitsEnabledDecoded
+        let excludeSpecifiedOrganizationalUnitsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excludeSpecifiedOrganizationalUnits) ?? false
+        excludeSpecifiedOrganizationalUnits = excludeSpecifiedOrganizationalUnitsDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Defines the Organizations organizational units (OUs) that the specified Firewall Manager administrator can apply policies to. For more information about OUs in Organizations, see [Managing organizational units (OUs) ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide.
+    public struct OrganizationalUnitScope: Swift.Equatable {
+        /// A boolean value that indicates if the administrator can apply policies to all OUs within an organization. If true, the administrator can manage all OUs within the organization. You can either enable management of all OUs through this operation, or you can specify OUs to manage in OrganizationalUnitScope$OrganizationalUnits. You cannot specify both.
+        public var allOrganizationalUnitsEnabled: Swift.Bool
+        /// A boolean value that excludes the OUs in OrganizationalUnitScope$OrganizationalUnits from the administrator's scope. If true, the Firewall Manager administrator can apply policies to all OUs in the organization except for the OUs listed in OrganizationalUnitScope$OrganizationalUnits. You can either specify a list of OUs to exclude by OrganizationalUnitScope$OrganizationalUnits, or you can enable management of all OUs by OrganizationalUnitScope$AllOrganizationalUnitsEnabled. You cannot specify both.
+        public var excludeSpecifiedOrganizationalUnits: Swift.Bool
+        /// The list of OUs within the organization that the specified Firewall Manager administrator either can or cannot apply policies to, based on the value of OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits. If OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits is set to true, then the Firewall Manager administrator can apply policies to all OUs in the organization except for the OUs in this list. If OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits is set to false, then the Firewall Manager administrator can only apply policies to the OUs in this list.
+        public var organizationalUnits: [Swift.String]?
+
+        public init (
+            allOrganizationalUnitsEnabled: Swift.Bool = false,
+            excludeSpecifiedOrganizationalUnits: Swift.Bool = false,
+            organizationalUnits: [Swift.String]? = nil
+        )
+        {
+            self.allOrganizationalUnitsEnabled = allOrganizationalUnitsEnabled
+            self.excludeSpecifiedOrganizationalUnits = excludeSpecifiedOrganizationalUnits
+            self.organizationalUnits = organizationalUnits
+        }
+    }
+
+}
+
 extension FMSClientTypes.PartialMatch: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reference = "Reference"
@@ -7682,6 +8436,7 @@ extension FMSClientTypes.Policy: Swift.Codable {
         case policyDescription = "PolicyDescription"
         case policyId = "PolicyId"
         case policyName = "PolicyName"
+        case policyStatus = "PolicyStatus"
         case policyUpdateToken = "PolicyUpdateToken"
         case remediationEnabled = "RemediationEnabled"
         case resourceSetIds = "ResourceSetIds"
@@ -7725,6 +8480,9 @@ extension FMSClientTypes.Policy: Swift.Codable {
         }
         if let policyName = self.policyName {
             try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyStatus = self.policyStatus {
+            try encodeContainer.encode(policyStatus.rawValue, forKey: .policyStatus)
         }
         if let policyUpdateToken = self.policyUpdateToken {
             try encodeContainer.encode(policyUpdateToken, forKey: .policyUpdateToken)
@@ -7847,6 +8605,8 @@ extension FMSClientTypes.Policy: Swift.Codable {
         resourceSetIds = resourceSetIdsDecoded0
         let policyDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDescription)
         policyDescription = policyDescriptionDecoded
+        let policyStatusDecoded = try containerValues.decodeIfPresent(FMSClientTypes.CustomerPolicyStatus.self, forKey: .policyStatus)
+        policyStatus = policyStatusDecoded
     }
 }
 
@@ -7881,6 +8641,12 @@ extension FMSClientTypes {
         /// The name of the Firewall Manager policy.
         /// This member is required.
         public var policyName: Swift.String?
+        /// Indicates whether the policy is in or out of an admin's policy or Region scope.
+        ///
+        /// * ACTIVE - The administrator can manage and delete the policy.
+        ///
+        /// * OUT_OF_ADMIN_SCOPE - The administrator can view the policy, but they can't edit or delete the policy. Existing policy protections stay in place. Any new resources that come into scope of the policy won't be protected.
+        public var policyStatus: FMSClientTypes.CustomerPolicyStatus?
         /// A unique identifier for each update to the policy. When issuing a PutPolicy request, the PolicyUpdateToken in the request must match the PolicyUpdateToken of the current policy version. To get the PolicyUpdateToken of the current policy version, use a GetPolicy request.
         public var policyUpdateToken: Swift.String?
         /// Indicates if the policy should be automatically applied to new resources.
@@ -7907,6 +8673,7 @@ extension FMSClientTypes {
             policyDescription: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyName: Swift.String? = nil,
+            policyStatus: FMSClientTypes.CustomerPolicyStatus? = nil,
             policyUpdateToken: Swift.String? = nil,
             remediationEnabled: Swift.Bool = false,
             resourceSetIds: [Swift.String]? = nil,
@@ -7923,6 +8690,7 @@ extension FMSClientTypes {
             self.policyDescription = policyDescription
             self.policyId = policyId
             self.policyName = policyName
+            self.policyStatus = policyStatus
             self.policyUpdateToken = policyUpdateToken
             self.remediationEnabled = remediationEnabled
             self.resourceSetIds = resourceSetIds
@@ -8256,6 +9024,7 @@ extension FMSClientTypes.PolicySummary: Swift.Codable {
         case policyArn = "PolicyArn"
         case policyId = "PolicyId"
         case policyName = "PolicyName"
+        case policyStatus = "PolicyStatus"
         case remediationEnabled = "RemediationEnabled"
         case resourceType = "ResourceType"
         case securityServiceType = "SecurityServiceType"
@@ -8274,6 +9043,9 @@ extension FMSClientTypes.PolicySummary: Swift.Codable {
         }
         if let policyName = self.policyName {
             try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyStatus = self.policyStatus {
+            try encodeContainer.encode(policyStatus.rawValue, forKey: .policyStatus)
         }
         if remediationEnabled != false {
             try encodeContainer.encode(remediationEnabled, forKey: .remediationEnabled)
@@ -8302,6 +9074,8 @@ extension FMSClientTypes.PolicySummary: Swift.Codable {
         remediationEnabled = remediationEnabledDecoded
         let deleteUnusedFMManagedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteUnusedFMManagedResources) ?? false
         deleteUnusedFMManagedResources = deleteUnusedFMManagedResourcesDecoded
+        let policyStatusDecoded = try containerValues.decodeIfPresent(FMSClientTypes.CustomerPolicyStatus.self, forKey: .policyStatus)
+        policyStatus = policyStatusDecoded
     }
 }
 
@@ -8316,6 +9090,12 @@ extension FMSClientTypes {
         public var policyId: Swift.String?
         /// The name of the specified policy.
         public var policyName: Swift.String?
+        /// Indicates whether the policy is in or out of an admin's policy or Region scope.
+        ///
+        /// * ACTIVE - The administrator can manage and delete the policy.
+        ///
+        /// * OUT_OF_ADMIN_SCOPE - The administrator can view the policy, but they can't edit or delete the policy. Existing policy protections stay in place. Any new resources that come into scope of the policy won't be protected.
+        public var policyStatus: FMSClientTypes.CustomerPolicyStatus?
         /// Indicates if the policy should be automatically applied to new resources.
         public var remediationEnabled: Swift.Bool
         /// The type of resource protected by or in scope of the policy. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). For WAF and Shield Advanced, examples include AWS::ElasticLoadBalancingV2::LoadBalancer and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup. For an Network Firewall policy or DNS Firewall policy, the value is AWS::EC2::VPC.
@@ -8328,6 +9108,7 @@ extension FMSClientTypes {
             policyArn: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyName: Swift.String? = nil,
+            policyStatus: FMSClientTypes.CustomerPolicyStatus? = nil,
             remediationEnabled: Swift.Bool = false,
             resourceType: Swift.String? = nil,
             securityServiceType: FMSClientTypes.SecurityServiceType? = nil
@@ -8337,9 +9118,67 @@ extension FMSClientTypes {
             self.policyArn = policyArn
             self.policyId = policyId
             self.policyName = policyName
+            self.policyStatus = policyStatus
             self.remediationEnabled = remediationEnabled
             self.resourceType = resourceType
             self.securityServiceType = securityServiceType
+        }
+    }
+
+}
+
+extension FMSClientTypes.PolicyTypeScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allPolicyTypesEnabled = "AllPolicyTypesEnabled"
+        case policyTypes = "PolicyTypes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if allPolicyTypesEnabled != false {
+            try encodeContainer.encode(allPolicyTypesEnabled, forKey: .allPolicyTypesEnabled)
+        }
+        if let policyTypes = policyTypes {
+            var policyTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policyTypes)
+            for securityservicetype0 in policyTypes {
+                try policyTypesContainer.encode(securityservicetype0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyTypesContainer = try containerValues.decodeIfPresent([FMSClientTypes.SecurityServiceType?].self, forKey: .policyTypes)
+        var policyTypesDecoded0:[FMSClientTypes.SecurityServiceType]? = nil
+        if let policyTypesContainer = policyTypesContainer {
+            policyTypesDecoded0 = [FMSClientTypes.SecurityServiceType]()
+            for enum0 in policyTypesContainer {
+                if let enum0 = enum0 {
+                    policyTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        policyTypes = policyTypesDecoded0
+        let allPolicyTypesEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allPolicyTypesEnabled) ?? false
+        allPolicyTypesEnabled = allPolicyTypesEnabledDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Defines the policy types that the specified Firewall Manager administrator can manage.
+    public struct PolicyTypeScope: Swift.Equatable {
+        /// Allows the specified Firewall Manager administrator to manage all Firewall Manager policy types, except for third-party policy types. Third-party policy types can only be managed by the Firewall Manager default administrator.
+        public var allPolicyTypesEnabled: Swift.Bool
+        /// The list of policy types that the specified Firewall Manager administrator can manage.
+        public var policyTypes: [FMSClientTypes.SecurityServiceType]?
+
+        public init (
+            allPolicyTypesEnabled: Swift.Bool = false,
+            policyTypes: [FMSClientTypes.SecurityServiceType]? = nil
+        )
+        {
+            self.allPolicyTypesEnabled = allPolicyTypesEnabled
+            self.policyTypes = policyTypes
         }
     }
 
@@ -8676,6 +9515,104 @@ extension FMSClientTypes {
         }
     }
 
+}
+
+extension PutAdminAccountInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccount = "AdminAccount"
+        case adminScope = "AdminScope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminAccount = self.adminAccount {
+            try encodeContainer.encode(adminAccount, forKey: .adminAccount)
+        }
+        if let adminScope = self.adminScope {
+            try encodeContainer.encode(adminScope, forKey: .adminScope)
+        }
+    }
+}
+
+extension PutAdminAccountInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutAdminAccountInput: Swift.Equatable {
+    /// The Amazon Web Services account ID to add as an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by [AssociateAdminAccount]. For more information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
+    /// This member is required.
+    public var adminAccount: Swift.String?
+    /// Configures the resources that the specified Firewall Manager administrator can manage. As a best practice, set the administrative scope according to the principles of least privilege. Only grant the administrator the specific resources or permissions that they need to perform the duties of their role.
+    public var adminScope: FMSClientTypes.AdminScope?
+
+    public init (
+        adminAccount: Swift.String? = nil,
+        adminScope: FMSClientTypes.AdminScope? = nil
+    )
+    {
+        self.adminAccount = adminAccount
+        self.adminScope = adminScope
+    }
+}
+
+struct PutAdminAccountInputBody: Swift.Equatable {
+    let adminAccount: Swift.String?
+    let adminScope: FMSClientTypes.AdminScope?
+}
+
+extension PutAdminAccountInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminAccount = "AdminAccount"
+        case adminScope = "AdminScope"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adminAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminAccount)
+        adminAccount = adminAccountDecoded
+        let adminScopeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.AdminScope.self, forKey: .adminScope)
+        adminScope = adminScopeDecoded
+    }
+}
+
+extension PutAdminAccountOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutAdminAccountOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalErrorException" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutAdminAccountOutputError: Swift.Error, Swift.Equatable {
+    case internalErrorException(InternalErrorException)
+    case invalidInputException(InvalidInputException)
+    case invalidOperationException(InvalidOperationException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct PutAdminAccountOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension PutAppsListInput: Swift.Encodable {
@@ -9385,6 +10322,63 @@ extension PutResourceSetOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension FMSClientTypes.RegionScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allRegionsEnabled = "AllRegionsEnabled"
+        case regions = "Regions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if allRegionsEnabled != false {
+            try encodeContainer.encode(allRegionsEnabled, forKey: .allRegionsEnabled)
+        }
+        if let regions = regions {
+            var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
+            for awsregion0 in regions {
+                try regionsContainer.encode(awsregion0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .regions)
+        var regionsDecoded0:[Swift.String]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [Swift.String]()
+            for string0 in regionsContainer {
+                if let string0 = string0 {
+                    regionsDecoded0?.append(string0)
+                }
+            }
+        }
+        regions = regionsDecoded0
+        let allRegionsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allRegionsEnabled) ?? false
+        allRegionsEnabled = allRegionsEnabledDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Defines the Amazon Web Services Regions that the specified Firewall Manager administrator can manage.
+    public struct RegionScope: Swift.Equatable {
+        /// Allows the specified Firewall Manager administrator to manage all Amazon Web Services Regions.
+        public var allRegionsEnabled: Swift.Bool
+        /// The Amazon Web Services Regions that the specified Firewall Manager administrator can perform actions in.
+        public var regions: [Swift.String]?
+
+        public init (
+            allRegionsEnabled: Swift.Bool = false,
+            regions: [Swift.String]? = nil
+        )
+        {
+            self.allRegionsEnabled = allRegionsEnabled
+            self.regions = regions
+        }
+    }
+
+}
+
 extension FMSClientTypes.RemediationAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -9680,6 +10674,7 @@ extension FMSClientTypes.ResourceSet: Swift.Codable {
         case id = "Id"
         case lastUpdateTime = "LastUpdateTime"
         case name = "Name"
+        case resourceSetStatus = "ResourceSetStatus"
         case resourceTypeList = "ResourceTypeList"
         case updateToken = "UpdateToken"
     }
@@ -9697,6 +10692,9 @@ extension FMSClientTypes.ResourceSet: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resourceSetStatus = self.resourceSetStatus {
+            try encodeContainer.encode(resourceSetStatus.rawValue, forKey: .resourceSetStatus)
         }
         if let resourceTypeList = resourceTypeList {
             var resourceTypeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypeList)
@@ -9732,6 +10730,8 @@ extension FMSClientTypes.ResourceSet: Swift.Codable {
         resourceTypeList = resourceTypeListDecoded0
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
         lastUpdateTime = lastUpdateTimeDecoded
+        let resourceSetStatusDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ResourceSetStatus.self, forKey: .resourceSetStatus)
+        resourceSetStatus = resourceSetStatusDecoded
     }
 }
 
@@ -9747,6 +10747,12 @@ extension FMSClientTypes {
         /// The descriptive name of the resource set. You can't change the name of a resource set after you create it.
         /// This member is required.
         public var name: Swift.String?
+        /// Indicates whether the resource set is in or out of an admin's Region scope.
+        ///
+        /// * ACTIVE - The administrator can manage and delete the resource set.
+        ///
+        /// * OUT_OF_ADMIN_SCOPE - The administrator can view the resource set, but they can't edit or delete the resource set. Existing protections stay in place. Any new resource that come into scope of the resource set won't be protected.
+        public var resourceSetStatus: FMSClientTypes.ResourceSetStatus?
         /// Determines the resources that can be associated to the resource set. Depending on your setting for max results and the number of resource sets, a single call might not return the full list.
         /// This member is required.
         public var resourceTypeList: [Swift.String]?
@@ -9758,6 +10764,7 @@ extension FMSClientTypes {
             id: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            resourceSetStatus: FMSClientTypes.ResourceSetStatus? = nil,
             resourceTypeList: [Swift.String]? = nil,
             updateToken: Swift.String? = nil
         )
@@ -9766,11 +10773,44 @@ extension FMSClientTypes {
             self.id = id
             self.lastUpdateTime = lastUpdateTime
             self.name = name
+            self.resourceSetStatus = resourceSetStatus
             self.resourceTypeList = resourceTypeList
             self.updateToken = updateToken
         }
     }
 
+}
+
+extension FMSClientTypes {
+    public enum ResourceSetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case outOfAdminScope
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSetStatus] {
+            return [
+                .active,
+                .outOfAdminScope,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .outOfAdminScope: return "OUT_OF_ADMIN_SCOPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceSetStatus(rawValue: rawValue) ?? ResourceSetStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension FMSClientTypes.ResourceSetSummary: Swift.Codable {
@@ -9779,6 +10819,7 @@ extension FMSClientTypes.ResourceSetSummary: Swift.Codable {
         case id = "Id"
         case lastUpdateTime = "LastUpdateTime"
         case name = "Name"
+        case resourceSetStatus = "ResourceSetStatus"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9795,6 +10836,9 @@ extension FMSClientTypes.ResourceSetSummary: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let resourceSetStatus = self.resourceSetStatus {
+            try encodeContainer.encode(resourceSetStatus.rawValue, forKey: .resourceSetStatus)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -9807,6 +10851,8 @@ extension FMSClientTypes.ResourceSetSummary: Swift.Codable {
         description = descriptionDecoded
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
         lastUpdateTime = lastUpdateTimeDecoded
+        let resourceSetStatusDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ResourceSetStatus.self, forKey: .resourceSetStatus)
+        resourceSetStatus = resourceSetStatusDecoded
     }
 }
 
@@ -9821,18 +10867,26 @@ extension FMSClientTypes {
         public var lastUpdateTime: ClientRuntime.Date?
         /// The descriptive name of the resource set. You can't change the name of a resource set after you create it.
         public var name: Swift.String?
+        /// Indicates whether the resource set is in or out of an admin's Region scope.
+        ///
+        /// * ACTIVE - The administrator can manage and delete the resource set.
+        ///
+        /// * OUT_OF_ADMIN_SCOPE - The administrator can view the resource set, but they can't edit or delete the resource set. Existing protections stay in place. Any new resource that come into scope of the resource set won't be protected.
+        public var resourceSetStatus: FMSClientTypes.ResourceSetStatus?
 
         public init (
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            resourceSetStatus: FMSClientTypes.ResourceSetStatus? = nil
         )
         {
             self.description = description
             self.id = id
             self.lastUpdateTime = lastUpdateTime
             self.name = name
+            self.resourceSetStatus = resourceSetStatus
         }
     }
 
@@ -10605,6 +11659,8 @@ extension FMSClientTypes {
         ///
         /// * Example: DNS_FIREWALL"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}" Valid values for preProcessRuleGroups are between 1 and 99. Valid values for postProcessRuleGroups are between 9901 and 10000.
         ///
+        /// * Example: IMPORT_NETWORK_FIREWALL"{\"type\":\"IMPORT_NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:000000000000:stateless-rulegroup\/rg1\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:drop\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:aws-managed:stateful-rulegroup\/ThreatSignaturesEmergingEventsStrictOrder\",\"priority\":8}],\"networkFirewallStatefulEngineOptions\":{\"ruleOrder\":\"STRICT_ORDER\"},\"networkFirewallStatefulDefaultActions\":[\"aws:drop_strict\"]}}""{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}" Valid values for preProcessRuleGroups are between 1 and 99. Valid values for postProcessRuleGroups are between 9901 and 10000.
+        ///
         /// * Example: NETWORK_FIREWALL - Centralized deployment model "{\"type\":\"NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}},\"firewallDeploymentModel\":{\"centralizedFirewallDeploymentModel\":{\"centralizedFirewallOrchestrationConfig\":{\"inspectionVpcIds\":[{\"resourceId\":\"vpc-1234\",\"accountId\":\"123456789011\"}],\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneId\":null,\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"allowedIPV4CidrList\":[]}}}}" To use the centralized deployment model, you must set [PolicyOption](https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html) to CENTRALIZED.
         ///
         /// * Example: NETWORK_FIREWALL - Distributed deployment model with automatic Availability Zone configuration  "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"OFF\"},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"  With automatic Availbility Zone configuration, Firewall Manager chooses which Availability Zones to create the endpoints in. To use the distributed deployment model, you must set [PolicyOption](https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html) to NULL.
@@ -10629,9 +11685,22 @@ extension FMSClientTypes {
         ///
         /// * Specification for SHIELD_ADVANCED for Amazon CloudFront distributions "{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\": {\"automaticResponseStatus\":\"ENABLED|IGNORED|DISABLED\", \"automaticResponseAction\":\"BLOCK|COUNT\"}, \"overrideCustomerWebaclClassic\":true|false}" For example: "{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\": {\"automaticResponseStatus\":\"ENABLED\", \"automaticResponseAction\":\"COUNT\"}}" The default value for automaticResponseStatus is IGNORED. The value for automaticResponseAction is only required when automaticResponseStatus is set to ENABLED. The default value for overrideCustomerWebaclClassic is false. For other resource types that you can protect with a Shield Advanced policy, this ManagedServiceData configuration is an empty string.
         ///
-        /// * Example: WAFV2"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAmazonIpReputationList\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[{\"name\":\"NoUserAgent_HEADER\"}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}" In the loggingConfiguration, you can specify one logDestinationConfigs, you can optionally provide up to 20 redactedFields, and the RedactedFieldType must be one of URI, QUERY_STRING, HEADER, or METHOD.
+        /// * Example: WAFV2 - Account takeover prevention and Bot Control managed rule groups, and rule action override "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesATPRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesATPRuleSet\":{\"loginPath\":\"/loginpath\",\"requestInspection\":{\"payloadType\":\"FORM_ENCODED|JSON\",\"usernameField\":{\"identifier\":\"/form/username\"},\"passwordField\":{\"identifier\":\"/form/password\"}}}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true},{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesBotControlRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesBotControlRuleSet\":{\"inspectionLevel\":\"TARGETED|COMMON\"}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true,\"ruleActionOverrides\":[{\"name\":\"Rule1\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}},{\"name\":\"Rule2\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true}"
+        ///
+        /// * Fraud Control account takeover prevention (ATP) - For information about the properties available for AWSManagedRulesATPRuleSet managed rule groups, see [AWSManagedRulesATPRuleSet](https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesATPRuleSet.html) in the WAF API Reference.
+        ///
+        /// * Bot Control - For information about AWSManagedRulesBotControlRuleSet managed rule groups, see [AWSManagedRulesBotControlRuleSet](https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesBotControlRuleSet.html) in the WAF API Reference.
+        ///
+        /// * Rule action overrides - Firewall Manager supports rule action overrides only for managed rule groups. To configure a RuleActionOverrides add the Name of the rule to override, and ActionToUse, which is the new action to use for the rule. For information about using rule action override, see [RuleActionOverride](https://docs.aws.amazon.com/waf/latest/APIReference/API_RuleActionOverride.html) in the WAF API Reference.
+        ///
+        ///
+        ///
+        ///
+        /// * Example: WAFV2 - CAPTCHA and Challenge configs "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"captchaConfig\":{\"immunityTimeProperty\":{\"immunityTime\":500}},\"challengeConfig\":{\"immunityTimeProperty\":{\"immunityTime\":800}},\"tokenDomains\":[\"google.com\",\"amazon.com\"]}" If you update the policy's values for captchaConfig, challengeConfig, or tokenDomains, Firewall Manager will overwrite your local web ACLs to contain the new value(s). However, if you don't update the policy's captchaConfig, challengeConfig, or tokenDomains values, the values in your local web ACLs will remain unchanged. For information about CAPTCHA and Challenge configs, see [CaptchaConfig](https://docs.aws.amazon.com/waf/latest/APIReference/API_CaptchaConfig.html) and [ChallengeConfig](https://docs.aws.amazon.com/waf/latest/APIReference/API_ChallengeConfig.html) in the WAF API Reference.
         ///
         /// * Example: WAFV2 - Firewall Manager support for WAF managed rule group versioning "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":true,\"version\":\"Version_2.0\",\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesCommonRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[{\"name\":\"NoUserAgent_HEADER\"}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}" To use a specific version of a WAF managed rule group in your Firewall Manager policy, you must set versionEnabled to true, and set version to the version you'd like to use. If you don't set versionEnabled to true, or if you omit versionEnabled, then Firewall Manager uses the default version of the WAF managed rule group.
+        ///
+        /// * Example: WAFV2 - Logging configurations "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null, \"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\": {\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\", \"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"} ,\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[], \"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[], \"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\" :null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\" :false,\"loggingConfiguration\":{\"logDestinationConfigs\": [\"arn:aws:s3:::aws-waf-logs-example-bucket\"] ,\"redactedFields\":[],\"loggingFilterConfigs\":{\"defaultBehavior\":\"KEEP\", \"filters\":[{\"behavior\":\"KEEP\",\"requirement\":\"MEETS_ALL\", \"conditions\":[{\"actionCondition\":\"CAPTCHA\"},{\"actionCondition\": \"CHALLENGE\"}, {\"actionCondition\":\"EXCLUDED_AS_COUNT\"}]}]}},\"sampledRequestsEnabledForDefaultActions\":true}" Firewall Manager supports Amazon Kinesis Data Firehose and Amazon S3 as the logDestinationConfigs in your loggingConfiguration. For information about WAF logging configurations, see [LoggingConfiguration](https://docs.aws.amazon.com/waf/latest/APIReference/API_LoggingConfiguration.html) in the WAF API Reference In the loggingConfiguration, you can specify one logDestinationConfigs. Optionally provide as many as 20 redactedFields. The RedactedFieldType must be one of URI, QUERY_STRING, HEADER, or METHOD.
         ///
         /// * Example: WAF Classic"{\"type\": \"WAF\", \"ruleGroups\": [{\"id\":\"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"
         public var managedServiceData: Swift.String?

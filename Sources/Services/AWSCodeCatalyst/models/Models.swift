@@ -80,38 +80,6 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes {
-    public enum CatalogActionVersionFileRecordType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case license
-        case readme
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CatalogActionVersionFileRecordType] {
-            return [
-                .license,
-                .readme,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .license: return "LICENSE"
-            case .readme: return "README"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = CatalogActionVersionFileRecordType(rawValue: rawValue) ?? CatalogActionVersionFileRecordType.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension CodeCatalystClientTypes {
     public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case equals
         case greaterThan
@@ -913,7 +881,7 @@ extension DeleteAccessTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAccessTokenInput: Swift.Equatable {
-    /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your user account by calling [ListAccessTokens].
+    /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling [ListAccessTokens].
     /// This member is required.
     public var id: Swift.String?
 
@@ -3024,7 +2992,7 @@ extension ListAccessTokensOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListAccessTokensOutputResponse: Swift.Equatable {
-    /// A list of personal access tokens (PATs) associated with the calling user.
+    /// A list of personal access tokens (PATs) associated with the calling user identity.
     /// This member is required.
     public var items: [CodeCatalystClientTypes.AccessTokenSummary]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -4146,7 +4114,7 @@ extension ListSpacesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListSpacesOutputResponse: Swift.Equatable {
-    /// Information about the space.
+    /// Information about the spaces.
     public var items: [CodeCatalystClientTypes.SpaceSummary]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
     public var nextToken: Swift.String?

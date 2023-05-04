@@ -216,7 +216,7 @@ extension GameLiftClientTypes.Alias: Swift.Codable {
 extension GameLiftClientTypes {
     /// Properties that describe an alias resource. Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct Alias: Swift.Equatable {
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift alias resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::alias/alias-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift alias ARN, the resource ID matches the alias ID value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift alias resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::alias/alias-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift alias ARN, the resource ID matches the alias ID value.
         public var aliasArn: Swift.String?
         /// A unique identifier for the alias. Alias IDs are unique within a Region.
         public var aliasId: Swift.String?
@@ -273,9 +273,9 @@ extension GameLiftClientTypes.AnywhereConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// GameLift Anywhere configuration options for your Anywhere fleets.
+    /// Amazon GameLift Anywhere configuration options for your Anywhere fleets.
     public struct AnywhereConfiguration: Swift.Equatable {
-        /// The cost to run your fleet per hour. GameLift uses the provided cost of your fleet to balance usage in queues. For more information about queues, see [Setting up queues](https://docs.aws.amazon.com/gamelift/latest/developerguide/queues-intro.html).
+        /// The cost to run your fleet per hour. Amazon GameLift uses the provided cost of your fleet to balance usage in queues. For more information about queues, see [Setting up queues](https://docs.aws.amazon.com/gamelift/latest/developerguide/queues-intro.html) in the Amazon GameLift Developer Guide.
         /// This member is required.
         public var cost: Swift.String?
 
@@ -576,17 +576,17 @@ extension GameLiftClientTypes.Build: Swift.Codable {
 extension GameLiftClientTypes {
     /// Properties describing a custom game build. [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct Build: Swift.Equatable {
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) assigned to a GameLift build resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::build/build-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift build ARN, the resource ID matches the BuildId value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) assigned to a Amazon GameLift build resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::build/build-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift build ARN, the resource ID matches the BuildId value.
         public var buildArn: Swift.String?
         /// A unique identifier for the build.
         public var buildId: Swift.String?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
-        /// A descriptive label associated with a build. Build names do not need to be unique. It can be set using [CreateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html) or [UpdateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/UpdateBuild).
+        /// A descriptive label associated with a build. Build names don't need to be unique. It can be set using [CreateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html) or [UpdateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/UpdateBuild).
         public var name: Swift.String?
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
-        /// The GameLift Server SDK version used to develop your game server.
+        /// The Amazon GameLift Server SDK version used to develop your game server.
         public var serverSdkVersion: Swift.String?
         /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED or when using a custom Amazon S3 storage location, this value is 0.
         public var sizeOnDisk: Swift.Int?
@@ -598,7 +598,7 @@ extension GameLiftClientTypes {
         ///
         /// * FAILED -- The game build upload failed. You cannot create new fleets for this build.
         public var status: GameLiftClientTypes.BuildStatus?
-        /// Version information associated with a build or script. Version strings do not need to be unique.
+        /// Version information associated with a build or script. Version strings don't need to be unique.
         public var version: Swift.String?
 
         public init (
@@ -682,7 +682,7 @@ extension GameLiftClientTypes.CertificateConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
+    /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [Amazon GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
     public struct CertificateConfiguration: Swift.Equatable {
         /// Indicates whether a TLS/SSL certificate is generated for a fleet. Valid values include:
         ///
@@ -764,10 +764,10 @@ extension ClaimGameServerInput: ClientRuntime.URLPathProvider {
 public struct ClaimGameServerInput: Swift.Equatable {
     /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers.
     public var gameServerData: Swift.String?
-    /// A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want GameLift FleetIQ to look for an available game server to claim.
+    /// A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want Amazon GameLift FleetIQ to look for an available game server to claim.
     /// This member is required.
     public var gameServerGroupName: Swift.String?
-    /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, GameLift FleetIQ searches for an available game server in the specified game server group.
+    /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, Amazon GameLift FleetIQ searches for an available game server in the specified game server group.
     public var gameServerId: Swift.String?
 
     public init (
@@ -1002,7 +1002,7 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Resources used to host your game servers. A compute resource can be managed GameLift Amazon EC2 instances or your own resources.
+    /// Resources used to host your game servers. A compute resource can be managed Amazon GameLift Amazon EC2 instances or your own resources.
     public struct Compute: Swift.Equatable {
         /// The ARN that is assigned to the compute resource and uniquely identifies it. ARNs are unique across locations.
         public var computeArn: Swift.String?
@@ -1012,21 +1012,21 @@ extension GameLiftClientTypes {
         public var computeStatus: GameLiftClientTypes.ComputeStatus?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
-        /// The DNS name of the compute resource. GameLift requires the DNS name or IP address to manage your compute resource.
+        /// The DNS name of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
         public var dnsName: Swift.String?
         /// The Amazon Resource Name (ARN) of the fleet that the compute is registered to.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the compute is registered to.
         public var fleetId: Swift.String?
-        /// The endpoint connection details of the GameLift SDK endpoint that your game server connects to.
+        /// The endpoint connection details of the Amazon GameLift SDK endpoint that your game server connects to.
         public var gameLiftServiceSdkEndpoint: Swift.String?
-        /// The IP address of the compute resource. GameLift requires the DNS name or IP address to manage your compute resource.
+        /// The IP address of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
         public var ipAddress: Swift.String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
         public var location: Swift.String?
         /// The type of operating system on your compute resource.
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
-        /// Which compute type that the fleet uses. A fleet can use Anywhere compute resources owned by you or managed Amazon EC2 instances.
+        /// The compute type that the fleet uses. A fleet can use Anywhere compute resources that you own, or use managed Amazon EC2 instances.
         public var type: GameLiftClientTypes.EC2InstanceType?
 
         public init (
@@ -1391,17 +1391,17 @@ extension CreateBuildInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateBuildInput: Swift.Equatable {
-    /// A descriptive label associated with a build. Build names do not need to be unique. You can change this value later.
+    /// A descriptive label associated with a build. Build names don't need to be unique. You can change this value later.
     public var name: Swift.String?
-    /// The operating system that you built the game server binaries to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
+    /// The operating system that you built the game server binaries to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system isn't specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value can't be changed later.
     public var operatingSystem: GameLiftClientTypes.OperatingSystem?
-    /// A server SDK version you used when integrating your game server build with GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html).
+    /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html). By default Amazon GameLift sets this value to 4.0.2.
     public var serverSdkVersion: Swift.String?
     /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key. The location must also specify a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket and your new build must be in the same Region. If a StorageLocation is specified, the size of your file can be found in your Amazon S3 bucket. Amazon GameLift will report a SizeOnDisk of 0.
     public var storageLocation: GameLiftClientTypes.S3Location?
     /// A list of labels to assign to the new build resource. Tags are developer defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// Version information associated with a build or script. Version strings do not need to be unique. You can change this value later.
+    /// Version information associated with a build or script. Version strings don't need to be unique. You can change this value later.
     public var version: Swift.String?
 
     public init (
@@ -1681,27 +1681,27 @@ extension CreateFleetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFleetInput: Swift.Equatable {
-    /// GameLift Anywhere configuration options.
+    /// Amazon GameLift Anywhere configuration options.
     public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
-    /// The unique identifier for a custom game server build to be deployed on fleet instances. You can use either the build ID or ARN. The build must be uploaded to GameLift and in READY status. This fleet property cannot be changed later.
+    /// The unique identifier for a custom game server build to be deployed on fleet instances. You can use either the build ID or ARN. The build must be uploaded to Amazon GameLift and in READY status. This fleet property cannot be changed later.
     public var buildId: Swift.String?
-    /// Prompts GameLift to generate a TLS/SSL certificate for the fleet. GameLift uses the certificates to encrypt traffic between game clients and the game servers running on GameLift. By default, the CertificateConfiguration is DISABLED. You can't change this property after you create the fleet. Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition. ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) in the Certificate Manager User Guide.
+    /// Prompts Amazon GameLift to generate a TLS/SSL certificate for the fleet. Amazon GameLift uses the certificates to encrypt traffic between game clients and the game servers running on Amazon GameLift. By default, the CertificateConfiguration is DISABLED. You can't change this property after you create the fleet. Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition. ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) in the Certificate Manager User Guide.
     public var certificateConfiguration: GameLiftClientTypes.CertificateConfiguration?
-    /// The type of compute resource used to host your game servers. You can use your own compute resources with GameLift Anywhere or use Amazon EC2 instances with managed GameLift.
+    /// The type of compute resource used to host your game servers. You can use your own compute resources with Amazon GameLift Anywhere or use Amazon EC2 instances with managed Amazon GameLift. By default, this property is set to EC2.
     public var computeType: GameLiftClientTypes.ComputeType?
     /// A description for the fleet.
     public var description: Swift.String?
-    /// The allowed IP address ranges and port settings that allow inbound traffic to access game sessions on this fleet. If the fleet is hosting a custom game build, this property must be set before players can connect to game sessions. For Realtime Servers fleets, GameLift automatically sets TCP and UDP ranges.
+    /// The allowed IP address ranges and port settings that allow inbound traffic to access game sessions on this fleet. If the fleet is hosting a custom game build, this property must be set before players can connect to game sessions. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
     public var ec2InboundPermissions: [GameLiftClientTypes.IpPermission]?
-    /// The GameLift-supported Amazon EC2 instance type to use for all fleet instances. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
+    /// The Amazon GameLift-supported Amazon EC2 instance type to use for all fleet instances. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
     public var ec2InstanceType: GameLiftClientTypes.EC2InstanceType?
     /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This property cannot be changed after the fleet is created.
     public var fleetType: GameLiftClientTypes.FleetType?
     /// A unique identifier for an IAM role that manages access to your Amazon Web Services services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the [IAM dashboard](https://console.aws.amazon.com/iam/) in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at [ Access external resources from a game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This property cannot be changed after the fleet is created.
     public var instanceRoleArn: Swift.String?
-    /// A set of remote locations to deploy additional instances to and manage as part of the fleet. This parameter can only be used when creating fleets in Amazon Web Services Regions that support multiple locations. You can add any GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2. To create a fleet with instances in the home Region only, omit this parameter.
+    /// A set of remote locations to deploy additional instances to and manage as part of the fleet. This parameter can only be used when creating fleets in Amazon Web Services Regions that support multiple locations. You can add any Amazon GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2. To create a fleet with instances in the home Region only, don't use this parameter. To use this parameter, Amazon GameLift requires you to use your home location in the request.
     public var locations: [GameLiftClientTypes.LocationConfiguration]?
-    /// This parameter is no longer used. To specify where GameLift should store log files once a server process shuts down, use the GameLift server API ProcessReady() and specify one or more directory paths in logParameters. For more information, see [Initialize the server process](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-initialize) in the GameLift Developer Guide.
+    /// This parameter is no longer used. To specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. For more information, see [Initialize the server process](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-initialize) in the Amazon GameLift Developer Guide.
     public var logPaths: [Swift.String]?
     /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. A metric group is used to aggregate the metrics for multiple fleets. You can specify an existing metric group name or set a new name to create a new metric group. A fleet can be included in only one metric group at a time.
     public var metricGroups: [Swift.String]?
@@ -1714,15 +1714,15 @@ public struct CreateFleetInput: Swift.Equatable {
     ///
     /// * FullProtection - Game sessions in ACTIVE status cannot be terminated during a scale-down event.
     public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-    /// Used when peering your GameLift fleet with a VPC, the unique identifier for the Amazon Web Services account that owns the VPC. You can find your account ID in the Amazon Web Services Management Console under account settings.
+    /// Used when peering your Amazon GameLift fleet with a VPC, the unique identifier for the Amazon Web Services account that owns the VPC. You can find your account ID in the Amazon Web Services Management Console under account settings.
     public var peerVpcAwsAccountId: Swift.String?
-    /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
     public var peerVpcId: Swift.String?
     /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
     public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
     /// Instructions for how to launch and maintain server processes on instances in the fleet. The runtime configuration defines one or more server process configurations, each identifying a build executable or Realtime script file and the number of processes of that type to run concurrently. The RuntimeConfiguration parameter is required unless the fleet is being configured using the older parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
-    /// The unique identifier for a Realtime configuration script to be deployed on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to GameLift prior to creating the fleet. This fleet property cannot be changed later.
+    /// The unique identifier for a Realtime configuration script to be deployed on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift prior to creating the fleet. This fleet property cannot be changed later.
     public var scriptId: Swift.String?
     /// This parameter is no longer used. Specify server launch parameters using the RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
     public var serverLaunchParameters: Swift.String?
@@ -1956,7 +1956,7 @@ public struct CreateFleetLocationsInput: Swift.Equatable {
     /// A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2.
+    /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2.
     /// This member is required.
     public var locations: [GameLiftClientTypes.LocationConfiguration]?
 
@@ -2014,6 +2014,7 @@ extension CreateFleetLocationsOutputError {
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFleetStatusException" : self = .invalidFleetStatusException(try InvalidFleetStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedRegionException" : self = .unsupportedRegionException(try UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2027,6 +2028,7 @@ public enum CreateFleetLocationsOutputError: Swift.Error, Swift.Equatable {
     case internalServiceException(InternalServiceException)
     case invalidFleetStatusException(InvalidFleetStatusException)
     case invalidRequestException(InvalidRequestException)
+    case limitExceededException(LimitExceededException)
     case notFoundException(NotFoundException)
     case unauthorizedException(UnauthorizedException)
     case unsupportedRegionException(UnsupportedRegionException)
@@ -2050,11 +2052,11 @@ extension CreateFleetLocationsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct CreateFleetLocationsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that was updated with new locations.
     public var fleetId: Swift.String?
-    /// The remote locations that are being added to the fleet, and the life-cycle status of each location. For new locations, the status is set to NEW. During location creation, GameLift updates each location's status as instances are deployed there and prepared for game hosting. This list does not include the fleet home Region or any remote locations that were already added to the fleet.
+    /// The remote locations that are being added to the fleet, and the life-cycle status of each location. For new locations, the status is set to NEW. During location creation, Amazon GameLift updates each location's status as instances are deployed there and prepared for game hosting. This list does not include the fleet home Region or any remote locations that were already added to the fleet.
     public var locationStates: [GameLiftClientTypes.LocationState]?
 
     public init (
@@ -2155,7 +2157,7 @@ extension CreateFleetOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateFleetOutputResponse: Swift.Equatable {
     /// The properties for the new fleet, including the current status. All fleets are placed in NEW status on creation.
     public var fleetAttributes: GameLiftClientTypes.FleetAttributes?
-    /// The fleet's locations and life-cycle status of each location. For new fleets, the status of all locations is set to NEW. During fleet creation, GameLift updates each location status as instances are deployed there and prepared for game hosting. This list includes an entry for the fleet's home Region. For fleets with no remote locations, only one entry, representing the home Region, is returned.
+    /// The fleet's locations and life-cycle status of each location. For new fleets, the status of all locations is set to NEW. During fleet creation, Amazon GameLift updates each location status as instances are deployed there and prepared for game hosting. This list includes an entry for the fleet's home Region. For fleets with no remote locations, only one entry, representing the home Region, is returned.
     public var locationStates: [GameLiftClientTypes.LocationState]?
 
     public init (
@@ -2268,7 +2270,7 @@ extension CreateGameServerGroupInput: ClientRuntime.URLPathProvider {
 public struct CreateGameServerGroupInput: Swift.Equatable {
     /// Configuration settings to define a scaling policy for the Auto Scaling group that is optimized for game hosting. The scaling policy uses the metric "PercentUtilizedGameServers" to maintain a buffer of idle game servers that can immediately accommodate new games and players. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs.
     public var autoScalingPolicy: GameLiftClientTypes.GameServerGroupAutoScalingPolicy?
-    /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:
+    /// Indicates how Amazon GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:
     ///
     /// * SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.
     ///
@@ -2276,21 +2278,21 @@ public struct CreateGameServerGroupInput: Swift.Equatable {
     ///
     /// * ON_DEMAND_ONLY - Only On-Demand Instances are used in the game server group. No Spot Instances are used, even when available, while this balancing strategy is in force.
     public var balancingStrategy: GameLiftClientTypes.BalancingStrategy?
-    /// An identifier for the new game server group. This value is used to generate unique ARN identifiers for the Amazon EC2 Auto Scaling group and the GameLift FleetIQ game server group. The name must be unique per Region per Amazon Web Services account.
+    /// An identifier for the new game server group. This value is used to generate unique ARN identifiers for the Amazon EC2 Auto Scaling group and the Amazon GameLift FleetIQ game server group. The name must be unique per Region per Amazon Web Services account.
     /// This member is required.
     public var gameServerGroupName: Swift.String?
     /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default.
     public var gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy?
-    /// The Amazon EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon Elastic Compute Cloud User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see [ Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// The Amazon EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by Amazon GameLift FleetIQ. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon Elastic Compute Cloud User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see [ Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide.
     /// This member is required.
     public var instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]?
-    /// The Amazon EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the Amazon Elastic Compute Cloud Auto Scaling User Guide. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. If you specify network interfaces in your launch template, you must explicitly set the property AssociatePublicIpAddress to "true". If no network interface is specified in the launch template, GameLift FleetIQ uses your account's default VPC.
+    /// The Amazon EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the Amazon Elastic Compute Cloud Auto Scaling User Guide. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. If you specify network interfaces in your launch template, you must explicitly set the property AssociatePublicIpAddress to "true". If no network interface is specified in the launch template, Amazon GameLift FleetIQ uses your account's default VPC.
     /// This member is required.
     public var launchTemplate: GameLiftClientTypes.LaunchTemplateSpecification?
-    /// The maximum number of instances allowed in the Amazon EC2 Auto Scaling group. During automatic scaling events, GameLift FleetIQ and EC2 do not scale up the group above this maximum. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs.
+    /// The maximum number of instances allowed in the Amazon EC2 Auto Scaling group. During automatic scaling events, Amazon GameLift FleetIQ and EC2 do not scale up the group above this maximum. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs.
     /// This member is required.
     public var maxSize: Swift.Int?
-    /// The minimum number of instances allowed in the Amazon EC2 Auto Scaling group. During automatic scaling events, GameLift FleetIQ and Amazon EC2 do not scale down the group below this minimum. In production, this value should be set to at least 1. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs.
+    /// The minimum number of instances allowed in the Amazon EC2 Auto Scaling group. During automatic scaling events, Amazon GameLift FleetIQ and Amazon EC2 do not scale down the group below this minimum. In production, this value should be set to at least 1. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs.
     /// This member is required.
     public var minSize: Swift.Int?
     /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
@@ -2298,7 +2300,7 @@ public struct CreateGameServerGroupInput: Swift.Equatable {
     public var roleArn: Swift.String?
     /// A list of labels to assign to the new game server group resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management, and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all GameLift FleetIQ-supported Availability Zones are used. You can use this parameter to specify VPCs that you've set up. This property cannot be updated after the game server group is created, and the corresponding Auto Scaling group will always use the property value that is set with this request, even if the Auto Scaling group is updated directly.
+    /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all Amazon GameLift FleetIQ-supported Availability Zones are used. You can use this parameter to specify VPCs that you've set up. This property cannot be updated after the game server group is created, and the corresponding Auto Scaling group will always use the property value that is set with this request, even if the Auto Scaling group is updated directly.
     public var vpcSubnets: [Swift.String]?
 
     public init (
@@ -2455,7 +2457,7 @@ extension CreateGameServerGroupOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct CreateGameServerGroupOutputResponse: Swift.Equatable {
-    /// The newly created game server group object, including the new ARN value for the GameLift FleetIQ game server group and the object's status. The Amazon EC2 Auto Scaling group ARN is initially null, since the group has not yet been created. This value is added once the game server group status reaches ACTIVE.
+    /// The newly created game server group object, including the new ARN value for the Amazon GameLift FleetIQ game server group and the object's status. The Amazon EC2 Auto Scaling group ARN is initially null, since the group has not yet been created. This value is added once the game server group status reaches ACTIVE.
     public var gameServerGroup: GameLiftClientTypes.GameServerGroup?
 
     public init (
@@ -2543,7 +2545,7 @@ extension CreateGameSessionInput: ClientRuntime.URLPathProvider {
 public struct CreateGameSessionInput: Swift.Equatable {
     /// A unique identifier for the alias associated with the fleet to create a game session in. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var aliasId: Swift.String?
-    /// A unique identifier for a player or entity creating the game session. This parameter is required when requesting a new game session on a fleet with a resource creation limit policy. This type of policy limits the number of concurrent active game sessions that one player can create within a certain time span. GameLift uses the CreatorId to evaluate the new request against the policy.
+    /// A unique identifier for a player or entity creating the game session. If you add a resource creation limit policy to a fleet, the CreateGameSession operation requires a CreatorId. Amazon GameLift limits the number of game session creation requests with the same CreatorId in a specified time period. If you your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId, don't provide a CreatorId in your CreateGameSession request.
     public var creatorId: Swift.String?
     /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var fleetId: Swift.String?
@@ -3220,23 +3222,23 @@ public struct CreateMatchmakingConfigurationInput: Swift.Equatable {
     public var acceptanceTimeoutSeconds: Swift.Int?
     /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var additionalPlayerCount: Swift.Int?
-    /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in [ Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html). Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
+    /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have Amazon GameLift create a backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in [ Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html). Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
     public var backfillMode: GameLiftClientTypes.BackfillMode?
     /// Information to be added to all events related to this matchmaking configuration.
     public var customEventData: Swift.String?
     /// A human-readable description of the matchmaking configuration.
     public var description: Swift.String?
-    /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.
+    /// Indicates whether this matchmaking configuration is being used with Amazon GameLift hosting or as a standalone matchmaking solution.
     ///
     /// * STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a [ MatchmakingSucceeded](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded) event.
     ///
-    /// * WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
+    /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
     /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
     public var gameSessionQueueArns: [Swift.String]?
     /// A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
     /// This member is required.
@@ -3646,7 +3648,7 @@ public struct CreatePlayerSessionInput: Swift.Equatable {
     /// A unique identifier for the game session to add a player to.
     /// This member is required.
     public var gameSessionId: Swift.String?
-    /// Developer-defined information related to a player. GameLift does not use this data, so it can be formatted as needed for use in the game.
+    /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
     public var playerData: Swift.String?
     /// A unique identifier for a player. Player IDs are developer-defined.
     /// This member is required.
@@ -3981,13 +3983,13 @@ extension CreateScriptInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateScriptInput: Swift.Equatable {
-    /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
+    /// A descriptive label that is associated with a script. Script names don't need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
     public var name: Swift.String?
     /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
     public var storageLocation: GameLiftClientTypes.S3Location?
     /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// Version information associated with a build or script. Version strings do not need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
+    /// Version information associated with a build or script. Version strings don't need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
     public var version: Swift.String?
     /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
     public var zipFile: ClientRuntime.Data?
@@ -4143,10 +4145,10 @@ extension CreateVpcPeeringAuthorizationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVpcPeeringAuthorizationInput: Swift.Equatable {
-    /// A unique identifier for the Amazon Web Services account that you use to manage your GameLift fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings.
+    /// A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings.
     /// This member is required.
     public var gameLiftAwsAccountId: Swift.String?
-    /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
     /// This member is required.
     public var peerVpcId: Swift.String?
 
@@ -4282,7 +4284,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Equatable {
     /// A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the Amazon Web Services Management Console under account settings.
     /// This member is required.
     public var peerVpcAwsAccountId: Swift.String?
-    /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
     /// This member is required.
     public var peerVpcId: Swift.String?
 
@@ -4704,7 +4706,7 @@ extension DeleteFleetLocationsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DeleteFleetLocationsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that location attributes are being deleted for.
     public var fleetId: Swift.String?
@@ -5493,10 +5495,10 @@ extension DeleteVpcPeeringAuthorizationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVpcPeeringAuthorizationInput: Swift.Equatable {
-    /// A unique identifier for the Amazon Web Services account that you use to manage your GameLift fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings.
+    /// A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings.
     /// This member is required.
     public var gameLiftAwsAccountId: Swift.String?
-    /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
     /// This member is required.
     public var peerVpcId: Swift.String?
 
@@ -6250,7 +6252,7 @@ extension DescribeEC2InstanceLimitsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeEC2InstanceLimitsInput: Swift.Equatable {
-    /// Name of an Amazon EC2 instance type that is supported in GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Do not specify a value for this parameter to retrieve limits for all instance types.
+    /// Name of an Amazon EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Do not specify a value for this parameter to retrieve limits for all instance types.
     public var ec2InstanceType: GameLiftClientTypes.EC2InstanceType?
     /// The name of a remote location to request instance limits for, in the form of an Amazon Web Services Region code such as us-west-2.
     public var location: Swift.String?
@@ -7030,7 +7032,7 @@ extension DescribeFleetLocationAttributesOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct DescribeFleetLocationAttributesOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that location attributes were requested for.
     public var fleetId: Swift.String?
@@ -7463,7 +7465,7 @@ extension DescribeFleetPortSettingsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct DescribeFleetPortSettingsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that was requested.
     public var fleetId: Swift.String?
@@ -10394,7 +10396,7 @@ extension GameLiftClientTypes.DesiredPlayerSession: Swift.Codable {
 extension GameLiftClientTypes {
     /// Player information for use when creating player sessions using a game session placement request.
     public struct DesiredPlayerSession: Swift.Equatable {
-        /// Developer-defined information related to a player. GameLift does not use this data, so it can be formatted as needed for use in the game.
+        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
         public var playerData: Swift.String?
         /// A unique identifier for a player to associate with the player session.
         public var playerId: Swift.String?
@@ -10544,7 +10546,7 @@ extension GameLiftClientTypes.EC2InstanceLimit: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// The GameLift service limits for an Amazon EC2 instance type and current utilization. GameLift allows Amazon Web Services accounts a maximum number of instances, per instance type, per Amazon Web Services Region or location, for use with GameLift. You can request an limit increase for your account by using the Service limits page in the GameLift console.
+    /// The Amazon GameLift service limits for an Amazon EC2 instance type and current utilization. Amazon GameLift allows Amazon Web Services accounts a maximum number of instances, per instance type, per Amazon Web Services Region or location, for use with Amazon GameLift. You can request an limit increase for your account by using the Service limits page in the Amazon GameLift console.
     public struct EC2InstanceLimit: Swift.Equatable {
         /// The number of instances for the specified type and location that are currently being used by the Amazon Web Services account.
         public var currentInstances: Swift.Int?
@@ -10989,7 +10991,7 @@ extension GameLiftClientTypes.Event: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Log entry describing an event that involves GameLift resources (such as a fleet). In addition to tracking activity, event codes and messages can provide additional information for troubleshooting and debugging problems.
+    /// Log entry describing an event that involves Amazon GameLift resources (such as a fleet). In addition to tracking activity, event codes and messages can provide additional information for troubleshooting and debugging problems.
     public struct Event: Swift.Equatable {
         /// The type of event being logged. Fleet state transition events:
         ///
@@ -10997,11 +10999,11 @@ extension GameLiftClientTypes {
         ///
         /// * FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.
         ///
-        /// * FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. GameLift has successfully downloaded the build and is now validating the build files.
+        /// * FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully downloaded the build and is now validating the build files.
         ///
-        /// * FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. GameLift has successfully verified the build files and is now running the installation scripts.
+        /// * FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now running the installation scripts.
         ///
-        /// * FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. GameLift is trying to launch an instance and test the connectivity between the build and the GameLift Service via the Server SDK.
+        /// * FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is trying to launch an instance and test the connectivity between the build and the Amazon GameLift Service via the Server SDK.
         ///
         /// * FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.
         ///
@@ -11016,7 +11018,7 @@ extension GameLiftClientTypes {
         ///
         /// * FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and the GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.
         ///
-        /// * FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.
+        /// * FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.
         ///
         /// * FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.
         ///
@@ -11033,7 +11035,7 @@ extension GameLiftClientTypes {
         ///
         /// VPC peering events:
         ///
-        /// * FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an GameLift fleet and a VPC in your Amazon Web Services account.
+        /// * FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.
         ///
         /// * FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see [https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html](https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html)
         ///
@@ -11083,7 +11085,7 @@ extension GameLiftClientTypes {
         public var eventTime: ClientRuntime.Date?
         /// Additional information related to the event.
         public var message: Swift.String?
-        /// Location of stored logs with additional detail that is related to the event. This is useful for debugging issues. The URL is valid for 15 minutes. You can also access fleet creation logs through the GameLift console.
+        /// Location of stored logs with additional detail that is related to the event. This is useful for debugging issues. The URL is valid for 15 minutes. You can also access fleet creation logs through the Amazon GameLift console.
         public var preSignedLogUrl: Swift.String?
         /// A unique identifier for an event resource, such as a fleet ID.
         public var resourceId: Swift.String?
@@ -11512,23 +11514,23 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Describes a GameLift fleet of game hosting resources. Related actions
+    /// Describes a Amazon GameLift fleet of game hosting resources. Related actions
     public struct FleetAttributes: Swift.Equatable {
-        /// GameLift Anywhere configuration options for your Anywhere fleets.
+        /// Amazon GameLift Anywhere configuration options for your Anywhere fleets.
         public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the Amazon GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value.
         public var buildArn: Swift.String?
         /// A unique identifier for the build resource that is deployed on instances in this fleet.
         public var buildId: Swift.String?
-        /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
+        /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [Amazon GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
         public var certificateConfiguration: GameLiftClientTypes.CertificateConfiguration?
-        /// The type of compute resource used to host your game servers. You can use your own compute resources with GameLift Anywhere or use Amazon EC2 instances with managed GameLift.
+        /// The type of compute resource used to host your game servers. You can use your own compute resources with Amazon GameLift Anywhere or use Amazon EC2 instances with managed Amazon GameLift.
         public var computeType: GameLiftClientTypes.ComputeType?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
         /// A human-readable description of the fleet.
         public var description: Swift.String?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift fleet ARN, the resource ID matches the FleetId value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift fleet ARN, the resource ID matches the FleetId value.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet.
         public var fleetId: Swift.String?
@@ -11538,7 +11540,7 @@ extension GameLiftClientTypes {
         public var instanceRoleArn: Swift.String?
         /// The Amazon EC2 instance type that determines the computing resources of each instance in the fleet. Instance type defines the CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
-        /// This parameter is no longer used. Game session log paths are now defined using the GameLift server API ProcessReady()logParameters. See more information in the [Server API Reference](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api-ref.html#gamelift-sdk-server-api-ref-dataypes-process).
+        /// This parameter is no longer used. Game session log paths are now defined using the Amazon GameLift server API ProcessReady()logParameters. See more information in the [Server API Reference](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api-ref.html#gamelift-sdk-server-api-ref-dataypes-process).
         public var logPaths: [Swift.String]?
         /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time.
         public var metricGroups: [Swift.String]?
@@ -11552,7 +11554,7 @@ extension GameLiftClientTypes {
         public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
         /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet.
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
-        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public var scriptArn: Swift.String?
@@ -11566,7 +11568,7 @@ extension GameLiftClientTypes {
         ///
         /// * NEW -- A new fleet has been defined and desired instances is set to 1.
         ///
-        /// * DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- GameLift is setting up the new fleet, creating new instances with the game build or Realtime script and starting server processes.
+        /// * DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build or Realtime script and starting server processes.
         ///
         /// * ACTIVE -- Hosts can now accept game sessions.
         ///
@@ -11685,7 +11687,7 @@ extension GameLiftClientTypes.FleetCapacity: Swift.Codable {
 extension GameLiftClientTypes {
     /// Current resource capacity settings in a specified fleet or location. The location value might refer to a fleet's remote location or its home Region. Related actions [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html) | [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html) | [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html)
     public struct FleetCapacity: Swift.Equatable {
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet associated with the location.
         public var fleetId: Swift.String?
@@ -11917,7 +11919,7 @@ extension GameLiftClientTypes {
         public var activeServerProcessCount: Swift.Int?
         /// The number of active player sessions that are currently being hosted across all instances in the fleet location.
         public var currentPlayerSessionCount: Swift.Int?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet associated with the location.
         public var fleetId: Swift.String?
@@ -12006,7 +12008,7 @@ extension GameLiftClientTypes.GameProperty: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Set of key-value pairs that contain information about a game session. When included in a game session request, these properties communicate details to be used when setting up the new game session. For example, a game property might specify a game mode, level, or map. Game properties are passed to the game server process when initiating a new game session. For more information, see the [ GameLift Developer Guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#gamelift-sdk-client-api-create).
+    /// Set of key-value pairs that contain information about a game session. When included in a game session request, these properties communicate details to be used when setting up the new game session. For example, a game property might specify a game mode, level, or map. Game properties are passed to the game server process when initiating a new game session. For more information, see the [ Amazon GameLift Developer Guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#gamelift-sdk-client-api-create).
     public struct GameProperty: Swift.Equatable {
         /// The game property identifier.
         /// This member is required.
@@ -12107,7 +12109,7 @@ extension GameLiftClientTypes.GameServer: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. Properties describing a game server that is running on an instance in a game server group. A game server is created by a successful call to RegisterGameServer and deleted by calling DeregisterGameServer. A game server is claimed to host a game session by calling ClaimGameServer.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. Properties describing a game server that is running on an instance in a game server group. A game server is created by a successful call to RegisterGameServer and deleted by calling DeregisterGameServer. A game server is claimed to host a game session by calling ClaimGameServer.
     public struct GameServer: Swift.Equatable {
         /// Indicates when an available game server has been reserved for gameplay but has not yet started hosting a game. Once it is claimed, the game server remains in CLAIMED status for a maximum of one minute. During this time, game clients connect to the game server to start the game and trigger the game server to update its utilization status. After one minute, the game server claim status reverts to null.
         public var claimStatus: GameLiftClientTypes.GameServerClaimStatus?
@@ -12305,11 +12307,11 @@ extension GameLiftClientTypes.GameServerGroup: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. Properties that describe a game server group resource. A game server group manages certain properties related to a corresponding Amazon EC2 Auto Scaling group. A game server group is created by a successful call to CreateGameServerGroup and deleted by calling DeleteGameServerGroup. Game server group activity can be temporarily suspended and resumed by calling SuspendGameServerGroup and ResumeGameServerGroup, respectively.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. Properties that describe a game server group resource. A game server group manages certain properties related to a corresponding Amazon EC2 Auto Scaling group. A game server group is created by a successful call to CreateGameServerGroup and deleted by calling DeleteGameServerGroup. Game server group activity can be temporarily suspended and resumed by calling SuspendGameServerGroup and ResumeGameServerGroup, respectively.
     public struct GameServerGroup: Swift.Equatable {
         /// A generated unique ID for the Amazon EC2 Auto Scaling group that is associated with this game server group.
         public var autoScalingGroupArn: Swift.String?
-        /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:
+        /// Indicates how Amazon GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:
         ///
         /// * SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.
         ///
@@ -12325,7 +12327,7 @@ extension GameLiftClientTypes {
         public var gameServerGroupName: Swift.String?
         /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status.
         public var gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy?
-        /// The set of Amazon EC2 instance types that GameLift FleetIQ can use when balancing and automatically scaling instances in the corresponding Auto Scaling group.
+        /// The set of Amazon EC2 instance types that Amazon GameLift FleetIQ can use when balancing and automatically scaling instances in the corresponding Auto Scaling group.
         public var instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]?
         /// A timestamp that indicates when this game server group was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
@@ -12333,15 +12335,15 @@ extension GameLiftClientTypes {
         public var roleArn: Swift.String?
         /// The current status of the game server group. Possible statuses include:
         ///
-        /// * NEW - GameLift FleetIQ has validated the CreateGameServerGroup() request.
+        /// * NEW - Amazon GameLift FleetIQ has validated the CreateGameServerGroup() request.
         ///
-        /// * ACTIVATING - GameLift FleetIQ is setting up a game server group, which includes creating an Auto Scaling group in your Amazon Web Services account.
+        /// * ACTIVATING - Amazon GameLift FleetIQ is setting up a game server group, which includes creating an Auto Scaling group in your Amazon Web Services account.
         ///
         /// * ACTIVE - The game server group has been successfully created.
         ///
         /// * DELETE_SCHEDULED - A request to delete the game server group has been received.
         ///
-        /// * DELETING - GameLift FleetIQ has received a valid DeleteGameServerGroup() request and is processing it. GameLift FleetIQ must first complete and release hosts before it deletes the Auto Scaling group and the game server group.
+        /// * DELETING - Amazon GameLift FleetIQ has received a valid DeleteGameServerGroup() request and is processing it. Amazon GameLift FleetIQ must first complete and release hosts before it deletes the Auto Scaling group and the game server group.
         ///
         /// * DELETED - The game server group has been successfully deleted.
         ///
@@ -12439,11 +12441,11 @@ extension GameLiftClientTypes.GameServerGroupAutoScalingPolicy: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. Configuration settings for intelligent automatic scaling that uses target tracking. These settings are used to add an Auto Scaling policy when creating the corresponding Auto Scaling group. After the Auto Scaling group is created, all updates to Auto Scaling policies, including changing this policy and adding or removing other policies, is done directly on the Auto Scaling group.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. Configuration settings for intelligent automatic scaling that uses target tracking. These settings are used to add an Auto Scaling policy when creating the corresponding Auto Scaling group. After the Auto Scaling group is created, all updates to Auto Scaling policies, including changing this policy and adding or removing other policies, is done directly on the Auto Scaling group.
     public struct GameServerGroupAutoScalingPolicy: Swift.Equatable {
-        /// Length of time, in seconds, it takes for a new instance to start new game server processes and register with GameLift FleetIQ. Specifying a warm-up time can be useful, particularly with game servers that take a long time to start up, because it avoids prematurely starting new instances.
+        /// Length of time, in seconds, it takes for a new instance to start new game server processes and register with Amazon GameLift FleetIQ. Specifying a warm-up time can be useful, particularly with game servers that take a long time to start up, because it avoids prematurely starting new instances.
         public var estimatedInstanceWarmup: Swift.Int?
-        /// Settings for a target-based scaling policy applied to Auto Scaling group. These settings are used to create a target-based policy that tracks the GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
+        /// Settings for a target-based scaling policy applied to Auto Scaling group. These settings are used to create a target-based policy that tracks the Amazon GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
         /// This member is required.
         public var targetTrackingConfiguration: GameLiftClientTypes.TargetTrackingConfiguration?
 
@@ -12898,7 +12900,7 @@ extension GameLiftClientTypes.GameServerInstance: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. Additional properties, including status, that describe an EC2 instance in a game server group. Instance configurations are set with game server group properties (see DescribeGameServerGroup and with the EC2 launch template that was used when creating the game server group. Retrieve game server instances for a game server group by calling DescribeGameServerInstances.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. Additional properties, including status, that describe an EC2 instance in a game server group. Instance configurations are set with game server group properties (see DescribeGameServerGroup and with the EC2 launch template that was used when creating the game server group. Retrieve game server instances for a game server group by calling DescribeGameServerInstances.
     public struct GameServerInstance: Swift.Equatable {
         /// A generated unique identifier for the game server group that includes the game server instance.
         public var gameServerGroupArn: Swift.String?
@@ -13191,7 +13193,7 @@ extension GameLiftClientTypes {
         public var gameSessionData: Swift.String?
         /// A unique identifier for the game session. A game session ARN has the following format: arn:aws:gamelift:::gamesession//.
         public var gameSessionId: Swift.String?
-        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
+        /// The IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public var ipAddress: Swift.String?
         /// The fleet location where the game session is running. This value might specify the fleet's home Region or a remote location. Location is expressed as an Amazon Web Services Region code such as us-west-2.
         public var location: Swift.String?
@@ -13203,7 +13205,7 @@ extension GameLiftClientTypes {
         public var name: Swift.String?
         /// Indicates whether or not the game session is accepting new players.
         public var playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy?
-        /// The port number for the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
+        /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public var port: Swift.Int?
         /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
         public var status: GameLiftClientTypes.GameSessionStatus?
@@ -13327,11 +13329,11 @@ extension GameLiftClientTypes {
         public var dnsName: Swift.String?
         /// A unique identifier for the game session. Use the game session ID.
         public var gameSessionArn: Swift.String?
-        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
+        /// The IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public var ipAddress: Swift.String?
         /// A collection of player session IDs, one for each player ID that was included in the original matchmaking request.
         public var matchedPlayerSessions: [GameLiftClientTypes.MatchedPlayerSession]?
-        /// The port number for the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
+        /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public var port: Swift.Int?
 
         public init (
@@ -13637,7 +13639,7 @@ extension GameLiftClientTypes {
         public var gameSessionQueueName: Swift.String?
         /// Name of the Region where the game session created by this placement request is running. This value is set once the new game session is placed (placement status is FULFILLED).
         public var gameSessionRegion: Swift.String?
-        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// The IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
         public var ipAddress: Swift.String?
         /// Information on the matchmaking process for this game. Data is in JSON syntax, formatted as a string. It identifies the matchmaking configuration used to create the match, and contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).
         public var matchmakerData: Swift.String?
@@ -13649,7 +13651,7 @@ extension GameLiftClientTypes {
         public var placementId: Swift.String?
         /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
         public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
-        /// The port number for the game session. To connect to a GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
         public var port: Swift.Int?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var startTime: ClientRuntime.Date?
@@ -13663,7 +13665,7 @@ extension GameLiftClientTypes {
         ///
         /// * TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.
         ///
-        /// * FAILED -- GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
+        /// * FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
         public var status: GameLiftClientTypes.GameSessionPlacementState?
 
         public init (
@@ -13851,7 +13853,7 @@ extension GameLiftClientTypes {
         public var destinations: [GameLiftClientTypes.GameSessionQueueDestination]?
         /// A list of locations where a queue is allowed to place new game sessions. Locations are specified in the form of Amazon Web Services Region codes, such as us-west-2. If this parameter is not set, game sessions can be placed in any queue location.
         public var filterConfiguration: GameLiftClientTypes.FilterConfiguration?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. In a GameLift game session queue ARN, the resource ID matches the Name value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. In a Amazon GameLift game session queue ARN, the resource ID matches the Name value.
         public var gameSessionQueueArn: Swift.String?
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region.
         public var name: Swift.String?
@@ -14110,13 +14112,13 @@ extension GetComputeAccessOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComputeAccessOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var computeArn: Swift.String?
     /// The name of the compute resource you requested credentials for.
     public var computeName: Swift.String?
     /// The access credentials for the compute resource.
     public var credentials: GameLiftClientTypes.AwsCredentials?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// The fleet ID of compute resource.
     public var fleetId: Swift.String?
@@ -14193,7 +14195,7 @@ extension GetComputeAuthTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetComputeAuthTokenInput: Swift.Equatable {
-    /// The name of the compute resource you are requesting the authorization token for.
+    /// The name of the compute resource you are requesting the authentication token for.
     /// This member is required.
     public var computeName: Swift.String?
     /// A unique identifier for the fleet that the compute is registered to.
@@ -14281,15 +14283,15 @@ extension GetComputeAuthTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComputeAuthTokenOutputResponse: Swift.Equatable {
-    /// The authorization token that your game server uses to authenticate with GameLift.
+    /// The authentication token that your game server uses to authenticate with Amazon GameLift.
     public var authToken: Swift.String?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912
     public var computeArn: Swift.String?
-    /// The name of the compute resource you are requesting the authorization token for.
+    /// The name of the compute resource you are requesting the authentication token for.
     public var computeName: Swift.String?
-    /// The amount of time until the authorization token is no longer valid. To continue using the compute resource for game server hosting, renew the authorization token by using this operation again.
+    /// The amount of time until the authentication token is no longer valid. To continue using the compute resource for game server hosting, renew the authentication token by using this operation again.
     public var expirationTimestamp: ClientRuntime.Date?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that the compute is registered to.
     public var fleetId: Swift.String?
@@ -14718,7 +14720,7 @@ extension GameLiftClientTypes.Instance: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Represents an EC2 instance of virtual computing resources that hosts one or more game servers. In GameLift, a fleet can contain zero or more instances. Related actions
+    /// Represents an EC2 instance of virtual computing resources that hosts one or more game servers. In Amazon GameLift, a fleet can contain zero or more instances. Related actions
     public struct Instance: Swift.Equatable {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
@@ -14731,7 +14733,7 @@ extension GameLiftClientTypes {
         ///
         /// When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public var dnsName: Swift.String?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the instance is in.
         public var fleetId: Swift.String?
@@ -14747,7 +14749,7 @@ extension GameLiftClientTypes {
         ///
         /// * PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.
         ///
-        /// * ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.
+        /// * ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.
         ///
         /// * TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
         public var status: GameLiftClientTypes.InstanceStatus?
@@ -14939,12 +14941,12 @@ extension GameLiftClientTypes.InstanceDefinition: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. An allowed instance type for a game server group. All game server groups must have at least two instance types defined for it. GameLift FleetIQ periodically evaluates each defined instance type for viability. It then updates the Auto Scaling group with the list of viable instance types.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. An allowed instance type for a game server group. All game server groups must have at least two instance types defined for it. Amazon GameLift FleetIQ periodically evaluates each defined instance type for viability. It then updates the Auto Scaling group with the list of viable instance types.
     public struct InstanceDefinition: Swift.Equatable {
         /// An Amazon EC2 instance type designation.
         /// This member is required.
         public var instanceType: GameLiftClientTypes.GameServerGroupInstanceType?
-        /// Instance weighting that indicates how much this instance type contributes to the total capacity of a game server group. Instance weights are used by GameLift FleetIQ to calculate the instance type's cost per unit hour and better identify the most cost-effective options. For detailed information on weighting instance capacity, see [Instance Weighting](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon Elastic Compute Cloud Auto Scaling User Guide. Default value is "1".
+        /// Instance weighting that indicates how much this instance type contributes to the total capacity of a game server group. Instance weights are used by Amazon GameLift FleetIQ to calculate the instance type's cost per unit hour and better identify the most cost-effective options. For detailed information on weighting instance capacity, see [Instance Weighting](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon Elastic Compute Cloud Auto Scaling User Guide. Default value is "1".
         public var weightedCapacity: Swift.String?
 
         public init (
@@ -15236,9 +15238,9 @@ extension GameLiftClientTypes.IpPermission: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A range of IP addresses and port settings that allow inbound traffic to connect to server processes on an instance in a fleet. New game sessions are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. Fleets with custom game builds must have permissions explicitly set. For Realtime Servers fleets, GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
+    /// A range of IP addresses and port settings that allow inbound traffic to connect to server processes on an instance in a fleet. New game sessions are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. Fleets with custom game builds must have permissions explicitly set. For Realtime Servers fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
     public struct IpPermission: Swift.Equatable {
-        /// A starting value for a range of allowed port numbers. For fleets using Windows and Linux builds, only ports 1026-60000 are valid.
+        /// A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid.
         /// This member is required.
         public var fromPort: Swift.Int?
         /// A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask]" or optionally the shortened version "0.0.0.0/[subnet mask]".
@@ -15247,7 +15249,7 @@ extension GameLiftClientTypes {
         /// The network communication protocol used by the fleet.
         /// This member is required.
         public var `protocol`: GameLiftClientTypes.IpProtocol?
-        /// An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort. For fleets using Windows and Linux builds, only ports 1026-60000 are valid.
+        /// An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid.
         /// This member is required.
         public var toPort: Swift.Int?
 
@@ -15331,7 +15333,7 @@ extension GameLiftClientTypes.LaunchTemplateSpecification: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. An Amazon Elastic Compute Cloud launch template that contains configuration settings and game server code to be deployed to all instances in a game server group. The launch template is specified when creating a new game server group.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. An Amazon Elastic Compute Cloud launch template that contains configuration settings and game server code to be deployed to all instances in a game server group. The launch template is specified when creating a new game server group.
     public struct LaunchTemplateSpecification: Swift.Equatable {
         /// A unique identifier for an existing Amazon EC2 launch template.
         public var launchTemplateId: Swift.String?
@@ -15607,7 +15609,7 @@ extension ListBuildsInput: ClientRuntime.URLPathProvider {
 public struct ListBuildsInput: Swift.Equatable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
-    /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+    /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, don't specify a value.
     public var nextToken: Swift.String?
     /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:
     ///
@@ -16585,7 +16587,7 @@ extension ListScriptsInput: ClientRuntime.URLPathProvider {
 public struct ListScriptsInput: Swift.Equatable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
-    /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+    /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, don't specify a value.
     public var nextToken: Swift.String?
 
     public init (
@@ -16723,7 +16725,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to and uniquely identifies the GameLift resource that you want to retrieve tags for. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe operation for the resource type.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that uniquely identifies the Amazon GameLift resource that you want to retrieve tags for. Amazon GameLift includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -16792,7 +16794,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
-    /// The collection of tags that have been assigned to the specified resource.
+    /// The collection of tags assigned to the resource.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init (
@@ -16915,7 +16917,7 @@ extension GameLiftClientTypes.LocationConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A remote location where a multi-location fleet can deploy EC2 instances for game hosting.
+    /// A remote location where a multi-location fleet can deploy game servers for game hosting.
     public struct LocationConfiguration: Swift.Equatable {
         /// An Amazon Web Services Region code, such as us-west-2.
         /// This member is required.
@@ -16991,7 +16993,7 @@ extension GameLiftClientTypes.LocationModel: Swift.Codable {
 extension GameLiftClientTypes {
     /// Properties of a location
     public struct LocationModel: Swift.Equatable {
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift location resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::location/location-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift location resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::location/location-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var locationArn: Swift.String?
         /// The location's name.
         public var locationName: Swift.String?
@@ -17038,7 +17040,7 @@ extension GameLiftClientTypes {
     ///
     /// * NEW -- A new fleet location has been defined and desired instances is set to 1.
     ///
-    /// * DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- GameLift is setting up the new fleet location, creating new instances with the game build or Realtime script and starting server processes.
+    /// * DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet location, creating new instances with the game build or Realtime script and starting server processes.
     ///
     /// * ACTIVE -- Hosts can now accept game sessions.
     ///
@@ -17291,7 +17293,7 @@ extension GameLiftClientTypes {
         public var additionalPlayerCount: Swift.Int?
         /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates backfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in [Backfill existing games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html). Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public var backfillMode: GameLiftClientTypes.BackfillMode?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift matchmaking configuration resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::matchmakingconfiguration/. In a GameLift configuration ARN, the resource ID matches the Name value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift matchmaking configuration resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::matchmakingconfiguration/. In a Amazon GameLift configuration ARN, the resource ID matches the Name value.
         public var configurationArn: Swift.String?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
@@ -17299,17 +17301,17 @@ extension GameLiftClientTypes {
         public var customEventData: Swift.String?
         /// A descriptive label that is associated with matchmaking configuration.
         public var description: Swift.String?
-        /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.
+        /// Indicates whether this matchmaking configuration is being used with Amazon GameLift hosting or as a standalone matchmaking solution.
         ///
         /// * STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a [ MatchmakingSucceeded](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded) event.
         ///
-        /// * WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
+        /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift queue to start a game session for the match.
         public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
         /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var gameSessionData: Swift.String?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. This property is not set when FlexMatchMode is set to STANDALONE.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that are created with this matchmaking configuration. This property is not set when FlexMatchMode is set to STANDALONE.
         public var gameSessionQueueArns: [Swift.String]?
         /// A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public var name: Swift.String?
@@ -17464,7 +17466,7 @@ extension GameLiftClientTypes {
     public struct MatchmakingRuleSet: Swift.Equatable {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift matchmaking rule set resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::matchmakingruleset/. In a GameLift rule set ARN, the resource ID matches the RuleSetName value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift matchmaking rule set resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::matchmakingruleset/. In a GameLift rule set ARN, the resource ID matches the RuleSetName value.
         public var ruleSetArn: Swift.String?
         /// A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
         /// This member is required.
@@ -17772,6 +17774,7 @@ extension GameLiftClientTypes {
         case amazonLinux
         case amazonLinux2
         case windows2012
+        case windows2016
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OperatingSystem] {
@@ -17779,6 +17782,7 @@ extension GameLiftClientTypes {
                 .amazonLinux,
                 .amazonLinux2,
                 .windows2012,
+                .windows2016,
                 .sdkUnknown("")
             ]
         }
@@ -17791,6 +17795,7 @@ extension GameLiftClientTypes {
             case .amazonLinux: return "AMAZON_LINUX"
             case .amazonLinux2: return "AMAZON_LINUX_2"
             case .windows2012: return "WINDOWS_2012"
+            case .windows2016: return "WINDOWS_2016"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18192,9 +18197,9 @@ extension GameLiftClientTypes {
         public var fleetId: Swift.String?
         /// A unique identifier for the game session that the player session is connected to.
         public var gameSessionId: Swift.String?
-        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
+        /// The IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public var ipAddress: Swift.String?
-        /// Developer-defined information related to a player. GameLift does not use this data, so it can be formatted as needed for use in the game.
+        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
         public var playerData: Swift.String?
         /// A unique identifier for a player that is associated with this player session.
         public var playerId: Swift.String?
@@ -18537,7 +18542,7 @@ extension PutScalingPolicyInput: Swift.Encodable {
         if let policyType = self.policyType {
             try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
         }
-        if scalingAdjustment != 0 {
+        if let scalingAdjustment = self.scalingAdjustment {
             try encodeContainer.encode(scalingAdjustment, forKey: .scalingAdjustment)
         }
         if let scalingAdjustmentType = self.scalingAdjustmentType {
@@ -18546,7 +18551,7 @@ extension PutScalingPolicyInput: Swift.Encodable {
         if let targetConfiguration = self.targetConfiguration {
             try encodeContainer.encode(targetConfiguration, forKey: .targetConfiguration)
         }
-        if threshold != 0.0 {
+        if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
         }
     }
@@ -18597,7 +18602,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
     public var policyType: GameLiftClientTypes.PolicyType?
     /// Amount of adjustment to make, based on the scaling adjustment type.
-    public var scalingAdjustment: Swift.Int
+    public var scalingAdjustment: Swift.Int?
     /// The type of adjustment to make to a fleet's instance count:
     ///
     /// * ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.
@@ -18609,7 +18614,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// An object that contains settings for a target-based scaling policy.
     public var targetConfiguration: GameLiftClientTypes.TargetConfiguration?
     /// Metric value used to trigger a scaling event.
-    public var threshold: Swift.Double
+    public var threshold: Swift.Double?
 
     public init (
         comparisonOperator: GameLiftClientTypes.ComparisonOperatorType? = nil,
@@ -18618,10 +18623,10 @@ public struct PutScalingPolicyInput: Swift.Equatable {
         metricName: GameLiftClientTypes.MetricName? = nil,
         name: Swift.String? = nil,
         policyType: GameLiftClientTypes.PolicyType? = nil,
-        scalingAdjustment: Swift.Int = 0,
+        scalingAdjustment: Swift.Int? = nil,
         scalingAdjustmentType: GameLiftClientTypes.ScalingAdjustmentType? = nil,
         targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
-        threshold: Swift.Double = 0.0
+        threshold: Swift.Double? = nil
     )
     {
         self.comparisonOperator = comparisonOperator
@@ -18640,9 +18645,9 @@ public struct PutScalingPolicyInput: Swift.Equatable {
 struct PutScalingPolicyInputBody: Swift.Equatable {
     let name: Swift.String?
     let fleetId: Swift.String?
-    let scalingAdjustment: Swift.Int
+    let scalingAdjustment: Swift.Int?
     let scalingAdjustmentType: GameLiftClientTypes.ScalingAdjustmentType?
-    let threshold: Swift.Double
+    let threshold: Swift.Double?
     let comparisonOperator: GameLiftClientTypes.ComparisonOperatorType?
     let evaluationPeriods: Swift.Int?
     let metricName: GameLiftClientTypes.MetricName?
@@ -18670,11 +18675,11 @@ extension PutScalingPolicyInputBody: Swift.Decodable {
         name = nameDecoded
         let fleetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fleetId)
         fleetId = fleetIdDecoded
-        let scalingAdjustmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scalingAdjustment) ?? 0
+        let scalingAdjustmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scalingAdjustment)
         scalingAdjustment = scalingAdjustmentDecoded
         let scalingAdjustmentTypeDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ScalingAdjustmentType.self, forKey: .scalingAdjustmentType)
         scalingAdjustmentType = scalingAdjustmentTypeDecoded
-        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold) ?? 0.0
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
         threshold = thresholdDecoded
         let comparisonOperatorDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ComparisonOperatorType.self, forKey: .comparisonOperator)
         comparisonOperator = comparisonOperatorDecoded
@@ -18797,17 +18802,17 @@ extension RegisterComputeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterComputeInput: Swift.Equatable {
-    /// The path to the TLS certificate on your compute resource. The path and certificate are not validated by GameLift.
+    /// The path to the TLS certificate on your compute resource. The path and certificate are not validated by Amazon GameLift.
     public var certificatePath: Swift.String?
     /// A descriptive label that is associated with the compute resource registered to your fleet.
     /// This member is required.
     public var computeName: Swift.String?
-    /// The DNS name of the compute resource. GameLift requires the DNS name or IP address to manage your compute resource.
+    /// The DNS name of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
     public var dnsName: Swift.String?
     /// A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// The IP address of the compute resource. GameLift requires the DNS name or IP address to manage your compute resource.
+    /// The IP address of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
     public var ipAddress: Swift.String?
     /// The name of the custom location you added to the fleet you are registering this compute resource to.
     public var location: Swift.String?
@@ -19387,9 +19392,9 @@ extension GameLiftClientTypes.ResourceCreationLimitPolicy: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+    /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
     public struct ResourceCreationLimitPolicy: Swift.Equatable {
-        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var newGameSessionsPerCreator: Swift.Int?
         /// The time span used in evaluating the resource creation limit policy.
         public var policyPeriodInMinutes: Swift.Int?
@@ -19682,7 +19687,7 @@ extension GameLiftClientTypes.RuntimeConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A collection of server process configurations that describe the set of processes to run on each instance in a fleet. Server processes run either an executable in a custom game build or a Realtime Servers script. GameLift launches the configured processes, manages their life cycle, and replaces them as needed. Each instance checks regularly for an updated runtime configuration. A GameLift instance is limited to 50 processes running concurrently. To calculate the total number of processes in a runtime configuration, add the values of the ConcurrentExecutions parameter for each server process. Learn more about [ Running Multiple Processes on a Fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
+    /// A collection of server process configurations that describe the set of processes to run on each instance in a fleet. Server processes run either an executable in a custom game build or a Realtime Servers script. Amazon GameLift launches the configured processes, manages their life cycle, and replaces them as needed. Each instance checks regularly for an updated runtime configuration. A Amazon GameLift instance is limited to 50 processes running concurrently. To calculate the total number of processes in a runtime configuration, add the values of the ConcurrentExecutions parameter for each server process. Learn more about [ Running Multiple Processes on a Fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
     public struct RuntimeConfiguration: Swift.Equatable {
         /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public var gameSessionActivationTimeoutSeconds: Swift.Int?
@@ -19745,7 +19750,7 @@ extension GameLiftClientTypes.S3Location: Swift.Codable {
 extension GameLiftClientTypes {
     /// The location in Amazon S3 where build or script files are stored for access by Amazon GameLift.
     public struct S3Location: Swift.Equatable {
-        /// An Amazon S3 bucket identifier. Thename of the S3 bucket. GameLift doesn't support uploading from Amazon S3 buckets with names that contain a dot (.).
+        /// An Amazon S3 bucket identifier. Thename of the S3 bucket. Amazon GameLift doesn't support uploading from Amazon S3 buckets with names that contain a dot (.).
         public var bucket: Swift.String?
         /// The name of the zip file that contains the build files or script files.
         public var key: Swift.String?
@@ -19909,7 +19914,7 @@ extension GameLiftClientTypes {
         public var comparisonOperator: GameLiftClientTypes.ComparisonOperatorType?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         public var evaluationPeriods: Swift.Int?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that is associated with this scaling policy.
         public var fleetId: Swift.String?
@@ -20119,9 +20124,9 @@ extension GameLiftClientTypes {
     public struct Script: Swift.Equatable {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
-        /// A descriptive label that is associated with a script. Script names do not need to be unique.
+        /// A descriptive label that is associated with a script. Script names don't need to be unique.
         public var name: Swift.String?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public var scriptArn: Swift.String?
         /// A unique identifier for the Realtime script
         public var scriptId: Swift.String?
@@ -20129,7 +20134,7 @@ extension GameLiftClientTypes {
         public var sizeOnDisk: Swift.Int?
         /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public var storageLocation: GameLiftClientTypes.S3Location?
-        /// Version information associated with a build or script. Version strings do not need to be unique.
+        /// Version information associated with a build or script. Version strings don't need to be unique.
         public var version: Swift.String?
 
         public init (
@@ -20616,7 +20621,7 @@ extension StartFleetActionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct StartFleetActionsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet to restart actions on.
     public var fleetId: Swift.String?
@@ -21341,7 +21346,7 @@ extension StopFleetActionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct StopFleetActionsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet to stop actions on.
     public var fleetId: Swift.String?
@@ -21745,12 +21750,12 @@ extension GameLiftClientTypes.Tag: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A label that can be assigned to a GameLift resource. Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/) Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// A label that you can assign to a Amazon GameLift resource. Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/) Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct Tag: Swift.Equatable {
-        /// The key for a developer-defined key:value pair for tagging an Amazon Web Services resource.
+        /// The key for a developer-defined key value pair for tagging an Amazon Web Services resource.
         /// This member is required.
         public var key: Swift.String?
-        /// The value for a developer-defined key:value pair for tagging an Amazon Web Services resource.
+        /// The value for a developer-defined key value pair for tagging an Amazon Web Services resource.
         /// This member is required.
         public var value: Swift.String?
 
@@ -21793,10 +21798,10 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to and uniquely identifies the GameLift resource that you want to assign tags to. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe operation for the resource type.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that uniquely identifies the Amazon GameLift resource that you want to assign tags to. Amazon GameLift includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type.
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// A list of one or more tags to assign to the specified GameLift resource. Tags are developer-defined and structured as key-value pairs. The maximum tag limit may be lower than stated. See [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for actual tagging limits.
+    /// A list of one or more tags to assign to the specified Amazon GameLift resource. Tags are developer-defined and structured as key-value pairs. The maximum tag limit may be lower than stated. See [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for tagging limits.
     /// This member is required.
     public var tags: [GameLiftClientTypes.Tag]?
 
@@ -21984,7 +21989,7 @@ extension GameLiftClientTypes.TargetTrackingConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This data type is used with the GameLift FleetIQ and game server groups. Settings for a target-based scaling policy as part of a [GameServerGroupAutoScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerGroupAutoScalingPolicy.html) . These settings are used to create a target-based policy that tracks the GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
+    /// This data type is used with the Amazon GameLift FleetIQ and game server groups. Settings for a target-based scaling policy as part of a [GameServerGroupAutoScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerGroupAutoScalingPolicy.html) . These settings are used to create a target-based policy that tracks the Amazon GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
     public struct TargetTrackingConfiguration: Swift.Equatable {
         /// Desired value to use with a game server group target-based scaling policy.
         /// This member is required.
@@ -22180,10 +22185,10 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to and uniquely identifies the GameLift resource that you want to remove tags from. GameLift resource ARNs are included in the data object for the resource, which can be retrieved by calling a List or Describe operation for the resource type.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that uniquely identifies the Amazon GameLift resource that you want to remove tags from. Amazon GameLift includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type.
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// A list of one or more tag keys to remove from the specified GameLift resource. An Amazon Web Services resource can have only one tag with a specific tag key, so specifying the tag key identifies which tag to remove.
+    /// A list of one or more tag keys to remove from the specified Amazon GameLift resource.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -22447,9 +22452,9 @@ public struct UpdateBuildInput: Swift.Equatable {
     /// A unique identifier for the build to update. You can use either the build ID or ARN value.
     /// This member is required.
     public var buildId: Swift.String?
-    /// A descriptive label associated with a build. Build names do not need to be unique.
+    /// A descriptive label associated with a build. Build names don't need to be unique.
     public var name: Swift.String?
-    /// Version information associated with a build or script. Version strings do not need to be unique.
+    /// Version information associated with a build or script. Version strings don't need to be unique.
     public var version: Swift.String?
 
     public init (
@@ -22603,7 +22608,7 @@ extension UpdateFleetAttributesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFleetAttributesInput: Swift.Equatable {
-    /// GameLift Anywhere configuration options.
+    /// Amazon GameLift Anywhere configuration options.
     public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
     /// A human-readable description of a fleet.
     public var description: Swift.String?
@@ -22741,7 +22746,7 @@ extension UpdateFleetAttributesOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct UpdateFleetAttributesOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that was updated.
     public var fleetId: Swift.String?
@@ -22925,7 +22930,7 @@ extension UpdateFleetCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateFleetCapacityOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that was updated.
     public var fleetId: Swift.String?
@@ -23113,7 +23118,7 @@ extension UpdateFleetPortSettingsOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct UpdateFleetPortSettingsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
     /// A unique identifier for the fleet that was updated.
     public var fleetId: Swift.String?
@@ -23187,7 +23192,7 @@ extension UpdateGameServerGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateGameServerGroupInput: Swift.Equatable {
-    /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:
+    /// Indicates how Amazon GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:
     ///
     /// * SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.
     ///
@@ -23200,7 +23205,7 @@ public struct UpdateGameServerGroupInput: Swift.Equatable {
     public var gameServerGroupName: Swift.String?
     /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default.
     public var gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy?
-    /// An updated list of Amazon EC2 instance types to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. This updated list replaces the entire current list of instance definitions for the game server group. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see [ Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// An updated list of Amazon EC2 instance types to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by Amazon GameLift FleetIQ. This updated list replaces the entire current list of instance definitions for the game server group. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see [ Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]?
     /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
     public var roleArn: Swift.String?
@@ -23981,17 +23986,17 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Equatable {
     public var customEventData: Swift.String?
     /// A description for the matchmaking configuration.
     public var description: Swift.String?
-    /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.
+    /// Indicates whether this matchmaking configuration is being used with Amazon GameLift hosting or as a standalone matchmaking solution.
     ///
     /// * STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a [ MatchmakingSucceeded](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded) event.
     ///
-    /// * WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
+    /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
     /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
     public var gameSessionQueueArns: [Swift.String]?
     /// A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value.
     /// This member is required.
@@ -24218,7 +24223,7 @@ public struct UpdateRuntimeConfigurationInput: Swift.Equatable {
     /// A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// Instructions for alaunching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run on an instance, how to launch them, and the number of processes to run concurrently.
+    /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run on an instance, how to launch them, and the number of processes to run concurrently.
     /// This member is required.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
 
@@ -24358,14 +24363,14 @@ extension UpdateScriptInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateScriptInput: Swift.Equatable {
-    /// A descriptive label that is associated with a script. Script names do not need to be unique.
+    /// A descriptive label that is associated with a script. Script names don't need to be unique.
     public var name: Swift.String?
     /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value.
     /// This member is required.
     public var scriptId: Swift.String?
     /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
     public var storageLocation: GameLiftClientTypes.S3Location?
-    /// Version information associated with a build or script. Version strings do not need to be unique.
+    /// Version information associated with a build or script. Version strings don't need to be unique.
     public var version: Swift.String?
     /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
     public var zipFile: ClientRuntime.Data?
@@ -24650,11 +24655,11 @@ extension GameLiftClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// Time stamp indicating when this authorization expires (24 hours after issuance). Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var expirationTime: ClientRuntime.Date?
-        /// A unique identifier for the Amazon Web Services account that you use to manage your GameLift fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings.
+        /// A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings.
         public var gameLiftAwsAccountId: Swift.String?
         /// The authorization's peer VPC Amazon Web Services account ID.
         public var peerVpcAwsAccountId: Swift.String?
-        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
         public var peerVpcId: Swift.String?
 
         public init (
@@ -24741,7 +24746,7 @@ extension GameLiftClientTypes {
         public var gameLiftVpcId: Swift.String?
         /// CIDR block of IPv4 addresses assigned to the VPC peering connection for the GameLift VPC. The peered VPC also has an IPv4 CIDR block associated with it; these blocks cannot overlap or the peering connection cannot be created.
         public var ipV4CidrBlock: Swift.String?
-        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
         public var peerVpcId: Swift.String?
         /// The status information about the connection. Status indicates if a connection is pending, successful, or failed.
         public var status: GameLiftClientTypes.VpcPeeringConnectionStatus?

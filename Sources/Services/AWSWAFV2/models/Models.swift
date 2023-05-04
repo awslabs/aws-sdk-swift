@@ -2,6 +2,83 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension WAFV2ClientTypes.APIKeySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKey = "APIKey"
+        case creationTimestamp = "CreationTimestamp"
+        case tokenDomains = "TokenDomains"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiKey = self.apiKey {
+            try encodeContainer.encode(apiKey, forKey: .apiKey)
+        }
+        if let creationTimestamp = self.creationTimestamp {
+            try encodeContainer.encodeTimestamp(creationTimestamp, format: .epochSeconds, forKey: .creationTimestamp)
+        }
+        if let tokenDomains = tokenDomains {
+            var tokenDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenDomains)
+            for tokendomain0 in tokenDomains {
+                try tokenDomainsContainer.encode(tokendomain0)
+            }
+        }
+        if version != 0 {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tokenDomainsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenDomains)
+        var tokenDomainsDecoded0:[Swift.String]? = nil
+        if let tokenDomainsContainer = tokenDomainsContainer {
+            tokenDomainsDecoded0 = [Swift.String]()
+            for string0 in tokenDomainsContainer {
+                if let string0 = string0 {
+                    tokenDomainsDecoded0?.append(string0)
+                }
+            }
+        }
+        tokenDomains = tokenDomainsDecoded0
+        let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
+        apiKey = apiKeyDecoded
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version) ?? 0
+        version = versionDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Information for a single API key.
+    public struct APIKeySummary: Swift.Equatable {
+        /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration. For information about how to use this in your CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+        public var apiKey: Swift.String?
+        /// The date and time that the key was created.
+        public var creationTimestamp: ClientRuntime.Date?
+        /// The token domains that are defined in this API key.
+        public var tokenDomains: [Swift.String]?
+        /// Internal value used by WAF to manage the key.
+        public var version: Swift.Int
+
+        public init (
+            apiKey: Swift.String? = nil,
+            creationTimestamp: ClientRuntime.Date? = nil,
+            tokenDomains: [Swift.String]? = nil,
+            version: Swift.Int = 0
+        )
+        {
+            self.apiKey = apiKey
+            self.creationTimestamp = creationTimestamp
+            self.tokenDomains = tokenDomains
+            self.version = version
+        }
+    }
+
+}
+
 extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loginPath = "LoginPath"
@@ -2170,6 +2247,151 @@ extension WAFV2ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = CountryCode(rawValue: rawValue) ?? CountryCode.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension CreateAPIKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+        case tokenDomains = "TokenDomains"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+        if let tokenDomains = tokenDomains {
+            var tokenDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenDomains)
+            for tokendomain0 in tokenDomains {
+                try tokenDomainsContainer.encode(tokendomain0)
+            }
+        }
+    }
+}
+
+extension CreateAPIKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateAPIKeyInput: Swift.Equatable {
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The client application domains that you want to use this API key for.
+    /// This member is required.
+    public var tokenDomains: [Swift.String]?
+
+    public init (
+        scope: WAFV2ClientTypes.Scope? = nil,
+        tokenDomains: [Swift.String]? = nil
+    )
+    {
+        self.scope = scope
+        self.tokenDomains = tokenDomains
+    }
+}
+
+struct CreateAPIKeyInputBody: Swift.Equatable {
+    let scope: WAFV2ClientTypes.Scope?
+    let tokenDomains: [Swift.String]?
+}
+
+extension CreateAPIKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+        case tokenDomains = "TokenDomains"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+        let tokenDomainsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenDomains)
+        var tokenDomainsDecoded0:[Swift.String]? = nil
+        if let tokenDomainsContainer = tokenDomainsContainer {
+            tokenDomainsDecoded0 = [Swift.String]()
+            for string0 in tokenDomainsContainer {
+                if let string0 = string0 {
+                    tokenDomainsDecoded0?.append(string0)
+                }
+            }
+        }
+        tokenDomains = tokenDomainsDecoded0
+    }
+}
+
+extension CreateAPIKeyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateAPIKeyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateAPIKeyOutputError: Swift.Error, Swift.Equatable {
+    case wAFInternalErrorException(WAFInternalErrorException)
+    case wAFInvalidOperationException(WAFInvalidOperationException)
+    case wAFInvalidParameterException(WAFInvalidParameterException)
+    case wAFLimitsExceededException(WAFLimitsExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAPIKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateAPIKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.apiKey = output.apiKey
+        } else {
+            self.apiKey = nil
+        }
+    }
+}
+
+public struct CreateAPIKeyOutputResponse: Swift.Equatable {
+    /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration. For information about how to use this in your CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+    public var apiKey: Swift.String?
+
+    public init (
+        apiKey: Swift.String? = nil
+    )
+    {
+        self.apiKey = apiKey
+    }
+}
+
+struct CreateAPIKeyOutputResponseBody: Swift.Equatable {
+    let apiKey: Swift.String?
+}
+
+extension CreateAPIKeyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKey = "APIKey"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
+        apiKey = apiKeyDecoded
     }
 }
 
@@ -5413,6 +5635,158 @@ extension WAFV2ClientTypes {
 
 }
 
+extension GetDecryptedAPIKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKey = "APIKey"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiKey = self.apiKey {
+            try encodeContainer.encode(apiKey, forKey: .apiKey)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+}
+
+extension GetDecryptedAPIKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDecryptedAPIKeyInput: Swift.Equatable {
+    /// The encrypted API key.
+    /// This member is required.
+    public var apiKey: Swift.String?
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+
+    public init (
+        apiKey: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil
+    )
+    {
+        self.apiKey = apiKey
+        self.scope = scope
+    }
+}
+
+struct GetDecryptedAPIKeyInputBody: Swift.Equatable {
+    let scope: WAFV2ClientTypes.Scope?
+    let apiKey: Swift.String?
+}
+
+extension GetDecryptedAPIKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKey = "APIKey"
+        case scope = "Scope"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+        let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
+        apiKey = apiKeyDecoded
+    }
+}
+
+extension GetDecryptedAPIKeyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetDecryptedAPIKeyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetDecryptedAPIKeyOutputError: Swift.Error, Swift.Equatable {
+    case wAFInternalErrorException(WAFInternalErrorException)
+    case wAFInvalidOperationException(WAFInvalidOperationException)
+    case wAFInvalidParameterException(WAFInvalidParameterException)
+    case wAFInvalidResourceException(WAFInvalidResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetDecryptedAPIKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetDecryptedAPIKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTimestamp = output.creationTimestamp
+            self.tokenDomains = output.tokenDomains
+        } else {
+            self.creationTimestamp = nil
+            self.tokenDomains = nil
+        }
+    }
+}
+
+public struct GetDecryptedAPIKeyOutputResponse: Swift.Equatable {
+    /// The date and time that the key was created.
+    public var creationTimestamp: ClientRuntime.Date?
+    /// The token domains that are defined in this API key.
+    public var tokenDomains: [Swift.String]?
+
+    public init (
+        creationTimestamp: ClientRuntime.Date? = nil,
+        tokenDomains: [Swift.String]? = nil
+    )
+    {
+        self.creationTimestamp = creationTimestamp
+        self.tokenDomains = tokenDomains
+    }
+}
+
+struct GetDecryptedAPIKeyOutputResponseBody: Swift.Equatable {
+    let tokenDomains: [Swift.String]?
+    let creationTimestamp: ClientRuntime.Date?
+}
+
+extension GetDecryptedAPIKeyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimestamp = "CreationTimestamp"
+        case tokenDomains = "TokenDomains"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tokenDomainsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenDomains)
+        var tokenDomainsDecoded0:[Swift.String]? = nil
+        if let tokenDomainsContainer = tokenDomainsContainer {
+            tokenDomainsDecoded0 = [Swift.String]()
+            for string0 in tokenDomainsContainer {
+                if let string0 = string0 {
+                    tokenDomainsDecoded0?.append(string0)
+                }
+            }
+        }
+        tokenDomains = tokenDomainsDecoded0
+        let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+    }
+}
+
 extension GetIPSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
@@ -8158,6 +8532,179 @@ extension WAFV2ClientTypes {
 
 }
 
+extension ListAPIKeysInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit = "Limit"
+        case nextMarker = "NextMarker"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextMarker = self.nextMarker {
+            try encodeContainer.encode(nextMarker, forKey: .nextMarker)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+}
+
+extension ListAPIKeysInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListAPIKeysInput: Swift.Equatable {
+    /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
+    public var limit: Swift.Int?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+
+    public init (
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil
+    )
+    {
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+    }
+}
+
+struct ListAPIKeysInputBody: Swift.Equatable {
+    let scope: WAFV2ClientTypes.Scope?
+    let nextMarker: Swift.String?
+    let limit: Swift.Int?
+}
+
+extension ListAPIKeysInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit = "Limit"
+        case nextMarker = "NextMarker"
+        case scope = "Scope"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+    }
+}
+
+extension ListAPIKeysOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListAPIKeysOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListAPIKeysOutputError: Swift.Error, Swift.Equatable {
+    case wAFInternalErrorException(WAFInternalErrorException)
+    case wAFInvalidOperationException(WAFInvalidOperationException)
+    case wAFInvalidParameterException(WAFInvalidParameterException)
+    case wAFInvalidResourceException(WAFInvalidResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAPIKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListAPIKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.apiKeySummaries = output.apiKeySummaries
+            self.applicationIntegrationURL = output.applicationIntegrationURL
+            self.nextMarker = output.nextMarker
+        } else {
+            self.apiKeySummaries = nil
+            self.applicationIntegrationURL = nil
+            self.nextMarker = nil
+        }
+    }
+}
+
+public struct ListAPIKeysOutputResponse: Swift.Equatable {
+    /// The array of key summaries. If you specified a Limit in your request, this might not be the full list.
+    public var apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]?
+    /// The CAPTCHA application integration URL, for use in your JavaScript implementation. For information about how to use this in your CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+    public var applicationIntegrationURL: Swift.String?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+
+    public init (
+        apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]? = nil,
+        applicationIntegrationURL: Swift.String? = nil,
+        nextMarker: Swift.String? = nil
+    )
+    {
+        self.apiKeySummaries = apiKeySummaries
+        self.applicationIntegrationURL = applicationIntegrationURL
+        self.nextMarker = nextMarker
+    }
+}
+
+struct ListAPIKeysOutputResponseBody: Swift.Equatable {
+    let nextMarker: Swift.String?
+    let apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]?
+    let applicationIntegrationURL: Swift.String?
+}
+
+extension ListAPIKeysOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKeySummaries = "APIKeySummaries"
+        case applicationIntegrationURL = "ApplicationIntegrationURL"
+        case nextMarker = "NextMarker"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+        let apiKeySummariesContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.APIKeySummary?].self, forKey: .apiKeySummaries)
+        var apiKeySummariesDecoded0:[WAFV2ClientTypes.APIKeySummary]? = nil
+        if let apiKeySummariesContainer = apiKeySummariesContainer {
+            apiKeySummariesDecoded0 = [WAFV2ClientTypes.APIKeySummary]()
+            for structure0 in apiKeySummariesContainer {
+                if let structure0 = structure0 {
+                    apiKeySummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        apiKeySummaries = apiKeySummariesDecoded0
+        let applicationIntegrationURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationIntegrationURL)
+        applicationIntegrationURL = applicationIntegrationURLDecoded
+    }
+}
+
 extension ListAvailableManagedRuleGroupVersionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case limit = "Limit"
@@ -8309,7 +8856,7 @@ public struct ListAvailableManagedRuleGroupVersionsOutputResponse: Swift.Equatab
     public var currentDefaultVersion: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// The versions that are currently available for the specified managed rule group.
+    /// The versions that are currently available for the specified managed rule group. If you specified a Limit in your request, this might not be the full list.
     public var versions: [WAFV2ClientTypes.ManagedRuleGroupVersion]?
 
     public init (
@@ -8474,7 +9021,7 @@ extension ListAvailableManagedRuleGroupsOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct ListAvailableManagedRuleGroupsOutputResponse: Swift.Equatable {
-    ///
+    /// Array of managed rule groups that you can use. If you specified a Limit in your request, this might not be the full list.
     public var managedRuleGroups: [WAFV2ClientTypes.ManagedRuleGroupSummary]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
@@ -8635,7 +9182,7 @@ extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListIPSetsOutputResponse: Swift.Equatable {
-    /// Array of IPSets. This may not be the full list of IPSets that you have defined. See the Limit specification for this request.
+    /// Array of IPSets. If you specified a Limit in your request, this might not be the full list.
     public var ipSets: [WAFV2ClientTypes.IPSetSummary]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
@@ -8796,7 +9343,7 @@ extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
-    ///
+    /// Array of logging configurations. If you specified a Limit in your request, this might not be the full list.
     public var loggingConfigurations: [WAFV2ClientTypes.LoggingConfiguration]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
@@ -8957,7 +9504,7 @@ extension ListManagedRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListManagedRuleSetsOutputResponse: Swift.Equatable {
-    /// Your managed rule sets.
+    /// Your managed rule sets. If you specified a Limit in your request, this might not be the full list.
     public var managedRuleSets: [WAFV2ClientTypes.ManagedRuleSetSummary]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
@@ -9116,7 +9663,7 @@ extension ListMobileSdkReleasesOutputResponse: ClientRuntime.HttpResponseBinding
 public struct ListMobileSdkReleasesOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// High level information for the available SDK releases.
+    /// The high level information for the available SDK releases. If you specified a Limit in your request, this might not be the full list.
     public var releaseSummaries: [WAFV2ClientTypes.ReleaseSummary]?
 
     public init (
@@ -9277,7 +9824,7 @@ extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding 
 public struct ListRegexPatternSetsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    ///
+    /// Array of regex pattern sets. If you specified a Limit in your request, this might not be the full list.
     public var regexPatternSets: [WAFV2ClientTypes.RegexPatternSetSummary]?
 
     public init (
@@ -9575,7 +10122,7 @@ extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListRuleGroupsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    ///
+    /// Array of rule groups. If you specified a Limit in your request, this might not be the full list.
     public var ruleGroups: [WAFV2ClientTypes.RuleGroupSummary]?
 
     public init (
@@ -9738,7 +10285,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// The collection of tagging definitions for the resource.
+    /// The collection of tagging definitions for the resource. If you specified a Limit in your request, this might not be the full list.
     public var tagInfoForResource: WAFV2ClientTypes.TagInfoForResource?
 
     public init (
@@ -9890,7 +10437,7 @@ extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListWebACLsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    ///
+    /// Array of web ACLs. If you specified a Limit in your request, this might not be the full list.
     public var webACLs: [WAFV2ClientTypes.WebACLSummary]?
 
     public init (

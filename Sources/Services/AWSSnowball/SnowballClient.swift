@@ -342,7 +342,7 @@ extension SnowballClient: SnowballClientProtocol {
 
     /// Creates a job to import or export data between Amazon S3 and your on-premises data center. Your Amazon Web Services account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. Only the Snowball; Edge device type is supported when ordering clustered jobs. The device capacity is optional. Availability of device types differ by Amazon Web Services Region. For more information about Region availability, see [Amazon Web Services Regional Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&loc=4). Snow Family devices and their capacities.
     ///
-    /// * Snow Family device type: SNC1_SSD
+    /// * Device type: SNC1_SSD
     ///
     /// * Capacity: T14
     ///
@@ -351,7 +351,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     ///
     ///
-    /// * Snow Family device type: SNC1_HDD
+    /// * Device type: SNC1_HDD
     ///
     /// * Capacity: T8
     ///
@@ -410,6 +410,24 @@ extension SnowballClient: SnowballClientProtocol {
     /// * Capacity: T80
     ///
     /// * Description: Original Snowball device This device is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region.
+    ///
+    ///
+    ///
+    ///
+    /// * Device type: V3_5C
+    ///
+    /// * Capacity: T32
+    ///
+    /// * Description: Snowball Edge Compute Optimized without GPU
+    ///
+    ///
+    ///
+    ///
+    /// * Device type: V3_5S
+    ///
+    /// * Capacity: T240
+    ///
+    /// * Description: Snowball Edge Storage Optimized 210TB
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -927,7 +945,7 @@ extension SnowballClient: SnowballClientProtocol {
         return result
     }
 
-    /// This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the Amazon Web Services Marketplace.
+    /// This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
     public func listCompatibleImages(input: ListCompatibleImagesInput) async throws -> ListCompatibleImagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

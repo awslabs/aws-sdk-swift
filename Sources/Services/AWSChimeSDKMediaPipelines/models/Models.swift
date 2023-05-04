@@ -108,7 +108,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcess
 extension ChimeSDKMediaPipelinesClientTypes {
     /// A structure that contains the configuration settings for an Amazon Transcribe call analytics processor.
     public struct AmazonTranscribeCallAnalyticsProcessorConfiguration: Swift.Equatable {
-        /// By default, all CategoryEvents will be sent to the insights target. If this parameter is specified, only included categories will be sent to the insights target.
+        /// By default, all CategoryEvents are sent to the insights target. If this parameter is specified, only included categories are sent to the insights target.
         public var callAnalyticsStreamCategories: [Swift.String]?
         /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you do, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html) in the Amazon Transcribe Developer Guide.
         public var contentIdentificationType: ChimeSDKMediaPipelinesClientTypes.ContentType?
@@ -273,7 +273,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public var languageModelName: Swift.String?
         /// The level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization) in the Amazon Transcribe Developer Guide.
         public var partialResultsStability: ChimeSDKMediaPipelinesClientTypes.PartialResultsStability?
-        /// The types of personally identifiable information (PII) to redact from a transcript. You can include as many types as you'd like, or you can select ALL. To include PiiEntityTypes in your Call Analytics request, you must also include ContentIdentificationType or ContentRedactionType, but you can't include both. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL, NAME, PHONE, PIN, SSN, or ALL. Length Constraints: Minimum length of 1. Maximum length of 300.
+        /// The types of personally identifiable information (PII) to redact from a transcript. You can include as many types as you'd like, or you can select ALL. To include PiiEntityTypes in your Call Analytics request, you must also include ContentIdentificationType or ContentRedactionType, but you can't include both. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL, NAME, PHONE, PIN, SSN, or ALL. If you leave this parameter empty, the default behavior is equivalent to ALL.
         public var piiEntityTypes: Swift.String?
         /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html) in the Amazon Transcribe Developer Guide.
         public var showSpeakerLabel: Swift.Bool
@@ -3579,7 +3579,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisDataStreamSinkConfiguration: 
 extension ChimeSDKMediaPipelinesClientTypes {
     /// A structure that contains the configuration settings for a Kinesis Data Stream sink.
     public struct KinesisDataStreamSinkConfiguration: Swift.Equatable {
-        /// The URL of the sink, [https://aws.amazon.com/kinesis/data-streams/](https://aws.amazon.com/kinesis/data-streams/).
+        /// The ARN of the sink.
         public var insightsTarget: Swift.String?
 
         public init (
@@ -3748,7 +3748,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LambdaFunctionSinkConfiguration: Swi
 extension ChimeSDKMediaPipelinesClientTypes {
     /// A structure that contains the configuration settings for an AWS Lambda function's data sink.
     public struct LambdaFunctionSinkConfiguration: Swift.Equatable {
-        /// The URL of the sink, [https://aws.amazon.com/kinesis/data-streams/](https://aws.amazon.com/kinesis/data-streams/).
+        /// The ARN of the sink.
         public var insightsTarget: Swift.String?
 
         public init (
@@ -6013,14 +6013,14 @@ extension ChimeSDKMediaPipelinesClientTypes.PostCallAnalyticsSettings: Swift.Cod
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// The settings for a post-call voice analytics task.
+    /// Allows you to specify additional settings for your Call Analytics post-call request, including output locations for your redacted transcript, which IAM role to use, and which encryption key to use. DataAccessRoleArn and OutputLocation are required fields. PostCallAnalyticsSettings provides the same insights as a Call Analytics post-call transcription. For more information, refer to [Post-call analytics with real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-post-call.html) in the Amazon Transcribe Developer Guide.
     public struct PostCallAnalyticsSettings: Swift.Equatable {
         /// The content redaction output settings for a post-call analysis task.
         public var contentRedactionOutput: ChimeSDKMediaPipelinesClientTypes.ContentRedactionOutput?
         /// The ARN of the role used by Amazon Web Services Transcribe to upload your post call analysis. For more information, see [Post-call analytics with real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-post-call.html) in the Amazon Transcribe Developer Guide.
         /// This member is required.
         public var dataAccessRoleArn: Swift.String?
-        /// The ID of the KMS (Key Management System) key used to encrypt the output.
+        /// The ID of the KMS (Key Management Service) key used to encrypt the output.
         public var outputEncryptionKMSKeyId: Swift.String?
         /// The URL of the Amazon S3 bucket that contains the post-call data.
         /// This member is required.
@@ -6062,7 +6062,7 @@ extension ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration: Swift.Co
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// Defines the configuration for a presenter only video tile.
+    /// Defines the configuration for a presenter-only video tile.
     public struct PresenterOnlyConfiguration: Swift.Equatable {
         /// Defines the position of the presenter video tile. Default: TopRight.
         public var presenterPosition: ChimeSDKMediaPipelinesClientTypes.PresenterPosition?
@@ -6325,7 +6325,7 @@ extension ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration: Swift.
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// A structure the holds the settings for recording audio and video.
+    /// A structure that holds the settings for recording media.
     public struct RecordingStreamConfiguration: Swift.Equatable {
         /// The ARN of the recording stream.
         public var streamArn: Swift.String?
@@ -6486,6 +6486,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination = "Destination"
+        case recordingFileFormat = "RecordingFileFormat"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6493,31 +6494,40 @@ extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkConfiguration: Swift.
         if let destination = self.destination {
             try encodeContainer.encode(destination, forKey: .destination)
         }
+        if let recordingFileFormat = self.recordingFileFormat {
+            try encodeContainer.encode(recordingFileFormat.rawValue, forKey: .recordingFileFormat)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
+        let recordingFileFormatDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat.self, forKey: .recordingFileFormat)
+        recordingFileFormat = recordingFileFormatDecoded
     }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "S3RecordingSinkConfiguration(destination: \"CONTENT_REDACTED\")"}
+        "S3RecordingSinkConfiguration(recordingFileFormat: \(Swift.String(describing: recordingFileFormat)), destination: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// The structure that holds the settings for transmitting audio and video to the Amazon S3 bucket.
+    /// The structure that holds the settings for transmitting media to the Amazon S3 bucket. These values are used as defaults if S3RecordingSinkRuntimeConfiguration is not specified.
     public struct S3RecordingSinkConfiguration: Swift.Equatable {
-        /// The URL of the Amazon S3 bucket used as the recording sink.
+        /// The default URI of the Amazon S3 bucket used as the recording sink.
         public var destination: Swift.String?
+        /// The default file format for the media files sent to the Amazon S3 bucket.
+        public var recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat?
 
         public init (
-            destination: Swift.String? = nil
+            destination: Swift.String? = nil,
+            recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat? = nil
         )
         {
             self.destination = destination
+            self.recordingFileFormat = recordingFileFormat
         }
     }
 
@@ -6554,12 +6564,12 @@ extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration:
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// A structure that holds the settings for transmitting audio and video recordings to the runtime Amazon S3 bucket.
+    /// A structure that holds the settings for transmitting media files to the Amazon S3 bucket. If specified, the settings in this structure override any settings in S3RecordingSinkConfiguration.
     public struct S3RecordingSinkRuntimeConfiguration: Swift.Equatable {
-        /// The URL of the S3 bucket used as the runtime sink.
+        /// The URI of the S3 bucket used as the sink.
         /// This member is required.
         public var destination: Swift.String?
-        /// The file formats for the audio and video files sent to the Amazon S3 bucket.
+        /// The file format for the media files sent to the Amazon S3 bucket.
         /// This member is required.
         public var recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat?
 
@@ -6898,7 +6908,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SnsTopicSinkConfiguration: Swift.Cus
 extension ChimeSDKMediaPipelinesClientTypes {
     /// The configuration settings for the SNS topic sink.
     public struct SnsTopicSinkConfiguration: Swift.Equatable {
-        /// The URL of the SNS sink, [https://aws.amazon.com/kinesis/data-streams/](https://aws.amazon.com/kinesis/data-streams/).
+        /// The ARN of the SNS sink.
         public var insightsTarget: Swift.String?
 
         public init (
@@ -6971,9 +6981,9 @@ extension ChimeSDKMediaPipelinesClientTypes.SqsQueueSinkConfiguration: Swift.Cus
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// The URL of the SQS sink.
+    /// The configuration settings for the SQS sink.
     public struct SqsQueueSinkConfiguration: Swift.Equatable {
-        /// The URL of the SQS sink, [https://aws.amazon.com/kinesis/data-streams/](https://aws.amazon.com/kinesis/data-streams/).
+        /// The ARN of the SQS sink.
         public var insightsTarget: Swift.String?
 
         public init (

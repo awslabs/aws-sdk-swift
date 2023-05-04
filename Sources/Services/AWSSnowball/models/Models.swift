@@ -897,15 +897,19 @@ extension CreateClusterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressId = "AddressId"
         case description = "Description"
+        case forceCreateJobs = "ForceCreateJobs"
         case forwardingAddressId = "ForwardingAddressId"
+        case initialClusterSize = "InitialClusterSize"
         case jobType = "JobType"
         case kmsKeyARN = "KmsKeyARN"
+        case longTermPricingIds = "LongTermPricingIds"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
         case remoteManagement = "RemoteManagement"
         case resources = "Resources"
         case roleARN = "RoleARN"
         case shippingOption = "ShippingOption"
+        case snowballCapacityPreference = "SnowballCapacityPreference"
         case snowballType = "SnowballType"
         case taxDocuments = "TaxDocuments"
     }
@@ -918,14 +922,26 @@ extension CreateClusterInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let forceCreateJobs = self.forceCreateJobs {
+            try encodeContainer.encode(forceCreateJobs, forKey: .forceCreateJobs)
+        }
         if let forwardingAddressId = self.forwardingAddressId {
             try encodeContainer.encode(forwardingAddressId, forKey: .forwardingAddressId)
+        }
+        if let initialClusterSize = self.initialClusterSize {
+            try encodeContainer.encode(initialClusterSize, forKey: .initialClusterSize)
         }
         if let jobType = self.jobType {
             try encodeContainer.encode(jobType.rawValue, forKey: .jobType)
         }
         if let kmsKeyARN = self.kmsKeyARN {
             try encodeContainer.encode(kmsKeyARN, forKey: .kmsKeyARN)
+        }
+        if let longTermPricingIds = longTermPricingIds {
+            var longTermPricingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .longTermPricingIds)
+            for longtermpricingid0 in longTermPricingIds {
+                try longTermPricingIdsContainer.encode(longtermpricingid0)
+            }
         }
         if let notification = self.notification {
             try encodeContainer.encode(notification, forKey: .notification)
@@ -944,6 +960,9 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let shippingOption = self.shippingOption {
             try encodeContainer.encode(shippingOption.rawValue, forKey: .shippingOption)
+        }
+        if let snowballCapacityPreference = self.snowballCapacityPreference {
+            try encodeContainer.encode(snowballCapacityPreference.rawValue, forKey: .snowballCapacityPreference)
         }
         if let snowballType = self.snowballType {
             try encodeContainer.encode(snowballType.rawValue, forKey: .snowballType)
@@ -966,13 +985,19 @@ public struct CreateClusterInput: Swift.Equatable {
     public var addressId: Swift.String?
     /// An optional description of this specific cluster, for example Environmental Data Cluster-01.
     public var description: Swift.String?
+    /// Force to create cluster when user attempts to overprovision or underprovision a cluster. A cluster is overprovisioned or underprovisioned if the initial size of the cluster is more (overprovisioned) or less (underprovisioned) than what needed to meet capacity requirement specified with OnDeviceServiceConfiguration.
+    public var forceCreateJobs: Swift.Bool?
     /// The forwarding address ID for a cluster. This field is not supported in most regions.
     public var forwardingAddressId: Swift.String?
+    /// If provided, each job will be automatically created and associated with the new cluster. If not provided, will be treated as 0.
+    public var initialClusterSize: Swift.Int?
     /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
     /// This member is required.
     public var jobType: SnowballClientTypes.JobType?
     /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the [CreateKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html) API action in Key Management Service (KMS).
     public var kmsKeyARN: Swift.String?
+    /// Lists long-term pricing id that will be used to associate with jobs automatically created for the new cluster.
+    public var longTermPricingIds: [Swift.String]?
     /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
     public var notification: SnowballClientTypes.Notification?
     /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
@@ -980,10 +1005,8 @@ public struct CreateClusterInput: Swift.Equatable {
     /// Allows you to securely operate and manage Snow devices in a cluster remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
     public var remoteManagement: SnowballClientTypes.RemoteManagement?
     /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional Lambda functions written in the Python language.
-    /// This member is required.
     public var resources: SnowballClientTypes.JobResource?
     /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html) API action in Identity and Access Management (IAM).
-    /// This member is required.
     public var roleARN: Swift.String?
     /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:
     ///
@@ -1007,6 +1030,8 @@ public struct CreateClusterInput: Swift.Equatable {
     /// * In the US, you have access to one-day shipping and two-day shipping.
     /// This member is required.
     public var shippingOption: SnowballClientTypes.ShippingOption?
+    /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+    public var snowballCapacityPreference: SnowballClientTypes.SnowballCapacity?
     /// The type of Snow Family devices to use for this cluster. For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
     /// This member is required.
     public var snowballType: SnowballClientTypes.SnowballType?
@@ -1016,30 +1041,38 @@ public struct CreateClusterInput: Swift.Equatable {
     public init (
         addressId: Swift.String? = nil,
         description: Swift.String? = nil,
+        forceCreateJobs: Swift.Bool? = nil,
         forwardingAddressId: Swift.String? = nil,
+        initialClusterSize: Swift.Int? = nil,
         jobType: SnowballClientTypes.JobType? = nil,
         kmsKeyARN: Swift.String? = nil,
+        longTermPricingIds: [Swift.String]? = nil,
         notification: SnowballClientTypes.Notification? = nil,
         onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration? = nil,
         remoteManagement: SnowballClientTypes.RemoteManagement? = nil,
         resources: SnowballClientTypes.JobResource? = nil,
         roleARN: Swift.String? = nil,
         shippingOption: SnowballClientTypes.ShippingOption? = nil,
+        snowballCapacityPreference: SnowballClientTypes.SnowballCapacity? = nil,
         snowballType: SnowballClientTypes.SnowballType? = nil,
         taxDocuments: SnowballClientTypes.TaxDocuments? = nil
     )
     {
         self.addressId = addressId
         self.description = description
+        self.forceCreateJobs = forceCreateJobs
         self.forwardingAddressId = forwardingAddressId
+        self.initialClusterSize = initialClusterSize
         self.jobType = jobType
         self.kmsKeyARN = kmsKeyARN
+        self.longTermPricingIds = longTermPricingIds
         self.notification = notification
         self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
         self.remoteManagement = remoteManagement
         self.resources = resources
         self.roleARN = roleARN
         self.shippingOption = shippingOption
+        self.snowballCapacityPreference = snowballCapacityPreference
         self.snowballType = snowballType
         self.taxDocuments = taxDocuments
     }
@@ -1059,21 +1092,29 @@ struct CreateClusterInputBody: Swift.Equatable {
     let forwardingAddressId: Swift.String?
     let taxDocuments: SnowballClientTypes.TaxDocuments?
     let remoteManagement: SnowballClientTypes.RemoteManagement?
+    let initialClusterSize: Swift.Int?
+    let forceCreateJobs: Swift.Bool?
+    let longTermPricingIds: [Swift.String]?
+    let snowballCapacityPreference: SnowballClientTypes.SnowballCapacity?
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressId = "AddressId"
         case description = "Description"
+        case forceCreateJobs = "ForceCreateJobs"
         case forwardingAddressId = "ForwardingAddressId"
+        case initialClusterSize = "InitialClusterSize"
         case jobType = "JobType"
         case kmsKeyARN = "KmsKeyARN"
+        case longTermPricingIds = "LongTermPricingIds"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
         case remoteManagement = "RemoteManagement"
         case resources = "Resources"
         case roleARN = "RoleARN"
         case shippingOption = "ShippingOption"
+        case snowballCapacityPreference = "SnowballCapacityPreference"
         case snowballType = "SnowballType"
         case taxDocuments = "TaxDocuments"
     }
@@ -1106,6 +1147,23 @@ extension CreateClusterInputBody: Swift.Decodable {
         taxDocuments = taxDocumentsDecoded
         let remoteManagementDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.RemoteManagement.self, forKey: .remoteManagement)
         remoteManagement = remoteManagementDecoded
+        let initialClusterSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .initialClusterSize)
+        initialClusterSize = initialClusterSizeDecoded
+        let forceCreateJobsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceCreateJobs)
+        forceCreateJobs = forceCreateJobsDecoded
+        let longTermPricingIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .longTermPricingIds)
+        var longTermPricingIdsDecoded0:[Swift.String]? = nil
+        if let longTermPricingIdsContainer = longTermPricingIdsContainer {
+            longTermPricingIdsDecoded0 = [Swift.String]()
+            for string0 in longTermPricingIdsContainer {
+                if let string0 = string0 {
+                    longTermPricingIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        longTermPricingIds = longTermPricingIdsDecoded0
+        let snowballCapacityPreferenceDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.SnowballCapacity.self, forKey: .snowballCapacityPreference)
+        snowballCapacityPreference = snowballCapacityPreferenceDecoded
     }
 }
 
@@ -1143,8 +1201,10 @@ extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterId = output.clusterId
+            self.jobListEntries = output.jobListEntries
         } else {
             self.clusterId = nil
+            self.jobListEntries = nil
         }
     }
 }
@@ -1152,28 +1212,45 @@ extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateClusterOutputResponse: Swift.Equatable {
     /// The automatically generated ID for a cluster.
     public var clusterId: Swift.String?
+    /// List of jobs created for this cluster. For syntax, see [ListJobsResult$JobListEntries](https://docs.aws.amazon.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax) in this guide.
+    public var jobListEntries: [SnowballClientTypes.JobListEntry]?
 
     public init (
-        clusterId: Swift.String? = nil
+        clusterId: Swift.String? = nil,
+        jobListEntries: [SnowballClientTypes.JobListEntry]? = nil
     )
     {
         self.clusterId = clusterId
+        self.jobListEntries = jobListEntries
     }
 }
 
 struct CreateClusterOutputResponseBody: Swift.Equatable {
     let clusterId: Swift.String?
+    let jobListEntries: [SnowballClientTypes.JobListEntry]?
 }
 
 extension CreateClusterOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterId = "ClusterId"
+        case jobListEntries = "JobListEntries"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
         clusterId = clusterIdDecoded
+        let jobListEntriesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.JobListEntry?].self, forKey: .jobListEntries)
+        var jobListEntriesDecoded0:[SnowballClientTypes.JobListEntry]? = nil
+        if let jobListEntriesContainer = jobListEntriesContainer {
+            jobListEntriesDecoded0 = [SnowballClientTypes.JobListEntry]()
+            for structure0 in jobListEntriesContainer {
+                if let structure0 = structure0 {
+                    jobListEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobListEntries = jobListEntriesDecoded0
     }
 }
 
@@ -2667,7 +2744,7 @@ extension Ec2RequestFailedException {
     }
 }
 
-/// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted action.
+/// Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
 public struct Ec2RequestFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5278,12 +5355,14 @@ extension SnowballClientTypes {
 
 extension SnowballClientTypes {
     public enum LongTermPricingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oneMonth
         case oneYear
         case threeYear
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LongTermPricingType] {
             return [
+                .oneMonth,
                 .oneYear,
                 .threeYear,
                 .sdkUnknown("")
@@ -5295,6 +5374,7 @@ extension SnowballClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .oneMonth: return "OneMonth"
             case .oneYear: return "OneYear"
             case .threeYear: return "ThreeYear"
             case let .sdkUnknown(s): return s
@@ -5424,6 +5504,7 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eksOnDeviceService = "EKSOnDeviceService"
         case nfsOnDeviceService = "NFSOnDeviceService"
+        case s3OnDeviceService = "S3OnDeviceService"
         case tgwOnDeviceService = "TGWOnDeviceService"
     }
 
@@ -5434,6 +5515,9 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
         }
         if let nfsOnDeviceService = self.nfsOnDeviceService {
             try encodeContainer.encode(nfsOnDeviceService, forKey: .nfsOnDeviceService)
+        }
+        if let s3OnDeviceService = self.s3OnDeviceService {
+            try encodeContainer.encode(s3OnDeviceService, forKey: .s3OnDeviceService)
         }
         if let tgwOnDeviceService = self.tgwOnDeviceService {
             try encodeContainer.encode(tgwOnDeviceService, forKey: .tgwOnDeviceService)
@@ -5448,6 +5532,8 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
         tgwOnDeviceService = tgwOnDeviceServiceDecoded
         let eksOnDeviceServiceDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.EKSOnDeviceServiceConfiguration.self, forKey: .eksOnDeviceService)
         eksOnDeviceService = eksOnDeviceServiceDecoded
+        let s3OnDeviceServiceDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.S3OnDeviceServiceConfiguration.self, forKey: .s3OnDeviceService)
+        s3OnDeviceService = s3OnDeviceServiceDecoded
     }
 }
 
@@ -5458,17 +5544,21 @@ extension SnowballClientTypes {
         public var eksOnDeviceService: SnowballClientTypes.EKSOnDeviceServiceConfiguration?
         /// Represents the NFS (Network File System) service on a Snow Family device.
         public var nfsOnDeviceService: SnowballClientTypes.NFSOnDeviceServiceConfiguration?
+        /// Configuration for Amazon S3 compatible storage on Snow family devices.
+        public var s3OnDeviceService: SnowballClientTypes.S3OnDeviceServiceConfiguration?
         /// Represents the Storage Gateway service Tape Gateway type on a Snow Family device.
         public var tgwOnDeviceService: SnowballClientTypes.TGWOnDeviceServiceConfiguration?
 
         public init (
             eksOnDeviceService: SnowballClientTypes.EKSOnDeviceServiceConfiguration? = nil,
             nfsOnDeviceService: SnowballClientTypes.NFSOnDeviceServiceConfiguration? = nil,
+            s3OnDeviceService: SnowballClientTypes.S3OnDeviceServiceConfiguration? = nil,
             tgwOnDeviceService: SnowballClientTypes.TGWOnDeviceServiceConfiguration? = nil
         )
         {
             self.eksOnDeviceService = eksOnDeviceService
             self.nfsOnDeviceService = nfsOnDeviceService
+            self.s3OnDeviceService = s3OnDeviceService
             self.tgwOnDeviceService = tgwOnDeviceService
         }
     }
@@ -5556,6 +5646,71 @@ extension ReturnShippingLabelAlreadyExistsExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension SnowballClientTypes.S3OnDeviceServiceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faultTolerance = "FaultTolerance"
+        case serviceSize = "ServiceSize"
+        case storageLimit = "StorageLimit"
+        case storageUnit = "StorageUnit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faultTolerance = self.faultTolerance {
+            try encodeContainer.encode(faultTolerance, forKey: .faultTolerance)
+        }
+        if let serviceSize = self.serviceSize {
+            try encodeContainer.encode(serviceSize, forKey: .serviceSize)
+        }
+        if let storageLimit = self.storageLimit {
+            try encodeContainer.encode(storageLimit, forKey: .storageLimit)
+        }
+        if let storageUnit = self.storageUnit {
+            try encodeContainer.encode(storageUnit.rawValue, forKey: .storageUnit)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .storageLimit)
+        storageLimit = storageLimitDecoded
+        let storageUnitDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.StorageUnit.self, forKey: .storageUnit)
+        storageUnit = storageUnitDecoded
+        let serviceSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serviceSize)
+        serviceSize = serviceSizeDecoded
+        let faultToleranceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .faultTolerance)
+        faultTolerance = faultToleranceDecoded
+    }
+}
+
+extension SnowballClientTypes {
+    /// Amazon S3 compatible storage on Snow family devices configuration items.
+    public struct S3OnDeviceServiceConfiguration: Swift.Equatable {
+        /// >Fault tolerance level of the cluster. This indicates the number of nodes that can go down without degrading the performance of the cluster. This additional input helps when the specified StorageLimit matches more than one Amazon S3 compatible storage on Snow family devices service configuration.
+        public var faultTolerance: Swift.Int?
+        /// Applicable when creating a cluster. Specifies how many nodes are needed for Amazon S3 compatible storage on Snow family devices. If specified, the other input can be omitted.
+        public var serviceSize: Swift.Int?
+        /// If the specified storage limit value matches storage limit of one of the defined configurations, that configuration will be used. If the specified storage limit value does not match any defined configuration, the request will fail. If more than one configuration has the same storage limit as specified, the other input need to be provided.
+        public var storageLimit: Swift.Double?
+        /// Storage unit. Currently the only supported unit is TB.
+        public var storageUnit: SnowballClientTypes.StorageUnit?
+
+        public init (
+            faultTolerance: Swift.Int? = nil,
+            serviceSize: Swift.Int? = nil,
+            storageLimit: Swift.Double? = nil,
+            storageUnit: SnowballClientTypes.StorageUnit? = nil
+        )
+        {
+            self.faultTolerance = faultTolerance
+            self.serviceSize = serviceSize
+            self.storageLimit = storageLimit
+            self.storageUnit = storageUnit
+        }
+    }
+
 }
 
 extension SnowballClientTypes.S3Resource: Swift.Codable {
@@ -5913,6 +6068,7 @@ extension SnowballClientTypes {
         case noPreference
         case t100
         case t14
+        case t240
         case t32
         case t42
         case t50
@@ -5926,6 +6082,7 @@ extension SnowballClientTypes {
                 .noPreference,
                 .t100,
                 .t14,
+                .t240,
                 .t32,
                 .t42,
                 .t50,
@@ -5944,6 +6101,7 @@ extension SnowballClientTypes {
             case .noPreference: return "NoPreference"
             case .t100: return "T100"
             case .t14: return "T14"
+            case .t240: return "T240"
             case .t32: return "T32"
             case .t42: return "T42"
             case .t50: return "T50"
@@ -5971,6 +6129,7 @@ extension SnowballClientTypes {
         case snc1Ssd
         case standard
         case v35c
+        case v35s
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SnowballType] {
@@ -5983,6 +6142,7 @@ extension SnowballClientTypes {
                 .snc1Ssd,
                 .standard,
                 .v35c,
+                .v35s,
                 .sdkUnknown("")
             ]
         }
@@ -6000,6 +6160,7 @@ extension SnowballClientTypes {
             case .snc1Ssd: return "SNC1_SSD"
             case .standard: return "STANDARD"
             case .v35c: return "V3_5C"
+            case .v35s: return "V3_5S"
             case let .sdkUnknown(s): return s
             }
         }

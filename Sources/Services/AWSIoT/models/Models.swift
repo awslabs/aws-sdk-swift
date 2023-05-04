@@ -37717,6 +37717,8 @@ extension IoTClientTypes {
         case createFailed
         case createInProgress
         case createPending
+        case deleteFailed
+        case deleteInProgress
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OTAUpdateStatus] {
@@ -37725,6 +37727,8 @@ extension IoTClientTypes {
                 .createFailed,
                 .createInProgress,
                 .createPending,
+                .deleteFailed,
+                .deleteInProgress,
                 .sdkUnknown("")
             ]
         }
@@ -37738,6 +37742,8 @@ extension IoTClientTypes {
             case .createFailed: return "CREATE_FAILED"
             case .createInProgress: return "CREATE_IN_PROGRESS"
             case .createPending: return "CREATE_PENDING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
         }
