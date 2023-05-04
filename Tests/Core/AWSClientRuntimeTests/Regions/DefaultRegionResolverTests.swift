@@ -37,6 +37,8 @@ class DefaultRegionResolverTests: XCTestCase {
     
     func testItResolvesFromProfile() async {
         setenv("AWS_CONFIG_FILE", configPath, 1)
+        // unset the region env var, otherwise the region provider will use the region from the env var instead of the profile
+        unsetenv("AWS_REGION")
         defer {
             unsetenv("AWS_CONFIG_FILE")
         }
