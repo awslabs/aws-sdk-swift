@@ -3014,4 +3014,169 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// S3 Snow Control with bucket
+    func testResolve108() throws {
+        let endpointParams = EndpointParams(
+            bucket: "bucketName",
+            endpoint: "https://10.0.1.12:433",
+            region: "snow",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3",
+                        "signingRegion": "snow",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.1.12:433", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// S3 Snow Control without bucket
+    func testResolve109() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://10.0.1.12:433",
+            region: "snow",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3",
+                        "signingRegion": "snow",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.1.12:433", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// S3 Snow Control with bucket and without port
+    func testResolve110() throws {
+        let endpointParams = EndpointParams(
+            bucket: "bucketName",
+            endpoint: "https://10.0.1.12",
+            region: "snow",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3",
+                        "signingRegion": "snow",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.1.12", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// S3 Snow Control with bucket and with DNS
+    func testResolve111() throws {
+        let endpointParams = EndpointParams(
+            bucket: "bucketName",
+            endpoint: "http://s3snow.com",
+            region: "snow",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3",
+                        "signingRegion": "snow",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "http://s3snow.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// S3 Snow Control with FIPS enabled
+    func testResolve112() throws {
+        let endpointParams = EndpointParams(
+            bucket: "bucketName",
+            endpoint: "https://10.0.1.12:433",
+            region: "snow",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3 Snow does not support FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// S3 Snow Control with Dual-stack enabled
+    func testResolve113() throws {
+        let endpointParams = EndpointParams(
+            bucket: "bucketName",
+            endpoint: "https://10.0.1.12:433",
+            region: "snow",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3 Snow does not support Dual-stack", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
 }

@@ -120,7 +120,7 @@ func addIntegrationTestTarget(_ name: String) {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.18.0",
+    clientRuntimeVersion: "0.19.0",
     crtVersion: "0.9.0"
 )
 
