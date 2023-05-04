@@ -216,7 +216,7 @@ public struct CreateSecretInput: Swift.Equatable {
     public var clientRequestToken: Swift.String?
     /// The description of the secret.
     public var description: Swift.String?
-    /// Specifies whether to overwrite a secret with the same name in the destination Region.
+    /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
     public var forceOverwriteReplicaSecret: Swift.Bool?
     /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt the secret value in the secret. An alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see [About aliases](https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html). To use a KMS key in a different account, use the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager uses the key aws/secretsmanager. If that key doesn't yet exist, then Secrets Manager creates it for you automatically the first time it encrypts the secret value. If the secret is in a different Amazon Web Services account from the credentials calling the API, then you can't use aws/secretsmanager to encrypt the secret, and you must create and use a customer managed KMS key.
     public var kmsKeyId: Swift.String?
@@ -662,9 +662,9 @@ extension DeleteSecretInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSecretInput: Swift.Equatable {
-    /// Specifies whether to delete the secret without any recovery window. You can't use both this parameter and RecoveryWindowInDays in the same call. If you don't use either, then Secrets Manager defaults to a 30 day recovery window. Secrets Manager performs the actual deletion with an asynchronous background process, so there might be a short delay before the secret is permanently deleted. If you delete a secret and then immediately create a secret with the same name, use appropriate back off and retry logic. Use this parameter with caution. This parameter causes the operation to skip the normal recovery window before the permanent deletion that Secrets Manager would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithoutRecovery parameter, then you have no opportunity to recover the secret. You lose the secret permanently.
+    /// Specifies whether to delete the secret without any recovery window. You can't use both this parameter and RecoveryWindowInDays in the same call. If you don't use either, then by default Secrets Manager uses a 30 day recovery window. Secrets Manager performs the actual deletion with an asynchronous background process, so there might be a short delay before the secret is permanently deleted. If you delete a secret and then immediately create a secret with the same name, use appropriate back off and retry logic. Use this parameter with caution. This parameter causes the operation to skip the normal recovery window before the permanent deletion that Secrets Manager would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithoutRecovery parameter, then you have no opportunity to recover the secret. You lose the secret permanently.
     public var forceDeleteWithoutRecovery: Swift.Bool?
-    /// The number of days from 7 to 30 that Secrets Manager waits before permanently deleting the secret. You can't use both this parameter and ForceDeleteWithoutRecovery in the same call. If you don't use either, then Secrets Manager defaults to a 30 day recovery window.
+    /// The number of days from 7 to 30 that Secrets Manager waits before permanently deleting the secret. You can't use both this parameter and ForceDeleteWithoutRecovery in the same call. If you don't use either, then by default Secrets Manager uses a 30 day recovery window.
     public var recoveryWindowInDays: Swift.Int?
     /// The ARN or name of the secret to delete. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
@@ -2143,7 +2143,7 @@ extension ListSecretVersionIdsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSecretVersionIdsInput: Swift.Equatable {
-    /// Specifies whether to include versions of secrets that don't have any staging labels attached to them. Versions without staging labels are considered deprecated and are subject to deletion by Secrets Manager.
+    /// Specifies whether to include versions of secrets that don't have any staging labels attached to them. Versions without staging labels are considered deprecated and are subject to deletion by Secrets Manager. By default, versions without staging labels aren't included.
     public var includeDeprecated: Swift.Bool?
     /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecretVersionIds again with the value from NextToken.
     public var maxResults: Swift.Int?
@@ -2343,7 +2343,7 @@ extension ListSecretsInput: ClientRuntime.URLPathProvider {
 public struct ListSecretsInput: Swift.Equatable {
     /// The filters to apply to the list of secrets.
     public var filters: [SecretsManagerClientTypes.Filter]?
-    /// Specifies whether to include secrets scheduled for deletion.
+    /// Specifies whether to include secrets scheduled for deletion. By default, secrets scheduled for deletion aren't included.
     public var includePlannedDeletion: Swift.Bool?
     /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecrets again with the value from NextToken.
     public var maxResults: Swift.Int?
@@ -2675,7 +2675,7 @@ extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutResourcePolicyInput: Swift.Equatable {
-    /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal.
+    /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked.
     public var blockPublicPolicy: Swift.Bool?
     /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see [Permissions policy examples](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html).
     /// This member is required.
@@ -3278,7 +3278,7 @@ public struct ReplicateSecretToRegionsInput: Swift.Equatable {
     /// A list of Regions in which to replicate the secret.
     /// This member is required.
     public var addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
-    /// Specifies whether to overwrite a secret with the same name in the destination Region.
+    /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
     public var forceOverwriteReplicaSecret: Swift.Bool?
     /// The ARN or name of the secret to replicate.
     /// This member is required.
@@ -3757,7 +3757,7 @@ extension RotateSecretInput: ClientRuntime.URLPathProvider {
 public struct RotateSecretInput: Swift.Equatable {
     /// A unique identifier for the new version of the secret that helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during rotation. This value becomes the VersionId of the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness within the specified secret.
     public var clientRequestToken: Swift.String?
-    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. If you don't specify this value, then by default, Secrets Manager rotates the secret immediately.
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
     public var rotateImmediately: Swift.Bool?
     /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function. For secrets that use managed rotation, omit this field. For more information, see [Managed rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_managed.html) in the Secrets Manager User Guide.
     public var rotationLambdaARN: Swift.String?

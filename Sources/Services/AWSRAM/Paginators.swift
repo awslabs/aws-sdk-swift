@@ -95,6 +95,7 @@ extension GetResourceSharesInput: ClientRuntime.PaginateToken {
             name: self.name,
             nextToken: token,
             permissionArn: self.permissionArn,
+            permissionVersion: self.permissionVersion,
             resourceOwner: self.resourceOwner,
             resourceShareArns: self.resourceShareArns,
             resourceShareStatus: self.resourceShareStatus,
@@ -125,6 +126,33 @@ extension ListPendingInvitationResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
+    /// Paginate over `[ListPermissionAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPermissionAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionAssociationsOutputResponse`
+    public func listPermissionAssociationsPaginated(input: ListPermissionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutputResponse>(input: input, inputKey: \ListPermissionAssociationsInput.nextToken, outputKey: \ListPermissionAssociationsOutputResponse.nextToken, paginationFunction: self.listPermissionAssociations(input:))
+    }
+}
+
+extension ListPermissionAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPermissionAssociationsInput {
+        return ListPermissionAssociationsInput(
+            associationStatus: self.associationStatus,
+            defaultVersion: self.defaultVersion,
+            featureSet: self.featureSet,
+            maxResults: self.maxResults,
+            nextToken: token,
+            permissionArn: self.permissionArn,
+            permissionVersion: self.permissionVersion,
+            resourceType: self.resourceType
+        )}
+}
+extension RAMClient {
     /// Paginate over `[ListPermissionsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -143,6 +171,7 @@ extension ListPermissionsInput: ClientRuntime.PaginateToken {
         return ListPermissionsInput(
             maxResults: self.maxResults,
             nextToken: token,
+            permissionType: self.permissionType,
             resourceType: self.resourceType
         )}
 }
@@ -192,6 +221,29 @@ extension ListPrincipalsInput: ClientRuntime.PaginateToken {
             resourceOwner: self.resourceOwner,
             resourceShareArns: self.resourceShareArns,
             resourceType: self.resourceType
+        )}
+}
+extension RAMClient {
+    /// Paginate over `[ListReplacePermissionAssociationsWorkOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReplacePermissionAssociationsWorkInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReplacePermissionAssociationsWorkOutputResponse`
+    public func listReplacePermissionAssociationsWorkPaginated(input: ListReplacePermissionAssociationsWorkInput) -> ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutputResponse>(input: input, inputKey: \ListReplacePermissionAssociationsWorkInput.nextToken, outputKey: \ListReplacePermissionAssociationsWorkOutputResponse.nextToken, paginationFunction: self.listReplacePermissionAssociationsWork(input:))
+    }
+}
+
+extension ListReplacePermissionAssociationsWorkInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReplacePermissionAssociationsWorkInput {
+        return ListReplacePermissionAssociationsWorkInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            workIds: self.workIds
         )}
 }
 extension RAMClient {

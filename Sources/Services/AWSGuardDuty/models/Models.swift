@@ -5578,6 +5578,7 @@ extension GuardDutyClientTypes {
         case ebsMalwareProtection
         case eksAuditLogs
         case eksRuntimeMonitoring
+        case lambdaNetworkLogs
         case rdsLoginEvents
         case s3DataEvents
         case sdkUnknown(Swift.String)
@@ -5587,6 +5588,7 @@ extension GuardDutyClientTypes {
                 .ebsMalwareProtection,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
+                .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .s3DataEvents,
                 .sdkUnknown("")
@@ -5601,6 +5603,7 @@ extension GuardDutyClientTypes {
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
@@ -5766,6 +5769,7 @@ extension GuardDutyClientTypes {
         case eksAuditLogs
         case eksRuntimeMonitoring
         case flowLogs
+        case lambdaNetworkLogs
         case rdsLoginEvents
         case s3DataEvents
         case sdkUnknown(Swift.String)
@@ -5778,6 +5782,7 @@ extension GuardDutyClientTypes {
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
                 .flowLogs,
+                .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .s3DataEvents,
                 .sdkUnknown("")
@@ -5795,6 +5800,7 @@ extension GuardDutyClientTypes {
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
+            case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
@@ -7737,6 +7743,7 @@ extension GuardDutyClientTypes {
         case eksAuditLogs
         case eksRuntimeMonitoring
         case flowLogs
+        case lambdaNetworkLogs
         case rdsLoginEvents
         case s3DataEvents
         case sdkUnknown(Swift.String)
@@ -7749,6 +7756,7 @@ extension GuardDutyClientTypes {
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
                 .flowLogs,
+                .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .s3DataEvents,
                 .sdkUnknown("")
@@ -7766,6 +7774,7 @@ extension GuardDutyClientTypes {
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
+            case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
@@ -11202,6 +11211,133 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.LambdaDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case functionArn = "functionArn"
+        case functionName = "functionName"
+        case functionVersion = "functionVersion"
+        case lastModifiedAt = "lastModifiedAt"
+        case revisionId = "revisionId"
+        case role = "role"
+        case tags = "tags"
+        case vpcConfig = "vpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let functionArn = self.functionArn {
+            try encodeContainer.encode(functionArn, forKey: .functionArn)
+        }
+        if let functionName = self.functionName {
+            try encodeContainer.encode(functionName, forKey: .functionName)
+        }
+        if let functionVersion = self.functionVersion {
+            try encodeContainer.encode(functionVersion, forKey: .functionVersion)
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let functionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionArn)
+        functionArn = functionArnDecoded
+        let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
+        functionName = functionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+        let functionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionVersion)
+        functionVersion = functionVersionDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.VpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[GuardDutyClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [GuardDutyClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the Lambda function involved in the finding.
+    public struct LambdaDetails: Swift.Equatable {
+        /// Description of the Lambda function.
+        public var description: Swift.String?
+        /// Amazon Resource Name (ARN) of the Lambda function.
+        public var functionArn: Swift.String?
+        /// Name of the Lambda function.
+        public var functionName: Swift.String?
+        /// The version of the Lambda function.
+        public var functionVersion: Swift.String?
+        /// The timestamp when the Lambda function was last modified. This field is in the UTC date string format (2023-03-22T19:37:20.168Z).
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The revision ID of the Lambda function version.
+        public var revisionId: Swift.String?
+        /// The execution role of the Lambda function.
+        public var role: Swift.String?
+        /// A list of tags attached to this resource, listed in the format of key:value pair.
+        public var tags: [GuardDutyClientTypes.Tag]?
+        /// Amazon Virtual Private Cloud configuration details associated with your Lambda function.
+        public var vpcConfig: GuardDutyClientTypes.VpcConfig?
+
+        public init (
+            description: Swift.String? = nil,
+            functionArn: Swift.String? = nil,
+            functionName: Swift.String? = nil,
+            functionVersion: Swift.String? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            revisionId: Swift.String? = nil,
+            role: Swift.String? = nil,
+            tags: [GuardDutyClientTypes.Tag]? = nil,
+            vpcConfig: GuardDutyClientTypes.VpcConfig? = nil
+        )
+        {
+            self.description = description
+            self.functionArn = functionArn
+            self.functionName = functionName
+            self.functionVersion = functionVersion
+            self.lastModifiedAt = lastModifiedAt
+            self.revisionId = revisionId
+            self.role = role
+            self.tags = tags
+            self.vpcConfig = vpcConfig
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.LineageObject: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case euid = "euid"
@@ -14009,6 +14145,7 @@ extension GuardDutyClientTypes {
         case ebsMalwareProtection
         case eksAuditLogs
         case eksRuntimeMonitoring
+        case lambdaNetworkLogs
         case rdsLoginEvents
         case s3DataEvents
         case sdkUnknown(Swift.String)
@@ -14018,6 +14155,7 @@ extension GuardDutyClientTypes {
                 .ebsMalwareProtection,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
+                .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .s3DataEvents,
                 .sdkUnknown("")
@@ -14032,6 +14170,7 @@ extension GuardDutyClientTypes {
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
@@ -15867,6 +16006,7 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         case eksClusterDetails = "eksClusterDetails"
         case instanceDetails = "instanceDetails"
         case kubernetesDetails = "kubernetesDetails"
+        case lambdaDetails = "lambdaDetails"
         case rdsDbInstanceDetails = "rdsDbInstanceDetails"
         case rdsDbUserDetails = "rdsDbUserDetails"
         case resourceType = "resourceType"
@@ -15895,6 +16035,9 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         }
         if let kubernetesDetails = self.kubernetesDetails {
             try encodeContainer.encode(kubernetesDetails, forKey: .kubernetesDetails)
+        }
+        if let lambdaDetails = self.lambdaDetails {
+            try encodeContainer.encode(lambdaDetails, forKey: .lambdaDetails)
         }
         if let rdsDbInstanceDetails = self.rdsDbInstanceDetails {
             try encodeContainer.encode(rdsDbInstanceDetails, forKey: .rdsDbInstanceDetails)
@@ -15946,6 +16089,8 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         rdsDbInstanceDetails = rdsDbInstanceDetailsDecoded
         let rdsDbUserDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RdsDbUserDetails.self, forKey: .rdsDbUserDetails)
         rdsDbUserDetails = rdsDbUserDetailsDecoded
+        let lambdaDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.LambdaDetails.self, forKey: .lambdaDetails)
+        lambdaDetails = lambdaDetailsDecoded
     }
 }
 
@@ -15966,6 +16111,8 @@ extension GuardDutyClientTypes {
         public var instanceDetails: GuardDutyClientTypes.InstanceDetails?
         /// Details about the Kubernetes user and workload involved in a Kubernetes finding.
         public var kubernetesDetails: GuardDutyClientTypes.KubernetesDetails?
+        /// Contains information about the Lambda function that was involved in a finding.
+        public var lambdaDetails: GuardDutyClientTypes.LambdaDetails?
         /// Contains information about the database instance to which an anomalous login attempt was made.
         public var rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails?
         /// Contains information about the user details through which anomalous login attempt was made.
@@ -15983,6 +16130,7 @@ extension GuardDutyClientTypes {
             eksClusterDetails: GuardDutyClientTypes.EksClusterDetails? = nil,
             instanceDetails: GuardDutyClientTypes.InstanceDetails? = nil,
             kubernetesDetails: GuardDutyClientTypes.KubernetesDetails? = nil,
+            lambdaDetails: GuardDutyClientTypes.LambdaDetails? = nil,
             rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails? = nil,
             rdsDbUserDetails: GuardDutyClientTypes.RdsDbUserDetails? = nil,
             resourceType: Swift.String? = nil,
@@ -15996,6 +16144,7 @@ extension GuardDutyClientTypes {
             self.eksClusterDetails = eksClusterDetails
             self.instanceDetails = instanceDetails
             self.kubernetesDetails = kubernetesDetails
+            self.lambdaDetails = lambdaDetails
             self.rdsDbInstanceDetails = rdsDbInstanceDetails
             self.rdsDbUserDetails = rdsDbUserDetails
             self.resourceType = resourceType
@@ -20639,6 +20788,85 @@ extension GuardDutyClientTypes {
         {
             self.mountPath = mountPath
             self.name = name
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.VpcConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityGroups = "securityGroups"
+        case subnetIds = "subnetIds"
+        case vpcId = "vpcId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityGroups = securityGroups {
+            var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
+            for securitygroup0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroup0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
+            }
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let securityGroupsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.SecurityGroup?].self, forKey: .securityGroups)
+        var securityGroupsDecoded0:[GuardDutyClientTypes.SecurityGroup]? = nil
+        if let securityGroupsContainer = securityGroupsContainer {
+            securityGroupsDecoded0 = [GuardDutyClientTypes.SecurityGroup]()
+            for structure0 in securityGroupsContainer {
+                if let structure0 = structure0 {
+                    securityGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityGroups = securityGroupsDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Amazon Virtual Private Cloud configuration details associated with your Lambda function.
+    public struct VpcConfig: Swift.Equatable {
+        /// The identifier of the security group attached to the Lambda function.
+        public var securityGroups: [GuardDutyClientTypes.SecurityGroup]?
+        /// The identifiers of the subnets that are associated with your Lambda function.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the Amazon Virtual Private Cloud.
+        public var vpcId: Swift.String?
+
+        public init (
+            securityGroups: [GuardDutyClientTypes.SecurityGroup]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
         }
     }
 

@@ -13317,7 +13317,7 @@ extension RekognitionClientTypes {
         /// The path to an AWS Amazon S3 bucket used to store Face Liveness session results.
         /// This member is required.
         public var s3Bucket: Swift.String?
-        /// The prefix appended to the output files for the Face Liveness session results.
+        /// The prefix prepended to the output files for the Face Liveness session results.
         public var s3KeyPrefix: Swift.String?
 
         public init (
@@ -13335,6 +13335,7 @@ extension RekognitionClientTypes {
 extension RekognitionClientTypes {
     public enum LivenessSessionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case created
+        case expired
         case failed
         case inProgress
         case succeeded
@@ -13343,6 +13344,7 @@ extension RekognitionClientTypes {
         public static var allCases: [LivenessSessionStatus] {
             return [
                 .created,
+                .expired,
                 .failed,
                 .inProgress,
                 .succeeded,
@@ -13356,6 +13358,7 @@ extension RekognitionClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .created: return "CREATED"
+            case .expired: return "EXPIRED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .succeeded: return "SUCCEEDED"

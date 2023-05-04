@@ -6610,7 +6610,48 @@ extension KinesisClientTypes {
 
 extension KinesisClientTypes.SubscribeToShardEventStream: ClientRuntime.MessageUnmarshallable {
     public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
-        fatalError("Not implemented")
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "SubscribeToShardEvent":
+                self = .subscribetoshardevent(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "ResourceNotFoundException":
+                    return try decoder.decode(responseBody: message.payload) as ResourceNotFoundException
+                case "ResourceInUseException":
+                    return try decoder.decode(responseBody: message.payload) as ResourceInUseException
+                case "KMSDisabledException":
+                    return try decoder.decode(responseBody: message.payload) as KMSDisabledException
+                case "KMSInvalidStateException":
+                    return try decoder.decode(responseBody: message.payload) as KMSInvalidStateException
+                case "KMSAccessDeniedException":
+                    return try decoder.decode(responseBody: message.payload) as KMSAccessDeniedException
+                case "KMSNotFoundException":
+                    return try decoder.decode(responseBody: message.payload) as KMSNotFoundException
+                case "KMSOptInRequired":
+                    return try decoder.decode(responseBody: message.payload) as KMSOptInRequired
+                case "KMSThrottlingException":
+                    return try decoder.decode(responseBody: message.payload) as KMSThrottlingException
+                case "InternalFailureException":
+                    return try decoder.decode(responseBody: message.payload) as InternalFailureException
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+        }
     }
 }
 
@@ -6730,10 +6771,10 @@ public enum SubscribeToShardOutputError: Swift.Error, Swift.Equatable {
 
 extension SubscribeToShardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
-            let output: SubscribeToShardOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.eventStream = output.eventStream
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<KinesisClientTypes.SubscribeToShardEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.eventStream = decoderStream.toAsyncStream()
         } else {
             self.eventStream = nil
         }
