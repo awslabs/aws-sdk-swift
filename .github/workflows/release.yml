@@ -46,14 +46,16 @@ jobs:
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./gradlew --stop
           ./scripts/mergeModels.sh Sources/Services
       - name: Generate SDK and Swift package manifest
         run: |
-          ./scripts/generatePackageSwift.swift > Package.swift
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI generate-package-manifest ../
+          cd ..
           cat Package.swift
           swift build --build-tests
           swift test --skip-build --parallel
