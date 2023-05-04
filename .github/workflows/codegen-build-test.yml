@@ -49,4 +49,4 @@ jobs:
           cd ..
           cat Package.swift
           swift build --build-tests
-          swift test --skip-build --parallel
+          swift test --skip-build
