@@ -36,13 +36,13 @@ extension Process {
         /// Returns a process for executing `git commit -m <message>`
         /// This is used for committing changes with the provided message
         func commit(_ message: String) -> Process {
-            gitProcess(["commit", "-m", message.wrappedInQuotes()])
+            gitProcess(["commit", "-m", message])
         }
         
         /// Returns a process for executing `git tag -a <version> -m <message>`
         /// This is used for creating a tag with the provided version and message.
         func tag(_ version: Version, _ message: String) -> Process {
-            gitProcess(["tag", "-a", "\(version)", "-m", message.wrappedInQuotes()])
+            gitProcess(["tag", "-a", "\(version)", "-m", message])
         }
         
         /// Returns a process for executing `git update-index --refresh`
@@ -61,7 +61,7 @@ extension Process {
         /// Returns a process for executing `git log <a>..<b> --pretty=format:<format>`
         /// This is used returning the list of commits between two tags.
         func log(_ a: String, _ b: String, format: String) -> Process {
-            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format.wrappedInQuotes())"])
+            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format)"])
         }
     }
     
