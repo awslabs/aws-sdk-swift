@@ -340,7 +340,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     public func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -803,7 +803,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     public func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1108,7 +1108,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     public func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1188,7 +1188,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     public func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1767,7 +1767,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     public func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2036,7 +2036,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     public func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3117,7 +3117,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
+    /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     public func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3316,7 +3316,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide .
+    /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     public func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4248,7 +4248,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     public func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4635,7 +4635,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     public func listMeetings(input: ListMeetingsInput) async throws -> ListMeetingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5861,7 +5861,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Starts transcription for the specified meetingId.
+    /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
     public func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

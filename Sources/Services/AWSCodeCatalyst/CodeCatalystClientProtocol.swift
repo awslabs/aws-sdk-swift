@@ -3,7 +3,7 @@
 @_spi(FileBasedConfig) import AWSClientRuntime
 import ClientRuntime
 
-/// Amazon CodeCatalyst is in preview release and subject to change. Welcome to the Amazon CodeCatalyst API reference. This reference provides descriptions of operations and data types for Amazon CodeCatalyst. You can use the Amazon CodeCatalyst API to work with the following objects. Dev Environments and the Amazon Web Services Toolkits, by calling the following:
+/// Welcome to the Amazon CodeCatalyst API reference. This reference provides descriptions of operations and data types for Amazon CodeCatalyst. You can use the Amazon CodeCatalyst API to work with the following objects. Dev Environments and the Amazon Web Services Toolkits, by calling the following:
 ///
 /// * [CreateAccessToken], which creates a personal access token (PAT) for the current user.
 ///
@@ -21,11 +21,13 @@ import ClientRuntime
 ///
 /// * [GetSourceRepositoryCloneUrls], which returns information about the URLs that can be used with a Git client to clone a source repository.
 ///
+/// * [GetSpace], which returns information about a space.
+///
 /// * [GetSubscription], which returns information about the Amazon Web Services account used for billing purposes and the billing plan for the space.
 ///
 /// * [GetUserDetails], which returns information about a user in Amazon CodeCatalyst.
 ///
-/// * [ListDevEnvironments], which retrives a list of Dev Environments in a project.
+/// * [ListDevEnvironments], which retrieves a list of Dev Environments in a project.
 ///
 /// * [ListProjects], which retrieves a list of projects in a space.
 ///
@@ -55,10 +57,13 @@ import ClientRuntime
 /// * [ListAccessTokens], which lists all personal access tokens (PATs) associated with a user.
 ///
 /// * [ListEventLogs], which retrieves a list of events that occurred during a specified time period in a space.
+///
+///
+/// If you are using the Amazon CodeCatalyst APIs with an SDK or the CLI, you must configure your computer to work with Amazon CodeCatalyst and single sign-on (SSO). For more information, see [Setting up to use the CLI with Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/set-up-cli.html) and the SSO documentation for your SDK.
 public protocol CodeCatalystClientProtocol {
-    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user account. You use PATs to access Amazon CodeCatalyst resources such as source repositories from third-party applications like Git and integrated development environments (IDEs). For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
+    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
     func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutputResponse
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutputResponse
     /// Creates a project in a specified space.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
@@ -80,9 +85,9 @@ public protocol CodeCatalystClientProtocol {
     func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutputResponse
     /// Returns information about a user.
     func getUserDetails(input: GetUserDetailsInput) async throws -> GetUserDetailsOutputResponse
-    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
+    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutputResponse
-    /// Retrives a list of Dev Environments in a project.
+    /// Retrieves a list of Dev Environments in a project.
     func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutputResponse
     /// Retrieves a list of events that occurred during a specified time period in a space. You can use these events to audit user and system activity in a space.
     func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutputResponse

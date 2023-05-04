@@ -8481,6 +8481,8 @@ extension ECSClientTypes {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
+    ///
+    /// * Windows platform version 1.0.0 or later.
     public struct EphemeralStorage: Swift.Equatable {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
@@ -10144,11 +10146,11 @@ extension ECSClientTypes {
         public var devices: [ECSClientTypes.Device]?
         /// Run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public var initProcessEnabled: Swift.Bool?
-        /// The total amount of swap memory (in MiB) a container can use. This parameter will be translated to the --memory-swap option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration) where the value would be the sum of the container memory plus the maxSwap value. If a maxSwap value of 0 is specified, the container will not use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container will use the swap configuration for the container instance it is running on. A maxSwap value must be set for the swappiness parameter to be used. If you're using tasks that use the Fargate launch type, the maxSwap parameter isn't supported.
+        /// The total amount of swap memory (in MiB) a container can use. This parameter will be translated to the --memory-swap option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration) where the value would be the sum of the container memory plus the maxSwap value. If a maxSwap value of 0 is specified, the container will not use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container will use the swap configuration for the container instance it is running on. A maxSwap value must be set for the swappiness parameter to be used. If you're using tasks that use the Fargate launch type, the maxSwap parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
         public var maxSwap: Swift.Int?
         /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). If you are using tasks that use the Fargate launch type, the sharedMemorySize parameter is not supported.
         public var sharedMemorySize: Swift.Int?
-        /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). If you're using tasks that use the Fargate launch type, the swappiness parameter isn't supported.
+        /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). If you're using tasks that use the Fargate launch type, the swappiness parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
         public var swappiness: Swift.Int?
         /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). If you're using tasks that use the Fargate launch type, the tmpfs parameter isn't supported.
         public var tmpfs: [ECSClientTypes.Tmpfs]?
@@ -13354,7 +13356,7 @@ extension ECSClientTypes.PortMapping: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks] API responses.
+    /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Most fields of this parameter (containerPort, hostPort, protocol) maps to PortBindings in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --publish option to [docker run](https://docs.docker.com/engine/reference/commandline/run/). If the network mode of a task definition is set to host, host ports must either be undefined or match the container port in the port mapping. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks] API responses.
     public struct PortMapping: Swift.Equatable {
         /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         public var appProtocol: ECSClientTypes.ApplicationProtocol?
@@ -13653,7 +13655,7 @@ extension PutAccountSettingDefaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountSettingDefaultInput: Swift.Equatable {
-    /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AWSEC2ContainerServiceDocs/build/server-root/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If tagResourceAuthorization is specified, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
@@ -13784,7 +13786,7 @@ extension PutAccountSettingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountSettingInput: Swift.Equatable {
-    /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If fargateFIPSMode is specified, Fargate FIPS 140 compliance is affected.
+    /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If fargateFIPSMode is specified, Fargate FIPS 140 compliance is affected. If tagResourceAuthorization is specified, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
@@ -14609,6 +14611,8 @@ public struct RegisterTaskDefinitionInput: Swift.Equatable {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
+    ///
+    /// * Windows platform version 1.0.0 or later.
     public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. The task execution IAM role is required depending on the requirements of your task. For more information, see [Amazon ECS task execution IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html) in the Amazon Elastic Container Service Developer Guide.
     public var executionRoleArn: Swift.String?
@@ -17033,6 +17037,7 @@ extension ECSClientTypes {
         case containerInstanceLongArnFormat
         case fargateFipsMode
         case serviceLongArnFormat
+        case tagResourceAuthorization
         case taskLongArnFormat
         case sdkUnknown(Swift.String)
 
@@ -17043,6 +17048,7 @@ extension ECSClientTypes {
                 .containerInstanceLongArnFormat,
                 .fargateFipsMode,
                 .serviceLongArnFormat,
+                .tagResourceAuthorization,
                 .taskLongArnFormat,
                 .sdkUnknown("")
             ]
@@ -17058,6 +17064,7 @@ extension ECSClientTypes {
             case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
             case .fargateFipsMode: return "fargateFIPSMode"
             case .serviceLongArnFormat: return "serviceLongArnFormat"
+            case .tagResourceAuthorization: return "tagResourceAuthorization"
             case .taskLongArnFormat: return "taskLongArnFormat"
             case let .sdkUnknown(s): return s
             }
@@ -17211,7 +17218,7 @@ public struct StartTaskInput: Swift.Equatable {
     public var containerInstances: [Swift.String]?
     /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
     public var enableECSManagedTags: Swift.Bool?
-    /// Whether or not the execute command functionality is turned on for the task. If true, this enables execute command functionality on all containers in the task.
+    /// Whether or not the execute command functionality is turned on for the task. If true, this turns on the execute command functionality on all containers in the task.
     public var enableExecuteCommand: Swift.Bool?
     /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
     public var group: Swift.String?

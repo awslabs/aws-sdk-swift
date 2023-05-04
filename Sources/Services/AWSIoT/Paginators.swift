@@ -779,6 +779,37 @@ extension PaginatorSequence where Input == ListJobTemplatesInput, Output == List
     }
 }
 extension IoTClient {
+    /// Paginate over `[ListManagedJobTemplatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListManagedJobTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedJobTemplatesOutputResponse`
+    public func listManagedJobTemplatesPaginated(input: ListManagedJobTemplatesInput) -> ClientRuntime.PaginatorSequence<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutputResponse>(input: input, inputKey: \ListManagedJobTemplatesInput.nextToken, outputKey: \ListManagedJobTemplatesOutputResponse.nextToken, paginationFunction: self.listManagedJobTemplates(input:))
+    }
+}
+
+extension ListManagedJobTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListManagedJobTemplatesInput {
+        return ListManagedJobTemplatesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            templateName: self.templateName
+        )}
+}
+
+extension PaginatorSequence where Input == ListManagedJobTemplatesInput, Output == ListManagedJobTemplatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listManagedJobTemplatesPaginated`
+    /// to access the nested member `[IoTClientTypes.ManagedJobTemplateSummary]`
+    /// - Returns: `[IoTClientTypes.ManagedJobTemplateSummary]`
+    public func managedJobTemplates() async throws -> [IoTClientTypes.ManagedJobTemplateSummary] {
+        return try await self.asyncCompactMap { item in item.managedJobTemplates }
+    }
+}
+extension IoTClient {
     /// Paginate over `[ListMetricValuesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1092,6 +1123,37 @@ extension PaginatorSequence where Input == ListProvisioningTemplateVersionsInput
     /// - Returns: `[IoTClientTypes.ProvisioningTemplateVersionSummary]`
     public func versions() async throws -> [IoTClientTypes.ProvisioningTemplateVersionSummary] {
         return try await self.asyncCompactMap { item in item.versions }
+    }
+}
+extension IoTClient {
+    /// Paginate over `[ListRelatedResourcesForAuditFindingOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRelatedResourcesForAuditFindingInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRelatedResourcesForAuditFindingOutputResponse`
+    public func listRelatedResourcesForAuditFindingPaginated(input: ListRelatedResourcesForAuditFindingInput) -> ClientRuntime.PaginatorSequence<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutputResponse>(input: input, inputKey: \ListRelatedResourcesForAuditFindingInput.nextToken, outputKey: \ListRelatedResourcesForAuditFindingOutputResponse.nextToken, paginationFunction: self.listRelatedResourcesForAuditFinding(input:))
+    }
+}
+
+extension ListRelatedResourcesForAuditFindingInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRelatedResourcesForAuditFindingInput {
+        return ListRelatedResourcesForAuditFindingInput(
+            findingId: self.findingId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListRelatedResourcesForAuditFindingInput, Output == ListRelatedResourcesForAuditFindingOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRelatedResourcesForAuditFindingPaginated`
+    /// to access the nested member `[IoTClientTypes.RelatedResource]`
+    /// - Returns: `[IoTClientTypes.RelatedResource]`
+    public func relatedResources() async throws -> [IoTClientTypes.RelatedResource] {
+        return try await self.asyncCompactMap { item in item.relatedResources }
     }
 }
 extension IoTClient {

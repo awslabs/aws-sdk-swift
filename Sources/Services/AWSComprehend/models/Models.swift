@@ -2311,12 +2311,14 @@ extension ClassifyDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.documentType = output.documentType
             self.errors = output.errors
             self.labels = output.labels
+            self.warnings = output.warnings
         } else {
             self.classes = nil
             self.documentMetadata = nil
             self.documentType = nil
             self.errors = nil
             self.labels = nil
+            self.warnings = nil
         }
     }
 }
@@ -2332,13 +2334,16 @@ public struct ClassifyDocumentOutputResponse: Swift.Equatable {
     public var errors: [ComprehendClientTypes.ErrorsListItem]?
     /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
     public var labels: [ComprehendClientTypes.DocumentLabel]?
+    /// Warnings detected while processing the input document. The response includes a warning if there is a mismatch between the input document type and the model type associated with the endpoint that you specified. The response can also include warnings for individual pages that have a mismatch. The field is empty if the system generated no warnings.
+    public var warnings: [ComprehendClientTypes.WarningsListItem]?
 
     public init (
         classes: [ComprehendClientTypes.DocumentClass]? = nil,
         documentMetadata: ComprehendClientTypes.DocumentMetadata? = nil,
         documentType: [ComprehendClientTypes.DocumentTypeListItem]? = nil,
         errors: [ComprehendClientTypes.ErrorsListItem]? = nil,
-        labels: [ComprehendClientTypes.DocumentLabel]? = nil
+        labels: [ComprehendClientTypes.DocumentLabel]? = nil,
+        warnings: [ComprehendClientTypes.WarningsListItem]? = nil
     )
     {
         self.classes = classes
@@ -2346,6 +2351,7 @@ public struct ClassifyDocumentOutputResponse: Swift.Equatable {
         self.documentType = documentType
         self.errors = errors
         self.labels = labels
+        self.warnings = warnings
     }
 }
 
@@ -2355,6 +2361,7 @@ struct ClassifyDocumentOutputResponseBody: Swift.Equatable {
     let documentMetadata: ComprehendClientTypes.DocumentMetadata?
     let documentType: [ComprehendClientTypes.DocumentTypeListItem]?
     let errors: [ComprehendClientTypes.ErrorsListItem]?
+    let warnings: [ComprehendClientTypes.WarningsListItem]?
 }
 
 extension ClassifyDocumentOutputResponseBody: Swift.Decodable {
@@ -2364,6 +2371,7 @@ extension ClassifyDocumentOutputResponseBody: Swift.Decodable {
         case documentType = "DocumentType"
         case errors = "Errors"
         case labels = "Labels"
+        case warnings = "Warnings"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2414,6 +2422,17 @@ extension ClassifyDocumentOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+        let warningsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.WarningsListItem?].self, forKey: .warnings)
+        var warningsDecoded0:[ComprehendClientTypes.WarningsListItem]? = nil
+        if let warningsContainer = warningsContainer {
+            warningsDecoded0 = [ComprehendClientTypes.WarningsListItem]()
+            for structure0 in warningsContainer {
+                if let structure0 = structure0 {
+                    warningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        warnings = warningsDecoded0
     }
 }
 
@@ -2909,7 +2928,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     public var modelKmsKeyId: Swift.String?
     /// The resource-based policy to attach to your custom document classifier model. You can use this policy to allow another Amazon Web Services account to import your custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}'
     public var modelPolicy: Swift.String?
-    /// Enables the addition of output results configuration parameters for custom classifier jobs.
+    /// Specifies the location for the output files from a custom classifier job. This parameter is required for a request that creates a native classifier model.
     public var outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig?
     /// Tags to associate with the document classifier. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
@@ -8434,6 +8453,84 @@ extension ComprehendClientTypes {
     }
 }
 
+extension ComprehendClientTypes {
+    public enum DocumentClassifierDocumentTypeFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case plainTextDocument
+        case semiStructuredDocument
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentClassifierDocumentTypeFormat] {
+            return [
+                .plainTextDocument,
+                .semiStructuredDocument,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .plainTextDocument: return "PLAIN_TEXT_DOCUMENT"
+            case .semiStructuredDocument: return "SEMI_STRUCTURED_DOCUMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DocumentClassifierDocumentTypeFormat(rawValue: rawValue) ?? DocumentClassifierDocumentTypeFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.DocumentClassifierDocuments: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Uri = "S3Uri"
+        case testS3Uri = "TestS3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+        if let testS3Uri = self.testS3Uri {
+            try encodeContainer.encode(testS3Uri, forKey: .testS3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let testS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testS3Uri)
+        testS3Uri = testS3UriDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The location of the training documents. This parameter is required in a request to create a native classifier model.
+    public struct DocumentClassifierDocuments: Swift.Equatable {
+        /// The S3 URI location of the training documents specified in the S3Uri CSV file.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// The S3 URI location of the test documents included in the TestS3Uri CSV file. This field is not required if you do not specify a test CSV file.
+        public var testS3Uri: Swift.String?
+
+        public init (
+            s3Uri: Swift.String? = nil,
+            testS3Uri: Swift.String? = nil
+        )
+        {
+            self.s3Uri = s3Uri
+            self.testS3Uri = testS3Uri
+        }
+    }
+
+}
+
 extension ComprehendClientTypes.DocumentClassifierFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case documentClassifierName = "DocumentClassifierName"
@@ -8503,6 +8600,9 @@ extension ComprehendClientTypes.DocumentClassifierInputDataConfig: Swift.Codable
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case augmentedManifests = "AugmentedManifests"
         case dataFormat = "DataFormat"
+        case documentReaderConfig = "DocumentReaderConfig"
+        case documentType = "DocumentType"
+        case documents = "Documents"
         case labelDelimiter = "LabelDelimiter"
         case s3Uri = "S3Uri"
         case testS3Uri = "TestS3Uri"
@@ -8518,6 +8618,15 @@ extension ComprehendClientTypes.DocumentClassifierInputDataConfig: Swift.Codable
         }
         if let dataFormat = self.dataFormat {
             try encodeContainer.encode(dataFormat.rawValue, forKey: .dataFormat)
+        }
+        if let documentReaderConfig = self.documentReaderConfig {
+            try encodeContainer.encode(documentReaderConfig, forKey: .documentReaderConfig)
+        }
+        if let documentType = self.documentType {
+            try encodeContainer.encode(documentType.rawValue, forKey: .documentType)
+        }
+        if let documents = self.documents {
+            try encodeContainer.encode(documents, forKey: .documents)
         }
         if let labelDelimiter = self.labelDelimiter {
             try encodeContainer.encode(labelDelimiter, forKey: .labelDelimiter)
@@ -8551,6 +8660,12 @@ extension ComprehendClientTypes.DocumentClassifierInputDataConfig: Swift.Codable
             }
         }
         augmentedManifests = augmentedManifestsDecoded0
+        let documentTypeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentClassifierDocumentTypeFormat.self, forKey: .documentType)
+        documentType = documentTypeDecoded
+        let documentsDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentClassifierDocuments.self, forKey: .documents)
+        documents = documentsDecoded
+        let documentReaderConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.DocumentReaderConfig.self, forKey: .documentReaderConfig)
+        documentReaderConfig = documentReaderConfigDecoded
     }
 }
 
@@ -8568,6 +8683,21 @@ extension ComprehendClientTypes {
         ///
         /// If you don't specify a value, Amazon Comprehend uses COMPREHEND_CSV as the default.
         public var dataFormat: ComprehendClientTypes.DocumentClassifierDataFormat?
+        /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files. By default, Amazon Comprehend performs the following actions to extract text from files, based on the input file type:
+        ///
+        /// * Word files - Amazon Comprehend parser extracts the text.
+        ///
+        /// * Digital PDF files - Amazon Comprehend parser extracts the text.
+        ///
+        /// * Image files and scanned PDF files - Amazon Comprehend uses the Amazon Textract DetectDocumentText API to extract the text.
+        ///
+        ///
+        /// DocumentReaderConfig does not apply to plain text files or Word files. For image files and PDF documents, you can override these default actions using the fields listed below. For more information, see [ Setting text extraction options](https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html) in the Comprehend Developer Guide.
+        public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
+        /// The type of input documents for training the model. Provide plain-text documents to create a plain-text model, and provide semi-structured documents to create a native model.
+        public var documentType: ComprehendClientTypes.DocumentClassifierDocumentTypeFormat?
+        /// The S3 location of the training documents. This parameter is required in a request to create a native classifier model.
+        public var documents: ComprehendClientTypes.DocumentClassifierDocuments?
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public var labelDelimiter: Swift.String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
@@ -8578,6 +8708,9 @@ extension ComprehendClientTypes {
         public init (
             augmentedManifests: [ComprehendClientTypes.AugmentedManifestsListItem]? = nil,
             dataFormat: ComprehendClientTypes.DocumentClassifierDataFormat? = nil,
+            documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
+            documentType: ComprehendClientTypes.DocumentClassifierDocumentTypeFormat? = nil,
+            documents: ComprehendClientTypes.DocumentClassifierDocuments? = nil,
             labelDelimiter: Swift.String? = nil,
             s3Uri: Swift.String? = nil,
             testS3Uri: Swift.String? = nil
@@ -8585,6 +8718,9 @@ extension ComprehendClientTypes {
         {
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
+            self.documentReaderConfig = documentReaderConfig
+            self.documentType = documentType
+            self.documents = documents
             self.labelDelimiter = labelDelimiter
             self.s3Uri = s3Uri
             self.testS3Uri = testS3Uri
@@ -8657,7 +8793,7 @@ extension ComprehendClientTypes.DocumentClassifierOutputDataConfig: Swift.Codabl
 }
 
 extension ComprehendClientTypes {
-    /// Provides output results configuration parameters for custom classifier jobs.
+    /// Provide the location for output data from a custom classifier job. This field is mandatory if you are training a native classifier model.
     public struct DocumentClassifierOutputDataConfig: Swift.Equatable {
         /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
         public var flywheelStatsS3Prefix: Swift.String?
@@ -8671,7 +8807,7 @@ extension ComprehendClientTypes {
         ///
         /// * ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
         public var kmsKeyId: Swift.String?
-        /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
+        /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix and other output files. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
         public var s3Uri: Swift.String?
 
         public init (
@@ -8851,7 +8987,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig?
         /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different Amazon Web Services account to create the document classifier model in your Amazon Web Services account.
         public var sourceModelArn: Swift.String?
-        /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
+        /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is TRAINED_WITH_WARNINGS the classifier training succeeded, but you should review the warnings returned in the CreateDocumentClassifier response. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
         public var status: ComprehendClientTypes.ModelStatus?
         /// The time that the document classifier was submitted for training.
         public var submitTime: ClientRuntime.Date?
@@ -9257,7 +9393,7 @@ extension ComprehendClientTypes {
     /// * Image files and scanned PDF files - Amazon Comprehend uses the Amazon Textract DetectDocumentText API to extract the text.
     ///
     ///
-    /// DocumentReaderConfig does not apply to plain text files or Word files. For image files and PDF documents, you can override these default actions using the fields listed below. For more information, see [ Setting text extraction options](https://docs.aws.amazon.com/comprehend/latest/dg/detecting-cer.html#detecting-cer-pdf).
+    /// DocumentReaderConfig does not apply to plain text files or Word files. For image files and PDF documents, you can override these default actions using the fields listed below. For more information, see [ Setting text extraction options](https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html) in the Comprehend Developer Guide.
     public struct DocumentReaderConfig: Swift.Equatable {
         /// This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and image files. Enter one of the following values:
         ///
@@ -16501,6 +16637,38 @@ extension ComprehendClientTypes {
     }
 }
 
+extension ComprehendClientTypes {
+    public enum PageBasedWarningCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case inferencingNativeDocumentWithPlaintextTrainedModel
+        case inferencingPlaintextWithNativeTrainedModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PageBasedWarningCode] {
+            return [
+                .inferencingNativeDocumentWithPlaintextTrainedModel,
+                .inferencingPlaintextWithNativeTrainedModel,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .inferencingNativeDocumentWithPlaintextTrainedModel: return "INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL"
+            case .inferencingPlaintextWithNativeTrainedModel: return "INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PageBasedWarningCode(rawValue: rawValue) ?? PageBasedWarningCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComprehendClientTypes.PartOfSpeechTag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case score = "Score"
@@ -18246,6 +18414,7 @@ extension StartDocumentClassificationJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -18259,6 +18428,7 @@ public enum StartDocumentClassificationJobOutputError: Swift.Error, Swift.Equata
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case resourceNotFoundException(ResourceNotFoundException)
     case resourceUnavailableException(ResourceUnavailableException)
     case tooManyRequestsException(TooManyRequestsException)
@@ -18512,6 +18682,7 @@ extension StartDominantLanguageDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -18523,6 +18694,7 @@ public enum StartDominantLanguageDetectionJobOutputError: Swift.Error, Swift.Equ
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -18797,6 +18969,7 @@ extension StartEntitiesDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -18810,6 +18983,7 @@ public enum StartEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case resourceNotFoundException(ResourceNotFoundException)
     case resourceUnavailableException(ResourceUnavailableException)
     case tooManyRequestsException(TooManyRequestsException)
@@ -19073,6 +19247,7 @@ extension StartEventsDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -19084,6 +19259,7 @@ public enum StartEventsDetectionJobOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -19466,6 +19642,7 @@ extension StartKeyPhrasesDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -19477,6 +19654,7 @@ public enum StartKeyPhrasesDetectionJobOutputError: Swift.Error, Swift.Equatable
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -19724,6 +19902,7 @@ extension StartPiiEntitiesDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -19735,6 +19914,7 @@ public enum StartPiiEntitiesDetectionJobOutputError: Swift.Error, Swift.Equatabl
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -19977,6 +20157,7 @@ extension StartSentimentDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -19988,6 +20169,7 @@ public enum StartSentimentDetectionJobOutputError: Swift.Error, Swift.Equatable 
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -20238,6 +20420,7 @@ extension StartTargetedSentimentDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -20249,6 +20432,7 @@ public enum StartTargetedSentimentDetectionJobOutputError: Swift.Error, Swift.Eq
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -20498,6 +20682,7 @@ extension StartTopicsDetectionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsKeyValidationException" : self = .kmsKeyValidationException(try KmsKeyValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -20509,6 +20694,7 @@ public enum StartTopicsDetectionJobOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case invalidRequestException(InvalidRequestException)
     case kmsKeyValidationException(KmsKeyValidationException)
+    case resourceInUseException(ResourceInUseException)
     case tooManyRequestsException(TooManyRequestsException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -23462,6 +23648,65 @@ extension ComprehendClientTypes {
         {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.WarningsListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case page = "Page"
+        case warnCode = "WarnCode"
+        case warnMessage = "WarnMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let page = self.page {
+            try encodeContainer.encode(page, forKey: .page)
+        }
+        if let warnCode = self.warnCode {
+            try encodeContainer.encode(warnCode.rawValue, forKey: .warnCode)
+        }
+        if let warnMessage = self.warnMessage {
+            try encodeContainer.encode(warnMessage, forKey: .warnMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .page)
+        page = pageDecoded
+        let warnCodeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.PageBasedWarningCode.self, forKey: .warnCode)
+        warnCode = warnCodeDecoded
+        let warnMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .warnMessage)
+        warnMessage = warnMessageDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// The system identified one of the following warnings while processing the input document:
+    ///
+    /// * The document to classify is plain text, but the classifier is a native model.
+    ///
+    /// * The document to classify is semi-structured, but the classifier is a plain-text model.
+    public struct WarningsListItem: Swift.Equatable {
+        /// Page number in the input document.
+        public var page: Swift.Int?
+        /// The type of warning.
+        public var warnCode: ComprehendClientTypes.PageBasedWarningCode?
+        /// Text message associated with the warning.
+        public var warnMessage: Swift.String?
+
+        public init (
+            page: Swift.Int? = nil,
+            warnCode: ComprehendClientTypes.PageBasedWarningCode? = nil,
+            warnMessage: Swift.String? = nil
+        )
+        {
+            self.page = page
+            self.warnCode = warnCode
+            self.warnMessage = warnMessage
         }
     }
 

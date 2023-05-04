@@ -22,6 +22,8 @@ public protocol WAFV2ClientProtocol {
     func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutputResponse
     /// Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules. You can use this to check the capacity requirements for the rules you want to use in a [RuleGroup] or [WebACL]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     func checkCapacity(input: CheckCapacityInput) async throws -> CheckCapacityOutputResponse
+    /// Creates an API key for use in the integration of the CAPTCHA API in your JavaScript client applications. The integration lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide. The CAPTCHA API requires a key that authorizes CAPTCHA use from the client application domain. You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your JavaScript integration.
+    func createAPIKey(input: CreateAPIKeyInput) async throws -> CreateAPIKeyOutputResponse
     /// Creates an [IPSet], which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses.
     func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutputResponse
     /// Creates a [RegexPatternSet], which you reference in a [RegexPatternSetReferenceStatement], to have WAF inspect a web request component for the specified patterns.
@@ -65,6 +67,8 @@ public protocol WAFV2ClientProtocol {
     func disassociateWebACL(input: DisassociateWebACLInput) async throws -> DisassociateWebACLOutputResponse
     /// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     func generateMobileSdkReleaseUrl(input: GenerateMobileSdkReleaseUrlInput) async throws -> GenerateMobileSdkReleaseUrlOutputResponse
+    /// Returns your API key in decrypted form. Use this to check the token domains that you have defined for the key.
+    func getDecryptedAPIKey(input: GetDecryptedAPIKeyInput) async throws -> GetDecryptedAPIKeyOutputResponse
     /// Retrieves the specified [IPSet].
     func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutputResponse
     /// Returns the [LoggingConfiguration] for the specified web ACL.
@@ -87,6 +91,8 @@ public protocol WAFV2ClientProtocol {
     func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutputResponse
     /// Retrieves the [WebACL] for the specified resource.
     func getWebACLForResource(input: GetWebACLForResourceInput) async throws -> GetWebACLForResourceOutputResponse
+    /// Retrieves a list of the API keys that you've defined for the specified scope.
+    func listAPIKeys(input: ListAPIKeysInput) async throws -> ListAPIKeysOutputResponse
     /// Retrieves an array of managed rule groups that are available for you to use. This list includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web Services Marketplace managed rule groups that you're subscribed to.
     func listAvailableManagedRuleGroups(input: ListAvailableManagedRuleGroupsInput) async throws -> ListAvailableManagedRuleGroupsOutputResponse
     /// Returns a list of the available versions for the specified managed rule group.

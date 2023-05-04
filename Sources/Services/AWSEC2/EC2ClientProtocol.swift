@@ -82,7 +82,7 @@ public protocol EC2ClientProtocol {
     func attachInternetGateway(input: AttachInternetGatewayInput) async throws -> AttachInternetGatewayOutputResponse
     /// Attaches a network interface to an instance.
     func attachNetworkInterface(input: AttachNetworkInterfaceInput) async throws -> AttachNetworkInterfaceOutputResponse
-    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. One or more trust providers can be attached to an Amazon Web Services Verified Access instance.
+    /// Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
     func attachVerifiedAccessTrustProvider(input: AttachVerifiedAccessTrustProviderInput) async throws -> AttachVerifiedAccessTrustProviderOutputResponse
     /// Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) in the Amazon Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it available. For more information, see [Make an EBS volume available for use](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html). If a volume has an Amazon Web Services Marketplace product code:
     ///
@@ -310,11 +310,11 @@ public protocol EC2ClientProtocol {
     func createTransitGatewayVpcAttachment(input: CreateTransitGatewayVpcAttachmentInput) async throws -> CreateTransitGatewayVpcAttachmentOutputResponse
     /// An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
     func createVerifiedAccessEndpoint(input: CreateVerifiedAccessEndpointInput) async throws -> CreateVerifiedAccessEndpointOutputResponse
-    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within an Amazon Web Services Verified Access group shares an Amazon Web Services Verified Access policy. For example, you can group all Amazon Web Services Verified Access instances associated with “sales” applications together and use one common Amazon Web Services Verified Access policy.
+    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications together and use one common Verified Access policy.
     func createVerifiedAccessGroup(input: CreateVerifiedAccessGroupInput) async throws -> CreateVerifiedAccessGroupOutputResponse
     /// An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants access only when your security requirements are met.
     func createVerifiedAccessInstance(input: CreateVerifiedAccessInstanceInput) async throws -> CreateVerifiedAccessInstanceOutputResponse
-    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider will be evaluated by Amazon Web Services Verified Access, before allowing or denying the application request.
+    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request.
     func createVerifiedAccessTrustProvider(input: CreateVerifiedAccessTrustProviderInput) async throws -> CreateVerifiedAccessTrustProviderOutputResponse
     /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide. For more information, see [Create an Amazon EBS volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html) in the Amazon Elastic Compute Cloud User Guide.
     func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutputResponse
@@ -782,15 +782,15 @@ public protocol EC2ClientProtocol {
     func describeTransitGatewayVpcAttachments(input: DescribeTransitGatewayVpcAttachmentsInput) async throws -> DescribeTransitGatewayVpcAttachmentsOutputResponse
     /// This API action is currently in limited preview only. If you are interested in using this feature, contact your account manager. Describes one or more network interface trunk associations.
     func describeTrunkInterfaceAssociations(input: DescribeTrunkInterfaceAssociationsInput) async throws -> DescribeTrunkInterfaceAssociationsOutputResponse
-    /// Describe Amazon Web Services Verified Access endpoints.
+    /// Describes the specified Amazon Web Services Verified Access endpoints.
     func describeVerifiedAccessEndpoints(input: DescribeVerifiedAccessEndpointsInput) async throws -> DescribeVerifiedAccessEndpointsOutputResponse
-    /// Describe details of existing Verified Access groups.
+    /// Describes the specified Verified Access groups.
     func describeVerifiedAccessGroups(input: DescribeVerifiedAccessGroupsInput) async throws -> DescribeVerifiedAccessGroupsOutputResponse
-    /// Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     func describeVerifiedAccessInstanceLoggingConfigurations(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse
-    /// Describe Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     func describeVerifiedAccessInstances(input: DescribeVerifiedAccessInstancesInput) async throws -> DescribeVerifiedAccessInstancesOutputResponse
-    /// Describe details of existing Verified Access trust providers.
+    /// Describes the specified Amazon Web Services Verified Access trust providers.
     func describeVerifiedAccessTrustProviders(input: DescribeVerifiedAccessTrustProvidersInput) async throws -> DescribeVerifiedAccessTrustProvidersOutputResponse
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html) in the Amazon Elastic Compute Cloud User Guide.
     func describeVolumeAttribute(input: DescribeVolumeAttributeInput) async throws -> DescribeVolumeAttributeOutputResponse
@@ -832,7 +832,7 @@ public protocol EC2ClientProtocol {
     func detachInternetGateway(input: DetachInternetGatewayInput) async throws -> DetachInternetGatewayOutputResponse
     /// Detaches a network interface from an instance.
     func detachNetworkInterface(input: DetachNetworkInterfaceInput) async throws -> DetachNetworkInterfaceOutputResponse
-    /// Detach a trust provider from an Amazon Web Services Verified Access instance.
+    /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
     func detachVerifiedAccessTrustProvider(input: DetachVerifiedAccessTrustProviderInput) async throws -> DetachVerifiedAccessTrustProviderOutputResponse
     /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see [Detach an Amazon EBS volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html) in the Amazon Elastic Compute Cloud User Guide.
     func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutputResponse
@@ -1152,15 +1152,15 @@ public protocol EC2ClientProtocol {
     func modifyTransitGatewayPrefixListReference(input: ModifyTransitGatewayPrefixListReferenceInput) async throws -> ModifyTransitGatewayPrefixListReferenceOutputResponse
     /// Modifies the specified VPC attachment.
     func modifyTransitGatewayVpcAttachment(input: ModifyTransitGatewayVpcAttachmentInput) async throws -> ModifyTransitGatewayVpcAttachmentOutputResponse
-    /// Modifies the configuration of an Amazon Web Services Verified Access endpoint.
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
     func modifyVerifiedAccessEndpoint(input: ModifyVerifiedAccessEndpointInput) async throws -> ModifyVerifiedAccessEndpointOutputResponse
-    /// Modifies the specified Verified Access endpoint policy.
+    /// Modifies the specified Amazon Web Services Verified Access endpoint policy.
     func modifyVerifiedAccessEndpointPolicy(input: ModifyVerifiedAccessEndpointPolicyInput) async throws -> ModifyVerifiedAccessEndpointPolicyOutputResponse
-    /// Modifies the specified Verified Access group configuration.
+    /// Modifies the specified Amazon Web Services Verified Access group configuration.
     func modifyVerifiedAccessGroup(input: ModifyVerifiedAccessGroupInput) async throws -> ModifyVerifiedAccessGroupOutputResponse
-    /// Modifies the specified Verified Access group policy.
+    /// Modifies the specified Amazon Web Services Verified Access group policy.
     func modifyVerifiedAccessGroupPolicy(input: ModifyVerifiedAccessGroupPolicyInput) async throws -> ModifyVerifiedAccessGroupPolicyOutputResponse
-    /// Modifies the configuration of the specified Verified Access instance.
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access instance.
     func modifyVerifiedAccessInstance(input: ModifyVerifiedAccessInstanceInput) async throws -> ModifyVerifiedAccessInstanceOutputResponse
     /// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
     func modifyVerifiedAccessInstanceLoggingConfiguration(input: ModifyVerifiedAccessInstanceLoggingConfigurationInput) async throws -> ModifyVerifiedAccessInstanceLoggingConfigurationOutputResponse

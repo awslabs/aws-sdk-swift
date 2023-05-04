@@ -4765,6 +4765,174 @@ extension CreateIntegrationAssociationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateParticipantInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+        case participantDetails = "ParticipantDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let participantDetails = self.participantDetails {
+            try encodeContainer.encode(participantDetails, forKey: .participantDetails)
+        }
+    }
+}
+
+extension CreateParticipantInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/contact/create-participant"
+    }
+}
+
+public struct CreateParticipantInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the contact in this instance of Amazon Connect. Only contacts in the CHAT channel are supported.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Information identifying the participant. The only Valid value for ParticipantRole is CUSTOM_BOT. DisplayName is Required.
+    /// This member is required.
+    public var participantDetails: ConnectClientTypes.ParticipantDetailsToAdd?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetailsToAdd? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+    }
+}
+
+struct CreateParticipantInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let contactId: Swift.String?
+    let clientToken: Swift.String?
+    let participantDetails: ConnectClientTypes.ParticipantDetailsToAdd?
+}
+
+extension CreateParticipantInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+        case participantDetails = "ParticipantDetails"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let participantDetailsDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ParticipantDetailsToAdd.self, forKey: .participantDetails)
+        participantDetails = participantDetailsDecoded
+    }
+}
+
+extension CreateParticipantOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateParticipantOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateParticipantOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateParticipantOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateParticipantOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.participantCredentials = output.participantCredentials
+            self.participantId = output.participantId
+        } else {
+            self.participantCredentials = nil
+            self.participantId = nil
+        }
+    }
+}
+
+public struct CreateParticipantOutputResponse: Swift.Equatable {
+    /// The token used by the chat participant to call CreateParticipantConnection. The participant token is valid for the lifetime of a chat participant.
+    public var participantCredentials: ConnectClientTypes.ParticipantTokenCredentials?
+    /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
+    public var participantId: Swift.String?
+
+    public init (
+        participantCredentials: ConnectClientTypes.ParticipantTokenCredentials? = nil,
+        participantId: Swift.String? = nil
+    )
+    {
+        self.participantCredentials = participantCredentials
+        self.participantId = participantId
+    }
+}
+
+struct CreateParticipantOutputResponseBody: Swift.Equatable {
+    let participantCredentials: ConnectClientTypes.ParticipantTokenCredentials?
+    let participantId: Swift.String?
+}
+
+extension CreateParticipantOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case participantCredentials = "ParticipantCredentials"
+        case participantId = "ParticipantId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participantCredentialsDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ParticipantTokenCredentials.self, forKey: .participantCredentials)
+        participantCredentials = participantCredentialsDecoded
+        let participantIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .participantId)
+        participantId = participantIdDecoded
+    }
+}
+
 extension CreateQueueInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -21806,7 +21974,7 @@ extension ConnectClientTypes.MetricFilterV2: Swift.Codable {
 extension ConnectClientTypes {
     /// Contains information about the filter used when retrieving metrics. MetricFiltersV2 can be used on the following metrics: AVG_AGENT_CONNECTING_TIME, CONTACTS_CREATED, CONTACTS_HANDLED, SUM_CONTACTS_DISCONNECTED.
     public struct MetricFilterV2: Swift.Equatable {
-        /// The key to use for filtering data. Valid metric filter keys: INITIATION_METHOD, DISCONNECT_REASON
+        /// The key to use for filtering data. Valid metric filter keys: INITIATION_METHOD, DISCONNECT_REASON. These are the same values as the InitiationMethod and DisconnectReason in the contact record. For more information, see [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator's Guide.
         public var metricFilterKey: Swift.String?
         /// The values to use for filtering data. Valid metric filter values for INITIATION_METHOD: INBOUND | OUTBOUND | TRANSFER | QUEUE_TRANSFER | CALLBACK | API Valid metric filter values for DISCONNECT_REASON: CUSTOMER_DISCONNECT | AGENT_DISCONNECT | THIRD_PARTY_DISCONNECT | TELECOM_PROBLEM | BARGED | CONTACT_FLOW_DISCONNECT | OTHER | EXPIRED | API
         public var metricFilterValues: [Swift.String]?
@@ -22512,6 +22680,89 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.ParticipantDetailsToAdd: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayName = "DisplayName"
+        case participantRole = "ParticipantRole"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let participantRole = self.participantRole {
+            try encodeContainer.encode(participantRole.rawValue, forKey: .participantRole)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participantRoleDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ParticipantRole.self, forKey: .participantRole)
+        participantRole = participantRoleDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The details to add for the participant.
+    public struct ParticipantDetailsToAdd: Swift.Equatable {
+        /// The display name of the participant.
+        public var displayName: Swift.String?
+        /// The role of the participant being added.
+        public var participantRole: ConnectClientTypes.ParticipantRole?
+
+        public init (
+            displayName: Swift.String? = nil,
+            participantRole: ConnectClientTypes.ParticipantRole? = nil
+        )
+        {
+            self.displayName = displayName
+            self.participantRole = participantRole
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum ParticipantRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case agent
+        case customer
+        case customBot
+        case system
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantRole] {
+            return [
+                .agent,
+                .customer,
+                .customBot,
+                .system,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .customer: return "CUSTOMER"
+            case .customBot: return "CUSTOM_BOT"
+            case .system: return "SYSTEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParticipantRole(rawValue: rawValue) ?? ParticipantRole.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectClientTypes {
     public enum ParticipantTimerAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case unset
@@ -22674,6 +22925,51 @@ extension ConnectClientTypes {
         /// The duration of a timer, in minutes.
         case participanttimerdurationinminutes(Swift.Int)
         case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectClientTypes.ParticipantTokenCredentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expiry = "Expiry"
+        case participantToken = "ParticipantToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expiry = self.expiry {
+            try encodeContainer.encode(expiry, forKey: .expiry)
+        }
+        if let participantToken = self.participantToken {
+            try encodeContainer.encode(participantToken, forKey: .participantToken)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participantTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .participantToken)
+        participantToken = participantTokenDecoded
+        let expiryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expiry)
+        expiry = expiryDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The credentials used by the participant.
+    public struct ParticipantTokenCredentials: Swift.Equatable {
+        /// The expiration of the token. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public var expiry: Swift.String?
+        /// The token used by the chat participant to call [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html). The participant token is valid for the lifetime of a chat participant.
+        public var participantToken: Swift.String?
+
+        public init (
+            expiry: Swift.String? = nil,
+            participantToken: Swift.String? = nil
+        )
+        {
+            self.expiry = expiry
+            self.participantToken = participantToken
+        }
     }
 
 }

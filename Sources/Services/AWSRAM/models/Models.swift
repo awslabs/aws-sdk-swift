@@ -26,9 +26,9 @@ extension AcceptResourceShareInvitationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AcceptResourceShareInvitationInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
-    /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation that you want to accept.
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation that you want to accept.
     /// This member is required.
     public var resourceShareInvitationArn: Swift.String?
 
@@ -190,13 +190,13 @@ extension AssociateResourceShareInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateResourceShareInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See [AssociateResourceSharePermission]. You can include the following values:
     ///
     /// * An Amazon Web Services account ID, for example: 123456789012
     ///
-    /// * An [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
+    /// * An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
     ///
     /// * An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123
     ///
@@ -209,7 +209,7 @@ public struct AssociateResourceShareInput: Swift.Equatable {
     public var principals: [Swift.String]?
     /// Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resources that you want to share. This can be null if you want to add only principals.
     public var resourceArns: [Swift.String]?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add principals or resources to.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add principals or resources to.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -410,16 +410,16 @@ extension AssociateResourceSharePermissionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateResourceSharePermissionInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// This member is required.
     public var permissionArn: Swift.String?
-    /// Specifies the version of the RAM permission to associate with the resource share. If you don't specify this parameter, the operation uses the version designated as the default. You can use the [ListPermissionVersions] operation to discover the available versions of a permission.
+    /// Specifies the version of the RAM permission to associate with the resource share. You can specify only the version that is currently set as the default version for the permission. If you also set the replace pararameter to true, then this operation updates an outdated version of the permission to the current default version. You don't need to specify this parameter because the default behavior is to use the version that is currently set as the default version for the permission. This parameter is supported for backwards compatibility.
     public var permissionVersion: Swift.Int?
-    /// Specifies whether the specified permission should replace or add to the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission. The default value is false. A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
+    /// Specifies whether the specified permission should replace the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false. A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
     public var replace: Swift.Bool?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to which you want to add or replace permissions.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to which you want to add or replace permissions.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -555,6 +555,506 @@ extension AssociateResourceSharePermissionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension RAMClientTypes.AssociatedPermission: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case defaultVersion
+        case featureSet
+        case lastUpdatedTime
+        case permissionVersion
+        case resourceShareArn
+        case resourceType
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let defaultVersion = self.defaultVersion {
+            try encodeContainer.encode(defaultVersion, forKey: .defaultVersion)
+        }
+        if let featureSet = self.featureSet {
+            try encodeContainer.encode(featureSet.rawValue, forKey: .featureSet)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let permissionVersion = self.permissionVersion {
+            try encodeContainer.encode(permissionVersion, forKey: .permissionVersion)
+        }
+        if let resourceShareArn = self.resourceShareArn {
+            try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let permissionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionVersion)
+        permissionVersion = permissionVersionDecoded
+        let defaultVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultVersion)
+        defaultVersion = defaultVersionDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let featureSetDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionFeatureSet.self, forKey: .featureSet)
+        featureSet = featureSetDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let resourceShareArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShareArn)
+        resourceShareArn = resourceShareArnDecoded
+    }
+}
+
+extension RAMClientTypes {
+    /// An object that describes a managed permission associated with a resource share.
+    public struct AssociatedPermission: Swift.Equatable {
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the associated managed permission.
+        public var arn: Swift.String?
+        /// Indicates whether the associated resource share is using the default version of the permission.
+        public var defaultVersion: Swift.Bool?
+        /// Indicates what features are available for this resource share. This parameter can have one of the following values:
+        ///
+        /// * STANDARD – A resource share that supports all functionality. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs. This resource share might have been created by RAM, or it might have been CREATED_FROM_POLICY and then promoted.
+        ///
+        /// * CREATED_FROM_POLICY – The customer manually shared a resource by attaching a resource-based policy. That policy did not match any existing managed permissions, so RAM created this customer managed permission automatically on the customer's behalf based on the attached policy document. This type of resource share is visible only to the Amazon Web Services account that created it. You can't modify it in RAM unless you promote it. For more information, see [PromoteResourceShareCreatedFromPolicy].
+        ///
+        /// * PROMOTING_TO_STANDARD – This resource share was originally CREATED_FROM_POLICY, but the customer ran the [PromoteResourceShareCreatedFromPolicy] and that operation is still in progress. This value changes to STANDARD when complete.
+        public var featureSet: RAMClientTypes.PermissionFeatureSet?
+        /// The date and time when the association between the permission and the resource share was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The version of the permission currently associated with the resource share.
+        public var permissionVersion: Swift.String?
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource share associated with this permission.
+        public var resourceShareArn: Swift.String?
+        /// The resource type to which this permission applies.
+        public var resourceType: Swift.String?
+        /// The current status of the association between the permission and the resource share. The following are the possible values:
+        ///
+        /// * ATTACHABLE – This permission or version can be associated with resource shares.
+        ///
+        /// * UNATTACHABLE – This permission or version can't currently be associated with resource shares.
+        ///
+        /// * DELETING – This permission or version is in the process of being deleted.
+        ///
+        /// * DELETED – This permission or version is deleted.
+        public var status: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            defaultVersion: Swift.Bool? = nil,
+            featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            permissionVersion: Swift.String? = nil,
+            resourceShareArn: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.defaultVersion = defaultVersion
+            self.featureSet = featureSet
+            self.lastUpdatedTime = lastUpdatedTime
+            self.permissionVersion = permissionVersion
+            self.resourceShareArn = resourceShareArn
+            self.resourceType = resourceType
+            self.status = status
+        }
+    }
+
+}
+
+extension CreatePermissionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case policyTemplate
+        case resourceType
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let policyTemplate = self.policyTemplate {
+            try encodeContainer.encode(policyTemplate, forKey: .policyTemplate)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreatePermissionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/createpermission"
+    }
+}
+
+public struct CreatePermissionInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A string in JSON format string that contains the following elements of a resource-based policy:
+    ///
+    /// * Effect: must be set to ALLOW.
+    ///
+    /// * Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html) in the Identity and Access Management User Guide.
+    ///
+    /// * Condition: (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see [IAM policies: Condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) in the Identity and Access Management User Guide.
+    ///
+    ///
+    /// This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates the resource-based policy on each resource shared using this managed permission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identities added to the resource share.
+    /// This member is required.
+    public var policyTemplate: Swift.String?
+    /// Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is not case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:subnet. To see the list of valid values for this parameter, query the [ListResourceTypes] operation.
+    /// This member is required.
+    public var resourceType: Swift.String?
+    /// Specifies a list of one or more tag key and value pairs to attach to the permission.
+    public var tags: [RAMClientTypes.Tag]?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policyTemplate: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        tags: [RAMClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.name = name
+        self.policyTemplate = policyTemplate
+        self.resourceType = resourceType
+        self.tags = tags
+    }
+}
+
+struct CreatePermissionInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let resourceType: Swift.String?
+    let policyTemplate: Swift.String?
+    let clientToken: Swift.String?
+    let tags: [RAMClientTypes.Tag]?
+}
+
+extension CreatePermissionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case policyTemplate
+        case resourceType
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let policyTemplateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyTemplate)
+        policyTemplate = policyTemplateDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([RAMClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[RAMClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [RAMClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePermissionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreatePermissionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidClientToken" : self = .invalidClientTokenException(try InvalidClientTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPolicy" : self = .invalidPolicyException(try InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MalformedPolicyTemplateException" : self = .malformedPolicyTemplateException(try MalformedPolicyTemplateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PermissionAlreadyExistsException" : self = .permissionAlreadyExistsException(try PermissionAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PermissionLimitExceededException" : self = .permissionLimitExceededException(try PermissionLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreatePermissionOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case invalidClientTokenException(InvalidClientTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidPolicyException(InvalidPolicyException)
+    case malformedPolicyTemplateException(MalformedPolicyTemplateException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case permissionAlreadyExistsException(PermissionAlreadyExistsException)
+    case permissionLimitExceededException(PermissionLimitExceededException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreatePermissionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.permission = output.permission
+        } else {
+            self.clientToken = nil
+            self.permission = nil
+        }
+    }
+}
+
+public struct CreatePermissionOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// A structure with information about this customer managed permission.
+    public var permission: RAMClientTypes.ResourceSharePermissionSummary?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permission: RAMClientTypes.ResourceSharePermissionSummary? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permission = permission
+    }
+}
+
+struct CreatePermissionOutputResponseBody: Swift.Equatable {
+    let permission: RAMClientTypes.ResourceSharePermissionSummary?
+    let clientToken: Swift.String?
+}
+
+extension CreatePermissionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permission
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ResourceSharePermissionSummary.self, forKey: .permission)
+        permission = permissionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreatePermissionVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permissionArn
+        case policyTemplate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let permissionArn = self.permissionArn {
+            try encodeContainer.encode(permissionArn, forKey: .permissionArn)
+        }
+        if let policyTemplate = self.policyTemplate {
+            try encodeContainer.encode(policyTemplate, forKey: .policyTemplate)
+        }
+    }
+}
+
+extension CreatePermissionVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/createpermissionversion"
+    }
+}
+
+public struct CreatePermissionVersionInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission you're creating a new version for.
+    /// This member is required.
+    public var permissionArn: Swift.String?
+    /// A string in JSON format string that contains the following elements of a resource-based policy:
+    ///
+    /// * Effect: must be set to ALLOW.
+    ///
+    /// * Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html) in the Identity and Access Management User Guide.
+    ///
+    /// * Condition: (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see [IAM policies: Condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) in the Identity and Access Management User Guide.
+    ///
+    ///
+    /// This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates the resource-based policy on each resource shared using this managed permission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identities added to the resource share.
+    /// This member is required.
+    public var policyTemplate: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permissionArn: Swift.String? = nil,
+        policyTemplate: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permissionArn = permissionArn
+        self.policyTemplate = policyTemplate
+    }
+}
+
+struct CreatePermissionVersionInputBody: Swift.Equatable {
+    let permissionArn: Swift.String?
+    let policyTemplate: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension CreatePermissionVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permissionArn
+        case policyTemplate
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionArn)
+        permissionArn = permissionArnDecoded
+        let policyTemplateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyTemplate)
+        policyTemplate = policyTemplateDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreatePermissionVersionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreatePermissionVersionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidClientToken" : self = .invalidClientTokenException(try InvalidClientTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPolicy" : self = .invalidPolicyException(try InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MalformedPolicyTemplateException" : self = .malformedPolicyTemplateException(try MalformedPolicyTemplateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PermissionVersionsLimitExceededException" : self = .permissionVersionsLimitExceededException(try PermissionVersionsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreatePermissionVersionOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case invalidClientTokenException(InvalidClientTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidPolicyException(InvalidPolicyException)
+    case malformedArnException(MalformedArnException)
+    case malformedPolicyTemplateException(MalformedPolicyTemplateException)
+    case permissionVersionsLimitExceededException(PermissionVersionsLimitExceededException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePermissionVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreatePermissionVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.permission = output.permission
+        } else {
+            self.clientToken = nil
+            self.permission = nil
+        }
+    }
+}
+
+public struct CreatePermissionVersionOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// Information about a RAM managed permission.
+    public var permission: RAMClientTypes.ResourceSharePermissionDetail?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permission: RAMClientTypes.ResourceSharePermissionDetail? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permission = permission
+    }
+}
+
+struct CreatePermissionVersionOutputResponseBody: Swift.Equatable {
+    let permission: RAMClientTypes.ResourceSharePermissionDetail?
+    let clientToken: Swift.String?
+}
+
+extension CreatePermissionVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permission
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ResourceSharePermissionDetail.self, forKey: .permission)
+        permission = permissionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
 extension CreateResourceShareInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowExternalPrincipals
@@ -613,7 +1113,7 @@ extension CreateResourceShareInput: ClientRuntime.URLPathProvider {
 public struct CreateResourceShareInput: Swift.Equatable {
     /// Specifies whether principals outside your organization in Organizations can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your account is a member of an Amazon Web Services Organization. The default value is true.
     public var allowExternalPrincipals: Swift.Bool?
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the name of the resource share.
     /// This member is required.
@@ -624,7 +1124,7 @@ public struct CreateResourceShareInput: Swift.Equatable {
     ///
     /// * An Amazon Web Services account ID, for example: 123456789012
     ///
-    /// * An [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
+    /// * An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
     ///
     /// * An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123
     ///
@@ -828,6 +1328,309 @@ extension CreateResourceShareOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeletePermissionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            guard let permissionArn = permissionArn else {
+                let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let permissionArnQueryItem = ClientRuntime.URLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
+            items.append(permissionArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeletePermissionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/deletepermission"
+    }
+}
+
+public struct DeletePermissionInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission that you want to delete.
+    /// This member is required.
+    public var permissionArn: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permissionArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permissionArn = permissionArn
+    }
+}
+
+struct DeletePermissionInputBody: Swift.Equatable {
+}
+
+extension DeletePermissionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePermissionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeletePermissionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidClientToken" : self = .invalidClientTokenException(try InvalidClientTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeletePermissionOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case invalidClientTokenException(InvalidClientTokenException)
+    case malformedArnException(MalformedArnException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeletePermissionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.permissionStatus = output.permissionStatus
+            self.returnValue = output.returnValue
+        } else {
+            self.clientToken = nil
+            self.permissionStatus = nil
+            self.returnValue = nil
+        }
+    }
+}
+
+public struct DeletePermissionOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// This operation is performed asynchronously, and this response parameter indicates the current status.
+    public var permissionStatus: RAMClientTypes.PermissionStatus?
+    /// A boolean that indicates whether the delete operations succeeded.
+    public var returnValue: Swift.Bool?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permissionStatus: RAMClientTypes.PermissionStatus? = nil,
+        returnValue: Swift.Bool? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permissionStatus = permissionStatus
+        self.returnValue = returnValue
+    }
+}
+
+struct DeletePermissionOutputResponseBody: Swift.Equatable {
+    let returnValue: Swift.Bool?
+    let clientToken: Swift.String?
+    let permissionStatus: RAMClientTypes.PermissionStatus?
+}
+
+extension DeletePermissionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permissionStatus
+        case returnValue
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let returnValueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnValue)
+        returnValue = returnValueDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let permissionStatusDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionStatus.self, forKey: .permissionStatus)
+        permissionStatus = permissionStatusDecoded
+    }
+}
+
+extension DeletePermissionVersionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            guard let permissionArn = permissionArn else {
+                let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let permissionArnQueryItem = ClientRuntime.URLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
+            items.append(permissionArnQueryItem)
+            guard let permissionVersion = permissionVersion else {
+                let message = "Creating a URL Query Item failed. permissionVersion is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let permissionVersionQueryItem = ClientRuntime.URLQueryItem(name: "permissionVersion".urlPercentEncoding(), value: Swift.String(permissionVersion).urlPercentEncoding())
+            items.append(permissionVersionQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeletePermissionVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/deletepermissionversion"
+    }
+}
+
+public struct DeletePermissionVersionInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission with the version you want to delete.
+    /// This member is required.
+    public var permissionArn: Swift.String?
+    /// Specifies the version number to delete. You can't delete the default version for a customer managed permission. You can't delete a version if it's the only version of the permission. You must either first create another version, or delete the permission completely. You can't delete a version if it is attached to any resource shares. If the version is the default, you must first use [SetDefaultPermissionVersion] to set a different version as the default for the customer managed permission, and then use [AssociateResourceSharePermission] to update your resource shares to use the new default version.
+    /// This member is required.
+    public var permissionVersion: Swift.Int?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permissionArn: Swift.String? = nil,
+        permissionVersion: Swift.Int? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permissionArn = permissionArn
+        self.permissionVersion = permissionVersion
+    }
+}
+
+struct DeletePermissionVersionInputBody: Swift.Equatable {
+}
+
+extension DeletePermissionVersionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePermissionVersionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeletePermissionVersionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidClientToken" : self = .invalidClientTokenException(try InvalidClientTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeletePermissionVersionOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case invalidClientTokenException(InvalidClientTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case malformedArnException(MalformedArnException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePermissionVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeletePermissionVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.permissionStatus = output.permissionStatus
+            self.returnValue = output.returnValue
+        } else {
+            self.clientToken = nil
+            self.permissionStatus = nil
+            self.returnValue = nil
+        }
+    }
+}
+
+public struct DeletePermissionVersionOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// This operation is performed asynchronously, and this response parameter indicates the current status.
+    public var permissionStatus: RAMClientTypes.PermissionStatus?
+    /// A boolean value that indicates whether the operation is successful.
+    public var returnValue: Swift.Bool?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permissionStatus: RAMClientTypes.PermissionStatus? = nil,
+        returnValue: Swift.Bool? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permissionStatus = permissionStatus
+        self.returnValue = returnValue
+    }
+}
+
+struct DeletePermissionVersionOutputResponseBody: Swift.Equatable {
+    let returnValue: Swift.Bool?
+    let clientToken: Swift.String?
+    let permissionStatus: RAMClientTypes.PermissionStatus?
+}
+
+extension DeletePermissionVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permissionStatus
+        case returnValue
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let returnValueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnValue)
+        returnValue = returnValueDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let permissionStatusDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionStatus.self, forKey: .permissionStatus)
+        permissionStatus = permissionStatusDecoded
+    }
+}
+
 extension DeleteResourceShareInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -854,9 +1657,9 @@ extension DeleteResourceShareInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteResourceShareInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to delete.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to delete.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -1005,13 +1808,13 @@ extension DisassociateResourceShareInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateResourceShareInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:
     ///
     /// * An Amazon Web Services account ID, for example: 123456789012
     ///
-    /// * An [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
+    /// * An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
     ///
     /// * An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123
     ///
@@ -1022,9 +1825,9 @@ public struct DisassociateResourceShareInput: Swift.Equatable {
     ///
     /// Not all resource types can be shared with IAM roles and users. For more information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types) in the Resource Access Manager User Guide.
     public var principals: [Swift.String]?
-    /// Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for one or more resources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals outside of the Amazon Web Services account that created the resources.
+    /// Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for one or more resources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals associated with the resource share.
     public var resourceArns: [Swift.String]?
-    /// Specifies [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove resources from.
+    /// Specifies [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove resources or principals from.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -1145,7 +1948,7 @@ extension DisassociateResourceShareOutputResponse: ClientRuntime.HttpResponseBin
 public struct DisassociateResourceShareOutputResponse: Swift.Equatable {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
-    /// An array of objects that contain information about the updated associations for this resource share.
+    /// An array of objects with information about the updated associations for this resource share.
     public var resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]?
 
     public init (
@@ -1215,12 +2018,12 @@ extension DisassociateResourceSharePermissionInput: ClientRuntime.URLPathProvide
 }
 
 public struct DisassociateResourceSharePermissionInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
-    /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission to disassociate from the resource share. Changes to permissions take effect immediately.
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission to disassociate from the resource share. Changes to permissions take effect immediately.
     /// This member is required.
     public var permissionArn: Swift.String?
-    /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share from which you want to disassociate a permission.
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove the managed permission from.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -1456,10 +2259,10 @@ extension GetPermissionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetPermissionInput: Swift.Equatable {
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// This member is required.
     public var permissionArn: Swift.String?
-    /// Specifies identifier for the version of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version.
+    /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version. To see the list of available versions, use [ListPermissionVersions].
     public var permissionVersion: Swift.Int?
 
     public init (
@@ -1537,7 +2340,7 @@ extension GetPermissionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPermissionOutputResponse: Swift.Equatable {
-    /// An object that contains information about the permission.
+    /// An object with details about the permission.
     public var permission: RAMClientTypes.ResourceSharePermissionDetail?
 
     public init (
@@ -1798,22 +2601,22 @@ extension GetResourceShareAssociationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResourceShareAssociationsInput: Swift.Equatable {
-    /// Specifies that you want to retrieve only associations with this status.
+    /// Specifies that you want to retrieve only associations that have this status.
     public var associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
     /// Specifies whether you want to retrieve the associations that involve a specified resource or principal.
     ///
-    /// * PRINCIPAL – list the principals that are associated with the specified resource share.
+    /// * PRINCIPAL – list the principals whose associations you want to see.
     ///
-    /// * RESOURCE – list the resources that are associated with the specified resource share.
+    /// * RESOURCE – list the resources whose associations you want to see.
     /// This member is required.
     public var associationType: RAMClientTypes.ResourceShareAssociationType?
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an individual IAM user or role. You cannot specify this parameter if the association type is RESOURCE.
+    /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an individual IAM user or role. You cannot specify this parameter if the association type is RESOURCE.
     public var principal: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource whose resource shares you want to retrieve. You cannot specify this parameter if the association type is PRINCIPAL.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource whose resource shares you want to retrieve. You cannot specify this parameter if the association type is PRINCIPAL.
     public var resourceArn: Swift.String?
     /// Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share whose associations you want to retrieve.
     public var resourceShareArns: [Swift.String]?
@@ -2188,6 +2991,7 @@ extension GetResourceSharesInput: Swift.Encodable {
         case name
         case nextToken
         case permissionArn
+        case permissionVersion
         case resourceOwner
         case resourceShareArns
         case resourceShareStatus
@@ -2207,6 +3011,9 @@ extension GetResourceSharesInput: Swift.Encodable {
         }
         if let permissionArn = self.permissionArn {
             try encodeContainer.encode(permissionArn, forKey: .permissionArn)
+        }
+        if let permissionVersion = self.permissionVersion {
+            try encodeContainer.encode(permissionVersion, forKey: .permissionVersion)
         }
         if let resourceOwner = self.resourceOwner {
             try encodeContainer.encode(resourceOwner.rawValue, forKey: .resourceOwner)
@@ -2242,8 +3049,10 @@ public struct GetResourceSharesInput: Swift.Equatable {
     public var name: Swift.String?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies that you want to retrieve details of only those resource shares that use the RAM permission with this [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+    /// Specifies that you want to retrieve details of only those resource shares that use the managed permission with this [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     public var permissionArn: Swift.String?
+    /// Specifies that you want to retrieve details for only those resource shares that use the specified version of the managed permission.
+    public var permissionVersion: Swift.Int?
     /// Specifies that you want to retrieve details of only those resource shares that match the following:
     ///
     /// * SELF – resource shares that your account shares with other accounts
@@ -2263,6 +3072,7 @@ public struct GetResourceSharesInput: Swift.Equatable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
+        permissionVersion: Swift.Int? = nil,
         resourceOwner: RAMClientTypes.ResourceOwner? = nil,
         resourceShareArns: [Swift.String]? = nil,
         resourceShareStatus: RAMClientTypes.ResourceShareStatus? = nil,
@@ -2273,6 +3083,7 @@ public struct GetResourceSharesInput: Swift.Equatable {
         self.name = name
         self.nextToken = nextToken
         self.permissionArn = permissionArn
+        self.permissionVersion = permissionVersion
         self.resourceOwner = resourceOwner
         self.resourceShareArns = resourceShareArns
         self.resourceShareStatus = resourceShareStatus
@@ -2289,6 +3100,7 @@ struct GetResourceSharesInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let permissionArn: Swift.String?
+    let permissionVersion: Swift.Int?
 }
 
 extension GetResourceSharesInputBody: Swift.Decodable {
@@ -2297,6 +3109,7 @@ extension GetResourceSharesInputBody: Swift.Decodable {
         case name
         case nextToken
         case permissionArn
+        case permissionVersion
         case resourceOwner
         case resourceShareArns
         case resourceShareStatus
@@ -2339,6 +3152,8 @@ extension GetResourceSharesInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let permissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionArn)
         permissionArn = permissionArnDecoded
+        let permissionVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionVersion)
+        permissionVersion = permissionVersionDecoded
     }
 }
 
@@ -2449,7 +3264,7 @@ extension IdempotentParameterMismatchException {
     }
 }
 
-/// The client token input parameter was matched one used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+/// The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
 public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2501,7 +3316,7 @@ extension InvalidClientTokenException {
     }
 }
 
-/// The client token is not valid.
+/// The operation failed because the specified client token isn't valid.
 public struct InvalidClientTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2553,7 +3368,7 @@ extension InvalidMaxResultsException {
     }
 }
 
-/// The specified value for MaxResults is not valid.
+/// The operation failed because the specified value for MaxResults isn't valid.
 public struct InvalidMaxResultsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2605,7 +3420,7 @@ extension InvalidNextTokenException {
     }
 }
 
-/// The specified value for NextToken is not valid.
+/// The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
 public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2657,7 +3472,7 @@ extension InvalidParameterException {
     }
 }
 
-/// A parameter is not valid.
+/// The operation failed because a parameter you specified isn't valid.
 public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2693,6 +3508,58 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
     }
 }
 
+extension InvalidPolicyException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: InvalidPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The operation failed because a policy you specified isn't valid.
+public struct InvalidPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct InvalidPolicyExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidPolicyExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidResourceTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -2709,7 +3576,7 @@ extension InvalidResourceTypeException {
     }
 }
 
-/// The specified resource type is not valid.
+/// The operation failed because the specified resource type isn't valid.
 public struct InvalidResourceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2761,7 +3628,7 @@ extension InvalidStateTransitionException {
     }
 }
 
-/// The requested state transition is not valid.
+/// The operation failed because the requested operation isn't valid for the resource share in its current state.
 public struct InvalidStateTransitionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2844,7 +3711,7 @@ public struct ListPendingInvitationResourcesInput: Swift.Equatable {
     ///
     /// The default value is ALL.
     public var resourceRegionScope: RAMClientTypes.ResourceRegionScopeFilter?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation. You can use [GetResourceShareInvitations] to find the ARN of the invitation.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation. You can use [GetResourceShareInvitations] to find the ARN of the invitation.
     /// This member is required.
     public var resourceShareInvitationArn: Swift.String?
 
@@ -2987,6 +3854,226 @@ extension ListPendingInvitationResourcesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListPermissionAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus
+        case defaultVersion
+        case featureSet
+        case maxResults
+        case nextToken
+        case permissionArn
+        case permissionVersion
+        case resourceType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus.rawValue, forKey: .associationStatus)
+        }
+        if let defaultVersion = self.defaultVersion {
+            try encodeContainer.encode(defaultVersion, forKey: .defaultVersion)
+        }
+        if let featureSet = self.featureSet {
+            try encodeContainer.encode(featureSet.rawValue, forKey: .featureSet)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let permissionArn = self.permissionArn {
+            try encodeContainer.encode(permissionArn, forKey: .permissionArn)
+        }
+        if let permissionVersion = self.permissionVersion {
+            try encodeContainer.encode(permissionVersion, forKey: .permissionVersion)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+    }
+}
+
+extension ListPermissionAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/listpermissionassociations"
+    }
+}
+
+public struct ListPermissionAssociationsInput: Swift.Equatable {
+    /// Specifies that you want to list only those associations with resource shares that match this status.
+    public var associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
+    /// When true, specifies that you want to list only those associations with resource shares that use the default version of the specified managed permission. When false (the default value), lists associations with resource shares that use any version of the specified managed permission.
+    public var defaultVersion: Swift.Bool?
+    /// Specifies that you want to list only those associations with resource shares that have a featureSet with this value.
+    public var featureSet: RAMClientTypes.PermissionFeatureSet?
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission.
+    public var permissionArn: Swift.String?
+    /// Specifies that you want to list only those associations with resource shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation returns information about associations with resource shares that use any version of the managed permission.
+    public var permissionVersion: Swift.Int?
+    /// Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
+    public var resourceType: Swift.String?
+
+    public init (
+        associationStatus: RAMClientTypes.ResourceShareAssociationStatus? = nil,
+        defaultVersion: Swift.Bool? = nil,
+        featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        permissionArn: Swift.String? = nil,
+        permissionVersion: Swift.Int? = nil,
+        resourceType: Swift.String? = nil
+    )
+    {
+        self.associationStatus = associationStatus
+        self.defaultVersion = defaultVersion
+        self.featureSet = featureSet
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.permissionArn = permissionArn
+        self.permissionVersion = permissionVersion
+        self.resourceType = resourceType
+    }
+}
+
+struct ListPermissionAssociationsInputBody: Swift.Equatable {
+    let permissionArn: Swift.String?
+    let permissionVersion: Swift.Int?
+    let associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
+    let resourceType: Swift.String?
+    let featureSet: RAMClientTypes.PermissionFeatureSet?
+    let defaultVersion: Swift.Bool?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListPermissionAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus
+        case defaultVersion
+        case featureSet
+        case maxResults
+        case nextToken
+        case permissionArn
+        case permissionVersion
+        case resourceType
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionArn)
+        permissionArn = permissionArnDecoded
+        let permissionVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionVersion)
+        permissionVersion = permissionVersionDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ResourceShareAssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let featureSetDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionFeatureSet.self, forKey: .featureSet)
+        featureSet = featureSetDecoded
+        let defaultVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultVersion)
+        defaultVersion = defaultVersionDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListPermissionAssociationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListPermissionAssociationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListPermissionAssociationsOutputError: Swift.Error, Swift.Equatable {
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case malformedArnException(MalformedArnException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPermissionAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListPermissionAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.permissions = output.permissions
+        } else {
+            self.nextToken = nil
+            self.permissions = nil
+        }
+    }
+}
+
+public struct ListPermissionAssociationsOutputResponse: Swift.Equatable {
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+    /// A structure with information about this customer managed permission.
+    public var permissions: [RAMClientTypes.AssociatedPermission]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        permissions: [RAMClientTypes.AssociatedPermission]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.permissions = permissions
+    }
+}
+
+struct ListPermissionAssociationsOutputResponseBody: Swift.Equatable {
+    let permissions: [RAMClientTypes.AssociatedPermission]?
+    let nextToken: Swift.String?
+}
+
+extension ListPermissionAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case permissions
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionsContainer = try containerValues.decodeIfPresent([RAMClientTypes.AssociatedPermission?].self, forKey: .permissions)
+        var permissionsDecoded0:[RAMClientTypes.AssociatedPermission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [RAMClientTypes.AssociatedPermission]()
+            for structure0 in permissionsContainer {
+                if let structure0 = structure0 {
+                    permissionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListPermissionVersionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -3019,7 +4106,7 @@ public struct ListPermissionVersionsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission whose versions you want to list. You can use the permissionVersion parameter on the [AssociateResourceSharePermission] operation to specify a non-default version to attach.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission whose versions you want to list. You can use the permissionVersion parameter on the [AssociateResourceSharePermission] operation to specify a non-default version to attach.
     /// This member is required.
     public var permissionArn: Swift.String?
 
@@ -3156,6 +4243,7 @@ extension ListPermissionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
         case nextToken
+        case permissionType
         case resourceType
     }
 
@@ -3166,6 +4254,9 @@ extension ListPermissionsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let permissionType = self.permissionType {
+            try encodeContainer.encode(permissionType.rawValue, forKey: .permissionType)
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
@@ -3184,17 +4275,30 @@ public struct ListPermissionsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies that you want to list permissions for only the specified resource type. For example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet. You can use the [ListResourceTypes] operation to get the specific string required.
+    /// Specifies that you want to list only permissions of this type:
+    ///
+    /// * AWS – returns only Amazon Web Services managed permissions.
+    ///
+    /// * LOCAL – returns only customer managed permissions
+    ///
+    /// * ALL – returns both Amazon Web Services managed permissions and customer managed permissions.
+    ///
+    ///
+    /// If you don't specify this parameter, the default is All.
+    public var permissionType: RAMClientTypes.PermissionTypeFilter?
+    /// Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the [ListResourceTypes] operation to get the specific string required.
     public var resourceType: Swift.String?
 
     public init (
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        permissionType: RAMClientTypes.PermissionTypeFilter? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.permissionType = permissionType
         self.resourceType = resourceType
     }
 }
@@ -3203,12 +4307,14 @@ struct ListPermissionsInputBody: Swift.Equatable {
     let resourceType: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let permissionType: RAMClientTypes.PermissionTypeFilter?
 }
 
 extension ListPermissionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
         case nextToken
+        case permissionType
         case resourceType
     }
 
@@ -3220,6 +4326,8 @@ extension ListPermissionsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let permissionTypeDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionTypeFilter.self, forKey: .permissionType)
+        permissionType = permissionTypeDecoded
     }
 }
 
@@ -3370,7 +4478,7 @@ public struct ListPrincipalsInput: Swift.Equatable {
     ///
     /// * An Amazon Web Services account ID, for example: 123456789012
     ///
-    /// * An [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
+    /// * An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid
     ///
     /// * An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123
     ///
@@ -3381,7 +4489,7 @@ public struct ListPrincipalsInput: Swift.Equatable {
     ///
     /// Not all resource types can be shared with IAM roles and users. For more information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types) in the Resource Access Manager User Guide.
     public var principals: [Swift.String]?
-    /// Specifies that you want to list principal information for the resource share with the specified [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+    /// Specifies that you want to list principal information for the resource share with the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     public var resourceArn: Swift.String?
     /// Specifies that you want to list information for only resource shares that match the following:
     ///
@@ -3564,6 +4672,188 @@ extension ListPrincipalsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListReplacePermissionAssociationsWorkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case status
+        case workIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let workIds = workIds {
+            var workIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workIds)
+            for string0 in workIds {
+                try workIdsContainer.encode(string0)
+            }
+        }
+    }
+}
+
+extension ListReplacePermissionAssociationsWorkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/listreplacepermissionassociationswork"
+    }
+}
+
+public struct ListReplacePermissionAssociationsWorkInput: Swift.Equatable {
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+    /// Specifies that you want to see only the details about requests with a status that matches this value.
+    public var status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus?
+    /// A list of IDs. These values come from the idfield of the replacePermissionAssociationsWorkstructure returned by the [ReplacePermissionAssociations] operation.
+    public var workIds: [Swift.String]?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus? = nil,
+        workIds: [Swift.String]? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+        self.workIds = workIds
+    }
+}
+
+struct ListReplacePermissionAssociationsWorkInputBody: Swift.Equatable {
+    let workIds: [Swift.String]?
+    let status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListReplacePermissionAssociationsWorkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case status
+        case workIds
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .workIds)
+        var workIdsDecoded0:[Swift.String]? = nil
+        if let workIdsContainer = workIdsContainer {
+            workIdsDecoded0 = [Swift.String]()
+            for string0 in workIdsContainer {
+                if let string0 = string0 {
+                    workIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        workIds = workIdsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ReplacePermissionAssociationsWorkStatus.self, forKey: .status)
+        status = statusDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListReplacePermissionAssociationsWorkOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListReplacePermissionAssociationsWorkOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListReplacePermissionAssociationsWorkOutputError: Swift.Error, Swift.Equatable {
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReplacePermissionAssociationsWorkOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListReplacePermissionAssociationsWorkOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.replacePermissionAssociationsWorks = output.replacePermissionAssociationsWorks
+        } else {
+            self.nextToken = nil
+            self.replacePermissionAssociationsWorks = nil
+        }
+    }
+}
+
+public struct ListReplacePermissionAssociationsWorkOutputResponse: Swift.Equatable {
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+    /// An array of data structures that provide details of the matching work IDs.
+    public var replacePermissionAssociationsWorks: [RAMClientTypes.ReplacePermissionAssociationsWork]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        replacePermissionAssociationsWorks: [RAMClientTypes.ReplacePermissionAssociationsWork]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.replacePermissionAssociationsWorks = replacePermissionAssociationsWorks
+    }
+}
+
+struct ListReplacePermissionAssociationsWorkOutputResponseBody: Swift.Equatable {
+    let replacePermissionAssociationsWorks: [RAMClientTypes.ReplacePermissionAssociationsWork]?
+    let nextToken: Swift.String?
+}
+
+extension ListReplacePermissionAssociationsWorkOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case replacePermissionAssociationsWorks
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replacePermissionAssociationsWorksContainer = try containerValues.decodeIfPresent([RAMClientTypes.ReplacePermissionAssociationsWork?].self, forKey: .replacePermissionAssociationsWorks)
+        var replacePermissionAssociationsWorksDecoded0:[RAMClientTypes.ReplacePermissionAssociationsWork]? = nil
+        if let replacePermissionAssociationsWorksContainer = replacePermissionAssociationsWorksContainer {
+            replacePermissionAssociationsWorksDecoded0 = [RAMClientTypes.ReplacePermissionAssociationsWork]()
+            for structure0 in replacePermissionAssociationsWorksContainer {
+                if let structure0 = structure0 {
+                    replacePermissionAssociationsWorksDecoded0?.append(structure0)
+                }
+            }
+        }
+        replacePermissionAssociationsWorks = replacePermissionAssociationsWorksDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListResourceSharePermissionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -3596,7 +4886,7 @@ public struct ListResourceSharePermissionsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share for which you want to retrieve the associated permissions.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share for which you want to retrieve the associated permissions.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -4174,7 +5464,7 @@ extension MalformedArnException {
     }
 }
 
-/// The format of an Amazon Resource Name (ARN) is not valid.
+/// The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
 public struct MalformedArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -4210,6 +5500,58 @@ extension MalformedArnExceptionBody: Swift.Decodable {
     }
 }
 
+extension MalformedPolicyTemplateException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: MalformedPolicyTemplateExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The operation failed because the policy template that you provided isn't valid.
+public struct MalformedPolicyTemplateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct MalformedPolicyTemplateExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension MalformedPolicyTemplateExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension MissingRequiredParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -4226,7 +5568,7 @@ extension MissingRequiredParameterException {
     }
 }
 
-/// A required input parameter is missing.
+/// The operation failed because a required input parameter is missing.
 public struct MissingRequiredParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -4278,7 +5620,7 @@ extension OperationNotPermittedException {
     }
 }
 
-/// The requested operation is not permitted.
+/// The operation failed because the requested operation isn't permitted.
 public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -4303,6 +5645,302 @@ struct OperationNotPermittedExceptionBody: Swift.Equatable {
 }
 
 extension OperationNotPermittedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension PermissionAlreadyExistsException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: PermissionAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The operation failed because a permission with the specified name already exists in the requested Amazon Web Services Region. Choose a different name.
+public struct PermissionAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct PermissionAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PermissionAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RAMClientTypes {
+    public enum PermissionFeatureSet: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdFromPolicy
+        case promotingToStandard
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionFeatureSet] {
+            return [
+                .createdFromPolicy,
+                .promotingToStandard,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdFromPolicy: return "CREATED_FROM_POLICY"
+            case .promotingToStandard: return "PROMOTING_TO_STANDARD"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PermissionFeatureSet(rawValue: rawValue) ?? PermissionFeatureSet.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PermissionLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: PermissionLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The operation failed because it would exceed the maximum number of permissions you can create in each Amazon Web Services Region. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+public struct PermissionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct PermissionLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PermissionLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RAMClientTypes {
+    public enum PermissionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachable
+        case deleted
+        case deleting
+        case unattachable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionStatus] {
+            return [
+                .attachable,
+                .deleted,
+                .deleting,
+                .unattachable,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachable: return "ATTACHABLE"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .unattachable: return "UNATTACHABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PermissionStatus(rawValue: rawValue) ?? PermissionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RAMClientTypes {
+    public enum PermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionType] {
+            return [
+                .awsManaged,
+                .customerManaged,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PermissionType(rawValue: rawValue) ?? PermissionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RAMClientTypes {
+    public enum PermissionTypeFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionTypeFilter] {
+            return [
+                .all,
+                .awsManaged,
+                .customerManaged,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PermissionTypeFilter(rawValue: rawValue) ?? PermissionTypeFilter.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PermissionVersionsLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: PermissionVersionsLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The operation failed because it would exceed the limit for the number of versions you can have for a permission. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+public struct PermissionVersionsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct PermissionVersionsLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PermissionVersionsLimitExceededExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -4362,13 +6000,17 @@ extension RAMClientTypes {
     public struct Principal: Swift.Equatable {
         /// The date and time when the principal was associated with the resource share.
         public var creationTime: ClientRuntime.Date?
-        /// Indicates whether the principal belongs to the same organization in Organizations as the Amazon Web Services account that owns the resource share.
+        /// Indicates the relationship between the Amazon Web Services account the principal belongs to and the account that owns the resource share:
+        ///
+        /// * True – The two accounts belong to same organization.
+        ///
+        /// * False – The two accounts do not belong to the same organization.
         public var external: Swift.Bool?
-        /// The ID of the principal.
+        /// The ID of the principal that can be associated with a resource share.
         public var id: Swift.String?
-        /// The date and time when the association was last updated.
+        /// The date and time when the association between the resource share and the principal was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource share the principal is associated with.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource share the principal is associated with.
         public var resourceShareArn: Swift.String?
 
         public init (
@@ -4387,6 +6029,163 @@ extension RAMClientTypes {
         }
     }
 
+}
+
+extension PromotePermissionCreatedFromPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case permissionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let permissionArn = self.permissionArn {
+            try encodeContainer.encode(permissionArn, forKey: .permissionArn)
+        }
+    }
+}
+
+extension PromotePermissionCreatedFromPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/promotepermissioncreatedfrompolicy"
+    }
+}
+
+public struct PromotePermissionCreatedFromPolicyInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies a name for the promoted customer managed permission.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the CREATED_FROM_POLICY permission that you want to promote. You can get this [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) by calling the [ListResourceSharePermissions] operation.
+    /// This member is required.
+    public var permissionArn: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        permissionArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.name = name
+        self.permissionArn = permissionArn
+    }
+}
+
+struct PromotePermissionCreatedFromPolicyInputBody: Swift.Equatable {
+    let permissionArn: Swift.String?
+    let name: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension PromotePermissionCreatedFromPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case permissionArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionArn)
+        permissionArn = permissionArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension PromotePermissionCreatedFromPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PromotePermissionCreatedFromPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PromotePermissionCreatedFromPolicyOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterException(InvalidParameterException)
+    case malformedArnException(MalformedArnException)
+    case missingRequiredParameterException(MissingRequiredParameterException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PromotePermissionCreatedFromPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: PromotePermissionCreatedFromPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.permission = output.permission
+        } else {
+            self.clientToken = nil
+            self.permission = nil
+        }
+    }
+}
+
+public struct PromotePermissionCreatedFromPolicyOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// Information about an RAM permission.
+    public var permission: RAMClientTypes.ResourceSharePermissionSummary?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permission: RAMClientTypes.ResourceSharePermissionSummary? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permission = permission
+    }
+}
+
+struct PromotePermissionCreatedFromPolicyOutputResponseBody: Swift.Equatable {
+    let permission: RAMClientTypes.ResourceSharePermissionSummary?
+    let clientToken: Swift.String?
+}
+
+extension PromotePermissionCreatedFromPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permission
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ResourceSharePermissionSummary.self, forKey: .permission)
+        permission = permissionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
 }
 
 extension PromoteResourceShareCreatedFromPolicyInput: ClientRuntime.QueryItemProvider {
@@ -4411,7 +6210,7 @@ extension PromoteResourceShareCreatedFromPolicyInput: ClientRuntime.URLPathProvi
 }
 
 public struct PromoteResourceShareCreatedFromPolicyInput: Swift.Equatable {
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to promote.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to promote.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 
@@ -4444,6 +6243,7 @@ extension PromoteResourceShareCreatedFromPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidStateTransitionException.Unknown" : self = .invalidStateTransitionException(try InvalidStateTransitionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4451,6 +6251,7 @@ extension PromoteResourceShareCreatedFromPolicyOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnmatchedPolicyPermissionException" : self = .unmatchedPolicyPermissionException(try UnmatchedPolicyPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -4458,6 +6259,7 @@ extension PromoteResourceShareCreatedFromPolicyOutputError {
 
 public enum PromoteResourceShareCreatedFromPolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
+    case invalidStateTransitionException(InvalidStateTransitionException)
     case malformedArnException(MalformedArnException)
     case missingRequiredParameterException(MissingRequiredParameterException)
     case operationNotPermittedException(OperationNotPermittedException)
@@ -4465,6 +6267,7 @@ public enum PromoteResourceShareCreatedFromPolicyOutputError: Swift.Error, Swift
     case serverInternalException(ServerInternalException)
     case serviceUnavailableException(ServiceUnavailableException)
     case unknownResourceException(UnknownResourceException)
+    case unmatchedPolicyPermissionException(UnmatchedPolicyPermissionException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -4532,9 +6335,9 @@ extension RejectResourceShareInvitationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RejectResourceShareInvitationInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation that you want to reject.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation that you want to reject.
     /// This member is required.
     public var resourceShareInvitationArn: Swift.String?
 
@@ -4658,6 +6461,333 @@ extension RejectResourceShareInvitationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ReplacePermissionAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case fromPermissionArn
+        case fromPermissionVersion
+        case toPermissionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let fromPermissionArn = self.fromPermissionArn {
+            try encodeContainer.encode(fromPermissionArn, forKey: .fromPermissionArn)
+        }
+        if let fromPermissionVersion = self.fromPermissionVersion {
+            try encodeContainer.encode(fromPermissionVersion, forKey: .fromPermissionVersion)
+        }
+        if let toPermissionArn = self.toPermissionArn {
+            try encodeContainer.encode(toPermissionArn, forKey: .toPermissionArn)
+        }
+    }
+}
+
+extension ReplacePermissionAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/replacepermissionassociations"
+    }
+}
+
+public struct ReplacePermissionAssociationsInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that you want to replace.
+    /// This member is required.
+    public var fromPermissionArn: Swift.String?
+    /// Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed permission.
+    public var fromPermissionVersion: Swift.Int?
+    /// Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion. The operation always associates the version that is currently the default for the specified managed permission.
+    /// This member is required.
+    public var toPermissionArn: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        fromPermissionArn: Swift.String? = nil,
+        fromPermissionVersion: Swift.Int? = nil,
+        toPermissionArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.fromPermissionArn = fromPermissionArn
+        self.fromPermissionVersion = fromPermissionVersion
+        self.toPermissionArn = toPermissionArn
+    }
+}
+
+struct ReplacePermissionAssociationsInputBody: Swift.Equatable {
+    let fromPermissionArn: Swift.String?
+    let fromPermissionVersion: Swift.Int?
+    let toPermissionArn: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension ReplacePermissionAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case fromPermissionArn
+        case fromPermissionVersion
+        case toPermissionArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromPermissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromPermissionArn)
+        fromPermissionArn = fromPermissionArnDecoded
+        let fromPermissionVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPermissionVersion)
+        fromPermissionVersion = fromPermissionVersionDecoded
+        let toPermissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toPermissionArn)
+        toPermissionArn = toPermissionArnDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension ReplacePermissionAssociationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ReplacePermissionAssociationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidClientToken" : self = .invalidClientTokenException(try InvalidClientTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ReplacePermissionAssociationsOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case invalidClientTokenException(InvalidClientTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case malformedArnException(MalformedArnException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ReplacePermissionAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ReplacePermissionAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.replacePermissionAssociationsWork = output.replacePermissionAssociationsWork
+        } else {
+            self.clientToken = nil
+            self.replacePermissionAssociationsWork = nil
+        }
+    }
+}
+
+public struct ReplacePermissionAssociationsOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// Specifies a data structure that you can use to track the asynchronous tasks that RAM performs to complete this operation. You can use the [ListReplacePermissionAssociationsWork] operation and pass the id value returned in this structure.
+    public var replacePermissionAssociationsWork: RAMClientTypes.ReplacePermissionAssociationsWork?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        replacePermissionAssociationsWork: RAMClientTypes.ReplacePermissionAssociationsWork? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.replacePermissionAssociationsWork = replacePermissionAssociationsWork
+    }
+}
+
+struct ReplacePermissionAssociationsOutputResponseBody: Swift.Equatable {
+    let replacePermissionAssociationsWork: RAMClientTypes.ReplacePermissionAssociationsWork?
+    let clientToken: Swift.String?
+}
+
+extension ReplacePermissionAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case replacePermissionAssociationsWork
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replacePermissionAssociationsWorkDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ReplacePermissionAssociationsWork.self, forKey: .replacePermissionAssociationsWork)
+        replacePermissionAssociationsWork = replacePermissionAssociationsWorkDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension RAMClientTypes.ReplacePermissionAssociationsWork: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case fromPermissionArn
+        case fromPermissionVersion
+        case id
+        case lastUpdatedTime
+        case status
+        case statusMessage
+        case toPermissionArn
+        case toPermissionVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let fromPermissionArn = self.fromPermissionArn {
+            try encodeContainer.encode(fromPermissionArn, forKey: .fromPermissionArn)
+        }
+        if let fromPermissionVersion = self.fromPermissionVersion {
+            try encodeContainer.encode(fromPermissionVersion, forKey: .fromPermissionVersion)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let toPermissionArn = self.toPermissionArn {
+            try encodeContainer.encode(toPermissionArn, forKey: .toPermissionArn)
+        }
+        if let toPermissionVersion = self.toPermissionVersion {
+            try encodeContainer.encode(toPermissionVersion, forKey: .toPermissionVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let fromPermissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromPermissionArn)
+        fromPermissionArn = fromPermissionArnDecoded
+        let fromPermissionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromPermissionVersion)
+        fromPermissionVersion = fromPermissionVersionDecoded
+        let toPermissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toPermissionArn)
+        toPermissionArn = toPermissionArnDecoded
+        let toPermissionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toPermissionVersion)
+        toPermissionVersion = toPermissionVersionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(RAMClientTypes.ReplacePermissionAssociationsWorkStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
+extension RAMClientTypes {
+    /// A structure that represents the background work that RAM performs when you invoke the [ReplacePermissionAssociations] operation.
+    public struct ReplacePermissionAssociationsWork: Swift.Equatable {
+        /// The date and time when this asynchronous background task was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that this background task is replacing.
+        public var fromPermissionArn: Swift.String?
+        /// The version of the managed permission that this background task is replacing.
+        public var fromPermissionVersion: Swift.String?
+        /// The unique identifier for the background task associated with one [ReplacePermissionAssociations] request.
+        public var id: Swift.String?
+        /// The date and time when the status of this background task was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// Specifies the current status of the background tasks for the specified ID. The output is one of the following strings:
+        ///
+        /// * IN_PROGRESS
+        ///
+        /// * COMPLETED
+        ///
+        /// * FAILED
+        public var status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus?
+        /// Specifies the reason for a FAILED status. This field is present only when there status is FAILED.
+        public var statusMessage: Swift.String?
+        /// The ARN of the managed permission that this background task is associating with the resource shares in place of the managed permission and version specified in fromPermissionArn and fromPermissionVersion.
+        public var toPermissionArn: Swift.String?
+        /// The version of the managed permission that this background task is associating with the resource shares. This is always the version that is currently the default for this managed permission.
+        public var toPermissionVersion: Swift.String?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            fromPermissionArn: Swift.String? = nil,
+            fromPermissionVersion: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            toPermissionArn: Swift.String? = nil,
+            toPermissionVersion: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.fromPermissionArn = fromPermissionArn
+            self.fromPermissionVersion = fromPermissionVersion
+            self.id = id
+            self.lastUpdatedTime = lastUpdatedTime
+            self.status = status
+            self.statusMessage = statusMessage
+            self.toPermissionArn = toPermissionArn
+            self.toPermissionVersion = toPermissionVersion
+        }
+    }
+
+}
+
+extension RAMClientTypes {
+    public enum ReplacePermissionAssociationsWorkStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplacePermissionAssociationsWorkStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplacePermissionAssociationsWorkStatus(rawValue: rawValue) ?? ReplacePermissionAssociationsWorkStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension RAMClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -4728,13 +6858,13 @@ extension RAMClientTypes.Resource: Swift.Codable {
 extension RAMClientTypes {
     /// Describes a resource associated with a resource share in RAM.
     public struct Resource: Swift.Equatable {
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
         public var arn: Swift.String?
         /// The date and time when the resource was associated with the resource share.
         public var creationTime: ClientRuntime.Date?
-        /// The date an time when the association was last updated.
+        /// The date an time when the association between the resource and the resource share was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource group. This value is available only if the resource is part of a resource group.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource group. This value is available only if the resource is part of a resource group.
         public var resourceGroupArn: Swift.String?
         /// Specifies the scope of visibility of this resource:
         ///
@@ -4742,13 +6872,13 @@ extension RAMClientTypes {
         ///
         /// * GLOBAL – The resource can be accessed from any Amazon Web Services Region.
         public var resourceRegionScope: RAMClientTypes.ResourceRegionScope?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share this resource is associated with.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share this resource is associated with.
         public var resourceShareArn: Swift.String?
         /// The current status of the resource.
         public var status: RAMClientTypes.ResourceStatus?
         /// A message about the status of the resource.
         public var statusMessage: Swift.String?
-        /// The resource type. This takes the form of: service-code:resource-code
+        /// The resource type. This takes the form of: service-code:resource-code, and is case-insensitive. For example, an Amazon EC2 Subnet would be represented by the string ec2:subnet.
         public var type: Swift.String?
 
         public init (
@@ -4793,7 +6923,7 @@ extension ResourceArnNotFoundException {
     }
 }
 
-/// The specified Amazon Resource Name (ARN) was not found.
+/// The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) was not found.
 public struct ResourceArnNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5017,16 +7147,20 @@ extension RAMClientTypes {
     /// Describes a resource share in RAM.
     public struct ResourceShare: Swift.Equatable {
         /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
+        ///
+        /// * True – the resource share can be shared with any Amazon Web Services account.
+        ///
+        /// * False – the resource share can be shared with only accounts in the same organization as the account that owns the resource share.
         public var allowExternalPrincipals: Swift.Bool?
         /// The date and time when the resource share was created.
         public var creationTime: ClientRuntime.Date?
-        /// Indicates how the resource share was created. Possible values include:
+        /// Indicates what features are available for this resource share. This parameter can have one of the following values:
         ///
-        /// * CREATED_FROM_POLICY - Indicates that the resource share was created from an Identity and Access Management (IAM) resource-based permission policy attached to the resource. This type of resource share is visible only to the Amazon Web Services account that created it. You can't modify it in RAM unless you promote it. For more information, see [PromoteResourceShareCreatedFromPolicy].
+        /// * STANDARD – A resource share that supports all functionality. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs. This resource share might have been created by RAM, or it might have been CREATED_FROM_POLICY and then promoted.
         ///
-        /// * PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see [PromoteResourceShareCreatedFromPolicy].
+        /// * CREATED_FROM_POLICY – The customer manually shared a resource by attaching a resource-based policy. That policy did not match any existing managed permissions, so RAM created this customer managed permission automatically on the customer's behalf based on the attached policy document. This type of resource share is visible only to the Amazon Web Services account that created it. You can't modify it in RAM unless you promote it. For more information, see [PromoteResourceShareCreatedFromPolicy].
         ///
-        /// * STANDARD - Indicates that the resource share was created in RAM using the console or APIs. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs.
+        /// * PROMOTING_TO_STANDARD – This resource share was originally CREATED_FROM_POLICY, but the customer ran the [PromoteResourceShareCreatedFromPolicy] and that operation is still in progress. This value changes to STANDARD when complete.
         public var featureSet: RAMClientTypes.ResourceShareFeatureSet?
         /// The date and time when the resource share was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
@@ -5034,7 +7168,7 @@ extension RAMClientTypes {
         public var name: Swift.String?
         /// The ID of the Amazon Web Services account that owns the resource share.
         public var owningAccountId: Swift.String?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share
         public var resourceShareArn: Swift.String?
         /// The current status of the resource share.
         public var status: RAMClientTypes.ResourceShareStatus?
@@ -5139,17 +7273,17 @@ extension RAMClientTypes.ResourceShareAssociation: Swift.Codable {
 }
 
 extension RAMClientTypes {
-    /// Describes an association with a resource share and either a principal or a resource.
+    /// Describes an association between a resource share and either a principal or a resource.
     public struct ResourceShareAssociation: Swift.Equatable {
         /// The associated entity. This can be either of the following:
         ///
-        /// * For a resource association, this is the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
+        /// * For a resource association, this is the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
         ///
         /// * For principal associations, this is one of the following:
         ///
         /// * The ID of an Amazon Web Services account
         ///
-        /// * The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations
+        /// * The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an organization in Organizations
         ///
         /// * The ARN of an organizational unit (OU) in Organizations
         ///
@@ -5165,7 +7299,7 @@ extension RAMClientTypes {
         public var external: Swift.Bool?
         /// The date and time when the association was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share.
         public var resourceShareArn: Swift.String?
         /// The name of the resource share.
         public var resourceShareName: Swift.String?
@@ -5394,14 +7528,14 @@ extension RAMClientTypes {
         public var invitationTimestamp: ClientRuntime.Date?
         /// The ID of the Amazon Web Services account that received the invitation.
         public var receiverAccountId: Swift.String?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the IAM user or role that received the invitation.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the IAM user or role that received the invitation.
         public var receiverArn: Swift.String?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share
         public var resourceShareArn: Swift.String?
         /// To view the resources associated with a pending resource share invitation, use [ListPendingInvitationResources].
         @available(*, deprecated, message: "This member has been deprecated. Use ListPendingInvitationResources.")
         public var resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]?
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation.
         public var resourceShareInvitationArn: Swift.String?
         /// The name of the resource share.
         public var resourceShareName: Swift.String?
@@ -5452,7 +7586,7 @@ extension ResourceShareInvitationAlreadyAcceptedException {
     }
 }
 
-/// The specified invitation was already accepted.
+/// The operation failed because the specified invitation was already accepted.
 public struct ResourceShareInvitationAlreadyAcceptedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5504,7 +7638,7 @@ extension ResourceShareInvitationAlreadyRejectedException {
     }
 }
 
-/// The specified invitation was already rejected.
+/// The operation failed because the specified invitation was already rejected.
 public struct ResourceShareInvitationAlreadyRejectedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5556,7 +7690,7 @@ extension ResourceShareInvitationArnNotFoundException {
     }
 }
 
-/// The specified Amazon Resource Name (ARN) for an invitation was not found.
+/// The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for an invitation was not found.
 public struct ResourceShareInvitationArnNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5608,7 +7742,7 @@ extension ResourceShareInvitationExpiredException {
     }
 }
 
-/// The specified invitation is expired.
+/// The operation failed because the specified invitation is past its expiration date and time.
 public struct ResourceShareInvitationExpiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5698,7 +7832,7 @@ extension ResourceShareLimitExceededException {
     }
 }
 
-/// This request would exceed the limit for resource shares for your account.
+/// The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
 public struct ResourceShareLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5739,11 +7873,15 @@ extension RAMClientTypes.ResourceSharePermissionDetail: Swift.Codable {
         case arn
         case creationTime
         case defaultVersion
+        case featureSet
         case isResourceTypeDefault
         case lastUpdatedTime
         case name
         case permission
+        case permissionType
         case resourceType
+        case status
+        case tags
         case version
     }
 
@@ -5758,6 +7896,9 @@ extension RAMClientTypes.ResourceSharePermissionDetail: Swift.Codable {
         if let defaultVersion = self.defaultVersion {
             try encodeContainer.encode(defaultVersion, forKey: .defaultVersion)
         }
+        if let featureSet = self.featureSet {
+            try encodeContainer.encode(featureSet.rawValue, forKey: .featureSet)
+        }
         if let isResourceTypeDefault = self.isResourceTypeDefault {
             try encodeContainer.encode(isResourceTypeDefault, forKey: .isResourceTypeDefault)
         }
@@ -5770,8 +7911,20 @@ extension RAMClientTypes.ResourceSharePermissionDetail: Swift.Codable {
         if let permission = self.permission {
             try encodeContainer.encode(permission, forKey: .permission)
         }
+        if let permissionType = self.permissionType {
+            try encodeContainer.encode(permissionType.rawValue, forKey: .permissionType)
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
@@ -5798,19 +7951,44 @@ extension RAMClientTypes.ResourceSharePermissionDetail: Swift.Codable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let isResourceTypeDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isResourceTypeDefault)
         isResourceTypeDefault = isResourceTypeDefaultDecoded
+        let permissionTypeDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionType.self, forKey: .permissionType)
+        permissionType = permissionTypeDecoded
+        let featureSetDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionFeatureSet.self, forKey: .featureSet)
+        featureSet = featureSetDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([RAMClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[RAMClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [RAMClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
 extension RAMClientTypes {
-    /// Information about an RAM permission.
+    /// Information about a RAM managed permission.
     public struct ResourceSharePermissionDetail: Swift.Equatable {
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this RAM permission.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this RAM managed permission.
         public var arn: Swift.String?
         /// The date and time when the permission was created.
         public var creationTime: ClientRuntime.Date?
-        /// Specifies whether the version of the permission represented in this structure is the default version for this permission.
+        /// Specifies whether the version of the permission represented in this response is the default version for this permission.
         public var defaultVersion: Swift.Bool?
-        /// Specifies whether the version of the permission represented in this structure is the default version for all resources of this resource type.
+        /// Indicates what features are available for this resource share. This parameter can have one of the following values:
+        ///
+        /// * STANDARD – A resource share that supports all functionality. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs. This resource share might have been created by RAM, or it might have been CREATED_FROM_POLICY and then promoted.
+        ///
+        /// * CREATED_FROM_POLICY – The customer manually shared a resource by attaching a resource-based policy. That policy did not match any existing managed permissions, so RAM created this customer managed permission automatically on the customer's behalf based on the attached policy document. This type of resource share is visible only to the Amazon Web Services account that created it. You can't modify it in RAM unless you promote it. For more information, see [PromoteResourceShareCreatedFromPolicy].
+        ///
+        /// * PROMOTING_TO_STANDARD – This resource share was originally CREATED_FROM_POLICY, but the customer ran the [PromoteResourceShareCreatedFromPolicy] and that operation is still in progress. This value changes to STANDARD when complete.
+        public var featureSet: RAMClientTypes.PermissionFeatureSet?
+        /// Specifies whether the version of the permission represented in this response is the default version for all resources of this resource type.
         public var isResourceTypeDefault: Swift.Bool?
         /// The date and time when the permission was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
@@ -5818,31 +7996,57 @@ extension RAMClientTypes {
         public var name: Swift.String?
         /// The permission's effect and actions in JSON format. The effect indicates whether the specified actions are allowed or denied. The actions list the operations to which the principal is granted or denied access.
         public var permission: Swift.String?
+        /// The type of managed permission. This can be one of the following values:
+        ///
+        /// * AWS_MANAGED – Amazon Web Services created and manages this managed permission. You can associate it with your resource shares, but you can't modify it.
+        ///
+        /// * CUSTOMER_MANAGED – You, or another principal in your account created this managed permission. You can associate it with your resource shares and create new versions that have different permissions.
+        public var permissionType: RAMClientTypes.PermissionType?
         /// The resource type to which this permission applies.
         public var resourceType: Swift.String?
-        /// The version of the permission represented in this structure.
+        /// The current status of the association between the permission and the resource share. The following are the possible values:
+        ///
+        /// * ATTACHABLE – This permission or version can be associated with resource shares.
+        ///
+        /// * UNATTACHABLE – This permission or version can't currently be associated with resource shares.
+        ///
+        /// * DELETING – This permission or version is in the process of being deleted.
+        ///
+        /// * DELETED – This permission or version is deleted.
+        public var status: RAMClientTypes.PermissionStatus?
+        /// The tag key and value pairs attached to the resource share.
+        public var tags: [RAMClientTypes.Tag]?
+        /// The version of the permission described in this response.
         public var version: Swift.String?
 
         public init (
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             defaultVersion: Swift.Bool? = nil,
+            featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
             isResourceTypeDefault: Swift.Bool? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             permission: Swift.String? = nil,
+            permissionType: RAMClientTypes.PermissionType? = nil,
             resourceType: Swift.String? = nil,
+            status: RAMClientTypes.PermissionStatus? = nil,
+            tags: [RAMClientTypes.Tag]? = nil,
             version: Swift.String? = nil
         )
         {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
+            self.featureSet = featureSet
             self.isResourceTypeDefault = isResourceTypeDefault
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.permission = permission
+            self.permissionType = permissionType
             self.resourceType = resourceType
+            self.status = status
+            self.tags = tags
             self.version = version
         }
     }
@@ -5854,11 +8058,14 @@ extension RAMClientTypes.ResourceSharePermissionSummary: Swift.Codable {
         case arn
         case creationTime
         case defaultVersion
+        case featureSet
         case isResourceTypeDefault
         case lastUpdatedTime
         case name
+        case permissionType
         case resourceType
         case status
+        case tags
         case version
     }
 
@@ -5873,6 +8080,9 @@ extension RAMClientTypes.ResourceSharePermissionSummary: Swift.Codable {
         if let defaultVersion = self.defaultVersion {
             try encodeContainer.encode(defaultVersion, forKey: .defaultVersion)
         }
+        if let featureSet = self.featureSet {
+            try encodeContainer.encode(featureSet.rawValue, forKey: .featureSet)
+        }
         if let isResourceTypeDefault = self.isResourceTypeDefault {
             try encodeContainer.encode(isResourceTypeDefault, forKey: .isResourceTypeDefault)
         }
@@ -5882,11 +8092,20 @@ extension RAMClientTypes.ResourceSharePermissionSummary: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let permissionType = self.permissionType {
+            try encodeContainer.encode(permissionType.rawValue, forKey: .permissionType)
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
@@ -5913,51 +8132,88 @@ extension RAMClientTypes.ResourceSharePermissionSummary: Swift.Codable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let isResourceTypeDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isResourceTypeDefault)
         isResourceTypeDefault = isResourceTypeDefaultDecoded
+        let permissionTypeDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionType.self, forKey: .permissionType)
+        permissionType = permissionTypeDecoded
+        let featureSetDecoded = try containerValues.decodeIfPresent(RAMClientTypes.PermissionFeatureSet.self, forKey: .featureSet)
+        featureSet = featureSetDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([RAMClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[RAMClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [RAMClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
 extension RAMClientTypes {
-    /// Information about an RAM permission that is associated with a resource share and any of its resources of a specified type.
+    /// Information about an RAM permission.
     public struct ResourceSharePermissionSummary: Swift.Equatable {
-        /// The [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission you want information about.
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission you want information about.
         public var arn: Swift.String?
         /// The date and time when the permission was created.
         public var creationTime: ClientRuntime.Date?
-        /// Specifies whether the version of the permission represented in this structure is the default version for this permission.
+        /// Specifies whether the version of the managed permission used by this resource share is the default version for this managed permission.
         public var defaultVersion: Swift.Bool?
-        /// Specifies whether the version of the permission represented in this structure is the default version for all resources of this resource type.
+        /// Indicates what features are available for this resource share. This parameter can have one of the following values:
+        ///
+        /// * STANDARD – A resource share that supports all functionality. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs. This resource share might have been created by RAM, or it might have been CREATED_FROM_POLICY and then promoted.
+        ///
+        /// * CREATED_FROM_POLICY – The customer manually shared a resource by attaching a resource-based policy. That policy did not match any existing managed permissions, so RAM created this customer managed permission automatically on the customer's behalf based on the attached policy document. This type of resource share is visible only to the Amazon Web Services account that created it. You can't modify it in RAM unless you promote it. For more information, see [PromoteResourceShareCreatedFromPolicy].
+        ///
+        /// * PROMOTING_TO_STANDARD – This resource share was originally CREATED_FROM_POLICY, but the customer ran the [PromoteResourceShareCreatedFromPolicy] and that operation is still in progress. This value changes to STANDARD when complete.
+        public var featureSet: RAMClientTypes.PermissionFeatureSet?
+        /// Specifies whether the managed permission associated with this resource share is the default managed permission for all resources of this resource type.
         public var isResourceTypeDefault: Swift.Bool?
         /// The date and time when the permission was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
-        /// The name of this permission.
+        /// The name of this managed permission.
         public var name: Swift.String?
-        /// The type of resource to which this permission applies.
+        /// The type of managed permission. This can be one of the following values:
+        ///
+        /// * AWS_MANAGED – Amazon Web Services created and manages this managed permission. You can associate it with your resource shares, but you can't modify it.
+        ///
+        /// * CUSTOMER_MANAGED – You, or another principal in your account created this managed permission. You can associate it with your resource shares and create new versions that have different permissions.
+        public var permissionType: RAMClientTypes.PermissionType?
+        /// The type of resource to which this permission applies. This takes the form of: service-code:resource-code, and is case-insensitive. For example, an Amazon EC2 Subnet would be represented by the string ec2:subnet.
         public var resourceType: Swift.String?
         /// The current status of the permission.
         public var status: Swift.String?
-        /// The version of the permission represented in this structure.
+        /// A list of the tag key value pairs currently attached to the permission.
+        public var tags: [RAMClientTypes.Tag]?
+        /// The version of the permission associated with this resource share.
         public var version: Swift.String?
 
         public init (
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             defaultVersion: Swift.Bool? = nil,
+            featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
             isResourceTypeDefault: Swift.Bool? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            permissionType: RAMClientTypes.PermissionType? = nil,
             resourceType: Swift.String? = nil,
             status: Swift.String? = nil,
+            tags: [RAMClientTypes.Tag]? = nil,
             version: Swift.String? = nil
         )
         {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
+            self.featureSet = featureSet
             self.isResourceTypeDefault = isResourceTypeDefault
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.permissionType = permissionType
             self.resourceType = resourceType
             self.status = status
+            self.tags = tags
             self.version = version
         }
     }
@@ -6062,7 +8318,7 @@ extension ServerInternalException {
     }
 }
 
-/// The service could not respond to the request due to an internal problem.
+/// The operation failed because the service could not respond to the request due to an internal problem. Try again later.
 public struct ServerInternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6138,7 +8394,7 @@ extension RAMClientTypes {
         ///
         /// * GLOBAL – The resource can be accessed from any Amazon Web Services Region.
         public var resourceRegionScope: RAMClientTypes.ResourceRegionScope?
-        /// The type of the resource.
+        /// The type of the resource. This takes the form of: service-code:resource-code, and is case-insensitive. For example, an Amazon EC2 Subnet would be represented by the string ec2:subnet.
         public var resourceType: Swift.String?
         /// The name of the Amazon Web Services service to which resources of this type belong.
         public var serviceName: Swift.String?
@@ -6173,7 +8429,7 @@ extension ServiceUnavailableException {
     }
 }
 
-/// The service is not available.
+/// The operation failed because the service isn't available. Try again later.
 public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6206,6 +8462,163 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension SetDefaultPermissionVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permissionArn
+        case permissionVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let permissionArn = self.permissionArn {
+            try encodeContainer.encode(permissionArn, forKey: .permissionArn)
+        }
+        if let permissionVersion = self.permissionVersion {
+            try encodeContainer.encode(permissionVersion, forKey: .permissionVersion)
+        }
+    }
+}
+
+extension SetDefaultPermissionVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/setdefaultpermissionversion"
+    }
+}
+
+public struct SetDefaultPermissionVersionInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission whose default version you want to change.
+    /// This member is required.
+    public var permissionArn: Swift.String?
+    /// Specifies the version number that you want to designate as the default for customer managed permission. To see a list of all available version numbers, use [ListPermissionVersions].
+    /// This member is required.
+    public var permissionVersion: Swift.Int?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        permissionArn: Swift.String? = nil,
+        permissionVersion: Swift.Int? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.permissionArn = permissionArn
+        self.permissionVersion = permissionVersion
+    }
+}
+
+struct SetDefaultPermissionVersionInputBody: Swift.Equatable {
+    let permissionArn: Swift.String?
+    let permissionVersion: Swift.Int?
+    let clientToken: Swift.String?
+}
+
+extension SetDefaultPermissionVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case permissionArn
+        case permissionVersion
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionArn)
+        permissionArn = permissionArnDecoded
+        let permissionVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionVersion)
+        permissionVersion = permissionVersionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension SetDefaultPermissionVersionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension SetDefaultPermissionVersionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "IdempotentParameterMismatch" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidClientToken" : self = .invalidClientTokenException(try InvalidClientTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum SetDefaultPermissionVersionOutputError: Swift.Error, Swift.Equatable {
+    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
+    case invalidClientTokenException(InvalidClientTokenException)
+    case invalidParameterException(InvalidParameterException)
+    case malformedArnException(MalformedArnException)
+    case serverInternalException(ServerInternalException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SetDefaultPermissionVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: SetDefaultPermissionVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.returnValue = output.returnValue
+        } else {
+            self.clientToken = nil
+            self.returnValue = nil
+        }
+    }
+}
+
+public struct SetDefaultPermissionVersionOutputResponse: Swift.Equatable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// A boolean value that indicates whether the operation was successful.
+    public var returnValue: Swift.Bool?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        returnValue: Swift.Bool? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.returnValue = returnValue
+    }
+}
+
+struct SetDefaultPermissionVersionOutputResponseBody: Swift.Equatable {
+    let returnValue: Swift.Bool?
+    let clientToken: Swift.String?
+}
+
+extension SetDefaultPermissionVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case returnValue
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let returnValueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnValue)
+        returnValue = returnValueDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -6327,7 +8740,7 @@ extension TagLimitExceededException {
     }
 }
 
-/// This request would exceed the limit for tags for your account.
+/// The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
 public struct TagLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6379,7 +8792,7 @@ extension TagPolicyViolationException {
     }
 }
 
-/// The specified tag key is a reserved word and can't be used.
+/// The operation failed because the specified tag key is a reserved word and can't be used.
 public struct TagPolicyViolationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6417,12 +8830,16 @@ extension TagPolicyViolationExceptionBody: Swift.Decodable {
 
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn
         case resourceShareArn
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
         if let resourceShareArn = self.resourceShareArn {
             try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
         }
@@ -6442,18 +8859,21 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add tags to.
-    /// This member is required.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that you want to add tags to. You must specify either resourceArn, or resourceShareArn, but not both.
+    public var resourceArn: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add tags to. You must specify either resourceShareArn, or resourceArn, but not both.
     public var resourceShareArn: Swift.String?
     /// A list of one or more tag key and value pairs. The tag key must be present and not be an empty string. The tag value must be present but can be an empty string.
     /// This member is required.
     public var tags: [RAMClientTypes.Tag]?
 
     public init (
+        resourceArn: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil,
         tags: [RAMClientTypes.Tag]? = nil
     )
     {
+        self.resourceArn = resourceArn
         self.resourceShareArn = resourceShareArn
         self.tags = tags
     }
@@ -6462,10 +8882,12 @@ public struct TagResourceInput: Swift.Equatable {
 struct TagResourceInputBody: Swift.Equatable {
     let resourceShareArn: Swift.String?
     let tags: [RAMClientTypes.Tag]?
+    let resourceArn: Swift.String?
 }
 
 extension TagResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn
         case resourceShareArn
         case tags
     }
@@ -6485,6 +8907,8 @@ extension TagResourceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
     }
 }
 
@@ -6550,7 +8974,7 @@ extension ThrottlingException {
     }
 }
 
-/// You exceeded the rate at which you are allowed to perform this operation. Please try again later.
+/// The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
 public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6602,7 +9026,7 @@ extension UnknownResourceException {
     }
 }
 
-/// A specified resource was not found.
+/// The operation failed because a specified resource couldn't be found.
 public struct UnknownResourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6638,14 +9062,70 @@ extension UnknownResourceExceptionBody: Swift.Decodable {
     }
 }
 
+extension UnmatchedPolicyPermissionException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UnmatchedPolicyPermissionExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// There isn't an existing managed permission defined in RAM that has the same IAM permissions as the resource-based policy attached to the resource. You should first run [PromotePermissionCreatedFromPolicy] to create that managed permission.
+public struct UnmatchedPolicyPermissionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct UnmatchedPolicyPermissionExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnmatchedPolicyPermissionExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn
         case resourceShareArn
         case tagKeys
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
         if let resourceShareArn = self.resourceShareArn {
             try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
         }
@@ -6665,18 +9145,21 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove tags from. The tags are removed from the resource share, not the resources in the resource share.
-    /// This member is required.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that you want to remove tags from. You must specify either resourceArn, or resourceShareArn, but not both.
+    public var resourceArn: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove tags from. The tags are removed from the resource share, not the resources in the resource share. You must specify either resourceShareArn, or resourceArn, but not both.
     public var resourceShareArn: Swift.String?
     /// Specifies a list of one or more tag keys that you want to remove.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
     public init (
+        resourceArn: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
     {
+        self.resourceArn = resourceArn
         self.resourceShareArn = resourceShareArn
         self.tagKeys = tagKeys
     }
@@ -6685,10 +9168,12 @@ public struct UntagResourceInput: Swift.Equatable {
 struct UntagResourceInputBody: Swift.Equatable {
     let resourceShareArn: Swift.String?
     let tagKeys: [Swift.String]?
+    let resourceArn: Swift.String?
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn
         case resourceShareArn
         case tagKeys
     }
@@ -6708,6 +9193,8 @@ extension UntagResourceInputBody: Swift.Decodable {
             }
         }
         tagKeys = tagKeysDecoded0
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
     }
 }
 
@@ -6723,8 +9210,10 @@ extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArn.Malformed" : self = .malformedArnException(try MalformedArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -6732,8 +9221,10 @@ extension UntagResourceOutputError {
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
+    case malformedArnException(MalformedArnException)
     case serverInternalException(ServerInternalException)
     case serviceUnavailableException(ServiceUnavailableException)
+    case unknownResourceException(UnknownResourceException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -6781,11 +9272,11 @@ extension UpdateResourceShareInput: ClientRuntime.URLPathProvider {
 public struct UpdateResourceShareInput: Swift.Equatable {
     /// Specifies whether principals outside your organization in Organizations can be associated with a resource share.
     public var allowExternalPrincipals: Swift.Bool?
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// If specified, the new name that you want to attach to the resource share.
     public var name: Swift.String?
-    /// Specifies the [Amazon Resoure Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to modify.
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to modify.
     /// This member is required.
     public var resourceShareArn: Swift.String?
 

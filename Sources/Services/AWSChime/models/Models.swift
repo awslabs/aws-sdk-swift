@@ -130,9 +130,9 @@ extension ChimeClientTypes.Account: Swift.Codable {
         var supportedLicensesDecoded0:[ChimeClientTypes.License]? = nil
         if let supportedLicensesContainer = supportedLicensesContainer {
             supportedLicensesDecoded0 = [ChimeClientTypes.License]()
-            for string0 in supportedLicensesContainer {
-                if let string0 = string0 {
-                    supportedLicensesDecoded0?.append(string0)
+            for enum0 in supportedLicensesContainer {
+                if let enum0 = enum0 {
+                    supportedLicensesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4814,7 +4814,7 @@ extension ChimeClientTypes {
     public struct ChimeSdkMeetingConfiguration: Swift.Equatable {
         /// The configuration for the artifacts in an Amazon Chime SDK meeting.
         public var artifactsConfiguration: ChimeClientTypes.ArtifactsConfiguration?
-        /// The source configuration for a specified media capture pipline.
+        /// The source configuration for a specified media capture pipeline.
         public var sourceConfiguration: ChimeClientTypes.SourceConfiguration?
 
         public init (
@@ -6835,7 +6835,7 @@ extension CreateMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
 public struct CreateMediaCapturePipelineInput: Swift.Equatable {
     /// The configuration for a specified media capture pipeline. SourceType must be ChimeSdkMeeting.
     public var chimeSdkMeetingConfiguration: ChimeClientTypes.ChimeSdkMeetingConfiguration?
-    /// The token assigned to the client making the pipeline request.
+    /// The unique identifier for the client request. The token makes the API request idempotent. Use a different token for different media pipeline requests.
     public var clientRequestToken: Swift.String?
     /// The ARN of the sink type.
     /// This member is required.
@@ -7902,9 +7902,9 @@ extension CreateProxySessionInputBody: Swift.Decodable {
         var capabilitiesDecoded0:[ChimeClientTypes.Capability]? = nil
         if let capabilitiesContainer = capabilitiesContainer {
             capabilitiesDecoded0 = [ChimeClientTypes.Capability]()
-            for string0 in capabilitiesContainer {
-                if let string0 = string0 {
-                    capabilitiesDecoded0?.append(string0)
+            for enum0 in capabilitiesContainer {
+                if let enum0 = enum0 {
+                    capabilitiesDecoded0?.append(enum0)
                 }
             }
         }
@@ -13464,7 +13464,7 @@ extension ChimeClientTypes.EngineTranscribeMedicalSettings: Swift.Codable {
 extension ChimeClientTypes {
     /// Settings specific to the Amazon Transcribe Medical engine.
     public struct EngineTranscribeMedicalSettings: Swift.Equatable {
-        /// Set this field to PHI to identify personal health information in the transcription output.
+        /// Labels all personally identifiable information (PII) identified in your transcript. If you don't include PiiEntityTypes, all PII is identified. You can’t set ContentIdentificationType and ContentRedactionType.
         public var contentIdentificationType: ChimeClientTypes.TranscribeMedicalContentIdentificationType?
         /// The language code specified for the Amazon Transcribe Medical engine.
         /// This member is required.
@@ -13505,14 +13505,19 @@ extension ChimeClientTypes.EngineTranscribeSettings: Swift.Codable {
         case contentIdentificationType = "ContentIdentificationType"
         case contentRedactionType = "ContentRedactionType"
         case enablePartialResultsStabilization = "EnablePartialResultsStabilization"
+        case identifyLanguage = "IdentifyLanguage"
         case languageCode = "LanguageCode"
         case languageModelName = "LanguageModelName"
+        case languageOptions = "LanguageOptions"
         case partialResultsStability = "PartialResultsStability"
         case piiEntityTypes = "PiiEntityTypes"
+        case preferredLanguage = "PreferredLanguage"
         case region = "Region"
         case vocabularyFilterMethod = "VocabularyFilterMethod"
         case vocabularyFilterName = "VocabularyFilterName"
+        case vocabularyFilterNames = "VocabularyFilterNames"
         case vocabularyName = "VocabularyName"
+        case vocabularyNames = "VocabularyNames"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13526,17 +13531,26 @@ extension ChimeClientTypes.EngineTranscribeSettings: Swift.Codable {
         if let enablePartialResultsStabilization = self.enablePartialResultsStabilization {
             try encodeContainer.encode(enablePartialResultsStabilization, forKey: .enablePartialResultsStabilization)
         }
+        if let identifyLanguage = self.identifyLanguage {
+            try encodeContainer.encode(identifyLanguage, forKey: .identifyLanguage)
+        }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
         if let languageModelName = self.languageModelName {
             try encodeContainer.encode(languageModelName, forKey: .languageModelName)
         }
+        if let languageOptions = self.languageOptions {
+            try encodeContainer.encode(languageOptions, forKey: .languageOptions)
+        }
         if let partialResultsStability = self.partialResultsStability {
             try encodeContainer.encode(partialResultsStability.rawValue, forKey: .partialResultsStability)
         }
         if let piiEntityTypes = self.piiEntityTypes {
             try encodeContainer.encode(piiEntityTypes, forKey: .piiEntityTypes)
+        }
+        if let preferredLanguage = self.preferredLanguage {
+            try encodeContainer.encode(preferredLanguage.rawValue, forKey: .preferredLanguage)
         }
         if let region = self.region {
             try encodeContainer.encode(region.rawValue, forKey: .region)
@@ -13547,8 +13561,14 @@ extension ChimeClientTypes.EngineTranscribeSettings: Swift.Codable {
         if let vocabularyFilterName = self.vocabularyFilterName {
             try encodeContainer.encode(vocabularyFilterName, forKey: .vocabularyFilterName)
         }
+        if let vocabularyFilterNames = self.vocabularyFilterNames {
+            try encodeContainer.encode(vocabularyFilterNames, forKey: .vocabularyFilterNames)
+        }
         if let vocabularyName = self.vocabularyName {
             try encodeContainer.encode(vocabularyName, forKey: .vocabularyName)
+        }
+        if let vocabularyNames = self.vocabularyNames {
+            try encodeContainer.encode(vocabularyNames, forKey: .vocabularyNames)
         }
     }
 
@@ -13576,61 +13596,90 @@ extension ChimeClientTypes.EngineTranscribeSettings: Swift.Codable {
         piiEntityTypes = piiEntityTypesDecoded
         let languageModelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageModelName)
         languageModelName = languageModelNameDecoded
+        let identifyLanguageDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .identifyLanguage)
+        identifyLanguage = identifyLanguageDecoded
+        let languageOptionsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageOptions)
+        languageOptions = languageOptionsDecoded
+        let preferredLanguageDecoded = try containerValues.decodeIfPresent(ChimeClientTypes.TranscribeLanguageCode.self, forKey: .preferredLanguage)
+        preferredLanguage = preferredLanguageDecoded
+        let vocabularyNamesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vocabularyNames)
+        vocabularyNames = vocabularyNamesDecoded
+        let vocabularyFilterNamesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vocabularyFilterNames)
+        vocabularyFilterNames = vocabularyFilterNamesDecoded
     }
 }
 
 extension ChimeClientTypes {
-    /// Settings specific to the Amazon Transcribe engine.
+    /// Settings specific for Amazon Transcribe as the live transcription engine. If you specify an invalid combination of parameters, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide.
     public struct EngineTranscribeSettings: Swift.Equatable {
-        /// Set this field to PII to identify personally identifiable information in the transcription output.
+        /// Labels all personally identifiable information (PII) identified in your transcript. If you don't include PiiEntityTypes, all PII is identified. You can’t set ContentIdentificationType and ContentRedactionType.
         public var contentIdentificationType: ChimeClientTypes.TranscribeContentIdentificationType?
-        /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.
+        /// Content redaction is performed at the segment level. If you don't include PiiEntityTypes, all PII is redacted. You can’t set ContentIdentificationType and ContentRedactionType.
         public var contentRedactionType: ChimeClientTypes.TranscribeContentRedactionType?
-        /// Generates partial transcription results that are less likely to change as meeting attendees speak. It does so by only allowing the last few words from the partial results to change.
+        /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy.
         public var enablePartialResultsStabilization: Swift.Bool?
-        /// The language code specified for the Amazon Transcribe engine.
-        /// This member is required.
+        /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally use LanguageOptions to include a list of language codes that you think may be present in your audio stream. Including language options can improve transcription accuracy. You can also use PreferredLanguage to include a preferred language. Doing so can help Amazon Transcribe identify the language faster. You must include either LanguageCode or IdentifyLanguage. Language identification can't be combined with custom language models or redaction.
+        public var identifyLanguage: Swift.Bool?
+        /// Specify the language code that represents the language spoken. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification.
         public var languageCode: ChimeClientTypes.TranscribeLanguageCode?
-        /// The name of the language model used during transcription.
+        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. If you use Amazon Transcribe in multiple Regions, the custom language model must be available in Amazon Transcribe in each Region.
         public var languageModelName: Swift.String?
-        /// The stabity level of a partial results transcription. Determines how stable you want the transcription results to be. A higher level means the transcription results are less likely to change.
+        /// Specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. If you include LanguageOptions, you must also include IdentifyLanguage. You can only include one language dialect per language. For example, you cannot include en-US and en-AU.
+        public var languageOptions: Swift.String?
+        /// Specify the level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy.
         public var partialResultsStability: ChimeClientTypes.TranscribePartialResultsStability?
-        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType. PIIEntityTypes must be comma-separated. The available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, and ALL. PiiEntityTypes is an optional parameter with a default value of ALL.
+        /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRYCREDIT_DEBIT_NUMBER, EMAIL,NAME, PHONE, PIN, SSN, or ALL. Note that if you include PiiEntityTypes, you must also include ContentIdentificationType or ContentRedactionType. If you include ContentRedactionType or ContentIdentificationType, but do not include PiiEntityTypes, all PII is redacted or identified.
         public var piiEntityTypes: Swift.String?
-        /// The AWS Region passed to Amazon Transcribe. If you don't specify a Region, Amazon Chime uses the meeting's Region.
+        /// Specify a preferred language from the subset of languages codes you specified in LanguageOptions. You can only use this parameter if you include IdentifyLanguage and LanguageOptions.
+        public var preferredLanguage: ChimeClientTypes.TranscribeLanguageCode?
+        /// The AWS Region in which to use Amazon Transcribe. If you don't specify a Region, then the MediaRegion parameter of the [CreateMeeting.html](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html) API will be used. However, if Amazon Transcribe is not available in the MediaRegion, then a TranscriptFailed event is sent. Use auto to use Amazon Transcribe in a Region near the meeting’s MediaRegion. For more information, refer to [Choosing a transcription Region](https://docs.aws.amazon.com/chime-sdk/latest/dg/transcription-options.html#choose-region) in the Amazon Chime SDK Developer Guide.
         public var region: ChimeClientTypes.TranscribeRegion?
-        /// The filtering method passed to Amazon Transcribe.
+        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public var vocabularyFilterMethod: ChimeClientTypes.TranscribeVocabularyFilterMethod?
-        /// The name of the vocabulary filter passed to Amazon Transcribe.
+        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If you use Amazon Transcribe in multiple Regions, the vocabulary filter must be available in Amazon Transcribe in each Region. If you include IdentifyLanguage and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.
         public var vocabularyFilterName: Swift.String?
-        /// The name of the vocabulary passed to Amazon Transcribe.
+        /// Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If you use Amazon Transcribe in multiple Regions, the vocabulary filter must be available in Amazon Transcribe in each Region. If you're not including IdentifyLanguage and want to use a custom vocabulary filter with your transcription, use the VocabularyFilterName parameter instead.
+        public var vocabularyFilterNames: Swift.String?
+        /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If you use Amazon Transcribe multiple Regions, the vocabulary must be available in Amazon Transcribe in each Region. If you include IdentifyLanguage and want to use one or more custom vocabularies with your transcription, use the VocabularyNames parameter instead.
         public var vocabularyName: Swift.String?
+        /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If you use Amazon Transcribe in multiple Regions, the vocabulary must be available in Amazon Transcribe in each Region. If you don't include IdentifyLanguage and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.
+        public var vocabularyNames: Swift.String?
 
         public init (
             contentIdentificationType: ChimeClientTypes.TranscribeContentIdentificationType? = nil,
             contentRedactionType: ChimeClientTypes.TranscribeContentRedactionType? = nil,
             enablePartialResultsStabilization: Swift.Bool? = nil,
+            identifyLanguage: Swift.Bool? = nil,
             languageCode: ChimeClientTypes.TranscribeLanguageCode? = nil,
             languageModelName: Swift.String? = nil,
+            languageOptions: Swift.String? = nil,
             partialResultsStability: ChimeClientTypes.TranscribePartialResultsStability? = nil,
             piiEntityTypes: Swift.String? = nil,
+            preferredLanguage: ChimeClientTypes.TranscribeLanguageCode? = nil,
             region: ChimeClientTypes.TranscribeRegion? = nil,
             vocabularyFilterMethod: ChimeClientTypes.TranscribeVocabularyFilterMethod? = nil,
             vocabularyFilterName: Swift.String? = nil,
-            vocabularyName: Swift.String? = nil
+            vocabularyFilterNames: Swift.String? = nil,
+            vocabularyName: Swift.String? = nil,
+            vocabularyNames: Swift.String? = nil
         )
         {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.languageModelName = languageModelName
+            self.languageOptions = languageOptions
             self.partialResultsStability = partialResultsStability
             self.piiEntityTypes = piiEntityTypes
+            self.preferredLanguage = preferredLanguage
             self.region = region
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyFilterNames = vocabularyFilterNames
             self.vocabularyName = vocabularyName
+            self.vocabularyNames = vocabularyNames
         }
     }
 
@@ -19100,7 +19149,7 @@ extension ListChannelMembershipsForAppInstanceUserOutputResponse: ClientRuntime.
 }
 
 public struct ListChannelMembershipsForAppInstanceUserOutputResponse: Swift.Equatable {
-    /// The token passed by previous API calls until all requested users are returned.
+    /// The information for the requested channel memberships.
     public var channelMemberships: [ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary]?
     /// The token passed by previous API calls until all requested users are returned.
     public var nextToken: Swift.String?
@@ -22379,9 +22428,9 @@ extension ChimeClientTypes.LoggingConfiguration: Swift.Codable {
 extension ChimeClientTypes {
     /// The logging configuration associated with an Amazon Chime Voice Connector. Specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     public struct LoggingConfiguration: Swift.Equatable {
-        /// Boolean that enables the logging of Voice Connector metrics to Cloudwatch.
+        /// Boolean that enables logging of detailed media metrics for Voice Connectors to Amazon CloudWatch logs.
         public var enableMediaMetricLogs: Swift.Bool?
-        /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
+        /// Boolean that enables SIP message logs to Amazon CloudWatch logs.
         public var enableSIPLogs: Swift.Bool?
 
         public init (
@@ -23989,9 +24038,9 @@ extension ChimeClientTypes.PhoneNumberCountry: Swift.Codable {
         var supportedPhoneNumberTypesDecoded0:[ChimeClientTypes.PhoneNumberType]? = nil
         if let supportedPhoneNumberTypesContainer = supportedPhoneNumberTypesContainer {
             supportedPhoneNumberTypesDecoded0 = [ChimeClientTypes.PhoneNumberType]()
-            for string0 in supportedPhoneNumberTypesContainer {
-                if let string0 = string0 {
-                    supportedPhoneNumberTypesDecoded0?.append(string0)
+            for enum0 in supportedPhoneNumberTypesContainer {
+                if let enum0 = enum0 {
+                    supportedPhoneNumberTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -24490,9 +24539,9 @@ extension ChimeClientTypes.ProxySession: Swift.Codable {
         var capabilitiesDecoded0:[ChimeClientTypes.Capability]? = nil
         if let capabilitiesContainer = capabilitiesContainer {
             capabilitiesDecoded0 = [ChimeClientTypes.Capability]()
-            for string0 in capabilitiesContainer {
-                if let string0 = string0 {
-                    capabilitiesDecoded0?.append(string0)
+            for enum0 in capabilitiesContainer {
+                if let enum0 = enum0 {
+                    capabilitiesDecoded0?.append(enum0)
                 }
             }
         }
@@ -25042,7 +25091,7 @@ extension PutEventsConfigurationOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct PutEventsConfigurationOutputResponse: Swift.Equatable {
-    /// The configuration that allows a bot to receive outgoing events. Can be either an HTTPS endpoint or a Lambda function ARN.
+    /// The configuration that allows a bot to receive outgoing events. Can be an HTTPS endpoint or an AWS Lambda function ARN.
     public var eventsConfiguration: ChimeClientTypes.EventsConfiguration?
 
     public init (
@@ -25313,7 +25362,7 @@ extension PutSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntim
 }
 
 public struct PutSipMediaApplicationLoggingConfigurationOutputResponse: Swift.Equatable {
-    /// Logging configuration of the SIP media application.
+    /// The logging configuration of the SIP media application.
     public var sipMediaApplicationLoggingConfiguration: ChimeClientTypes.SipMediaApplicationLoggingConfiguration?
 
     public init (
@@ -26742,7 +26791,7 @@ extension RegenerateSecurityTokenOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct RegenerateSecurityTokenOutputResponse: Swift.Equatable {
-    /// A resource that allows Enterprise account administrators to configure an interface to receive events from Amazon Chime.
+    /// A resource that allows Enterprise account administrators to configure an interface that receives events from Amazon Chime.
     public var bot: ChimeClientTypes.Bot?
 
     public init (
@@ -28164,7 +28213,7 @@ extension ChimeClientTypes.SipMediaApplicationEndpoint: Swift.CustomDebugStringC
 extension ChimeClientTypes {
     /// The endpoint assigned to the SIP media application.
     public struct SipMediaApplicationEndpoint: Swift.Equatable {
-        /// Valid Amazon Resource Name (ARN) of the Lambda function. The function must be created in the same AWS Region as the SIP media application.
+        /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias. The function must be created in the same AWS Region as the SIP media application.
         public var lambdaArn: Swift.String?
 
         public init (
@@ -29560,10 +29609,12 @@ extension ChimeClientTypes {
         case esUs
         case frCa
         case frFr
+        case hiIn
         case itIt
         case jaJp
         case koKr
         case ptBr
+        case thTh
         case zhCn
         case sdkUnknown(Swift.String)
 
@@ -29576,10 +29627,12 @@ extension ChimeClientTypes {
                 .esUs,
                 .frCa,
                 .frFr,
+                .hiIn,
                 .itIt,
                 .jaJp,
                 .koKr,
                 .ptBr,
+                .thTh,
                 .zhCn,
                 .sdkUnknown("")
             ]
@@ -29597,10 +29650,12 @@ extension ChimeClientTypes {
             case .esUs: return "es-US"
             case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
+            case .hiIn: return "hi-IN"
             case .itIt: return "it-IT"
             case .jaJp: return "ja-JP"
             case .koKr: return "ko-KR"
             case .ptBr: return "pt-BR"
+            case .thTh: return "th-TH"
             case .zhCn: return "zh-CN"
             case let .sdkUnknown(s): return s
             }
@@ -32099,9 +32154,9 @@ extension UpdateProxySessionInputBody: Swift.Decodable {
         var capabilitiesDecoded0:[ChimeClientTypes.Capability]? = nil
         if let capabilitiesContainer = capabilitiesContainer {
             capabilitiesDecoded0 = [ChimeClientTypes.Capability]()
-            for string0 in capabilitiesContainer {
-                if let string0 = string0 {
-                    capabilitiesDecoded0?.append(string0)
+            for enum0 in capabilitiesContainer {
+                if let enum0 = enum0 {
+                    capabilitiesDecoded0?.append(enum0)
                 }
             }
         }

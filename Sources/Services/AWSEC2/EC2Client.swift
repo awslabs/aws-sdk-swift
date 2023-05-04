@@ -1408,7 +1408,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. One or more trust providers can be attached to an Amazon Web Services Verified Access instance.
+    /// Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
     public func attachVerifiedAccessTrustProvider(input: AttachVerifiedAccessTrustProviderInput) async throws -> AttachVerifiedAccessTrustProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4864,7 +4864,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within an Amazon Web Services Verified Access group shares an Amazon Web Services Verified Access policy. For example, you can group all Amazon Web Services Verified Access instances associated with “sales” applications together and use one common Amazon Web Services Verified Access policy.
+    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications together and use one common Verified Access policy.
     public func createVerifiedAccessGroup(input: CreateVerifiedAccessGroupInput) async throws -> CreateVerifiedAccessGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4952,7 +4952,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider will be evaluated by Amazon Web Services Verified Access, before allowing or denying the application request.
+    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request.
     public func createVerifiedAccessTrustProvider(input: CreateVerifiedAccessTrustProviderInput) async throws -> CreateVerifiedAccessTrustProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -12676,7 +12676,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describe Amazon Web Services Verified Access endpoints.
+    /// Describes the specified Amazon Web Services Verified Access endpoints.
     public func describeVerifiedAccessEndpoints(input: DescribeVerifiedAccessEndpointsInput) async throws -> DescribeVerifiedAccessEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -12712,7 +12712,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describe details of existing Verified Access groups.
+    /// Describes the specified Verified Access groups.
     public func describeVerifiedAccessGroups(input: DescribeVerifiedAccessGroupsInput) async throws -> DescribeVerifiedAccessGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -12748,7 +12748,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     public func describeVerifiedAccessInstanceLoggingConfigurations(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -12784,7 +12784,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describe Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     public func describeVerifiedAccessInstances(input: DescribeVerifiedAccessInstancesInput) async throws -> DescribeVerifiedAccessInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -12820,7 +12820,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describe details of existing Verified Access trust providers.
+    /// Describes the specified Amazon Web Services Verified Access trust providers.
     public func describeVerifiedAccessTrustProviders(input: DescribeVerifiedAccessTrustProvidersInput) async throws -> DescribeVerifiedAccessTrustProvidersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -13576,7 +13576,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Detach a trust provider from an Amazon Web Services Verified Access instance.
+    /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
     public func detachVerifiedAccessTrustProvider(input: DetachVerifiedAccessTrustProviderInput) async throws -> DetachVerifiedAccessTrustProviderOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -18714,7 +18714,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the configuration of an Amazon Web Services Verified Access endpoint.
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
     public func modifyVerifiedAccessEndpoint(input: ModifyVerifiedAccessEndpointInput) async throws -> ModifyVerifiedAccessEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -18758,7 +18758,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the specified Verified Access endpoint policy.
+    /// Modifies the specified Amazon Web Services Verified Access endpoint policy.
     public func modifyVerifiedAccessEndpointPolicy(input: ModifyVerifiedAccessEndpointPolicyInput) async throws -> ModifyVerifiedAccessEndpointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -18802,7 +18802,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the specified Verified Access group configuration.
+    /// Modifies the specified Amazon Web Services Verified Access group configuration.
     public func modifyVerifiedAccessGroup(input: ModifyVerifiedAccessGroupInput) async throws -> ModifyVerifiedAccessGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -18846,7 +18846,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the specified Verified Access group policy.
+    /// Modifies the specified Amazon Web Services Verified Access group policy.
     public func modifyVerifiedAccessGroupPolicy(input: ModifyVerifiedAccessGroupPolicyInput) async throws -> ModifyVerifiedAccessGroupPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -18890,7 +18890,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the configuration of the specified Verified Access instance.
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access instance.
     public func modifyVerifiedAccessInstance(input: ModifyVerifiedAccessInstanceInput) async throws -> ModifyVerifiedAccessInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
