@@ -24,8 +24,15 @@ jobs:
   ios-compat:
     runs-on: macos-13
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.app
+      DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
       - name: Checkout Sources
         uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -47,8 +54,15 @@ jobs:
   macos-compat:
     runs-on: macos-11
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
+      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
     steps:
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
       - name: Checkout sources
         uses: actions/checkout@v2
       - uses: actions/cache@v2
