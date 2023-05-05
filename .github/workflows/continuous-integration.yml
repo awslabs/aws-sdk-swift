@@ -26,13 +26,6 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
-      - name: Tools Versions
-        run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
       - name: Checkout Sources
         uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -46,6 +39,13 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
@@ -56,13 +56,6 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
     steps:
-      - name: Tools Versions
-        run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
       - name: Checkout sources
         uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -76,6 +69,13 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
