@@ -61,7 +61,7 @@ extension Process {
         /// Returns a process for executing `git log <a>..<b> --pretty=format:<format>`
         /// This is used returning the list of commits between two tags.
         func log(_ a: String, _ b: String, format: String) -> Process {
-            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format)"])
+            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format.wrappedInQuotes())"])
         }
     }
     
