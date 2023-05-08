@@ -18,12 +18,13 @@ env:
   AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
   AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
   SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
+  AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
   ios-compat:
-    runs-on: macos-12
+    runs-on: macos-13
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.0.app
+      DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
@@ -38,15 +39,22 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
+          ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
   macos-compat:
     runs-on: macos-11
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
+      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
@@ -61,11 +69,18 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '11'
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
   linux-compat:
     runs-on: ubuntu-latest
     strategy:
