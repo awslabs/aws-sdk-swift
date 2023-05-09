@@ -97,9 +97,9 @@ Your package will resolve dependencies, compile, and run.
 
 In the terminal output, you will see (after a number of log statements):
 ```
-Caller's AWS user ID is AIDA6BDOGWC6NZG5J4ZW3
+Caller's AWS user ID is <an alphanumeric string>
 ```
-(this should match your AWS Key ID for your AWS credentials.)
+(this user ID should match your AWS Access Key ID for your AWS credentials.)
 
 If you’ve made it this far... congratulations! 🎉
 
