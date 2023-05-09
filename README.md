@@ -1,8 +1,8 @@
 # AWS SDK for Swift
 
-The **AWS SDK for Swift** is a pure Swift SDK for AWS services.
+The **AWS SDK for Swift** is a pure Swift SDK for accessing any & all AWS services.
 
-**The AWS SDK for Swift is currently in developer preview and is intended strictly for feedback purposes only. Do not use this SDK for production workloads. Refer to the SDK [stability](docs/stability.md) guidelines for more detail.**
+**The AWS SDK for Swift is currently in developer preview and is intended strictly for feedback purposes only. Do not use this SDK for production workloads. Refer to the SDK [stability guidelines](docs/stability.md) for more detail.**
 
 ## License
 
@@ -13,44 +13,77 @@ This library is licensed under the Apache 2.0 License.
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [apache-url]: LICENSE
 
+## Requirements
 
-## Development
+The AWS SDK for Swift supports the following:
+- Swift 5.5 or higher
+- iOS 13.0 or higher
+- macOS 10.15 or higher
+- Ubuntu Linux 16.04 LTS or higher
+- Amazon Linux 2 or higher
 
-You can define a `local.properties` config file at the root of the project to modify build behavior. 
+Other environments (watchOS, tvOS, Windows, or others) may work but have not been verified.
 
-An example config with the various properties is below:
+These supported versions may change in the future.
 
+## SDK Quick Start
+
+Here are steps to quickly get the AWS SDK for Swift installed into either an existing Xcode project or an existing
+Swift package.
+
+### Installing the AWS SDK for Swift into your Xcode Project
+
+1. Open your project in the Xcode IDE.  From the drop down menu, select File > Add Packages...
+
+2. In the field labeled "Search or Enter Package URL", enter "https://github.com/awslabs/aws-sdk-swift".  Set the
+dependency rule and project as needed, then click "Add Package". The package will download and install to your Xcode
+project.
+
+3. In the "Choose Package Products for aws-sdk-swift" popup window, check the box next to the specific AWS services you
+want to access, and set the Xcode target next to each.  Click "Add Package".
+
+4. Proceed to Provide Credentials below.
+
+### Installing the AWS SDK for Swift into your Swift Package
+
+1. In your package's `Package.swift`, add AWS SDK for Swift as a dependency:
 ```
-# comma separated list of paths to `includeBuild()`
-# This is useful for local development of smithy-swift in particular 
-compositeProjects=../smithy-swift
-
-# comma separated list of services to exclude from generation from sdk-codegen. When not specified all services are generated
-# specify service.VERSION matching the filenames in the models directory `aws-models -> service.VERSION.json`
-excludeModels=rds-data.2018-08-01, groundstation.2019-05-23 
-
-# comma separated list of services to generate from sdk-codegen. When not specified all services are generated
-# specify service.VERSION matching the filenames in the models directory `aws-models -> service.VERSION.json`.
-onlyIncludeModels=lambda.2015-03-31
-
-# when generating aws services build as a standalong project or not (rootProject = true)
-buildStandaloneSdk=true
+let package = Package(
+    name: "MyPackage",
+    dependencies: [
++       .package(url: "https://github.com/awslabs/aws-sdk-swift.git", from: "0.16.0")
+    ],
 ```
 
-**Note:** If a service is specified in both `excludeModels` and `onlyIncludeModels`, it will be excluded from generation. 
-
-
-##### Building a single service
-See the local.properties definition above to specify this in a config file.
-
+2. Add the specific AWS services you want to use to one of the targets in your package's `Package.swift`:
 ```
->> ./gradlew -PonlyIncludeModels=lambda.2015-03-31  :sdk-codegen:build
+    targets: [
+        .target(
+            name: "MyTarget", 
+            dependencies: [
++               .product(name: "AWSS3", package: "aws-sdk-swift"),
++               .product(name: "AWSSTS", package: "aws-sdk-swift"),
++               .product(name: "AWSTranscribe", package: "aws-sdk-swift")
+            ]
+        )
+    ]
 ```
+See the AWS SDK for Swift's [`Package.swift`](Package.swift) file for the names of all available AWS services.
 
-##### Testing Locally
-Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSClientRuntime` Swift packages.
+3. Proceed to the next section. 
 
-## SDK Usage Instructions
+## Provide Credentials
+
+For virtually all AWS operations, you must provide AWS security credentials for the SDK to use.
+
+You can accomplish this for local development by installing and configuring the
+[AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+on your development machine.  The AWS SDK for Swift will share the AWS CLI's credentials (written at
+`~/.aws/credentials`) when executing on your development machine.
+
+See your AWS account administrator to obtain your credentials if you do not already have them.
+
+## Code
 *Steps*
 
 AWS SDKs are available under `/Sources` in a tagged branch.
@@ -124,20 +157,5 @@ If you’ve made it this far... congratulations! 🎉
 Try some other calls?  Help us better understand what you think the most critical features are next.  Run into any bugs? Give us feedback on the call-site interface. etc...
 
 ## API Reference documentation
-We recommend to use the documentation generation capabilities within Xcode (Option+Click on a symbol), but if you don't have Xcode available, you can view generated API reference documentation on our [github pages](https://awslabs.github.io/aws-sdk-swift/reference/0.x/).
-
-## Logging
-The AWS SDK for Swift uses SwiftLog for high performant logging.  Many of our calls are issued to the `debug` level of output, which are disabled in the console by default.  To see debug output to your console, you can add the following code to your application in a place where you know that the code will be called once and only once:
-```swift
-import ClientRuntime
-SDKLoggingSystem.initialize(logLevel: .debug)
-```
-
-Alternatively, if you need finer grain control of instances of SwiftLog, you can call `SDKLoggingSystem.add` to control specific instances of the log handler.  For example:
-```swift
-import ClientRuntime
-
-SDKLoggingSystem.add(logHandlerFactory: S3ClientLogHandlerFactory(logLevel: .debug))
-SDKLoggingSystem.add(logHandlerFactory: CRTClientEngineLogHandlerFactory(logLevel: .info))
-SDKLoggingSystem.initialize()
-```
+We recommend to use the documentation generation capabilities within Xcode (Option+Click on a symbol).  Generated online
+documentation will be provided soon.
