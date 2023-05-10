@@ -4,6 +4,8 @@ name: Codegen, Build, and Test
 
 on:
   workflow_dispatch:
+  issue_comment:
+    types: [created, edited]
 
 env:
   BUILDER_VERSION: v0.8.19
@@ -20,6 +22,7 @@ env:
 
 jobs:
   codegen-build-test:
+    if: (github.event.issue.pull_request && contains(github.event.comment.body, '/codegen-build-test')) || github.event.workflow_dispatch
     runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
