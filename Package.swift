@@ -121,7 +121,7 @@ func addIntegrationTestTarget(_ name: String) {
 
 addDependencies(
     clientRuntimeVersion: "0.19.0",
-    crtVersion: "0.9.0"
+    crtVersion: "0.11.0"
 )
 
 let serviceTargets: [String] = [
