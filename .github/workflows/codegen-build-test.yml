@@ -37,7 +37,7 @@ jobs:
       - name: Set Up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '18'
+          java-version: '17'
           distribution: 'corretto'
       - name: Tools Versions
         run: |
