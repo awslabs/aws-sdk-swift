@@ -22,7 +22,7 @@ env:
 
 jobs:
   codegen-build-test:
-    if: (github.event.issue.pull_request && contains(github.event.comment.body, '/codegen-build-test')) || github.event.workflow_dispatch
+    if: (github.event.issue.pull_request && contains(github.event.comment.body, '/codegen-build-test')) || github.event_name == 'workflow_dispatch'
     runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
