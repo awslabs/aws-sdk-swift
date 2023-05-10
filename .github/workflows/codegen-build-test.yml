@@ -38,6 +38,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '18'
+          distribution: 'corretto'
       - name: Tools Versions
         run: |
           which swiftc
