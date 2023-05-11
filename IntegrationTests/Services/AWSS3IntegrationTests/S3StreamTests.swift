@@ -12,10 +12,10 @@ final class S3StreamTests: S3XCTestCase {
     let objectName = "hello-world"
     let expected = "Hello, world!"
 
-    func testGetObject() async throws {
+    func test_getObject() async throws {
         try await putObject(body: expected, key: objectName)
         let input = GetObjectInput(bucket: bucketName, key: objectName)
-        let output = try await sut.getObject(input: input)
+        let output = try await client.getObject(input: input)
         XCTAssertNotNil(output)
         XCTAssertNotNil(output.body)
 
@@ -29,20 +29,20 @@ final class S3StreamTests: S3XCTestCase {
         }
     }
 
-    func testPutObject_givenDataBody() async throws {
+    func test_putObject_givenDataBody() async throws {
         let input = PutObjectInput(body: .data(expected.data(using: .utf8)), bucket: bucketName, key: objectName)
-        let output = try await sut.putObject(input: input)
+        let output = try await client.putObject(input: input)
         XCTAssertNotNil(output)
 
         let actual = try await getObject(key: objectName)
         XCTAssertEqual(expected, actual)
     }
     
-    func testPutObject_givenStreamBody() async throws {
-        let audioURL = Bundle.module.url(forResource: "hello-world", withExtension: nil)!
+    func test_putObject_givenStreamBody() async throws {
+        let audioURL = Bundle.module.url(forResource: objectName, withExtension: nil)!
         let fileHandle = FileHandle(forReadingAtPath: audioURL.relativePath)!
         let input = PutObjectInput(body: .from(fileHandle: fileHandle), bucket: bucketName, key: objectName)
-        let output = try await sut.putObject(input: input)
+        let output = try await client.putObject(input: input)
         XCTAssertNotNil(output)
 
         let actual = try await getObject(key: objectName)

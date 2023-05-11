@@ -9,42 +9,32 @@ import XCTest
 import AWSS3
 
 final class S3URLEncodingTests: S3XCTestCase {
-    let objectName = "hello-world"
-    let expected = "Hello, world!"
 
-    override func setUp() async throws {
-        sut = try S3Client(region: region)
-        try await createBucket()
-    }
+    // These are keys with special characters or other edge cases that should be tested against S3 to
+    // ensure they work.
+    let keys: Set<String> = ["x.txt", "x+x.txt", "x%x.txt", "x x.txt", "abc/x.txt", "abc/x+x.txt"]
 
-    override func tearDown() async throws {
-        try await emptyBucket()
-        try await deleteBucket()
-    }
-
-    let weirdNames = Set(["x+x.txt", "x%x.txt", "x x.txt"])
-
-    func test_putObject_putsFilesWithSpecialCharactersInName() async throws {
-        for name in weirdNames {
-            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: name)
-            _ = try await sut.putObject(input: input)
+    func test_putObject_putsAllKeys() async throws {
+        for key in keys {
+            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key)
+            _ = try await client.putObject(input: input)
         }
-        let keys = Set(try await listBucketKeys())
-        XCTAssertTrue(keys.isSuperset(of: weirdNames))
+        let createdKeys = Set(try await listBucketKeys())
+        XCTAssertTrue(createdKeys.isSuperset(of: keys))
     }
 
-    func test_presignPutObject_putsFilesWithSpecialCharactersInName() async throws {
+    func test_presignPutObject_putsAllKeys() async throws {
         let config = try await S3Client.S3ClientConfiguration(region: region)
-        for name in weirdNames {
-            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: name)
-            let presignedURL = try await input.presignURL(config: config, expiration: 3600.0)!
-            print("Presigned URL for \"\(name)\" is \"\(presignedURL)\"")
+        for key in keys {
+            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key)
+            let presignedURLOrNil = try await input.presignURL(config: config, expiration: 600.0)
+            let presignedURL = try XCTUnwrap(presignedURLOrNil)
             var urlRequest = URLRequest(url: presignedURL)
             urlRequest.httpMethod = "PUT"
             urlRequest.httpBody = Data()
             _ = try await perform(urlRequest: urlRequest)
         }
-        let keys = Set(try await listBucketKeys())
-        XCTAssertTrue(keys.isSuperset(of: weirdNames))
+        let createdKeys = Set(try await listBucketKeys())
+        XCTAssertTrue(createdKeys.isSuperset(of: keys))
     }
 }
