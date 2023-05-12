@@ -38,6 +38,14 @@ jobs:
         uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
 
+      - name: Set initial commit status as ${{ job.status }}
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+
       - name: Checkout PR branch
         uses: actions/checkout@v3
         with:
