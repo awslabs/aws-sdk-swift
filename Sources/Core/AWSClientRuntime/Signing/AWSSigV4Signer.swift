@@ -82,7 +82,7 @@ public class AWSSigV4Signer {
     ) async -> SdkHttpRequest? {
         let originalRequest = requestBuilder.build()
         do {
-            let crtUnsignedRequest = try originalRequest.toHttpRequest(escaping: true)
+            let crtUnsignedRequest = try originalRequest.toHttpRequest()
 
             let crtSignedRequest = try await Signer.signRequest(
                 request: crtUnsignedRequest,
