@@ -25,18 +25,21 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
+        uses: actions/checkout@v3
+      - name: Restore Cache
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
+      - name: Set up Java (Corretto 17)
+        uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          distribution: 'corretto'
+          java-version: '17'
       - name: Tools Versions
         run: |
           which swiftc
@@ -44,6 +47,9 @@ jobs:
           echo
           which xcodebuild
           xcodebuild -version
+          echo
+          which java
+          java --version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
