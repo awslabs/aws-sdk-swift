@@ -30,6 +30,13 @@ jobs:
         uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
 
+      - name: Set initial commit status as pending
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Checkout PR branch
         uses: actions/checkout@v3
         with:
@@ -72,7 +79,7 @@ jobs:
           swift build --build-tests
           swift test --skip-build
           
-      - name: Set latest commit status as ${{ job.status }}
+      - name: Set final commit status as ${{ job.status }}
         uses: myrotvorets/set-commit-status-action@master
         if: always()
         with:
