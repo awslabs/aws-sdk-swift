@@ -11,9 +11,12 @@ import AWSS3
 /// Provides a basic set of functions that can be used to perform S3 integration tests.
 /// Creates a bucket for testing before every test, then deletes the bucket after the test completes.
 class S3XCTestCase: XCTestCase {
-    var client: S3Client!
-    var region = "us-west-2"
-    let bucketName = "aws-sdk-swift-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    static var client: S3Client!
+    static let region = "us-west-2"
+    static let bucketName = "aws-sdk-s3-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    var client: S3Client { Self.client }
+    var region: String { Self.region }
+    var bucketName: String { Self.bucketName }
 
     struct HTTPError: Error, CustomDebugStringConvertible {
         let code: Int
@@ -32,16 +35,34 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    /// Create a test bucket before each test.
-    override func setUp() async throws {
-        client = try S3Client(region: region)
-        try await createBucket()
+    override static func setUp() {
+        let sema = DispatchSemaphore(value: 0)
+        Task {
+            client = try S3Client(region: region)
+            try await Self.createBucket()
+            sema.signal()
+        }
+        let result = sema.wait(timeout: .now() + 30.0)
+        if case .timedOut = result {
+            XCTFail("Bucket create timed out")
+        }
     }
 
     /// Empty & delete the test bucket before each test.
     override func tearDown() async throws {
         try await emptyBucket()
-        try await deleteBucket()
+    }
+
+    override static func tearDown() {
+        let sema = DispatchSemaphore(value: 0)
+        Task {
+            try await Self.deleteBucket()
+            sema.signal()
+        }
+        let result = sema.wait(timeout: .now() + 30.0)
+        if case .timedOut = result {
+            XCTFail("Bucket delete timed out")
+        }
     }
 
     // MARK: Helpers
@@ -68,9 +89,9 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    func createBucket() async throws {
+    static func createBucket() async throws {
         let input = CreateBucketInput(bucket: bucketName, createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration(locationConstraint: S3ClientTypes.BucketLocationConstraint.usWest2))
-        _ = try await client.createBucket(input: input)
+        _ = try await Self.client.createBucket(input: input)
     }
 
     func putObject(body: String, key: String) async throws {
@@ -83,8 +104,9 @@ class S3XCTestCase: XCTestCase {
         let output = try await client.getObject(input: input)
         let body = try XCTUnwrap(output.body)
         switch body {
-        case .data(let data):
-            return String(data: data!, encoding: .utf8)
+        case .data(let dataOrNil):
+            let data = try XCTUnwrap(dataOrNil)
+            return String(data: data, encoding: .utf8)
         case .stream(let stream):
             return String(data: try stream.readToEnd()!, encoding: .utf8)
         }
@@ -104,7 +126,7 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    func deleteBucket() async throws {
+    static func deleteBucket() async throws {
         let input = DeleteBucketInput(bucket: bucketName)
         _ = try await client.deleteBucket(input: input)
     }

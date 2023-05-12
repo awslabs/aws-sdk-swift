@@ -16,12 +16,11 @@ final class S3StreamTests: S3XCTestCase {
         try await putObject(body: expected, key: objectName)
         let input = GetObjectInput(bucket: bucketName, key: objectName)
         let output = try await client.getObject(input: input)
-        XCTAssertNotNil(output)
-        XCTAssertNotNil(output.body)
-
-        switch output.body! {
-        case .data(let data):
-            let actual = String(data: data!, encoding: .utf8)
+        let body = try XCTUnwrap(output.body)
+        switch body {
+        case .data(let dataOrNil):
+            let data = try XCTUnwrap(dataOrNil)
+            let actual = String(data: data, encoding: .utf8)
             XCTAssertEqual(actual, expected)
         case .stream(let stream):
             let actual = String(data: try stream.readToEnd()!, encoding: .utf8)
