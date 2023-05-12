@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
-    
+
       - uses: actions/cache@v2
         with:
           path: |
@@ -60,7 +60,7 @@ jobs:
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
-          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+          GITHUB_HEAD_REF="${{ steps.comment-branch.outputs.head_ref }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./gradlew --stop
