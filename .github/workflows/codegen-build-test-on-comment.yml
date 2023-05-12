@@ -26,6 +26,10 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/test')
     steps:
+      - name: Get PR branch
+        uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
+
       - name: Set initial commit status as ${{ job.status }}
         uses: myrotvorets/set-commit-status-action@master
         if: always()
@@ -33,10 +37,6 @@ jobs:
           sha: ${{ steps.comment-branch.outputs.head_sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
-
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
 
       - name: Checkout PR branch
         uses: actions/checkout@v3
