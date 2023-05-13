@@ -35,6 +35,6 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             return output
         }))
 
-        wait(for: [expectation], timeout: 3.0)
+        await fulfillment(of: [expectation], timeout: 3.0)
     }
 }

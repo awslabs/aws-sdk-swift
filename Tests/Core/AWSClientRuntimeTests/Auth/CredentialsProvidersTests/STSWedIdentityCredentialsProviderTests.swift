@@ -19,7 +19,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         // so we'll assert that is the case here since mocking out a valid STS Web Identity is out scope for now.
         // TODO: Add an integration test for this provider
         do {
-            _ = try await STSWebIdentityCredentialsProvider()
+            _ = try STSWebIdentityCredentialsProvider()
             XCTFail("The above should throw an error.")
         } catch {
             

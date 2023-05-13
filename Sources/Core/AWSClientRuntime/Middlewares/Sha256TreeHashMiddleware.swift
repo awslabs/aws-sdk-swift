@@ -29,7 +29,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   guard let data = data else {
                       return try await next.handle(context: context, input: input)
                   }
-                  if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
+                  if !(request.headers ?? Headers()).exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
                       let sha256 = try data.sha256().encodeToHexString()
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
                   }

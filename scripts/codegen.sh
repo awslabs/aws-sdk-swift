@@ -15,6 +15,10 @@ if [ -x "$(command -v osascript)" ]; then
   osascript -e 'quit app "Xcode"'
 fi
 
+# Delete all staged, generated code
+rm -rf Sources/Services/*
+rm -rf Tests/Services/*
+
 # Regenerate code
 ./gradlew -p codegen/sdk-codegen build
 
@@ -26,7 +30,7 @@ fi
 
 # Regenerate the package manifest
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest ../
+swift run AWSSDKSwiftCLI generate-package-manifest --include-integration-tests ../
 cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK

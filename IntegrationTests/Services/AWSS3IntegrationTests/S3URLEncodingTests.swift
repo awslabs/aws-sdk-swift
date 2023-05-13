@@ -14,13 +14,18 @@ final class S3URLEncodingTests: S3XCTestCase {
     // ensure they work.
     let keys: Set<String> = ["x.txt", "x+x.txt", "x%x.txt", "x x.txt", "abc/x.txt", "abc/x+x.txt"]
 
-    func test_putObject_putsAllKeys() async throws {
+    func test_putObject_putsAllKeysWithMetadata() async throws {
         for key in keys {
-            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key)
+            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key, metadata: ["filename": key])
             _ = try await client.putObject(input: input)
         }
         let createdKeys = Set(try await listBucketKeys())
         XCTAssertTrue(createdKeys.isSuperset(of: keys))
+        for key in keys {
+            let input = HeadObjectInput(bucket: bucketName, key: key)
+            let output = try await client.headObject(input: input)
+            XCTAssertEqual(output.metadata?["filename"], key)
+        }
     }
 
     func test_presignPutObject_putsAllKeys() async throws {

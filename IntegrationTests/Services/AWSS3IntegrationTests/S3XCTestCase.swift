@@ -35,34 +35,15 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    override static func setUp() {
-        let sema = DispatchSemaphore(value: 0)
-        Task {
-            client = try S3Client(region: region)
-            try await Self.createBucket()
-            sema.signal()
-        }
-        let result = sema.wait(timeout: .now() + 30.0)
-        if case .timedOut = result {
-            XCTFail("Bucket create timed out")
-        }
+    override func setUp() async throws{
+        Self.client = try S3Client(region: region)
+        try await Self.createBucket()
     }
 
     /// Empty & delete the test bucket before each test.
     override func tearDown() async throws {
         try await emptyBucket()
-    }
-
-    override static func tearDown() {
-        let sema = DispatchSemaphore(value: 0)
-        Task {
-            try await Self.deleteBucket()
-            sema.signal()
-        }
-        let result = sema.wait(timeout: .now() + 30.0)
-        if case .timedOut = result {
-            XCTFail("Bucket delete timed out")
-        }
+        try await Self.deleteBucket()
     }
 
     // MARK: Helpers
