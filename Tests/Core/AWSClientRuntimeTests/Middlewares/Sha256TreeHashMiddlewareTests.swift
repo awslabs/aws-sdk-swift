@@ -35,6 +35,10 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             return output
         }))
 
+#if swift(>=5.8)
         await fulfillment(of: [expectation], timeout: 3.0)
+#else
+        wait(for: [expectation], timeout: 3.0)
+#endif
     }
 }
