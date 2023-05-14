@@ -177,9 +177,14 @@ struct PackageManifestBuilder {
     /// Calls the method to include protocol tests in the manifest.
     ///
     ///```
+    ///// Uncomment this line to enable protocol tests
     ///addProtocolTests()
     ///```
     private func buildProtocolTests() -> String {
-        includeProtocolTests ? "addProtocolTests()" : ""
+        return [
+            "// Uncomment this line to enable protocol tests",
+            (includeProtocolTests ? "" : "// ") + "addProtocolTests()"
+
+        ].joined(separator: .newline)
     }
 }
