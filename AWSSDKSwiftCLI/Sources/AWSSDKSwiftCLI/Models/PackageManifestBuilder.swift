@@ -18,26 +18,30 @@ struct PackageManifestBuilder {
     let clientRuntimeVersion: Version
     let crtVersion: Version
     let services: [Service]
+    let includeProtocolTests: Bool
     let basePackageContents: () throws -> String
     
     init(
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
+        includeProtocolTests: Bool,
         basePackageContents: @escaping () throws -> String
     ) {
         self.clientRuntimeVersion = clientRuntimeVersion
         self.crtVersion = crtVersion
         self.services = services
+        self.includeProtocolTests = includeProtocolTests
         self.basePackageContents = basePackageContents
     }
     
     init(
         clientRuntimeVersion: Version,
         crtVersion: Version,
-        services: [Service]
+        services: [Service],
+        includeProtocolTests: Bool
     ) {
-        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services) {
+        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, includeProtocolTests: includeProtocolTests) {
             // Returns the contents of the base package manifest stored in the bundle at `Resources/Package.Base.swift`
             let basePackageName = "Package.Base"
             
@@ -83,7 +87,9 @@ struct PackageManifestBuilder {
             buildServiceTargets(),
             "",
             // Add the generated content that defines the list of services with integration tests to include
-            buildIntegrationTestsTargets()
+            buildIntegrationTestsTargets(),
+            "",
+            buildProtocolTests(),
         ]
         return contents.joined(separator: .newline)
     }
@@ -166,5 +172,14 @@ struct PackageManifestBuilder {
         lines += ["\(propertyName).forEach(addIntegrationTestTarget)"]
 
         return lines.joined(separator: .newline)
+    }
+
+    /// Calls the method to include protocol tests in the manifest.
+    ///
+    ///```
+    ///addProtocolTests()
+    ///```
+    private func buildProtocolTests() -> String {
+        includeProtocolTests ? "addProtocolTests()" : ""
     }
 }

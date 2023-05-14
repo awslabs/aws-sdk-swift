@@ -39,16 +39,19 @@ class PackageManifestBuilderTests: XCTestCase {
     ]
 
     servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
+
+    addProtocolTests()
     """
     
     func testBuild() {
-        let subjeect = PackageManifestBuilder(
+        let subject = PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0, includeIntegrationTests: true) },
+            includeProtocolTests: true,
             basePackageContents: { "<contents of base package>" }
         )
-        let result = try! subjeect.build()
+        let result = try! subject.build()
         XCTAssertEqual(result, expected)
     }
 }
