@@ -40,6 +40,7 @@ class PackageManifestBuilderTests: XCTestCase {
 
     servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
 
+    // Uncomment this line to enable protocol tests
     addProtocolTests()
     """
     
