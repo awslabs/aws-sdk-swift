@@ -34,7 +34,10 @@ struct GeneratePackageManifestCommand: ParsableCommand {
 
     @Flag(help: "If the package manifest should include the integration tests.")
     var includesIntegrationTests: Bool = false
-    
+
+    @Flag(help: "If the package manifest should include the protocol tests.")
+    var includeProtocolTests: Bool = false
+
     func run() throws {
         let generatePackageManifest = GeneratePackageManifest.standard(
             repoPath: repoPath,
@@ -42,7 +45,8 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
-            includesIntegrationTests: includesIntegrationTests
+            includesIntegrationTests: includesIntegrationTests,
+            includeProtocolTests: includeProtocolTests
         )
         try generatePackageManifest.run()
     }
@@ -67,7 +71,9 @@ struct GeneratePackageManifest {
     let services: [String]?
     /// If the package manifest should include the integration tests.
     let includesIntegrationTests: Bool
-    
+    /// If the package manifest should include the protocol tests.
+    let includeProtocolTests: Bool
+
     typealias BuildPackageManifest = (
         _ clientRuntimeVersion: Version,
         _ crtVersion: Version,
@@ -219,7 +225,8 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includesIntegrationTests: Bool = false
+        includesIntegrationTests: Bool = false,
+        includeProtocolTests: Bool = false
     ) -> Self {
         GeneratePackageManifest(
             repoPath: repoPath,
@@ -227,12 +234,14 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includesIntegrationTests: includesIntegrationTests
+            includesIntegrationTests: includesIntegrationTests,
+            includeProtocolTests: includeProtocolTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
             let builder = PackageManifestBuilder(
                 clientRuntimeVersion: _clientRuntimeVersion,
                 crtVersion: _crtVersion,
-                services: _services
+                services: _services,
+                includeProtocolTests: includeProtocolTests
             )
             return try builder.build()
         }
