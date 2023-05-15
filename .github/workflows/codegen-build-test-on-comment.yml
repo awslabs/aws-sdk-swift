@@ -62,6 +62,12 @@ jobs:
           echo
           which xcodebuild
           xcodebuild -version
+          echo
+          which java
+          java --version
+          echo
+          echo "Head ref for comment PR: ${{ steps.comment-branch.outputs.head_ref }}"
+          echo "SHA for comment PR: ${{ steps.comment-branch.outputs.head_sha }}"
 
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
