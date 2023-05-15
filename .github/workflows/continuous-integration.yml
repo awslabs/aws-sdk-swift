@@ -160,20 +160,4 @@ jobs:
         run: |
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
-          rm -rf Sources/Services/*
-          rm -rf Tests/Services/*
-          cd AWSSDKSwiftCLI
-          swift run AWSSDKSwiftCLI generate-package-manifest ..
-          cd ..
-          echo
-          cat Package.swift
-          echo
-          ./gradlew -p codegen/smithy-aws-swift-codegen build
-          ./gradlew -p codegen/protocol-test-codegen build
-          ./gradlew -p codegen/protocol-test-codegen-local build
-          ./gradlew --stop
-          ./scripts/mergeModels.sh codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models
-          cd codegen
-          swift test
-          cd ..
-          swift test
+          ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
