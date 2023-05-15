@@ -115,17 +115,15 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
-      - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v3
       - name: Select smithy-swift branch
         run: |
-          SMITHY_SWIFT_BRANCH_SHA=`git ls-remote --heads https://github.com/awslabs/smithy-swift.git "refs/heads/$GITHUB_REF_NAME" | awk '{print $1}'`
+          SMITHY_SWIFT_BRANCH_SHA=`git ls-remote --heads https://github.com/awslabs/smithy-swift.git "refs/heads/$GITHUB_HEAD_REF" | awk '{print $1}'`
           if [[ ! -z "${SMITHY_SWIFT_BRANCH_SHA}" ]]; then
-            echo "Ref $GITHUB_REF_NAME was found on smithy-swift at SHA $SMITHY_SWIFT_BRANCH_SHA"
-            echo "Selecting smithy-swift on branch $GITHUB_REF_NAME at $SMITHY_SWIFT_BRANCH_SHA"
+            echo "Ref $GITHUB_HEAD_REF was found on smithy-swift at SHA $SMITHY_SWIFT_BRANCH_SHA"
+            echo "Selecting smithy-swift on branch $GITHUB_HEAD_REF at $SMITHY_SWIFT_BRANCH_SHA"
             echo "SMITHY_SWIFT_SHA=$SMITHY_SWIFT_BRANCH_SHA" >> "$GITHUB_ENV"
           else
-            echo "Ref $GITHUB_REF_NAME was not found on smithy-swift at SHA $SMITHY_SWIFT_BRANCH_SHA"
+            echo "Ref $GITHUB_HEAD_REF was not found on smithy-swift at SHA $SMITHY_SWIFT_BRANCH_SHA"
             SMITHY_SWIFT_MAIN_SHA=`git ls-remote --heads https://github.com/awslabs/smithy-swift.git "refs/heads/main" | awk '{print $1}'`
             echo "Selecting smithy-swift on main branch at $SMITHY_SWIFT_MAIN_SHA"
             echo "SMITHY_SWIFT_SHA=$SMITHY_SWIFT_MAIN_SHA" >> "$GITHUB_ENV"
@@ -135,7 +133,8 @@ jobs:
         with:
           repository: awslabs/smithy-swift
           ref: ${{ env.SMITHY_SWIFT_SHA }}
-          path: ../smithy-swift
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v3
       - uses: actions/cache@v3
         with:
           path: |
