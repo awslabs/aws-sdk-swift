@@ -8,7 +8,7 @@ rm -rf Tests/Services/*
 
 # Regenerate the SDK Package.swift without the services
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest ..
+swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests ..
 cd ..
 
 # Dump the Package.swift contents to the logs
@@ -21,10 +21,5 @@ cat Package.swift
 ./gradlew --stop
 ./scripts/mergeModels.sh codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models
 
-# Run protocol tests
-cd codegen
-swift test
-cd ..
-
-# Run aws-sdk-swift unit tests
+# Run aws-sdk-swift protocol and unit tests
 swift test
