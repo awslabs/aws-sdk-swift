@@ -155,6 +155,7 @@ jobs:
         with:
           path: |
             .build
+            AWSSDKSwiftCLI/.build
             codegen/.build
             ~/Library/Caches/org.swift.swiftpm
           key: 1-macOS-swift5.8-spm
