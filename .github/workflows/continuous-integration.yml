@@ -178,7 +178,7 @@ jobs:
           ./gradlew -p codegen/smithy-aws-swift-codegen build
           ./gradlew -p codegen/protocol-test-codegen build
           ./gradlew -p codegen/protocol-test-codegen-local build
-          .gradlew --stop
+          ./gradlew --stop
           ./scripts/mergeModels.sh codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models
           cd codegen
           swift test
