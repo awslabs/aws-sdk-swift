@@ -133,6 +133,9 @@ jobs:
         with:
           repository: awslabs/smithy-swift
           ref: ${{ env.SMITHY_SWIFT_SHA }}
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - uses: actions/cache@v3
@@ -159,8 +162,8 @@ jobs:
           java --version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
-          rm -rf Sources/Services
-          rm -rf Tests/Services
+          rm -rf Sources/Services/*
+          rm -rf Tests/Services/*
           cd AWSSDKSwiftCLI
           swift run AWSSDKSwiftCLI generate-package-manifest ..
           cd ..
