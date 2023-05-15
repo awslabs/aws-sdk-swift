@@ -116,19 +116,20 @@ func addIntegrationTestTarget(_ name: String) {
     ]
 }
 
-struct ProtocolTest {
-    let name: String
-    let sourcePath: String
-    let testPath: String?
-
-    init(name: String, sourcePath: String, testPath: String? = nil) {
-        self.name = name
-        self.sourcePath = sourcePath
-        self.testPath = testPath
-    }
-}
-
 func addProtocolTests() {
+
+    private struct ProtocolTest {
+        let name: String
+        let sourcePath: String
+        let testPath: String?
+
+        init(name: String, sourcePath: String, testPath: String? = nil) {
+            self.name = name
+            self.sourcePath = sourcePath
+            self.testPath = testPath
+        }
+    }
+
     let baseDir = "codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
     let baseDirLocal = "codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
 
