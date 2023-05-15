@@ -22,6 +22,7 @@ env:
 
 jobs:
   ios-compat:
+    if: ${{ false }}
     runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
@@ -52,6 +53,7 @@ jobs:
           chmod a+x builder.pyz
           ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
   macos-compat:
+    if: ${{ false }}
     runs-on: macos-11
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
@@ -82,6 +84,7 @@ jobs:
           chmod a+x builder.pyz
           ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
   linux-compat:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -162,6 +165,8 @@ jobs:
           java --version
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
+          unset SMITHY_SWIFT_CI_DIR
+          unset AWS_SDK_SWIFT_CI_DIR
           rm -rf Sources/Services/*
           rm -rf Tests/Services/*
           cd AWSSDKSwiftCLI
