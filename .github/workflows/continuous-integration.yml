@@ -110,3 +110,69 @@ jobs:
           --env AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 \
           --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
           $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
+  ios-compat-2:
+    runs-on: macos-13
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
+    steps:
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v3
+      - name: Select smithy-swift branch
+        run: |
+          SMITHY_SWIFT_BRANCH_SHA=`git ls-remote --heads https://github.com/awslabs/smithy-swift.git "refs/heads/$GITHUB_REF_NAME" | awk '{print $1}'`
+          if [[ ! -z "${SMITHY_SWIFT_BRANCH_SHA}" ]]; then
+            echo "Ref $GITHUB_REF_NAME was found on smithy-swift at SHA $SMITHY_SWIFT_BRANCH_SHA"
+            echo "Selecting smithy-swift on branch $GITHUB_REF_NAME at $SMITHY_SWIFT_BRANCH_SHA"
+            echo "SMITHY_SWIFT_SHA=$SMITHY_SWIFT_BRANCH_SHA" >> "$GITHUB_ENV"
+          else
+            echo "Ref $GITHUB_REF_NAME was not found on smithy-swift at SHA $SMITHY_SWIFT_BRANCH_SHA"
+            SMITHY_SWIFT_MAIN_SHA=`git ls-remote --heads https://github.com/awslabs/smithy-swift.git "refs/heads/main" | awk '{print $1}'`
+            echo "Selecting smithy-swift on main branch at $SMITHY_SWIFT_MAIN_SHA"
+            echo "SMITHY_SWIFT_SHA=$SMITHY_SWIFT_MAIN_SHA" >> "$GITHUB_ENV"
+          fi
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v3
+        with:
+          repository: awslabs/smithy-swift
+          ref: ${{ env.SMITHY_SWIFT_SHA }}
+          path: ../smithy-swift
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
+          echo
+          which java
+          java --version
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        run: |
+          rm -rf Sources/Services
+          rm -rf Tests/Services
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI generate-package-manifest ..
+          cd ..
+          echo
+          cat Package.swift
+          echo
+          ./gradlew -p codegen/smithy-aws-swift-codegen build
+          ./gradlew -p codegen/protocol-test-codegen build
+          ./gradlew -p codegen/protocol-test-codegen-local build
+          swift test
+          ./scripts/mergeModels.sh codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models
+          cd codegen
+          swift test
+          cd ..
