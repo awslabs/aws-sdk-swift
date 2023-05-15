@@ -158,9 +158,9 @@ jobs:
             AWSSDKSwiftCLI/.build
             codegen/.build
             ~/Library/Caches/org.swift.swiftpm
-          key: 1-macOS-swift5.8-spm
+          key: 1-macOS-swift5.8-spm-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
-            1-macOS-swift5.8-spm
+            1-macOS-swift5.8-spm-
       - uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
