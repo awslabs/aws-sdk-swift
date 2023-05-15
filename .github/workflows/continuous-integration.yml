@@ -129,7 +129,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: awslabs/smithy-swift
-          ref: ${{ env.SMITHY_SWIFT_SHA }}
+          ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
       - name: Move smithy-swift into place
         run: mv smithy-swift ..
