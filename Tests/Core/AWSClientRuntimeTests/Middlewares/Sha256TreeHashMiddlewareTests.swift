@@ -14,8 +14,8 @@ import SmithyTestUtil
 class Sha256TreeHashMiddlewareTests: XCTestCase {
 
     func testTreeHashAllZeroes() async throws {
+        var completed = false
         let context = HttpContextBuilder().build()
-        let expectation = XCTestExpectation(description: "closure was run")
         let bytesIn5_5MB: Int = Int(1024 * 1024 * 5.5)
         let byteArray: [UInt8] = Array(repeating: 0, count: bytesIn5_5MB)
         let byteStream = ByteStream.stream(BufferedStream(data: .init(byteArray), isClosed: true))
@@ -31,14 +31,9 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             XCTAssertEqual(linear, "733cf513448ce6b20ad1bc5e50eb27c06aefae0c320713a5dd99f4e51bc1ca60")
             let treeHash = input.headers.value(for: "X-Amz-Sha256-Tree-Hash")
             XCTAssertEqual(treeHash, "a3a82dbe3644dd6046be472f2e3ec1f8ef47f8f3adb86d0de4de7a254f255455")
-            expectation.fulfill()
+            completed = true
             return output
         }))
-
-#if swift(>=5.8)
-        await fulfillment(of: [expectation], timeout: 3.0)
-#else
-        wait(for: [expectation], timeout: 3.0)
-#endif
+        XCTAssertTrue(completed)
     }
 }
