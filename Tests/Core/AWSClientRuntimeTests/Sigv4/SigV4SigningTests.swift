@@ -45,7 +45,7 @@ class Sigv4SigningTests: XCTestCase {
         }
         XCTAssertEqual("http://example.amazonaws.com?%E1%88%B4=bar&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F20150830%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=20150830T123600Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=32dea9080047b41e56ee852fe3eba49dae1911b9c5e5728cc1691704f168c70f", url.absoluteString)
     }
-    
+
     func testSignEvent() async {
         let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
         
@@ -64,7 +64,7 @@ class Sigv4SigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
         
-        var credentialsProvider = try! StaticCredentialsProvider(
+        let credentialsProvider = try! StaticCredentialsProvider(
             credentials
         )
         

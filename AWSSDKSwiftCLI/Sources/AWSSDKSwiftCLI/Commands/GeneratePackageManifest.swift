@@ -33,8 +33,8 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     var services: [String] = []
 
     @Flag(help: "If the package manifest should include the integration tests.")
-    var includesIntegrationTests: Bool = false
-
+    var includeIntegrationTests: Bool = false
+    
     @Flag(help: "If the package manifest should include the protocol tests.")
     var includeProtocolTests: Bool = false
 
@@ -45,7 +45,7 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
-            includesIntegrationTests: includesIntegrationTests,
+            includeIntegrationTests: includeIntegrationTests,
             includeProtocolTests: includeProtocolTests
         )
         try generatePackageManifest.run()
@@ -70,7 +70,7 @@ struct GeneratePackageManifest {
     /// If `nil` then the list is populated with the names of all items within the `Sources/Services` directory
     let services: [String]?
     /// If the package manifest should include the integration tests.
-    let includesIntegrationTests: Bool
+    let includeIntegrationTests: Bool
     /// If the package manifest should include the protocol tests.
     let includeProtocolTests: Bool
 
@@ -97,7 +97,7 @@ struct GeneratePackageManifest {
     /// - Returns: The contents of the generated package manifest.
     func generatePackageManifestContents() throws -> String {
         let versions = try resolveVersions()
-        let servicesWithIntegrationTests = try includesIntegrationTests ? resolveServicesWithIntegrationTests() : []
+        let servicesWithIntegrationTests = try includeIntegrationTests ? resolveServicesWithIntegrationTests() : []
         let services = try resolveServices().map {
             PackageManifestBuilder.Service(
                 name: $0,
@@ -225,7 +225,7 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includesIntegrationTests: Bool = false,
+        includeIntegrationTests: Bool = false,
         includeProtocolTests: Bool = false
     ) -> Self {
         GeneratePackageManifest(
@@ -234,7 +234,7 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includesIntegrationTests: includesIntegrationTests,
+            includeIntegrationTests: includeIntegrationTests,
             includeProtocolTests: includeProtocolTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
             let builder = PackageManifestBuilder(

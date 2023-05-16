@@ -118,7 +118,7 @@ func addIntegrationTestTarget(_ name: String) {
 
 func addProtocolTests() {
 
-    private struct ProtocolTest {
+    struct ProtocolTest {
         let name: String
         let sourcePath: String
         let testPath: String?
