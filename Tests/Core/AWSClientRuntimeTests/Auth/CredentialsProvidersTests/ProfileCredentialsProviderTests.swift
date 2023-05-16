@@ -16,7 +16,7 @@ class ProfileCredentialsProviderTests: XCTestCase {
         let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
     
     func testGetCredentialsWithDefaultProfile() async {
-        let subject = try! await ProfileCredentialsProvider(
+        let subject = try! ProfileCredentialsProvider(
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
@@ -27,7 +27,7 @@ class ProfileCredentialsProviderTests: XCTestCase {
     }
     
     func testGetCredentialsWithNamedProfileFromConfigFile() async {
-        let subject = try! await ProfileCredentialsProvider(
+        let subject = try! ProfileCredentialsProvider(
             profileName: "credentials-provider-config-tests-profile",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
@@ -39,7 +39,7 @@ class ProfileCredentialsProviderTests: XCTestCase {
     }
     
     func testGetCredentialsWithNamedProfileFromCredentialsFile() async {
-        let subject = try! await ProfileCredentialsProvider(
+        let subject = try! ProfileCredentialsProvider(
             profileName: "credentials-provider-creds-tests-profile",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath

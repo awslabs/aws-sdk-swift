@@ -33,9 +33,9 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         let originalRequest = input.build()
         let crtUnsignedRequest: HTTPRequestBase
         if context.isBidirectionalStreamingEnabled() {
-            crtUnsignedRequest = try originalRequest.toHttp2Request()
+            crtUnsignedRequest = try originalRequest.toHttp2Request(escaping: true)
         } else {
-            crtUnsignedRequest = try originalRequest.toHttpRequest()
+            crtUnsignedRequest = try originalRequest.toHttpRequest(escaping: true)
         }
 
         guard let credentialsProvider = context.getCredentialsProvider() else {

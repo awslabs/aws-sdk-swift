@@ -22,7 +22,7 @@ class DefaultChainCredentialsProviderTests: XCTestCase {
         }
         
         do {
-            let subject = try await DefaultChainCredentialsProvider()
+            let subject = try DefaultChainCredentialsProvider()
             let credentials = try await subject.getCredentials()
 
             XCTAssertEqual(credentials.accessKey, "some_access_key_b")
