@@ -118,6 +118,13 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
+      - name: Start check run
+        uses: dflydev/check-runs-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checks: |
+            [ { "id": "ios-compat-2", "name": "New CI" } ]
+          status: in_progress
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
@@ -163,3 +170,10 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
+      - name: Conclude Check Run
+        if: always()
+        uses: dflydev/check-runs-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ios-compat-2
+          conclusion: ${{ job.status }}
