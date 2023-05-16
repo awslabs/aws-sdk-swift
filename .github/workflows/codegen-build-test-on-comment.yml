@@ -21,7 +21,7 @@ env:
 
 jobs:
   codegen-build-test:
-    runs-on: macos-13-xl
+    runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/test')
