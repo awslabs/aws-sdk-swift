@@ -139,17 +139,19 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-
       - name: Cache Swift
         uses: actions/cache@v3
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
-          key: 2-macOS-swift5.8-spm-${{ hashFiles('**/Package.resolved') }}
+          key: 2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
           restore-keys: |
-            2-macOS-swift5.8-spm-
+            2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
+            2-${{ runner.os }}-swift5.8-spm-
       - uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
