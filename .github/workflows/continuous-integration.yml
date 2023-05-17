@@ -119,7 +119,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
       - name: Check status to queued
-      - uses: LouisBrunner/checks-action@v1.6.0
+        uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Check Yourself
@@ -127,7 +127,7 @@ jobs:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Check status to in_progress
-      - uses: LouisBrunner/checks-action@v1.6.0
+        uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Check Yourself
@@ -164,7 +164,8 @@ jobs:
           restore-keys: |
             2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
             2-${{ runner.os }}-swift5.8-spm-
-      - uses: actions/setup-java@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '17'
@@ -176,7 +177,8 @@ jobs:
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
       - name: Check status to ${{ job.status }}
-      - uses: LouisBrunner/checks-action@v1.6.0
+        if: always()
+        uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Check Yourself
