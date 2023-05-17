@@ -15,9 +15,9 @@ extension Process {
             Process(["swift"] + args)
         }
         
-        /// Returns a process for executing `swift test --parallel`
+        /// Returns a process for executing `swift test`
         func test() -> Process {
-            swiftProcess(["test", "--parallel"])
+            swiftProcess(["test"])
         }
     }
     
