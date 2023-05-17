@@ -120,7 +120,7 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includesIntegrationTests: includesIntegrationTests,
+            includeIntegrationTests: includesIntegrationTests,
             includeProtocolTests: includeProtocolTests,
             buildPackageManifest: buildPackageManifest
         )

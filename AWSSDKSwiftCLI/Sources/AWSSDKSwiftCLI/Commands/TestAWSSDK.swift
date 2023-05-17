@@ -16,7 +16,7 @@ struct TestAWSSDKCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "test-aws-sdk",
         abstract: "Builds the package and executes its tests",
-        discussion: "swift test --parallel"
+        discussion: "swift test"
     )
     
     @Argument(help: "The path to the aws-sdk-swift repository")
@@ -55,7 +55,7 @@ struct TestAWSSDK {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
         
-        // If batches is 1, then run `swift test --parallel` with the current Package.swift
+        // If batches is 1, then run `swift test` with the current Package.swift
         guard batches > 1 else {
             log("Testing Package.swift...")
             let task = Process.swift.test()
@@ -129,7 +129,7 @@ struct TestAWSSDK {
     
     /// Runs tests using the provided package manifest
     ///
-    /// This renames the provided package to `Package.swift` and then runs `swift test --parallel`
+    /// This renames the provided package to `Package.swift` and then runs `swift test`
     /// When finished, it renames `Package.swift` back to the provided package file name.
     ///
     func testPackage(_ package: String) throws {

@@ -69,7 +69,7 @@ class TestAWSSDKTests: CLITestCase {
         try! subject.run()
         
         XCTAssertEqual(commands.count, 4)
-        XCTAssertTrue(commands.allSatisfy { $0.hasSuffix("swift test --parallel") })
+        XCTAssertTrue(commands.allSatisfy { $0.hasSuffix("swift test") })
         XCTAssertEqual(packages, [
             "Package.TestBatch1.swift A-B",
             "Package.TestBatch2.swift C-D",
@@ -90,7 +90,7 @@ class TestAWSSDKTests: CLITestCase {
         try! subject.run()
         
         XCTAssertEqual(commands.count, 1)
-        XCTAssertTrue(commands[0].hasSuffix("swift test --parallel"))
+        XCTAssertTrue(commands[0].hasSuffix("swift test"))
     }
     
     // MARK: createBatches()
@@ -156,7 +156,7 @@ class TestAWSSDKTests: CLITestCase {
             encoding: .utf8
         )
         
-        XCTAssertTrue(command.hasSuffix("swift test --parallel"))
+        XCTAssertTrue(command.hasSuffix("swift test"))
         XCTAssertEqual(testBatchContents, contents)
         XCTAssertNil(packageContents)
     }
