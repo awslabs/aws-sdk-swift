@@ -118,12 +118,20 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
+      - name: Check status to \'queued\'
+      - uses: LouisBrunner/checks-action@v1.6.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Check Yourself
+          status: queued
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
-      - name: Update commit status to pending at start of run
-        uses: ouzi-dev/commit-status-updater@v2
+      - name: Check status to \'in_progress\'
+      - uses: LouisBrunner/checks-action@v1.6.0
         with:
-          pendingComment: "The new CI job is now in status: pending"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Check Yourself
+          status: in_progress
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
@@ -167,9 +175,9 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
-      - name: Update final commit status at end of run
-        if: always()
-        uses: ouzi-dev/commit-status-updater@v2
+      - name: Check status to \'${{ job.status }}\'
+      - uses: LouisBrunner/checks-action@v1.6.0
         with:
-          pendingComment: "The new CI job is now in status: ${{ job.status }}"
-          status: ${{ job.status }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Check Yourself
+          conclusion: ${{ job.status }}
