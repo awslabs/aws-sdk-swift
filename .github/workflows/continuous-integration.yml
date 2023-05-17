@@ -114,19 +114,17 @@ jobs:
           --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
           $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
   ios-compat-2:
-    runs-on: macos-13-xl
+    runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
-      - name: Start check run
-        uses: dflydev/check-runs-action@v1
+      - name: Update commit status at start of run
+        uses: ouzi-dev/commit-status-updater@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checks: |
-            [ { "id": "ios-compat-2", "name": "New CI" } ]
-          status: in_progress
+          pendingComment: "The new CI job is now in status: ${{ job.status }}"
+          status: ${{ job.status }}
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
@@ -170,10 +168,9 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
-      - name: Conclude Check Run
+      - name: Update commit status at start of run
         if: always()
-        uses: dflydev/check-runs-action@v1
+        uses: ouzi-dev/commit-status-updater@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: ios-compat-2
-          conclusion: ${{ job.status }}
+          pendingComment: "The new CI job is now in status: ${{ job.status }}"
+          status: ${{ job.status }}
