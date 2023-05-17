@@ -118,7 +118,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
-      - name: Check status to \'queued\'
+      - name: Check status to queued
       - uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -126,7 +126,7 @@ jobs:
           status: queued
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
-      - name: Check status to \'in_progress\'
+      - name: Check status to in_progress
       - uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -175,7 +175,7 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
-      - name: Check status to \'${{ job.status }}\'
+      - name: Check status to ${{ job.status }}
       - uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
