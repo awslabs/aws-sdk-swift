@@ -118,6 +118,8 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
+      - name: Dump env
+        run: env | sort
       - name: Trigger Workflow
         uses: actions/github-script@v6
         with:
