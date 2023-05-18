@@ -123,7 +123,7 @@ jobs:
       - name: Trigger Workflow
         uses: actions/github-script@v6
         env:
-          GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
+          GITHUB_REF_NAME: ${{ env.GITHUB_SHA }}
         with:
           script: |
             github.rest.actions.createWorkflowDispatch({
