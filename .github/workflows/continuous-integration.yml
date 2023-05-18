@@ -122,15 +122,13 @@ jobs:
         run: env | sort
       - name: Trigger Workflow
         uses: actions/github-script@v6
-        env:
-          GITHUB_REF_NAME: ${{ env.GITHUB_SHA }}
         with:
           script: |
             github.rest.actions.createWorkflowDispatch({
               owner: 'awslabs',
               repo: 'aws-sdk-swift',
               workflow_id: 'codegen-build-test.yml',
-              ref: process.env.GITHUB_REF_NAME
+              ref: process.env.GITHUB_SHA
             })
       - name: Check status to queued
         id: check
