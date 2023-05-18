@@ -124,9 +124,9 @@ jobs:
           script: |
             github.rest.actions.createWorkflowDispatch({
               owner: 'awslabs',
-              repo: 'smithy-swift',
-              workflow_id: 'continuous-integration.yml',
-              ref: 'main'
+              repo: 'aws-sdk-swift',
+              workflow_id: 'codegen-build-test.yml',
+              ref: '${{ env.GITHUB_SHA }}'
             })
       - name: Check status to queued
         id: check
