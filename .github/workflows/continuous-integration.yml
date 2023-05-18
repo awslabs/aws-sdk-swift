@@ -126,7 +126,7 @@ jobs:
               owner: 'awslabs',
               repo: 'aws-sdk-swift',
               workflow_id: 'codegen-build-test.yml',
-              ref: '${{ env.GITHUB_SHA }}'
+              ref: '${{ github.event.pull_request.head.sha }}'
             })
       - name: Check status to queued
         id: check
