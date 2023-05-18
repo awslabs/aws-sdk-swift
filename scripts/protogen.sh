@@ -48,5 +48,5 @@ cd ..
 
 # If on Mac, reopen Xcode to the refreshed tests
 if [ -x "$(command -v osascript)" ]; then
-  open -a Xcode Package.swift
+  open -a Xcode
 fi
