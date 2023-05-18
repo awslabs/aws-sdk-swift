@@ -118,6 +118,16 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
+      - name: Trigger Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'awslabs',
+              repo: 'smithy-swift'
+              workflow_id: 'continuous-integration.yml',
+              ref: 'main',
+            })
       - name: Check status to queued
         id: check
         uses: LouisBrunner/checks-action@v1.6.0
