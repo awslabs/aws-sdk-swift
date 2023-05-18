@@ -119,6 +119,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
       - name: Check status to queued
+        id: check
         uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -130,7 +131,7 @@ jobs:
         uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Check Yourself
+          check_id: ${{ steps.check.outputs.check_id }}
           status: in_progress
       - name: Select smithy-swift branch
         run: |
@@ -181,5 +182,5 @@ jobs:
         uses: LouisBrunner/checks-action@v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Check Yourself
+          check_id: ${{ steps.check.outputs.check_id }}
           conclusion: ${{ job.status }}
