@@ -15,7 +15,6 @@ import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorInitGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorNarrowGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 class S3ErrorIntegration : SwiftIntegration {
@@ -56,7 +55,6 @@ class S3ErrorIntegration : SwiftIntegration {
     private val httpResponseBinding = SectionWriter { writer, _ ->
         val ctx = writer.getContext("ctx") as ProtocolGenerator.GenerationContext
         val errorShapes = writer.getContext("errorShapes") as List<StructureShape>
-        val unknownServiceErrorType = writer.getContext("unknownServiceErrorType") as String
         writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
         writer.openBlock("switch restXMLError.errorCode {", "}") {
             for (errorShape in errorShapes) {
@@ -64,9 +62,8 @@ class S3ErrorIntegration : SwiftIntegration {
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                 writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
             }
-            writer.write("default: return $unknownServiceErrorType(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
+            writer.write("default: return \$unknownServiceErrorSymbol:N(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
         }
-
     }
 
     override fun serviceErrorProtocolSymbol(): Symbol? {

@@ -44,12 +44,19 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                     val context = mapOf<String, Any>(
                         "operationErrorName" to operationErrorName,
                         "ctx" to ctx,
-                        "unknownServiceErrorType" to unknownServiceErrorSymbol.name,
+                        "unknownServiceErrorSymbol" to unknownServiceErrorSymbol,
                         "errorShapes" to errorShapes
                     )
                     writer.declareSection(RestXMLResponseBindingSectionId, context) {
-                        writer.write("let errorDetails = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
-                        writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)")
+                        writer.write("let restXMLError = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+                        writer.openBlock("switch restXMLError.errorCode {", "}") {
+                            for (errorShape in errorShapes) {
+                                var errorShapeName = ctx.symbolProvider.toSymbol(errorShape).name
+                                var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                                writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)", errorShapeName, errorShapeType)
+                            }
+                            writer.write("default: return \$unknownServiceErrorSymbol:N(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
+                        }
                     }
                 }
             }
