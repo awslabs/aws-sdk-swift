@@ -9,7 +9,7 @@
 
 import AWSClientRuntime
 
-public enum GreetingWithErrorsNoErrorWrappingOutputError: Equatable {
+public enum GreetingWithErrorsNoErrorWrappingOutputError {
     case complexXMLErrorNoErrorWrapping(ComplexXMLErrorNoErrorWrapping)
     case unknown(UnknownAWSHttpServiceError)
 }

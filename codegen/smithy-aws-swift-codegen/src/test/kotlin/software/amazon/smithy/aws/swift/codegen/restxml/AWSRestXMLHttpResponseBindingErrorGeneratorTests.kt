@@ -16,41 +16,19 @@ import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
 
     @Test
-    fun `001 GreetingWithErrorsOutputError has with correct cases`() {
-        val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError.swift")
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            public enum GreetingWithErrorsOutputError: Swift.Error, Swift.Equatable {
-                case complexXMLError(ComplexXMLError)
-                case invalidGreeting(InvalidGreeting)
-                case unknown(UnknownAWSHttpServiceError)
-            }
-            """.trimIndent()
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseBinding.swift")
+        val contents = getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            extension GreetingWithErrorsOutputError: ClientRuntime.HttpResponseBinding {
-                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-                    let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-                    try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-                }
-            }
-            
-            extension GreetingWithErrorsOutputError {
-                public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-                    switch errorType {
-                    case "ComplexXMLError" : self = .complexXMLError(try ComplexXMLError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-                    case "InvalidGreeting" : self = .invalidGreeting(try InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-                    default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+            public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws -> ServiceError {
+                    let restXMLError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+                    switch restXMLError.errorCode {
+                        case "ComplexXMLError": return try ComplexXMLError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+                        case "InvalidGreeting": return try InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+                        default: return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
                     }
                 }
             }
@@ -65,7 +43,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """            
             extension ComplexXMLError {
-                public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
                         self.header = headerHeaderValue
                     } else {
@@ -96,19 +74,19 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Error {
+                public var _errorType: String? { "ComplexXMLError" }
                 public var _headers: ClientRuntime.Headers?
                 public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?
                 public var _requestID: Swift.String?
                 public var _retryable: Swift.Bool = false
                 public var _isThrottling: Swift.Bool = false
-                public var _type: ClientRuntime.ErrorType = .client
                 public var header: Swift.String?
                 public var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData?
                 public var topLevel: Swift.String?
             
-                public init (
+                public init(
                     header: Swift.String? = nil,
                     nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil,
                     topLevel: Swift.String? = nil
@@ -130,7 +108,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """
             extension ComplexXMLErrorNoErrorWrapping {
-                public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
                         self.header = headerHeaderValue
                     } else {

@@ -21,8 +21,6 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError {
     public var _requestID: String?
 
     public var _retryable: Bool = false
-
-//    public var _type: ErrorType = .unknown
 }
 
 extension UnknownAWSHttpServiceError {
@@ -45,11 +43,4 @@ extension UnknownAWSHttpServiceError {
         self._requestID = requestID ?? httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         self._message = message
     }
-}
-
-extension UnknownAWSHttpServiceError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? { _errorType }
 }

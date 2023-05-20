@@ -8,6 +8,7 @@ package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -19,7 +20,7 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
         val operationErrorName = "${op.toUpperCamelCase()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/$operationErrorName+HttpResponseBinding.swift")
+            .definitionFile("./$rootNamespace/models/$operationErrorName+HttpResponseErrorBinding.swift")
             .name(operationErrorName)
             .build()
 
@@ -27,14 +28,22 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
-            writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
+            writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public static func makeErrorxxx(httpResponse: \$N, decoder: \$D) throws -> ServiceError {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) throws -> ServiceError {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
                     ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
-                    writer.write("let errorDetails = try Ec2QueryError(httpResponse: httpResponse)")
-                    writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)")
+                    writer.write("let ec2QueryError = try Ec2QueryError(httpResponse: httpResponse)")
+                    writer.openBlock("switch ec2QueryError.errorCode {", "}") {
+                        val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                        for (errorShape in errorShapes) {
+                            var errorShapeName = ctx.symbolProvider.toSymbol(errorShape).name
+                            var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                            writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", errorShapeName, errorShapeType)
+                        }
+                        writer.write("default: return \$N(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", unknownServiceErrorSymbol)
+                    }
                 }
             }
         }

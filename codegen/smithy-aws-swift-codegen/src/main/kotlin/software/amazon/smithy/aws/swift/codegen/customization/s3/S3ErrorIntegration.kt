@@ -35,7 +35,7 @@ class S3ErrorIntegration : SwiftIntegration {
 
     private val s3MembersParams = SectionWriter { writer, _ ->
         writer.write(
-            "public init (httpResponse: \$N, decoder: \$D, message: \$D, requestID: \$D, requestID2: \$D) throws {",
+            "public init(httpResponse: \$N, decoder: \$D, message: \$D, requestID: \$D, requestID2: \$D) throws {",
             ClientRuntimeTypes.Http.HttpResponse,
             ClientRuntimeTypes.Serde.ResponseDecoder,
             SwiftTypes.String,

@@ -9,7 +9,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public enum GreetingWithErrorsOutputError: Equatable {
+public enum GreetingWithErrorsOutputError {
     case complexXMLError(ComplexXMLError)
     case invalidGreeting(InvalidGreeting)
     case unknown(UnknownAWSHttpServiceError)
