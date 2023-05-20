@@ -6,7 +6,7 @@
 import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
-public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
+public struct UnknownAWSHttpServiceError: AWSHttpServiceError {
     /// The error type for this error, or `nil` if the type is not known.
     public var _errorType: String?
 
@@ -22,7 +22,7 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
 
     public var _retryable: Bool = false
 
-    public var _type: ErrorType = .unknown
+//    public var _type: ErrorType = .unknown
 }
 
 extension UnknownAWSHttpServiceError {

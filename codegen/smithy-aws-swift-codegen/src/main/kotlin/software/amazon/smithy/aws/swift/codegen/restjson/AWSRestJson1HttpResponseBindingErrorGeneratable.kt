@@ -16,7 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpRespons
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 
 class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingErrorGeneratable {
-    override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape) {
+    override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
         val operationErrorName = "${op.toUpperCamelCase()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
@@ -28,9 +28,9 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
-            writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
+            writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public init(httpResponse: \$N, decoder: \$D) throws {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) throws -> ServiceError {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
                     ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {

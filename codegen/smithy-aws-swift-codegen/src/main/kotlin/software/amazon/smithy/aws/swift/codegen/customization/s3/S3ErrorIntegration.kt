@@ -30,7 +30,6 @@ class S3ErrorIntegration : SwiftIntegration {
             SectionWriterBinding(HttpResponseBindingErrorInitGenerator.HttpResponseBindingErrorInit, s3MembersParams),
             SectionWriterBinding(HttpResponseBindingErrorInitGenerator.HttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
             SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
-            SectionWriterBinding(HttpResponseBindingErrorNarrowGenerator.HttpResponseBindingErrorNarrowGeneratorSectionId, httpResponseBindingErrorNarrow),
             SectionWriterBinding(AWSRestXMLHttpResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
 
         )
@@ -55,47 +54,19 @@ class S3ErrorIntegration : SwiftIntegration {
     }
 
     private val httpResponseBinding = SectionWriter { writer, _ ->
-        val operationErrorName = writer.getContext("operationErrorName") as String
-        writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
-        writer.openBlock("try self.init(", ")") {
-            writer.write("errorType: restXMLError.errorCode,")
-            writer.write("httpResponse: httpResponse,")
-            writer.write("decoder: decoder,")
-            writer.write("message: restXMLError.message,")
-            writer.write("requestID: restXMLError.requestId,")
-            writer.write("requestID2: httpResponse.requestId2")
-        }
-    }
-
-    private val httpResponseBindingErrorNarrow = SectionWriter { writer, _ ->
         val ctx = writer.getContext("ctx") as ProtocolGenerator.GenerationContext
-        val unknownServiceErrorType = writer.getContext("unknownServiceErrorType") as String
-        val operationErrorName = writer.getContext("operationErrorName") as String
         val errorShapes = writer.getContext("errorShapes") as List<StructureShape>
-
-        writer.openBlock("extension \$L {", "}", operationErrorName) {
-            writer.write(
-                "public init(errorType: \$T, httpResponse: \$N, decoder: \$D, message: \$D, requestID: \$D, requestID2: \$D) throws {",
-                SwiftTypes.String,
-                ClientRuntimeTypes.Http.HttpResponse,
-                ClientRuntimeTypes.Serde.ResponseDecoder,
-                SwiftTypes.String,
-                SwiftTypes.String,
-                SwiftTypes.String
-            )
-            writer.indent()
-            writer.write("switch errorType {")
+        val unknownServiceErrorType = writer.getContext("unknownServiceErrorType") as String
+        writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+        writer.openBlock("switch restXMLError.errorCode {", "}") {
             for (errorShape in errorShapes) {
                 var errorShapeName = ctx.symbolProvider.toSymbol(errorShape).name
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                var errorShapeEnumCase = errorShapeType.decapitalize()
-                writer.write("case \$S : self = .\$L(try \$L(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID, requestID2: requestID2))", errorShapeName, errorShapeEnumCase, errorShapeType)
+                writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
             }
-            writer.write("default : self = .unknown($unknownServiceErrorType(httpResponse: httpResponse, message: message, requestID: requestID))")
-            writer.write("}")
-            writer.dedent()
-            writer.write("}")
+            writer.write("default: return $unknownServiceErrorType(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
         }
+
     }
 
     override fun serviceErrorProtocolSymbol(): Symbol? {
