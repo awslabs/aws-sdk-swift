@@ -15,6 +15,7 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingErrorGeneratable {
     override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
@@ -40,7 +41,7 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
                     writer.openBlock("switch restJSONError.errorType {", "}") {
                         val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
                         for (errorShape in errorShapes) {
-                            var errorShapeName = ctx.symbolProvider.toSymbol(errorShape).name
+                            var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                             var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                             writer.write(
                                 "case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)",

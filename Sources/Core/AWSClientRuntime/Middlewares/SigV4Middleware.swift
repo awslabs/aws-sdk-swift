@@ -39,19 +39,16 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         }
 
         guard let credentialsProvider = context.getCredentialsProvider() else {
-            throw SdkError<OperationStackError>.client(
-                ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
+            throw UnknownClientError("AwsSigv4Signer requires a credentialsProvider")
         }
 
         guard let signingName = context.getSigningName() ?? config.signingService else {
-            throw SdkError<OperationStackError>.client(
-                ClientError.authError("AwsSigv4Signer requires a signing service"))
+            throw UnknownClientError("AwsSigv4Signer requires a signing service")
         }
 
         guard let signingRegion = context.getSigningRegion(),
               !signingRegion.isEmpty else {
-            throw SdkError<OperationStackError>.client(
-                ClientError.authError("AwsSigv4Signer requires a signing region"))
+            throw UnknownClientError("AwsSigv4Signer requires a signing region")
         }
 
         // If the context has a signing algorithm, use that. Otherwise, use the operation config's signing algorithm

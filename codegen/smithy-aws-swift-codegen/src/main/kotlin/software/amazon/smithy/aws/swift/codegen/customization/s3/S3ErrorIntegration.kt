@@ -16,6 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class S3ErrorIntegration : SwiftIntegration {
     override val order: Byte
@@ -58,7 +59,7 @@ class S3ErrorIntegration : SwiftIntegration {
         writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
         writer.openBlock("switch restXMLError.errorCode {", "}") {
             for (errorShape in errorShapes) {
-                var errorShapeName = ctx.symbolProvider.toSymbol(errorShape).name
+                var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                 writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
             }

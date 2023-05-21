@@ -17,6 +17,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionId
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
 
@@ -51,7 +52,7 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                         writer.write("let restXMLError = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
                         writer.openBlock("switch restXMLError.errorCode {", "}") {
                             for (errorShape in errorShapes) {
-                                var errorShapeName = ctx.symbolProvider.toSymbol(errorShape).name
+                                var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                                 writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)", errorShapeName, errorShapeType)
                             }

@@ -105,8 +105,8 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     writer.indent {
                         // this is a client exception because we failed to parse it
                         writer.write(
-                            "throw \$L.unknownError(\"unrecognized event stream message ':message-type': \\(messageType)\")",
-                            ClientRuntimeTypes.Core.ClientError
+                            "throw \$L(\"unrecognized event stream message ':message-type': \\(messageType)\")",
+                            ClientRuntimeTypes.Core.UnknownClientError
                         )
                     }
                     writer.write("}")

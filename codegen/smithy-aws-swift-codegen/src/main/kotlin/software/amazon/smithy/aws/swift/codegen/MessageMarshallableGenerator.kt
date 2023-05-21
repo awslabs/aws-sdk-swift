@@ -75,8 +75,8 @@ class MessageMarshallableGenerator(
                     writer.write("case .sdkUnknown(_):")
                     writer.indent()
                     writer.write(
-                        "throw \$N.serializationFailed(\"cannot serialize the unknown event type!\")",
-                        ClientRuntimeTypes.Core.ClientError
+                        "throw \$N(\"cannot serialize the unknown event type!\")",
+                        ClientRuntimeTypes.Core.UnknownClientError
                     )
                     writer.dedent()
                     writer.write("}")
