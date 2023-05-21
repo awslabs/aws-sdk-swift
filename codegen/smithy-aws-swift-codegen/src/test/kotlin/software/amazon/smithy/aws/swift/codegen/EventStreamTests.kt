@@ -82,7 +82,7 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageMarshallab
             headers.append(.init(name: ":content-type", value: .string("application/json")))
             payload = try encoder.encode(value)
         case .sdkUnknown(_):
-            throw ClientRuntime.ClientError.serializationFailed("cannot serialize the unknown event type!")
+            throw ClientRuntime.UnknownClientError("cannot serialize the unknown event type!")
         }
         return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
     }
@@ -184,7 +184,7 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
             let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
             throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
         case .unknown(messageType: let messageType):
-            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+            throw ClientRuntime.UnknownClientError("unrecognized event stream message ':message-type': \(messageType)")
         }
     }
 }
