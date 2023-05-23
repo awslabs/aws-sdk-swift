@@ -215,6 +215,107 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateSnapshotInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination = "Destination"
+        case simulation = "Simulation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let simulation = self.simulation {
+            try encodeContainer.encode(simulation, forKey: .simulation)
+        }
+    }
+}
+
+extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/createsnapshot"
+    }
+}
+
+public struct CreateSnapshotInput: Swift.Equatable {
+    /// The Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates the snapshot file.
+    /// This member is required.
+    public var destination: SimSpaceWeaverClientTypes.S3Destination?
+    /// The name of the simulation.
+    /// This member is required.
+    public var simulation: Swift.String?
+
+    public init (
+        destination: SimSpaceWeaverClientTypes.S3Destination? = nil,
+        simulation: Swift.String? = nil
+    )
+    {
+        self.destination = destination
+        self.simulation = simulation
+    }
+}
+
+struct CreateSnapshotInputBody: Swift.Equatable {
+    let simulation: Swift.String?
+    let destination: SimSpaceWeaverClientTypes.S3Destination?
+}
+
+extension CreateSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination = "Destination"
+        case simulation = "Simulation"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let simulationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .simulation)
+        simulation = simulationDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(SimSpaceWeaverClientTypes.S3Destination.self, forKey: .destination)
+        destination = destinationDecoded
+    }
+}
+
+extension CreateSnapshotOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateSnapshotOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CreateSnapshotOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteAppInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -529,7 +630,7 @@ public struct DescribeAppOutputResponse: Swift.Equatable {
     public var domain: Swift.String?
     /// Information about the network endpoint for the custom app. You can use the endpoint to connect to the custom app.
     public var endpointInfo: SimSpaceWeaverClientTypes.SimulationAppEndpointInfo?
-    /// Options that apply when the app starts. These optiAons override default behavior.
+    /// Options that apply when the app starts. These options override default behavior.
     public var launchOverrides: SimSpaceWeaverClientTypes.LaunchOverrides?
     /// The name of the app.
     public var name: Swift.String?
@@ -693,6 +794,8 @@ extension DescribeSimulationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.roleArn = output.roleArn
             self.schemaError = output.schemaError
             self.schemaS3Location = output.schemaS3Location
+            self.snapshotS3Location = output.snapshotS3Location
+            self.startError = output.startError
             self.status = output.status
             self.targetStatus = output.targetStatus
         } else {
@@ -707,6 +810,8 @@ extension DescribeSimulationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.roleArn = nil
             self.schemaError = nil
             self.schemaS3Location = nil
+            self.snapshotS3Location = nil
+            self.startError = nil
             self.status = nil
             self.targetStatus = nil
         }
@@ -726,16 +831,21 @@ public struct DescribeSimulationOutputResponse: Swift.Equatable {
     public var liveSimulationState: SimSpaceWeaverClientTypes.LiveSimulationState?
     /// Settings that control how SimSpace Weaver handles your simulation log data.
     public var loggingConfiguration: SimSpaceWeaverClientTypes.LoggingConfiguration?
-    /// The maximum running time of the simulation, specified as a number of months (m or M), hours (h or H), or days (d or D). The simulation stops when it reaches this limit.
+    /// The maximum running time of the simulation, specified as a number of minutes (m or M), hours (h or H), or days (d or D). The simulation stops when it reaches this limit. The maximum value is 14D, or its equivalent in the other units. The default value is 14D. A value equivalent to 0 makes the simulation immediately transition to Stopping as soon as it reaches Started.
     public var maximumDuration: Swift.String?
     /// The name of the simulation.
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that the simulation assumes to perform actions. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. For more information about IAM roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the Identity and Access Management User Guide.
     public var roleArn: Swift.String?
     /// An error message that SimSpace Weaver returns only if there is a problem with the simulation schema.
+    @available(*, deprecated, message: "SchemaError is no longer used, check StartError instead.")
     public var schemaError: Swift.String?
     /// The location of the simulation schema in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
     public var schemaS3Location: SimSpaceWeaverClientTypes.S3Location?
+    /// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace Weaver stores simulation data, such as your app .zip files and schema file. For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
+    public var snapshotS3Location: SimSpaceWeaverClientTypes.S3Location?
+    /// An error message that SimSpace Weaver returns only if a problem occurs when the simulation is in the STARTING state.
+    public var startError: Swift.String?
     /// The current lifecycle state of the simulation.
     public var status: SimSpaceWeaverClientTypes.SimulationStatus?
     /// The desired lifecycle state of the simulation.
@@ -753,6 +863,8 @@ public struct DescribeSimulationOutputResponse: Swift.Equatable {
         roleArn: Swift.String? = nil,
         schemaError: Swift.String? = nil,
         schemaS3Location: SimSpaceWeaverClientTypes.S3Location? = nil,
+        snapshotS3Location: SimSpaceWeaverClientTypes.S3Location? = nil,
+        startError: Swift.String? = nil,
         status: SimSpaceWeaverClientTypes.SimulationStatus? = nil,
         targetStatus: SimSpaceWeaverClientTypes.SimulationTargetStatus? = nil
     )
@@ -768,6 +880,8 @@ public struct DescribeSimulationOutputResponse: Swift.Equatable {
         self.roleArn = roleArn
         self.schemaError = schemaError
         self.schemaS3Location = schemaS3Location
+        self.snapshotS3Location = snapshotS3Location
+        self.startError = startError
         self.status = status
         self.targetStatus = targetStatus
     }
@@ -787,6 +901,8 @@ struct DescribeSimulationOutputResponseBody: Swift.Equatable {
     let loggingConfiguration: SimSpaceWeaverClientTypes.LoggingConfiguration?
     let liveSimulationState: SimSpaceWeaverClientTypes.LiveSimulationState?
     let maximumDuration: Swift.String?
+    let snapshotS3Location: SimSpaceWeaverClientTypes.S3Location?
+    let startError: Swift.String?
 }
 
 extension DescribeSimulationOutputResponseBody: Swift.Decodable {
@@ -802,6 +918,8 @@ extension DescribeSimulationOutputResponseBody: Swift.Decodable {
         case roleArn = "RoleArn"
         case schemaError = "SchemaError"
         case schemaS3Location = "SchemaS3Location"
+        case snapshotS3Location = "SnapshotS3Location"
+        case startError = "StartError"
         case status = "Status"
         case targetStatus = "TargetStatus"
     }
@@ -834,6 +952,10 @@ extension DescribeSimulationOutputResponseBody: Swift.Decodable {
         liveSimulationState = liveSimulationStateDecoded
         let maximumDurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maximumDuration)
         maximumDuration = maximumDurationDecoded
+        let snapshotS3LocationDecoded = try containerValues.decodeIfPresent(SimSpaceWeaverClientTypes.S3Location.self, forKey: .snapshotS3Location)
+        snapshotS3Location = snapshotS3LocationDecoded
+        let startErrorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startError)
+        startError = startErrorDecoded
     }
 }
 
@@ -863,18 +985,15 @@ extension SimSpaceWeaverClientTypes.Domain: Swift.Codable {
 }
 
 extension SimSpaceWeaverClientTypes {
-    /// A collection of app instances that run the same executable app code and have the same launch options and commands. For more information about domains, see [Key concepts](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html) in the Amazon Web Services SimSpace Weaver User Guide.
+    /// A collection of app instances that run the same executable app code and have the same launch options and commands. For more information about domains, see [Key concepts: Domains](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains) in the SimSpace Weaver User Guide.
     public struct Domain: Swift.Equatable {
-        /// The type of lifecycle management for apps in the domain. This value indicates whether apps in this domain are managed (SimSpace Weaver starts and stops the apps) or unmanaged (you must start and stop the apps). Lifecycle types
+        /// The type of lifecycle management for apps in the domain. Indicates whether apps in this domain are managed (SimSpace Weaver starts and stops the apps) or unmanaged (you must start and stop the apps). Lifecycle types
         ///
-        /// * PerWorker – Managed: SimSpace Weaver starts 1 app on each worker
+        /// * PerWorker – Managed: SimSpace Weaver starts one app on each worker.
         ///
-        /// * BySpatialSubdivision – Managed: SimSpace Weaver starts 1 app for each spatial partition
+        /// * BySpatialSubdivision – Managed: SimSpace Weaver starts one app for each spatial partition.
         ///
         /// * ByRequest – Unmanaged: You use the StartApp API to start the apps and use the StopApp API to stop the apps.
-        ///
-        ///
-        /// The lifecycle types will change when the service is released for general availability (GA).
         public var lifecycle: SimSpaceWeaverClientTypes.LifecycleManagementStrategy?
         /// The name of the domain.
         public var name: Swift.String?
@@ -974,7 +1093,7 @@ extension SimSpaceWeaverClientTypes.LaunchOverrides: Swift.Codable {
 }
 
 extension SimSpaceWeaverClientTypes {
-    /// Options that apply when the app starts. These optiAons override default behavior.
+    /// Options that apply when the app starts. These options override default behavior.
     public struct LaunchOverrides: Swift.Equatable {
         /// App launch commands and command line parameters that override the launch command configured in the simulation schema.
         public var launchCommands: [Swift.String]?
@@ -1065,7 +1184,7 @@ public struct ListAppsInput: Swift.Equatable {
     public var domain: Swift.String?
     /// The maximum number of apps to list.
     public var maxResults: Swift.Int?
-    /// If SimSpace Weaver returns nextToken, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, you receive an HTTP 400 ValidationException error.
+    /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The name of the simulation that you want to list apps for.
     /// This member is required.
@@ -1139,7 +1258,7 @@ extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListAppsOutputResponse: Swift.Equatable {
     /// The list of apps for the given simulation and domain.
     public var apps: [SimSpaceWeaverClientTypes.SimulationAppMetadata]?
-    /// If SimSpace Weaver returns nextToken, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, you receive an HTTP 400 ValidationException error.
+    /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
 
     public init (
@@ -1207,7 +1326,7 @@ extension ListSimulationsInput: ClientRuntime.URLPathProvider {
 public struct ListSimulationsInput: Swift.Equatable {
     /// The maximum number of simulations to list.
     public var maxResults: Swift.Int?
-    /// If SimSpace Weaver returns nextToken, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, you receive an HTTP 400 ValidationException error.
+    /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
 
     public init (
@@ -1270,7 +1389,7 @@ extension ListSimulationsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListSimulationsOutputResponse: Swift.Equatable {
-    /// If SimSpace Weaver returns nextToken, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, you receive an HTTP 400 ValidationException error.
+    /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The list of simulations.
     public var simulations: [SimSpaceWeaverClientTypes.SimulationMetadata]?
@@ -1472,7 +1591,7 @@ extension SimSpaceWeaverClientTypes {
     public struct LiveSimulationState: Swift.Equatable {
         /// A list of simulation clocks. At this time, a simulation has only one clock.
         public var clocks: [SimSpaceWeaverClientTypes.SimulationClock]?
-        /// A list of domains for the simulation. For more information about domains, see [Key concepts](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html) in the Amazon Web Services SimSpace Weaver User Guide.
+        /// A list of domains for the simulation. For more information about domains, see [Key concepts: Domains](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains) in the SimSpace Weaver User Guide.
         public var domains: [SimSpaceWeaverClientTypes.Domain]?
 
         public init (
@@ -1620,6 +1739,51 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension SimSpaceWeaverClientTypes.S3Destination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case objectKeyPrefix = "ObjectKeyPrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let objectKeyPrefix = self.objectKeyPrefix {
+            try encodeContainer.encode(objectKeyPrefix, forKey: .objectKeyPrefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let objectKeyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectKeyPrefix)
+        objectKeyPrefix = objectKeyPrefixDecoded
+    }
+}
+
+extension SimSpaceWeaverClientTypes {
+    /// An Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates a file.
+    public struct S3Destination: Swift.Equatable {
+        /// The name of an Amazon S3 bucket. For more information about buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
+        public var bucketName: Swift.String?
+        /// A string prefix for an Amazon S3 object key. It's usually a folder name. For more information about folders in Amazon S3, see [Organizing objects in the Amazon S3 console using folders](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html) in the Amazon Simple Storage Service User Guide.
+        public var objectKeyPrefix: Swift.String?
+
+        public init (
+            bucketName: Swift.String? = nil,
+            objectKeyPrefix: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.objectKeyPrefix = objectKeyPrefix
+        }
+    }
+
+}
+
 extension SimSpaceWeaverClientTypes.S3Location: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketName = "BucketName"
@@ -1646,7 +1810,7 @@ extension SimSpaceWeaverClientTypes.S3Location: Swift.Codable {
 }
 
 extension SimSpaceWeaverClientTypes {
-    /// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace Weaver stores simulation data, such as your app zip files and schema file. For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
+    /// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace Weaver stores simulation data, such as your app .zip files and schema file. For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
     public struct S3Location: Swift.Equatable {
         /// The name of an Amazon S3 bucket. For more information about buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
         public var bucketName: Swift.String?
@@ -1754,7 +1918,7 @@ extension SimSpaceWeaverClientTypes.SimulationAppEndpointInfo: Swift.Codable {
 }
 
 extension SimSpaceWeaverClientTypes {
-    /// Information about the network endpoint that you can use to connect to your custom or service app.
+    /// Information about the network endpoint that you can use to connect to your custom or service app. For more information about SimSpace Weaver apps, see [Key concepts: Apps](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_apps) in the SimSpace Weaver User Guide..
     public struct SimulationAppEndpointInfo: Swift.Equatable {
         /// The IP address of the app. SimSpace Weaver dynamically assigns this IP address when the app starts.
         public var address: Swift.String?
@@ -1817,9 +1981,9 @@ extension SimSpaceWeaverClientTypes.SimulationAppMetadata: Swift.Codable {
 }
 
 extension SimSpaceWeaverClientTypes {
-    /// A collection of metadata about an app.
+    /// A collection of metadata about the app.
     public struct SimulationAppMetadata: Swift.Equatable {
-        /// The domain of the app. For more information about domains, see [Key concepts](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html) in the Amazon Web Services SimSpace Weaver User Guide.
+        /// The domain of the app. For more information about domains, see [Key concepts: Domains](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains) in the SimSpace Weaver User Guide.
         public var domain: Swift.String?
         /// The name of the app.
         public var name: Swift.String?
@@ -2097,6 +2261,7 @@ extension SimSpaceWeaverClientTypes {
         case deleted
         case deleting
         case failed
+        case snapshotInProgress
         case started
         case starting
         case stopped
@@ -2109,6 +2274,7 @@ extension SimSpaceWeaverClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
+                .snapshotInProgress,
                 .started,
                 .starting,
                 .stopped,
@@ -2126,6 +2292,7 @@ extension SimSpaceWeaverClientTypes {
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .snapshotInProgress: return "SNAPSHOT_IN_PROGRESS"
             case .started: return "STARTED"
             case .starting: return "STARTING"
             case .stopped: return "STOPPED"
@@ -2232,7 +2399,7 @@ public struct StartAppInput: Swift.Equatable {
     /// The name of the domain of the app.
     /// This member is required.
     public var domain: Swift.String?
-    /// Options that apply when the app starts. These optiAons override default behavior.
+    /// Options that apply when the app starts. These options override default behavior.
     public var launchOverrides: SimSpaceWeaverClientTypes.LaunchOverrides?
     /// The name of the app.
     /// This member is required.
@@ -2475,7 +2642,7 @@ public struct StartClockOutputResponse: Swift.Equatable {
 
 extension StartSimulationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartSimulationInput(description: \(Swift.String(describing: description)), maximumDuration: \(Swift.String(describing: maximumDuration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), schemaS3Location: \(Swift.String(describing: schemaS3Location)), tags: \(Swift.String(describing: tags)), clientToken: \"CONTENT_REDACTED\")"}
+        "StartSimulationInput(description: \(Swift.String(describing: description)), maximumDuration: \(Swift.String(describing: maximumDuration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), schemaS3Location: \(Swift.String(describing: schemaS3Location)), snapshotS3Location: \(Swift.String(describing: snapshotS3Location)), tags: \(Swift.String(describing: tags)), clientToken: \"CONTENT_REDACTED\")"}
 }
 
 extension StartSimulationInput: Swift.Encodable {
@@ -2486,6 +2653,7 @@ extension StartSimulationInput: Swift.Encodable {
         case name = "Name"
         case roleArn = "RoleArn"
         case schemaS3Location = "SchemaS3Location"
+        case snapshotS3Location = "SnapshotS3Location"
         case tags = "Tags"
     }
 
@@ -2509,6 +2677,9 @@ extension StartSimulationInput: Swift.Encodable {
         if let schemaS3Location = self.schemaS3Location {
             try encodeContainer.encode(schemaS3Location, forKey: .schemaS3Location)
         }
+        if let snapshotS3Location = self.snapshotS3Location {
+            try encodeContainer.encode(snapshotS3Location, forKey: .snapshotS3Location)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tagMap0) in tags {
@@ -2529,7 +2700,7 @@ public struct StartSimulationInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// The description of the simulation.
     public var description: Swift.String?
-    /// The maximum running time of the simulation, specified as a number of months (m or M), hours (h or H), or days (d or D). The simulation stops when it reaches this limit.
+    /// The maximum running time of the simulation, specified as a number of minutes (m or M), hours (h or H), or days (d or D). The simulation stops when it reaches this limit. The maximum value is 14D, or its equivalent in the other units. The default value is 14D. A value equivalent to 0 makes the simulation immediately transition to Stopping as soon as it reaches Started.
     public var maximumDuration: Swift.String?
     /// The name of the simulation.
     /// This member is required.
@@ -2537,9 +2708,10 @@ public struct StartSimulationInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that the simulation assumes to perform actions. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. For more information about IAM roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the Identity and Access Management User Guide.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The location of the simulation schema in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
-    /// This member is required.
+    /// The location of the simulation schema in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html). Provide a SchemaS3Location to start your simulation from a schema. If you provide a SchemaS3Location then you can't provide a SnapshotS3Location.
     public var schemaS3Location: SimSpaceWeaverClientTypes.S3Location?
+    /// The location of the snapshot .zip file in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html). Provide a SnapshotS3Location to start your simulation from a snapshot. If you provide a SnapshotS3Location then you can't provide a SchemaS3Location.
+    public var snapshotS3Location: SimSpaceWeaverClientTypes.S3Location?
     /// A list of tags for the simulation. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2550,6 +2722,7 @@ public struct StartSimulationInput: Swift.Equatable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         schemaS3Location: SimSpaceWeaverClientTypes.S3Location? = nil,
+        snapshotS3Location: SimSpaceWeaverClientTypes.S3Location? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -2559,6 +2732,7 @@ public struct StartSimulationInput: Swift.Equatable {
         self.name = name
         self.roleArn = roleArn
         self.schemaS3Location = schemaS3Location
+        self.snapshotS3Location = snapshotS3Location
         self.tags = tags
     }
 }
@@ -2571,6 +2745,7 @@ struct StartSimulationInputBody: Swift.Equatable {
     let schemaS3Location: SimSpaceWeaverClientTypes.S3Location?
     let maximumDuration: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let snapshotS3Location: SimSpaceWeaverClientTypes.S3Location?
 }
 
 extension StartSimulationInputBody: Swift.Decodable {
@@ -2581,6 +2756,7 @@ extension StartSimulationInputBody: Swift.Decodable {
         case name = "Name"
         case roleArn = "RoleArn"
         case schemaS3Location = "SchemaS3Location"
+        case snapshotS3Location = "SnapshotS3Location"
         case tags = "Tags"
     }
 
@@ -2609,6 +2785,8 @@ extension StartSimulationInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let snapshotS3LocationDecoded = try containerValues.decodeIfPresent(SimSpaceWeaverClientTypes.S3Location.self, forKey: .snapshotS3Location)
+        snapshotS3Location = snapshotS3LocationDecoded
     }
 }
 

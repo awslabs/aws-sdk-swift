@@ -622,6 +622,157 @@ extension AppflowClientTypes {
 
 }
 
+extension CancelFlowExecutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionIds
+        case flowName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionIds = executionIds {
+            var executionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .executionIds)
+            for executionid0 in executionIds {
+                try executionIdsContainer.encode(executionid0)
+            }
+        }
+        if let flowName = self.flowName {
+            try encodeContainer.encode(flowName, forKey: .flowName)
+        }
+    }
+}
+
+extension CancelFlowExecutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/cancel-flow-executions"
+    }
+}
+
+public struct CancelFlowExecutionsInput: Swift.Equatable {
+    /// The ID of each active run to cancel. These runs must belong to the flow you specify in your request. If you omit this parameter, your request ends all active runs that belong to the flow.
+    public var executionIds: [Swift.String]?
+    /// The name of a flow with active runs that you want to cancel.
+    /// This member is required.
+    public var flowName: Swift.String?
+
+    public init (
+        executionIds: [Swift.String]? = nil,
+        flowName: Swift.String? = nil
+    )
+    {
+        self.executionIds = executionIds
+        self.flowName = flowName
+    }
+}
+
+struct CancelFlowExecutionsInputBody: Swift.Equatable {
+    let flowName: Swift.String?
+    let executionIds: [Swift.String]?
+}
+
+extension CancelFlowExecutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionIds
+        case flowName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
+        flowName = flowNameDecoded
+        let executionIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .executionIds)
+        var executionIdsDecoded0:[Swift.String]? = nil
+        if let executionIdsContainer = executionIdsContainer {
+            executionIdsDecoded0 = [Swift.String]()
+            for string0 in executionIdsContainer {
+                if let string0 = string0 {
+                    executionIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        executionIds = executionIdsDecoded0
+    }
+}
+
+extension CancelFlowExecutionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CancelFlowExecutionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CancelFlowExecutionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelFlowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CancelFlowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.invalidExecutions = output.invalidExecutions
+        } else {
+            self.invalidExecutions = nil
+        }
+    }
+}
+
+public struct CancelFlowExecutionsOutputResponse: Swift.Equatable {
+    /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be ineligible for canceling because they haven't started yet or have already completed.
+    public var invalidExecutions: [Swift.String]?
+
+    public init (
+        invalidExecutions: [Swift.String]? = nil
+    )
+    {
+        self.invalidExecutions = invalidExecutions
+    }
+}
+
+struct CancelFlowExecutionsOutputResponseBody: Swift.Equatable {
+    let invalidExecutions: [Swift.String]?
+}
+
+extension CancelFlowExecutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invalidExecutions
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let invalidExecutionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .invalidExecutions)
+        var invalidExecutionsDecoded0:[Swift.String]? = nil
+        if let invalidExecutionsContainer = invalidExecutionsContainer {
+            invalidExecutionsDecoded0 = [Swift.String]()
+            for string0 in invalidExecutionsContainer {
+                if let string0 = string0 {
+                    invalidExecutionsDecoded0?.append(string0)
+                }
+            }
+        }
+        invalidExecutions = invalidExecutionsDecoded0
+    }
+}
+
 extension AppflowClientTypes {
     public enum CatalogType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case glue
@@ -6387,6 +6538,8 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes {
     public enum ExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case canceled
+        case cancelstarted
         case error
         case inprogress
         case successful
@@ -6394,6 +6547,8 @@ extension AppflowClientTypes {
 
         public static var allCases: [ExecutionStatus] {
             return [
+                .canceled,
+                .cancelstarted,
                 .error,
                 .inprogress,
                 .successful,
@@ -6406,6 +6561,8 @@ extension AppflowClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .canceled: return "Canceled"
+            case .cancelstarted: return "CancelStarted"
             case .error: return "Error"
             case .inprogress: return "InProgress"
             case .successful: return "Successful"
@@ -8970,12 +9127,14 @@ extension AppflowClientTypes {
     public enum OAuth2GrantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case authorizationCode
         case clientCredentials
+        case jwtBearer
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OAuth2GrantType] {
             return [
                 .authorizationCode,
                 .clientCredentials,
+                .jwtBearer,
                 .sdkUnknown("")
             ]
         }
@@ -8987,6 +9146,7 @@ extension AppflowClientTypes {
             switch self {
             case .authorizationCode: return "AUTHORIZATION_CODE"
             case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case .jwtBearer: return "JWT_BEARER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11436,6 +11596,8 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken
         case clientCredentialsArn
+        case jwtToken
+        case oAuth2GrantType
         case oAuthRequest
         case refreshToken
     }
@@ -11447,6 +11609,12 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
         }
         if let clientCredentialsArn = self.clientCredentialsArn {
             try encodeContainer.encode(clientCredentialsArn, forKey: .clientCredentialsArn)
+        }
+        if let jwtToken = self.jwtToken {
+            try encodeContainer.encode(jwtToken, forKey: .jwtToken)
+        }
+        if let oAuth2GrantType = self.oAuth2GrantType {
+            try encodeContainer.encode(oAuth2GrantType.rawValue, forKey: .oAuth2GrantType)
         }
         if let oAuthRequest = self.oAuthRequest {
             try encodeContainer.encode(oAuthRequest, forKey: .oAuthRequest)
@@ -11466,12 +11634,16 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
         oAuthRequest = oAuthRequestDecoded
         let clientCredentialsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientCredentialsArn)
         clientCredentialsArn = clientCredentialsArnDecoded
+        let oAuth2GrantTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.OAuth2GrantType.self, forKey: .oAuth2GrantType)
+        oAuth2GrantType = oAuth2GrantTypeDecoded
+        let jwtTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jwtToken)
+        jwtToken = jwtTokenDecoded
     }
 }
 
 extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SalesforceConnectorProfileCredentials(oAuthRequest: \(Swift.String(describing: oAuthRequest)), refreshToken: \(Swift.String(describing: refreshToken)), accessToken: \"CONTENT_REDACTED\", clientCredentialsArn: \"CONTENT_REDACTED\")"}
+        "SalesforceConnectorProfileCredentials(oAuth2GrantType: \(Swift.String(describing: oAuth2GrantType)), oAuthRequest: \(Swift.String(describing: oAuthRequest)), refreshToken: \(Swift.String(describing: refreshToken)), accessToken: \"CONTENT_REDACTED\", clientCredentialsArn: \"CONTENT_REDACTED\", jwtToken: \"CONTENT_REDACTED\")"}
 }
 
 extension AppflowClientTypes {
@@ -11481,6 +11653,10 @@ extension AppflowClientTypes {
         public var accessToken: Swift.String?
         /// The secret manager ARN, which contains the client ID and client secret of the connected app.
         public var clientCredentialsArn: Swift.String?
+        /// A JSON web token (JWT) that authorizes Amazon AppFlow to access your Salesforce records.
+        public var jwtToken: Swift.String?
+        /// Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it requests an access token from Salesforce. Amazon AppFlow requires an access token each time it attempts to access your Salesforce records. You can specify one of the following values: AUTHORIZATION_CODE Amazon AppFlow passes an authorization code when it requests the access token from Salesforce. Amazon AppFlow receives the authorization code from Salesforce after you log in to your Salesforce account and authorize Amazon AppFlow to access your records. CLIENT_CREDENTIALS Amazon AppFlow passes client credentials (a client ID and client secret) when it requests the access token from Salesforce. You provide these credentials to Amazon AppFlow when you define the connection to your Salesforce account. JWT_BEARER Amazon AppFlow passes a JSON web token (JWT) when it requests the access token from Salesforce. You provide the JWT to Amazon AppFlow when you define the connection to your Salesforce account. When you use this grant type, you don't need to log in to your Salesforce account to authorize Amazon AppFlow to access your records.
+        public var oAuth2GrantType: AppflowClientTypes.OAuth2GrantType?
         /// The OAuth requirement needed to request security tokens from the connector endpoint.
         public var oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest?
         /// The credentials used to acquire new access tokens.
@@ -11489,12 +11665,16 @@ extension AppflowClientTypes {
         public init (
             accessToken: Swift.String? = nil,
             clientCredentialsArn: Swift.String? = nil,
+            jwtToken: Swift.String? = nil,
+            oAuth2GrantType: AppflowClientTypes.OAuth2GrantType? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
         )
         {
             self.accessToken = accessToken
             self.clientCredentialsArn = clientCredentialsArn
+            self.jwtToken = jwtToken
+            self.oAuth2GrantType = oAuth2GrantType
             self.oAuthRequest = oAuthRequest
             self.refreshToken = refreshToken
         }
@@ -11702,6 +11882,7 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataTransferApis
         case oAuthScopes
+        case oauth2GrantTypesSupported
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11716,6 +11897,12 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
             for oauthscope0 in oAuthScopes {
                 try oAuthScopesContainer.encode(oauthscope0)
+            }
+        }
+        if let oauth2GrantTypesSupported = oauth2GrantTypesSupported {
+            var oauth2GrantTypesSupportedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oauth2GrantTypesSupported)
+            for oauth2granttype0 in oauth2GrantTypesSupported {
+                try oauth2GrantTypesSupportedContainer.encode(oauth2granttype0.rawValue)
             }
         }
     }
@@ -11744,6 +11931,17 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
             }
         }
         dataTransferApis = dataTransferApisDecoded0
+        let oauth2GrantTypesSupportedContainer = try containerValues.decodeIfPresent([AppflowClientTypes.OAuth2GrantType?].self, forKey: .oauth2GrantTypesSupported)
+        var oauth2GrantTypesSupportedDecoded0:[AppflowClientTypes.OAuth2GrantType]? = nil
+        if let oauth2GrantTypesSupportedContainer = oauth2GrantTypesSupportedContainer {
+            oauth2GrantTypesSupportedDecoded0 = [AppflowClientTypes.OAuth2GrantType]()
+            for enum0 in oauth2GrantTypesSupportedContainer {
+                if let enum0 = enum0 {
+                    oauth2GrantTypesSupportedDecoded0?.append(enum0)
+                }
+            }
+        }
+        oauth2GrantTypesSupported = oauth2GrantTypesSupportedDecoded0
     }
 }
 
@@ -11754,14 +11952,18 @@ extension AppflowClientTypes {
         public var dataTransferApis: [AppflowClientTypes.SalesforceDataTransferApi]?
         /// The desired authorization scope for the Salesforce account.
         public var oAuthScopes: [Swift.String]?
+        /// The OAuth 2.0 grant types that Amazon AppFlow can use when it requests an access token from Salesforce. Amazon AppFlow requires an access token each time it attempts to access your Salesforce records. AUTHORIZATION_CODE Amazon AppFlow passes an authorization code when it requests the access token from Salesforce. Amazon AppFlow receives the authorization code from Salesforce after you log in to your Salesforce account and authorize Amazon AppFlow to access your records. CLIENT_CREDENTIALS Amazon AppFlow passes client credentials (a client ID and client secret) when it requests the access token from Salesforce. You provide these credentials to Amazon AppFlow when you define the connection to your Salesforce account. JWT_BEARER Amazon AppFlow passes a JSON web token (JWT) when it requests the access token from Salesforce. You provide the JWT to Amazon AppFlow when you define the connection to your Salesforce account. When you use this grant type, you don't need to log in to your Salesforce account to authorize Amazon AppFlow to access your records.
+        public var oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]?
 
         public init (
             dataTransferApis: [AppflowClientTypes.SalesforceDataTransferApi]? = nil,
-            oAuthScopes: [Swift.String]? = nil
+            oAuthScopes: [Swift.String]? = nil,
+            oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]? = nil
         )
         {
             self.dataTransferApis = dataTransferApis
             self.oAuthScopes = oAuthScopes
+            self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
         }
     }
 

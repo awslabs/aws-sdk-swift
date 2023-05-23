@@ -1035,6 +1035,95 @@ extension AssociateMemberOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension Inspector2ClientTypes.AtigData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firstSeen
+        case lastSeen
+        case targets
+        case ttps
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let firstSeen = self.firstSeen {
+            try encodeContainer.encodeTimestamp(firstSeen, format: .epochSeconds, forKey: .firstSeen)
+        }
+        if let lastSeen = self.lastSeen {
+            try encodeContainer.encodeTimestamp(lastSeen, format: .epochSeconds, forKey: .lastSeen)
+        }
+        if let targets = targets {
+            var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
+            }
+        }
+        if let ttps = ttps {
+            var ttpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ttps)
+            for ttp0 in ttps {
+                try ttpsContainer.encode(ttp0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let firstSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .firstSeen)
+        firstSeen = firstSeenDecoded
+        let lastSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSeen)
+        lastSeen = lastSeenDecoded
+        let targetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targets)
+        var targetsDecoded0:[Swift.String]? = nil
+        if let targetsContainer = targetsContainer {
+            targetsDecoded0 = [Swift.String]()
+            for string0 in targetsContainer {
+                if let string0 = string0 {
+                    targetsDecoded0?.append(string0)
+                }
+            }
+        }
+        targets = targetsDecoded0
+        let ttpsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ttps)
+        var ttpsDecoded0:[Swift.String]? = nil
+        if let ttpsContainer = ttpsContainer {
+            ttpsDecoded0 = [Swift.String]()
+            for string0 in ttpsContainer {
+                if let string0 = string0 {
+                    ttpsDecoded0?.append(string0)
+                }
+            }
+        }
+        ttps = ttpsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Amazon Web Services Threat Intel Group (ATIG) details for a specific vulnerability.
+    public struct AtigData: Swift.Equatable {
+        /// The date and time this vulnerability was first observed.
+        public var firstSeen: ClientRuntime.Date?
+        /// The date and time this vulnerability was last observed.
+        public var lastSeen: ClientRuntime.Date?
+        /// The commercial sectors this vulnerability targets.
+        public var targets: [Swift.String]?
+        /// The [MITRE ATT&CK](https://attack.mitre.org/) tactics, techniques, and procedures (TTPs) associated with vulnerability.
+        public var ttps: [Swift.String]?
+
+        public init (
+            firstSeen: ClientRuntime.Date? = nil,
+            lastSeen: ClientRuntime.Date? = nil,
+            targets: [Swift.String]? = nil,
+            ttps: [Swift.String]? = nil
+        )
+        {
+            self.firstSeen = firstSeen
+            self.lastSeen = lastSeen
+            self.targets = targets
+            self.ttps = ttps
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ec2
@@ -1075,7 +1164,7 @@ extension Inspector2ClientTypes {
         /// Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization.
         /// This member is required.
         public var ecr: Swift.Bool?
-        /// Represents whether AWS Lambda scans are automatically enabled for new members of your Amazon Inspector organization.
+        /// Represents whether AWS Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization.
         public var lambda: Swift.Bool?
 
         public init (
@@ -2181,6 +2270,317 @@ extension BatchGetFreeTrialInfoOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension BatchGetMemberEc2DeepInspectionStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+    }
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionstatus/member/batch/get"
+    }
+}
+
+public struct BatchGetMemberEc2DeepInspectionStatusInput: Swift.Equatable {
+    /// The unique identifiers for the Amazon Web Services accounts to retrieve Amazon Inspector deep inspection activation status for.
+    public var accountIds: [Swift.String]?
+
+    public init (
+        accountIds: [Swift.String]? = nil
+    )
+    {
+        self.accountIds = accountIds
+    }
+}
+
+struct BatchGetMemberEc2DeepInspectionStatusInputBody: Swift.Equatable {
+    let accountIds: [Swift.String]?
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchGetMemberEc2DeepInspectionStatusOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: BatchGetMemberEc2DeepInspectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountIds = output.accountIds
+            self.failedAccountIds = output.failedAccountIds
+        } else {
+            self.accountIds = nil
+            self.failedAccountIds = nil
+        }
+    }
+}
+
+public struct BatchGetMemberEc2DeepInspectionStatusOutputResponse: Swift.Equatable {
+    /// An array of objects that provide details on the activation status of Amazon Inspector deep inspection for each of the requested accounts.
+    public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    /// An array of objects that provide details on any accounts that failed to activate Amazon Inspector deep inspection and why.
+    public var failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+
+    public init (
+        accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil,
+        failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.failedAccountIds = failedAccountIds
+    }
+}
+
+struct BatchGetMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Equatable {
+    let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    let failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case failedAccountIds
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in accountIdsContainer {
+                if let structure0 = structure0 {
+                    accountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let failedAccountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState?].self, forKey: .failedAccountIds)
+        var failedAccountIdsDecoded0:[Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+        if let failedAccountIdsContainer = failedAccountIdsContainer {
+            failedAccountIdsDecoded0 = [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in failedAccountIdsContainer {
+                if let structure0 = structure0 {
+                    failedAccountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedAccountIds = failedAccountIdsDecoded0
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for memberaccountec2deepinspectionstatus0 in accountIds {
+                try accountIdsContainer.encode(memberaccountec2deepinspectionstatus0)
+            }
+        }
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionstatus/member/batch/update"
+    }
+}
+
+public struct BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Equatable {
+    /// The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for.
+    /// This member is required.
+    public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]?
+
+    public init (
+        accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]? = nil
+    )
+    {
+        self.accountIds = accountIds
+    }
+}
+
+struct BatchUpdateMemberEc2DeepInspectionStatusInputBody: Swift.Equatable {
+    let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]?
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]()
+            for structure0 in accountIdsContainer {
+                if let structure0 = structure0 {
+                    accountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchUpdateMemberEc2DeepInspectionStatusOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: BatchUpdateMemberEc2DeepInspectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountIds = output.accountIds
+            self.failedAccountIds = output.failedAccountIds
+        } else {
+            self.accountIds = nil
+            self.failedAccountIds = nil
+        }
+    }
+}
+
+public struct BatchUpdateMemberEc2DeepInspectionStatusOutputResponse: Swift.Equatable {
+    /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status was successfully changed for.
+    public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status could not be successfully changed for.
+    public var failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+
+    public init (
+        accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil,
+        failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.failedAccountIds = failedAccountIds
+    }
+}
+
+struct BatchUpdateMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Equatable {
+    let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    let failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case failedAccountIds
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in accountIdsContainer {
+                if let structure0 = structure0 {
+                    accountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let failedAccountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState?].self, forKey: .failedAccountIds)
+        var failedAccountIdsDecoded0:[Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+        if let failedAccountIdsContainer = failedAccountIdsContainer {
+            failedAccountIdsDecoded0 = [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in failedAccountIdsContainer {
+                if let structure0 = structure0 {
+                    failedAccountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedAccountIds = failedAccountIdsDecoded0
+    }
+}
+
 extension CancelFindingsReportInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportId
@@ -2298,6 +2698,61 @@ extension CancelFindingsReportOutputResponseBody: Swift.Decodable {
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
     }
+}
+
+extension Inspector2ClientTypes.CisaData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case dateAdded
+        case dateDue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let dateAdded = self.dateAdded {
+            try encodeContainer.encodeTimestamp(dateAdded, format: .epochSeconds, forKey: .dateAdded)
+        }
+        if let dateDue = self.dateDue {
+            try encodeContainer.encodeTimestamp(dateDue, format: .epochSeconds, forKey: .dateDue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dateAddedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateAdded)
+        dateAdded = dateAddedDecoded
+        let dateDueDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateDue)
+        dateDue = dateDueDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a specific vulnerability.
+    public struct CisaData: Swift.Equatable {
+        /// The remediation action recommended by CISA for this vulnerability.
+        public var action: Swift.String?
+        /// The date and time CISA added this vulnerability to their catalogue.
+        public var dateAdded: ClientRuntime.Date?
+        /// The date and time CISA expects a fix to have been provided vulnerability.
+        public var dateDue: ClientRuntime.Date?
+
+        public init (
+            action: Swift.String? = nil,
+            dateAdded: ClientRuntime.Date? = nil,
+            dateDue: ClientRuntime.Date? = nil
+        )
+        {
+            self.action = action
+            self.dateAdded = dateAdded
+            self.dateDue = dateDue
+        }
+    }
+
 }
 
 extension ConflictException {
@@ -3367,6 +3822,96 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes.Cvss2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseScore
+        case scoringVector
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if baseScore != 0.0 {
+            try encodeContainer.encode(baseScore, forKey: .baseScore)
+        }
+        if let scoringVector = self.scoringVector {
+            try encodeContainer.encode(scoringVector, forKey: .scoringVector)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore) ?? 0.0
+        baseScore = baseScoreDecoded
+        let scoringVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoringVector)
+        scoringVector = scoringVectorDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Common Vulnerability Scoring System (CVSS) version 2 details for the vulnerability.
+    public struct Cvss2: Swift.Equatable {
+        /// The CVSS v2 base score for the vulnerability.
+        public var baseScore: Swift.Double
+        /// The scoring vector associated with the CVSS v2 score.
+        public var scoringVector: Swift.String?
+
+        public init (
+            baseScore: Swift.Double = 0.0,
+            scoringVector: Swift.String? = nil
+        )
+        {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.Cvss3: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseScore
+        case scoringVector
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if baseScore != 0.0 {
+            try encodeContainer.encode(baseScore, forKey: .baseScore)
+        }
+        if let scoringVector = self.scoringVector {
+            try encodeContainer.encode(scoringVector, forKey: .scoringVector)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore) ?? 0.0
+        baseScore = baseScoreDecoded
+        let scoringVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoringVector)
+        scoringVector = scoringVectorDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Common Vulnerability Scoring System (CVSS) version 3 details for the vulnerability.
+    public struct Cvss3: Swift.Equatable {
+        /// The CVSS v3 base score for the vulnerability.
+        public var baseScore: Swift.Double
+        /// The scoring vector associated with the CVSS v3 score.
+        public var scoringVector: Swift.String?
+
+        public init (
+            baseScore: Swift.Double = 0.0,
+            scoringVector: Swift.String? = nil
+        )
+        {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.CvssScore: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseScore
@@ -4005,7 +4550,7 @@ extension Inspector2ClientTypes {
         /// The name of the Amazon S3 bucket to export findings to.
         /// This member is required.
         public var bucketName: Swift.String?
-        /// The prefix of the KMS key used to export findings.
+        /// The prefix of the Amazon S3 bucket used to export findings.
         public var keyPrefix: Swift.String?
         /// The ARN of the KMS key used to encrypt data when exporting findings.
         /// This member is required.
@@ -4442,6 +4987,44 @@ extension DisassociateMemberOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum Ec2DeepInspectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activated
+        case deactivated
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2DeepInspectionStatus] {
+            return [
+                .activated,
+                .deactivated,
+                .failed,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .deactivated: return "DEACTIVATED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Ec2DeepInspectionStatus(rawValue: rawValue) ?? Ec2DeepInspectionStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5477,6 +6060,41 @@ extension EnableOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension Inspector2ClientTypes.Epss: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case score
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if score != 0.0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score) ?? 0.0
+        score = scoreDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details about the Exploit Prediction Scoring System (EPSS) score.
+    public struct Epss: Swift.Equatable {
+        /// The Exploit Prediction Scoring System (EPSS) score.
+        public var score: Swift.Double
+
+        public init (
+            score: Swift.Double = 0.0
+        )
+        {
+            self.score = score
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes {
     public enum ErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
@@ -5575,6 +6193,51 @@ extension Inspector2ClientTypes {
             self = ExploitAvailable(rawValue: rawValue) ?? ExploitAvailable.sdkUnknown(rawValue)
         }
     }
+}
+
+extension Inspector2ClientTypes.ExploitObserved: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firstSeen
+        case lastSeen
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let firstSeen = self.firstSeen {
+            try encodeContainer.encodeTimestamp(firstSeen, format: .epochSeconds, forKey: .firstSeen)
+        }
+        if let lastSeen = self.lastSeen {
+            try encodeContainer.encodeTimestamp(lastSeen, format: .epochSeconds, forKey: .lastSeen)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSeen)
+        lastSeen = lastSeenDecoded
+        let firstSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .firstSeen)
+        firstSeen = firstSeenDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information on when this exploit was observed.
+    public struct ExploitObserved: Swift.Equatable {
+        /// The date an time when the exploit was first seen.
+        public var firstSeen: ClientRuntime.Date?
+        /// The date an time when the exploit was last seen.
+        public var lastSeen: ClientRuntime.Date?
+
+        public init (
+            firstSeen: ClientRuntime.Date? = nil,
+            lastSeen: ClientRuntime.Date? = nil
+        )
+        {
+            self.firstSeen = firstSeen
+            self.lastSeen = lastSeen
+        }
+    }
+
 }
 
 extension Inspector2ClientTypes.ExploitabilityDetails: Swift.Codable {
@@ -5723,6 +6386,62 @@ extension Inspector2ClientTypes {
             self.errorMessage = errorMessage
             self.resourceStatus = resourceStatus
             self.status = status
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case ec2ScanStatus
+        case errorMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let ec2ScanStatus = self.ec2ScanStatus {
+            try encodeContainer.encode(ec2ScanStatus.rawValue, forKey: .ec2ScanStatus)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let ec2ScanStatusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .ec2ScanStatus)
+        ec2ScanStatus = ec2ScanStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// An object that contains details about a member account in your organization that failed to activate Amazon Inspector deep inspection.
+    public struct FailedMemberAccountEc2DeepInspectionStatusState: Swift.Equatable {
+        /// The unique identifier for the Amazon Web Services account of the organization member that failed to activate Amazon Inspector deep inspection.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The status of EC2 scanning in the account that failed to activate Amazon Inspector deep inspection.
+        public var ec2ScanStatus: Inspector2ClientTypes.Status?
+        /// The error message explaining why the account failed to activate Amazon Inspector deep inspection.
+        public var errorMessage: Swift.String?
+
+        public init (
+            accountId: Swift.String? = nil,
+            ec2ScanStatus: Inspector2ClientTypes.Status? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.ec2ScanStatus = ec2ScanStatus
+            self.errorMessage = errorMessage
         }
     }
 
@@ -7707,6 +8426,142 @@ extension GetDelegatedAdminAccountOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.DelegatedAdmin.self, forKey: .delegatedAdmin)
         delegatedAdmin = delegatedAdminDecoded
+    }
+}
+
+extension GetEc2DeepInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionconfiguration/get"
+    }
+}
+
+public struct GetEc2DeepInspectionConfigurationInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetEc2DeepInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetEc2DeepInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetEc2DeepInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetEc2DeepInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetEc2DeepInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errorMessage = output.errorMessage
+            self.orgPackagePaths = output.orgPackagePaths
+            self.packagePaths = output.packagePaths
+            self.status = output.status
+        } else {
+            self.errorMessage = nil
+            self.orgPackagePaths = nil
+            self.packagePaths = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetEc2DeepInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// An error message explaining why Amazon Inspector deep inspection configurations could not be retrieved for your account.
+    public var errorMessage: Swift.String?
+    /// The Amazon Inspector deep inspection custom paths for your organization.
+    public var orgPackagePaths: [Swift.String]?
+    /// The Amazon Inspector deep inspection custom paths for your account.
+    public var packagePaths: [Swift.String]?
+    /// The activation status of Amazon Inspector deep inspection in your account.
+    public var status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+
+    public init (
+        errorMessage: Swift.String? = nil,
+        orgPackagePaths: [Swift.String]? = nil,
+        packagePaths: [Swift.String]? = nil,
+        status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
+    )
+    {
+        self.errorMessage = errorMessage
+        self.orgPackagePaths = orgPackagePaths
+        self.packagePaths = packagePaths
+        self.status = status
+    }
+}
+
+struct GetEc2DeepInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let packagePaths: [Swift.String]?
+    let orgPackagePaths: [Swift.String]?
+    let status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+    let errorMessage: Swift.String?
+}
+
+extension GetEc2DeepInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case orgPackagePaths
+        case packagePaths
+        case status
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .packagePaths)
+        var packagePathsDecoded0:[Swift.String]? = nil
+        if let packagePathsContainer = packagePathsContainer {
+            packagePathsDecoded0 = [Swift.String]()
+            for string0 in packagePathsContainer {
+                if let string0 = string0 {
+                    packagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        packagePaths = packagePathsDecoded0
+        let orgPackagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .orgPackagePaths)
+        var orgPackagePathsDecoded0:[Swift.String]? = nil
+        if let orgPackagePathsContainer = orgPackagePathsContainer {
+            orgPackagePathsDecoded0 = [Swift.String]()
+            for string0 in orgPackagePathsContainer {
+                if let string0 = string0 {
+                    orgPackagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        orgPackagePaths = orgPackagePathsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2DeepInspectionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
     }
 }
 
@@ -10796,6 +11651,109 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case activateDeepInspection
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let activateDeepInspection = self.activateDeepInspection {
+            try encodeContainer.encode(activateDeepInspection, forKey: .activateDeepInspection)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let activateDeepInspectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activateDeepInspection)
+        activateDeepInspection = activateDeepInspectionDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// An object that contains details about the status of Amazon Inspector deep inspection for a member account in your organization.
+    public struct MemberAccountEc2DeepInspectionStatus: Swift.Equatable {
+        /// The unique identifier for the Amazon Web Services account of the organization member.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// Whether Amazon Inspector deep inspection is active in the account. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active.
+        /// This member is required.
+        public var activateDeepInspection: Swift.Bool?
+
+        public init (
+            accountId: Swift.String? = nil,
+            activateDeepInspection: Swift.Bool? = nil
+        )
+        {
+            self.accountId = accountId
+            self.activateDeepInspection = activateDeepInspection
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case errorMessage
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2DeepInspectionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// An object that contains details about the state of Amazon Inspector deep inspection for a member account.
+    public struct MemberAccountEc2DeepInspectionStatusState: Swift.Equatable {
+        /// The unique identifier for the Amazon Web Services account of the organization member
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The error message explaining why the account failed to activate Amazon Inspector deep inspection.
+        public var errorMessage: Swift.String?
+        /// The state of Amazon Inspector deep inspection in the member account.
+        public var status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+
+        public init (
+            accountId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.errorMessage = errorMessage
+            self.status = status
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.NetworkPath: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case steps
@@ -11239,6 +12197,7 @@ extension Inspector2ClientTypes {
         case bundler
         case cargo
         case composer
+        case gemspec
         case gobinary
         case gomod
         case jar
@@ -11259,6 +12218,7 @@ extension Inspector2ClientTypes {
                 .bundler,
                 .cargo,
                 .composer,
+                .gemspec,
                 .gobinary,
                 .gomod,
                 .jar,
@@ -11284,6 +12244,7 @@ extension Inspector2ClientTypes {
             case .bundler: return "BUNDLER"
             case .cargo: return "CARGO"
             case .composer: return "COMPOSER"
+            case .gemspec: return "GEMSPEC"
             case .gobinary: return "GOBINARY"
             case .gomod: return "GOMOD"
             case .jar: return "JAR"
@@ -12481,7 +13442,7 @@ extension Inspector2ClientTypes {
         /// The status of Amazon Inspector scanning for Amazon ECR resources.
         /// This member is required.
         public var ecr: Inspector2ClientTypes.Status?
-        /// The status of Amazon Inspector scanning for AWS Lambda function resources.
+        /// The status of Amazon Inspector scanning for AWS Lambda function.
         public var lambda: Inspector2ClientTypes.Status?
 
         public init (
@@ -12683,6 +13644,10 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
     public enum ScanStatusReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
+        case deepInspectionCollectionTimeLimitExceeded
+        case deepInspectionDailySsmInventoryLimitExceeded
+        case deepInspectionNoInventory
+        case deepInspectionPackageCollectionLimitExceeded
         case ec2InstanceStopped
         case excludedByTag
         case imageSizeExceeded
@@ -12698,6 +13663,8 @@ extension Inspector2ClientTypes {
         case staleInventory
         case successful
         case unmanagedEc2Instance
+        case unsupportedConfigFile
+        case unsupportedMediaType
         case unsupportedOs
         case unsupportedRuntime
         case sdkUnknown(Swift.String)
@@ -12705,6 +13672,10 @@ extension Inspector2ClientTypes {
         public static var allCases: [ScanStatusReason] {
             return [
                 .accessDenied,
+                .deepInspectionCollectionTimeLimitExceeded,
+                .deepInspectionDailySsmInventoryLimitExceeded,
+                .deepInspectionNoInventory,
+                .deepInspectionPackageCollectionLimitExceeded,
                 .ec2InstanceStopped,
                 .excludedByTag,
                 .imageSizeExceeded,
@@ -12720,6 +13691,8 @@ extension Inspector2ClientTypes {
                 .staleInventory,
                 .successful,
                 .unmanagedEc2Instance,
+                .unsupportedConfigFile,
+                .unsupportedMediaType,
                 .unsupportedOs,
                 .unsupportedRuntime,
                 .sdkUnknown("")
@@ -12732,6 +13705,10 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
+            case .deepInspectionCollectionTimeLimitExceeded: return "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
+            case .deepInspectionDailySsmInventoryLimitExceeded: return "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED"
+            case .deepInspectionNoInventory: return "DEEP_INSPECTION_NO_INVENTORY"
+            case .deepInspectionPackageCollectionLimitExceeded: return "DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED"
             case .ec2InstanceStopped: return "EC2_INSTANCE_STOPPED"
             case .excludedByTag: return "EXCLUDED_BY_TAG"
             case .imageSizeExceeded: return "IMAGE_SIZE_EXCEEDED"
@@ -12747,6 +13724,8 @@ extension Inspector2ClientTypes {
             case .staleInventory: return "STALE_INVENTORY"
             case .successful: return "SUCCESSFUL"
             case .unmanagedEc2Instance: return "UNMANAGED_EC2_INSTANCE"
+            case .unsupportedConfigFile: return "UNSUPPORTED_CONFIG_FILE"
+            case .unsupportedMediaType: return "UNSUPPORTED_MEDIA_TYPE"
             case .unsupportedOs: return "UNSUPPORTED_OS"
             case .unsupportedRuntime: return "UNSUPPORTED_RUNTIME"
             case let .sdkUnknown(s): return s
@@ -12789,6 +13768,202 @@ extension Inspector2ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = ScanType(rawValue: rawValue) ?? ScanType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vulnerabilityIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vulnerabilityIds = vulnerabilityIds {
+            var vulnerabilityIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilityIds)
+            for vulnid0 in vulnerabilityIds {
+                try vulnerabilityIdsContainer.encode(vulnid0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vulnerabilityIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vulnerabilityIds)
+        var vulnerabilityIdsDecoded0:[Swift.String]? = nil
+        if let vulnerabilityIdsContainer = vulnerabilityIdsContainer {
+            vulnerabilityIdsDecoded0 = [Swift.String]()
+            for string0 in vulnerabilityIdsContainer {
+                if let string0 = string0 {
+                    vulnerabilityIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        vulnerabilityIds = vulnerabilityIdsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details on the criteria used to define the filter for a vulnerability search.
+    public struct SearchVulnerabilitiesFilterCriteria: Swift.Equatable {
+        /// The IDs for specific vulnerabilities.
+        /// This member is required.
+        public var vulnerabilityIds: [Swift.String]?
+
+        public init (
+            vulnerabilityIds: [Swift.String]? = nil
+        )
+        {
+            self.vulnerabilityIds = vulnerabilityIds
+        }
+    }
+
+}
+
+extension SearchVulnerabilitiesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension SearchVulnerabilitiesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/vulnerabilities/search"
+    }
+}
+
+public struct SearchVulnerabilitiesInput: Swift.Equatable {
+    /// The criteria used to filter the results of a vulnerability search.
+    /// This member is required.
+    public var filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init (
+        filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filterCriteria = filterCriteria
+        self.nextToken = nextToken
+    }
+}
+
+struct SearchVulnerabilitiesInputBody: Swift.Equatable {
+    let filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?
+    let nextToken: Swift.String?
+}
+
+extension SearchVulnerabilitiesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension SearchVulnerabilitiesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension SearchVulnerabilitiesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum SearchVulnerabilitiesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SearchVulnerabilitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: SearchVulnerabilitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.vulnerabilities = output.vulnerabilities
+        } else {
+            self.nextToken = nil
+            self.vulnerabilities = nil
+        }
+    }
+}
+
+public struct SearchVulnerabilitiesOutputResponse: Swift.Equatable {
+    /// The pagination parameter to be used on the next list operation to retrieve more items.
+    public var nextToken: Swift.String?
+    /// Details about the listed vulnerability.
+    /// This member is required.
+    public var vulnerabilities: [Inspector2ClientTypes.Vulnerability]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        vulnerabilities: [Inspector2ClientTypes.Vulnerability]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.vulnerabilities = vulnerabilities
+    }
+}
+
+struct SearchVulnerabilitiesOutputResponseBody: Swift.Equatable {
+    let vulnerabilities: [Inspector2ClientTypes.Vulnerability]?
+    let nextToken: Swift.String?
+}
+
+extension SearchVulnerabilitiesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case vulnerabilities
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vulnerabilitiesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Vulnerability?].self, forKey: .vulnerabilities)
+        var vulnerabilitiesDecoded0:[Inspector2ClientTypes.Vulnerability]? = nil
+        if let vulnerabilitiesContainer = vulnerabilitiesContainer {
+            vulnerabilitiesDecoded0 = [Inspector2ClientTypes.Vulnerability]()
+            for structure0 in vulnerabilitiesContainer {
+                if let structure0 = structure0 {
+                    vulnerabilitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        vulnerabilities = vulnerabilitiesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -13929,6 +15104,193 @@ public struct UpdateConfigurationOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateEc2DeepInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activateDeepInspection
+        case packagePaths
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activateDeepInspection = self.activateDeepInspection {
+            try encodeContainer.encode(activateDeepInspection, forKey: .activateDeepInspection)
+        }
+        if let packagePaths = packagePaths {
+            var packagePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .packagePaths)
+            for path0 in packagePaths {
+                try packagePathsContainer.encode(path0)
+            }
+        }
+    }
+}
+
+extension UpdateEc2DeepInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionconfiguration/update"
+    }
+}
+
+public struct UpdateEc2DeepInspectionConfigurationInput: Swift.Equatable {
+    /// Specify TRUE to activate Amazon Inspector deep inspection in your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate deep inspection, instead the delegated administrator for the organization can deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
+    public var activateDeepInspection: Swift.Bool?
+    /// The Amazon Inspector deep inspection custom paths you are adding for your account.
+    public var packagePaths: [Swift.String]?
+
+    public init (
+        activateDeepInspection: Swift.Bool? = nil,
+        packagePaths: [Swift.String]? = nil
+    )
+    {
+        self.activateDeepInspection = activateDeepInspection
+        self.packagePaths = packagePaths
+    }
+}
+
+struct UpdateEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+    let activateDeepInspection: Swift.Bool?
+    let packagePaths: [Swift.String]?
+}
+
+extension UpdateEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activateDeepInspection
+        case packagePaths
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activateDeepInspectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activateDeepInspection)
+        activateDeepInspection = activateDeepInspectionDecoded
+        let packagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .packagePaths)
+        var packagePathsDecoded0:[Swift.String]? = nil
+        if let packagePathsContainer = packagePathsContainer {
+            packagePathsDecoded0 = [Swift.String]()
+            for string0 in packagePathsContainer {
+                if let string0 = string0 {
+                    packagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        packagePaths = packagePathsDecoded0
+    }
+}
+
+extension UpdateEc2DeepInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateEc2DeepInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateEc2DeepInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateEc2DeepInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateEc2DeepInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errorMessage = output.errorMessage
+            self.orgPackagePaths = output.orgPackagePaths
+            self.packagePaths = output.packagePaths
+            self.status = output.status
+        } else {
+            self.errorMessage = nil
+            self.orgPackagePaths = nil
+            self.packagePaths = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct UpdateEc2DeepInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// An error message explaining why new Amazon Inspector deep inspection custom paths could not be added.
+    public var errorMessage: Swift.String?
+    /// The current Amazon Inspector deep inspection custom paths for the organization.
+    public var orgPackagePaths: [Swift.String]?
+    /// The current Amazon Inspector deep inspection custom paths for your account.
+    public var packagePaths: [Swift.String]?
+    /// The status of Amazon Inspector deep inspection in your account.
+    public var status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+
+    public init (
+        errorMessage: Swift.String? = nil,
+        orgPackagePaths: [Swift.String]? = nil,
+        packagePaths: [Swift.String]? = nil,
+        status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
+    )
+    {
+        self.errorMessage = errorMessage
+        self.orgPackagePaths = orgPackagePaths
+        self.packagePaths = packagePaths
+        self.status = status
+    }
+}
+
+struct UpdateEc2DeepInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let packagePaths: [Swift.String]?
+    let orgPackagePaths: [Swift.String]?
+    let status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+    let errorMessage: Swift.String?
+}
+
+extension UpdateEc2DeepInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case orgPackagePaths
+        case packagePaths
+        case status
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .packagePaths)
+        var packagePathsDecoded0:[Swift.String]? = nil
+        if let packagePathsContainer = packagePathsContainer {
+            packagePathsDecoded0 = [Swift.String]()
+            for string0 in packagePathsContainer {
+                if let string0 = string0 {
+                    packagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        packagePaths = packagePathsDecoded0
+        let orgPackagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .orgPackagePaths)
+        var orgPackagePathsDecoded0:[Swift.String]? = nil
+        if let orgPackagePathsContainer = orgPackagePathsContainer {
+            orgPackagePathsDecoded0 = [Swift.String]()
+            for string0 in orgPackagePathsContainer {
+                if let string0 = string0 {
+                    orgPackagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        orgPackagePaths = orgPackagePathsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2DeepInspectionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
 extension UpdateFilterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action
@@ -14106,6 +15468,104 @@ extension UpdateFilterOutputResponseBody: Swift.Decodable {
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case orgPackagePaths
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let orgPackagePaths = orgPackagePaths {
+            var orgPackagePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orgPackagePaths)
+            for path0 in orgPackagePaths {
+                try orgPackagePathsContainer.encode(path0)
+            }
+        }
+    }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionconfiguration/org/update"
+    }
+}
+
+public struct UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Equatable {
+    /// The Amazon Inspector deep inspection custom paths you are adding for your organization.
+    /// This member is required.
+    public var orgPackagePaths: [Swift.String]?
+
+    public init (
+        orgPackagePaths: [Swift.String]? = nil
+    )
+    {
+        self.orgPackagePaths = orgPackagePaths
+    }
+}
+
+struct UpdateOrgEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+    let orgPackagePaths: [Swift.String]?
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case orgPackagePaths
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orgPackagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .orgPackagePaths)
+        var orgPackagePathsDecoded0:[Swift.String]? = nil
+        if let orgPackagePathsContainer = orgPackagePathsContainer {
+            orgPackagePathsDecoded0 = [Swift.String]()
+            for string0 in orgPackagePathsContainer {
+                if let string0 = string0 {
+                    orgPackagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        orgPackagePaths = orgPackagePathsDecoded0
+    }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateOrgEc2DeepInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateOrgEc2DeepInspectionConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension UpdateOrganizationConfigurationInput: Swift.Encodable {
@@ -14545,6 +16005,279 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.Vulnerability: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case atigData
+        case cisaData
+        case cvss2
+        case cvss3
+        case cwes
+        case description
+        case detectionPlatforms
+        case epss
+        case exploitObserved
+        case id
+        case referenceUrls
+        case relatedVulnerabilities
+        case source
+        case sourceUrl
+        case vendorCreatedAt
+        case vendorSeverity
+        case vendorUpdatedAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let atigData = self.atigData {
+            try encodeContainer.encode(atigData, forKey: .atigData)
+        }
+        if let cisaData = self.cisaData {
+            try encodeContainer.encode(cisaData, forKey: .cisaData)
+        }
+        if let cvss2 = self.cvss2 {
+            try encodeContainer.encode(cvss2, forKey: .cvss2)
+        }
+        if let cvss3 = self.cvss3 {
+            try encodeContainer.encode(cvss3, forKey: .cvss3)
+        }
+        if let cwes = cwes {
+            var cwesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cwes)
+            for cwe0 in cwes {
+                try cwesContainer.encode(cwe0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let detectionPlatforms = detectionPlatforms {
+            var detectionPlatformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectionPlatforms)
+            for nonemptystring0 in detectionPlatforms {
+                try detectionPlatformsContainer.encode(nonemptystring0)
+            }
+        }
+        if let epss = self.epss {
+            try encodeContainer.encode(epss, forKey: .epss)
+        }
+        if let exploitObserved = self.exploitObserved {
+            try encodeContainer.encode(exploitObserved, forKey: .exploitObserved)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let referenceUrls = referenceUrls {
+            var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
+            for vulnerabilityreferenceurl0 in referenceUrls {
+                try referenceUrlsContainer.encode(vulnerabilityreferenceurl0)
+            }
+        }
+        if let relatedVulnerabilities = relatedVulnerabilities {
+            var relatedVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedVulnerabilities)
+            for relatedvulnerability0 in relatedVulnerabilities {
+                try relatedVulnerabilitiesContainer.encode(relatedvulnerability0)
+            }
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+        if let sourceUrl = self.sourceUrl {
+            try encodeContainer.encode(sourceUrl, forKey: .sourceUrl)
+        }
+        if let vendorCreatedAt = self.vendorCreatedAt {
+            try encodeContainer.encodeTimestamp(vendorCreatedAt, format: .epochSeconds, forKey: .vendorCreatedAt)
+        }
+        if let vendorSeverity = self.vendorSeverity {
+            try encodeContainer.encode(vendorSeverity, forKey: .vendorSeverity)
+        }
+        if let vendorUpdatedAt = self.vendorUpdatedAt {
+            try encodeContainer.encodeTimestamp(vendorUpdatedAt, format: .epochSeconds, forKey: .vendorUpdatedAt)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let cwesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cwes)
+        var cwesDecoded0:[Swift.String]? = nil
+        if let cwesContainer = cwesContainer {
+            cwesDecoded0 = [Swift.String]()
+            for string0 in cwesContainer {
+                if let string0 = string0 {
+                    cwesDecoded0?.append(string0)
+                }
+            }
+        }
+        cwes = cwesDecoded0
+        let cisaDataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisaData.self, forKey: .cisaData)
+        cisaData = cisaDataDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.VulnerabilitySource.self, forKey: .source)
+        source = sourceDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let atigDataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AtigData.self, forKey: .atigData)
+        atigData = atigDataDecoded
+        let vendorSeverityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorSeverity)
+        vendorSeverity = vendorSeverityDecoded
+        let cvss3Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Cvss3.self, forKey: .cvss3)
+        cvss3 = cvss3Decoded
+        let relatedVulnerabilitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .relatedVulnerabilities)
+        var relatedVulnerabilitiesDecoded0:[Swift.String]? = nil
+        if let relatedVulnerabilitiesContainer = relatedVulnerabilitiesContainer {
+            relatedVulnerabilitiesDecoded0 = [Swift.String]()
+            for string0 in relatedVulnerabilitiesContainer {
+                if let string0 = string0 {
+                    relatedVulnerabilitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        relatedVulnerabilities = relatedVulnerabilitiesDecoded0
+        let cvss2Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Cvss2.self, forKey: .cvss2)
+        cvss2 = cvss2Decoded
+        let vendorCreatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .vendorCreatedAt)
+        vendorCreatedAt = vendorCreatedAtDecoded
+        let vendorUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .vendorUpdatedAt)
+        vendorUpdatedAt = vendorUpdatedAtDecoded
+        let sourceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceUrl)
+        sourceUrl = sourceUrlDecoded
+        let referenceUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .referenceUrls)
+        var referenceUrlsDecoded0:[Swift.String]? = nil
+        if let referenceUrlsContainer = referenceUrlsContainer {
+            referenceUrlsDecoded0 = [Swift.String]()
+            for string0 in referenceUrlsContainer {
+                if let string0 = string0 {
+                    referenceUrlsDecoded0?.append(string0)
+                }
+            }
+        }
+        referenceUrls = referenceUrlsDecoded0
+        let exploitObservedDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExploitObserved.self, forKey: .exploitObserved)
+        exploitObserved = exploitObservedDecoded
+        let detectionPlatformsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .detectionPlatforms)
+        var detectionPlatformsDecoded0:[Swift.String]? = nil
+        if let detectionPlatformsContainer = detectionPlatformsContainer {
+            detectionPlatformsDecoded0 = [Swift.String]()
+            for string0 in detectionPlatformsContainer {
+                if let string0 = string0 {
+                    detectionPlatformsDecoded0?.append(string0)
+                }
+            }
+        }
+        detectionPlatforms = detectionPlatformsDecoded0
+        let epssDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Epss.self, forKey: .epss)
+        epss = epssDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains details about a specific vulnerability Amazon Inspector can detect.
+    public struct Vulnerability: Swift.Equatable {
+        /// An object that contains information about the Amazon Web Services Threat Intel Group (ATIG) details for the vulnerability.
+        public var atigData: Inspector2ClientTypes.AtigData?
+        /// An object that contains the Cybersecurity and Infrastructure Security Agency (CISA) details for the vulnerability.
+        public var cisaData: Inspector2ClientTypes.CisaData?
+        /// An object that contains the Common Vulnerability Scoring System (CVSS) Version 2 details for the vulnerability.
+        public var cvss2: Inspector2ClientTypes.Cvss2?
+        /// An object that contains the Common Vulnerability Scoring System (CVSS) Version 3 details for the vulnerability.
+        public var cvss3: Inspector2ClientTypes.Cvss3?
+        /// The Common Weakness Enumeration (CWE) associated with the vulnerability.
+        public var cwes: [Swift.String]?
+        /// A description of the vulnerability.
+        public var description: Swift.String?
+        /// Platforms that the vulnerability can be detected on.
+        public var detectionPlatforms: [Swift.String]?
+        /// An object that contains the Exploit Prediction Scoring System (EPSS) score.
+        public var epss: Inspector2ClientTypes.Epss?
+        /// An object that contains details on when the exploit was observed.
+        public var exploitObserved: Inspector2ClientTypes.ExploitObserved?
+        /// The ID for the specific vulnerability.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Links to various resources with more information on this vulnerability.
+        public var referenceUrls: [Swift.String]?
+        /// A list of related vulnerabilities.
+        public var relatedVulnerabilities: [Swift.String]?
+        /// The source of the vulnerability information.
+        public var source: Inspector2ClientTypes.VulnerabilitySource?
+        /// A link to the official source material for this vulnerability.
+        public var sourceUrl: Swift.String?
+        /// The date and time when the vendor created this vulnerability.
+        public var vendorCreatedAt: ClientRuntime.Date?
+        /// The severity assigned by the vendor.
+        public var vendorSeverity: Swift.String?
+        /// The date and time when the vendor last updated this vulnerability.
+        public var vendorUpdatedAt: ClientRuntime.Date?
+
+        public init (
+            atigData: Inspector2ClientTypes.AtigData? = nil,
+            cisaData: Inspector2ClientTypes.CisaData? = nil,
+            cvss2: Inspector2ClientTypes.Cvss2? = nil,
+            cvss3: Inspector2ClientTypes.Cvss3? = nil,
+            cwes: [Swift.String]? = nil,
+            description: Swift.String? = nil,
+            detectionPlatforms: [Swift.String]? = nil,
+            epss: Inspector2ClientTypes.Epss? = nil,
+            exploitObserved: Inspector2ClientTypes.ExploitObserved? = nil,
+            id: Swift.String? = nil,
+            referenceUrls: [Swift.String]? = nil,
+            relatedVulnerabilities: [Swift.String]? = nil,
+            source: Inspector2ClientTypes.VulnerabilitySource? = nil,
+            sourceUrl: Swift.String? = nil,
+            vendorCreatedAt: ClientRuntime.Date? = nil,
+            vendorSeverity: Swift.String? = nil,
+            vendorUpdatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.atigData = atigData
+            self.cisaData = cisaData
+            self.cvss2 = cvss2
+            self.cvss3 = cvss3
+            self.cwes = cwes
+            self.description = description
+            self.detectionPlatforms = detectionPlatforms
+            self.epss = epss
+            self.exploitObserved = exploitObserved
+            self.id = id
+            self.referenceUrls = referenceUrls
+            self.relatedVulnerabilities = relatedVulnerabilities
+            self.source = source
+            self.sourceUrl = sourceUrl
+            self.vendorCreatedAt = vendorCreatedAt
+            self.vendorSeverity = vendorSeverity
+            self.vendorUpdatedAt = vendorUpdatedAt
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum VulnerabilitySource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nvd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VulnerabilitySource] {
+            return [
+                .nvd,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nvd: return "NVD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VulnerabilitySource(rawValue: rawValue) ?? VulnerabilitySource.sdkUnknown(rawValue)
         }
     }
 }

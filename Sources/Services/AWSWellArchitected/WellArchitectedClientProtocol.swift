@@ -79,7 +79,7 @@ public protocol WellArchitectedClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Update the answer to a specific question in a workload review.
     func updateAnswer(input: UpdateAnswerInput) async throws -> UpdateAnswerOutputResponse
-    /// Updates whether the Amazon Web Services account is opted into organization sharing features.
+    /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutputResponse
     /// Update lens review for a particular workload.
     func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutputResponse

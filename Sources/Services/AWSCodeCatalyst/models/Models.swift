@@ -1207,6 +1207,86 @@ extension CodeCatalystClientTypes {
 
 }
 
+extension CodeCatalystClientTypes.DevEnvironmentSessionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case devEnvironmentId
+        case id
+        case projectName
+        case spaceName
+        case startedTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let devEnvironmentId = self.devEnvironmentId {
+            try encodeContainer.encode(devEnvironmentId, forKey: .devEnvironmentId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let projectName = self.projectName {
+            try encodeContainer.encode(projectName, forKey: .projectName)
+        }
+        if let spaceName = self.spaceName {
+            try encodeContainer.encode(spaceName, forKey: .spaceName)
+        }
+        if let startedTime = self.startedTime {
+            try encodeContainer.encodeTimestamp(startedTime, format: .dateTime, forKey: .startedTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
+        let devEnvironmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .devEnvironmentId)
+        devEnvironmentId = devEnvironmentIdDecoded
+        let startedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedTime)
+        startedTime = startedTimeDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension CodeCatalystClientTypes {
+    /// Information about active sessions for a Dev Environment.
+    public struct DevEnvironmentSessionSummary: Swift.Equatable {
+        /// The system-generated unique ID of the Dev Environment.
+        /// This member is required.
+        public var devEnvironmentId: Swift.String?
+        /// The system-generated unique ID of the Dev Environment session.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the project in the space.
+        /// This member is required.
+        public var projectName: Swift.String?
+        /// The name of the space.
+        /// This member is required.
+        public var spaceName: Swift.String?
+        /// The date and time the session started, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6)
+        /// This member is required.
+        public var startedTime: ClientRuntime.Date?
+
+        public init (
+            devEnvironmentId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            projectName: Swift.String? = nil,
+            spaceName: Swift.String? = nil,
+            startedTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.devEnvironmentId = devEnvironmentId
+            self.id = id
+            self.projectName = projectName
+            self.spaceName = spaceName
+            self.startedTime = startedTime
+        }
+    }
+
+}
+
 extension CodeCatalystClientTypes {
     public enum DevEnvironmentSessionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ssh
@@ -3025,6 +3105,169 @@ extension ListAccessTokensOutputResponseBody: Swift.Decodable {
         var itemsDecoded0:[CodeCatalystClientTypes.AccessTokenSummary]? = nil
         if let itemsContainer = itemsContainer {
             itemsDecoded0 = [CodeCatalystClientTypes.AccessTokenSummary]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDevEnvironmentSessionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListDevEnvironmentSessionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let projectName = projectName else {
+            return nil
+        }
+        guard let devEnvironmentId = devEnvironmentId else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(devEnvironmentId.urlPercentEncoding())/sessions"
+    }
+}
+
+public struct ListDevEnvironmentSessionsInput: Swift.Equatable {
+    /// The system-generated unique ID of the Dev Environment.
+    /// This member is required.
+    public var devEnvironmentId: Swift.String?
+    /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
+    public var maxResults: Swift.Int?
+    /// A token returned from a call to this API to indicate the next batch of results to return, if any.
+    public var nextToken: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init (
+        devEnvironmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.devEnvironmentId = devEnvironmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct ListDevEnvironmentSessionsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDevEnvironmentSessionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListDevEnvironmentSessionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDevEnvironmentSessionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListDevEnvironmentSessionsOutputError: Swift.Error, Swift.Equatable {
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDevEnvironmentSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListDevEnvironmentSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDevEnvironmentSessionsOutputResponse: Swift.Equatable {
+    /// Information about each session retrieved in the list.
+    /// This member is required.
+    public var items: [CodeCatalystClientTypes.DevEnvironmentSessionSummary]?
+    /// A token returned from a call to this API to indicate the next batch of results to return, if any.
+    public var nextToken: Swift.String?
+
+    public init (
+        items: [CodeCatalystClientTypes.DevEnvironmentSessionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDevEnvironmentSessionsOutputResponseBody: Swift.Equatable {
+    let items: [CodeCatalystClientTypes.DevEnvironmentSessionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListDevEnvironmentSessionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([CodeCatalystClientTypes.DevEnvironmentSessionSummary?].self, forKey: .items)
+        var itemsDecoded0:[CodeCatalystClientTypes.DevEnvironmentSessionSummary]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [CodeCatalystClientTypes.DevEnvironmentSessionSummary]()
             for structure0 in itemsContainer {
                 if let structure0 = structure0 {
                     itemsDecoded0?.append(structure0)

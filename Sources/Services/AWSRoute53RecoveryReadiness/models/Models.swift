@@ -1652,7 +1652,7 @@ extension GetArchitectureRecommendationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1672,7 +1672,7 @@ extension GetArchitectureRecommendationsInput: ClientRuntime.URLPathProvider {
 
 public struct GetArchitectureRecommendationsInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The name of a recovery group.
@@ -1680,7 +1680,7 @@ public struct GetArchitectureRecommendationsInput: Swift.Equatable {
     public var recoveryGroupName: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil
     )
@@ -1975,7 +1975,7 @@ extension GetCellReadinessSummaryInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1998,13 +1998,13 @@ public struct GetCellReadinessSummaryInput: Swift.Equatable {
     /// This member is required.
     public var cellName: Swift.String?
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
         cellName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2270,7 +2270,7 @@ extension GetReadinessCheckResourceStatusInput: ClientRuntime.QueryItemProvider 
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2293,7 +2293,7 @@ extension GetReadinessCheckResourceStatusInput: ClientRuntime.URLPathProvider {
 
 public struct GetReadinessCheckResourceStatusInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// Name of a readiness check.
@@ -2304,7 +2304,7 @@ public struct GetReadinessCheckResourceStatusInput: Swift.Equatable {
     public var resourceIdentifier: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         readinessCheckName: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
@@ -2433,7 +2433,7 @@ extension GetReadinessCheckStatusInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2453,7 +2453,7 @@ extension GetReadinessCheckStatusInput: ClientRuntime.URLPathProvider {
 
 public struct GetReadinessCheckStatusInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// Name of a readiness check.
@@ -2461,7 +2461,7 @@ public struct GetReadinessCheckStatusInput: Swift.Equatable {
     public var readinessCheckName: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         readinessCheckName: Swift.String? = nil
     )
@@ -2756,7 +2756,7 @@ extension GetRecoveryGroupReadinessSummaryInput: ClientRuntime.QueryItemProvider
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2776,7 +2776,7 @@ extension GetRecoveryGroupReadinessSummaryInput: ClientRuntime.URLPathProvider {
 
 public struct GetRecoveryGroupReadinessSummaryInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The name of a recovery group.
@@ -2784,7 +2784,7 @@ public struct GetRecoveryGroupReadinessSummaryInput: Swift.Equatable {
     public var recoveryGroupName: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil
     )
@@ -3121,7 +3121,7 @@ extension ListCellsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -3138,12 +3138,12 @@ extension ListCellsInput: ClientRuntime.URLPathProvider {
 
 public struct ListCellsInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3256,7 +3256,7 @@ extension ListCrossAccountAuthorizationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -3273,12 +3273,12 @@ extension ListCrossAccountAuthorizationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListCrossAccountAuthorizationsInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3391,7 +3391,7 @@ extension ListReadinessChecksInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -3408,12 +3408,12 @@ extension ListReadinessChecksInput: ClientRuntime.URLPathProvider {
 
 public struct ListReadinessChecksInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3526,7 +3526,7 @@ extension ListRecoveryGroupsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -3543,12 +3543,12 @@ extension ListRecoveryGroupsInput: ClientRuntime.URLPathProvider {
 
 public struct ListRecoveryGroupsInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3661,7 +3661,7 @@ extension ListResourceSetsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -3678,12 +3678,12 @@ extension ListResourceSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListResourceSetsInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3796,7 +3796,7 @@ extension ListRulesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -3817,14 +3817,14 @@ extension ListRulesInput: ClientRuntime.URLPathProvider {
 
 public struct ListRulesInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The resource type that a readiness rule applies to.
     public var resourceType: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )

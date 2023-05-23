@@ -5053,6 +5053,7 @@ extension GetSceneOutputResponse: ClientRuntime.HttpResponseBinding {
             self.contentLocation = output.contentLocation
             self.creationDateTime = output.creationDateTime
             self.description = output.description
+            self.error = output.error
             self.generatedSceneMetadata = output.generatedSceneMetadata
             self.sceneId = output.sceneId
             self.sceneMetadata = output.sceneMetadata
@@ -5064,6 +5065,7 @@ extension GetSceneOutputResponse: ClientRuntime.HttpResponseBinding {
             self.contentLocation = nil
             self.creationDateTime = nil
             self.description = nil
+            self.error = nil
             self.generatedSceneMetadata = nil
             self.sceneId = nil
             self.sceneMetadata = nil
@@ -5087,6 +5089,8 @@ public struct GetSceneOutputResponse: Swift.Equatable {
     public var creationDateTime: ClientRuntime.Date?
     /// The description of the scene.
     public var description: Swift.String?
+    /// The SceneResponse error.
+    public var error: IoTTwinMakerClientTypes.SceneError?
     /// The generated scene metadata.
     public var generatedSceneMetadata: [Swift.String:Swift.String]?
     /// The ID of the scene.
@@ -5107,6 +5111,7 @@ public struct GetSceneOutputResponse: Swift.Equatable {
         contentLocation: Swift.String? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        error: IoTTwinMakerClientTypes.SceneError? = nil,
         generatedSceneMetadata: [Swift.String:Swift.String]? = nil,
         sceneId: Swift.String? = nil,
         sceneMetadata: [Swift.String:Swift.String]? = nil,
@@ -5119,6 +5124,7 @@ public struct GetSceneOutputResponse: Swift.Equatable {
         self.contentLocation = contentLocation
         self.creationDateTime = creationDateTime
         self.description = description
+        self.error = error
         self.generatedSceneMetadata = generatedSceneMetadata
         self.sceneId = sceneId
         self.sceneMetadata = sceneMetadata
@@ -5138,6 +5144,7 @@ struct GetSceneOutputResponseBody: Swift.Equatable {
     let capabilities: [Swift.String]?
     let sceneMetadata: [Swift.String:Swift.String]?
     let generatedSceneMetadata: [Swift.String:Swift.String]?
+    let error: IoTTwinMakerClientTypes.SceneError?
 }
 
 extension GetSceneOutputResponseBody: Swift.Decodable {
@@ -5147,6 +5154,7 @@ extension GetSceneOutputResponseBody: Swift.Decodable {
         case contentLocation
         case creationDateTime
         case description
+        case error
         case generatedSceneMetadata
         case sceneId
         case sceneMetadata
@@ -5203,6 +5211,8 @@ extension GetSceneOutputResponseBody: Swift.Decodable {
             }
         }
         generatedSceneMetadata = generatedSceneMetadataDecoded0
+        let errorDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SceneError.self, forKey: .error)
+        error = errorDecoded
     }
 }
 
@@ -8498,6 +8508,80 @@ extension IoTTwinMakerClientTypes {
         }
     }
 
+}
+
+extension IoTTwinMakerClientTypes.SceneError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code.rawValue, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SceneErrorCode.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The scene error.
+    public struct SceneError: Swift.Equatable {
+        /// The SceneError code.
+        public var code: IoTTwinMakerClientTypes.SceneErrorCode?
+        /// The SceneError message.
+        public var message: Swift.String?
+
+        public init (
+            code: IoTTwinMakerClientTypes.SceneErrorCode? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum SceneErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case matterportError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SceneErrorCode] {
+            return [
+                .matterportError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .matterportError: return "MATTERPORT_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SceneErrorCode(rawValue: rawValue) ?? SceneErrorCode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTTwinMakerClientTypes.SceneSummary: Swift.Codable {

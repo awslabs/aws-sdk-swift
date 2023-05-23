@@ -365,9 +365,9 @@ extension MqClientTypes.BrokerInstanceOption: Swift.Codable {
         var supportedDeploymentModesDecoded0:[MqClientTypes.DeploymentMode]? = nil
         if let supportedDeploymentModesContainer = supportedDeploymentModesContainer {
             supportedDeploymentModesDecoded0 = [MqClientTypes.DeploymentMode]()
-            for string0 in supportedDeploymentModesContainer {
-                if let string0 = string0 {
-                    supportedDeploymentModesDecoded0?.append(string0)
+            for enum0 in supportedDeploymentModesContainer {
+                if let enum0 = enum0 {
+                    supportedDeploymentModesDecoded0?.append(enum0)
                 }
             }
         }

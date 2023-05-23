@@ -200,7 +200,7 @@ extension AddIpRoutesInput: Swift.Encodable {
                 try ipRoutesContainer.encode(iproute0)
             }
         }
-        if updateSecurityGroupForDirectoryControllers != false {
+        if let updateSecurityGroupForDirectoryControllers = self.updateSecurityGroupForDirectoryControllers {
             try encodeContainer.encode(updateSecurityGroupForDirectoryControllers, forKey: .updateSecurityGroupForDirectoryControllers)
         }
     }
@@ -262,12 +262,12 @@ public struct AddIpRoutesInput: Swift.Equatable {
     ///
     ///
     /// These security rules impact an internal network interface that is not exposed publicly.
-    public var updateSecurityGroupForDirectoryControllers: Swift.Bool
+    public var updateSecurityGroupForDirectoryControllers: Swift.Bool?
 
     public init (
         directoryId: Swift.String? = nil,
         ipRoutes: [DirectoryClientTypes.IpRoute]? = nil,
-        updateSecurityGroupForDirectoryControllers: Swift.Bool = false
+        updateSecurityGroupForDirectoryControllers: Swift.Bool? = nil
     )
     {
         self.directoryId = directoryId
@@ -279,7 +279,7 @@ public struct AddIpRoutesInput: Swift.Equatable {
 struct AddIpRoutesInputBody: Swift.Equatable {
     let directoryId: Swift.String?
     let ipRoutes: [DirectoryClientTypes.IpRoute]?
-    let updateSecurityGroupForDirectoryControllers: Swift.Bool
+    let updateSecurityGroupForDirectoryControllers: Swift.Bool?
 }
 
 extension AddIpRoutesInputBody: Swift.Decodable {
@@ -304,7 +304,7 @@ extension AddIpRoutesInputBody: Swift.Decodable {
             }
         }
         ipRoutes = ipRoutesDecoded0
-        let updateSecurityGroupForDirectoryControllersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateSecurityGroupForDirectoryControllers) ?? false
+        let updateSecurityGroupForDirectoryControllersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateSecurityGroupForDirectoryControllers)
         updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllersDecoded
     }
 }
@@ -3644,7 +3644,7 @@ extension DeleteTrustInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteAssociatedConditionalForwarder != false {
+        if let deleteAssociatedConditionalForwarder = self.deleteAssociatedConditionalForwarder {
             try encodeContainer.encode(deleteAssociatedConditionalForwarder, forKey: .deleteAssociatedConditionalForwarder)
         }
         if let trustId = self.trustId {
@@ -3662,13 +3662,13 @@ extension DeleteTrustInput: ClientRuntime.URLPathProvider {
 /// Deletes the local side of an existing trust relationship between the Managed Microsoft AD directory and the external domain.
 public struct DeleteTrustInput: Swift.Equatable {
     /// Delete a conditional forwarder as part of a DeleteTrustRequest.
-    public var deleteAssociatedConditionalForwarder: Swift.Bool
+    public var deleteAssociatedConditionalForwarder: Swift.Bool?
     /// The Trust ID of the trust relationship to be deleted.
     /// This member is required.
     public var trustId: Swift.String?
 
     public init (
-        deleteAssociatedConditionalForwarder: Swift.Bool = false,
+        deleteAssociatedConditionalForwarder: Swift.Bool? = nil,
         trustId: Swift.String? = nil
     )
     {
@@ -3679,7 +3679,7 @@ public struct DeleteTrustInput: Swift.Equatable {
 
 struct DeleteTrustInputBody: Swift.Equatable {
     let trustId: Swift.String?
-    let deleteAssociatedConditionalForwarder: Swift.Bool
+    let deleteAssociatedConditionalForwarder: Swift.Bool?
 }
 
 extension DeleteTrustInputBody: Swift.Decodable {
@@ -3692,7 +3692,7 @@ extension DeleteTrustInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trustIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustId)
         trustId = trustIdDecoded
-        let deleteAssociatedConditionalForwarderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAssociatedConditionalForwarder) ?? false
+        let deleteAssociatedConditionalForwarderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAssociatedConditionalForwarder)
         deleteAssociatedConditionalForwarder = deleteAssociatedConditionalForwarderDecoded
     }
 }
@@ -12864,6 +12864,7 @@ extension DirectoryClientTypes.SettingEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedValues = "AllowedValues"
         case appliedValue = "AppliedValue"
+        case dataType = "DataType"
         case lastRequestedDateTime = "LastRequestedDateTime"
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         case name = "Name"
@@ -12881,6 +12882,9 @@ extension DirectoryClientTypes.SettingEntry: Swift.Codable {
         }
         if let appliedValue = self.appliedValue {
             try encodeContainer.encode(appliedValue, forKey: .appliedValue)
+        }
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType, forKey: .dataType)
         }
         if let lastRequestedDateTime = self.lastRequestedDateTime {
             try encodeContainer.encodeTimestamp(lastRequestedDateTime, format: .epochSeconds, forKey: .lastRequestedDateTime)
@@ -12942,16 +12946,20 @@ extension DirectoryClientTypes.SettingEntry: Swift.Codable {
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
         let lastRequestedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRequestedDateTime)
         lastRequestedDateTime = lastRequestedDateTimeDecoded
+        let dataTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataType)
+        dataType = dataTypeDecoded
     }
 }
 
 extension DirectoryClientTypes {
     /// Contains information about the specified configurable setting for a directory.
     public struct SettingEntry: Swift.Equatable {
-        /// The valid range of values for the directory setting.
+        /// The valid range of values for the directory setting. These values depend on the DataType of your directory.
         public var allowedValues: Swift.String?
         /// The value of the directory setting that is applied to the directory.
         public var appliedValue: Swift.String?
+        /// The data type of a directory setting. This is used to define the AllowedValues of a setting. For example a data type can be Boolean, DurationInSeconds, or Enum.
+        public var dataType: Swift.String?
         /// The date and time when the request to update a directory setting was last submitted.
         public var lastRequestedDateTime: ClientRuntime.Date?
         /// The date and time when the directory setting was last updated.
@@ -12966,12 +12974,13 @@ extension DirectoryClientTypes {
         public var requestStatusMessage: Swift.String?
         /// The value that was last requested for the directory setting.
         public var requestedValue: Swift.String?
-        /// The type of directory setting. For example, Protocol or Cipher.
+        /// The type, or category, of a directory setting. Similar settings have the same type. For example, Protocol, Cipher, or Certificate-Based Authentication.
         public var type: Swift.String?
 
         public init (
             allowedValues: Swift.String? = nil,
             appliedValue: Swift.String? = nil,
+            dataType: Swift.String? = nil,
             lastRequestedDateTime: ClientRuntime.Date? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
@@ -12984,6 +12993,7 @@ extension DirectoryClientTypes {
         {
             self.allowedValues = allowedValues
             self.appliedValue = appliedValue
+            self.dataType = dataType
             self.lastRequestedDateTime = lastRequestedDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
@@ -13761,7 +13771,7 @@ extension StartSchemaExtensionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if createSnapshotBeforeSchemaExtension != false {
+        if let createSnapshotBeforeSchemaExtension = self.createSnapshotBeforeSchemaExtension {
             try encodeContainer.encode(createSnapshotBeforeSchemaExtension, forKey: .createSnapshotBeforeSchemaExtension)
         }
         if let description = self.description {
@@ -13785,7 +13795,7 @@ extension StartSchemaExtensionInput: ClientRuntime.URLPathProvider {
 public struct StartSchemaExtensionInput: Swift.Equatable {
     /// If true, creates a snapshot of the directory before applying the schema extension.
     /// This member is required.
-    public var createSnapshotBeforeSchemaExtension: Swift.Bool
+    public var createSnapshotBeforeSchemaExtension: Swift.Bool?
     /// A description of the schema extension.
     /// This member is required.
     public var description: Swift.String?
@@ -13797,7 +13807,7 @@ public struct StartSchemaExtensionInput: Swift.Equatable {
     public var ldifContent: Swift.String?
 
     public init (
-        createSnapshotBeforeSchemaExtension: Swift.Bool = false,
+        createSnapshotBeforeSchemaExtension: Swift.Bool? = nil,
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         ldifContent: Swift.String? = nil
@@ -13812,7 +13822,7 @@ public struct StartSchemaExtensionInput: Swift.Equatable {
 
 struct StartSchemaExtensionInputBody: Swift.Equatable {
     let directoryId: Swift.String?
-    let createSnapshotBeforeSchemaExtension: Swift.Bool
+    let createSnapshotBeforeSchemaExtension: Swift.Bool?
     let ldifContent: Swift.String?
     let description: Swift.String?
 }
@@ -13829,7 +13839,7 @@ extension StartSchemaExtensionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
-        let createSnapshotBeforeSchemaExtensionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createSnapshotBeforeSchemaExtension) ?? false
+        let createSnapshotBeforeSchemaExtensionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createSnapshotBeforeSchemaExtension)
         createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtensionDecoded
         let ldifContentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ldifContent)
         ldifContent = ldifContentDecoded
@@ -15025,7 +15035,7 @@ extension UpdateNumberOfDomainControllersInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if desiredNumber != 0 {
+        if let desiredNumber = self.desiredNumber {
             try encodeContainer.encode(desiredNumber, forKey: .desiredNumber)
         }
         if let directoryId = self.directoryId {
@@ -15043,13 +15053,13 @@ extension UpdateNumberOfDomainControllersInput: ClientRuntime.URLPathProvider {
 public struct UpdateNumberOfDomainControllersInput: Swift.Equatable {
     /// The number of domain controllers desired in the directory.
     /// This member is required.
-    public var desiredNumber: Swift.Int
+    public var desiredNumber: Swift.Int?
     /// Identifier of the directory to which the domain controllers will be added or removed.
     /// This member is required.
     public var directoryId: Swift.String?
 
     public init (
-        desiredNumber: Swift.Int = 0,
+        desiredNumber: Swift.Int? = nil,
         directoryId: Swift.String? = nil
     )
     {
@@ -15060,7 +15070,7 @@ public struct UpdateNumberOfDomainControllersInput: Swift.Equatable {
 
 struct UpdateNumberOfDomainControllersInputBody: Swift.Equatable {
     let directoryId: Swift.String?
-    let desiredNumber: Swift.Int
+    let desiredNumber: Swift.Int?
 }
 
 extension UpdateNumberOfDomainControllersInputBody: Swift.Decodable {
@@ -15073,7 +15083,7 @@ extension UpdateNumberOfDomainControllersInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
         directoryId = directoryIdDecoded
-        let desiredNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredNumber) ?? 0
+        let desiredNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredNumber)
         desiredNumber = desiredNumberDecoded
     }
 }

@@ -2500,7 +2500,6 @@ public struct CreateAppVersionResourceInput: Swift.Equatable {
     /// This member is required.
     public var physicalResourceId: Swift.String?
     /// The name of the resource.
-    /// This member is required.
     public var resourceName: Swift.String?
     /// The type of resource.
     /// This member is required.
@@ -9505,9 +9504,11 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
         case appComponents
         case excluded
         case logicalResourceId
+        case parentResourceName
         case physicalResourceId
         case resourceName
         case resourceType
+        case sourceType
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9533,6 +9534,9 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
         if let logicalResourceId = self.logicalResourceId {
             try encodeContainer.encode(logicalResourceId, forKey: .logicalResourceId)
         }
+        if let parentResourceName = self.parentResourceName {
+            try encodeContainer.encode(parentResourceName, forKey: .parentResourceName)
+        }
         if let physicalResourceId = self.physicalResourceId {
             try encodeContainer.encode(physicalResourceId, forKey: .physicalResourceId)
         }
@@ -9541,6 +9545,9 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType.rawValue, forKey: .sourceType)
         }
     }
 
@@ -9585,6 +9592,10 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
         additionalInfo = additionalInfoDecoded0
         let excludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excluded)
         excluded = excludedDecoded
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResourceSourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let parentResourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentResourceName)
+        parentResourceName = parentResourceNameDecoded
     }
 }
 
@@ -9600,6 +9611,8 @@ extension ResiliencehubClientTypes {
         /// The logical identifier of the resource.
         /// This member is required.
         public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
+        /// The name of the parent resource.
+        public var parentResourceName: Swift.String?
         /// The physical identifier of the resource.
         /// This member is required.
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
@@ -9608,24 +9621,30 @@ extension ResiliencehubClientTypes {
         /// The type of resource.
         /// This member is required.
         public var resourceType: Swift.String?
+        /// The type of input source.
+        public var sourceType: ResiliencehubClientTypes.ResourceSourceType?
 
         public init (
             additionalInfo: [Swift.String:[Swift.String]]? = nil,
             appComponents: [ResiliencehubClientTypes.AppComponent]? = nil,
             excluded: Swift.Bool? = nil,
             logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
+            parentResourceName: Swift.String? = nil,
             physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId? = nil,
             resourceName: Swift.String? = nil,
-            resourceType: Swift.String? = nil
+            resourceType: Swift.String? = nil,
+            sourceType: ResiliencehubClientTypes.ResourceSourceType? = nil
         )
         {
             self.additionalInfo = additionalInfo
             self.appComponents = appComponents
             self.excluded = excluded
             self.logicalResourceId = logicalResourceId
+            self.parentResourceName = parentResourceName
             self.physicalResourceId = physicalResourceId
             self.resourceName = resourceName
             self.resourceType = resourceType
+            self.sourceType = sourceType
         }
     }
 
@@ -11630,6 +11649,38 @@ extension ResiliencehubClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceResolutionStatusType(rawValue: rawValue) ?? ResourceResolutionStatusType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+    public enum ResourceSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case appTemplate
+        case discovered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSourceType] {
+            return [
+                .appTemplate,
+                .discovered,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .appTemplate: return "AppTemplate"
+            case .discovered: return "Discovered"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceSourceType(rawValue: rawValue) ?? ResourceSourceType.sdkUnknown(rawValue)
         }
     }
 }

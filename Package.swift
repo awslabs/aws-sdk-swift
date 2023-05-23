@@ -169,7 +169,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.19.0",
+    clientRuntimeVersion: "0.20.0",
     crtVersion: "0.12.0"
 )
 
@@ -386,6 +386,7 @@ let serviceTargets: [String] = [
     "AWSMediaConvert",
     "AWSMediaLive",
     "AWSMediaPackage",
+    "AWSMediaPackageV2",
     "AWSMediaPackageVod",
     "AWSMediaStore",
     "AWSMediaStoreData",
@@ -404,6 +405,7 @@ let serviceTargets: [String] = [
     "AWSNetworkManager",
     "AWSNimble",
     "AWSOAM",
+    "AWSOSIS",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",

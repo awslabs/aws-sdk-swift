@@ -154,14 +154,38 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes {
     public enum Attribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ageRange
         case all
+        case beard
         case `default`
+        case emotions
+        case eyeglasses
+        case eyesOpen
+        case eyeDirection
+        case faceOccluded
+        case gender
+        case mouthOpen
+        case mustache
+        case smile
+        case sunglasses
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Attribute] {
             return [
+                .ageRange,
                 .all,
+                .beard,
                 .default,
+                .emotions,
+                .eyeglasses,
+                .eyesOpen,
+                .eyeDirection,
+                .faceOccluded,
+                .gender,
+                .mouthOpen,
+                .mustache,
+                .smile,
+                .sunglasses,
                 .sdkUnknown("")
             ]
         }
@@ -171,8 +195,20 @@ extension RekognitionClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ageRange: return "AGE_RANGE"
             case .all: return "ALL"
+            case .beard: return "BEARD"
             case .default: return "DEFAULT"
+            case .emotions: return "EMOTIONS"
+            case .eyeglasses: return "EYEGLASSES"
+            case .eyesOpen: return "EYES_OPEN"
+            case .eyeDirection: return "EYE_DIRECTION"
+            case .faceOccluded: return "FACE_OCCLUDED"
+            case .gender: return "GENDER"
+            case .mouthOpen: return "MOUTH_OPEN"
+            case .mustache: return "MUSTACHE"
+            case .smile: return "SMILE"
+            case .sunglasses: return "SUNGLASSES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1358,16 +1394,60 @@ extension RekognitionClientTypes {
     }
 }
 
+extension RekognitionClientTypes {
+    public enum ContentModerationAggregateBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case segments
+        case timestamps
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentModerationAggregateBy] {
+            return [
+                .segments,
+                .timestamps,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .segments: return "SEGMENTS"
+            case .timestamps: return "TIMESTAMPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContentModerationAggregateBy(rawValue: rawValue) ?? ContentModerationAggregateBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension RekognitionClientTypes.ContentModerationDetection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case durationMillis = "DurationMillis"
+        case endTimestampMillis = "EndTimestampMillis"
         case moderationLabel = "ModerationLabel"
+        case startTimestampMillis = "StartTimestampMillis"
         case timestamp = "Timestamp"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let durationMillis = self.durationMillis {
+            try encodeContainer.encode(durationMillis, forKey: .durationMillis)
+        }
+        if let endTimestampMillis = self.endTimestampMillis {
+            try encodeContainer.encode(endTimestampMillis, forKey: .endTimestampMillis)
+        }
         if let moderationLabel = self.moderationLabel {
             try encodeContainer.encode(moderationLabel, forKey: .moderationLabel)
+        }
+        if let startTimestampMillis = self.startTimestampMillis {
+            try encodeContainer.encode(startTimestampMillis, forKey: .startTimestampMillis)
         }
         if timestamp != 0 {
             try encodeContainer.encode(timestamp, forKey: .timestamp)
@@ -1380,23 +1460,41 @@ extension RekognitionClientTypes.ContentModerationDetection: Swift.Codable {
         timestamp = timestampDecoded
         let moderationLabelDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.ModerationLabel.self, forKey: .moderationLabel)
         moderationLabel = moderationLabelDecoded
+        let startTimestampMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTimestampMillis)
+        startTimestampMillis = startTimestampMillisDecoded
+        let endTimestampMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endTimestampMillis)
+        endTimestampMillis = endTimestampMillisDecoded
+        let durationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationMillis)
+        durationMillis = durationMillisDecoded
     }
 }
 
 extension RekognitionClientTypes {
     /// Information about an inappropriate, unwanted, or offensive content label detection in a stored video.
     public struct ContentModerationDetection: Swift.Equatable {
+        /// The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
+        public var durationMillis: Swift.Int?
+        /// The time in milliseconds defining the end of the timeline segment containing a continuously detected moderation label.
+        public var endTimestampMillis: Swift.Int?
         /// The content moderation label detected by in the stored video.
         public var moderationLabel: RekognitionClientTypes.ModerationLabel?
+        /// The time in milliseconds defining the start of the timeline segment containing a continuously detected moderation label.
+        public var startTimestampMillis: Swift.Int?
         /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the moderated content first appears.
         public var timestamp: Swift.Int
 
         public init (
+            durationMillis: Swift.Int? = nil,
+            endTimestampMillis: Swift.Int? = nil,
             moderationLabel: RekognitionClientTypes.ModerationLabel? = nil,
+            startTimestampMillis: Swift.Int? = nil,
             timestamp: Swift.Int = 0
         )
         {
+            self.durationMillis = durationMillis
+            self.endTimestampMillis = endTimestampMillis
             self.moderationLabel = moderationLabel
+            self.startTimestampMillis = startTimestampMillis
             self.timestamp = timestamp
         }
     }
@@ -2194,7 +2292,7 @@ extension RekognitionClientTypes {
     public struct CreateFaceLivenessSessionRequestSettings: Swift.Equatable {
         /// Number of audit images to be returned back. Takes an integer between 0-4. Any integer less than 0 will return 0, any integer above 4 will return 4 images in the response. By default, it is set to 0. The limit is best effort and is based on the actual duration of the selfie-video.
         public var auditImagesLimit: Swift.Int?
-        /// Can specify the location of an Amazon S3 bucket, where reference and audit images will be stored. Note that the Amazon S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system.
+        /// Can specify the location of an Amazon S3 bucket, where reference and audit images will be stored. Note that the Amazon S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system. Requires that the caller has the s3:PutObject permission on the Amazon S3 bucket.
         public var outputConfig: RekognitionClientTypes.LivenessOutputConfig?
 
         public init (
@@ -5305,7 +5403,7 @@ extension DetectFacesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectFacesInput: Swift.Equatable {
-    /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
+    /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes).
     public var attributes: [RekognitionClientTypes.Attribute]?
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
     /// This member is required.
@@ -7080,6 +7178,61 @@ extension RekognitionClientTypes {
 
 }
 
+extension RekognitionClientTypes.EyeDirection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case pitch = "Pitch"
+        case yaw = "Yaw"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let pitch = self.pitch {
+            try encodeContainer.encode(pitch, forKey: .pitch)
+        }
+        if let yaw = self.yaw {
+            try encodeContainer.encode(yaw, forKey: .yaw)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let yawDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .yaw)
+        yaw = yawDecoded
+        let pitchDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .pitch)
+        pitch = pitchDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Indicates the direction the eyes are gazing in (independent of the head pose) as determined by its pitch and yaw.
+    public struct EyeDirection: Swift.Equatable {
+        /// The confidence that the service has in its predicted eye direction.
+        public var confidence: Swift.Float?
+        /// Value representing eye direction on the pitch axis.
+        public var pitch: Swift.Float?
+        /// Value representing eye direction on the yaw axis.
+        public var yaw: Swift.Float?
+
+        public init (
+            confidence: Swift.Float? = nil,
+            pitch: Swift.Float? = nil,
+            yaw: Swift.Float? = nil
+        )
+        {
+            self.confidence = confidence
+            self.pitch = pitch
+            self.yaw = yaw
+        }
+    }
+
+}
+
 extension RekognitionClientTypes.EyeOpen: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case confidence = "Confidence"
@@ -7294,8 +7447,10 @@ extension RekognitionClientTypes.FaceDetail: Swift.Codable {
         case boundingBox = "BoundingBox"
         case confidence = "Confidence"
         case emotions = "Emotions"
+        case eyeDirection = "EyeDirection"
         case eyeglasses = "Eyeglasses"
         case eyesOpen = "EyesOpen"
+        case faceOccluded = "FaceOccluded"
         case gender = "Gender"
         case landmarks = "Landmarks"
         case mouthOpen = "MouthOpen"
@@ -7326,11 +7481,17 @@ extension RekognitionClientTypes.FaceDetail: Swift.Codable {
                 try emotionsContainer.encode(emotion0)
             }
         }
+        if let eyeDirection = self.eyeDirection {
+            try encodeContainer.encode(eyeDirection, forKey: .eyeDirection)
+        }
         if let eyeglasses = self.eyeglasses {
             try encodeContainer.encode(eyeglasses, forKey: .eyeglasses)
         }
         if let eyesOpen = self.eyesOpen {
             try encodeContainer.encode(eyesOpen, forKey: .eyesOpen)
+        }
+        if let faceOccluded = self.faceOccluded {
+            try encodeContainer.encode(faceOccluded, forKey: .faceOccluded)
         }
         if let gender = self.gender {
             try encodeContainer.encode(gender, forKey: .gender)
@@ -7411,6 +7572,10 @@ extension RekognitionClientTypes.FaceDetail: Swift.Codable {
         quality = qualityDecoded
         let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
         confidence = confidenceDecoded
+        let faceOccludedDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.FaceOccluded.self, forKey: .faceOccluded)
+        faceOccluded = faceOccludedDecoded
+        let eyeDirectionDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.EyeDirection.self, forKey: .eyeDirection)
+        eyeDirection = eyeDirectionDecoded
     }
 }
 
@@ -7436,10 +7601,14 @@ extension RekognitionClientTypes {
         public var confidence: Swift.Float?
         /// The emotions that appear to be expressed on the face, and the confidence level in the determination. The API is only making a determination of the physical appearance of a person's face. It is not a determination of the person’s internal emotional state and should not be used in such a way. For example, a person pretending to have a sad face might not be sad emotionally.
         public var emotions: [RekognitionClientTypes.Emotion]?
+        /// Indicates the direction the eyes are gazing in, as defined by pitch and yaw.
+        public var eyeDirection: RekognitionClientTypes.EyeDirection?
         /// Indicates whether or not the face is wearing eye glasses, and the confidence level in the determination.
         public var eyeglasses: RekognitionClientTypes.Eyeglasses?
         /// Indicates whether or not the eyes on the face are open, and the confidence level in the determination.
         public var eyesOpen: RekognitionClientTypes.EyeOpen?
+        /// FaceOccluded should return "true" with a high confidence score if a detected face’s eyes, nose, and mouth are partially captured or if they are covered by masks, dark sunglasses, cell phones, hands, or other objects. FaceOccluded should return "false" with a high confidence score if common occurrences that do not impact face verification are detected, such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
+        public var faceOccluded: RekognitionClientTypes.FaceOccluded?
         /// The predicted gender of a detected face.
         public var gender: RekognitionClientTypes.Gender?
         /// Indicates the location of landmarks on the face. Default attribute.
@@ -7463,8 +7632,10 @@ extension RekognitionClientTypes {
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             confidence: Swift.Float? = nil,
             emotions: [RekognitionClientTypes.Emotion]? = nil,
+            eyeDirection: RekognitionClientTypes.EyeDirection? = nil,
             eyeglasses: RekognitionClientTypes.Eyeglasses? = nil,
             eyesOpen: RekognitionClientTypes.EyeOpen? = nil,
+            faceOccluded: RekognitionClientTypes.FaceOccluded? = nil,
             gender: RekognitionClientTypes.Gender? = nil,
             landmarks: [RekognitionClientTypes.Landmark]? = nil,
             mouthOpen: RekognitionClientTypes.MouthOpen? = nil,
@@ -7480,8 +7651,10 @@ extension RekognitionClientTypes {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.emotions = emotions
+            self.eyeDirection = eyeDirection
             self.eyeglasses = eyeglasses
             self.eyesOpen = eyesOpen
+            self.faceOccluded = faceOccluded
             self.gender = gender
             self.landmarks = landmarks
             self.mouthOpen = mouthOpen
@@ -7580,6 +7753,51 @@ extension RekognitionClientTypes {
         {
             self.face = face
             self.similarity = similarity
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.FaceOccluded: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if value != false {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .value) ?? false
+        value = valueDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// FaceOccluded should return "true" with a high confidence score if a detected face’s eyes, nose, and mouth are partially captured or if they are covered by masks, dark sunglasses, cell phones, hands, or other objects. FaceOccluded should return "false" with a high confidence score if common occurrences that do not impact face verification are detected, such as eye glasses, lightly tinted sunglasses, strands of hair, and others. You can use FaceOccluded to determine if an obstruction on a face negatively impacts using the image for face matching.
+    public struct FaceOccluded: Swift.Equatable {
+        /// The confidence that the service has detected the presence of a face occlusion.
+        public var confidence: Swift.Float?
+        /// True if a detected face’s eyes, nose, and mouth are partially captured or if they are covered by masks, dark sunglasses, cell phones, hands, or other objects. False if common occurrences that do not impact face verification are detected, such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
+        public var value: Swift.Bool
+
+        public init (
+            confidence: Swift.Float? = nil,
+            value: Swift.Bool = false
+        )
+        {
+            self.confidence = confidence
+            self.value = value
         }
     }
 
@@ -8227,15 +8445,21 @@ extension GetCelebrityRecognitionOutputResponse: ClientRuntime.HttpResponseBindi
             let responseDecoder = decoder {
             let output: GetCelebrityRecognitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.celebrities = output.celebrities
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.nextToken = output.nextToken
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
             self.celebrities = nil
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.nextToken = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
@@ -8244,27 +8468,39 @@ extension GetCelebrityRecognitionOutputResponse: ClientRuntime.HttpResponseBindi
 public struct GetCelebrityRecognitionOutputResponse: Swift.Equatable {
     /// Array of celebrities recognized in the video.
     public var celebrities: [RekognitionClientTypes.CelebrityRecognition]?
+    /// Job identifier for the celebrity recognition operation for which you want to obtain results. The job identifer is returned by an initial call to StartCelebrityRecognition.
+    public var jobId: Swift.String?
     /// The current status of the celebrity recognition job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartCelebrityRecognition and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of celebrities.
     public var nextToken: Swift.String?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
         celebrities: [RekognitionClientTypes.CelebrityRecognition]? = nil,
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
         self.celebrities = celebrities
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.nextToken = nextToken
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -8275,14 +8511,20 @@ struct GetCelebrityRecognitionOutputResponseBody: Swift.Equatable {
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
     let nextToken: Swift.String?
     let celebrities: [RekognitionClientTypes.CelebrityRecognition]?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
 }
 
 extension GetCelebrityRecognitionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case celebrities = "Celebrities"
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case nextToken = "NextToken"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -8307,11 +8549,18 @@ extension GetCelebrityRecognitionOutputResponseBody: Swift.Decodable {
             }
         }
         celebrities = celebritiesDecoded0
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
     }
 }
 
 extension GetContentModerationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateBy = "AggregateBy"
         case jobId = "JobId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
@@ -8320,6 +8569,9 @@ extension GetContentModerationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregateBy = self.aggregateBy {
+            try encodeContainer.encode(aggregateBy.rawValue, forKey: .aggregateBy)
+        }
         if let jobId = self.jobId {
             try encodeContainer.encode(jobId, forKey: .jobId)
         }
@@ -8342,6 +8594,8 @@ extension GetContentModerationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetContentModerationInput: Swift.Equatable {
+    /// Defines how to aggregate results of the StartContentModeration request. Default aggregation option is TIMESTAMPS. SEGMENTS mode aggregates moderation labels over time.
+    public var aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy?
     /// The identifier for the inappropriate, unwanted, or offensive content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
     /// This member is required.
     public var jobId: Swift.String?
@@ -8353,12 +8607,14 @@ public struct GetContentModerationInput: Swift.Equatable {
     public var sortBy: RekognitionClientTypes.ContentModerationSortBy?
 
     public init (
+        aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy? = nil,
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: RekognitionClientTypes.ContentModerationSortBy? = nil
     )
     {
+        self.aggregateBy = aggregateBy
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8371,10 +8627,12 @@ struct GetContentModerationInputBody: Swift.Equatable {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let sortBy: RekognitionClientTypes.ContentModerationSortBy?
+    let aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy?
 }
 
 extension GetContentModerationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateBy = "AggregateBy"
         case jobId = "JobId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
@@ -8391,6 +8649,8 @@ extension GetContentModerationInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let sortByDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.ContentModerationSortBy.self, forKey: .sortBy)
         sortBy = sortByDecoded
+        let aggregateByDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.ContentModerationAggregateBy.self, forKey: .aggregateBy)
+        aggregateBy = aggregateByDecoded
     }
 }
 
@@ -8433,26 +8693,40 @@ extension GetContentModerationOutputResponse: ClientRuntime.HttpResponseBinding 
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetContentModerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.getRequestMetadata = output.getRequestMetadata
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.moderationLabels = output.moderationLabels
             self.moderationModelVersion = output.moderationModelVersion
             self.nextToken = output.nextToken
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
+            self.getRequestMetadata = nil
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.moderationLabels = nil
             self.moderationModelVersion = nil
             self.nextToken = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
 }
 
 public struct GetContentModerationOutputResponse: Swift.Equatable {
+    /// Information about the paramters used when getting a response. Includes information on aggregation and sorting methods.
+    public var getRequestMetadata: RekognitionClientTypes.GetContentModerationRequestMetadata?
+    /// Job identifier for the content moderation operation for which you want to obtain results. The job identifer is returned by an initial call to StartContentModeration.
+    public var jobId: Swift.String?
     /// The current status of the content moderation analysis job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartContentModeration and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// The detected inappropriate, unwanted, or offensive content moderation labels and the time(s) they were detected.
     public var moderationLabels: [RekognitionClientTypes.ContentModerationDetection]?
     /// Version number of the moderation detection model that was used to detect inappropriate, unwanted, or offensive content.
@@ -8461,23 +8735,33 @@ public struct GetContentModerationOutputResponse: Swift.Equatable {
     public var nextToken: Swift.String?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
+        getRequestMetadata: RekognitionClientTypes.GetContentModerationRequestMetadata? = nil,
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         moderationLabels: [RekognitionClientTypes.ContentModerationDetection]? = nil,
         moderationModelVersion: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
+        self.getRequestMetadata = getRequestMetadata
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.moderationLabels = moderationLabels
         self.moderationModelVersion = moderationModelVersion
         self.nextToken = nextToken
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -8489,15 +8773,23 @@ struct GetContentModerationOutputResponseBody: Swift.Equatable {
     let moderationLabels: [RekognitionClientTypes.ContentModerationDetection]?
     let nextToken: Swift.String?
     let moderationModelVersion: Swift.String?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
+    let getRequestMetadata: RekognitionClientTypes.GetContentModerationRequestMetadata?
 }
 
 extension GetContentModerationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case getRequestMetadata = "GetRequestMetadata"
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case moderationLabels = "ModerationLabels"
         case moderationModelVersion = "ModerationModelVersion"
         case nextToken = "NextToken"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -8524,7 +8816,60 @@ extension GetContentModerationOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let moderationModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .moderationModelVersion)
         moderationModelVersion = moderationModelVersionDecoded
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
+        let getRequestMetadataDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.GetContentModerationRequestMetadata.self, forKey: .getRequestMetadata)
+        getRequestMetadata = getRequestMetadataDecoded
     }
+}
+
+extension RekognitionClientTypes.GetContentModerationRequestMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateBy = "AggregateBy"
+        case sortBy = "SortBy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregateBy = self.aggregateBy {
+            try encodeContainer.encode(aggregateBy.rawValue, forKey: .aggregateBy)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.ContentModerationSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let aggregateByDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.ContentModerationAggregateBy.self, forKey: .aggregateBy)
+        aggregateBy = aggregateByDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata about a content moderation request, including the SortBy and AggregateBy options.
+    public struct GetContentModerationRequestMetadata: Swift.Equatable {
+        /// The aggregation method chosen for a GetContentModeration request.
+        public var aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy?
+        /// The sorting method chosen for a GetContentModeration request.
+        public var sortBy: RekognitionClientTypes.ContentModerationSortBy?
+
+        public init (
+            aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy? = nil,
+            sortBy: RekognitionClientTypes.ContentModerationSortBy? = nil
+        )
+        {
+            self.aggregateBy = aggregateBy
+            self.sortBy = sortBy
+        }
+    }
+
 }
 
 extension GetFaceDetectionInput: Swift.Encodable {
@@ -8639,15 +8984,21 @@ extension GetFaceDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetFaceDetectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.faces = output.faces
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.nextToken = output.nextToken
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
             self.faces = nil
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.nextToken = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
@@ -8656,27 +9007,39 @@ extension GetFaceDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetFaceDetectionOutputResponse: Swift.Equatable {
     /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected.
     public var faces: [RekognitionClientTypes.FaceDetection]?
+    /// Job identifier for the face detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartFaceDetection.
+    public var jobId: Swift.String?
     /// The current status of the face detection job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartFaceDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
     public var nextToken: Swift.String?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
         faces: [RekognitionClientTypes.FaceDetection]? = nil,
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
         self.faces = faces
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.nextToken = nextToken
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -8687,14 +9050,20 @@ struct GetFaceDetectionOutputResponseBody: Swift.Equatable {
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
     let nextToken: Swift.String?
     let faces: [RekognitionClientTypes.FaceDetection]?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
 }
 
 extension GetFaceDetectionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case faces = "Faces"
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case nextToken = "NextToken"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -8719,6 +9088,12 @@ extension GetFaceDetectionOutputResponseBody: Swift.Decodable {
             }
         }
         faces = facesDecoded0
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
     }
 }
 
@@ -9016,45 +9391,63 @@ extension GetFaceSearchOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetFaceSearchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.nextToken = output.nextToken
             self.persons = output.persons
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.nextToken = nil
             self.persons = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
 }
 
 public struct GetFaceSearchOutputResponse: Swift.Equatable {
+    /// Job identifier for the face search operation for which you want to obtain results. The job identifer is returned by an initial call to StartFaceSearch.
+    public var jobId: Swift.String?
     /// The current status of the face search job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartFaceSearch and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results.
     public var nextToken: Swift.String?
     /// An array of persons, [PersonMatch], in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person.
     public var persons: [RekognitionClientTypes.PersonMatch]?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         persons: [RekognitionClientTypes.PersonMatch]? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.nextToken = nextToken
         self.persons = persons
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -9065,14 +9458,20 @@ struct GetFaceSearchOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
     let persons: [RekognitionClientTypes.PersonMatch]?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
 }
 
 extension GetFaceSearchOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case nextToken = "NextToken"
         case persons = "Persons"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -9097,6 +9496,12 @@ extension GetFaceSearchOutputResponseBody: Swift.Decodable {
             }
         }
         persons = personsDecoded0
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
     }
 }
 
@@ -9235,26 +9640,40 @@ extension GetLabelDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetLabelDetectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.getRequestMetadata = output.getRequestMetadata
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.labelModelVersion = output.labelModelVersion
             self.labels = output.labels
             self.nextToken = output.nextToken
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
+            self.getRequestMetadata = nil
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.labelModelVersion = nil
             self.labels = nil
             self.nextToken = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
 }
 
 public struct GetLabelDetectionOutputResponse: Swift.Equatable {
+    /// Information about the paramters used when getting a response. Includes information on aggregation and sorting methods.
+    public var getRequestMetadata: RekognitionClientTypes.GetLabelDetectionRequestMetadata?
+    /// Job identifier for the label detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartLabelDetection.
+    public var jobId: Swift.String?
     /// The current status of the label detection job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartLabelDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// Version number of the label detection model that was used to detect labels.
     public var labelModelVersion: Swift.String?
     /// An array of labels detected in the video. Each element contains the detected label and the time, in milliseconds from the start of the video, that the label was detected.
@@ -9263,23 +9682,33 @@ public struct GetLabelDetectionOutputResponse: Swift.Equatable {
     public var nextToken: Swift.String?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
+        getRequestMetadata: RekognitionClientTypes.GetLabelDetectionRequestMetadata? = nil,
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         labelModelVersion: Swift.String? = nil,
         labels: [RekognitionClientTypes.LabelDetection]? = nil,
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
+        self.getRequestMetadata = getRequestMetadata
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.labelModelVersion = labelModelVersion
         self.labels = labels
         self.nextToken = nextToken
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -9291,15 +9720,23 @@ struct GetLabelDetectionOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
     let labels: [RekognitionClientTypes.LabelDetection]?
     let labelModelVersion: Swift.String?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
+    let getRequestMetadata: RekognitionClientTypes.GetLabelDetectionRequestMetadata?
 }
 
 extension GetLabelDetectionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case getRequestMetadata = "GetRequestMetadata"
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case labelModelVersion = "LabelModelVersion"
         case labels = "Labels"
         case nextToken = "NextToken"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -9326,7 +9763,60 @@ extension GetLabelDetectionOutputResponseBody: Swift.Decodable {
         labels = labelsDecoded0
         let labelModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .labelModelVersion)
         labelModelVersion = labelModelVersionDecoded
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
+        let getRequestMetadataDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.GetLabelDetectionRequestMetadata.self, forKey: .getRequestMetadata)
+        getRequestMetadata = getRequestMetadataDecoded
     }
+}
+
+extension RekognitionClientTypes.GetLabelDetectionRequestMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateBy = "AggregateBy"
+        case sortBy = "SortBy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregateBy = self.aggregateBy {
+            try encodeContainer.encode(aggregateBy.rawValue, forKey: .aggregateBy)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.LabelDetectionSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let aggregateByDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.LabelDetectionAggregateBy.self, forKey: .aggregateBy)
+        aggregateBy = aggregateByDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata about a label detection request, including the SortBy and AggregateBy options.
+    public struct GetLabelDetectionRequestMetadata: Swift.Equatable {
+        /// The aggregation method chosen for a GetLabelDetection request.
+        public var aggregateBy: RekognitionClientTypes.LabelDetectionAggregateBy?
+        /// The sorting method chosen for a GetLabelDetection request.
+        public var sortBy: RekognitionClientTypes.LabelDetectionSortBy?
+
+        public init (
+            aggregateBy: RekognitionClientTypes.LabelDetectionAggregateBy? = nil,
+            sortBy: RekognitionClientTypes.LabelDetectionSortBy? = nil
+        )
+        {
+            self.aggregateBy = aggregateBy
+            self.sortBy = sortBy
+        }
+    }
+
 }
 
 extension GetPersonTrackingInput: Swift.Encodable {
@@ -9452,45 +9942,63 @@ extension GetPersonTrackingOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetPersonTrackingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.nextToken = output.nextToken
             self.persons = output.persons
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.nextToken = nil
             self.persons = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
 }
 
 public struct GetPersonTrackingOutputResponse: Swift.Equatable {
+    /// Job identifier for the person tracking operation for which you want to obtain results. The job identifer is returned by an initial call to StartPersonTracking.
+    public var jobId: Swift.String?
     /// The current status of the person tracking job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartCelebrityRecognition and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons.
     public var nextToken: Swift.String?
     /// An array of the persons detected in the video and the time(s) their path was tracked throughout the video. An array element will exist for each time a person's path is tracked.
     public var persons: [RekognitionClientTypes.PersonDetection]?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         persons: [RekognitionClientTypes.PersonDetection]? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.nextToken = nextToken
         self.persons = persons
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -9501,14 +10009,20 @@ struct GetPersonTrackingOutputResponseBody: Swift.Equatable {
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
     let nextToken: Swift.String?
     let persons: [RekognitionClientTypes.PersonDetection]?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
 }
 
 extension GetPersonTrackingOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case nextToken = "NextToken"
         case persons = "Persons"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -9533,6 +10047,12 @@ extension GetPersonTrackingOutputResponseBody: Swift.Decodable {
             }
         }
         persons = personsDecoded0
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
     }
 }
 
@@ -9648,19 +10168,25 @@ extension GetSegmentDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetSegmentDetectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.audioMetadata = output.audioMetadata
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.nextToken = output.nextToken
             self.segments = output.segments
             self.selectedSegmentTypes = output.selectedSegmentTypes
             self.statusMessage = output.statusMessage
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
             self.audioMetadata = nil
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.nextToken = nil
             self.segments = nil
             self.selectedSegmentTypes = nil
             self.statusMessage = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
@@ -9669,8 +10195,12 @@ extension GetSegmentDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetSegmentDetectionOutputResponse: Swift.Equatable {
     /// An array of objects. There can be multiple audio streams. Each AudioMetadata object contains metadata for a single audio stream. Audio information in an AudioMetadata objects includes the audio codec, the number of audio channels, the duration of the audio stream, and the sample rate. Audio metadata is returned in each page of information returned by GetSegmentDetection.
     public var audioMetadata: [RekognitionClientTypes.AudioMetadata]?
+    /// Job identifier for the segment detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartSegmentDetection.
+    public var jobId: Swift.String?
     /// Current status of the segment detection job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartSegmentDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of text.
     public var nextToken: Swift.String?
     /// An array of segments detected in a video. The array is sorted by the segment types (TECHNICAL_CUE or SHOT) specified in the SegmentTypes input parameter of StartSegmentDetection. Within each segment type the array is sorted by timestamp values.
@@ -9679,25 +10209,33 @@ public struct GetSegmentDetectionOutputResponse: Swift.Equatable {
     public var selectedSegmentTypes: [RekognitionClientTypes.SegmentTypeInfo]?
     /// If the job fails, StatusMessage provides a descriptive error message.
     public var statusMessage: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Currently, Amazon Rekognition Video returns a single object in the VideoMetadata array. The object contains information about the video stream in the input file that Amazon Rekognition Video chose to analyze. The VideoMetadata object includes the video codec, video format and other information. Video metadata is returned in each page of information returned by GetSegmentDetection.
     public var videoMetadata: [RekognitionClientTypes.VideoMetadata]?
 
     public init (
         audioMetadata: [RekognitionClientTypes.AudioMetadata]? = nil,
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         segments: [RekognitionClientTypes.SegmentDetection]? = nil,
         selectedSegmentTypes: [RekognitionClientTypes.SegmentTypeInfo]? = nil,
         statusMessage: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: [RekognitionClientTypes.VideoMetadata]? = nil
     )
     {
         self.audioMetadata = audioMetadata
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.nextToken = nextToken
         self.segments = segments
         self.selectedSegmentTypes = selectedSegmentTypes
         self.statusMessage = statusMessage
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -9710,16 +10248,22 @@ struct GetSegmentDetectionOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
     let segments: [RekognitionClientTypes.SegmentDetection]?
     let selectedSegmentTypes: [RekognitionClientTypes.SegmentTypeInfo]?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
 }
 
 extension GetSegmentDetectionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioMetadata = "AudioMetadata"
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case nextToken = "NextToken"
         case segments = "Segments"
         case selectedSegmentTypes = "SelectedSegmentTypes"
         case statusMessage = "StatusMessage"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -9775,6 +10319,12 @@ extension GetSegmentDetectionOutputResponseBody: Swift.Decodable {
             }
         }
         selectedSegmentTypes = selectedSegmentTypesDecoded0
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
     }
 }
 
@@ -9889,26 +10439,36 @@ extension GetTextDetectionOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetTextDetectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
             self.jobStatus = output.jobStatus
+            self.jobTag = output.jobTag
             self.nextToken = output.nextToken
             self.statusMessage = output.statusMessage
             self.textDetections = output.textDetections
             self.textModelVersion = output.textModelVersion
+            self.video = output.video
             self.videoMetadata = output.videoMetadata
         } else {
+            self.jobId = nil
             self.jobStatus = nil
+            self.jobTag = nil
             self.nextToken = nil
             self.statusMessage = nil
             self.textDetections = nil
             self.textModelVersion = nil
+            self.video = nil
             self.videoMetadata = nil
         }
     }
 }
 
 public struct GetTextDetectionOutputResponse: Swift.Equatable {
+    /// Job identifier for the text detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartTextDetection.
+    public var jobId: Swift.String?
     /// Current status of the text detection job.
     public var jobStatus: RekognitionClientTypes.VideoJobStatus?
+    /// A job identifier specified in the call to StartTextDetection and returned in the job completion notification sent to your Amazon Simple Notification Service topic.
+    public var jobTag: Swift.String?
     /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text.
     public var nextToken: Swift.String?
     /// If the job fails, StatusMessage provides a descriptive error message.
@@ -9917,23 +10477,31 @@ public struct GetTextDetectionOutputResponse: Swift.Equatable {
     public var textDetections: [RekognitionClientTypes.TextDetectionResult]?
     /// Version number of the text detection model that was used to detect text.
     public var textModelVersion: Swift.String?
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
+    public var video: RekognitionClientTypes.Video?
     /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
     public var videoMetadata: RekognitionClientTypes.VideoMetadata?
 
     public init (
+        jobId: Swift.String? = nil,
         jobStatus: RekognitionClientTypes.VideoJobStatus? = nil,
+        jobTag: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
         textDetections: [RekognitionClientTypes.TextDetectionResult]? = nil,
         textModelVersion: Swift.String? = nil,
+        video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
     )
     {
+        self.jobId = jobId
         self.jobStatus = jobStatus
+        self.jobTag = jobTag
         self.nextToken = nextToken
         self.statusMessage = statusMessage
         self.textDetections = textDetections
         self.textModelVersion = textModelVersion
+        self.video = video
         self.videoMetadata = videoMetadata
     }
 }
@@ -9945,15 +10513,21 @@ struct GetTextDetectionOutputResponseBody: Swift.Equatable {
     let textDetections: [RekognitionClientTypes.TextDetectionResult]?
     let nextToken: Swift.String?
     let textModelVersion: Swift.String?
+    let jobId: Swift.String?
+    let video: RekognitionClientTypes.Video?
+    let jobTag: Swift.String?
 }
 
 extension GetTextDetectionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
         case jobStatus = "JobStatus"
+        case jobTag = "JobTag"
         case nextToken = "NextToken"
         case statusMessage = "StatusMessage"
         case textDetections = "TextDetections"
         case textModelVersion = "TextModelVersion"
+        case video = "Video"
         case videoMetadata = "VideoMetadata"
     }
 
@@ -9980,6 +10554,12 @@ extension GetTextDetectionOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let textModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textModelVersion)
         textModelVersion = textModelVersionDecoded
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let jobTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTag)
+        jobTag = jobTagDecoded
     }
 }
 
@@ -10565,7 +11145,7 @@ public struct IndexFacesInput: Swift.Equatable {
     /// The ID of an existing collection to which you want to add the faces that are detected in the input images.
     /// This member is required.
     public var collectionId: Swift.String?
-    /// An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
+    /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
     public var detectionAttributes: [RekognitionClientTypes.Attribute]?
     /// The ID you want to assign to all the faces detected in the image.
     public var externalImageId: Swift.String?

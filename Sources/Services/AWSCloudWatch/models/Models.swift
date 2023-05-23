@@ -8134,11 +8134,24 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes.MetricStreamFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricNames = "MetricNames"
         case namespace = "Namespace"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let metricNames = metricNames {
+            if !metricNames.isEmpty {
+                var metricNamesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MetricNames"))
+                for (index0, metricname0) in metricNames.enumerated() {
+                    try metricNamesContainer.encode(metricname0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var metricNamesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MetricNames"))
+                try metricNamesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
         if let namespace = namespace {
             try container.encode(namespace, forKey: ClientRuntime.Key("Namespace"))
         }
@@ -8148,19 +8161,42 @@ extension CloudWatchClientTypes.MetricStreamFilter: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
+        if containerValues.contains(.metricNames) {
+            struct KeyVal0{struct member{}}
+            let metricNamesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .metricNames)
+            if let metricNamesWrappedContainer = metricNamesWrappedContainer {
+                let metricNamesContainer = try metricNamesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var metricNamesBuffer:[Swift.String]? = nil
+                if let metricNamesContainer = metricNamesContainer {
+                    metricNamesBuffer = [Swift.String]()
+                    for stringContainer0 in metricNamesContainer {
+                        metricNamesBuffer?.append(stringContainer0)
+                    }
+                }
+                metricNames = metricNamesBuffer
+            } else {
+                metricNames = []
+            }
+        } else {
+            metricNames = nil
+        }
     }
 }
 
 extension CloudWatchClientTypes {
-    /// This structure contains the name of one of the metric namespaces that is listed in a filter of a metric stream. The namespace can contain only ASCII printable characters (ASCII range 32 through 126). It must contain at least one non-whitespace character.
+    /// This structure contains a metric namespace and optionally, a list of metric names, to either include in a metric stream or exclude from a metric stream. A metric stream's filters can include up to 1000 total names. This limit applies to the sum of namespace names and metric names in the filters. For example, this could include 10 metric namespace filters with 99 metrics each, or 20 namespace filters with 49 metrics specified in each filter.
     public struct MetricStreamFilter: Swift.Equatable {
-        /// The name of the metric namespace in the filter.
+        /// The names of the metrics to either include or exclude from the metric stream. If you omit this parameter, all metrics in the namespace are included or excluded, depending on whether this filter is specified as an exclude filter or an include filter. Each metric name can contain only ASCII printable characters (ASCII range 32 through 126). Each metric name must contain at least one non-whitespace character.
+        public var metricNames: [Swift.String]?
+        /// The name of the metric namespace for this filter. The namespace can contain only ASCII printable characters (ASCII range 32 through 126). It must contain at least one non-whitespace character.
         public var namespace: Swift.String?
 
         public init (
+            metricNames: [Swift.String]? = nil,
             namespace: Swift.String? = nil
         )
         {
+            self.metricNames = metricNames
             self.namespace = namespace
         }
     }
@@ -9576,7 +9612,7 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
     ///
-    /// SSN notification action:
+    /// SNS notification action:
     ///
     /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
@@ -9630,7 +9666,7 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
     ///
-    /// SSN notification action:
+    /// SNS notification action:
     ///
     /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
@@ -9671,7 +9707,7 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
     ///
-    /// SSN notification action:
+    /// SNS notification action:
     ///
     /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///

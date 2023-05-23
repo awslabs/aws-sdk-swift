@@ -1114,6 +1114,43 @@ extension CreateVirtualClusterOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension EMRcontainersClientTypes.Credentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case token
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .token(token):
+                try container.encode(token, forKey: .token)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let tokenDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .token)
+        if let token = tokenDecoded {
+            self = .token(token)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// The structure containing the session token being returned.
+    public enum Credentials: Swift.Equatable {
+        /// The actual session token being returned.
+        case token(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension DeleteJobTemplateInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -2162,6 +2199,207 @@ extension EMRcontainersClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = FailureReason(rawValue: rawValue) ?? FailureReason.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension GetManagedEndpointSessionCredentialsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case credentialType
+        case durationInSeconds
+        case executionRoleArn
+        case logContext
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let credentialType = self.credentialType {
+            try encodeContainer.encode(credentialType, forKey: .credentialType)
+        }
+        if let durationInSeconds = self.durationInSeconds {
+            try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
+        }
+        if let executionRoleArn = self.executionRoleArn {
+            try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
+        }
+        if let logContext = self.logContext {
+            try encodeContainer.encode(logContext, forKey: .logContext)
+        }
+    }
+}
+
+extension GetManagedEndpointSessionCredentialsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let virtualClusterIdentifier = virtualClusterIdentifier else {
+            return nil
+        }
+        guard let endpointIdentifier = endpointIdentifier else {
+            return nil
+        }
+        return "/virtualclusters/\(virtualClusterIdentifier.urlPercentEncoding())/endpoints/\(endpointIdentifier.urlPercentEncoding())/credentials"
+    }
+}
+
+public struct GetManagedEndpointSessionCredentialsInput: Swift.Equatable {
+    /// The client idempotency token of the job run request.
+    public var clientToken: Swift.String?
+    /// Type of the token requested. Currently supported and default value of this field is “TOKEN.”
+    /// This member is required.
+    public var credentialType: Swift.String?
+    /// Duration in seconds for which the session token is valid. The default duration is 15 minutes and the maximum is 12 hours.
+    public var durationInSeconds: Swift.Int?
+    /// The ARN of the managed endpoint for which the request is submitted.
+    /// This member is required.
+    public var endpointIdentifier: Swift.String?
+    /// The IAM Execution Role ARN that will be used by the job run.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// String identifier used to separate sections of the execution logs uploaded to S3.
+    public var logContext: Swift.String?
+    /// The ARN of the Virtual Cluster which the Managed Endpoint belongs to.
+    /// This member is required.
+    public var virtualClusterIdentifier: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        credentialType: Swift.String? = nil,
+        durationInSeconds: Swift.Int? = nil,
+        endpointIdentifier: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        logContext: Swift.String? = nil,
+        virtualClusterIdentifier: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.credentialType = credentialType
+        self.durationInSeconds = durationInSeconds
+        self.endpointIdentifier = endpointIdentifier
+        self.executionRoleArn = executionRoleArn
+        self.logContext = logContext
+        self.virtualClusterIdentifier = virtualClusterIdentifier
+    }
+}
+
+struct GetManagedEndpointSessionCredentialsInputBody: Swift.Equatable {
+    let executionRoleArn: Swift.String?
+    let credentialType: Swift.String?
+    let durationInSeconds: Swift.Int?
+    let logContext: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension GetManagedEndpointSessionCredentialsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case credentialType
+        case durationInSeconds
+        case executionRoleArn
+        case logContext
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+        let credentialTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialType)
+        credentialType = credentialTypeDecoded
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
+        durationInSeconds = durationInSecondsDecoded
+        let logContextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logContext)
+        logContext = logContextDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension GetManagedEndpointSessionCredentialsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetManagedEndpointSessionCredentialsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestThrottledException" : self = .requestThrottledException(try RequestThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetManagedEndpointSessionCredentialsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case requestThrottledException(RequestThrottledException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetManagedEndpointSessionCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetManagedEndpointSessionCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.credentials = output.credentials
+            self.expiresAt = output.expiresAt
+            self.id = output.id
+        } else {
+            self.credentials = nil
+            self.expiresAt = nil
+            self.id = nil
+        }
+    }
+}
+
+public struct GetManagedEndpointSessionCredentialsOutputResponse: Swift.Equatable {
+    /// The structure containing the session credentials.
+    public var credentials: EMRcontainersClientTypes.Credentials?
+    /// The date and time when the session token will expire.
+    public var expiresAt: ClientRuntime.Date?
+    /// The identifier of the session token returned.
+    public var id: Swift.String?
+
+    public init (
+        credentials: EMRcontainersClientTypes.Credentials? = nil,
+        expiresAt: ClientRuntime.Date? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.credentials = credentials
+        self.expiresAt = expiresAt
+        self.id = id
+    }
+}
+
+struct GetManagedEndpointSessionCredentialsOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+    let credentials: EMRcontainersClientTypes.Credentials?
+    let expiresAt: ClientRuntime.Date?
+}
+
+extension GetManagedEndpointSessionCredentialsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentials
+        case expiresAt
+        case id
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let credentialsDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+        let expiresAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expiresAt)
+        expiresAt = expiresAtDecoded
     }
 }
 
@@ -3815,6 +4053,57 @@ extension EMRcontainersClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = PersistentAppUI(rawValue: rawValue) ?? PersistentAppUI.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension RequestThrottledException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: RequestThrottledExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request throttled.
+public struct RequestThrottledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct RequestThrottledExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RequestThrottledExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 

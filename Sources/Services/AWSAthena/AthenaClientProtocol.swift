@@ -11,6 +11,10 @@ public protocol AthenaClientProtocol {
     func batchGetPreparedStatement(input: BatchGetPreparedStatementInput) async throws -> BatchGetPreparedStatementOutputResponse
     /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use [ListQueryExecutionsInput$WorkGroup]. Query executions differ from named (saved) queries. Use [BatchGetNamedQueryInput] to get details about named queries.
     func batchGetQueryExecution(input: BatchGetQueryExecutionInput) async throws -> BatchGetQueryExecutionOutputResponse
+    /// Cancels the capacity reservation with the specified name.
+    func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutputResponse
+    /// Creates a capacity reservation with the specified name and number of requested data processing units.
+    func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutputResponse
     /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account.
     func createDataCatalog(input: CreateDataCatalogInput) async throws -> CreateDataCatalogOutputResponse
     /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
@@ -41,6 +45,10 @@ public protocol AthenaClientProtocol {
     func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutputResponse
     /// Gets the status of a current calculation.
     func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutputResponse
+    /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
+    func getCapacityAssignmentConfiguration(input: GetCapacityAssignmentConfigurationInput) async throws -> GetCapacityAssignmentConfigurationOutputResponse
+    /// Returns information about the capacity reservation with the specified name.
+    func getCapacityReservation(input: GetCapacityReservationInput) async throws -> GetCapacityReservationOutputResponse
     /// Returns a database object for the specified database and data catalog.
     func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutputResponse
     /// Returns the specified data catalog.
@@ -71,6 +79,8 @@ public protocol AthenaClientProtocol {
     func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutputResponse
     /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutputResponse
+    /// Lists the capacity reservations for the current account.
+    func listCapacityReservations(input: ListCapacityReservationsInput) async throws -> ListCapacityReservationsOutputResponse
     /// Lists the databases in the specified data catalog.
     func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
     /// Lists the data catalogs in the current Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
@@ -93,10 +103,12 @@ public protocol AthenaClientProtocol {
     func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutputResponse
     /// Lists the metadata for the tables in the specified data catalog database.
     func listTableMetadata(input: ListTableMetadataInput) async throws -> ListTableMetadataOutputResponse
-    /// Lists the tags associated with an Athena workgroup or data catalog resource.
+    /// Lists the tags associated with an Athena resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists available workgroups for the account.
     func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutputResponse
+    /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
+    func putCapacityAssignmentConfiguration(input: PutCapacityAssignmentConfigurationInput) async throws -> PutCapacityAssignmentConfigurationOutputResponse
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
     func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutputResponse
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires [GetDataCatalog] permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
@@ -107,12 +119,14 @@ public protocol AthenaClientProtocol {
     func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutputResponse
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutputResponse
-    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
     func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutputResponse
-    /// Removes one or more tags from a data catalog or workgroup resource.
+    /// Removes one or more tags from an Athena resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Updates the number of requested data processing units for the capacity reservation with the specified name.
+    func updateCapacityReservation(input: UpdateCapacityReservationInput) async throws -> UpdateCapacityReservationOutputResponse
     /// Updates the data catalog that has the specified name.
     func updateDataCatalog(input: UpdateDataCatalogInput) async throws -> UpdateDataCatalogOutputResponse
     /// Updates a [NamedQuery] object. The database or workgroup cannot be updated.

@@ -2,6 +2,120 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AbortMultipartReadSetUploadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let sequenceStoreId = sequenceStoreId else {
+            return nil
+        }
+        guard let uploadId = uploadId else {
+            return nil
+        }
+        return "/sequencestore/\(sequenceStoreId.urlPercentEncoding())/upload/\(uploadId.urlPercentEncoding())/abort"
+    }
+}
+
+public struct AbortMultipartReadSetUploadInput: Swift.Equatable {
+    /// The sequence store ID for the store involved in the multipart upload.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+    /// The ID for the multipart upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init (
+        sequenceStoreId: Swift.String? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.sequenceStoreId = sequenceStoreId
+        self.uploadId = uploadId
+    }
+}
+
+struct AbortMultipartReadSetUploadInputBody: Swift.Equatable {
+}
+
+extension AbortMultipartReadSetUploadInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension AbortMultipartReadSetUploadOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AbortMultipartReadSetUploadOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotSupportedOperationException" : self = .notSupportedOperationException(try NotSupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AbortMultipartReadSetUploadOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case notSupportedOperationException(NotSupportedOperationException)
+    case requestTimeoutException(RequestTimeoutException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AbortMultipartReadSetUploadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct AbortMultipartReadSetUploadOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension OmicsClientTypes {
+    public enum Accelerators: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case gpu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Accelerators] {
+            return [
+                .gpu,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .gpu: return "GPU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Accelerators(rawValue: rawValue) ?? Accelerators.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -330,6 +444,7 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.AnnotationImportJobItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case completionTime
         case creationTime
         case destinationName
@@ -342,6 +457,12 @@ extension OmicsClientTypes.AnnotationImportJobItem: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotationFields = annotationFields {
+            var annotationFieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .annotationFields)
+            for (dictKey0, annotationFieldMap0) in annotationFields {
+                try annotationFieldsContainer.encode(annotationFieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let completionTime = self.completionTime {
             try encodeContainer.encodeTimestamp(completionTime, format: .dateTime, forKey: .completionTime)
         }
@@ -386,12 +507,25 @@ extension OmicsClientTypes.AnnotationImportJobItem: Swift.Codable {
         completionTime = completionTimeDecoded
         let runLeftNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runLeftNormalization) ?? false
         runLeftNormalization = runLeftNormalizationDecoded
+        let annotationFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .annotationFields)
+        var annotationFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let annotationFieldsContainer = annotationFieldsContainer {
+            annotationFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in annotationFieldsContainer {
+                if let string0 = string0 {
+                    annotationFieldsDecoded0?[key0] = string0
+                }
+            }
+        }
+        annotationFields = annotationFieldsDecoded0
     }
 }
 
 extension OmicsClientTypes {
     /// An annotation import job.
     public struct AnnotationImportJobItem: Swift.Equatable {
+        /// The annotation schema generated by the parsed annotation data.
+        public var annotationFields: [Swift.String:Swift.String]?
         /// When the job completed.
         public var completionTime: ClientRuntime.Date?
         /// When the job was created.
@@ -416,6 +550,7 @@ extension OmicsClientTypes {
         public var updateTime: ClientRuntime.Date?
 
         public init (
+            annotationFields: [Swift.String:Swift.String]? = nil,
             completionTime: ClientRuntime.Date? = nil,
             creationTime: ClientRuntime.Date? = nil,
             destinationName: Swift.String? = nil,
@@ -426,6 +561,7 @@ extension OmicsClientTypes {
             updateTime: ClientRuntime.Date? = nil
         )
         {
+            self.annotationFields = annotationFields
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.destinationName = destinationName
@@ -1018,6 +1154,217 @@ public struct CancelVariantImportJobOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension CompleteMultipartReadSetUploadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let parts = parts {
+            var partsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parts)
+            for completereadsetuploadpartlistitem0 in parts {
+                try partsContainer.encode(completereadsetuploadpartlistitem0)
+            }
+        }
+    }
+}
+
+extension CompleteMultipartReadSetUploadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let sequenceStoreId = sequenceStoreId else {
+            return nil
+        }
+        guard let uploadId = uploadId else {
+            return nil
+        }
+        return "/sequencestore/\(sequenceStoreId.urlPercentEncoding())/upload/\(uploadId.urlPercentEncoding())/complete"
+    }
+}
+
+public struct CompleteMultipartReadSetUploadInput: Swift.Equatable {
+    /// The individual uploads or parts of a multipart upload.
+    /// This member is required.
+    public var parts: [OmicsClientTypes.CompleteReadSetUploadPartListItem]?
+    /// The sequence store ID for the store involved in the multipart upload.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+    /// The ID for the multipart upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init (
+        parts: [OmicsClientTypes.CompleteReadSetUploadPartListItem]? = nil,
+        sequenceStoreId: Swift.String? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.parts = parts
+        self.sequenceStoreId = sequenceStoreId
+        self.uploadId = uploadId
+    }
+}
+
+struct CompleteMultipartReadSetUploadInputBody: Swift.Equatable {
+    let parts: [OmicsClientTypes.CompleteReadSetUploadPartListItem]?
+}
+
+extension CompleteMultipartReadSetUploadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parts
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let partsContainer = try containerValues.decodeIfPresent([OmicsClientTypes.CompleteReadSetUploadPartListItem?].self, forKey: .parts)
+        var partsDecoded0:[OmicsClientTypes.CompleteReadSetUploadPartListItem]? = nil
+        if let partsContainer = partsContainer {
+            partsDecoded0 = [OmicsClientTypes.CompleteReadSetUploadPartListItem]()
+            for structure0 in partsContainer {
+                if let structure0 = structure0 {
+                    partsDecoded0?.append(structure0)
+                }
+            }
+        }
+        parts = partsDecoded0
+    }
+}
+
+extension CompleteMultipartReadSetUploadOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CompleteMultipartReadSetUploadOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotSupportedOperationException" : self = .notSupportedOperationException(try NotSupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CompleteMultipartReadSetUploadOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case notSupportedOperationException(NotSupportedOperationException)
+    case requestTimeoutException(RequestTimeoutException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CompleteMultipartReadSetUploadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CompleteMultipartReadSetUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.readSetId = output.readSetId
+        } else {
+            self.readSetId = nil
+        }
+    }
+}
+
+public struct CompleteMultipartReadSetUploadOutputResponse: Swift.Equatable {
+    /// The read set ID created for an uploaded read set.
+    /// This member is required.
+    public var readSetId: Swift.String?
+
+    public init (
+        readSetId: Swift.String? = nil
+    )
+    {
+        self.readSetId = readSetId
+    }
+}
+
+struct CompleteMultipartReadSetUploadOutputResponseBody: Swift.Equatable {
+    let readSetId: Swift.String?
+}
+
+extension CompleteMultipartReadSetUploadOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case readSetId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readSetId)
+        readSetId = readSetIdDecoded
+    }
+}
+
+extension OmicsClientTypes.CompleteReadSetUploadPartListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksum
+        case partNumber
+        case partSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let checksum = self.checksum {
+            try encodeContainer.encode(checksum, forKey: .checksum)
+        }
+        if let partNumber = self.partNumber {
+            try encodeContainer.encode(partNumber, forKey: .partNumber)
+        }
+        if let partSource = self.partSource {
+            try encodeContainer.encode(partSource.rawValue, forKey: .partSource)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber)
+        partNumber = partNumberDecoded
+        let partSourceDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ReadSetPartSource.self, forKey: .partSource)
+        partSource = partSourceDecoded
+        let checksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksum)
+        checksum = checksumDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// Part of the response to the CompleteReadSetUpload API, including metadata.
+    public struct CompleteReadSetUploadPartListItem: Swift.Equatable {
+        /// A unique identifier used to confirm that parts are being added to the correct upload.
+        /// This member is required.
+        public var checksum: Swift.String?
+        /// A number identifying the part in a read set upload.
+        /// This member is required.
+        public var partNumber: Swift.Int?
+        /// The source file of the part being uploaded.
+        /// This member is required.
+        public var partSource: OmicsClientTypes.ReadSetPartSource?
+
+        public init (
+            checksum: Swift.String? = nil,
+            partNumber: Swift.Int? = nil,
+            partSource: OmicsClientTypes.ReadSetPartSource? = nil
+        )
+        {
+            self.checksum = checksum
+            self.partNumber = partNumber
+            self.partSource = partSource
+        }
+    }
+
+}
+
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -1340,6 +1687,366 @@ extension CreateAnnotationStoreOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateMultipartReadSetUploadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case generatedFrom
+        case name
+        case referenceArn
+        case sampleId
+        case sourceFileType
+        case subjectId
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let generatedFrom = self.generatedFrom {
+            try encodeContainer.encode(generatedFrom, forKey: .generatedFrom)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let referenceArn = self.referenceArn {
+            try encodeContainer.encode(referenceArn, forKey: .referenceArn)
+        }
+        if let sampleId = self.sampleId {
+            try encodeContainer.encode(sampleId, forKey: .sampleId)
+        }
+        if let sourceFileType = self.sourceFileType {
+            try encodeContainer.encode(sourceFileType.rawValue, forKey: .sourceFileType)
+        }
+        if let subjectId = self.subjectId {
+            try encodeContainer.encode(subjectId, forKey: .subjectId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateMultipartReadSetUploadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let sequenceStoreId = sequenceStoreId else {
+            return nil
+        }
+        return "/sequencestore/\(sequenceStoreId.urlPercentEncoding())/upload"
+    }
+}
+
+public struct CreateMultipartReadSetUploadInput: Swift.Equatable {
+    /// An idempotency token that can be used to avoid triggering multiple multipart uploads.
+    public var clientToken: Swift.String?
+    /// The description of the read set.
+    public var description: Swift.String?
+    /// Where the source originated.
+    public var generatedFrom: Swift.String?
+    /// The name of the read set.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ARN of the reference.
+    /// This member is required.
+    public var referenceArn: Swift.String?
+    /// The source's sample ID.
+    /// This member is required.
+    public var sampleId: Swift.String?
+    /// The sequence store ID for the store that is the destination of the multipart uploads.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+    /// The type of file being uploaded.
+    /// This member is required.
+    public var sourceFileType: OmicsClientTypes.FileType?
+    /// The source's subject ID.
+    /// This member is required.
+    public var subjectId: Swift.String?
+    /// Any tags to add to the read set.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        generatedFrom: Swift.String? = nil,
+        name: Swift.String? = nil,
+        referenceArn: Swift.String? = nil,
+        sampleId: Swift.String? = nil,
+        sequenceStoreId: Swift.String? = nil,
+        sourceFileType: OmicsClientTypes.FileType? = nil,
+        subjectId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.generatedFrom = generatedFrom
+        self.name = name
+        self.referenceArn = referenceArn
+        self.sampleId = sampleId
+        self.sequenceStoreId = sequenceStoreId
+        self.sourceFileType = sourceFileType
+        self.subjectId = subjectId
+        self.tags = tags
+    }
+}
+
+struct CreateMultipartReadSetUploadInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let sourceFileType: OmicsClientTypes.FileType?
+    let subjectId: Swift.String?
+    let sampleId: Swift.String?
+    let generatedFrom: Swift.String?
+    let referenceArn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateMultipartReadSetUploadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case generatedFrom
+        case name
+        case referenceArn
+        case sampleId
+        case sourceFileType
+        case subjectId
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let sourceFileTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.FileType.self, forKey: .sourceFileType)
+        sourceFileType = sourceFileTypeDecoded
+        let subjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectId)
+        subjectId = subjectIdDecoded
+        let sampleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sampleId)
+        sampleId = sampleIdDecoded
+        let generatedFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedFrom)
+        generatedFrom = generatedFromDecoded
+        let referenceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceArn)
+        referenceArn = referenceArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateMultipartReadSetUploadOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateMultipartReadSetUploadOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotSupportedOperationException" : self = .notSupportedOperationException(try NotSupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateMultipartReadSetUploadOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case notSupportedOperationException(NotSupportedOperationException)
+    case requestTimeoutException(RequestTimeoutException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateMultipartReadSetUploadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateMultipartReadSetUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.description = output.description
+            self.generatedFrom = output.generatedFrom
+            self.name = output.name
+            self.referenceArn = output.referenceArn
+            self.sampleId = output.sampleId
+            self.sequenceStoreId = output.sequenceStoreId
+            self.sourceFileType = output.sourceFileType
+            self.subjectId = output.subjectId
+            self.tags = output.tags
+            self.uploadId = output.uploadId
+        } else {
+            self.creationTime = nil
+            self.description = nil
+            self.generatedFrom = nil
+            self.name = nil
+            self.referenceArn = nil
+            self.sampleId = nil
+            self.sequenceStoreId = nil
+            self.sourceFileType = nil
+            self.subjectId = nil
+            self.tags = nil
+            self.uploadId = nil
+        }
+    }
+}
+
+public struct CreateMultipartReadSetUploadOutputResponse: Swift.Equatable {
+    /// The creation time of the multipart upload.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// The description of the read set.
+    public var description: Swift.String?
+    /// The source of the read set.
+    public var generatedFrom: Swift.String?
+    /// The name of the read set.
+    public var name: Swift.String?
+    /// The read set source's reference ARN.
+    /// This member is required.
+    public var referenceArn: Swift.String?
+    /// The source's sample ID.
+    /// This member is required.
+    public var sampleId: Swift.String?
+    /// The sequence store ID for the store that the read set will be created in.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+    /// The file type of the read set source.
+    /// This member is required.
+    public var sourceFileType: OmicsClientTypes.FileType?
+    /// The source's subject ID.
+    /// This member is required.
+    public var subjectId: Swift.String?
+    /// The tags to add to the read set.
+    public var tags: [Swift.String:Swift.String]?
+    /// he ID for the initiated multipart upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init (
+        creationTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        generatedFrom: Swift.String? = nil,
+        name: Swift.String? = nil,
+        referenceArn: Swift.String? = nil,
+        sampleId: Swift.String? = nil,
+        sequenceStoreId: Swift.String? = nil,
+        sourceFileType: OmicsClientTypes.FileType? = nil,
+        subjectId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.description = description
+        self.generatedFrom = generatedFrom
+        self.name = name
+        self.referenceArn = referenceArn
+        self.sampleId = sampleId
+        self.sequenceStoreId = sequenceStoreId
+        self.sourceFileType = sourceFileType
+        self.subjectId = subjectId
+        self.tags = tags
+        self.uploadId = uploadId
+    }
+}
+
+struct CreateMultipartReadSetUploadOutputResponseBody: Swift.Equatable {
+    let sequenceStoreId: Swift.String?
+    let uploadId: Swift.String?
+    let sourceFileType: OmicsClientTypes.FileType?
+    let subjectId: Swift.String?
+    let sampleId: Swift.String?
+    let generatedFrom: Swift.String?
+    let referenceArn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let creationTime: ClientRuntime.Date?
+}
+
+extension CreateMultipartReadSetUploadOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case description
+        case generatedFrom
+        case name
+        case referenceArn
+        case sampleId
+        case sequenceStoreId
+        case sourceFileType
+        case subjectId
+        case tags
+        case uploadId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sequenceStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sequenceStoreId)
+        sequenceStoreId = sequenceStoreIdDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+        let sourceFileTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.FileType.self, forKey: .sourceFileType)
+        sourceFileType = sourceFileTypeDecoded
+        let subjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectId)
+        subjectId = subjectIdDecoded
+        let sampleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sampleId)
+        sampleId = sampleIdDecoded
+        let generatedFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedFrom)
+        generatedFrom = generatedFromDecoded
+        let referenceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceArn)
+        referenceArn = referenceArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
 extension CreateReferenceStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -1577,6 +2284,7 @@ extension CreateRunGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxCpus
         case maxDuration
+        case maxGpus
         case maxRuns
         case name
         case requestId
@@ -1590,6 +2298,9 @@ extension CreateRunGroupInput: Swift.Encodable {
         }
         if let maxDuration = self.maxDuration {
             try encodeContainer.encode(maxDuration, forKey: .maxDuration)
+        }
+        if let maxGpus = self.maxGpus {
+            try encodeContainer.encode(maxGpus, forKey: .maxGpus)
         }
         if let maxRuns = self.maxRuns {
             try encodeContainer.encode(maxRuns, forKey: .maxRuns)
@@ -1620,6 +2331,8 @@ public struct CreateRunGroupInput: Swift.Equatable {
     public var maxCpus: Swift.Int?
     /// A maximum run time for the group in minutes.
     public var maxDuration: Swift.Int?
+    /// The maximum GPUs that can be used by a run group.
+    public var maxGpus: Swift.Int?
     /// The maximum number of concurrent runs for the group.
     public var maxRuns: Swift.Int?
     /// A name for the group.
@@ -1633,6 +2346,7 @@ public struct CreateRunGroupInput: Swift.Equatable {
     public init (
         maxCpus: Swift.Int? = nil,
         maxDuration: Swift.Int? = nil,
+        maxGpus: Swift.Int? = nil,
         maxRuns: Swift.Int? = nil,
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
@@ -1641,6 +2355,7 @@ public struct CreateRunGroupInput: Swift.Equatable {
     {
         self.maxCpus = maxCpus
         self.maxDuration = maxDuration
+        self.maxGpus = maxGpus
         self.maxRuns = maxRuns
         self.name = name
         self.requestId = requestId
@@ -1655,12 +2370,14 @@ struct CreateRunGroupInputBody: Swift.Equatable {
     let maxDuration: Swift.Int?
     let tags: [Swift.String:Swift.String]?
     let requestId: Swift.String?
+    let maxGpus: Swift.Int?
 }
 
 extension CreateRunGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxCpus
         case maxDuration
+        case maxGpus
         case maxRuns
         case name
         case requestId
@@ -1690,6 +2407,8 @@ extension CreateRunGroupInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+        let maxGpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxGpus)
+        maxGpus = maxGpusDecoded
     }
 }
 
@@ -1802,6 +2521,7 @@ extension CreateSequenceStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case description
+        case fallbackLocation
         case name
         case sseConfig
         case tags
@@ -1814,6 +2534,9 @@ extension CreateSequenceStoreInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let fallbackLocation = self.fallbackLocation {
+            try encodeContainer.encode(fallbackLocation, forKey: .fallbackLocation)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -1841,6 +2564,8 @@ public struct CreateSequenceStoreInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description for the store.
     public var description: Swift.String?
+    /// An S3 location that is used to store files that have failed a direct upload.
+    public var fallbackLocation: Swift.String?
     /// A name for the store.
     /// This member is required.
     public var name: Swift.String?
@@ -1852,6 +2577,7 @@ public struct CreateSequenceStoreInput: Swift.Equatable {
     public init (
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        fallbackLocation: Swift.String? = nil,
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1859,6 +2585,7 @@ public struct CreateSequenceStoreInput: Swift.Equatable {
     {
         self.clientToken = clientToken
         self.description = description
+        self.fallbackLocation = fallbackLocation
         self.name = name
         self.sseConfig = sseConfig
         self.tags = tags
@@ -1871,12 +2598,14 @@ struct CreateSequenceStoreInputBody: Swift.Equatable {
     let sseConfig: OmicsClientTypes.SseConfig?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let fallbackLocation: Swift.String?
 }
 
 extension CreateSequenceStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case description
+        case fallbackLocation
         case name
         case sseConfig
         case tags
@@ -1903,6 +2632,8 @@ extension CreateSequenceStoreInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
+        fallbackLocation = fallbackLocationDecoded
     }
 }
 
@@ -1946,6 +2677,7 @@ extension CreateSequenceStoreOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.description = output.description
+            self.fallbackLocation = output.fallbackLocation
             self.id = output.id
             self.name = output.name
             self.sseConfig = output.sseConfig
@@ -1953,6 +2685,7 @@ extension CreateSequenceStoreOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = nil
             self.creationTime = nil
             self.description = nil
+            self.fallbackLocation = nil
             self.id = nil
             self.name = nil
             self.sseConfig = nil
@@ -1969,6 +2702,8 @@ public struct CreateSequenceStoreOutputResponse: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The store's description.
     public var description: Swift.String?
+    /// An S3 location that is used to store files that have failed a direct upload.
+    public var fallbackLocation: Swift.String?
     /// The store's ID.
     /// This member is required.
     public var id: Swift.String?
@@ -1981,6 +2716,7 @@ public struct CreateSequenceStoreOutputResponse: Swift.Equatable {
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        fallbackLocation: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil
@@ -1989,6 +2725,7 @@ public struct CreateSequenceStoreOutputResponse: Swift.Equatable {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
+        self.fallbackLocation = fallbackLocation
         self.id = id
         self.name = name
         self.sseConfig = sseConfig
@@ -2002,6 +2739,7 @@ struct CreateSequenceStoreOutputResponseBody: Swift.Equatable {
     let description: Swift.String?
     let sseConfig: OmicsClientTypes.SseConfig?
     let creationTime: ClientRuntime.Date?
+    let fallbackLocation: Swift.String?
 }
 
 extension CreateSequenceStoreOutputResponseBody: Swift.Decodable {
@@ -2009,6 +2747,7 @@ extension CreateSequenceStoreOutputResponseBody: Swift.Decodable {
         case arn
         case creationTime
         case description
+        case fallbackLocation
         case id
         case name
         case sseConfig
@@ -2028,6 +2767,8 @@ extension CreateSequenceStoreOutputResponseBody: Swift.Decodable {
         sseConfig = sseConfigDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
+        fallbackLocation = fallbackLocationDecoded
     }
 }
 
@@ -2259,6 +3000,7 @@ extension CreateVariantStoreOutputResponseBody: Swift.Decodable {
 
 extension CreateWorkflowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerators
         case definitionUri
         case definitionZip
         case description
@@ -2273,6 +3015,9 @@ extension CreateWorkflowInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accelerators = self.accelerators {
+            try encodeContainer.encode(accelerators.rawValue, forKey: .accelerators)
+        }
         if let definitionUri = self.definitionUri {
             try encodeContainer.encode(definitionUri, forKey: .definitionUri)
         }
@@ -2319,6 +3064,8 @@ extension CreateWorkflowInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWorkflowInput: Swift.Equatable {
+    /// The computational accelerator specified to run the workflow.
+    public var accelerators: OmicsClientTypes.Accelerators?
     /// The URI of a definition for the workflow.
     public var definitionUri: Swift.String?
     /// A ZIP archive for the workflow.
@@ -2342,6 +3089,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        accelerators: OmicsClientTypes.Accelerators? = nil,
         definitionUri: Swift.String? = nil,
         definitionZip: ClientRuntime.Data? = nil,
         description: Swift.String? = nil,
@@ -2354,6 +3102,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accelerators = accelerators
         self.definitionUri = definitionUri
         self.definitionZip = definitionZip
         self.description = description
@@ -2378,10 +3127,12 @@ struct CreateWorkflowInputBody: Swift.Equatable {
     let storageCapacity: Swift.Int?
     let tags: [Swift.String:Swift.String]?
     let requestId: Swift.String?
+    let accelerators: OmicsClientTypes.Accelerators?
 }
 
 extension CreateWorkflowInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerators
         case definitionUri
         case definitionZip
         case description
@@ -2434,6 +3185,8 @@ extension CreateWorkflowInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+        let acceleratorsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.Accelerators.self, forKey: .accelerators)
+        accelerators = acceleratorsDecoded
     }
 }
 
@@ -3773,6 +4526,7 @@ extension GetAnnotationImportJobOutputResponse: ClientRuntime.HttpResponseBindin
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetAnnotationImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.annotationFields = output.annotationFields
             self.completionTime = output.completionTime
             self.creationTime = output.creationTime
             self.destinationName = output.destinationName
@@ -3785,6 +4539,7 @@ extension GetAnnotationImportJobOutputResponse: ClientRuntime.HttpResponseBindin
             self.statusMessage = output.statusMessage
             self.updateTime = output.updateTime
         } else {
+            self.annotationFields = nil
             self.completionTime = nil
             self.creationTime = nil
             self.destinationName = nil
@@ -3801,6 +4556,8 @@ extension GetAnnotationImportJobOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct GetAnnotationImportJobOutputResponse: Swift.Equatable {
+    /// The annotation schema generated by the parsed annotation data.
+    public var annotationFields: [Swift.String:Swift.String]?
     /// When the job completed.
     /// This member is required.
     public var completionTime: ClientRuntime.Date?
@@ -3836,6 +4593,7 @@ public struct GetAnnotationImportJobOutputResponse: Swift.Equatable {
     public var updateTime: ClientRuntime.Date?
 
     public init (
+        annotationFields: [Swift.String:Swift.String]? = nil,
         completionTime: ClientRuntime.Date? = nil,
         creationTime: ClientRuntime.Date? = nil,
         destinationName: Swift.String? = nil,
@@ -3849,6 +4607,7 @@ public struct GetAnnotationImportJobOutputResponse: Swift.Equatable {
         updateTime: ClientRuntime.Date? = nil
     )
     {
+        self.annotationFields = annotationFields
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.destinationName = destinationName
@@ -3875,10 +4634,12 @@ struct GetAnnotationImportJobOutputResponseBody: Swift.Equatable {
     let items: [OmicsClientTypes.AnnotationImportItemDetail]?
     let runLeftNormalization: Swift.Bool
     let formatOptions: OmicsClientTypes.FormatOptions?
+    let annotationFields: [Swift.String:Swift.String]?
 }
 
 extension GetAnnotationImportJobOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case completionTime
         case creationTime
         case destinationName
@@ -3925,6 +4686,17 @@ extension GetAnnotationImportJobOutputResponseBody: Swift.Decodable {
         runLeftNormalization = runLeftNormalizationDecoded
         let formatOptionsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.FormatOptions.self, forKey: .formatOptions)
         formatOptions = formatOptionsDecoded
+        let annotationFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .annotationFields)
+        var annotationFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let annotationFieldsContainer = annotationFieldsContainer {
+            annotationFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in annotationFieldsContainer {
+                if let string0 = string0 {
+                    annotationFieldsDecoded0?[key0] = string0
+                }
+            }
+        }
+        annotationFields = annotationFieldsDecoded0
     }
 }
 
@@ -4910,6 +5682,7 @@ extension GetReadSetMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sequenceInformation = output.sequenceInformation
             self.sequenceStoreId = output.sequenceStoreId
             self.status = output.status
+            self.statusMessage = output.statusMessage
             self.subjectId = output.subjectId
         } else {
             self.arn = nil
@@ -4924,6 +5697,7 @@ extension GetReadSetMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sequenceInformation = nil
             self.sequenceStoreId = nil
             self.status = nil
+            self.statusMessage = nil
             self.subjectId = nil
         }
     }
@@ -4960,6 +5734,8 @@ public struct GetReadSetMetadataOutputResponse: Swift.Equatable {
     /// The read set's status.
     /// This member is required.
     public var status: OmicsClientTypes.ReadSetStatus?
+    /// The status message for a read set. It provides more detail as to why the read set has a status.
+    public var statusMessage: Swift.String?
     /// The read set's subject ID.
     public var subjectId: Swift.String?
 
@@ -4976,6 +5752,7 @@ public struct GetReadSetMetadataOutputResponse: Swift.Equatable {
         sequenceInformation: OmicsClientTypes.SequenceInformation? = nil,
         sequenceStoreId: Swift.String? = nil,
         status: OmicsClientTypes.ReadSetStatus? = nil,
+        statusMessage: Swift.String? = nil,
         subjectId: Swift.String? = nil
     )
     {
@@ -4991,6 +5768,7 @@ public struct GetReadSetMetadataOutputResponse: Swift.Equatable {
         self.sequenceInformation = sequenceInformation
         self.sequenceStoreId = sequenceStoreId
         self.status = status
+        self.statusMessage = statusMessage
         self.subjectId = subjectId
     }
 }
@@ -5009,6 +5787,7 @@ struct GetReadSetMetadataOutputResponseBody: Swift.Equatable {
     let sequenceInformation: OmicsClientTypes.SequenceInformation?
     let referenceArn: Swift.String?
     let files: OmicsClientTypes.ReadSetFiles?
+    let statusMessage: Swift.String?
 }
 
 extension GetReadSetMetadataOutputResponseBody: Swift.Decodable {
@@ -5025,6 +5804,7 @@ extension GetReadSetMetadataOutputResponseBody: Swift.Decodable {
         case sequenceInformation
         case sequenceStoreId
         case status
+        case statusMessage
         case subjectId
     }
 
@@ -5056,6 +5836,8 @@ extension GetReadSetMetadataOutputResponseBody: Swift.Decodable {
         referenceArn = referenceArnDecoded
         let filesDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ReadSetFiles.self, forKey: .files)
         files = filesDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
     }
 }
 
@@ -5928,6 +6710,7 @@ extension GetRunGroupOutputResponse: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.maxCpus = output.maxCpus
             self.maxDuration = output.maxDuration
+            self.maxGpus = output.maxGpus
             self.maxRuns = output.maxRuns
             self.name = output.name
             self.tags = output.tags
@@ -5937,6 +6720,7 @@ extension GetRunGroupOutputResponse: ClientRuntime.HttpResponseBinding {
             self.id = nil
             self.maxCpus = nil
             self.maxDuration = nil
+            self.maxGpus = nil
             self.maxRuns = nil
             self.name = nil
             self.tags = nil
@@ -5955,6 +6739,8 @@ public struct GetRunGroupOutputResponse: Swift.Equatable {
     public var maxCpus: Swift.Int?
     /// The group's maximum run time in minutes.
     public var maxDuration: Swift.Int?
+    /// The maximum GPUs that can be used by a run group.
+    public var maxGpus: Swift.Int?
     /// The maximum number of concurrent runs for the group.
     public var maxRuns: Swift.Int?
     /// The group's name.
@@ -5968,6 +6754,7 @@ public struct GetRunGroupOutputResponse: Swift.Equatable {
         id: Swift.String? = nil,
         maxCpus: Swift.Int? = nil,
         maxDuration: Swift.Int? = nil,
+        maxGpus: Swift.Int? = nil,
         maxRuns: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -5978,6 +6765,7 @@ public struct GetRunGroupOutputResponse: Swift.Equatable {
         self.id = id
         self.maxCpus = maxCpus
         self.maxDuration = maxDuration
+        self.maxGpus = maxGpus
         self.maxRuns = maxRuns
         self.name = name
         self.tags = tags
@@ -5993,6 +6781,7 @@ struct GetRunGroupOutputResponseBody: Swift.Equatable {
     let maxDuration: Swift.Int?
     let creationTime: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
+    let maxGpus: Swift.Int?
 }
 
 extension GetRunGroupOutputResponseBody: Swift.Decodable {
@@ -6002,6 +6791,7 @@ extension GetRunGroupOutputResponseBody: Swift.Decodable {
         case id
         case maxCpus
         case maxDuration
+        case maxGpus
         case maxRuns
         case name
         case tags
@@ -6034,6 +6824,8 @@ extension GetRunGroupOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let maxGpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxGpus)
+        maxGpus = maxGpusDecoded
     }
 }
 
@@ -6128,6 +6920,7 @@ extension GetRunOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accelerators = output.accelerators
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.definition = output.definition
@@ -6152,6 +6945,7 @@ extension GetRunOutputResponse: ClientRuntime.HttpResponseBinding {
             self.workflowId = output.workflowId
             self.workflowType = output.workflowType
         } else {
+            self.accelerators = nil
             self.arn = nil
             self.creationTime = nil
             self.definition = nil
@@ -6180,6 +6974,8 @@ extension GetRunOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetRunOutputResponse: Swift.Equatable {
+    /// The computational accelerator used to run the workflow.
+    public var accelerators: OmicsClientTypes.Accelerators?
     /// The run's ARN.
     public var arn: Swift.String?
     /// When the run was created.
@@ -6228,6 +7024,7 @@ public struct GetRunOutputResponse: Swift.Equatable {
     public var workflowType: OmicsClientTypes.WorkflowType?
 
     public init (
+        accelerators: OmicsClientTypes.Accelerators? = nil,
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         definition: Swift.String? = nil,
@@ -6253,6 +7050,7 @@ public struct GetRunOutputResponse: Swift.Equatable {
         workflowType: OmicsClientTypes.WorkflowType? = nil
     )
     {
+        self.accelerators = accelerators
         self.arn = arn
         self.creationTime = creationTime
         self.definition = definition
@@ -6303,10 +7101,12 @@ struct GetRunOutputResponseBody: Swift.Equatable {
     let stopTime: ClientRuntime.Date?
     let statusMessage: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let accelerators: OmicsClientTypes.Accelerators?
 }
 
 extension GetRunOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerators
         case arn
         case creationTime
         case definition
@@ -6398,6 +7198,8 @@ extension GetRunOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let acceleratorsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.Accelerators.self, forKey: .accelerators)
+        accelerators = acceleratorsDecoded
     }
 }
 
@@ -6483,6 +7285,7 @@ extension GetRunTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetRunTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cpus = output.cpus
             self.creationTime = output.creationTime
+            self.gpus = output.gpus
             self.logStream = output.logStream
             self.memory = output.memory
             self.name = output.name
@@ -6494,6 +7297,7 @@ extension GetRunTaskOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.cpus = nil
             self.creationTime = nil
+            self.gpus = nil
             self.logStream = nil
             self.memory = nil
             self.name = nil
@@ -6511,6 +7315,8 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
     public var cpus: Swift.Int?
     /// When the task was created.
     public var creationTime: ClientRuntime.Date?
+    /// The number of Graphics Processing Units (GPU) specified in the task.
+    public var gpus: Swift.Int?
     /// The task's log stream.
     public var logStream: Swift.String?
     /// The task's memory use in gigabytes.
@@ -6531,6 +7337,7 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
     public init (
         cpus: Swift.Int? = nil,
         creationTime: ClientRuntime.Date? = nil,
+        gpus: Swift.Int? = nil,
         logStream: Swift.String? = nil,
         memory: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -6543,6 +7350,7 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
     {
         self.cpus = cpus
         self.creationTime = creationTime
+        self.gpus = gpus
         self.logStream = logStream
         self.memory = memory
         self.name = name
@@ -6565,12 +7373,14 @@ struct GetRunTaskOutputResponseBody: Swift.Equatable {
     let stopTime: ClientRuntime.Date?
     let statusMessage: Swift.String?
     let logStream: Swift.String?
+    let gpus: Swift.Int?
 }
 
 extension GetRunTaskOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpus
         case creationTime
+        case gpus
         case logStream
         case memory
         case name
@@ -6603,6 +7413,8 @@ extension GetRunTaskOutputResponseBody: Swift.Decodable {
         statusMessage = statusMessageDecoded
         let logStreamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStream)
         logStream = logStreamDecoded
+        let gpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpus)
+        gpus = gpusDecoded
     }
 }
 
@@ -6677,6 +7489,7 @@ extension GetSequenceStoreOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.description = output.description
+            self.fallbackLocation = output.fallbackLocation
             self.id = output.id
             self.name = output.name
             self.sseConfig = output.sseConfig
@@ -6684,6 +7497,7 @@ extension GetSequenceStoreOutputResponse: ClientRuntime.HttpResponseBinding {
             self.arn = nil
             self.creationTime = nil
             self.description = nil
+            self.fallbackLocation = nil
             self.id = nil
             self.name = nil
             self.sseConfig = nil
@@ -6700,6 +7514,8 @@ public struct GetSequenceStoreOutputResponse: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The store's description.
     public var description: Swift.String?
+    /// An S3 location that is used to store files that have failed a direct upload.
+    public var fallbackLocation: Swift.String?
     /// The store's ID.
     /// This member is required.
     public var id: Swift.String?
@@ -6712,6 +7528,7 @@ public struct GetSequenceStoreOutputResponse: Swift.Equatable {
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        fallbackLocation: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil
@@ -6720,6 +7537,7 @@ public struct GetSequenceStoreOutputResponse: Swift.Equatable {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
+        self.fallbackLocation = fallbackLocation
         self.id = id
         self.name = name
         self.sseConfig = sseConfig
@@ -6733,6 +7551,7 @@ struct GetSequenceStoreOutputResponseBody: Swift.Equatable {
     let description: Swift.String?
     let sseConfig: OmicsClientTypes.SseConfig?
     let creationTime: ClientRuntime.Date?
+    let fallbackLocation: Swift.String?
 }
 
 extension GetSequenceStoreOutputResponseBody: Swift.Decodable {
@@ -6740,6 +7559,7 @@ extension GetSequenceStoreOutputResponseBody: Swift.Decodable {
         case arn
         case creationTime
         case description
+        case fallbackLocation
         case id
         case name
         case sseConfig
@@ -6759,6 +7579,8 @@ extension GetSequenceStoreOutputResponseBody: Swift.Decodable {
         sseConfig = sseConfigDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
+        fallbackLocation = fallbackLocationDecoded
     }
 }
 
@@ -6828,6 +7650,7 @@ extension GetVariantImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetVariantImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.annotationFields = output.annotationFields
             self.completionTime = output.completionTime
             self.creationTime = output.creationTime
             self.destinationName = output.destinationName
@@ -6839,6 +7662,7 @@ extension GetVariantImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.statusMessage = output.statusMessage
             self.updateTime = output.updateTime
         } else {
+            self.annotationFields = nil
             self.completionTime = nil
             self.creationTime = nil
             self.destinationName = nil
@@ -6854,6 +7678,8 @@ extension GetVariantImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetVariantImportJobOutputResponse: Swift.Equatable {
+    /// The annotation schema generated by the parsed annotation data.
+    public var annotationFields: [Swift.String:Swift.String]?
     /// When the job completed.
     public var completionTime: ClientRuntime.Date?
     /// When the job was created.
@@ -6885,6 +7711,7 @@ public struct GetVariantImportJobOutputResponse: Swift.Equatable {
     public var updateTime: ClientRuntime.Date?
 
     public init (
+        annotationFields: [Swift.String:Swift.String]? = nil,
         completionTime: ClientRuntime.Date? = nil,
         creationTime: ClientRuntime.Date? = nil,
         destinationName: Swift.String? = nil,
@@ -6897,6 +7724,7 @@ public struct GetVariantImportJobOutputResponse: Swift.Equatable {
         updateTime: ClientRuntime.Date? = nil
     )
     {
+        self.annotationFields = annotationFields
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.destinationName = destinationName
@@ -6921,10 +7749,12 @@ struct GetVariantImportJobOutputResponseBody: Swift.Equatable {
     let completionTime: ClientRuntime.Date?
     let items: [OmicsClientTypes.VariantImportItemDetail]?
     let runLeftNormalization: Swift.Bool
+    let annotationFields: [Swift.String:Swift.String]?
 }
 
 extension GetVariantImportJobOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case completionTime
         case creationTime
         case destinationName
@@ -6968,6 +7798,17 @@ extension GetVariantImportJobOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let runLeftNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runLeftNormalization) ?? false
         runLeftNormalization = runLeftNormalizationDecoded
+        let annotationFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .annotationFields)
+        var annotationFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let annotationFieldsContainer = annotationFieldsContainer {
+            annotationFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in annotationFieldsContainer {
+                if let string0 = string0 {
+                    annotationFieldsDecoded0?[key0] = string0
+                }
+            }
+        }
+        annotationFields = annotationFieldsDecoded0
     }
 }
 
@@ -7302,6 +8143,7 @@ extension GetWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accelerators = output.accelerators
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.definition = output.definition
@@ -7310,6 +8152,7 @@ extension GetWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
             self.engine = output.engine
             self.id = output.id
             self.main = output.main
+            self.metadata = output.metadata
             self.name = output.name
             self.parameterTemplate = output.parameterTemplate
             self.status = output.status
@@ -7318,6 +8161,7 @@ extension GetWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
             self.type = output.type
         } else {
+            self.accelerators = nil
             self.arn = nil
             self.creationTime = nil
             self.definition = nil
@@ -7326,6 +8170,7 @@ extension GetWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
             self.engine = nil
             self.id = nil
             self.main = nil
+            self.metadata = nil
             self.name = nil
             self.parameterTemplate = nil
             self.status = nil
@@ -7338,6 +8183,8 @@ extension GetWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetWorkflowOutputResponse: Swift.Equatable {
+    /// The computational accelerator specified to run the workflow.
+    public var accelerators: OmicsClientTypes.Accelerators?
     /// The workflow's ARN.
     public var arn: Swift.String?
     /// When the workflow was created.
@@ -7354,6 +8201,8 @@ public struct GetWorkflowOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The path of the main definition file for the workflow.
     public var main: Swift.String?
+    /// Gets metadata for workflow.
+    public var metadata: [Swift.String:Swift.String]?
     /// The workflow's name.
     public var name: Swift.String?
     /// The workflow's parameter template.
@@ -7370,6 +8219,7 @@ public struct GetWorkflowOutputResponse: Swift.Equatable {
     public var type: OmicsClientTypes.WorkflowType?
 
     public init (
+        accelerators: OmicsClientTypes.Accelerators? = nil,
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         definition: Swift.String? = nil,
@@ -7378,6 +8228,7 @@ public struct GetWorkflowOutputResponse: Swift.Equatable {
         engine: OmicsClientTypes.WorkflowEngine? = nil,
         id: Swift.String? = nil,
         main: Swift.String? = nil,
+        metadata: [Swift.String:Swift.String]? = nil,
         name: Swift.String? = nil,
         parameterTemplate: [Swift.String:OmicsClientTypes.WorkflowParameter]? = nil,
         status: OmicsClientTypes.WorkflowStatus? = nil,
@@ -7387,6 +8238,7 @@ public struct GetWorkflowOutputResponse: Swift.Equatable {
         type: OmicsClientTypes.WorkflowType? = nil
     )
     {
+        self.accelerators = accelerators
         self.arn = arn
         self.creationTime = creationTime
         self.definition = definition
@@ -7395,6 +8247,7 @@ public struct GetWorkflowOutputResponse: Swift.Equatable {
         self.engine = engine
         self.id = id
         self.main = main
+        self.metadata = metadata
         self.name = name
         self.parameterTemplate = parameterTemplate
         self.status = status
@@ -7421,10 +8274,13 @@ struct GetWorkflowOutputResponseBody: Swift.Equatable {
     let creationTime: ClientRuntime.Date?
     let statusMessage: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let metadata: [Swift.String:Swift.String]?
+    let accelerators: OmicsClientTypes.Accelerators?
 }
 
 extension GetWorkflowOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerators
         case arn
         case creationTime
         case definition
@@ -7433,6 +8289,7 @@ extension GetWorkflowOutputResponseBody: Swift.Decodable {
         case engine
         case id
         case main
+        case metadata
         case name
         case parameterTemplate
         case status
@@ -7492,6 +8349,19 @@ extension GetWorkflowOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, workflowmetadatavalue0) in metadataContainer {
+                if let workflowmetadatavalue0 = workflowmetadatavalue0 {
+                    metadataDecoded0?[key0] = workflowmetadatavalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+        let acceleratorsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.Accelerators.self, forKey: .accelerators)
+        accelerators = acceleratorsDecoded
     }
 }
 
@@ -8587,6 +9457,157 @@ extension ListAnnotationStoresOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListMultipartReadSetUploadsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListMultipartReadSetUploadsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let sequenceStoreId = sequenceStoreId else {
+            return nil
+        }
+        return "/sequencestore/\(sequenceStoreId.urlPercentEncoding())/uploads"
+    }
+}
+
+public struct ListMultipartReadSetUploadsInput: Swift.Equatable {
+    /// The maximum number of multipart uploads returned in a page.
+    public var maxResults: Swift.Int?
+    /// Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The Sequence Store ID used for the multipart uploads.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sequenceStoreId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sequenceStoreId = sequenceStoreId
+    }
+}
+
+struct ListMultipartReadSetUploadsInputBody: Swift.Equatable {
+}
+
+extension ListMultipartReadSetUploadsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListMultipartReadSetUploadsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListMultipartReadSetUploadsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotSupportedOperationException" : self = .notSupportedOperationException(try NotSupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListMultipartReadSetUploadsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case notSupportedOperationException(NotSupportedOperationException)
+    case requestTimeoutException(RequestTimeoutException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListMultipartReadSetUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListMultipartReadSetUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.uploads = output.uploads
+        } else {
+            self.nextToken = nil
+            self.uploads = nil
+        }
+    }
+}
+
+public struct ListMultipartReadSetUploadsOutputResponse: Swift.Equatable {
+    /// Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// An array of multipart uploads.
+    public var uploads: [OmicsClientTypes.MultipartReadSetUploadListItem]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        uploads: [OmicsClientTypes.MultipartReadSetUploadListItem]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.uploads = uploads
+    }
+}
+
+struct ListMultipartReadSetUploadsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let uploads: [OmicsClientTypes.MultipartReadSetUploadListItem]?
+}
+
+extension ListMultipartReadSetUploadsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case uploads
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let uploadsContainer = try containerValues.decodeIfPresent([OmicsClientTypes.MultipartReadSetUploadListItem?].self, forKey: .uploads)
+        var uploadsDecoded0:[OmicsClientTypes.MultipartReadSetUploadListItem]? = nil
+        if let uploadsContainer = uploadsContainer {
+            uploadsDecoded0 = [OmicsClientTypes.MultipartReadSetUploadListItem]()
+            for structure0 in uploadsContainer {
+                if let structure0 = structure0 {
+                    uploadsDecoded0?.append(structure0)
+                }
+            }
+        }
+        uploads = uploadsDecoded0
+    }
+}
+
 extension ListReadSetActivationJobsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filter
@@ -9097,6 +10118,202 @@ extension ListReadSetImportJobsOutputResponseBody: Swift.Decodable {
             }
         }
         importJobs = importJobsDecoded0
+    }
+}
+
+extension ListReadSetUploadPartsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case partSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let partSource = self.partSource {
+            try encodeContainer.encode(partSource.rawValue, forKey: .partSource)
+        }
+    }
+}
+
+extension ListReadSetUploadPartsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListReadSetUploadPartsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let sequenceStoreId = sequenceStoreId else {
+            return nil
+        }
+        guard let uploadId = uploadId else {
+            return nil
+        }
+        return "/sequencestore/\(sequenceStoreId.urlPercentEncoding())/upload/\(uploadId.urlPercentEncoding())/parts"
+    }
+}
+
+public struct ListReadSetUploadPartsInput: Swift.Equatable {
+    /// Attributes used to filter for a specific subset of read set part uploads.
+    public var filter: OmicsClientTypes.ReadSetUploadPartListFilter?
+    /// The maximum number of read set upload parts returned in a page.
+    public var maxResults: Swift.Int?
+    /// Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The source file for the upload part.
+    /// This member is required.
+    public var partSource: OmicsClientTypes.ReadSetPartSource?
+    /// The Sequence Store ID used for the multipart uploads.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+    /// The ID for the initiated multipart upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init (
+        filter: OmicsClientTypes.ReadSetUploadPartListFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        partSource: OmicsClientTypes.ReadSetPartSource? = nil,
+        sequenceStoreId: Swift.String? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.partSource = partSource
+        self.sequenceStoreId = sequenceStoreId
+        self.uploadId = uploadId
+    }
+}
+
+struct ListReadSetUploadPartsInputBody: Swift.Equatable {
+    let partSource: OmicsClientTypes.ReadSetPartSource?
+    let filter: OmicsClientTypes.ReadSetUploadPartListFilter?
+}
+
+extension ListReadSetUploadPartsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case partSource
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let partSourceDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ReadSetPartSource.self, forKey: .partSource)
+        partSource = partSourceDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ReadSetUploadPartListFilter.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+extension ListReadSetUploadPartsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListReadSetUploadPartsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotSupportedOperationException" : self = .notSupportedOperationException(try NotSupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListReadSetUploadPartsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case notSupportedOperationException(NotSupportedOperationException)
+    case requestTimeoutException(RequestTimeoutException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListReadSetUploadPartsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListReadSetUploadPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.parts = output.parts
+        } else {
+            self.nextToken = nil
+            self.parts = nil
+        }
+    }
+}
+
+public struct ListReadSetUploadPartsOutputResponse: Swift.Equatable {
+    /// Next token returned in the response of a previous ListReadSetUploadParts call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// An array of upload parts.
+    public var parts: [OmicsClientTypes.ReadSetUploadPartListItem]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        parts: [OmicsClientTypes.ReadSetUploadPartListItem]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.parts = parts
+    }
+}
+
+struct ListReadSetUploadPartsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let parts: [OmicsClientTypes.ReadSetUploadPartListItem]?
+}
+
+extension ListReadSetUploadPartsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case parts
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let partsContainer = try containerValues.decodeIfPresent([OmicsClientTypes.ReadSetUploadPartListItem?].self, forKey: .parts)
+        var partsDecoded0:[OmicsClientTypes.ReadSetUploadPartListItem]? = nil
+        if let partsContainer = partsContainer {
+            partsDecoded0 = [OmicsClientTypes.ReadSetUploadPartListItem]()
+            for structure0 in partsContainer {
+                if let structure0 = structure0 {
+                    partsDecoded0?.append(structure0)
+                }
+            }
+        }
+        parts = partsDecoded0
     }
 }
 
@@ -10107,6 +11324,10 @@ extension ListRunsInput: ClientRuntime.QueryItemProvider {
                 let runGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "runGroupId".urlPercentEncoding(), value: Swift.String(runGroupId).urlPercentEncoding())
                 items.append(runGroupIdQueryItem)
             }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
             return items
         }
     }
@@ -10127,18 +11348,22 @@ public struct ListRunsInput: Swift.Equatable {
     public var runGroupId: Swift.String?
     /// Specify the pagination token from a previous request to retrieve the next page of results.
     public var startingToken: Swift.String?
+    /// The status of a run.
+    public var status: OmicsClientTypes.RunStatus?
 
     public init (
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
-        startingToken: Swift.String? = nil
+        startingToken: Swift.String? = nil,
+        status: OmicsClientTypes.RunStatus? = nil
     )
     {
         self.maxResults = maxResults
         self.name = name
         self.runGroupId = runGroupId
         self.startingToken = startingToken
+        self.status = status
     }
 }
 
@@ -11134,6 +12359,213 @@ extension ListWorkflowsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension OmicsClientTypes.MultipartReadSetUploadListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case description
+        case generatedFrom
+        case name
+        case referenceArn
+        case sampleId
+        case sequenceStoreId
+        case sourceFileType
+        case subjectId
+        case tags
+        case uploadId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let generatedFrom = self.generatedFrom {
+            try encodeContainer.encode(generatedFrom, forKey: .generatedFrom)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let referenceArn = self.referenceArn {
+            try encodeContainer.encode(referenceArn, forKey: .referenceArn)
+        }
+        if let sampleId = self.sampleId {
+            try encodeContainer.encode(sampleId, forKey: .sampleId)
+        }
+        if let sequenceStoreId = self.sequenceStoreId {
+            try encodeContainer.encode(sequenceStoreId, forKey: .sequenceStoreId)
+        }
+        if let sourceFileType = self.sourceFileType {
+            try encodeContainer.encode(sourceFileType.rawValue, forKey: .sourceFileType)
+        }
+        if let subjectId = self.subjectId {
+            try encodeContainer.encode(subjectId, forKey: .subjectId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let uploadId = self.uploadId {
+            try encodeContainer.encode(uploadId, forKey: .uploadId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sequenceStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sequenceStoreId)
+        sequenceStoreId = sequenceStoreIdDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+        let sourceFileTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.FileType.self, forKey: .sourceFileType)
+        sourceFileType = sourceFileTypeDecoded
+        let subjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectId)
+        subjectId = subjectIdDecoded
+        let sampleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sampleId)
+        sampleId = sampleIdDecoded
+        let generatedFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedFrom)
+        generatedFrom = generatedFromDecoded
+        let referenceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceArn)
+        referenceArn = referenceArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// Part of the response to ListMultipartReadSetUploads, excluding completed and aborted multipart uploads.
+    public struct MultipartReadSetUploadListItem: Swift.Equatable {
+        /// The time stamp for when a direct upload was created.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// The description of a read set.
+        public var description: Swift.String?
+        /// The source of an uploaded part.
+        /// This member is required.
+        public var generatedFrom: Swift.String?
+        /// The name of a read set.
+        public var name: Swift.String?
+        /// The source's reference ARN.
+        /// This member is required.
+        public var referenceArn: Swift.String?
+        /// The read set source's sample ID.
+        /// This member is required.
+        public var sampleId: Swift.String?
+        /// The sequence store ID used for the multipart upload.
+        /// This member is required.
+        public var sequenceStoreId: Swift.String?
+        /// The type of file the read set originated from.
+        /// This member is required.
+        public var sourceFileType: OmicsClientTypes.FileType?
+        /// The read set source's subject ID.
+        /// This member is required.
+        public var subjectId: Swift.String?
+        /// Any tags you wish to add to a read set.
+        public var tags: [Swift.String:Swift.String]?
+        /// The ID for the initiated multipart upload.
+        /// This member is required.
+        public var uploadId: Swift.String?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            generatedFrom: Swift.String? = nil,
+            name: Swift.String? = nil,
+            referenceArn: Swift.String? = nil,
+            sampleId: Swift.String? = nil,
+            sequenceStoreId: Swift.String? = nil,
+            sourceFileType: OmicsClientTypes.FileType? = nil,
+            subjectId: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            uploadId: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.description = description
+            self.generatedFrom = generatedFrom
+            self.name = name
+            self.referenceArn = referenceArn
+            self.sampleId = sampleId
+            self.sequenceStoreId = sequenceStoreId
+            self.sourceFileType = sourceFileType
+            self.subjectId = subjectId
+            self.tags = tags
+            self.uploadId = uploadId
+        }
+    }
+
+}
+
+extension NotSupportedOperationException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: NotSupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The operation is not supported by Amazon Omics, or the API does not exist.
+public struct NotSupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct NotSupportedOperationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension NotSupportedOperationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension RangeNotSatisfiableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -11623,9 +13055,12 @@ extension OmicsClientTypes.ReadSetFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAfter
         case createdBefore
+        case generatedFrom
         case name
         case referenceArn
+        case sampleId
         case status
+        case subjectId
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11636,14 +13071,23 @@ extension OmicsClientTypes.ReadSetFilter: Swift.Codable {
         if let createdBefore = self.createdBefore {
             try encodeContainer.encodeTimestamp(createdBefore, format: .dateTime, forKey: .createdBefore)
         }
+        if let generatedFrom = self.generatedFrom {
+            try encodeContainer.encode(generatedFrom, forKey: .generatedFrom)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let referenceArn = self.referenceArn {
             try encodeContainer.encode(referenceArn, forKey: .referenceArn)
         }
+        if let sampleId = self.sampleId {
+            try encodeContainer.encode(sampleId, forKey: .sampleId)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let subjectId = self.subjectId {
+            try encodeContainer.encode(subjectId, forKey: .subjectId)
         }
     }
 
@@ -11659,6 +13103,12 @@ extension OmicsClientTypes.ReadSetFilter: Swift.Codable {
         createdAfter = createdAfterDecoded
         let createdBeforeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdBefore)
         createdBefore = createdBeforeDecoded
+        let sampleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sampleId)
+        sampleId = sampleIdDecoded
+        let subjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectId)
+        subjectId = subjectIdDecoded
+        let generatedFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedFrom)
+        generatedFrom = generatedFromDecoded
     }
 }
 
@@ -11669,26 +13119,38 @@ extension OmicsClientTypes {
         public var createdAfter: ClientRuntime.Date?
         /// The filter's end date.
         public var createdBefore: ClientRuntime.Date?
+        /// Where the source originated.
+        public var generatedFrom: Swift.String?
         /// A name to filter on.
         public var name: Swift.String?
         /// A genome reference ARN to filter on.
         public var referenceArn: Swift.String?
+        /// The read set source's sample ID.
+        public var sampleId: Swift.String?
         /// A status to filter on.
         public var status: OmicsClientTypes.ReadSetStatus?
+        /// The read set source's subject ID.
+        public var subjectId: Swift.String?
 
         public init (
             createdAfter: ClientRuntime.Date? = nil,
             createdBefore: ClientRuntime.Date? = nil,
+            generatedFrom: Swift.String? = nil,
             name: Swift.String? = nil,
             referenceArn: Swift.String? = nil,
-            status: OmicsClientTypes.ReadSetStatus? = nil
+            sampleId: Swift.String? = nil,
+            status: OmicsClientTypes.ReadSetStatus? = nil,
+            subjectId: Swift.String? = nil
         )
         {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
+            self.generatedFrom = generatedFrom
             self.name = name
             self.referenceArn = referenceArn
+            self.sampleId = sampleId
             self.status = status
+            self.subjectId = subjectId
         }
     }
 
@@ -11792,6 +13254,7 @@ extension OmicsClientTypes.ReadSetListItem: Swift.Codable {
         case sequenceInformation
         case sequenceStoreId
         case status
+        case statusMessage
         case subjectId
     }
 
@@ -11830,6 +13293,9 @@ extension OmicsClientTypes.ReadSetListItem: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
         if let subjectId = self.subjectId {
             try encodeContainer.encode(subjectId, forKey: .subjectId)
         }
@@ -11861,6 +13327,8 @@ extension OmicsClientTypes.ReadSetListItem: Swift.Codable {
         sequenceInformation = sequenceInformationDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
     }
 }
 
@@ -11895,6 +13363,8 @@ extension OmicsClientTypes {
         /// The read set's status.
         /// This member is required.
         public var status: OmicsClientTypes.ReadSetStatus?
+        /// The status for a read set. It provides more detail as to why the read set has a status.
+        public var statusMessage: Swift.String?
         /// The read set's subject ID.
         public var subjectId: Swift.String?
 
@@ -11910,6 +13380,7 @@ extension OmicsClientTypes {
             sequenceInformation: OmicsClientTypes.SequenceInformation? = nil,
             sequenceStoreId: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetStatus? = nil,
+            statusMessage: Swift.String? = nil,
             subjectId: Swift.String? = nil
         )
         {
@@ -11924,10 +13395,43 @@ extension OmicsClientTypes {
             self.sequenceInformation = sequenceInformation
             self.sequenceStoreId = sequenceStoreId
             self.status = status
+            self.statusMessage = statusMessage
             self.subjectId = subjectId
         }
     }
 
+}
+
+extension OmicsClientTypes {
+    public enum ReadSetPartSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case source1
+        case source2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReadSetPartSource] {
+            return [
+                .source1,
+                .source2,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .source1: return "SOURCE1"
+            case .source2: return "SOURCE2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReadSetPartSource(rawValue: rawValue) ?? ReadSetPartSource.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension OmicsClientTypes {
@@ -11937,6 +13441,8 @@ extension OmicsClientTypes {
         case archived
         case deleted
         case deleting
+        case processingUpload
+        case uploadFailed
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReadSetStatus] {
@@ -11946,6 +13452,8 @@ extension OmicsClientTypes {
                 .archived,
                 .deleted,
                 .deleting,
+                .processingUpload,
+                .uploadFailed,
                 .sdkUnknown("")
             ]
         }
@@ -11960,6 +13468,8 @@ extension OmicsClientTypes {
             case .archived: return "ARCHIVED"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .processingUpload: return "PROCESSING_UPLOAD"
+            case .uploadFailed: return "UPLOAD_FAILED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11969,6 +13479,140 @@ extension OmicsClientTypes {
             self = ReadSetStatus(rawValue: rawValue) ?? ReadSetStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension OmicsClientTypes.ReadSetUploadPartListFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAfter
+        case createdBefore
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAfter = self.createdAfter {
+            try encodeContainer.encodeTimestamp(createdAfter, format: .dateTime, forKey: .createdAfter)
+        }
+        if let createdBefore = self.createdBefore {
+            try encodeContainer.encodeTimestamp(createdBefore, format: .dateTime, forKey: .createdBefore)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createdAfterDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAfter)
+        createdAfter = createdAfterDecoded
+        let createdBeforeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdBefore)
+        createdBefore = createdBeforeDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// Filter settings that select for read set upload parts of interest.
+    public struct ReadSetUploadPartListFilter: Swift.Equatable {
+        /// Filters for read set uploads after a specified time.
+        public var createdAfter: ClientRuntime.Date?
+        /// Filters for read set part uploads before a specified time.
+        public var createdBefore: ClientRuntime.Date?
+
+        public init (
+            createdAfter: ClientRuntime.Date? = nil,
+            createdBefore: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+        }
+    }
+
+}
+
+extension OmicsClientTypes.ReadSetUploadPartListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksum
+        case creationTime
+        case lastUpdatedTime
+        case partNumber
+        case partSize
+        case partSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let checksum = self.checksum {
+            try encodeContainer.encode(checksum, forKey: .checksum)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .dateTime, forKey: .lastUpdatedTime)
+        }
+        if let partNumber = self.partNumber {
+            try encodeContainer.encode(partNumber, forKey: .partNumber)
+        }
+        if let partSize = self.partSize {
+            try encodeContainer.encode(partSize, forKey: .partSize)
+        }
+        if let partSource = self.partSource {
+            try encodeContainer.encode(partSource.rawValue, forKey: .partSource)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber)
+        partNumber = partNumberDecoded
+        let partSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partSize)
+        partSize = partSizeDecoded
+        let partSourceDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ReadSetPartSource.self, forKey: .partSource)
+        partSource = partSourceDecoded
+        let checksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksum)
+        checksum = checksumDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// The metadata of a single part of a file that was added to a multipart upload. A list of these parts is returned in the response to the ListReadSetUploadParts API.
+    public struct ReadSetUploadPartListItem: Swift.Equatable {
+        /// A unique identifier used to confirm that parts are being added to the correct upload.
+        /// This member is required.
+        public var checksum: Swift.String?
+        /// The time stamp for when a direct upload was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The time stamp for the most recent update to an uploaded part.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The number identifying the part in an upload.
+        /// This member is required.
+        public var partNumber: Swift.Int?
+        /// The size of the the part in an upload.
+        /// This member is required.
+        public var partSize: Swift.Int?
+        /// The origin of the part being direct uploaded.
+        /// This member is required.
+        public var partSource: OmicsClientTypes.ReadSetPartSource?
+
+        public init (
+            checksum: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            partNumber: Swift.Int? = nil,
+            partSize: Swift.Int? = nil,
+            partSource: OmicsClientTypes.ReadSetPartSource? = nil
+        )
+        {
+            self.checksum = checksum
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.partNumber = partNumber
+            self.partSize = partSize
+            self.partSource = partSource
+        }
+    }
+
 }
 
 extension OmicsClientTypes {
@@ -12674,6 +14318,7 @@ extension OmicsClientTypes.RunGroupListItem: Swift.Codable {
         case id
         case maxCpus
         case maxDuration
+        case maxGpus
         case maxRuns
         case name
     }
@@ -12694,6 +14339,9 @@ extension OmicsClientTypes.RunGroupListItem: Swift.Codable {
         }
         if let maxDuration = self.maxDuration {
             try encodeContainer.encode(maxDuration, forKey: .maxDuration)
+        }
+        if let maxGpus = self.maxGpus {
+            try encodeContainer.encode(maxGpus, forKey: .maxGpus)
         }
         if let maxRuns = self.maxRuns {
             try encodeContainer.encode(maxRuns, forKey: .maxRuns)
@@ -12719,6 +14367,8 @@ extension OmicsClientTypes.RunGroupListItem: Swift.Codable {
         maxDuration = maxDurationDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let maxGpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxGpus)
+        maxGpus = maxGpusDecoded
     }
 }
 
@@ -12735,6 +14385,8 @@ extension OmicsClientTypes {
         public var maxCpus: Swift.Int?
         /// The group's maximum duration setting in minutes.
         public var maxDuration: Swift.Int?
+        /// The maximum GPUs that can be used by a run group.
+        public var maxGpus: Swift.Int?
         /// The group's maximum concurrent run setting.
         public var maxRuns: Swift.Int?
         /// The group's name.
@@ -12746,6 +14398,7 @@ extension OmicsClientTypes {
             id: Swift.String? = nil,
             maxCpus: Swift.Int? = nil,
             maxDuration: Swift.Int? = nil,
+            maxGpus: Swift.Int? = nil,
             maxRuns: Swift.Int? = nil,
             name: Swift.String? = nil
         )
@@ -12755,6 +14408,7 @@ extension OmicsClientTypes {
             self.id = id
             self.maxCpus = maxCpus
             self.maxDuration = maxDuration
+            self.maxGpus = maxGpus
             self.maxRuns = maxRuns
             self.name = name
         }
@@ -13095,6 +14749,7 @@ extension OmicsClientTypes.SequenceStoreDetail: Swift.Codable {
         case arn
         case creationTime
         case description
+        case fallbackLocation
         case id
         case name
         case sseConfig
@@ -13110,6 +14765,9 @@ extension OmicsClientTypes.SequenceStoreDetail: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let fallbackLocation = self.fallbackLocation {
+            try encodeContainer.encode(fallbackLocation, forKey: .fallbackLocation)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -13136,6 +14794,8 @@ extension OmicsClientTypes.SequenceStoreDetail: Swift.Codable {
         sseConfig = sseConfigDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
+        fallbackLocation = fallbackLocationDecoded
     }
 }
 
@@ -13150,6 +14810,8 @@ extension OmicsClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The store's description.
         public var description: Swift.String?
+        /// An S3 location that is used to store files that have failed a direct upload.
+        public var fallbackLocation: Swift.String?
         /// The store's ID.
         /// This member is required.
         public var id: Swift.String?
@@ -13162,6 +14824,7 @@ extension OmicsClientTypes {
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            fallbackLocation: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             sseConfig: OmicsClientTypes.SseConfig? = nil
@@ -13170,6 +14833,7 @@ extension OmicsClientTypes {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
+            self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
             self.sseConfig = sseConfig
@@ -13379,6 +15043,7 @@ extension OmicsClientTypes {
 
 extension StartAnnotationImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case destinationName
         case formatOptions
         case items
@@ -13388,6 +15053,12 @@ extension StartAnnotationImportJobInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotationFields = annotationFields {
+            var annotationFieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .annotationFields)
+            for (dictKey0, annotationFieldMap0) in annotationFields {
+                try annotationFieldsContainer.encode(annotationFieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let destinationName = self.destinationName {
             try encodeContainer.encode(destinationName, forKey: .destinationName)
         }
@@ -13416,6 +15087,8 @@ extension StartAnnotationImportJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartAnnotationImportJobInput: Swift.Equatable {
+    /// The annotation schema generated by the parsed annotation data.
+    public var annotationFields: [Swift.String:Swift.String]?
     /// A destination annotation store for the job.
     /// This member is required.
     public var destinationName: Swift.String?
@@ -13431,6 +15104,7 @@ public struct StartAnnotationImportJobInput: Swift.Equatable {
     public var runLeftNormalization: Swift.Bool?
 
     public init (
+        annotationFields: [Swift.String:Swift.String]? = nil,
         destinationName: Swift.String? = nil,
         formatOptions: OmicsClientTypes.FormatOptions? = nil,
         items: [OmicsClientTypes.AnnotationImportItemSource]? = nil,
@@ -13438,6 +15112,7 @@ public struct StartAnnotationImportJobInput: Swift.Equatable {
         runLeftNormalization: Swift.Bool? = nil
     )
     {
+        self.annotationFields = annotationFields
         self.destinationName = destinationName
         self.formatOptions = formatOptions
         self.items = items
@@ -13452,10 +15127,12 @@ struct StartAnnotationImportJobInputBody: Swift.Equatable {
     let items: [OmicsClientTypes.AnnotationImportItemSource]?
     let formatOptions: OmicsClientTypes.FormatOptions?
     let runLeftNormalization: Swift.Bool?
+    let annotationFields: [Swift.String:Swift.String]?
 }
 
 extension StartAnnotationImportJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case destinationName
         case formatOptions
         case items
@@ -13484,6 +15161,17 @@ extension StartAnnotationImportJobInputBody: Swift.Decodable {
         formatOptions = formatOptionsDecoded
         let runLeftNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runLeftNormalization)
         runLeftNormalization = runLeftNormalizationDecoded
+        let annotationFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .annotationFields)
+        var annotationFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let annotationFieldsContainer = annotationFieldsContainer {
+            annotationFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in annotationFieldsContainer {
+                if let string0 = string0 {
+                    annotationFieldsDecoded0?[key0] = string0
+                }
+            }
+        }
+        annotationFields = annotationFieldsDecoded0
     }
 }
 
@@ -14966,6 +16654,7 @@ extension StartRunOutputResponseBody: Swift.Decodable {
 
 extension StartVariantImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case destinationName
         case items
         case roleArn
@@ -14974,6 +16663,12 @@ extension StartVariantImportJobInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotationFields = annotationFields {
+            var annotationFieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .annotationFields)
+            for (dictKey0, annotationFieldMap0) in annotationFields {
+                try annotationFieldsContainer.encode(annotationFieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let destinationName = self.destinationName {
             try encodeContainer.encode(destinationName, forKey: .destinationName)
         }
@@ -14999,6 +16694,8 @@ extension StartVariantImportJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartVariantImportJobInput: Swift.Equatable {
+    /// The annotation schema generated by the parsed annotation data.
+    public var annotationFields: [Swift.String:Swift.String]?
     /// The destination variant store for the job.
     /// This member is required.
     public var destinationName: Swift.String?
@@ -15012,12 +16709,14 @@ public struct StartVariantImportJobInput: Swift.Equatable {
     public var runLeftNormalization: Swift.Bool?
 
     public init (
+        annotationFields: [Swift.String:Swift.String]? = nil,
         destinationName: Swift.String? = nil,
         items: [OmicsClientTypes.VariantImportItemSource]? = nil,
         roleArn: Swift.String? = nil,
         runLeftNormalization: Swift.Bool? = nil
     )
     {
+        self.annotationFields = annotationFields
         self.destinationName = destinationName
         self.items = items
         self.roleArn = roleArn
@@ -15030,10 +16729,12 @@ struct StartVariantImportJobInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let items: [OmicsClientTypes.VariantImportItemSource]?
     let runLeftNormalization: Swift.Bool?
+    let annotationFields: [Swift.String:Swift.String]?
 }
 
 extension StartVariantImportJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case destinationName
         case items
         case roleArn
@@ -15059,6 +16760,17 @@ extension StartVariantImportJobInputBody: Swift.Decodable {
         items = itemsDecoded0
         let runLeftNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runLeftNormalization)
         runLeftNormalization = runLeftNormalizationDecoded
+        let annotationFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .annotationFields)
+        var annotationFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let annotationFieldsContainer = annotationFieldsContainer {
+            annotationFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in annotationFieldsContainer {
+                if let string0 = string0 {
+                    annotationFieldsDecoded0?[key0] = string0
+                }
+            }
+        }
+        annotationFields = annotationFieldsDecoded0
     }
 }
 
@@ -15374,6 +17086,7 @@ extension OmicsClientTypes.TaskListItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpus
         case creationTime
+        case gpus
         case memory
         case name
         case startTime
@@ -15389,6 +17102,9 @@ extension OmicsClientTypes.TaskListItem: Swift.Codable {
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let gpus = self.gpus {
+            try encodeContainer.encode(gpus, forKey: .gpus)
         }
         if let memory = self.memory {
             try encodeContainer.encode(memory, forKey: .memory)
@@ -15428,6 +17144,8 @@ extension OmicsClientTypes.TaskListItem: Swift.Codable {
         startTime = startTimeDecoded
         let stopTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .stopTime)
         stopTime = stopTimeDecoded
+        let gpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpus)
+        gpus = gpusDecoded
     }
 }
 
@@ -15438,6 +17156,8 @@ extension OmicsClientTypes {
         public var cpus: Swift.Int?
         /// When the task was created.
         public var creationTime: ClientRuntime.Date?
+        /// The number of Graphics Processing Units (GPU) specified for the task.
+        public var gpus: Swift.Int?
         /// The task's memory use in gigabyes.
         public var memory: Swift.Int?
         /// The task's name.
@@ -15454,6 +17174,7 @@ extension OmicsClientTypes {
         public init (
             cpus: Swift.Int? = nil,
             creationTime: ClientRuntime.Date? = nil,
+            gpus: Swift.Int? = nil,
             memory: Swift.Int? = nil,
             name: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
@@ -15464,6 +17185,7 @@ extension OmicsClientTypes {
         {
             self.cpus = cpus
             self.creationTime = creationTime
+            self.gpus = gpus
             self.memory = memory
             self.name = name
             self.startTime = startTime
@@ -16015,6 +17737,7 @@ extension UpdateRunGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxCpus
         case maxDuration
+        case maxGpus
         case maxRuns
         case name
     }
@@ -16026,6 +17749,9 @@ extension UpdateRunGroupInput: Swift.Encodable {
         }
         if let maxDuration = self.maxDuration {
             try encodeContainer.encode(maxDuration, forKey: .maxDuration)
+        }
+        if let maxGpus = self.maxGpus {
+            try encodeContainer.encode(maxGpus, forKey: .maxGpus)
         }
         if let maxRuns = self.maxRuns {
             try encodeContainer.encode(maxRuns, forKey: .maxRuns)
@@ -16053,6 +17779,8 @@ public struct UpdateRunGroupInput: Swift.Equatable {
     public var maxCpus: Swift.Int?
     /// A maximum run time for the group in minutes.
     public var maxDuration: Swift.Int?
+    /// The maximum GPUs that can be used by a run group.
+    public var maxGpus: Swift.Int?
     /// The maximum number of concurrent runs for the group.
     public var maxRuns: Swift.Int?
     /// A name for the group.
@@ -16062,6 +17790,7 @@ public struct UpdateRunGroupInput: Swift.Equatable {
         id: Swift.String? = nil,
         maxCpus: Swift.Int? = nil,
         maxDuration: Swift.Int? = nil,
+        maxGpus: Swift.Int? = nil,
         maxRuns: Swift.Int? = nil,
         name: Swift.String? = nil
     )
@@ -16069,6 +17798,7 @@ public struct UpdateRunGroupInput: Swift.Equatable {
         self.id = id
         self.maxCpus = maxCpus
         self.maxDuration = maxDuration
+        self.maxGpus = maxGpus
         self.maxRuns = maxRuns
         self.name = name
     }
@@ -16079,12 +17809,14 @@ struct UpdateRunGroupInputBody: Swift.Equatable {
     let maxCpus: Swift.Int?
     let maxRuns: Swift.Int?
     let maxDuration: Swift.Int?
+    let maxGpus: Swift.Int?
 }
 
 extension UpdateRunGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxCpus
         case maxDuration
+        case maxGpus
         case maxRuns
         case name
     }
@@ -16099,6 +17831,8 @@ extension UpdateRunGroupInputBody: Swift.Decodable {
         maxRuns = maxRunsDecoded
         let maxDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxDuration)
         maxDuration = maxDurationDecoded
+        let maxGpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxGpus)
+        maxGpus = maxGpusDecoded
     }
 }
 
@@ -16453,6 +18187,203 @@ public struct UpdateWorkflowOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+public struct UploadReadSetPartInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UploadReadSetPartInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UploadReadSetPartInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UploadReadSetPartOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let payload = input.operationInput.payload {
+            let payloadBody = ClientRuntime.HttpBody(byteStream: payload)
+            input.builder.withBody(payloadBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UploadReadSetPartInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UploadReadSetPartOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension UploadReadSetPartInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let payload = self.payload {
+            try encodeContainer.encode(payload, forKey: .payload)
+        }
+    }
+}
+
+extension UploadReadSetPartInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let partSource = partSource else {
+                let message = "Creating a URL Query Item failed. partSource is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let partSourceQueryItem = ClientRuntime.URLQueryItem(name: "partSource".urlPercentEncoding(), value: Swift.String(partSource.rawValue).urlPercentEncoding())
+            items.append(partSourceQueryItem)
+            guard let partNumber = partNumber else {
+                let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            items.append(partNumberQueryItem)
+            return items
+        }
+    }
+}
+
+extension UploadReadSetPartInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let sequenceStoreId = sequenceStoreId else {
+            return nil
+        }
+        guard let uploadId = uploadId else {
+            return nil
+        }
+        return "/sequencestore/\(sequenceStoreId.urlPercentEncoding())/upload/\(uploadId.urlPercentEncoding())/part"
+    }
+}
+
+public struct UploadReadSetPartInput: Swift.Equatable {
+    /// The number of the part being uploaded.
+    /// This member is required.
+    public var partNumber: Swift.Int?
+    /// The source file for an upload part.
+    /// This member is required.
+    public var partSource: OmicsClientTypes.ReadSetPartSource?
+    /// The read set data to upload for a part.
+    /// This member is required.
+    public var payload: ClientRuntime.ByteStream?
+    /// The Sequence Store ID used for the multipart upload.
+    /// This member is required.
+    public var sequenceStoreId: Swift.String?
+    /// The ID for the initiated multipart upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init (
+        partNumber: Swift.Int? = nil,
+        partSource: OmicsClientTypes.ReadSetPartSource? = nil,
+        payload: ClientRuntime.ByteStream? = nil,
+        sequenceStoreId: Swift.String? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.partNumber = partNumber
+        self.partSource = partSource
+        self.payload = payload
+        self.sequenceStoreId = sequenceStoreId
+        self.uploadId = uploadId
+    }
+}
+
+struct UploadReadSetPartInputBody: Swift.Equatable {
+    let payload: ClientRuntime.ByteStream?
+}
+
+extension UploadReadSetPartInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
+extension UploadReadSetPartOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UploadReadSetPartOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotSupportedOperationException" : self = .notSupportedOperationException(try NotSupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTimeoutException" : self = .requestTimeoutException(try RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UploadReadSetPartOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case notSupportedOperationException(NotSupportedOperationException)
+    case requestTimeoutException(RequestTimeoutException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UploadReadSetPartOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UploadReadSetPartOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.checksum = output.checksum
+        } else {
+            self.checksum = nil
+        }
+    }
+}
+
+public struct UploadReadSetPartOutputResponse: Swift.Equatable {
+    /// An identifier used to confirm that parts are being added to the intended upload.
+    /// This member is required.
+    public var checksum: Swift.String?
+
+    public init (
+        checksum: Swift.String? = nil
+    )
+    {
+        self.checksum = checksum
+    }
+}
+
+struct UploadReadSetPartOutputResponseBody: Swift.Equatable {
+    let checksum: Swift.String?
+}
+
+extension UploadReadSetPartOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksum
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let checksumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksum)
+        checksum = checksumDecoded
+    }
+}
+
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -16600,6 +18531,7 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes.VariantImportJobItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationFields
         case completionTime
         case creationTime
         case destinationName
@@ -16612,6 +18544,12 @@ extension OmicsClientTypes.VariantImportJobItem: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotationFields = annotationFields {
+            var annotationFieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .annotationFields)
+            for (dictKey0, annotationFieldMap0) in annotationFields {
+                try annotationFieldsContainer.encode(annotationFieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let completionTime = self.completionTime {
             try encodeContainer.encodeTimestamp(completionTime, format: .dateTime, forKey: .completionTime)
         }
@@ -16656,12 +18594,25 @@ extension OmicsClientTypes.VariantImportJobItem: Swift.Codable {
         completionTime = completionTimeDecoded
         let runLeftNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runLeftNormalization) ?? false
         runLeftNormalization = runLeftNormalizationDecoded
+        let annotationFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .annotationFields)
+        var annotationFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let annotationFieldsContainer = annotationFieldsContainer {
+            annotationFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in annotationFieldsContainer {
+                if let string0 = string0 {
+                    annotationFieldsDecoded0?[key0] = string0
+                }
+            }
+        }
+        annotationFields = annotationFieldsDecoded0
     }
 }
 
 extension OmicsClientTypes {
     /// A variant import job.
     public struct VariantImportJobItem: Swift.Equatable {
+        /// The annotation schema generated by the parsed annotation data.
+        public var annotationFields: [Swift.String:Swift.String]?
         /// When the job completed.
         public var completionTime: ClientRuntime.Date?
         /// When the job was created.
@@ -16686,6 +18637,7 @@ extension OmicsClientTypes {
         public var updateTime: ClientRuntime.Date?
 
         public init (
+            annotationFields: [Swift.String:Swift.String]? = nil,
             completionTime: ClientRuntime.Date? = nil,
             creationTime: ClientRuntime.Date? = nil,
             destinationName: Swift.String? = nil,
@@ -16696,6 +18648,7 @@ extension OmicsClientTypes {
             updateTime: ClientRuntime.Date? = nil
         )
         {
+            self.annotationFields = annotationFields
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.destinationName = destinationName
@@ -16967,6 +18920,7 @@ extension OmicsClientTypes.WorkflowListItem: Swift.Codable {
         case creationTime
         case digest
         case id
+        case metadata
         case name
         case status
         case type
@@ -16985,6 +18939,12 @@ extension OmicsClientTypes.WorkflowListItem: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, workflowMetadata0) in metadata {
+                try metadataContainer.encode(workflowMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -17013,6 +18973,17 @@ extension OmicsClientTypes.WorkflowListItem: Swift.Codable {
         digest = digestDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, workflowmetadatavalue0) in metadataContainer {
+                if let workflowmetadatavalue0 = workflowmetadatavalue0 {
+                    metadataDecoded0?[key0] = workflowmetadatavalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
     }
 }
 
@@ -17027,6 +18998,8 @@ extension OmicsClientTypes {
         public var digest: Swift.String?
         /// The workflow's ID.
         public var id: Swift.String?
+        /// Any metadata available for workflow. The information listed may vary depending on the workflow, and there may also be no metadata to return.
+        public var metadata: [Swift.String:Swift.String]?
         /// The workflow's name.
         public var name: Swift.String?
         /// The workflow's status.
@@ -17039,6 +19012,7 @@ extension OmicsClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             digest: Swift.String? = nil,
             id: Swift.String? = nil,
+            metadata: [Swift.String:Swift.String]? = nil,
             name: Swift.String? = nil,
             status: OmicsClientTypes.WorkflowStatus? = nil,
             type: OmicsClientTypes.WorkflowType? = nil
@@ -17048,6 +19022,7 @@ extension OmicsClientTypes {
             self.creationTime = creationTime
             self.digest = digest
             self.id = id
+            self.metadata = metadata
             self.name = name
             self.status = status
             self.type = type
@@ -17107,6 +19082,7 @@ extension OmicsClientTypes {
         case creating
         case deleted
         case failed
+        case inactive
         case updating
         case sdkUnknown(Swift.String)
 
@@ -17116,6 +19092,7 @@ extension OmicsClientTypes {
                 .creating,
                 .deleted,
                 .failed,
+                .inactive,
                 .updating,
                 .sdkUnknown("")
             ]
@@ -17130,6 +19107,7 @@ extension OmicsClientTypes {
             case .creating: return "CREATING"
             case .deleted: return "DELETED"
             case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -17145,11 +19123,13 @@ extension OmicsClientTypes {
 extension OmicsClientTypes {
     public enum WorkflowType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `private`
+        case ready2run
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowType] {
             return [
                 .private,
+                .ready2run,
                 .sdkUnknown("")
             ]
         }
@@ -17160,6 +19140,7 @@ extension OmicsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .private: return "PRIVATE"
+            case .ready2run: return "READY2RUN"
             case let .sdkUnknown(s): return s
             }
         }

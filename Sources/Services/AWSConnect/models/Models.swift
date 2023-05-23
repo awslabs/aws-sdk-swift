@@ -127,6 +127,163 @@ extension ConnectClientTypes {
     }
 }
 
+extension ActivateEvaluationFormInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationFormVersion = self.evaluationFormVersion {
+            try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
+        }
+    }
+}
+
+extension ActivateEvaluationFormInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/activate"
+    }
+}
+
+public struct ActivateEvaluationFormInput: Swift.Equatable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the evaluation form to activate. If the version property is not provided, the latest version of the evaluation form is activated.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+struct ActivateEvaluationFormInputBody: Swift.Equatable {
+    let evaluationFormVersion: Swift.Int?
+}
+
+extension ActivateEvaluationFormInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+    }
+}
+
+extension ActivateEvaluationFormOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ActivateEvaluationFormOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ActivateEvaluationFormOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ActivateEvaluationFormOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ActivateEvaluationFormOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationFormArn = output.evaluationFormArn
+            self.evaluationFormId = output.evaluationFormId
+            self.evaluationFormVersion = output.evaluationFormVersion
+        } else {
+            self.evaluationFormArn = nil
+            self.evaluationFormId = nil
+            self.evaluationFormVersion = nil
+        }
+    }
+}
+
+public struct ActivateEvaluationFormOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the evaluation form resource.
+    /// This member is required.
+    public var evaluationFormArn: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+
+    public init (
+        evaluationFormArn: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil
+    )
+    {
+        self.evaluationFormArn = evaluationFormArn
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+    }
+}
+
+struct ActivateEvaluationFormOutputResponseBody: Swift.Equatable {
+    let evaluationFormId: Swift.String?
+    let evaluationFormArn: Swift.String?
+    let evaluationFormVersion: Swift.Int?
+}
+
+extension ActivateEvaluationFormOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+    }
+}
+
 extension ConnectClientTypes.AgentContactReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentContactState = "AgentContactState"
@@ -4147,6 +4304,207 @@ extension CreateContactFlowOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateEvaluationFormInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case items = "Items"
+        case scoringStrategy = "ScoringStrategy"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for evaluationformitem0 in items {
+                try itemsContainer.encode(evaluationformitem0)
+            }
+        }
+        if let scoringStrategy = self.scoringStrategy {
+            try encodeContainer.encode(scoringStrategy, forKey: .scoringStrategy)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+}
+
+extension CreateEvaluationFormInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct CreateEvaluationFormInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The description of the evaluation form.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+    /// This member is required.
+    public var items: [ConnectClientTypes.EvaluationFormItem]?
+    /// A scoring strategy of the evaluation form.
+    public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    /// A title of the evaluation form.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+        scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.instanceId = instanceId
+        self.items = items
+        self.scoringStrategy = scoringStrategy
+        self.title = title
+    }
+}
+
+struct CreateEvaluationFormInputBody: Swift.Equatable {
+    let title: Swift.String?
+    let description: Swift.String?
+    let items: [ConnectClientTypes.EvaluationFormItem]?
+    let scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    let clientToken: Swift.String?
+}
+
+extension CreateEvaluationFormInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case items = "Items"
+        case scoringStrategy = "ScoringStrategy"
+        case title = "Title"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let itemsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormItem?].self, forKey: .items)
+        var itemsDecoded0:[ConnectClientTypes.EvaluationFormItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [ConnectClientTypes.EvaluationFormItem]()
+            for union0 in itemsContainer {
+                if let union0 = union0 {
+                    itemsDecoded0?.append(union0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let scoringStrategyDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormScoringStrategy.self, forKey: .scoringStrategy)
+        scoringStrategy = scoringStrategyDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateEvaluationFormOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateEvaluationFormOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateEvaluationFormOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateEvaluationFormOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateEvaluationFormOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationFormArn = output.evaluationFormArn
+            self.evaluationFormId = output.evaluationFormId
+        } else {
+            self.evaluationFormArn = nil
+            self.evaluationFormId = nil
+        }
+    }
+}
+
+public struct CreateEvaluationFormOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the evaluation form resource.
+    /// This member is required.
+    public var evaluationFormArn: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+
+    public init (
+        evaluationFormArn: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil
+    )
+    {
+        self.evaluationFormArn = evaluationFormArn
+        self.evaluationFormId = evaluationFormId
+    }
+}
+
+struct CreateEvaluationFormOutputResponseBody: Swift.Equatable {
+    let evaluationFormId: Swift.String?
+    let evaluationFormArn: Swift.String?
+}
+
+extension CreateEvaluationFormOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+    }
+}
+
 extension CreateHoursOfOperationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case config = "Config"
@@ -4863,7 +5221,6 @@ extension CreateParticipantOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4875,7 +5232,6 @@ extension CreateParticipantOutputError {
 
 public enum CreateParticipantOutputError: Swift.Error, Swift.Equatable {
     case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
     case invalidRequestException(InvalidRequestException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
@@ -4930,6 +5286,193 @@ extension CreateParticipantOutputResponseBody: Swift.Decodable {
         participantCredentials = participantCredentialsDecoded
         let participantIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .participantId)
         participantId = participantIdDecoded
+    }
+}
+
+extension CreatePromptInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case s3Uri = "S3Uri"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreatePromptInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/prompts/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct CreatePromptInput: Swift.Equatable {
+    /// The description of the prompt.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the prompt.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The URI for the S3 bucket where the prompt is stored.
+    /// This member is required.
+    public var s3Uri: Swift.String?
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        s3Uri: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.s3Uri = s3Uri
+        self.tags = tags
+    }
+}
+
+struct CreatePromptInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let s3Uri: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreatePromptInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case s3Uri = "S3Uri"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePromptOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreatePromptOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DuplicateResourceException" : self = .duplicateResourceException(try DuplicateResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreatePromptOutputError: Swift.Error, Swift.Equatable {
+    case duplicateResourceException(DuplicateResourceException)
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case limitExceededException(LimitExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePromptOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreatePromptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.promptARN = output.promptARN
+            self.promptId = output.promptId
+        } else {
+            self.promptARN = nil
+            self.promptId = nil
+        }
+    }
+}
+
+public struct CreatePromptOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the prompt.
+    public var promptARN: Swift.String?
+    /// A unique identifier for the prompt.
+    public var promptId: Swift.String?
+
+    public init (
+        promptARN: Swift.String? = nil,
+        promptId: Swift.String? = nil
+    )
+    {
+        self.promptARN = promptARN
+        self.promptId = promptId
+    }
+}
+
+struct CreatePromptOutputResponseBody: Swift.Equatable {
+    let promptARN: Swift.String?
+    let promptId: Swift.String?
+}
+
+extension CreatePromptOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case promptARN = "PromptARN"
+        case promptId = "PromptId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptARN)
+        promptARN = promptARNDecoded
+        let promptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptId)
+        promptId = promptIdDecoded
     }
 }
 
@@ -7727,6 +8270,163 @@ extension ConnectClientTypes {
 
 }
 
+extension DeactivateEvaluationFormInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationFormVersion = self.evaluationFormVersion {
+            try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
+        }
+    }
+}
+
+extension DeactivateEvaluationFormInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/deactivate"
+    }
+}
+
+public struct DeactivateEvaluationFormInput: Swift.Equatable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+struct DeactivateEvaluationFormInputBody: Swift.Equatable {
+    let evaluationFormVersion: Swift.Int?
+}
+
+extension DeactivateEvaluationFormInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+    }
+}
+
+extension DeactivateEvaluationFormOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeactivateEvaluationFormOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeactivateEvaluationFormOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeactivateEvaluationFormOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeactivateEvaluationFormOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationFormArn = output.evaluationFormArn
+            self.evaluationFormId = output.evaluationFormId
+            self.evaluationFormVersion = output.evaluationFormVersion
+        } else {
+            self.evaluationFormArn = nil
+            self.evaluationFormId = nil
+            self.evaluationFormVersion = nil
+        }
+    }
+}
+
+public struct DeactivateEvaluationFormOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the evaluation form resource.
+    /// This member is required.
+    public var evaluationFormArn: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the deactivated evaluation form resource.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+
+    public init (
+        evaluationFormArn: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil
+    )
+    {
+        self.evaluationFormArn = evaluationFormArn
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+    }
+}
+
+struct DeactivateEvaluationFormOutputResponseBody: Swift.Equatable {
+    let evaluationFormId: Swift.String?
+    let evaluationFormArn: Swift.String?
+    let evaluationFormVersion: Swift.Int?
+}
+
+extension DeactivateEvaluationFormOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+    }
+}
+
 extension ConnectClientTypes.DefaultVocabulary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceId = "InstanceId"
@@ -7794,6 +8494,85 @@ extension ConnectClientTypes {
         }
     }
 
+}
+
+extension DeleteContactEvaluationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationId = evaluationId else {
+            return nil
+        }
+        return "/contact-evaluations/\(instanceId.urlPercentEncoding())/\(evaluationId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteContactEvaluationInput: Swift.Equatable {
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        evaluationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.evaluationId = evaluationId
+        self.instanceId = instanceId
+    }
+}
+
+struct DeleteContactEvaluationInputBody: Swift.Equatable {
+}
+
+extension DeleteContactEvaluationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteContactEvaluationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteContactEvaluationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteContactEvaluationOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteContactEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteContactEvaluationOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension DeleteContactFlowInput: ClientRuntime.URLPathProvider {
@@ -7954,6 +8733,102 @@ extension DeleteContactFlowOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteContactFlowOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteEvaluationFormInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let evaluationFormVersion = evaluationFormVersion {
+                let evaluationFormVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(evaluationFormVersion).urlPercentEncoding())
+                items.append(evaluationFormVersionQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteEvaluationFormInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteEvaluationFormInput: Swift.Equatable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The unique identifier for the evaluation form.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+struct DeleteEvaluationFormInputBody: Swift.Equatable {
+}
+
+extension DeleteEvaluationFormInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteEvaluationFormOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteEvaluationFormOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteEvaluationFormOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteEvaluationFormOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteEvaluationFormOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -8177,6 +9052,85 @@ extension DeleteIntegrationAssociationOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct DeleteIntegrationAssociationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeletePromptInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let promptId = promptId else {
+            return nil
+        }
+        return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())"
+    }
+}
+
+public struct DeletePromptInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique identifier for the prompt.
+    /// This member is required.
+    public var promptId: Swift.String?
+
+    public init (
+        instanceId: Swift.String? = nil,
+        promptId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.promptId = promptId
+    }
+}
+
+struct DeletePromptInputBody: Swift.Equatable {
+}
+
+extension DeletePromptInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePromptOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeletePromptOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeletePromptOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePromptOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeletePromptOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -9060,6 +10014,125 @@ extension DescribeAgentStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeContactEvaluationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationId = evaluationId else {
+            return nil
+        }
+        return "/contact-evaluations/\(instanceId.urlPercentEncoding())/\(evaluationId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeContactEvaluationInput: Swift.Equatable {
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        evaluationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.evaluationId = evaluationId
+        self.instanceId = instanceId
+    }
+}
+
+struct DescribeContactEvaluationInputBody: Swift.Equatable {
+}
+
+extension DescribeContactEvaluationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeContactEvaluationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeContactEvaluationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeContactEvaluationOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeContactEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeContactEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluation = output.evaluation
+            self.evaluationForm = output.evaluationForm
+        } else {
+            self.evaluation = nil
+            self.evaluationForm = nil
+        }
+    }
+}
+
+public struct DescribeContactEvaluationOutputResponse: Swift.Equatable {
+    /// Information about the evaluation form completed for a specific contact.
+    /// This member is required.
+    public var evaluation: ConnectClientTypes.Evaluation?
+    /// Information about the evaluation form.
+    /// This member is required.
+    public var evaluationForm: ConnectClientTypes.EvaluationFormContent?
+
+    public init (
+        evaluation: ConnectClientTypes.Evaluation? = nil,
+        evaluationForm: ConnectClientTypes.EvaluationFormContent? = nil
+    )
+    {
+        self.evaluation = evaluation
+        self.evaluationForm = evaluationForm
+    }
+}
+
+struct DescribeContactEvaluationOutputResponseBody: Swift.Equatable {
+    let evaluation: ConnectClientTypes.Evaluation?
+    let evaluationForm: ConnectClientTypes.EvaluationFormContent?
+}
+
+extension DescribeContactEvaluationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluation = "Evaluation"
+        case evaluationForm = "EvaluationForm"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Evaluation.self, forKey: .evaluation)
+        evaluation = evaluationDecoded
+        let evaluationFormDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormContent.self, forKey: .evaluationForm)
+        evaluationForm = evaluationFormDecoded
+    }
+}
+
 extension DescribeContactFlowInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let instanceId = instanceId else {
@@ -9388,6 +10461,131 @@ extension DescribeContactOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contactDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Contact.self, forKey: .contact)
         contact = contactDecoded
+    }
+}
+
+extension DescribeEvaluationFormInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let evaluationFormVersion = evaluationFormVersion {
+                let evaluationFormVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(evaluationFormVersion).urlPercentEncoding())
+                items.append(evaluationFormVersionQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DescribeEvaluationFormInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeEvaluationFormInput: Swift.Equatable {
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+struct DescribeEvaluationFormInputBody: Swift.Equatable {
+}
+
+extension DescribeEvaluationFormInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeEvaluationFormOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeEvaluationFormOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeEvaluationFormOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEvaluationFormOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeEvaluationFormOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationForm = output.evaluationForm
+        } else {
+            self.evaluationForm = nil
+        }
+    }
+}
+
+public struct DescribeEvaluationFormOutputResponse: Swift.Equatable {
+    /// Information about the evaluation form.
+    /// This member is required.
+    public var evaluationForm: ConnectClientTypes.EvaluationForm?
+
+    public init (
+        evaluationForm: ConnectClientTypes.EvaluationForm? = nil
+    )
+    {
+        self.evaluationForm = evaluationForm
+    }
+}
+
+struct DescribeEvaluationFormOutputResponseBody: Swift.Equatable {
+    let evaluationForm: ConnectClientTypes.EvaluationForm?
+}
+
+extension DescribeEvaluationFormOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationForm = "EvaluationForm"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationForm.self, forKey: .evaluationForm)
+        evaluationForm = evaluationFormDecoded
     }
 }
 
@@ -9933,6 +11131,115 @@ extension DescribePhoneNumberOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let claimedPhoneNumberSummaryDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ClaimedPhoneNumberSummary.self, forKey: .claimedPhoneNumberSummary)
         claimedPhoneNumberSummary = claimedPhoneNumberSummaryDecoded
+    }
+}
+
+extension DescribePromptInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let promptId = promptId else {
+            return nil
+        }
+        return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribePromptInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique identifier for the prompt.
+    /// This member is required.
+    public var promptId: Swift.String?
+
+    public init (
+        instanceId: Swift.String? = nil,
+        promptId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.promptId = promptId
+    }
+}
+
+struct DescribePromptInputBody: Swift.Equatable {
+}
+
+extension DescribePromptInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribePromptOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribePromptOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribePromptOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribePromptOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribePromptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.prompt = output.prompt
+        } else {
+            self.prompt = nil
+        }
+    }
+}
+
+public struct DescribePromptOutputResponse: Swift.Equatable {
+    /// Information about the prompt.
+    public var prompt: ConnectClientTypes.Prompt?
+
+    public init (
+        prompt: ConnectClientTypes.Prompt? = nil
+    )
+    {
+        self.prompt = prompt
+    }
+}
+
+struct DescribePromptOutputResponseBody: Swift.Equatable {
+    let prompt: ConnectClientTypes.Prompt?
+}
+
+extension DescribePromptOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case prompt = "Prompt"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Prompt.self, forKey: .prompt)
+        prompt = promptDecoded
     }
 }
 
@@ -12369,6 +13676,2119 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.Evaluation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answers = "Answers"
+        case createdTime = "CreatedTime"
+        case evaluationArn = "EvaluationArn"
+        case evaluationId = "EvaluationId"
+        case lastModifiedTime = "LastModifiedTime"
+        case metadata = "Metadata"
+        case notes = "Notes"
+        case scores = "Scores"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let answers = answers {
+            var answersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .answers)
+            for (dictKey0, evaluationAnswersOutputMap0) in answers {
+                try answersContainer.encode(evaluationAnswersOutputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let evaluationArn = self.evaluationArn {
+            try encodeContainer.encode(evaluationArn, forKey: .evaluationArn)
+        }
+        if let evaluationId = self.evaluationId {
+            try encodeContainer.encode(evaluationId, forKey: .evaluationId)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+        if let notes = notes {
+            var notesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .notes)
+            for (dictKey0, evaluationNotesMap0) in notes {
+                try notesContainer.encode(evaluationNotesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let scores = scores {
+            var scoresContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .scores)
+            for (dictKey0, evaluationScoresMap0) in scores {
+                try scoresContainer.encode(evaluationScoresMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationId)
+        evaluationId = evaluationIdDecoded
+        let evaluationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationArn)
+        evaluationArn = evaluationArnDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationMetadata.self, forKey: .metadata)
+        metadata = metadataDecoded
+        let answersContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationAnswerOutput?].self, forKey: .answers)
+        var answersDecoded0: [Swift.String:ConnectClientTypes.EvaluationAnswerOutput]? = nil
+        if let answersContainer = answersContainer {
+            answersDecoded0 = [Swift.String:ConnectClientTypes.EvaluationAnswerOutput]()
+            for (key0, evaluationansweroutput0) in answersContainer {
+                if let evaluationansweroutput0 = evaluationansweroutput0 {
+                    answersDecoded0?[key0] = evaluationansweroutput0
+                }
+            }
+        }
+        answers = answersDecoded0
+        let notesContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationNote?].self, forKey: .notes)
+        var notesDecoded0: [Swift.String:ConnectClientTypes.EvaluationNote]? = nil
+        if let notesContainer = notesContainer {
+            notesDecoded0 = [Swift.String:ConnectClientTypes.EvaluationNote]()
+            for (key0, evaluationnote0) in notesContainer {
+                if let evaluationnote0 = evaluationnote0 {
+                    notesDecoded0?[key0] = evaluationnote0
+                }
+            }
+        }
+        notes = notesDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationStatus.self, forKey: .status)
+        status = statusDecoded
+        let scoresContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationScore?].self, forKey: .scores)
+        var scoresDecoded0: [Swift.String:ConnectClientTypes.EvaluationScore]? = nil
+        if let scoresContainer = scoresContainer {
+            scoresDecoded0 = [Swift.String:ConnectClientTypes.EvaluationScore]()
+            for (key0, evaluationscore0) in scoresContainer {
+                if let evaluationscore0 = evaluationscore0 {
+                    scoresDecoded0?[key0] = evaluationscore0
+                }
+            }
+        }
+        scores = scoresDecoded0
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about a contact evaluation.
+    public struct Evaluation: Swift.Equatable {
+        /// A map of question identifiers to answer value.
+        /// This member is required.
+        public var answers: [Swift.String:ConnectClientTypes.EvaluationAnswerOutput]?
+        /// The timestamp for when the evaluation was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+        /// This member is required.
+        public var evaluationArn: Swift.String?
+        /// A unique identifier for the contact evaluation.
+        /// This member is required.
+        public var evaluationId: Swift.String?
+        /// The timestamp for when the evaluation was last updated.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// Metadata about the contact evaluation.
+        /// This member is required.
+        public var metadata: ConnectClientTypes.EvaluationMetadata?
+        /// A map of question identifiers to note value.
+        /// This member is required.
+        public var notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
+        /// A map of item (section or question) identifiers to score value.
+        public var scores: [Swift.String:ConnectClientTypes.EvaluationScore]?
+        /// The status of the contact evaluation.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationStatus?
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init (
+            answers: [Swift.String:ConnectClientTypes.EvaluationAnswerOutput]? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            evaluationArn: Swift.String? = nil,
+            evaluationId: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            metadata: ConnectClientTypes.EvaluationMetadata? = nil,
+            notes: [Swift.String:ConnectClientTypes.EvaluationNote]? = nil,
+            scores: [Swift.String:ConnectClientTypes.EvaluationScore]? = nil,
+            status: ConnectClientTypes.EvaluationStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.answers = answers
+            self.createdTime = createdTime
+            self.evaluationArn = evaluationArn
+            self.evaluationId = evaluationId
+            self.lastModifiedTime = lastModifiedTime
+            self.metadata = metadata
+            self.notes = notes
+            self.scores = scores
+            self.status = status
+            self.tags = tags
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationAnswerData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notapplicable = "NotApplicable"
+        case numericvalue = "NumericValue"
+        case stringvalue = "StringValue"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .notapplicable(notapplicable):
+                try container.encode(notapplicable, forKey: .notapplicable)
+            case let .numericvalue(numericvalue):
+                try container.encode(numericvalue, forKey: .numericvalue)
+            case let .stringvalue(stringvalue):
+                try container.encode(stringvalue, forKey: .stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let stringvalueDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .stringvalue)
+        if let stringvalue = stringvalueDecoded {
+            self = .stringvalue(stringvalue)
+            return
+        }
+        let numericvalueDecoded = try values.decodeIfPresent(Swift.Double.self, forKey: .numericvalue)
+        if let numericvalue = numericvalueDecoded {
+            self = .numericvalue(numericvalue)
+            return
+        }
+        let notapplicableDecoded = try values.decodeIfPresent(Swift.Bool.self, forKey: .notapplicable)
+        if let notapplicable = notapplicableDecoded {
+            self = .notapplicable(notapplicable)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about answer data for a contact evaluation. Answer data must be either string, numeric, or not applicable.
+    public enum EvaluationAnswerData: Swift.Equatable {
+        /// The string value for an answer in a contact evaluation.
+        case stringvalue(Swift.String)
+        /// The numeric value for an answer in a contact evaluation.
+        case numericvalue(Swift.Double)
+        /// The flag to mark the question as not applicable.
+        case notapplicable(Swift.Bool)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationAnswerInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationAnswerData.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about input answers for a contact evaluation.
+    public struct EvaluationAnswerInput: Swift.Equatable {
+        /// The value for an answer in a contact evaluation.
+        public var value: ConnectClientTypes.EvaluationAnswerData?
+
+        public init (
+            value: ConnectClientTypes.EvaluationAnswerData? = nil
+        )
+        {
+            self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationAnswerOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case systemSuggestedValue = "SystemSuggestedValue"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let systemSuggestedValue = self.systemSuggestedValue {
+            try encodeContainer.encode(systemSuggestedValue, forKey: .systemSuggestedValue)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationAnswerData.self, forKey: .value)
+        value = valueDecoded
+        let systemSuggestedValueDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationAnswerData.self, forKey: .systemSuggestedValue)
+        systemSuggestedValue = systemSuggestedValueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about output answers for a contact evaluation.
+    public struct EvaluationAnswerOutput: Swift.Equatable {
+        /// The system suggested value for an answer in a contact evaluation.
+        public var systemSuggestedValue: ConnectClientTypes.EvaluationAnswerData?
+        /// The value for an answer in a contact evaluation.
+        public var value: ConnectClientTypes.EvaluationAnswerData?
+
+        public init (
+            systemSuggestedValue: ConnectClientTypes.EvaluationAnswerData? = nil,
+            value: ConnectClientTypes.EvaluationAnswerData? = nil
+        )
+        {
+            self.systemSuggestedValue = systemSuggestedValue
+            self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationForm: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdBy = "CreatedBy"
+        case createdTime = "CreatedTime"
+        case description = "Description"
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormVersion = "EvaluationFormVersion"
+        case items = "Items"
+        case lastModifiedBy = "LastModifiedBy"
+        case lastModifiedTime = "LastModifiedTime"
+        case locked = "Locked"
+        case scoringStrategy = "ScoringStrategy"
+        case status = "Status"
+        case tags = "Tags"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationFormArn = self.evaluationFormArn {
+            try encodeContainer.encode(evaluationFormArn, forKey: .evaluationFormArn)
+        }
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+        if let evaluationFormVersion = self.evaluationFormVersion {
+            try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
+        }
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for evaluationformitem0 in items {
+                try itemsContainer.encode(evaluationformitem0)
+            }
+        }
+        if let lastModifiedBy = self.lastModifiedBy {
+            try encodeContainer.encode(lastModifiedBy, forKey: .lastModifiedBy)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if locked != false {
+            try encodeContainer.encode(locked, forKey: .locked)
+        }
+        if let scoringStrategy = self.scoringStrategy {
+            try encodeContainer.encode(scoringStrategy, forKey: .scoringStrategy)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+        let lockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .locked) ?? false
+        locked = lockedDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let itemsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormItem?].self, forKey: .items)
+        var itemsDecoded0:[ConnectClientTypes.EvaluationFormItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [ConnectClientTypes.EvaluationFormItem]()
+            for union0 in itemsContainer {
+                if let union0 = union0 {
+                    itemsDecoded0?.append(union0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let scoringStrategyDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormScoringStrategy.self, forKey: .scoringStrategy)
+        scoringStrategy = scoringStrategyDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedBy)
+        lastModifiedBy = lastModifiedByDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the evaluation form.
+    public struct EvaluationForm: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp for when the evaluation form was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the evaluation form.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        /// This member is required.
+        public var evaluationFormArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// A version of the evaluation form.
+        /// This member is required.
+        public var evaluationFormVersion: Swift.Int?
+        /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+        /// This member is required.
+        public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
+        /// This member is required.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp for when the evaluation form was last updated.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The flag indicating whether the evaluation form is locked for changes.
+        /// This member is required.
+        public var locked: Swift.Bool
+        /// A scoring strategy of the evaluation form.
+        public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+        /// The status of the evaluation form.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationFormVersionStatus?
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public var tags: [Swift.String:Swift.String]?
+        /// A title of the evaluation form.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init (
+            createdBy: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            evaluationFormArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            evaluationFormVersion: Swift.Int? = nil,
+            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            locked: Swift.Bool = false,
+            scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+            status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.items = items
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.locked = locked
+            self.scoringStrategy = scoringStrategy
+            self.status = status
+            self.tags = tags
+            self.title = title
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormContent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormVersion = "EvaluationFormVersion"
+        case items = "Items"
+        case scoringStrategy = "ScoringStrategy"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationFormArn = self.evaluationFormArn {
+            try encodeContainer.encode(evaluationFormArn, forKey: .evaluationFormArn)
+        }
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+        if let evaluationFormVersion = self.evaluationFormVersion {
+            try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
+        }
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for evaluationformitem0 in items {
+                try itemsContainer.encode(evaluationformitem0)
+            }
+        }
+        if let scoringStrategy = self.scoringStrategy {
+            try encodeContainer.encode(scoringStrategy, forKey: .scoringStrategy)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let itemsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormItem?].self, forKey: .items)
+        var itemsDecoded0:[ConnectClientTypes.EvaluationFormItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [ConnectClientTypes.EvaluationFormItem]()
+            for union0 in itemsContainer {
+                if let union0 = union0 {
+                    itemsDecoded0?.append(union0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let scoringStrategyDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormScoringStrategy.self, forKey: .scoringStrategy)
+        scoringStrategy = scoringStrategyDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about an evaluation form used in a contact evaluation.
+    public struct EvaluationFormContent: Swift.Equatable {
+        /// The description of the evaluation form.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        /// This member is required.
+        public var evaluationFormArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// A version of the evaluation form.
+        /// This member is required.
+        public var evaluationFormVersion: Swift.Int?
+        /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+        /// This member is required.
+        public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// A scoring strategy of the evaluation form.
+        public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+        /// A title of the evaluation form.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init (
+            description: Swift.String? = nil,
+            evaluationFormArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            evaluationFormVersion: Swift.Int? = nil,
+            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.items = items
+            self.scoringStrategy = scoringStrategy
+            self.title = title
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case question = "Question"
+        case section = "Section"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .question(question):
+                try container.encode(question, forKey: .question)
+            case let .section(section):
+                try container.encode(section, forKey: .section)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let sectionDecoded = try values.decodeIfPresent(ConnectClientTypes.EvaluationFormSection.self, forKey: .section)
+        if let section = sectionDecoded {
+            self = .section(section)
+            return
+        }
+        let questionDecoded = try values.decodeIfPresent(ConnectClientTypes.EvaluationFormQuestion.self, forKey: .question)
+        if let question = questionDecoded {
+            self = .question(question)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about an item from an evaluation form. The item must be either a section or a question.
+    public enum EvaluationFormItem: Swift.Equatable {
+        /// The information of the section.
+        case section(ConnectClientTypes.EvaluationFormSection)
+        /// The information of the question.
+        case question(ConnectClientTypes.EvaluationFormQuestion)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormNumericQuestionAutomation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case propertyvalue = "PropertyValue"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .propertyvalue(propertyvalue):
+                try container.encode(propertyvalue, forKey: .propertyvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let propertyvalueDecoded = try values.decodeIfPresent(ConnectClientTypes.NumericQuestionPropertyValueAutomation.self, forKey: .propertyvalue)
+        if let propertyvalue = propertyvalueDecoded {
+            self = .propertyvalue(propertyvalue)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the automation configuration in numeric questions.
+    public enum EvaluationFormNumericQuestionAutomation: Swift.Equatable {
+        /// The property value of the automation.
+        case propertyvalue(ConnectClientTypes.NumericQuestionPropertyValueAutomation)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormNumericQuestionOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automaticFail = "AutomaticFail"
+        case maxValue = "MaxValue"
+        case minValue = "MinValue"
+        case score = "Score"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if automaticFail != false {
+            try encodeContainer.encode(automaticFail, forKey: .automaticFail)
+        }
+        if maxValue != 0 {
+            try encodeContainer.encode(maxValue, forKey: .maxValue)
+        }
+        if minValue != 0 {
+            try encodeContainer.encode(minValue, forKey: .minValue)
+        }
+        if score != 0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minValue) ?? 0
+        minValue = minValueDecoded
+        let maxValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxValue) ?? 0
+        maxValue = maxValueDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .score) ?? 0
+        score = scoreDecoded
+        let automaticFailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .automaticFail) ?? false
+        automaticFail = automaticFailDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the option range used for scoring in numeric questions.
+    public struct EvaluationFormNumericQuestionOption: Swift.Equatable {
+        /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
+        public var automaticFail: Swift.Bool
+        /// The maximum answer value of the range option.
+        /// This member is required.
+        public var maxValue: Swift.Int
+        /// The minimum answer value of the range option.
+        /// This member is required.
+        public var minValue: Swift.Int
+        /// The score assigned to answer values within the range option.
+        public var score: Swift.Int
+
+        public init (
+            automaticFail: Swift.Bool = false,
+            maxValue: Swift.Int = 0,
+            minValue: Swift.Int = 0,
+            score: Swift.Int = 0
+        )
+        {
+            self.automaticFail = automaticFail
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.score = score
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormNumericQuestionProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automation = "Automation"
+        case maxValue = "MaxValue"
+        case minValue = "MinValue"
+        case options = "Options"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automation = self.automation {
+            try encodeContainer.encode(automation, forKey: .automation)
+        }
+        if maxValue != 0 {
+            try encodeContainer.encode(maxValue, forKey: .maxValue)
+        }
+        if minValue != 0 {
+            try encodeContainer.encode(minValue, forKey: .minValue)
+        }
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for evaluationformnumericquestionoption0 in options {
+                try optionsContainer.encode(evaluationformnumericquestionoption0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minValue) ?? 0
+        minValue = minValueDecoded
+        let maxValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxValue) ?? 0
+        maxValue = maxValueDecoded
+        let optionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormNumericQuestionOption?].self, forKey: .options)
+        var optionsDecoded0:[ConnectClientTypes.EvaluationFormNumericQuestionOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ConnectClientTypes.EvaluationFormNumericQuestionOption]()
+            for structure0 in optionsContainer {
+                if let structure0 = structure0 {
+                    optionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        options = optionsDecoded0
+        let automationDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormNumericQuestionAutomation.self, forKey: .automation)
+        automation = automationDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about properties for a numeric question in an evaluation form.
+    public struct EvaluationFormNumericQuestionProperties: Swift.Equatable {
+        /// The automation properties of the numeric question.
+        public var automation: ConnectClientTypes.EvaluationFormNumericQuestionAutomation?
+        /// The maximum answer value.
+        /// This member is required.
+        public var maxValue: Swift.Int
+        /// The minimum answer value.
+        /// This member is required.
+        public var minValue: Swift.Int
+        /// The scoring options of the numeric question.
+        public var options: [ConnectClientTypes.EvaluationFormNumericQuestionOption]?
+
+        public init (
+            automation: ConnectClientTypes.EvaluationFormNumericQuestionAutomation? = nil,
+            maxValue: Swift.Int = 0,
+            minValue: Swift.Int = 0,
+            options: [ConnectClientTypes.EvaluationFormNumericQuestionOption]? = nil
+        )
+        {
+            self.automation = automation
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.options = options
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormQuestion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instructions = "Instructions"
+        case notApplicableEnabled = "NotApplicableEnabled"
+        case questionType = "QuestionType"
+        case questionTypeProperties = "QuestionTypeProperties"
+        case refId = "RefId"
+        case title = "Title"
+        case weight = "Weight"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instructions = self.instructions {
+            try encodeContainer.encode(instructions, forKey: .instructions)
+        }
+        if notApplicableEnabled != false {
+            try encodeContainer.encode(notApplicableEnabled, forKey: .notApplicableEnabled)
+        }
+        if let questionType = self.questionType {
+            try encodeContainer.encode(questionType.rawValue, forKey: .questionType)
+        }
+        if let questionTypeProperties = self.questionTypeProperties {
+            try encodeContainer.encode(questionTypeProperties, forKey: .questionTypeProperties)
+        }
+        if let refId = self.refId {
+            try encodeContainer.encode(refId, forKey: .refId)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+        if weight != 0.0 {
+            try encodeContainer.encode(weight, forKey: .weight)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let instructionsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instructions)
+        instructions = instructionsDecoded
+        let refIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refId)
+        refId = refIdDecoded
+        let notApplicableEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .notApplicableEnabled) ?? false
+        notApplicableEnabled = notApplicableEnabledDecoded
+        let questionTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormQuestionType.self, forKey: .questionType)
+        questionType = questionTypeDecoded
+        let questionTypePropertiesDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormQuestionTypeProperties.self, forKey: .questionTypeProperties)
+        questionTypeProperties = questionTypePropertiesDecoded
+        let weightDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .weight) ?? 0.0
+        weight = weightDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about a question from an evaluation form.
+    public struct EvaluationFormQuestion: Swift.Equatable {
+        /// The instructions of the section.
+        public var instructions: Swift.String?
+        /// The flag to enable not applicable answers to the question.
+        public var notApplicableEnabled: Swift.Bool
+        /// The type of the question.
+        /// This member is required.
+        public var questionType: ConnectClientTypes.EvaluationFormQuestionType?
+        /// The properties of the type of question. Text questions do not have to define question type properties.
+        public var questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties?
+        /// The identifier of the question. An identifier must be unique within the evaluation form.
+        /// This member is required.
+        public var refId: Swift.String?
+        /// The title of the question.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The scoring weight of the section.
+        public var weight: Swift.Double
+
+        public init (
+            instructions: Swift.String? = nil,
+            notApplicableEnabled: Swift.Bool = false,
+            questionType: ConnectClientTypes.EvaluationFormQuestionType? = nil,
+            questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties? = nil,
+            refId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            weight: Swift.Double = 0.0
+        )
+        {
+            self.instructions = instructions
+            self.notApplicableEnabled = notApplicableEnabled
+            self.questionType = questionType
+            self.questionTypeProperties = questionTypeProperties
+            self.refId = refId
+            self.title = title
+            self.weight = weight
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum EvaluationFormQuestionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case numeric
+        case singleselect
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormQuestionType] {
+            return [
+                .numeric,
+                .singleselect,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .numeric: return "NUMERIC"
+            case .singleselect: return "SINGLESELECT"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationFormQuestionType(rawValue: rawValue) ?? EvaluationFormQuestionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormQuestionTypeProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case numeric = "Numeric"
+        case singleselect = "SingleSelect"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .numeric(numeric):
+                try container.encode(numeric, forKey: .numeric)
+            case let .singleselect(singleselect):
+                try container.encode(singleselect, forKey: .singleselect)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let numericDecoded = try values.decodeIfPresent(ConnectClientTypes.EvaluationFormNumericQuestionProperties.self, forKey: .numeric)
+        if let numeric = numericDecoded {
+            self = .numeric(numeric)
+            return
+        }
+        let singleselectDecoded = try values.decodeIfPresent(ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties.self, forKey: .singleselect)
+        if let singleselect = singleselectDecoded {
+            self = .singleselect(singleselect)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about properties for a question in an evaluation form. The question type properties must be either for a numeric question or a single select question.
+    public enum EvaluationFormQuestionTypeProperties: Swift.Equatable {
+        /// The properties of the numeric question.
+        case numeric(ConnectClientTypes.EvaluationFormNumericQuestionProperties)
+        /// The properties of the numeric question.
+        case singleselect(ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum EvaluationFormScoringMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case questionOnly
+        case sectionOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormScoringMode] {
+            return [
+                .questionOnly,
+                .sectionOnly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .questionOnly: return "QUESTION_ONLY"
+            case .sectionOnly: return "SECTION_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationFormScoringMode(rawValue: rawValue) ?? EvaluationFormScoringMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes {
+    public enum EvaluationFormScoringStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormScoringStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationFormScoringStatus(rawValue: rawValue) ?? EvaluationFormScoringStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormScoringStrategy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mode = "Mode"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormScoringMode.self, forKey: .mode)
+        mode = modeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormScoringStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about scoring strategy for an evaluation form.
+    public struct EvaluationFormScoringStrategy: Swift.Equatable {
+        /// The scoring mode of the evaluation form.
+        /// This member is required.
+        public var mode: ConnectClientTypes.EvaluationFormScoringMode?
+        /// The scoring status of the evaluation form.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationFormScoringStatus?
+
+        public init (
+            mode: ConnectClientTypes.EvaluationFormScoringMode? = nil,
+            status: ConnectClientTypes.EvaluationFormScoringStatus? = nil
+        )
+        {
+            self.mode = mode
+            self.status = status
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormSection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instructions = "Instructions"
+        case items = "Items"
+        case refId = "RefId"
+        case title = "Title"
+        case weight = "Weight"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instructions = self.instructions {
+            try encodeContainer.encode(instructions, forKey: .instructions)
+        }
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for evaluationformitem0 in items {
+                try itemsContainer.encode(evaluationformitem0)
+            }
+        }
+        if let refId = self.refId {
+            try encodeContainer.encode(refId, forKey: .refId)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+        if weight != 0.0 {
+            try encodeContainer.encode(weight, forKey: .weight)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let refIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refId)
+        refId = refIdDecoded
+        let instructionsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instructions)
+        instructions = instructionsDecoded
+        let itemsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormItem?].self, forKey: .items)
+        var itemsDecoded0:[ConnectClientTypes.EvaluationFormItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [ConnectClientTypes.EvaluationFormItem]()
+            for union0 in itemsContainer {
+                if let union0 = union0 {
+                    itemsDecoded0?.append(union0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let weightDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .weight) ?? 0.0
+        weight = weightDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about a section from an evaluation form. A section can contain sections and/or questions. Evaluation forms can only contain sections and subsections (two level nesting).
+    public struct EvaluationFormSection: Swift.Equatable {
+        /// The instructions of the section.
+        public var instructions: Swift.String?
+        /// The items of the section.
+        public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// The identifier of the section. An identifier must be unique within the evaluation form.
+        /// This member is required.
+        public var refId: Swift.String?
+        /// The title of the section.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The scoring weight of the section.
+        public var weight: Swift.Double
+
+        public init (
+            instructions: Swift.String? = nil,
+            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            refId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            weight: Swift.Double = 0.0
+        )
+        {
+            self.instructions = instructions
+            self.items = items
+            self.refId = refId
+            self.title = title
+            self.weight = weight
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultOptionRefId = "DefaultOptionRefId"
+        case options = "Options"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultOptionRefId = self.defaultOptionRefId {
+            try encodeContainer.encode(defaultOptionRefId, forKey: .defaultOptionRefId)
+        }
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for evaluationformsingleselectquestionautomationoption0 in options {
+                try optionsContainer.encode(evaluationformsingleselectquestionautomationoption0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption?].self, forKey: .options)
+        var optionsDecoded0:[ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]()
+            for union0 in optionsContainer {
+                if let union0 = union0 {
+                    optionsDecoded0?.append(union0)
+                }
+            }
+        }
+        options = optionsDecoded0
+        let defaultOptionRefIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultOptionRefId)
+        defaultOptionRefId = defaultOptionRefIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the automation configuration in single select questions. Automation options are evaluated in order, and the first matched option is applied. If no automation option matches, and there is a default option, then the default option is applied.
+    public struct EvaluationFormSingleSelectQuestionAutomation: Swift.Equatable {
+        /// The identifier of the default answer option, when none of the automation options match the criteria.
+        public var defaultOptionRefId: Swift.String?
+        /// The automation options of the single select question.
+        /// This member is required.
+        public var options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]?
+
+        public init (
+            defaultOptionRefId: Swift.String? = nil,
+            options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]? = nil
+        )
+        {
+            self.defaultOptionRefId = defaultOptionRefId
+            self.options = options
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rulecategory = "RuleCategory"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .rulecategory(rulecategory):
+                try container.encode(rulecategory, forKey: .rulecategory)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let rulecategoryDecoded = try values.decodeIfPresent(ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation.self, forKey: .rulecategory)
+        if let rulecategory = rulecategoryDecoded {
+            self = .rulecategory(rulecategory)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the automation option of a single select question.
+    public enum EvaluationFormSingleSelectQuestionAutomationOption: Swift.Equatable {
+        /// The automation option based on a rule category for the single select question.
+        case rulecategory(ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum EvaluationFormSingleSelectQuestionDisplayMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dropdown
+        case radio
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormSingleSelectQuestionDisplayMode] {
+            return [
+                .dropdown,
+                .radio,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dropdown: return "DROPDOWN"
+            case .radio: return "RADIO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationFormSingleSelectQuestionDisplayMode(rawValue: rawValue) ?? EvaluationFormSingleSelectQuestionDisplayMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automaticFail = "AutomaticFail"
+        case refId = "RefId"
+        case score = "Score"
+        case text = "Text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if automaticFail != false {
+            try encodeContainer.encode(automaticFail, forKey: .automaticFail)
+        }
+        if let refId = self.refId {
+            try encodeContainer.encode(refId, forKey: .refId)
+        }
+        if score != 0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refId)
+        refId = refIdDecoded
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .score) ?? 0
+        score = scoreDecoded
+        let automaticFailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .automaticFail) ?? false
+        automaticFail = automaticFailDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the automation configuration in single select questions.
+    public struct EvaluationFormSingleSelectQuestionOption: Swift.Equatable {
+        /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
+        public var automaticFail: Swift.Bool
+        /// The identifier of the answer option. An identifier must be unique within the question.
+        /// This member is required.
+        public var refId: Swift.String?
+        /// The score assigned to the answer option.
+        public var score: Swift.Int
+        /// The title of the answer option.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init (
+            automaticFail: Swift.Bool = false,
+            refId: Swift.String? = nil,
+            score: Swift.Int = 0,
+            text: Swift.String? = nil
+        )
+        {
+            self.automaticFail = automaticFail
+            self.refId = refId
+            self.score = score
+            self.text = text
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automation = "Automation"
+        case displayAs = "DisplayAs"
+        case options = "Options"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automation = self.automation {
+            try encodeContainer.encode(automation, forKey: .automation)
+        }
+        if let displayAs = self.displayAs {
+            try encodeContainer.encode(displayAs.rawValue, forKey: .displayAs)
+        }
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for evaluationformsingleselectquestionoption0 in options {
+                try optionsContainer.encode(evaluationformsingleselectquestionoption0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormSingleSelectQuestionOption?].self, forKey: .options)
+        var optionsDecoded0:[ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]()
+            for structure0 in optionsContainer {
+                if let structure0 = structure0 {
+                    optionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        options = optionsDecoded0
+        let displayAsDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode.self, forKey: .displayAs)
+        displayAs = displayAsDecoded
+        let automationDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation.self, forKey: .automation)
+        automation = automationDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the options in single select questions.
+    public struct EvaluationFormSingleSelectQuestionProperties: Swift.Equatable {
+        /// The display mode of the single select question.
+        public var automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation?
+        /// The display mode of the single select question.
+        public var displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode?
+        /// The answer options of the single select question.
+        /// This member is required.
+        public var options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]?
+
+        public init (
+            automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation? = nil,
+            displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode? = nil,
+            options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]? = nil
+        )
+        {
+            self.automation = automation
+            self.displayAs = displayAs
+            self.options = options
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationFormSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeVersion = "ActiveVersion"
+        case createdBy = "CreatedBy"
+        case createdTime = "CreatedTime"
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case lastActivatedBy = "LastActivatedBy"
+        case lastActivatedTime = "LastActivatedTime"
+        case lastModifiedBy = "LastModifiedBy"
+        case lastModifiedTime = "LastModifiedTime"
+        case latestVersion = "LatestVersion"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeVersion = self.activeVersion {
+            try encodeContainer.encode(activeVersion, forKey: .activeVersion)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let evaluationFormArn = self.evaluationFormArn {
+            try encodeContainer.encode(evaluationFormArn, forKey: .evaluationFormArn)
+        }
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+        if let lastActivatedBy = self.lastActivatedBy {
+            try encodeContainer.encode(lastActivatedBy, forKey: .lastActivatedBy)
+        }
+        if let lastActivatedTime = self.lastActivatedTime {
+            try encodeContainer.encodeTimestamp(lastActivatedTime, format: .epochSeconds, forKey: .lastActivatedTime)
+        }
+        if let lastModifiedBy = self.lastModifiedBy {
+            try encodeContainer.encode(lastModifiedBy, forKey: .lastModifiedBy)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let latestVersion = self.latestVersion {
+            try encodeContainer.encode(latestVersion, forKey: .latestVersion)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedBy)
+        lastModifiedBy = lastModifiedByDecoded
+        let lastActivatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastActivatedTime)
+        lastActivatedTime = lastActivatedTimeDecoded
+        let lastActivatedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastActivatedBy)
+        lastActivatedBy = lastActivatedByDecoded
+        let latestVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersion)
+        latestVersion = latestVersionDecoded
+        let activeVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeVersion)
+        activeVersion = activeVersionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Summary information about an evaluation form.
+    public struct EvaluationFormSummary: Swift.Equatable {
+        /// The version of the active evaluation form version.
+        public var activeVersion: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp for when the evaluation form was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        /// This member is required.
+        public var evaluationFormArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last activated the evaluation form.
+        public var lastActivatedBy: Swift.String?
+        /// The timestamp for when the evaluation form was last activated.
+        public var lastActivatedTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
+        /// This member is required.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp for when the evaluation form was last updated.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The version number of the latest evaluation form version.
+        /// This member is required.
+        public var latestVersion: Swift.Int?
+        /// A title of the evaluation form.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init (
+            activeVersion: Swift.Int? = nil,
+            createdBy: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            evaluationFormArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            lastActivatedBy: Swift.String? = nil,
+            lastActivatedTime: ClientRuntime.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            latestVersion: Swift.Int? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.activeVersion = activeVersion
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.lastActivatedBy = lastActivatedBy
+            self.lastActivatedTime = lastActivatedTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.latestVersion = latestVersion
+            self.title = title
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum EvaluationFormVersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case draft
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormVersionStatus] {
+            return [
+                .active,
+                .draft,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draft: return "DRAFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationFormVersionStatus(rawValue: rawValue) ?? EvaluationFormVersionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormVersionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdBy = "CreatedBy"
+        case createdTime = "CreatedTime"
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormVersion = "EvaluationFormVersion"
+        case lastModifiedBy = "LastModifiedBy"
+        case lastModifiedTime = "LastModifiedTime"
+        case locked = "Locked"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let evaluationFormArn = self.evaluationFormArn {
+            try encodeContainer.encode(evaluationFormArn, forKey: .evaluationFormArn)
+        }
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+        if let evaluationFormVersion = self.evaluationFormVersion {
+            try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
+        }
+        if let lastModifiedBy = self.lastModifiedBy {
+            try encodeContainer.encode(lastModifiedBy, forKey: .lastModifiedBy)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if locked != false {
+            try encodeContainer.encode(locked, forKey: .locked)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+        let lockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .locked) ?? false
+        locked = lockedDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedBy)
+        lastModifiedBy = lastModifiedByDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Summary information about an evaluation form.
+    public struct EvaluationFormVersionSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp for when the evaluation form was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        /// This member is required.
+        public var evaluationFormArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// A version of the evaluation form.
+        /// This member is required.
+        public var evaluationFormVersion: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
+        /// This member is required.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp for when the evaluation form was last updated.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The flag indicating whether the evaluation form is locked for changes.
+        /// This member is required.
+        public var locked: Swift.Bool
+        /// The status of the evaluation form.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationFormVersionStatus?
+
+        public init (
+            createdBy: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            evaluationFormArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            evaluationFormVersion: Swift.Int? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            locked: Swift.Bool = false,
+            status: ConnectClientTypes.EvaluationFormVersionStatus? = nil
+        )
+        {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.locked = locked
+            self.status = status
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactAgentId = "ContactAgentId"
+        case contactId = "ContactId"
+        case evaluatorArn = "EvaluatorArn"
+        case score = "Score"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactAgentId = self.contactAgentId {
+            try encodeContainer.encode(contactAgentId, forKey: .contactAgentId)
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let evaluatorArn = self.evaluatorArn {
+            try encodeContainer.encode(evaluatorArn, forKey: .evaluatorArn)
+        }
+        if let score = self.score {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let evaluatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluatorArn)
+        evaluatorArn = evaluatorArnDecoded
+        let contactAgentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactAgentId)
+        contactAgentId = contactAgentIdDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationScore.self, forKey: .score)
+        score = scoreDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Metadata information about a contact evaluation.
+    public struct EvaluationMetadata: Swift.Equatable {
+        /// The identifier of the agent who performed the contact.
+        public var contactAgentId: Swift.String?
+        /// The identifier of the contact in this instance of Amazon Connect.
+        /// This member is required.
+        public var contactId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
+        /// This member is required.
+        public var evaluatorArn: Swift.String?
+        /// The overall score of the contact evaluation.
+        public var score: ConnectClientTypes.EvaluationScore?
+
+        public init (
+            contactAgentId: Swift.String? = nil,
+            contactId: Swift.String? = nil,
+            evaluatorArn: Swift.String? = nil,
+            score: ConnectClientTypes.EvaluationScore? = nil
+        )
+        {
+            self.contactAgentId = contactAgentId
+            self.contactId = contactId
+            self.evaluatorArn = evaluatorArn
+            self.score = score
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationNote: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about notes for a contact evaluation.
+    public struct EvaluationNote: Swift.Equatable {
+        /// The note for an item (section or question) in a contact evaluation.
+        public var value: Swift.String?
+
+        public init (
+            value: Swift.String? = nil
+        )
+        {
+            self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.EvaluationScore: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automaticFail = "AutomaticFail"
+        case notApplicable = "NotApplicable"
+        case percentage = "Percentage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if automaticFail != false {
+            try encodeContainer.encode(automaticFail, forKey: .automaticFail)
+        }
+        if notApplicable != false {
+            try encodeContainer.encode(notApplicable, forKey: .notApplicable)
+        }
+        if percentage != 0.0 {
+            try encodeContainer.encode(percentage, forKey: .percentage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let percentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .percentage) ?? 0.0
+        percentage = percentageDecoded
+        let notApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .notApplicable) ?? false
+        notApplicable = notApplicableDecoded
+        let automaticFailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .automaticFail) ?? false
+        automaticFail = automaticFailDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about scores of a contact evaluation item (section or question).
+    public struct EvaluationScore: Swift.Equatable {
+        /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
+        public var automaticFail: Swift.Bool
+        /// The flag to mark the item as not applicable for scoring.
+        public var notApplicable: Swift.Bool
+        /// The score percentage for an item in a contact evaluation.
+        public var percentage: Swift.Double
+
+        public init (
+            automaticFail: Swift.Bool = false,
+            notApplicable: Swift.Bool = false,
+            percentage: Swift.Double = 0.0
+        )
+        {
+            self.automaticFail = automaticFail
+            self.notApplicable = notApplicable
+            self.percentage = percentage
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum EvaluationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case draft
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationStatus] {
+            return [
+                .draft,
+                .submitted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .draft: return "DRAFT"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationStatus(rawValue: rawValue) ?? EvaluationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.EvaluationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime = "CreatedTime"
+        case evaluationArn = "EvaluationArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormTitle = "EvaluationFormTitle"
+        case evaluationId = "EvaluationId"
+        case evaluatorArn = "EvaluatorArn"
+        case lastModifiedTime = "LastModifiedTime"
+        case score = "Score"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let evaluationArn = self.evaluationArn {
+            try encodeContainer.encode(evaluationArn, forKey: .evaluationArn)
+        }
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+        if let evaluationFormTitle = self.evaluationFormTitle {
+            try encodeContainer.encode(evaluationFormTitle, forKey: .evaluationFormTitle)
+        }
+        if let evaluationId = self.evaluationId {
+            try encodeContainer.encode(evaluationId, forKey: .evaluationId)
+        }
+        if let evaluatorArn = self.evaluatorArn {
+            try encodeContainer.encode(evaluatorArn, forKey: .evaluatorArn)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let score = self.score {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationId)
+        evaluationId = evaluationIdDecoded
+        let evaluationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationArn)
+        evaluationArn = evaluationArnDecoded
+        let evaluationFormTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormTitle)
+        evaluationFormTitle = evaluationFormTitleDecoded
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationStatus.self, forKey: .status)
+        status = statusDecoded
+        let evaluatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluatorArn)
+        evaluatorArn = evaluatorArnDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationScore.self, forKey: .score)
+        score = scoreDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Summary information about a contact evaluation.
+    public struct EvaluationSummary: Swift.Equatable {
+        /// The timestamp for when the evaluation was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+        /// This member is required.
+        public var evaluationArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// A title of the evaluation form.
+        /// This member is required.
+        public var evaluationFormTitle: Swift.String?
+        /// A unique identifier for the contact evaluation.
+        /// This member is required.
+        public var evaluationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
+        /// This member is required.
+        public var evaluatorArn: Swift.String?
+        /// The timestamp for when the evaluation was last updated.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The overall score of the contact evaluation.
+        public var score: ConnectClientTypes.EvaluationScore?
+        /// The status of the contact evaluation.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationStatus?
+
+        public init (
+            createdTime: ClientRuntime.Date? = nil,
+            evaluationArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            evaluationFormTitle: Swift.String? = nil,
+            evaluationId: Swift.String? = nil,
+            evaluatorArn: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            score: ConnectClientTypes.EvaluationScore? = nil,
+            status: ConnectClientTypes.EvaluationStatus? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.evaluationArn = evaluationArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormTitle = evaluationFormTitle
+            self.evaluationId = evaluationId
+            self.evaluatorArn = evaluatorArn
+            self.lastModifiedTime = lastModifiedTime
+            self.score = score
+            self.status = status
+        }
+    }
+
+}
+
 extension ConnectClientTypes.EventBridgeActionDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -12407,6 +15827,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
     public enum EventSourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oncontactevaluationsubmit
         case onpostcallanalysisavailable
         case onpostchatanalysisavailable
         case onrealtimecallanalysisavailable
@@ -12417,6 +15838,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [EventSourceName] {
             return [
+                .oncontactevaluationsubmit,
                 .onpostcallanalysisavailable,
                 .onpostchatanalysisavailable,
                 .onrealtimecallanalysisavailable,
@@ -12432,6 +15854,7 @@ extension ConnectClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .oncontactevaluationsubmit: return "OnContactEvaluationSubmit"
             case .onpostcallanalysisavailable: return "OnPostCallAnalysisAvailable"
             case .onpostchatanalysisavailable: return "OnPostChatAnalysisAvailable"
             case .onrealtimecallanalysisavailable: return "OnRealTimeCallAnalysisAvailable"
@@ -13651,7 +17074,7 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Amazon Connect instance.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The time range between the start and end time must be less than 24 hours. The start time cannot be earlier than 14 days before the time of the request. Historical metrics are available for 14 days.
+    /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The time range between the start and end time must be less than 24 hours. The start time cannot be earlier than 35 days before the time of the request. Historical metrics are available for 35 days.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
 
@@ -13834,6 +17257,115 @@ extension GetMetricDataV2OutputResponseBody: Swift.Decodable {
             }
         }
         metricResults = metricResultsDecoded0
+    }
+}
+
+extension GetPromptFileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let promptId = promptId else {
+            return nil
+        }
+        return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())/file"
+    }
+}
+
+public struct GetPromptFileInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique identifier for the prompt.
+    /// This member is required.
+    public var promptId: Swift.String?
+
+    public init (
+        instanceId: Swift.String? = nil,
+        promptId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.promptId = promptId
+    }
+}
+
+struct GetPromptFileInputBody: Swift.Equatable {
+}
+
+extension GetPromptFileInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetPromptFileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetPromptFileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetPromptFileOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetPromptFileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetPromptFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.promptPresignedUrl = output.promptPresignedUrl
+        } else {
+            self.promptPresignedUrl = nil
+        }
+    }
+}
+
+public struct GetPromptFileOutputResponse: Swift.Equatable {
+    /// A generated URL to the prompt that can be given to an unauthorized user so they can access the prompt in S3.
+    public var promptPresignedUrl: Swift.String?
+
+    public init (
+        promptPresignedUrl: Swift.String? = nil
+    )
+    {
+        self.promptPresignedUrl = promptPresignedUrl
+    }
+}
+
+struct GetPromptFileOutputResponseBody: Swift.Equatable {
+    let promptPresignedUrl: Swift.String?
+}
+
+extension GetPromptFileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case promptPresignedUrl = "PromptPresignedUrl"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptPresignedUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptPresignedUrl)
+        promptPresignedUrl = promptPresignedUrlDecoded
     }
 }
 
@@ -17342,6 +20874,153 @@ extension ListBotsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListContactEvaluationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let contactId = contactId else {
+                let message = "Creating a URL Query Item failed. contactId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let contactIdQueryItem = ClientRuntime.URLQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
+            items.append(contactIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListContactEvaluationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/contact-evaluations/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct ListContactEvaluationsInput: Swift.Equatable {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. This is not expected to be set because the value returned in the previous response is always null.
+    public var nextToken: Swift.String?
+
+    public init (
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.nextToken = nextToken
+    }
+}
+
+struct ListContactEvaluationsInputBody: Swift.Equatable {
+}
+
+extension ListContactEvaluationsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListContactEvaluationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListContactEvaluationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListContactEvaluationsOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListContactEvaluationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListContactEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationSummaryList = output.evaluationSummaryList
+            self.nextToken = output.nextToken
+        } else {
+            self.evaluationSummaryList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListContactEvaluationsOutputResponse: Swift.Equatable {
+    /// Provides details about a list of contact evaluations belonging to an instance.
+    /// This member is required.
+    public var evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]?
+    /// If there are additional results, this is the token for the next set of results. This is always returned as null in the response.
+    public var nextToken: Swift.String?
+
+    public init (
+        evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.evaluationSummaryList = evaluationSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListContactEvaluationsOutputResponseBody: Swift.Equatable {
+    let evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListContactEvaluationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationSummaryList = "EvaluationSummaryList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationSummary?].self, forKey: .evaluationSummaryList)
+        var evaluationSummaryListDecoded0:[ConnectClientTypes.EvaluationSummary]? = nil
+        if let evaluationSummaryListContainer = evaluationSummaryListContainer {
+            evaluationSummaryListDecoded0 = [ConnectClientTypes.EvaluationSummary]()
+            for structure0 in evaluationSummaryListContainer {
+                if let structure0 = structure0 {
+                    evaluationSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        evaluationSummaryList = evaluationSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListContactFlowModulesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -17972,6 +21651,302 @@ extension ListDefaultVocabulariesOutputResponseBody: Swift.Decodable {
             }
         }
         defaultVocabularyList = defaultVocabularyListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListEvaluationFormVersionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListEvaluationFormVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/versions"
+    }
+}
+
+public struct ListEvaluationFormVersionsInput: Swift.Equatable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        evaluationFormId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.evaluationFormId = evaluationFormId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEvaluationFormVersionsInputBody: Swift.Equatable {
+}
+
+extension ListEvaluationFormVersionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListEvaluationFormVersionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListEvaluationFormVersionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListEvaluationFormVersionsOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListEvaluationFormVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListEvaluationFormVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationFormVersionSummaryList = output.evaluationFormVersionSummaryList
+            self.nextToken = output.nextToken
+        } else {
+            self.evaluationFormVersionSummaryList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEvaluationFormVersionsOutputResponse: Swift.Equatable {
+    /// Provides details about a list of evaluation forms belonging to an instance.
+    /// This member is required.
+    public var evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.evaluationFormVersionSummaryList = evaluationFormVersionSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEvaluationFormVersionsOutputResponseBody: Swift.Equatable {
+    let evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEvaluationFormVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormVersionSummaryList = "EvaluationFormVersionSummaryList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormVersionSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormVersionSummary?].self, forKey: .evaluationFormVersionSummaryList)
+        var evaluationFormVersionSummaryListDecoded0:[ConnectClientTypes.EvaluationFormVersionSummary]? = nil
+        if let evaluationFormVersionSummaryListContainer = evaluationFormVersionSummaryListContainer {
+            evaluationFormVersionSummaryListDecoded0 = [ConnectClientTypes.EvaluationFormVersionSummary]()
+            for structure0 in evaluationFormVersionSummaryListContainer {
+                if let structure0 = structure0 {
+                    evaluationFormVersionSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        evaluationFormVersionSummaryList = evaluationFormVersionSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListEvaluationFormsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListEvaluationFormsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct ListEvaluationFormsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEvaluationFormsInputBody: Swift.Equatable {
+}
+
+extension ListEvaluationFormsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListEvaluationFormsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListEvaluationFormsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListEvaluationFormsOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListEvaluationFormsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListEvaluationFormsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationFormSummaryList = output.evaluationFormSummaryList
+            self.nextToken = output.nextToken
+        } else {
+            self.evaluationFormSummaryList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEvaluationFormsOutputResponse: Swift.Equatable {
+    /// Provides details about a list of evaluation forms belonging to an instance.
+    /// This member is required.
+    public var evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.evaluationFormSummaryList = evaluationFormSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEvaluationFormsOutputResponseBody: Swift.Equatable {
+    let evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEvaluationFormsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormSummaryList = "EvaluationFormSummaryList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormSummary?].self, forKey: .evaluationFormSummaryList)
+        var evaluationFormSummaryListDecoded0:[ConnectClientTypes.EvaluationFormSummary]? = nil
+        if let evaluationFormSummaryListContainer = evaluationFormSummaryListContainer {
+            evaluationFormSummaryListDecoded0 = [ConnectClientTypes.EvaluationFormSummary]()
+            for structure0 in evaluationFormSummaryListContainer {
+                if let structure0 = structure0 {
+                    evaluationFormSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        evaluationFormSummaryList = evaluationFormSummaryListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -22120,7 +26095,7 @@ extension ConnectClientTypes {
     public struct MetricV2: Swift.Equatable {
         /// Contains the filters to be used when returning data.
         public var metricFilters: [ConnectClientTypes.MetricFilterV2]?
-        /// The name of the metric.
+        /// The name of the metric. This parameter is required. The following Required = No is incorrect.
         public var name: Swift.String?
         /// Contains information about the threshold for service level metrics.
         public var threshold: [ConnectClientTypes.ThresholdV2]?
@@ -22532,6 +26507,100 @@ extension ConnectClientTypes {
         {
             self.name = name
             self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum NumericQuestionPropertyAutomationLabel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case agentInteractionDuration
+        case contactDuration
+        case customerHoldTime
+        case nonTalkTime
+        case nonTalkTimePercentage
+        case numberOfInterruptions
+        case overallAgentSentimentScore
+        case overallCustomerSentimentScore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NumericQuestionPropertyAutomationLabel] {
+            return [
+                .agentInteractionDuration,
+                .contactDuration,
+                .customerHoldTime,
+                .nonTalkTime,
+                .nonTalkTimePercentage,
+                .numberOfInterruptions,
+                .overallAgentSentimentScore,
+                .overallCustomerSentimentScore,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentInteractionDuration: return "AGENT_INTERACTION_DURATION"
+            case .contactDuration: return "CONTACT_DURATION"
+            case .customerHoldTime: return "CUSTOMER_HOLD_TIME"
+            case .nonTalkTime: return "NON_TALK_TIME"
+            case .nonTalkTimePercentage: return "NON_TALK_TIME_PERCENTAGE"
+            case .numberOfInterruptions: return "NUMBER_OF_INTERRUPTIONS"
+            case .overallAgentSentimentScore: return "OVERALL_AGENT_SENTIMENT_SCORE"
+            case .overallCustomerSentimentScore: return "OVERALL_CUSTOMER_SENTIMENT_SCORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NumericQuestionPropertyAutomationLabel(rawValue: rawValue) ?? NumericQuestionPropertyAutomationLabel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.NumericQuestionPropertyValueAutomation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case label = "Label"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let label = self.label {
+            try encodeContainer.encode(label.rawValue, forKey: .label)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let labelDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.NumericQuestionPropertyAutomationLabel.self, forKey: .label)
+        label = labelDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the property value used in automation of a numeric questions. Label values are associated with minimum and maximum values for the numeric question.
+    ///
+    /// * Sentiment scores have a minimum value of -5 and maximum value of 5.
+    ///
+    /// * Duration labels, such as NON_TALK_TIME, CONTACT_DURATION, AGENT_INTERACTION_DURATION, CUSTOMER_HOLD_TIME have a minimum value of 0 and maximum value of 28800.
+    ///
+    /// * Percentages have a minimum value of 0 and maximum value of 100.
+    ///
+    /// * NUMBER_OF_INTERRUPTIONS has a minimum value of 0 and maximum value of 1000.
+    public struct NumericQuestionPropertyValueAutomation: Swift.Equatable {
+        /// The property label of the automation.
+        /// This member is required.
+        public var label: ConnectClientTypes.NumericQuestionPropertyAutomationLabel?
+
+        public init (
+            label: ConnectClientTypes.NumericQuestionPropertyAutomationLabel? = nil
+        )
+        {
+            self.label = label
         }
     }
 
@@ -24054,6 +28123,93 @@ extension ConnectClientTypes {
         )
         {
             self.message = message
+        }
+    }
+
+}
+
+extension ConnectClientTypes.Prompt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case promptARN = "PromptARN"
+        case promptId = "PromptId"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let promptARN = self.promptARN {
+            try encodeContainer.encode(promptARN, forKey: .promptARN)
+        }
+        if let promptId = self.promptId {
+            try encodeContainer.encode(promptId, forKey: .promptId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptARN)
+        promptARN = promptARNDecoded
+        let promptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptId)
+        promptId = promptIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about a prompt.
+    public struct Prompt: Swift.Equatable {
+        /// A description for the prompt.
+        public var description: Swift.String?
+        /// The name of the prompt.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the prompt.
+        public var promptARN: Swift.String?
+        /// A unique identifier for the prompt.
+        public var promptId: Swift.String?
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init (
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            promptARN: Swift.String? = nil,
+            promptId: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.description = description
+            self.name = name
+            self.promptARN = promptARN
+            self.promptId = promptId
+            self.tags = tags
         }
     }
 
@@ -28993,6 +33149,96 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case category = "Category"
+        case condition = "Condition"
+        case optionRefId = "OptionRefId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let category = self.category {
+            try encodeContainer.encode(category, forKey: .category)
+        }
+        if let condition = self.condition {
+            try encodeContainer.encode(condition.rawValue, forKey: .condition)
+        }
+        if let optionRefId = self.optionRefId {
+            try encodeContainer.encode(optionRefId, forKey: .optionRefId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let categoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .category)
+        category = categoryDecoded
+        let conditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomationCondition.self, forKey: .condition)
+        condition = conditionDecoded
+        let optionRefIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optionRefId)
+        optionRefId = optionRefIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the automation option based on a rule category for a single select question.
+    public struct SingleSelectQuestionRuleCategoryAutomation: Swift.Equatable {
+        /// The category name, as defined in Rules.
+        /// This member is required.
+        public var category: Swift.String?
+        /// The condition to apply for the automation option. If the condition is PRESENT, then the option is applied when the contact data includes the category. Similarly, if the condition is NOT_PRESENT, then the option is applied when the contact data does not include the category.
+        /// This member is required.
+        public var condition: ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomationCondition?
+        /// The identifier of the answer option.
+        /// This member is required.
+        public var optionRefId: Swift.String?
+
+        public init (
+            category: Swift.String? = nil,
+            condition: ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomationCondition? = nil,
+            optionRefId: Swift.String? = nil
+        )
+        {
+            self.category = category
+            self.condition = condition
+            self.optionRefId = optionRefId
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum SingleSelectQuestionRuleCategoryAutomationCondition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notPresent
+        case present
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SingleSelectQuestionRuleCategoryAutomationCondition] {
+            return [
+                .notPresent,
+                .present,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notPresent: return "NOT_PRESENT"
+            case .present: return "PRESENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SingleSelectQuestionRuleCategoryAutomationCondition(rawValue: rawValue) ?? SingleSelectQuestionRuleCategoryAutomationCondition.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectClientTypes {
     public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ascending
@@ -29336,6 +33582,171 @@ extension StartChatContactOutputResponseBody: Swift.Decodable {
         participantToken = participantTokenDecoded
         let continuedFromContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuedFromContactId)
         continuedFromContactId = continuedFromContactIdDecoded
+    }
+}
+
+extension StartContactEvaluationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case contactId = "ContactId"
+        case evaluationFormId = "EvaluationFormId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+    }
+}
+
+extension StartContactEvaluationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/contact-evaluations/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct StartContactEvaluationInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.evaluationFormId = evaluationFormId
+        self.instanceId = instanceId
+    }
+}
+
+struct StartContactEvaluationInputBody: Swift.Equatable {
+    let contactId: Swift.String?
+    let evaluationFormId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension StartContactEvaluationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case contactId = "ContactId"
+        case evaluationFormId = "EvaluationFormId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension StartContactEvaluationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartContactEvaluationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartContactEvaluationOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartContactEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: StartContactEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationArn = output.evaluationArn
+            self.evaluationId = output.evaluationId
+        } else {
+            self.evaluationArn = nil
+            self.evaluationId = nil
+        }
+    }
+}
+
+public struct StartContactEvaluationOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+    /// This member is required.
+    public var evaluationArn: Swift.String?
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+
+    public init (
+        evaluationArn: Swift.String? = nil,
+        evaluationId: Swift.String? = nil
+    )
+    {
+        self.evaluationArn = evaluationArn
+        self.evaluationId = evaluationId
+    }
+}
+
+struct StartContactEvaluationOutputResponseBody: Swift.Equatable {
+    let evaluationId: Swift.String?
+    let evaluationArn: Swift.String?
+}
+
+extension StartContactEvaluationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationArn = "EvaluationArn"
+        case evaluationId = "EvaluationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationId)
+        evaluationId = evaluationIdDecoded
+        let evaluationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationArn)
+        evaluationArn = evaluationArnDecoded
     }
 }
 
@@ -30672,6 +35083,187 @@ extension ConnectClientTypes {
         }
     }
 
+}
+
+extension SubmitContactEvaluationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answers = "Answers"
+        case notes = "Notes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let answers = answers {
+            var answersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .answers)
+            for (dictKey0, evaluationAnswersInputMap0) in answers {
+                try answersContainer.encode(evaluationAnswersInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let notes = notes {
+            var notesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .notes)
+            for (dictKey0, evaluationNotesMap0) in notes {
+                try notesContainer.encode(evaluationNotesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension SubmitContactEvaluationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationId = evaluationId else {
+            return nil
+        }
+        return "/contact-evaluations/\(instanceId.urlPercentEncoding())/\(evaluationId.urlPercentEncoding())/submit"
+    }
+}
+
+public struct SubmitContactEvaluationInput: Swift.Equatable {
+    /// A map of question identifiers to answer value.
+    public var answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A map of question identifiers to note value.
+    public var notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
+
+    public init (
+        answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]? = nil,
+        evaluationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        notes: [Swift.String:ConnectClientTypes.EvaluationNote]? = nil
+    )
+    {
+        self.answers = answers
+        self.evaluationId = evaluationId
+        self.instanceId = instanceId
+        self.notes = notes
+    }
+}
+
+struct SubmitContactEvaluationInputBody: Swift.Equatable {
+    let answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
+    let notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
+}
+
+extension SubmitContactEvaluationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answers = "Answers"
+        case notes = "Notes"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let answersContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationAnswerInput?].self, forKey: .answers)
+        var answersDecoded0: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]? = nil
+        if let answersContainer = answersContainer {
+            answersDecoded0 = [Swift.String:ConnectClientTypes.EvaluationAnswerInput]()
+            for (key0, evaluationanswerinput0) in answersContainer {
+                if let evaluationanswerinput0 = evaluationanswerinput0 {
+                    answersDecoded0?[key0] = evaluationanswerinput0
+                }
+            }
+        }
+        answers = answersDecoded0
+        let notesContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationNote?].self, forKey: .notes)
+        var notesDecoded0: [Swift.String:ConnectClientTypes.EvaluationNote]? = nil
+        if let notesContainer = notesContainer {
+            notesDecoded0 = [Swift.String:ConnectClientTypes.EvaluationNote]()
+            for (key0, evaluationnote0) in notesContainer {
+                if let evaluationnote0 = evaluationnote0 {
+                    notesDecoded0?[key0] = evaluationnote0
+                }
+            }
+        }
+        notes = notesDecoded0
+    }
+}
+
+extension SubmitContactEvaluationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension SubmitContactEvaluationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum SubmitContactEvaluationOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SubmitContactEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: SubmitContactEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationArn = output.evaluationArn
+            self.evaluationId = output.evaluationId
+        } else {
+            self.evaluationArn = nil
+            self.evaluationId = nil
+        }
+    }
+}
+
+public struct SubmitContactEvaluationOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+    /// This member is required.
+    public var evaluationArn: Swift.String?
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+
+    public init (
+        evaluationArn: Swift.String? = nil,
+        evaluationId: Swift.String? = nil
+    )
+    {
+        self.evaluationArn = evaluationArn
+        self.evaluationId = evaluationId
+    }
+}
+
+struct SubmitContactEvaluationOutputResponseBody: Swift.Equatable {
+    let evaluationId: Swift.String?
+    let evaluationArn: Swift.String?
+}
+
+extension SubmitContactEvaluationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationArn = "EvaluationArn"
+        case evaluationId = "EvaluationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationId)
+        evaluationId = evaluationIdDecoded
+        let evaluationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationArn)
+        evaluationArn = evaluationArnDecoded
+    }
 }
 
 extension SuspendContactRecordingInput: Swift.Encodable {
@@ -32605,6 +37197,187 @@ public struct UpdateContactAttributesOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateContactEvaluationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answers = "Answers"
+        case notes = "Notes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let answers = answers {
+            var answersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .answers)
+            for (dictKey0, evaluationAnswersInputMap0) in answers {
+                try answersContainer.encode(evaluationAnswersInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let notes = notes {
+            var notesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .notes)
+            for (dictKey0, evaluationNotesMap0) in notes {
+                try notesContainer.encode(evaluationNotesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension UpdateContactEvaluationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationId = evaluationId else {
+            return nil
+        }
+        return "/contact-evaluations/\(instanceId.urlPercentEncoding())/\(evaluationId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateContactEvaluationInput: Swift.Equatable {
+    /// A map of question identifiers to answer value.
+    public var answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A map of question identifiers to note value.
+    public var notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
+
+    public init (
+        answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]? = nil,
+        evaluationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        notes: [Swift.String:ConnectClientTypes.EvaluationNote]? = nil
+    )
+    {
+        self.answers = answers
+        self.evaluationId = evaluationId
+        self.instanceId = instanceId
+        self.notes = notes
+    }
+}
+
+struct UpdateContactEvaluationInputBody: Swift.Equatable {
+    let answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
+    let notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
+}
+
+extension UpdateContactEvaluationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answers = "Answers"
+        case notes = "Notes"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let answersContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationAnswerInput?].self, forKey: .answers)
+        var answersDecoded0: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]? = nil
+        if let answersContainer = answersContainer {
+            answersDecoded0 = [Swift.String:ConnectClientTypes.EvaluationAnswerInput]()
+            for (key0, evaluationanswerinput0) in answersContainer {
+                if let evaluationanswerinput0 = evaluationanswerinput0 {
+                    answersDecoded0?[key0] = evaluationanswerinput0
+                }
+            }
+        }
+        answers = answersDecoded0
+        let notesContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.EvaluationNote?].self, forKey: .notes)
+        var notesDecoded0: [Swift.String:ConnectClientTypes.EvaluationNote]? = nil
+        if let notesContainer = notesContainer {
+            notesDecoded0 = [Swift.String:ConnectClientTypes.EvaluationNote]()
+            for (key0, evaluationnote0) in notesContainer {
+                if let evaluationnote0 = evaluationnote0 {
+                    notesDecoded0?[key0] = evaluationnote0
+                }
+            }
+        }
+        notes = notesDecoded0
+    }
+}
+
+extension UpdateContactEvaluationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateContactEvaluationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateContactEvaluationOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateContactEvaluationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateContactEvaluationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationArn = output.evaluationArn
+            self.evaluationId = output.evaluationId
+        } else {
+            self.evaluationArn = nil
+            self.evaluationId = nil
+        }
+    }
+}
+
+public struct UpdateContactEvaluationOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+    /// This member is required.
+    public var evaluationArn: Swift.String?
+    /// A unique identifier for the contact evaluation.
+    /// This member is required.
+    public var evaluationId: Swift.String?
+
+    public init (
+        evaluationArn: Swift.String? = nil,
+        evaluationId: Swift.String? = nil
+    )
+    {
+        self.evaluationArn = evaluationArn
+        self.evaluationId = evaluationId
+    }
+}
+
+struct UpdateContactEvaluationOutputResponseBody: Swift.Equatable {
+    let evaluationId: Swift.String?
+    let evaluationArn: Swift.String?
+}
+
+extension UpdateContactEvaluationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationArn = "EvaluationArn"
+        case evaluationId = "EvaluationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationId)
+        evaluationId = evaluationIdDecoded
+        let evaluationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationArn)
+        evaluationArn = evaluationArnDecoded
+    }
+}
+
 extension UpdateContactFlowContentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
@@ -33449,6 +38222,251 @@ public struct UpdateContactScheduleOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateEvaluationFormInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case createNewVersion = "CreateNewVersion"
+        case description = "Description"
+        case evaluationFormVersion = "EvaluationFormVersion"
+        case items = "Items"
+        case scoringStrategy = "ScoringStrategy"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let createNewVersion = self.createNewVersion {
+            try encodeContainer.encode(createNewVersion, forKey: .createNewVersion)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationFormVersion = self.evaluationFormVersion {
+            try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
+        }
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for evaluationformitem0 in items {
+                try itemsContainer.encode(evaluationformitem0)
+            }
+        }
+        if let scoringStrategy = self.scoringStrategy {
+            try encodeContainer.encode(scoringStrategy, forKey: .scoringStrategy)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+}
+
+extension UpdateEvaluationFormInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateEvaluationFormInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// A flag indicating whether the operation must create a new version.
+    public var createNewVersion: Swift.Bool?
+    /// The description of the evaluation form.
+    public var description: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form to update.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+    /// This member is required.
+    public var items: [ConnectClientTypes.EvaluationFormItem]?
+    /// A scoring strategy of the evaluation form.
+    public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    /// A title of the evaluation form.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        createNewVersion: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil,
+        items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+        scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.createNewVersion = createNewVersion
+        self.description = description
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+        self.items = items
+        self.scoringStrategy = scoringStrategy
+        self.title = title
+    }
+}
+
+struct UpdateEvaluationFormInputBody: Swift.Equatable {
+    let evaluationFormVersion: Swift.Int?
+    let createNewVersion: Swift.Bool?
+    let title: Swift.String?
+    let description: Swift.String?
+    let items: [ConnectClientTypes.EvaluationFormItem]?
+    let scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    let clientToken: Swift.String?
+}
+
+extension UpdateEvaluationFormInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case createNewVersion = "CreateNewVersion"
+        case description = "Description"
+        case evaluationFormVersion = "EvaluationFormVersion"
+        case items = "Items"
+        case scoringStrategy = "ScoringStrategy"
+        case title = "Title"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+        let createNewVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createNewVersion)
+        createNewVersion = createNewVersionDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let itemsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.EvaluationFormItem?].self, forKey: .items)
+        var itemsDecoded0:[ConnectClientTypes.EvaluationFormItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [ConnectClientTypes.EvaluationFormItem]()
+            for union0 in itemsContainer {
+                if let union0 = union0 {
+                    itemsDecoded0?.append(union0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let scoringStrategyDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EvaluationFormScoringStrategy.self, forKey: .scoringStrategy)
+        scoringStrategy = scoringStrategyDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdateEvaluationFormOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateEvaluationFormOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateEvaluationFormOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateEvaluationFormOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateEvaluationFormOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evaluationFormArn = output.evaluationFormArn
+            self.evaluationFormId = output.evaluationFormId
+            self.evaluationFormVersion = output.evaluationFormVersion
+        } else {
+            self.evaluationFormArn = nil
+            self.evaluationFormId = nil
+            self.evaluationFormVersion = nil
+        }
+    }
+}
+
+public struct UpdateEvaluationFormOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+    /// This member is required.
+    public var evaluationFormArn: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the updated evaluation form resource.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+
+    public init (
+        evaluationFormArn: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil
+    )
+    {
+        self.evaluationFormArn = evaluationFormArn
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+    }
+}
+
+struct UpdateEvaluationFormOutputResponseBody: Swift.Equatable {
+    let evaluationFormId: Swift.String?
+    let evaluationFormArn: Swift.String?
+    let evaluationFormVersion: Swift.Int?
+}
+
+extension UpdateEvaluationFormOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormArn = "EvaluationFormArn"
+        case evaluationFormId = "EvaluationFormId"
+        case evaluationFormVersion = "EvaluationFormVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+        let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
+        evaluationFormArn = evaluationFormArnDecoded
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        evaluationFormVersion = evaluationFormVersionDecoded
+    }
+}
+
 extension UpdateHoursOfOperationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case config = "Config"
@@ -34122,6 +39140,173 @@ extension UpdatePhoneNumberOutputResponseBody: Swift.Decodable {
         phoneNumberId = phoneNumberIdDecoded
         let phoneNumberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumberArn)
         phoneNumberArn = phoneNumberArnDecoded
+    }
+}
+
+extension UpdatePromptInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+}
+
+extension UpdatePromptInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let promptId = promptId else {
+            return nil
+        }
+        return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdatePromptInput: Swift.Equatable {
+    /// A description of the prompt.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the prompt.
+    public var name: Swift.String?
+    /// A unique identifier for the prompt.
+    /// This member is required.
+    public var promptId: Swift.String?
+    /// The URI for the S3 bucket where the prompt is stored.
+    public var s3Uri: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        promptId: Swift.String? = nil,
+        s3Uri: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.promptId = promptId
+        self.s3Uri = s3Uri
+    }
+}
+
+struct UpdatePromptInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let s3Uri: Swift.String?
+}
+
+extension UpdatePromptInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case s3Uri = "S3Uri"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension UpdatePromptOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdatePromptOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdatePromptOutputError: Swift.Error, Swift.Equatable {
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdatePromptOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdatePromptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.promptARN = output.promptARN
+            self.promptId = output.promptId
+        } else {
+            self.promptARN = nil
+            self.promptId = nil
+        }
+    }
+}
+
+public struct UpdatePromptOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the prompt.
+    public var promptARN: Swift.String?
+    /// A unique identifier for the prompt.
+    public var promptId: Swift.String?
+
+    public init (
+        promptARN: Swift.String? = nil,
+        promptId: Swift.String? = nil
+    )
+    {
+        self.promptARN = promptARN
+        self.promptId = promptId
+    }
+}
+
+struct UpdatePromptOutputResponseBody: Swift.Equatable {
+    let promptARN: Swift.String?
+    let promptId: Swift.String?
+}
+
+extension UpdatePromptOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case promptARN = "PromptARN"
+        case promptId = "PromptId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptARN)
+        promptARN = promptARNDecoded
+        let promptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptId)
+        promptId = promptIdDecoded
     }
 }
 

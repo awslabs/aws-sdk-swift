@@ -1679,6 +1679,97 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes.AvailabilityZoneInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneName = "AvailabilityZoneName"
+        case availableDataNodeCount = "AvailableDataNodeCount"
+        case configuredDataNodeCount = "ConfiguredDataNodeCount"
+        case totalShards = "TotalShards"
+        case totalUnAssignedShards = "TotalUnAssignedShards"
+        case zoneStatus = "ZoneStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneName = self.availabilityZoneName {
+            try encodeContainer.encode(availabilityZoneName, forKey: .availabilityZoneName)
+        }
+        if let availableDataNodeCount = self.availableDataNodeCount {
+            try encodeContainer.encode(availableDataNodeCount, forKey: .availableDataNodeCount)
+        }
+        if let configuredDataNodeCount = self.configuredDataNodeCount {
+            try encodeContainer.encode(configuredDataNodeCount, forKey: .configuredDataNodeCount)
+        }
+        if let totalShards = self.totalShards {
+            try encodeContainer.encode(totalShards, forKey: .totalShards)
+        }
+        if let totalUnAssignedShards = self.totalUnAssignedShards {
+            try encodeContainer.encode(totalUnAssignedShards, forKey: .totalUnAssignedShards)
+        }
+        if let zoneStatus = self.zoneStatus {
+            try encodeContainer.encode(zoneStatus.rawValue, forKey: .zoneStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityZoneNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneName)
+        availabilityZoneName = availabilityZoneNameDecoded
+        let zoneStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ZoneStatus.self, forKey: .zoneStatus)
+        zoneStatus = zoneStatusDecoded
+        let configuredDataNodeCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredDataNodeCount)
+        configuredDataNodeCount = configuredDataNodeCountDecoded
+        let availableDataNodeCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availableDataNodeCount)
+        availableDataNodeCount = availableDataNodeCountDecoded
+        let totalShardsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalShards)
+        totalShards = totalShardsDecoded
+        let totalUnAssignedShardsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalUnAssignedShards)
+        totalUnAssignedShards = totalUnAssignedShardsDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Information about an Availability Zone on a domain.
+    public struct AvailabilityZoneInfo: Swift.Equatable {
+        /// The name of the Availability Zone.
+        public var availabilityZoneName: Swift.String?
+        /// The number of data nodes active in the Availability Zone.
+        public var availableDataNodeCount: Swift.String?
+        /// The total number of data nodes configured in the Availability Zone.
+        public var configuredDataNodeCount: Swift.String?
+        /// The total number of primary and replica shards in the Availability Zone.
+        public var totalShards: Swift.String?
+        /// The total number of primary and replica shards that aren't allocated to any of the nodes in the Availability Zone.
+        public var totalUnAssignedShards: Swift.String?
+        /// The current state of the Availability Zone. Current options are Active and StandBy.
+        ///
+        /// * Active - Data nodes in the Availability Zone are in use.
+        ///
+        /// * StandBy - Data nodes in the Availability Zone are in a standby state.
+        ///
+        /// * NotAvailable - Unable to retrieve information.
+        public var zoneStatus: OpenSearchClientTypes.ZoneStatus?
+
+        public init (
+            availabilityZoneName: Swift.String? = nil,
+            availableDataNodeCount: Swift.String? = nil,
+            configuredDataNodeCount: Swift.String? = nil,
+            totalShards: Swift.String? = nil,
+            totalUnAssignedShards: Swift.String? = nil,
+            zoneStatus: OpenSearchClientTypes.ZoneStatus? = nil
+        )
+        {
+            self.availabilityZoneName = availabilityZoneName
+            self.availableDataNodeCount = availableDataNodeCount
+            self.configuredDataNodeCount = configuredDataNodeCount
+            self.totalShards = totalShards
+            self.totalUnAssignedShards = totalUnAssignedShards
+            self.zoneStatus = zoneStatus
+        }
+    }
+
+}
+
 extension BaseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -2098,6 +2189,7 @@ extension OpenSearchClientTypes.ClusterConfig: Swift.Codable {
         case dedicatedMasterType = "DedicatedMasterType"
         case instanceCount = "InstanceCount"
         case instanceType = "InstanceType"
+        case multiAZWithStandbyEnabled = "MultiAZWithStandbyEnabled"
         case warmCount = "WarmCount"
         case warmEnabled = "WarmEnabled"
         case warmType = "WarmType"
@@ -2124,6 +2216,9 @@ extension OpenSearchClientTypes.ClusterConfig: Swift.Codable {
         }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
+        }
+        if let multiAZWithStandbyEnabled = self.multiAZWithStandbyEnabled {
+            try encodeContainer.encode(multiAZWithStandbyEnabled, forKey: .multiAZWithStandbyEnabled)
         }
         if let warmCount = self.warmCount {
             try encodeContainer.encode(warmCount, forKey: .warmCount)
@@ -2166,6 +2261,8 @@ extension OpenSearchClientTypes.ClusterConfig: Swift.Codable {
         warmCount = warmCountDecoded
         let coldStorageOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ColdStorageOptions.self, forKey: .coldStorageOptions)
         coldStorageOptions = coldStorageOptionsDecoded
+        let multiAZWithStandbyEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZWithStandbyEnabled)
+        multiAZWithStandbyEnabled = multiAZWithStandbyEnabledDecoded
     }
 }
 
@@ -2174,7 +2271,7 @@ extension OpenSearchClientTypes {
     public struct ClusterConfig: Swift.Equatable {
         /// Container for cold storage configuration options.
         public var coldStorageOptions: OpenSearchClientTypes.ColdStorageOptions?
-        /// Number of dedicated master nodes in the cluster. This number must be greater than 1, otherwise you receive a validation exception.
+        /// Number of dedicated master nodes in the cluster. This number must be greater than 2 and not 4, otherwise you receive a validation exception.
         public var dedicatedMasterCount: Swift.Int?
         /// Indicates whether dedicated master nodes are enabled for the cluster.True if the cluster will use a dedicated master node.False if the cluster will not.
         public var dedicatedMasterEnabled: Swift.Bool?
@@ -2184,6 +2281,8 @@ extension OpenSearchClientTypes {
         public var instanceCount: Swift.Int?
         /// Instance type of data nodes in the cluster.
         public var instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
+        /// A boolean that indicates whether a multi-AZ domain is turned on with a standby AZ. For more information, see [Configuring a multi-AZ domain in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-multiaz.html).
+        public var multiAZWithStandbyEnabled: Swift.Bool?
         /// The number of warm nodes in the cluster.
         public var warmCount: Swift.Int?
         /// Whether to enable warm storage for the cluster.
@@ -2202,6 +2301,7 @@ extension OpenSearchClientTypes {
             dedicatedMasterType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil,
             instanceCount: Swift.Int? = nil,
             instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil,
+            multiAZWithStandbyEnabled: Swift.Bool? = nil,
             warmCount: Swift.Int? = nil,
             warmEnabled: Swift.Bool? = nil,
             warmType: OpenSearchClientTypes.OpenSearchWarmPartitionInstanceType? = nil,
@@ -2215,6 +2315,7 @@ extension OpenSearchClientTypes {
             self.dedicatedMasterType = dedicatedMasterType
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.multiAZWithStandbyEnabled = multiAZWithStandbyEnabled
             self.warmCount = warmCount
             self.warmEnabled = warmEnabled
             self.warmType = warmType
@@ -2732,7 +2833,7 @@ public struct CreateDomainInput: Swift.Equatable {
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
     /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
     public var engineVersion: Swift.String?
-    /// Key-value pairs to configure slow log publishing.
+    /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
     /// Enables node-to-node encryption.
     public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
@@ -3232,7 +3333,7 @@ public struct CreatePackageInput: Swift.Equatable {
     /// The Amazon S3 location from which to import the package.
     /// This member is required.
     public var packageSource: OpenSearchClientTypes.PackageSource?
-    /// Type of package.
+    /// The type of package.
     /// This member is required.
     public var packageType: OpenSearchClientTypes.PackageType?
 
@@ -3999,6 +4100,58 @@ extension DeleteVpcEndpointOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DependencyFailureException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DependencyFailureExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
+public struct DependencyFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// A description of the error.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct DependencyFailureExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DependencyFailureExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension OpenSearchClientTypes {
     public enum DeploymentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed
@@ -4416,6 +4569,254 @@ extension DescribeDomainConfigOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeDomainHealthInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/health"
+    }
+}
+
+/// Container for the parameters to the DescribeDomainHealth operation.
+public struct DescribeDomainHealthInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+    }
+}
+
+struct DescribeDomainHealthInputBody: Swift.Equatable {
+}
+
+extension DescribeDomainHealthInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeDomainHealthOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeDomainHealthOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeDomainHealthOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDomainHealthOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeDomainHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.activeAvailabilityZoneCount = output.activeAvailabilityZoneCount
+            self.availabilityZoneCount = output.availabilityZoneCount
+            self.clusterHealth = output.clusterHealth
+            self.dataNodeCount = output.dataNodeCount
+            self.dedicatedMaster = output.dedicatedMaster
+            self.domainState = output.domainState
+            self.environmentInformation = output.environmentInformation
+            self.masterEligibleNodeCount = output.masterEligibleNodeCount
+            self.masterNode = output.masterNode
+            self.standByAvailabilityZoneCount = output.standByAvailabilityZoneCount
+            self.totalShards = output.totalShards
+            self.totalUnAssignedShards = output.totalUnAssignedShards
+            self.warmNodeCount = output.warmNodeCount
+        } else {
+            self.activeAvailabilityZoneCount = nil
+            self.availabilityZoneCount = nil
+            self.clusterHealth = nil
+            self.dataNodeCount = nil
+            self.dedicatedMaster = nil
+            self.domainState = nil
+            self.environmentInformation = nil
+            self.masterEligibleNodeCount = nil
+            self.masterNode = nil
+            self.standByAvailabilityZoneCount = nil
+            self.totalShards = nil
+            self.totalUnAssignedShards = nil
+            self.warmNodeCount = nil
+        }
+    }
+}
+
+/// The result of a DescribeDomainHealth request. Contains health information for the requested domain.
+public struct DescribeDomainHealthOutputResponse: Swift.Equatable {
+    /// The number of active Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
+    public var activeAvailabilityZoneCount: Swift.String?
+    /// The number of Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
+    public var availabilityZoneCount: Swift.String?
+    /// The current health status of your cluster.
+    ///
+    /// * Red - At least one primary shard is not allocated to any node.
+    ///
+    /// * Yellow - All primary shards are allocated to nodes, but some replicas aren’t.
+    ///
+    /// * Green - All primary shards and their replicas are allocated to nodes.
+    ///
+    /// * NotAvailable - Unable to retrieve cluster health.
+    public var clusterHealth: OpenSearchClientTypes.DomainHealth?
+    /// The number of data nodes configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
+    public var dataNodeCount: Swift.String?
+    /// A boolean that indicates if dedicated master nodes are activated for the domain.
+    public var dedicatedMaster: Swift.Bool?
+    /// The current state of the domain.
+    ///
+    /// * Processing - The domain has updates in progress.
+    ///
+    /// * Active - Requested changes have been processed and deployed to the domain.
+    public var domainState: OpenSearchClientTypes.DomainState?
+    /// A list of EnvironmentInfo for the domain.
+    public var environmentInformation: [OpenSearchClientTypes.EnvironmentInfo]?
+    /// The number of nodes that can be elected as a master node. If dedicated master nodes is turned on, this value is the number of dedicated master nodes configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
+    public var masterEligibleNodeCount: Swift.String?
+    /// Indicates whether the domain has an elected master node.
+    ///
+    /// * Available - The domain has an elected master node.
+    ///
+    /// * UnAvailable - The master node hasn't yet been elected, and a quorum to elect a new master node hasn't been reached.
+    public var masterNode: OpenSearchClientTypes.MasterNodeStatus?
+    /// The number of standby Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
+    public var standByAvailabilityZoneCount: Swift.String?
+    /// The total number of primary and replica shards for the domain.
+    public var totalShards: Swift.String?
+    /// The total number of primary and replica shards not allocated to any of the nodes for the cluster.
+    public var totalUnAssignedShards: Swift.String?
+    /// The number of warm nodes configured for the domain.
+    public var warmNodeCount: Swift.String?
+
+    public init (
+        activeAvailabilityZoneCount: Swift.String? = nil,
+        availabilityZoneCount: Swift.String? = nil,
+        clusterHealth: OpenSearchClientTypes.DomainHealth? = nil,
+        dataNodeCount: Swift.String? = nil,
+        dedicatedMaster: Swift.Bool? = nil,
+        domainState: OpenSearchClientTypes.DomainState? = nil,
+        environmentInformation: [OpenSearchClientTypes.EnvironmentInfo]? = nil,
+        masterEligibleNodeCount: Swift.String? = nil,
+        masterNode: OpenSearchClientTypes.MasterNodeStatus? = nil,
+        standByAvailabilityZoneCount: Swift.String? = nil,
+        totalShards: Swift.String? = nil,
+        totalUnAssignedShards: Swift.String? = nil,
+        warmNodeCount: Swift.String? = nil
+    )
+    {
+        self.activeAvailabilityZoneCount = activeAvailabilityZoneCount
+        self.availabilityZoneCount = availabilityZoneCount
+        self.clusterHealth = clusterHealth
+        self.dataNodeCount = dataNodeCount
+        self.dedicatedMaster = dedicatedMaster
+        self.domainState = domainState
+        self.environmentInformation = environmentInformation
+        self.masterEligibleNodeCount = masterEligibleNodeCount
+        self.masterNode = masterNode
+        self.standByAvailabilityZoneCount = standByAvailabilityZoneCount
+        self.totalShards = totalShards
+        self.totalUnAssignedShards = totalUnAssignedShards
+        self.warmNodeCount = warmNodeCount
+    }
+}
+
+struct DescribeDomainHealthOutputResponseBody: Swift.Equatable {
+    let domainState: OpenSearchClientTypes.DomainState?
+    let availabilityZoneCount: Swift.String?
+    let activeAvailabilityZoneCount: Swift.String?
+    let standByAvailabilityZoneCount: Swift.String?
+    let dataNodeCount: Swift.String?
+    let dedicatedMaster: Swift.Bool?
+    let masterEligibleNodeCount: Swift.String?
+    let warmNodeCount: Swift.String?
+    let masterNode: OpenSearchClientTypes.MasterNodeStatus?
+    let clusterHealth: OpenSearchClientTypes.DomainHealth?
+    let totalShards: Swift.String?
+    let totalUnAssignedShards: Swift.String?
+    let environmentInformation: [OpenSearchClientTypes.EnvironmentInfo]?
+}
+
+extension DescribeDomainHealthOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeAvailabilityZoneCount = "ActiveAvailabilityZoneCount"
+        case availabilityZoneCount = "AvailabilityZoneCount"
+        case clusterHealth = "ClusterHealth"
+        case dataNodeCount = "DataNodeCount"
+        case dedicatedMaster = "DedicatedMaster"
+        case domainState = "DomainState"
+        case environmentInformation = "EnvironmentInformation"
+        case masterEligibleNodeCount = "MasterEligibleNodeCount"
+        case masterNode = "MasterNode"
+        case standByAvailabilityZoneCount = "StandByAvailabilityZoneCount"
+        case totalShards = "TotalShards"
+        case totalUnAssignedShards = "TotalUnAssignedShards"
+        case warmNodeCount = "WarmNodeCount"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainStateDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DomainState.self, forKey: .domainState)
+        domainState = domainStateDecoded
+        let availabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneCount)
+        availabilityZoneCount = availabilityZoneCountDecoded
+        let activeAvailabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeAvailabilityZoneCount)
+        activeAvailabilityZoneCount = activeAvailabilityZoneCountDecoded
+        let standByAvailabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standByAvailabilityZoneCount)
+        standByAvailabilityZoneCount = standByAvailabilityZoneCountDecoded
+        let dataNodeCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataNodeCount)
+        dataNodeCount = dataNodeCountDecoded
+        let dedicatedMasterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedMaster)
+        dedicatedMaster = dedicatedMasterDecoded
+        let masterEligibleNodeCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterEligibleNodeCount)
+        masterEligibleNodeCount = masterEligibleNodeCountDecoded
+        let warmNodeCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .warmNodeCount)
+        warmNodeCount = warmNodeCountDecoded
+        let masterNodeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.MasterNodeStatus.self, forKey: .masterNode)
+        masterNode = masterNodeDecoded
+        let clusterHealthDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DomainHealth.self, forKey: .clusterHealth)
+        clusterHealth = clusterHealthDecoded
+        let totalShardsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalShards)
+        totalShards = totalShardsDecoded
+        let totalUnAssignedShardsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalUnAssignedShards)
+        totalUnAssignedShards = totalUnAssignedShardsDecoded
+        let environmentInformationContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.EnvironmentInfo?].self, forKey: .environmentInformation)
+        var environmentInformationDecoded0:[OpenSearchClientTypes.EnvironmentInfo]? = nil
+        if let environmentInformationContainer = environmentInformationContainer {
+            environmentInformationDecoded0 = [OpenSearchClientTypes.EnvironmentInfo]()
+            for structure0 in environmentInformationContainer {
+                if let structure0 = structure0 {
+                    environmentInformationDecoded0?.append(structure0)
+                }
+            }
+        }
+        environmentInformation = environmentInformationDecoded0
+    }
+}
+
 extension DescribeDomainInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let domainName = domainName else {
@@ -4445,6 +4846,120 @@ struct DescribeDomainInputBody: Swift.Equatable {
 extension DescribeDomainInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeDomainNodesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/nodes"
+    }
+}
+
+/// Container for the parameters to the DescribeDomainNodes operation.
+public struct DescribeDomainNodesInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+    }
+}
+
+struct DescribeDomainNodesInputBody: Swift.Equatable {
+}
+
+extension DescribeDomainNodesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeDomainNodesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeDomainNodesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DependencyFailureException" : self = .dependencyFailureException(try DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeDomainNodesOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case dependencyFailureException(DependencyFailureException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDomainNodesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeDomainNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.domainNodesStatusList = output.domainNodesStatusList
+        } else {
+            self.domainNodesStatusList = nil
+        }
+    }
+}
+
+/// The result of a DescribeDomainNodes request. Contains information about the nodes on the requested domain.
+public struct DescribeDomainNodesOutputResponse: Swift.Equatable {
+    /// Contains nodes information list DomainNodesStatusList with details about the all nodes on the requested domain.
+    public var domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]?
+
+    public init (
+        domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]? = nil
+    )
+    {
+        self.domainNodesStatusList = domainNodesStatusList
+    }
+}
+
+struct DescribeDomainNodesOutputResponseBody: Swift.Equatable {
+    let domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]?
+}
+
+extension DescribeDomainNodesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainNodesStatusList = "DomainNodesStatusList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainNodesStatusListContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.DomainNodesStatus?].self, forKey: .domainNodesStatusList)
+        var domainNodesStatusListDecoded0:[OpenSearchClientTypes.DomainNodesStatus]? = nil
+        if let domainNodesStatusListContainer = domainNodesStatusListContainer {
+            domainNodesStatusListDecoded0 = [OpenSearchClientTypes.DomainNodesStatus]()
+            for structure0 in domainNodesStatusListContainer {
+                if let structure0 = structure0 {
+                    domainNodesStatusListDecoded0?.append(structure0)
+                }
+            }
+        }
+        domainNodesStatusList = domainNodesStatusListDecoded0
     }
 }
 
@@ -5319,7 +5834,7 @@ extension OpenSearchClientTypes {
     public struct DescribePackagesFilter: Swift.Equatable {
         /// Any field from PackageDetails.
         public var name: OpenSearchClientTypes.DescribePackagesFilterName?
-        /// A list of values for the specified filter field.
+        /// A non-empty list of values for the specified filter field.
         public var value: [Swift.String]?
 
         public init (
@@ -6007,7 +6522,7 @@ extension DisabledOperationException {
     }
 }
 
-/// An error occured because the client wanted to access a not supported operation.
+/// An error occured because the client wanted to access an unsupported operation.
 public struct DisabledOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6296,7 +6811,7 @@ extension OpenSearchClientTypes {
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public var engineVersion: OpenSearchClientTypes.VersionStatus?
-        /// Key-value pairs to configure slow log publishing.
+        /// Key-value pairs to configure log publishing.
         public var logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus?
         /// Whether node-to-node encryption is enabled or disabled.
         public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus?
@@ -6477,6 +6992,44 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes {
+    public enum DomainHealth: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case green
+        case notavailable
+        case red
+        case yellow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainHealth] {
+            return [
+                .green,
+                .notavailable,
+                .red,
+                .yellow,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .green: return "Green"
+            case .notavailable: return "NotAvailable"
+            case .red: return "Red"
+            case .yellow: return "Yellow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DomainHealth(rawValue: rawValue) ?? DomainHealth.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OpenSearchClientTypes.DomainInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"
@@ -6552,6 +7105,111 @@ extension OpenSearchClientTypes {
         )
         {
             self.awsDomainInformation = awsDomainInformation
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.DomainNodesStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case instanceType = "InstanceType"
+        case nodeId = "NodeId"
+        case nodeStatus = "NodeStatus"
+        case nodeType = "NodeType"
+        case storageSize = "StorageSize"
+        case storageType = "StorageType"
+        case storageVolumeType = "StorageVolumeType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
+        }
+        if let nodeId = self.nodeId {
+            try encodeContainer.encode(nodeId, forKey: .nodeId)
+        }
+        if let nodeStatus = self.nodeStatus {
+            try encodeContainer.encode(nodeStatus.rawValue, forKey: .nodeStatus)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType.rawValue, forKey: .nodeType)
+        }
+        if let storageSize = self.storageSize {
+            try encodeContainer.encode(storageSize, forKey: .storageSize)
+        }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType, forKey: .storageType)
+        }
+        if let storageVolumeType = self.storageVolumeType {
+            try encodeContainer.encode(storageVolumeType.rawValue, forKey: .storageVolumeType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeId)
+        nodeId = nodeIdDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.NodeType.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OpenSearchPartitionInstanceType.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let nodeStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.NodeStatus.self, forKey: .nodeStatus)
+        nodeStatus = nodeStatusDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let storageVolumeTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.VolumeType.self, forKey: .storageVolumeType)
+        storageVolumeType = storageVolumeTypeDecoded
+        let storageSizeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSize)
+        storageSize = storageSizeDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Container for information about nodes on the domain.
+    public struct DomainNodesStatus: Swift.Equatable {
+        /// The Availability Zone of the node.
+        public var availabilityZone: Swift.String?
+        /// The instance type information of the node.
+        public var instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
+        /// The ID of the node.
+        public var nodeId: Swift.String?
+        /// Indicates if the node is active or in standby.
+        public var nodeStatus: OpenSearchClientTypes.NodeStatus?
+        /// Indicates whether the nodes is a data, master, or ultrawarm node.
+        public var nodeType: OpenSearchClientTypes.NodeType?
+        /// The storage size of the node, in GiB.
+        public var storageSize: Swift.String?
+        /// Indicates if the node has EBS or instance storage.
+        public var storageType: Swift.String?
+        /// If the nodes has EBS storage, indicates if the volume type is GP2 or GP3. Only applicable for data nodes.
+        public var storageVolumeType: OpenSearchClientTypes.VolumeType?
+
+        public init (
+            availabilityZone: Swift.String? = nil,
+            instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil,
+            nodeId: Swift.String? = nil,
+            nodeStatus: OpenSearchClientTypes.NodeStatus? = nil,
+            nodeType: OpenSearchClientTypes.NodeType? = nil,
+            storageSize: Swift.String? = nil,
+            storageType: Swift.String? = nil,
+            storageVolumeType: OpenSearchClientTypes.VolumeType? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.instanceType = instanceType
+            self.nodeId = nodeId
+            self.nodeStatus = nodeStatus
+            self.nodeType = nodeType
+            self.storageSize = storageSize
+            self.storageType = storageType
+            self.storageVolumeType = storageVolumeType
         }
     }
 
@@ -6643,7 +7301,7 @@ extension OpenSearchClientTypes {
         public var packageType: OpenSearchClientTypes.PackageType?
         /// The current version of the package.
         public var packageVersion: Swift.String?
-        /// Denotes the location of the package on the OpenSearch Service cluster nodes. It's the same as synonym_path for dictionary files.
+        /// The relative path of the package on the OpenSearch Service cluster nodes. This is synonym_path when the package is for synonym files.
         public var referencePath: Swift.String?
 
         public init (
@@ -6709,6 +7367,41 @@ extension OpenSearchClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DomainPackageStatus(rawValue: rawValue) ?? DomainPackageStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    public enum DomainState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case notavailable
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainState] {
+            return [
+                .active,
+                .notavailable,
+                .processing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .notavailable: return "NotAvailable"
+            case .processing: return "Processing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DomainState(rawValue: rawValue) ?? DomainState.sdkUnknown(rawValue)
         }
     }
 }
@@ -7513,6 +8206,53 @@ extension OpenSearchClientTypes {
             self = EngineType(rawValue: rawValue) ?? EngineType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension OpenSearchClientTypes.EnvironmentInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneInformation = "AvailabilityZoneInformation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneInformation = availabilityZoneInformation {
+            var availabilityZoneInformationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZoneInformation)
+            for availabilityzoneinfo0 in availabilityZoneInformation {
+                try availabilityZoneInformationContainer.encode(availabilityzoneinfo0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityZoneInformationContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.AvailabilityZoneInfo?].self, forKey: .availabilityZoneInformation)
+        var availabilityZoneInformationDecoded0:[OpenSearchClientTypes.AvailabilityZoneInfo]? = nil
+        if let availabilityZoneInformationContainer = availabilityZoneInformationContainer {
+            availabilityZoneInformationDecoded0 = [OpenSearchClientTypes.AvailabilityZoneInfo]()
+            for structure0 in availabilityZoneInformationContainer {
+                if let structure0 = structure0 {
+                    availabilityZoneInformationDecoded0?.append(structure0)
+                }
+            }
+        }
+        availabilityZoneInformation = availabilityZoneInformationDecoded0
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Information about the active domain environment.
+    public struct EnvironmentInfo: Swift.Equatable {
+        /// A list of AvailabilityZoneInfo for the domain.
+        public var availabilityZoneInformation: [OpenSearchClientTypes.AvailabilityZoneInfo]?
+
+        public init (
+            availabilityZoneInformation: [OpenSearchClientTypes.AvailabilityZoneInfo]? = nil
+        )
+        {
+            self.availabilityZoneInformation = availabilityZoneInformation
+        }
+    }
+
 }
 
 extension OpenSearchClientTypes.ErrorDetails: Swift.Codable {
@@ -8435,6 +9175,7 @@ extension OpenSearchClientTypes.InstanceTypeDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedSecurityEnabled = "AdvancedSecurityEnabled"
         case appLogsEnabled = "AppLogsEnabled"
+        case availabilityZones = "AvailabilityZones"
         case cognitoEnabled = "CognitoEnabled"
         case encryptionEnabled = "EncryptionEnabled"
         case instanceRole = "InstanceRole"
@@ -8449,6 +9190,12 @@ extension OpenSearchClientTypes.InstanceTypeDetails: Swift.Codable {
         }
         if let appLogsEnabled = self.appLogsEnabled {
             try encodeContainer.encode(appLogsEnabled, forKey: .appLogsEnabled)
+        }
+        if let availabilityZones = availabilityZones {
+            var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
+            }
         }
         if let cognitoEnabled = self.cognitoEnabled {
             try encodeContainer.encode(cognitoEnabled, forKey: .cognitoEnabled)
@@ -8495,6 +9242,17 @@ extension OpenSearchClientTypes.InstanceTypeDetails: Swift.Codable {
             }
         }
         instanceRole = instanceRoleDecoded0
+        let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
+        var availabilityZonesDecoded0:[Swift.String]? = nil
+        if let availabilityZonesContainer = availabilityZonesContainer {
+            availabilityZonesDecoded0 = [Swift.String]()
+            for string0 in availabilityZonesContainer {
+                if let string0 = string0 {
+                    availabilityZonesDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZones = availabilityZonesDecoded0
     }
 }
 
@@ -8505,6 +9263,8 @@ extension OpenSearchClientTypes {
         public var advancedSecurityEnabled: Swift.Bool?
         /// Whether logging is supported for the instance type.
         public var appLogsEnabled: Swift.Bool?
+        /// The supported Availability Zones for the instance type.
+        public var availabilityZones: [Swift.String]?
         /// Whether Amazon Cognito access is supported for the instance type.
         public var cognitoEnabled: Swift.Bool?
         /// Whether encryption at rest and node-to-node encryption are supported for the instance type.
@@ -8519,6 +9279,7 @@ extension OpenSearchClientTypes {
         public init (
             advancedSecurityEnabled: Swift.Bool? = nil,
             appLogsEnabled: Swift.Bool? = nil,
+            availabilityZones: [Swift.String]? = nil,
             cognitoEnabled: Swift.Bool? = nil,
             encryptionEnabled: Swift.Bool? = nil,
             instanceRole: [Swift.String]? = nil,
@@ -8528,6 +9289,7 @@ extension OpenSearchClientTypes {
         {
             self.advancedSecurityEnabled = advancedSecurityEnabled
             self.appLogsEnabled = appLogsEnabled
+            self.availabilityZones = availabilityZones
             self.cognitoEnabled = cognitoEnabled
             self.encryptionEnabled = encryptionEnabled
             self.instanceRole = instanceRole
@@ -8606,7 +9368,7 @@ extension InvalidPaginationTokenException {
     }
 }
 
-/// The request processing has failed because you provided an invalid pagination token.
+/// Request processing failed because you provided an invalid pagination token.
 public struct InvalidPaginationTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -9099,9 +9861,17 @@ extension ListInstanceTypeDetailsInput: ClientRuntime.QueryItemProvider {
                 let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
                 items.append(domainNameQueryItem)
             }
+            if let retrieveAZs = retrieveAZs {
+                let retrieveAZsQueryItem = ClientRuntime.URLQueryItem(name: "retrieveAZs".urlPercentEncoding(), value: Swift.String(retrieveAZs).urlPercentEncoding())
+                items.append(retrieveAZsQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
+            }
+            if let instanceType = instanceType {
+                let instanceTypeQueryItem = ClientRuntime.URLQueryItem(name: "instanceType".urlPercentEncoding(), value: Swift.String(instanceType).urlPercentEncoding())
+                items.append(instanceTypeQueryItem)
             }
             return items
         }
@@ -9118,27 +9888,35 @@ extension ListInstanceTypeDetailsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListInstanceTypeDetailsInput: Swift.Equatable {
-    /// Name of the domain to list instance type details for.
+    /// The name of the domain.
     public var domainName: Swift.String?
-    /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
+    /// The version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
     /// This member is required.
     public var engineVersion: Swift.String?
+    /// An optional parameter that lists information for a given instance type.
+    public var instanceType: Swift.String?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListInstanceTypeDetails operation returns a nextToken, you can include the returned nextToken in subsequent ListInstanceTypeDetails operations, which returns results in the next page.
     public var nextToken: Swift.String?
+    /// An optional parameter that specifies the Availability Zones for the domain.
+    public var retrieveAZs: Swift.Bool?
 
     public init (
         domainName: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
+        instanceType: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        retrieveAZs: Swift.Bool? = nil
     )
     {
         self.domainName = domainName
         self.engineVersion = engineVersion
+        self.instanceType = instanceType
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.retrieveAZs = retrieveAZs
     }
 }
 
@@ -10339,6 +11117,38 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes {
+    public enum MasterNodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case unavailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MasterNodeStatus] {
+            return [
+                .available,
+                .unavailable,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .unavailable: return "UnAvailable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MasterNodeStatus(rawValue: rawValue) ?? MasterNodeStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OpenSearchClientTypes.MasterUserOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case masterUserARN = "MasterUserARN"
@@ -10397,6 +11207,41 @@ extension OpenSearchClientTypes {
         }
     }
 
+}
+
+extension OpenSearchClientTypes {
+    public enum NodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case notavailable
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeStatus] {
+            return [
+                .active,
+                .notavailable,
+                .standby,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .notavailable: return "NotAvailable"
+            case .standby: return "StandBy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NodeStatus(rawValue: rawValue) ?? NodeStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension OpenSearchClientTypes.NodeToNodeEncryptionOptions: Swift.Codable {
@@ -10481,6 +11326,41 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes {
+    public enum NodeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case data
+        case master
+        case ultrawarm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeType] {
+            return [
+                .data,
+                .master,
+                .ultrawarm,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .data: return "Data"
+            case .master: return "Master"
+            case .ultrawarm: return "Ultrawarm"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NodeType(rawValue: rawValue) ?? NodeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OpenSearchClientTypes.OffPeakWindow: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case windowStartTime = "WindowStartTime"
@@ -10544,7 +11424,7 @@ extension OpenSearchClientTypes.OffPeakWindowOptions: Swift.Codable {
 extension OpenSearchClientTypes {
     /// Options for a domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html), during which OpenSearch Service can perform mandatory configuration changes on the domain.
     public struct OffPeakWindowOptions: Swift.Equatable {
-        /// Whether to enable an off-peak window. This option is only available when modifying a domain created prior to February 13, 2023, not when creating a new domain. All domains created after this date have the off-peak window enabled by default. You can't disable the off-peak window after it's enabled for a domain.
+        /// Whether to enable an off-peak window. This option is only available when modifying a domain created prior to February 16, 2023, not when creating a new domain. All domains created after this date have the off-peak window enabled by default. You can't disable the off-peak window after it's enabled for a domain.
         public var enabled: Swift.Bool?
         /// Off-peak window settings for the domain.
         public var offPeakWindow: OpenSearchClientTypes.OffPeakWindow?
@@ -11407,9 +12287,9 @@ extension OpenSearchClientTypes {
         public var packageDescription: Swift.String?
         /// The unique identifier of the package.
         public var packageID: Swift.String?
-        /// User-specified name of the package.
+        /// The user-specified name of the package.
         public var packageName: Swift.String?
-        /// Current status of the package.
+        /// The current status of the package. The available options are AVAILABLE, COPYING, COPY_FAILED, VALIDATNG, VALIDATION_FAILED, DELETING, and DELETE_FAILED.
         public var packageStatus: OpenSearchClientTypes.PackageStatus?
         /// The type of package.
         public var packageType: OpenSearchClientTypes.PackageType?
@@ -12457,7 +13337,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// An exception for accessing or deleting a resource that does not exist..
+/// An exception for accessing or deleting a resource that doesn't exist.
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14001,8 +14881,6 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
     /// * "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.
     ///
     /// * "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.
-    ///
-    /// * "override_main_response_version": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether the domain reports its version as 7.10 to allow Elasticsearch OSS clients and plugins to continue working with it. Default is false when creating a domain and true when upgrading a domain.
     ///
     ///
     /// For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
@@ -15989,4 +16867,39 @@ extension OpenSearchClientTypes {
         }
     }
 
+}
+
+extension OpenSearchClientTypes {
+    public enum ZoneStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case notavailable
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ZoneStatus] {
+            return [
+                .active,
+                .notavailable,
+                .standby,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .notavailable: return "NotAvailable"
+            case .standby: return "StandBy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ZoneStatus(rawValue: rawValue) ?? ZoneStatus.sdkUnknown(rawValue)
+        }
+    }
 }

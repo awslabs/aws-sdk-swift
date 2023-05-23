@@ -34,6 +34,68 @@ extension PaginatorSequence where Input == ListAnalysesInput, Output == ListAnal
     }
 }
 extension QuickSightClient {
+    /// Paginate over `[ListAssetBundleExportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetBundleExportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleExportJobsOutputResponse`
+    public func listAssetBundleExportJobsPaginated(input: ListAssetBundleExportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutputResponse>(input: input, inputKey: \ListAssetBundleExportJobsInput.nextToken, outputKey: \ListAssetBundleExportJobsOutputResponse.nextToken, paginationFunction: self.listAssetBundleExportJobs(input:))
+    }
+}
+
+extension ListAssetBundleExportJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAssetBundleExportJobsInput {
+        return ListAssetBundleExportJobsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListAssetBundleExportJobsInput, Output == ListAssetBundleExportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetBundleExportJobsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.AssetBundleExportJobSummary]`
+    /// - Returns: `[QuickSightClientTypes.AssetBundleExportJobSummary]`
+    public func assetBundleExportJobSummaryList() async throws -> [QuickSightClientTypes.AssetBundleExportJobSummary] {
+        return try await self.asyncCompactMap { item in item.assetBundleExportJobSummaryList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListAssetBundleImportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetBundleImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleImportJobsOutputResponse`
+    public func listAssetBundleImportJobsPaginated(input: ListAssetBundleImportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutputResponse>(input: input, inputKey: \ListAssetBundleImportJobsInput.nextToken, outputKey: \ListAssetBundleImportJobsOutputResponse.nextToken, paginationFunction: self.listAssetBundleImportJobs(input:))
+    }
+}
+
+extension ListAssetBundleImportJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAssetBundleImportJobsInput {
+        return ListAssetBundleImportJobsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListAssetBundleImportJobsInput, Output == ListAssetBundleImportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetBundleImportJobsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.AssetBundleImportJobSummary]`
+    /// - Returns: `[QuickSightClientTypes.AssetBundleImportJobSummary]`
+    public func assetBundleImportJobSummaryList() async throws -> [QuickSightClientTypes.AssetBundleImportJobSummary] {
+        return try await self.asyncCompactMap { item in item.assetBundleImportJobSummaryList }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListDashboardsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -379,6 +441,50 @@ extension PaginatorSequence where Input == ListThemeVersionsInput, Output == Lis
     public func themeVersionSummaryList() async throws -> [QuickSightClientTypes.ThemeVersionSummary] {
         return try await self.asyncCompactMap { item in item.themeVersionSummaryList }
     }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListTopicsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTopicsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsOutputResponse`
+    public func listTopicsPaginated(input: ListTopicsInput) -> ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutputResponse>(input: input, inputKey: \ListTopicsInput.nextToken, outputKey: \ListTopicsOutputResponse.nextToken, paginationFunction: self.listTopics(input:))
+    }
+}
+
+extension ListTopicsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTopicsInput {
+        return ListTopicsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension QuickSightClient {
+    /// Paginate over `[ListVPCConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVPCConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVPCConnectionsOutputResponse`
+    public func listVPCConnectionsPaginated(input: ListVPCConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutputResponse>(input: input, inputKey: \ListVPCConnectionsInput.nextToken, outputKey: \ListVPCConnectionsOutputResponse.nextToken, paginationFunction: self.listVPCConnections(input:))
+    }
+}
+
+extension ListVPCConnectionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListVPCConnectionsInput {
+        return ListVPCConnectionsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
 }
 extension QuickSightClient {
     /// Paginate over `[SearchAnalysesOutputResponse]` results.

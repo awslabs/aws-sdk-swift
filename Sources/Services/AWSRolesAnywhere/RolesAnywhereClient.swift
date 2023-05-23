@@ -192,7 +192,7 @@ public struct RolesAnywhereClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension RolesAnywhereClient: RolesAnywhereClientProtocol {
-    /// Creates a profile. A profile is configuration resource to list the roles that RolesAnywhere service is trusted to assume. In addition, by applying a profile you can intersect permissions with IAM managed policies. Required permissions: rolesanywhere:CreateProfile.
+    /// Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:CreateProfile.
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -228,7 +228,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Creates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. A Trust Anchor is defined either as a reference to a AWS Certificate Manager Private Certificate Authority (ACM PCA), or by uploading a Certificate Authority (CA) certificate. Your AWS workloads can authenticate with the trust anchor using certificates issued by the trusted Certificate Authority (CA) in exchange for temporary AWS credentials. Required permissions: rolesanywhere:CreateTrustAnchor.
+    /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor.
     public func createTrustAnchor(input: CreateTrustAnchorInput) async throws -> CreateTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -396,7 +396,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Disables a profile. When disabled, [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) requests with this profile fail. Required permissions: rolesanywhere:DisableProfile.
+    /// Disables a profile. When disabled, temporary credential requests with this profile fail. Required permissions: rolesanywhere:DisableProfile.
     public func disableProfile(input: DisableProfileInput) async throws -> DisableProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -429,7 +429,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Disables a trust anchor. When disabled, [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) requests specifying this trust anchor are unauthorized. Required permissions: rolesanywhere:DisableTrustAnchor.
+    /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized. Required permissions: rolesanywhere:DisableTrustAnchor.
     public func disableTrustAnchor(input: DisableTrustAnchorInput) async throws -> DisableTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -495,7 +495,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Enables the roles in a profile to receive session credentials in [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html). Required permissions: rolesanywhere:EnableProfile.
+    /// Enables temporary credential requests for a profile. Required permissions: rolesanywhere:EnableProfile.
     public func enableProfile(input: EnableProfileInput) async throws -> EnableProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -627,7 +627,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Gets a Subject. A Subject associates a certificate identity with authentication attempts by CreateSession. The Subject resources stores audit information such as status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication. Required permissions: rolesanywhere:GetSubject.
+    /// Gets a subject, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication. Required permissions: rolesanywhere:GetSubject.
     public func getSubject(input: GetSubjectInput) async throws -> GetSubjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -693,7 +693,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Imports the certificate revocation list (CRL). CRl is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the crl list before issuing credentials. Required permissions: rolesanywhere:ImportCrl.
+    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl.
     public func importCrl(input: ImportCrlInput) async throws -> ImportCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -729,7 +729,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Lists all Crls in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListCrls.
+    /// Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListCrls.
     public func listCrls(input: ListCrlsInput) async throws -> ListCrlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -899,6 +899,78 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
+    /// Attaches a list of notification settings to a trust anchor. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify. Required permissions: rolesanywhere:PutNotificationSettings.
+    public func putNotificationSettings(input: PutNotificationSettingsInput) async throws -> PutNotificationSettingsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putNotificationSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rolesanywhere")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PutNotificationSettingsInput, PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>(id: "putNotificationSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutputResponse>(xmlName: "PutNotificationSettingsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutNotificationSettingsOutputResponse, PutNotificationSettingsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Resets the custom notification setting to IAM Roles Anywhere default setting. Required permissions: rolesanywhere:ResetNotificationSettings.
+    public func resetNotificationSettings(input: ResetNotificationSettingsInput) async throws -> ResetNotificationSettingsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "resetNotificationSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rolesanywhere")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ResetNotificationSettingsInput, ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>(id: "resetNotificationSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutputResponse>(xmlName: "ResetNotificationSettingsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetNotificationSettingsOutputResponse, ResetNotificationSettingsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Attaches tags to a resource. Required permissions: rolesanywhere:TagResource.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
@@ -971,7 +1043,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Updates the certificate revocation list (CRL). CRl is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the crl list before issuing credentials. Required permissions: rolesanywhere:UpdateCrl.
+    /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:UpdateCrl.
     public func updateCrl(input: UpdateCrlInput) async throws -> UpdateCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1007,7 +1079,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Updates the profile. A profile is configuration resource to list the roles that RolesAnywhere service is trusted to assume. In addition, by applying a profile you can scope-down permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile.
+    /// Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile.
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1043,7 +1115,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         return result
     }
 
-    /// Updates the trust anchor.You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. A Trust Anchor is defined either as a reference to a AWS Certificate Manager Private Certificate Authority (ACM PCA), or by uploading a Certificate Authority (CA) certificate. Your AWS workloads can authenticate with the trust anchor using certificates issued by the trusted Certificate Authority (CA) in exchange for temporary AWS credentials. Required permissions: rolesanywhere:UpdateTrustAnchor.
+    /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:UpdateTrustAnchor.
     public func updateTrustAnchor(input: UpdateTrustAnchorInput) async throws -> UpdateTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

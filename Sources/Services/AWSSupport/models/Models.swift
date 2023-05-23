@@ -828,7 +828,7 @@ extension SupportClientTypes {
     ///
     /// * displayId - The identifier for the case on pages in the Amazon Web Services Support Center.
     ///
-    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     ///
     /// * nextToken - A resumption point for pagination.
     ///
@@ -869,7 +869,7 @@ extension SupportClientTypes {
         public var ccEmailAddresses: [Swift.String]?
         /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public var displayId: Swift.String?
-        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public var language: Swift.String?
         /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public var recentCommunications: SupportClientTypes.RecentCaseCommunications?
@@ -1091,7 +1091,7 @@ extension SupportClientTypes {
         public var body: Swift.String?
         /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public var caseId: Swift.String?
-        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) . Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
+        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the IAM role as well as the email address (for example, "AdminRole (Role) ). Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
         public var submittedBy: Swift.String?
         /// The time the communication was created.
         public var timeCreated: Swift.String?
@@ -1109,6 +1109,91 @@ extension SupportClientTypes {
             self.caseId = caseId
             self.submittedBy = submittedBy
             self.timeCreated = timeCreated
+        }
+    }
+
+}
+
+extension SupportClientTypes.CommunicationTypeOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datesWithoutSupport
+        case supportedHours
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datesWithoutSupport = datesWithoutSupport {
+            var datesWithoutSupportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datesWithoutSupport)
+            for dateinterval0 in datesWithoutSupport {
+                try datesWithoutSupportContainer.encode(dateinterval0)
+            }
+        }
+        if let supportedHours = supportedHours {
+            var supportedHoursContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedHours)
+            for supportedhour0 in supportedHours {
+                try supportedHoursContainer.encode(supportedhour0)
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let supportedHoursContainer = try containerValues.decodeIfPresent([SupportClientTypes.SupportedHour?].self, forKey: .supportedHours)
+        var supportedHoursDecoded0:[SupportClientTypes.SupportedHour]? = nil
+        if let supportedHoursContainer = supportedHoursContainer {
+            supportedHoursDecoded0 = [SupportClientTypes.SupportedHour]()
+            for structure0 in supportedHoursContainer {
+                if let structure0 = structure0 {
+                    supportedHoursDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedHours = supportedHoursDecoded0
+        let datesWithoutSupportContainer = try containerValues.decodeIfPresent([SupportClientTypes.DateInterval?].self, forKey: .datesWithoutSupport)
+        var datesWithoutSupportDecoded0:[SupportClientTypes.DateInterval]? = nil
+        if let datesWithoutSupportContainer = datesWithoutSupportContainer {
+            datesWithoutSupportDecoded0 = [SupportClientTypes.DateInterval]()
+            for structure0 in datesWithoutSupportContainer {
+                if let structure0 = structure0 {
+                    datesWithoutSupportDecoded0?.append(structure0)
+                }
+            }
+        }
+        datesWithoutSupport = datesWithoutSupportDecoded0
+    }
+}
+
+extension SupportClientTypes {
+    /// A JSON-formatted object that contains the CommunicationTypeOptions for creating a case for a certain communication channel. It is contained in the response from a [DescribeCreateCaseOptions] request. CommunicationTypeOptions contains the following fields:
+    ///
+    /// * datesWithoutSupport - A JSON-formatted list containing date and time ranges for periods without support in UTC time. Date and time format is RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+    ///
+    /// * supportedHours - A JSON-formatted list containing time ranges when support are available. Time format is RFC 3339 : 'HH:mm:ss.SSS'.
+    ///
+    /// * type - A string value indicating the communication type that the aforementioned rules apply to. At the moment the type value can assume one of 3 values at the moment chat, web and call.
+    public struct CommunicationTypeOptions: Swift.Equatable {
+        /// A JSON-formatted list containing date and time ranges for periods without support
+        public var datesWithoutSupport: [SupportClientTypes.DateInterval]?
+        /// A JSON-formatted list containing time ranges when support is available.
+        public var supportedHours: [SupportClientTypes.SupportedHour]?
+        /// A string value indicating the communication type. At the moment the type value can assume one of 3 values at the moment chat, web and call.
+        public var type: Swift.String?
+
+        public init (
+            datesWithoutSupport: [SupportClientTypes.DateInterval]? = nil,
+            supportedHours: [SupportClientTypes.SupportedHour]? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.datesWithoutSupport = datesWithoutSupport
+            self.supportedHours = supportedHours
+            self.type = type
         }
     }
 
@@ -1180,7 +1265,7 @@ public struct CreateCaseInput: Swift.Equatable {
     public var communicationBody: Swift.String?
     /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
     public var issueType: Swift.String?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
     public var serviceCode: Swift.String?
@@ -1338,6 +1423,51 @@ extension CreateCaseOutputResponseBody: Swift.Decodable {
         let caseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caseId)
         caseId = caseIdDecoded
     }
+}
+
+extension SupportClientTypes.DateInterval: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encode(endDateTime, forKey: .endDateTime)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encode(startDateTime, forKey: .startDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+    }
+}
+
+extension SupportClientTypes {
+    /// Date and time (UTC) format in RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+    public struct DateInterval: Swift.Equatable {
+        /// End Date Time (UTC). RFC 3339 format : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+        public var endDateTime: Swift.String?
+        /// A JSON object containing start and date time (UTC). Date and time format is RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+        public var startDateTime: Swift.String?
+
+        public init (
+            endDateTime: Swift.String? = nil,
+            startDateTime: Swift.String? = nil
+        )
+        {
+            self.endDateTime = endDateTime
+            self.startDateTime = startDateTime
+        }
+    }
+
 }
 
 extension DescribeAttachmentInput: Swift.Encodable {
@@ -1574,7 +1704,7 @@ public struct DescribeCasesInput: Swift.Equatable {
     public var includeCommunications: Swift.Bool?
     /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
     public var includeResolvedCases: Swift.Bool?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The maximum number of results to return before paginating.
     public var maxResults: Swift.Int?
@@ -1926,6 +2056,182 @@ extension DescribeCommunicationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeCreateCaseOptionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case language
+        case serviceCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryCode = self.categoryCode {
+            try encodeContainer.encode(categoryCode, forKey: .categoryCode)
+        }
+        if let issueType = self.issueType {
+            try encodeContainer.encode(issueType, forKey: .issueType)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+        if let serviceCode = self.serviceCode {
+            try encodeContainer.encode(serviceCode, forKey: .serviceCode)
+        }
+    }
+}
+
+extension DescribeCreateCaseOptionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeCreateCaseOptionsInput: Swift.Equatable {
+    /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// This member is required.
+    public var categoryCode: Swift.String?
+    /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
+    /// This member is required.
+    public var issueType: Swift.String?
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// This member is required.
+    public var language: Swift.String?
+    /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
+    /// This member is required.
+    public var serviceCode: Swift.String?
+
+    public init (
+        categoryCode: Swift.String? = nil,
+        issueType: Swift.String? = nil,
+        language: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.categoryCode = categoryCode
+        self.issueType = issueType
+        self.language = language
+        self.serviceCode = serviceCode
+    }
+}
+
+struct DescribeCreateCaseOptionsInputBody: Swift.Equatable {
+    let issueType: Swift.String?
+    let serviceCode: Swift.String?
+    let language: Swift.String?
+    let categoryCode: Swift.String?
+}
+
+extension DescribeCreateCaseOptionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case language
+        case serviceCode
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issueType)
+        issueType = issueTypeDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let categoryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .categoryCode)
+        categoryCode = categoryCodeDecoded
+    }
+}
+
+extension DescribeCreateCaseOptionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeCreateCaseOptionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Throttling" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeCreateCaseOptionsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeCreateCaseOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeCreateCaseOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.communicationTypes = output.communicationTypes
+            self.languageAvailability = output.languageAvailability
+        } else {
+            self.communicationTypes = nil
+            self.languageAvailability = nil
+        }
+    }
+}
+
+public struct DescribeCreateCaseOptionsOutputResponse: Swift.Equatable {
+    /// A JSON-formatted array that contains the available communication type options, along with the available support timeframes for the given inputs.
+    public var communicationTypes: [SupportClientTypes.CommunicationTypeOptions]?
+    /// Language availability can be any of the following:
+    ///
+    /// * available
+    ///
+    /// * best_effort
+    ///
+    /// * unavailable
+    public var languageAvailability: Swift.String?
+
+    public init (
+        communicationTypes: [SupportClientTypes.CommunicationTypeOptions]? = nil,
+        languageAvailability: Swift.String? = nil
+    )
+    {
+        self.communicationTypes = communicationTypes
+        self.languageAvailability = languageAvailability
+    }
+}
+
+struct DescribeCreateCaseOptionsOutputResponseBody: Swift.Equatable {
+    let languageAvailability: Swift.String?
+    let communicationTypes: [SupportClientTypes.CommunicationTypeOptions]?
+}
+
+extension DescribeCreateCaseOptionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case communicationTypes
+        case languageAvailability
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let languageAvailabilityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageAvailability)
+        languageAvailability = languageAvailabilityDecoded
+        let communicationTypesContainer = try containerValues.decodeIfPresent([SupportClientTypes.CommunicationTypeOptions?].self, forKey: .communicationTypes)
+        var communicationTypesDecoded0:[SupportClientTypes.CommunicationTypeOptions]? = nil
+        if let communicationTypesContainer = communicationTypesContainer {
+            communicationTypesDecoded0 = [SupportClientTypes.CommunicationTypeOptions]()
+            for structure0 in communicationTypesContainer {
+                if let structure0 = structure0 {
+                    communicationTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        communicationTypes = communicationTypesDecoded0
+    }
+}
+
 extension DescribeServicesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case language
@@ -1953,7 +2259,7 @@ extension DescribeServicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeServicesInput: Swift.Equatable {
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// A JSON-formatted list of service codes available for Amazon Web Services services.
     public var serviceCodeList: [Swift.String]?
@@ -2089,7 +2395,7 @@ extension DescribeSeverityLevelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeSeverityLevelsInput: Swift.Equatable {
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
 
     public init (
@@ -2188,6 +2494,153 @@ extension DescribeSeverityLevelsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeSupportedLanguagesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case serviceCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryCode = self.categoryCode {
+            try encodeContainer.encode(categoryCode, forKey: .categoryCode)
+        }
+        if let issueType = self.issueType {
+            try encodeContainer.encode(issueType, forKey: .issueType)
+        }
+        if let serviceCode = self.serviceCode {
+            try encodeContainer.encode(serviceCode, forKey: .serviceCode)
+        }
+    }
+}
+
+extension DescribeSupportedLanguagesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeSupportedLanguagesInput: Swift.Equatable {
+    /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// This member is required.
+    public var categoryCode: Swift.String?
+    /// The type of issue for the case. You can specify customer-service or technical.
+    /// This member is required.
+    public var issueType: Swift.String?
+    /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
+    /// This member is required.
+    public var serviceCode: Swift.String?
+
+    public init (
+        categoryCode: Swift.String? = nil,
+        issueType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.categoryCode = categoryCode
+        self.issueType = issueType
+        self.serviceCode = serviceCode
+    }
+}
+
+struct DescribeSupportedLanguagesInputBody: Swift.Equatable {
+    let issueType: Swift.String?
+    let serviceCode: Swift.String?
+    let categoryCode: Swift.String?
+}
+
+extension DescribeSupportedLanguagesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryCode
+        case issueType
+        case serviceCode
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issueType)
+        issueType = issueTypeDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let categoryCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .categoryCode)
+        categoryCode = categoryCodeDecoded
+    }
+}
+
+extension DescribeSupportedLanguagesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeSupportedLanguagesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Throttling" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeSupportedLanguagesOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeSupportedLanguagesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeSupportedLanguagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.supportedLanguages = output.supportedLanguages
+        } else {
+            self.supportedLanguages = nil
+        }
+    }
+}
+
+public struct DescribeSupportedLanguagesOutputResponse: Swift.Equatable {
+    /// A JSON-formatted array that contains the available ISO 639-1 language codes.
+    public var supportedLanguages: [SupportClientTypes.SupportedLanguage]?
+
+    public init (
+        supportedLanguages: [SupportClientTypes.SupportedLanguage]? = nil
+    )
+    {
+        self.supportedLanguages = supportedLanguages
+    }
+}
+
+struct DescribeSupportedLanguagesOutputResponseBody: Swift.Equatable {
+    let supportedLanguages: [SupportClientTypes.SupportedLanguage]?
+}
+
+extension DescribeSupportedLanguagesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case supportedLanguages
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let supportedLanguagesContainer = try containerValues.decodeIfPresent([SupportClientTypes.SupportedLanguage?].self, forKey: .supportedLanguages)
+        var supportedLanguagesDecoded0:[SupportClientTypes.SupportedLanguage]? = nil
+        if let supportedLanguagesContainer = supportedLanguagesContainer {
+            supportedLanguagesDecoded0 = [SupportClientTypes.SupportedLanguage]()
+            for structure0 in supportedLanguagesContainer {
+                if let structure0 = structure0 {
+                    supportedLanguagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedLanguages = supportedLanguagesDecoded0
+    }
+}
+
 extension DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checkIds
@@ -2262,6 +2715,7 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Throttling" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2269,6 +2723,7 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesOutputError {
 
 public enum DescribeTrustedAdvisorCheckRefreshStatusesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2418,6 +2873,7 @@ extension DescribeTrustedAdvisorCheckResultOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Throttling" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2425,6 +2881,7 @@ extension DescribeTrustedAdvisorCheckResultOutputError {
 
 public enum DescribeTrustedAdvisorCheckResultOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2543,6 +3000,7 @@ extension DescribeTrustedAdvisorCheckSummariesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Throttling" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2550,6 +3008,7 @@ extension DescribeTrustedAdvisorCheckSummariesOutputError {
 
 public enum DescribeTrustedAdvisorCheckSummariesOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2686,6 +3145,7 @@ extension DescribeTrustedAdvisorChecksOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Throttling" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2693,6 +3153,7 @@ extension DescribeTrustedAdvisorChecksOutputError {
 
 public enum DescribeTrustedAdvisorChecksOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3214,6 +3675,157 @@ extension SupportClientTypes {
         }
     }
 
+}
+
+extension SupportClientTypes.SupportedHour: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encode(endTime, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension SupportClientTypes {
+    /// Time range object with startTime and endTime range in RFC 3339 format. 'HH:mm:ss.SSS'.
+    public struct SupportedHour: Swift.Equatable {
+        /// End Time. RFC 3339 format 'HH:mm:ss.SSS'.
+        public var endTime: Swift.String?
+        /// Start Time. RFC 3339 format 'HH:mm:ss.SSS'.
+        public var startTime: Swift.String?
+
+        public init (
+            endTime: Swift.String? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension SupportClientTypes.SupportedLanguage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case display
+        case language
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let display = self.display {
+            try encodeContainer.encode(display, forKey: .display)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let displayDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .display)
+        display = displayDecoded
+    }
+}
+
+extension SupportClientTypes {
+    /// A JSON-formatted object that contains the available ISO 639-1 language code, language name and langauge display value. The language code is what should be used in the [CreateCase] call.
+    public struct SupportedLanguage: Swift.Equatable {
+        /// 2 digit ISO 639-1 code. e.g. en
+        public var code: Swift.String?
+        /// Language display value e.g. ENGLISH
+        public var display: Swift.String?
+        /// Full language description e.g. ENGLISH
+        public var language: Swift.String?
+
+        public init (
+            code: Swift.String? = nil,
+            display: Swift.String? = nil,
+            language: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.display = display
+            self.language = language
+        }
+    }
+
+}
+
+extension ThrottlingException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension SupportClientTypes.TrustedAdvisorCategorySpecificSummary: Swift.Codable {

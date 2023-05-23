@@ -105,6 +105,7 @@ extension RekognitionClient {
 extension GetContentModerationInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetContentModerationInput {
         return GetContentModerationInput(
+            aggregateBy: self.aggregateBy,
             jobId: self.jobId,
             maxResults: self.maxResults,
             nextToken: token,

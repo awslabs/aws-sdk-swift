@@ -328,7 +328,7 @@ extension DescribeAffectedAccountsForOrganizationOutputResponse: ClientRuntime.H
 public struct DescribeAffectedAccountsForOrganizationOutputResponse: Swift.Equatable {
     /// A JSON set of elements of the affected accounts.
     public var affectedAccounts: [Swift.String]?
-    /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
+    /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
     ///
     /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
     ///
@@ -1402,7 +1402,7 @@ public struct DescribeEventTypesInput: Swift.Equatable {
     public var filter: HealthClientTypes.EventTypeFilter?
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
     public var locale: Swift.String?
-    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    /// The maximum number of items to return in one batch, between 10 and 100, inclusive. If you don't specify the maxResults parameter, this operation returns a maximum of 30 items by default.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
@@ -2240,9 +2240,9 @@ extension HealthClientTypes.EntityFilter: Swift.Codable {
         var statusCodesDecoded0:[HealthClientTypes.EntityStatusCode]? = nil
         if let statusCodesContainer = statusCodesContainer {
             statusCodesDecoded0 = [HealthClientTypes.EntityStatusCode]()
-            for string0 in statusCodesContainer {
-                if let string0 = string0 {
-                    statusCodesDecoded0?.append(string0)
+            for enum0 in statusCodesContainer {
+                if let enum0 = enum0 {
+                    statusCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -2417,7 +2417,7 @@ extension HealthClientTypes {
         public var availabilityZone: Swift.String?
         /// The date and time that the event ended.
         public var endTime: ClientRuntime.Date?
-        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
+        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
         ///
         /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
         ///
@@ -2433,7 +2433,7 @@ extension HealthClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
-        /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
+        /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
         public var service: Swift.String?
         /// The date and time that the event began.
         public var startTime: ClientRuntime.Date?
@@ -2965,9 +2965,9 @@ extension HealthClientTypes.EventFilter: Swift.Codable {
         var eventTypeCategoriesDecoded0:[HealthClientTypes.EventTypeCategory]? = nil
         if let eventTypeCategoriesContainer = eventTypeCategoriesContainer {
             eventTypeCategoriesDecoded0 = [HealthClientTypes.EventTypeCategory]()
-            for string0 in eventTypeCategoriesContainer {
-                if let string0 = string0 {
-                    eventTypeCategoriesDecoded0?.append(string0)
+            for enum0 in eventTypeCategoriesContainer {
+                if let enum0 = enum0 {
+                    eventTypeCategoriesDecoded0?.append(enum0)
                 }
             }
         }
@@ -2996,9 +2996,9 @@ extension HealthClientTypes.EventFilter: Swift.Codable {
         var eventStatusCodesDecoded0:[HealthClientTypes.EventStatusCode]? = nil
         if let eventStatusCodesContainer = eventStatusCodesContainer {
             eventStatusCodesDecoded0 = [HealthClientTypes.EventStatusCode]()
-            for string0 in eventStatusCodesContainer {
-                if let string0 = string0 {
-                    eventStatusCodesDecoded0?.append(string0)
+            for enum0 in eventStatusCodesContainer {
+                if let enum0 = enum0 {
+                    eventStatusCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3029,7 +3029,7 @@ extension HealthClientTypes {
         public var lastUpdatedTimes: [HealthClientTypes.DateTimeRange]?
         /// A list of Amazon Web Services Regions.
         public var regions: [Swift.String]?
-        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
         /// A list of dates and times that the event began.
         public var startTimes: [HealthClientTypes.DateTimeRange]?
@@ -3178,7 +3178,7 @@ extension HealthClientTypes {
         public var category: HealthClientTypes.EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public var code: Swift.String?
-        /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
+        /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
         public var service: Swift.String?
 
         public init (
@@ -3290,9 +3290,9 @@ extension HealthClientTypes.EventTypeFilter: Swift.Codable {
         var eventTypeCategoriesDecoded0:[HealthClientTypes.EventTypeCategory]? = nil
         if let eventTypeCategoriesContainer = eventTypeCategoriesContainer {
             eventTypeCategoriesDecoded0 = [HealthClientTypes.EventTypeCategory]()
-            for string0 in eventTypeCategoriesContainer {
-                if let string0 = string0 {
-                    eventTypeCategoriesDecoded0?.append(string0)
+            for enum0 in eventTypeCategoriesContainer {
+                if let enum0 = enum0 {
+                    eventTypeCategoriesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3307,7 +3307,7 @@ extension HealthClientTypes {
         public var eventTypeCategories: [HealthClientTypes.EventTypeCategory]?
         /// A list of event type codes.
         public var eventTypeCodes: [Swift.String]?
-        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
 
         public init (
@@ -3417,7 +3417,7 @@ extension HealthClientTypes {
     public struct OrganizationAffectedEntitiesErrorItem: Swift.Equatable {
         /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
         public var awsAccountId: Swift.String?
-        /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
+        /// A message that describes the error. Follow the error message and retry your request. For example, the InvalidAccountInputError error message appears if you call the DescribeAffectedEntitiesForOrganization operation and specify the AccountSpecific value for the EventScopeCode parameter, but don't specify an Amazon Web Services account.
         public var errorMessage: Swift.String?
         /// The name of the error.
         public var errorName: Swift.String?
@@ -3520,7 +3520,7 @@ extension HealthClientTypes {
         public var arn: Swift.String?
         /// The date and time that the event ended.
         public var endTime: ClientRuntime.Date?
-        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
+        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
         ///
         /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
         ///
@@ -3536,7 +3536,7 @@ extension HealthClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
-        /// The Amazon Web Services service that is affected by the event, such as EC2 and RDS.
+        /// The Amazon Web Service that is affected by the event, such as EC2 and RDS.
         public var service: Swift.String?
         /// The date and time that the event began.
         public var startTime: ClientRuntime.Date?
@@ -3880,9 +3880,9 @@ extension HealthClientTypes.OrganizationEventFilter: Swift.Codable {
         var eventTypeCategoriesDecoded0:[HealthClientTypes.EventTypeCategory]? = nil
         if let eventTypeCategoriesContainer = eventTypeCategoriesContainer {
             eventTypeCategoriesDecoded0 = [HealthClientTypes.EventTypeCategory]()
-            for string0 in eventTypeCategoriesContainer {
-                if let string0 = string0 {
-                    eventTypeCategoriesDecoded0?.append(string0)
+            for enum0 in eventTypeCategoriesContainer {
+                if let enum0 = enum0 {
+                    eventTypeCategoriesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3891,9 +3891,9 @@ extension HealthClientTypes.OrganizationEventFilter: Swift.Codable {
         var eventStatusCodesDecoded0:[HealthClientTypes.EventStatusCode]? = nil
         if let eventStatusCodesContainer = eventStatusCodesContainer {
             eventStatusCodesDecoded0 = [HealthClientTypes.EventStatusCode]()
-            for string0 in eventStatusCodesContainer {
-                if let string0 = string0 {
-                    eventStatusCodesDecoded0?.append(string0)
+            for enum0 in eventStatusCodesContainer {
+                if let enum0 = enum0 {
+                    eventStatusCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3922,7 +3922,7 @@ extension HealthClientTypes {
         public var lastUpdatedTime: HealthClientTypes.DateTimeRange?
         /// A list of Amazon Web Services Regions.
         public var regions: [Swift.String]?
-        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
         /// A range of dates and times that is used by the [EventFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html) and [EntityFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html) objects. If from is set and to is set: match items where the timestamp (startTime, endTime, or lastUpdatedTime) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from. If from is not set and to is set: match items where the timestamp value is equal to or before to.
         public var startTime: HealthClientTypes.DateTimeRange?

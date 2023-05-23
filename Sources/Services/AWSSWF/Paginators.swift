@@ -231,6 +231,7 @@ extension PollForDecisionTaskInput: ClientRuntime.PaginateToken {
             maximumPageSize: self.maximumPageSize,
             nextPageToken: token,
             reverseOrder: self.reverseOrder,
+            startAtPreviousStartedEvent: self.startAtPreviousStartedEvent,
             taskList: self.taskList
         )}
 }

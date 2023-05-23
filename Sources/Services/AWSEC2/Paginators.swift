@@ -4062,6 +4062,38 @@ extension PaginatorSequence where Input == GetManagedPrefixListEntriesInput, Out
     }
 }
 extension EC2Client {
+    /// Paginate over `[GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetNetworkInsightsAccessScopeAnalysisFindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse`
+    public func getNetworkInsightsAccessScopeAnalysisFindingsPaginated(input: GetNetworkInsightsAccessScopeAnalysisFindingsInput) -> ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse>(input: input, inputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsInput.nextToken, outputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse.nextToken, paginationFunction: self.getNetworkInsightsAccessScopeAnalysisFindings(input:))
+    }
+}
+
+extension GetNetworkInsightsAccessScopeAnalysisFindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetNetworkInsightsAccessScopeAnalysisFindingsInput {
+        return GetNetworkInsightsAccessScopeAnalysisFindingsInput(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            networkInsightsAccessScopeAnalysisId: self.networkInsightsAccessScopeAnalysisId,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == GetNetworkInsightsAccessScopeAnalysisFindingsInput, Output == GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getNetworkInsightsAccessScopeAnalysisFindingsPaginated`
+    /// to access the nested member `[EC2ClientTypes.AccessScopeAnalysisFinding]`
+    /// - Returns: `[EC2ClientTypes.AccessScopeAnalysisFinding]`
+    public func analysisFindings() async throws -> [EC2ClientTypes.AccessScopeAnalysisFinding] {
+        return try await self.asyncCompactMap { item in item.analysisFindings }
+    }
+}
+extension EC2Client {
     /// Paginate over `[GetSpotPlacementScoresOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

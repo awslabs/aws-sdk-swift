@@ -1242,7 +1242,7 @@ public struct AllocatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -1680,7 +1680,7 @@ public struct AllocatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -3156,7 +3156,7 @@ public struct AssociateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -6160,7 +6160,7 @@ public struct CreateLagInput: Swift.Equatable {
     /// The location for the LAG.
     /// This member is required.
     public var location: Swift.String?
-    /// The number of physical dedicated connections initially provisioned and bundled by the LAG.
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1G or 10G, or two when the port speed is 100G.
     /// This member is required.
     public var numberOfConnections: Swift.Int?
     /// The name of the service provider associated with the LAG.
@@ -6752,7 +6752,7 @@ public struct CreatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -7177,7 +7177,7 @@ public struct CreatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -14719,7 +14719,7 @@ extension DirectConnectClientTypes {
         public var directConnectGatewayId: Swift.String?
         /// Indicates whether to enable or disable SiteLink.
         public var enableSiteLink: Swift.Bool?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
         /// The tags associated with the transitive virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
@@ -14850,7 +14850,7 @@ extension DirectConnectClientTypes {
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
         public var mtu: Swift.Int?
         /// The tags associated with the transitive virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
@@ -16931,7 +16931,7 @@ public struct UpdateVirtualInterfaceAttributesOutputResponse: Swift.Equatable {
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
@@ -17464,7 +17464,7 @@ extension DirectConnectClientTypes {
         public var jumboFrameCapable: Swift.Bool?
         /// The location of the connection.
         public var location: Swift.String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
         public var mtu: Swift.Int?
         /// The ID of the Amazon Web Services account that owns the virtual interface.
         public var ownerAccount: Swift.String?

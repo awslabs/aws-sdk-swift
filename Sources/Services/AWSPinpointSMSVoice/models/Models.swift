@@ -579,9 +579,9 @@ extension PinpointSMSVoiceClientTypes.EventDestination: Swift.Codable {
         var matchingEventTypesDecoded0:[PinpointSMSVoiceClientTypes.EventType]? = nil
         if let matchingEventTypesContainer = matchingEventTypesContainer {
             matchingEventTypesDecoded0 = [PinpointSMSVoiceClientTypes.EventType]()
-            for string0 in matchingEventTypesContainer {
-                if let string0 = string0 {
-                    matchingEventTypesDecoded0?.append(string0)
+            for enum0 in matchingEventTypesContainer {
+                if let enum0 = enum0 {
+                    matchingEventTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -672,9 +672,9 @@ extension PinpointSMSVoiceClientTypes.EventDestinationDefinition: Swift.Codable 
         var matchingEventTypesDecoded0:[PinpointSMSVoiceClientTypes.EventType]? = nil
         if let matchingEventTypesContainer = matchingEventTypesContainer {
             matchingEventTypesDecoded0 = [PinpointSMSVoiceClientTypes.EventType]()
-            for string0 in matchingEventTypesContainer {
-                if let string0 = string0 {
-                    matchingEventTypesDecoded0?.append(string0)
+            for enum0 in matchingEventTypesContainer {
+                if let enum0 = enum0 {
+                    matchingEventTypesDecoded0?.append(enum0)
                 }
             }
         }

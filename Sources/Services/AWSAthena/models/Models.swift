@@ -946,6 +946,438 @@ extension AthenaClientTypes {
 
 }
 
+extension CancelCapacityReservationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension CancelCapacityReservationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CancelCapacityReservationInput: Swift.Equatable {
+    /// The name of the capacity reservation to cancel.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct CancelCapacityReservationInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension CancelCapacityReservationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension CancelCapacityReservationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CancelCapacityReservationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CancelCapacityReservationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CancelCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CancelCapacityReservationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension AthenaClientTypes.CapacityAllocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestCompletionTime = "RequestCompletionTime"
+        case requestTime = "RequestTime"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let requestCompletionTime = self.requestCompletionTime {
+            try encodeContainer.encodeTimestamp(requestCompletionTime, format: .epochSeconds, forKey: .requestCompletionTime)
+        }
+        if let requestTime = self.requestTime {
+            try encodeContainer.encodeTimestamp(requestTime, format: .epochSeconds, forKey: .requestTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CapacityAllocationStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let requestTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .requestTime)
+        requestTime = requestTimeDecoded
+        let requestCompletionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .requestCompletionTime)
+        requestCompletionTime = requestCompletionTimeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains the submission time of a single allocation request for a capacity reservation and the most recent status of the attempted allocation.
+    public struct CapacityAllocation: Swift.Equatable {
+        /// The time when the capacity allocation request was completed.
+        public var requestCompletionTime: ClientRuntime.Date?
+        /// The time when the capacity allocation was requested.
+        /// This member is required.
+        public var requestTime: ClientRuntime.Date?
+        /// The status of the capacity allocation.
+        /// This member is required.
+        public var status: AthenaClientTypes.CapacityAllocationStatus?
+        /// The status message of the capacity allocation.
+        public var statusMessage: Swift.String?
+
+        public init (
+            requestCompletionTime: ClientRuntime.Date? = nil,
+            requestTime: ClientRuntime.Date? = nil,
+            status: AthenaClientTypes.CapacityAllocationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.requestCompletionTime = requestCompletionTime
+            self.requestTime = requestTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension AthenaClientTypes {
+    public enum CapacityAllocationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case pending
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityAllocationStatus] {
+            return [
+                .failed,
+                .pending,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CapacityAllocationStatus(rawValue: rawValue) ?? CapacityAllocationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AthenaClientTypes.CapacityAssignment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workGroupNames = "WorkGroupNames"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let workGroupNames = workGroupNames {
+            var workGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workGroupNames)
+            for workgroupname0 in workGroupNames {
+                try workGroupNamesContainer.encode(workgroupname0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workGroupNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .workGroupNames)
+        var workGroupNamesDecoded0:[Swift.String]? = nil
+        if let workGroupNamesContainer = workGroupNamesContainer {
+            workGroupNamesDecoded0 = [Swift.String]()
+            for string0 in workGroupNamesContainer {
+                if let string0 = string0 {
+                    workGroupNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        workGroupNames = workGroupNamesDecoded0
+    }
+}
+
+extension AthenaClientTypes {
+    /// A mapping between one or more workgroups and a capacity reservation.
+    public struct CapacityAssignment: Swift.Equatable {
+        /// The list of workgroup names for the capacity assignment.
+        public var workGroupNames: [Swift.String]?
+
+        public init (
+            workGroupNames: [Swift.String]? = nil
+        )
+        {
+            self.workGroupNames = workGroupNames
+        }
+    }
+
+}
+
+extension AthenaClientTypes.CapacityAssignmentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityAssignments = "CapacityAssignments"
+        case capacityReservationName = "CapacityReservationName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityAssignments = capacityAssignments {
+            var capacityAssignmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityAssignments)
+            for capacityassignment0 in capacityAssignments {
+                try capacityAssignmentsContainer.encode(capacityassignment0)
+            }
+        }
+        if let capacityReservationName = self.capacityReservationName {
+            try encodeContainer.encode(capacityReservationName, forKey: .capacityReservationName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityReservationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityReservationName)
+        capacityReservationName = capacityReservationNameDecoded
+        let capacityAssignmentsContainer = try containerValues.decodeIfPresent([AthenaClientTypes.CapacityAssignment?].self, forKey: .capacityAssignments)
+        var capacityAssignmentsDecoded0:[AthenaClientTypes.CapacityAssignment]? = nil
+        if let capacityAssignmentsContainer = capacityAssignmentsContainer {
+            capacityAssignmentsDecoded0 = [AthenaClientTypes.CapacityAssignment]()
+            for structure0 in capacityAssignmentsContainer {
+                if let structure0 = structure0 {
+                    capacityAssignmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        capacityAssignments = capacityAssignmentsDecoded0
+    }
+}
+
+extension AthenaClientTypes {
+    /// Assigns Athena workgroups (and hence their queries) to capacity reservations. A capacity reservation can have only one capacity assignment configuration, but the capacity assignment configuration can be made up of multiple individual assignments. Each assignment specifies how Athena queries can consume capacity from the capacity reservation that their workgroup is mapped to.
+    public struct CapacityAssignmentConfiguration: Swift.Equatable {
+        /// The list of assignments that make up the capacity assignment configuration.
+        public var capacityAssignments: [AthenaClientTypes.CapacityAssignment]?
+        /// The name of the reservation that the capacity assignment configuration is for.
+        public var capacityReservationName: Swift.String?
+
+        public init (
+            capacityAssignments: [AthenaClientTypes.CapacityAssignment]? = nil,
+            capacityReservationName: Swift.String? = nil
+        )
+        {
+            self.capacityAssignments = capacityAssignments
+            self.capacityReservationName = capacityReservationName
+        }
+    }
+
+}
+
+extension AthenaClientTypes.CapacityReservation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocatedDpus = "AllocatedDpus"
+        case creationTime = "CreationTime"
+        case lastAllocation = "LastAllocation"
+        case lastSuccessfulAllocationTime = "LastSuccessfulAllocationTime"
+        case name = "Name"
+        case status = "Status"
+        case targetDpus = "TargetDpus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allocatedDpus = self.allocatedDpus {
+            try encodeContainer.encode(allocatedDpus, forKey: .allocatedDpus)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let lastAllocation = self.lastAllocation {
+            try encodeContainer.encode(lastAllocation, forKey: .lastAllocation)
+        }
+        if let lastSuccessfulAllocationTime = self.lastSuccessfulAllocationTime {
+            try encodeContainer.encodeTimestamp(lastSuccessfulAllocationTime, format: .epochSeconds, forKey: .lastSuccessfulAllocationTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let targetDpus = self.targetDpus {
+            try encodeContainer.encode(targetDpus, forKey: .targetDpus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CapacityReservationStatus.self, forKey: .status)
+        status = statusDecoded
+        let targetDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetDpus)
+        targetDpus = targetDpusDecoded
+        let allocatedDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedDpus)
+        allocatedDpus = allocatedDpusDecoded
+        let lastAllocationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CapacityAllocation.self, forKey: .lastAllocation)
+        lastAllocation = lastAllocationDecoded
+        let lastSuccessfulAllocationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSuccessfulAllocationTime)
+        lastSuccessfulAllocationTime = lastSuccessfulAllocationTimeDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// A reservation for a specified number of data processing units (DPUs). When a reservation is initially created, it has no DPUs. Athena allocates DPUs until the allocated amount equals the requested amount.
+    public struct CapacityReservation: Swift.Equatable {
+        /// The number of data processing units currently allocated.
+        /// This member is required.
+        public var allocatedDpus: Swift.Int?
+        /// The time in UTC epoch millis when the capacity reservation was created.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// Contains the submission time of a single allocation request for a capacity reservation and the most recent status of the attempted allocation.
+        public var lastAllocation: AthenaClientTypes.CapacityAllocation?
+        /// The time of the most recent capacity allocation that succeeded.
+        public var lastSuccessfulAllocationTime: ClientRuntime.Date?
+        /// The name of the capacity reservation.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the capacity reservation.
+        /// This member is required.
+        public var status: AthenaClientTypes.CapacityReservationStatus?
+        /// The number of data processing units requested.
+        /// This member is required.
+        public var targetDpus: Swift.Int?
+
+        public init (
+            allocatedDpus: Swift.Int? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            lastAllocation: AthenaClientTypes.CapacityAllocation? = nil,
+            lastSuccessfulAllocationTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            status: AthenaClientTypes.CapacityReservationStatus? = nil,
+            targetDpus: Swift.Int? = nil
+        )
+        {
+            self.allocatedDpus = allocatedDpus
+            self.creationTime = creationTime
+            self.lastAllocation = lastAllocation
+            self.lastSuccessfulAllocationTime = lastSuccessfulAllocationTime
+            self.name = name
+            self.status = status
+            self.targetDpus = targetDpus
+        }
+    }
+
+}
+
+extension AthenaClientTypes {
+    public enum CapacityReservationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case cancelled
+        case cancelling
+        case failed
+        case pending
+        case updatePending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationStatus] {
+            return [
+                .active,
+                .cancelled,
+                .cancelling,
+                .failed,
+                .pending,
+                .updatePending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .updatePending: return "UPDATE_PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CapacityReservationStatus(rawValue: rawValue) ?? CapacityReservationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AthenaClientTypes.Column: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment = "Comment"
@@ -1162,6 +1594,125 @@ extension AthenaClientTypes {
             self = ColumnNullable(rawValue: rawValue) ?? ColumnNullable.sdkUnknown(rawValue)
         }
     }
+}
+
+extension CreateCapacityReservationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case tags = "Tags"
+        case targetDpus = "TargetDpus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let targetDpus = self.targetDpus {
+            try encodeContainer.encode(targetDpus, forKey: .targetDpus)
+        }
+    }
+}
+
+extension CreateCapacityReservationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateCapacityReservationInput: Swift.Equatable {
+    /// The name of the capacity reservation to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags for the capacity reservation.
+    public var tags: [AthenaClientTypes.Tag]?
+    /// The number of requested data processing units.
+    /// This member is required.
+    public var targetDpus: Swift.Int?
+
+    public init (
+        name: Swift.String? = nil,
+        tags: [AthenaClientTypes.Tag]? = nil,
+        targetDpus: Swift.Int? = nil
+    )
+    {
+        self.name = name
+        self.tags = tags
+        self.targetDpus = targetDpus
+    }
+}
+
+struct CreateCapacityReservationInputBody: Swift.Equatable {
+    let targetDpus: Swift.Int?
+    let name: Swift.String?
+    let tags: [AthenaClientTypes.Tag]?
+}
+
+extension CreateCapacityReservationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case tags = "Tags"
+        case targetDpus = "TargetDpus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetDpus)
+        targetDpus = targetDpusDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([AthenaClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[AthenaClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [AthenaClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCapacityReservationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateCapacityReservationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateCapacityReservationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CreateCapacityReservationOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension CreateDataCatalogInput: Swift.Encodable {
@@ -2927,9 +3478,9 @@ extension AthenaClientTypes {
     public struct EngineConfiguration: Swift.Equatable {
         /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public var additionalConfigs: [Swift.String:Swift.String]?
-        /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session.
+        /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1.
         public var coordinatorDpuSize: Swift.Int?
-        /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena.
+        /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena. The default is 1.
         public var defaultExecutorDpuSize: Swift.Int?
         /// The maximum number of DPUs that can run concurrently.
         /// This member is required.
@@ -3729,6 +4280,232 @@ extension GetCalculationExecutionStatusOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatistics.self, forKey: .statistics)
         statistics = statisticsDecoded
+    }
+}
+
+extension GetCapacityAssignmentConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityReservationName = "CapacityReservationName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityReservationName = self.capacityReservationName {
+            try encodeContainer.encode(capacityReservationName, forKey: .capacityReservationName)
+        }
+    }
+}
+
+extension GetCapacityAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetCapacityAssignmentConfigurationInput: Swift.Equatable {
+    /// The name of the capacity reservation to retrieve the capacity assignment configuration for.
+    /// This member is required.
+    public var capacityReservationName: Swift.String?
+
+    public init (
+        capacityReservationName: Swift.String? = nil
+    )
+    {
+        self.capacityReservationName = capacityReservationName
+    }
+}
+
+struct GetCapacityAssignmentConfigurationInputBody: Swift.Equatable {
+    let capacityReservationName: Swift.String?
+}
+
+extension GetCapacityAssignmentConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityReservationName = "CapacityReservationName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityReservationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityReservationName)
+        capacityReservationName = capacityReservationNameDecoded
+    }
+}
+
+extension GetCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetCapacityAssignmentConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetCapacityAssignmentConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCapacityAssignmentConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetCapacityAssignmentConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.capacityAssignmentConfiguration = output.capacityAssignmentConfiguration
+        } else {
+            self.capacityAssignmentConfiguration = nil
+        }
+    }
+}
+
+public struct GetCapacityAssignmentConfigurationOutputResponse: Swift.Equatable {
+    /// The requested capacity assignment configuration for the specified capacity reservation.
+    /// This member is required.
+    public var capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration?
+
+    public init (
+        capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration? = nil
+    )
+    {
+        self.capacityAssignmentConfiguration = capacityAssignmentConfiguration
+    }
+}
+
+struct GetCapacityAssignmentConfigurationOutputResponseBody: Swift.Equatable {
+    let capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration?
+}
+
+extension GetCapacityAssignmentConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityAssignmentConfiguration = "CapacityAssignmentConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityAssignmentConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CapacityAssignmentConfiguration.self, forKey: .capacityAssignmentConfiguration)
+        capacityAssignmentConfiguration = capacityAssignmentConfigurationDecoded
+    }
+}
+
+extension GetCapacityReservationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension GetCapacityReservationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetCapacityReservationInput: Swift.Equatable {
+    /// The name of the capacity reservation.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct GetCapacityReservationInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension GetCapacityReservationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension GetCapacityReservationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetCapacityReservationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetCapacityReservationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetCapacityReservationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.capacityReservation = output.capacityReservation
+        } else {
+            self.capacityReservation = nil
+        }
+    }
+}
+
+public struct GetCapacityReservationOutputResponse: Swift.Equatable {
+    /// The requested capacity reservation structure.
+    /// This member is required.
+    public var capacityReservation: AthenaClientTypes.CapacityReservation?
+
+    public init (
+        capacityReservation: AthenaClientTypes.CapacityReservation? = nil
+    )
+    {
+        self.capacityReservation = capacityReservation
+    }
+}
+
+struct GetCapacityReservationOutputResponseBody: Swift.Equatable {
+    let capacityReservation: AthenaClientTypes.CapacityReservation?
+}
+
+extension GetCapacityReservationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityReservation = "CapacityReservation"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityReservationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CapacityReservation.self, forKey: .capacityReservation)
+        capacityReservation = capacityReservationDecoded
     }
 }
 
@@ -5863,6 +6640,149 @@ extension ListCalculationExecutionsOutputResponseBody: Swift.Decodable {
             }
         }
         calculations = calculationsDecoded0
+    }
+}
+
+extension ListCapacityReservationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListCapacityReservationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCapacityReservationsInput: Swift.Equatable {
+    /// Specifies the maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCapacityReservationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCapacityReservationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCapacityReservationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListCapacityReservationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListCapacityReservationsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCapacityReservationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListCapacityReservationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.capacityReservations = output.capacityReservations
+            self.nextToken = output.nextToken
+        } else {
+            self.capacityReservations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCapacityReservationsOutputResponse: Swift.Equatable {
+    /// The capacity reservations for the current account.
+    /// This member is required.
+    public var capacityReservations: [AthenaClientTypes.CapacityReservation]?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+
+    public init (
+        capacityReservations: [AthenaClientTypes.CapacityReservation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.capacityReservations = capacityReservations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCapacityReservationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let capacityReservations: [AthenaClientTypes.CapacityReservation]?
+}
+
+extension ListCapacityReservationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityReservations = "CapacityReservations"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let capacityReservationsContainer = try containerValues.decodeIfPresent([AthenaClientTypes.CapacityReservation?].self, forKey: .capacityReservations)
+        var capacityReservationsDecoded0:[AthenaClientTypes.CapacityReservation]? = nil
+        if let capacityReservationsContainer = capacityReservationsContainer {
+            capacityReservationsDecoded0 = [AthenaClientTypes.CapacityReservation]()
+            for structure0 in capacityReservationsContainer {
+                if let structure0 = structure0 {
+                    capacityReservationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        capacityReservations = capacityReservationsDecoded0
     }
 }
 
@@ -8343,6 +9263,113 @@ extension AthenaClientTypes {
         }
     }
 
+}
+
+extension PutCapacityAssignmentConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityAssignments = "CapacityAssignments"
+        case capacityReservationName = "CapacityReservationName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityAssignments = capacityAssignments {
+            var capacityAssignmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityAssignments)
+            for capacityassignment0 in capacityAssignments {
+                try capacityAssignmentsContainer.encode(capacityassignment0)
+            }
+        }
+        if let capacityReservationName = self.capacityReservationName {
+            try encodeContainer.encode(capacityReservationName, forKey: .capacityReservationName)
+        }
+    }
+}
+
+extension PutCapacityAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutCapacityAssignmentConfigurationInput: Swift.Equatable {
+    /// The list of assignments for the capacity assignment configuration.
+    /// This member is required.
+    public var capacityAssignments: [AthenaClientTypes.CapacityAssignment]?
+    /// The name of the capacity reservation to put a capacity assignment configuration for.
+    /// This member is required.
+    public var capacityReservationName: Swift.String?
+
+    public init (
+        capacityAssignments: [AthenaClientTypes.CapacityAssignment]? = nil,
+        capacityReservationName: Swift.String? = nil
+    )
+    {
+        self.capacityAssignments = capacityAssignments
+        self.capacityReservationName = capacityReservationName
+    }
+}
+
+struct PutCapacityAssignmentConfigurationInputBody: Swift.Equatable {
+    let capacityReservationName: Swift.String?
+    let capacityAssignments: [AthenaClientTypes.CapacityAssignment]?
+}
+
+extension PutCapacityAssignmentConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityAssignments = "CapacityAssignments"
+        case capacityReservationName = "CapacityReservationName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityReservationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityReservationName)
+        capacityReservationName = capacityReservationNameDecoded
+        let capacityAssignmentsContainer = try containerValues.decodeIfPresent([AthenaClientTypes.CapacityAssignment?].self, forKey: .capacityAssignments)
+        var capacityAssignmentsDecoded0:[AthenaClientTypes.CapacityAssignment]? = nil
+        if let capacityAssignmentsContainer = capacityAssignmentsContainer {
+            capacityAssignmentsDecoded0 = [AthenaClientTypes.CapacityAssignment]()
+            for structure0 in capacityAssignmentsContainer {
+                if let structure0 = structure0 {
+                    capacityAssignmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        capacityAssignments = capacityAssignmentsDecoded0
+    }
+}
+
+extension PutCapacityAssignmentConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutCapacityAssignmentConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutCapacityAssignmentConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutCapacityAssignmentConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct PutCapacityAssignmentConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension AthenaClientTypes.QueryExecution: Swift.Codable {
@@ -11017,7 +12044,7 @@ extension AthenaClientTypes.Tag: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// A label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+    /// A label that you assign to a resource. Athena resources include workgroups, data catalogs, and capacity reservations. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena resources by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     public struct Tag: Swift.Equatable {
         /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource.
         public var key: Swift.String?
@@ -11063,10 +12090,10 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// Specifies the ARN of the Athena resource (workgroup or data catalog) to which tags are to be added.
+    /// Specifies the ARN of the Athena resource to which tags are to be added.
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// A collection of one or more tags, separated by commas, to be added to an Athena workgroup or data catalog resource.
+    /// A collection of one or more tags, separated by commas, to be added to an Athena resource.
     /// This member is required.
     public var tags: [AthenaClientTypes.Tag]?
 
@@ -11626,6 +12653,101 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension UpdateCapacityReservationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case targetDpus = "TargetDpus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let targetDpus = self.targetDpus {
+            try encodeContainer.encode(targetDpus, forKey: .targetDpus)
+        }
+    }
+}
+
+extension UpdateCapacityReservationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateCapacityReservationInput: Swift.Equatable {
+    /// The name of the capacity reservation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The new number of requested data processing units.
+    /// This member is required.
+    public var targetDpus: Swift.Int?
+
+    public init (
+        name: Swift.String? = nil,
+        targetDpus: Swift.Int? = nil
+    )
+    {
+        self.name = name
+        self.targetDpus = targetDpus
+    }
+}
+
+struct UpdateCapacityReservationInputBody: Swift.Equatable {
+    let targetDpus: Swift.Int?
+    let name: Swift.String?
+}
+
+extension UpdateCapacityReservationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case targetDpus = "TargetDpus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetDpus)
+        targetDpus = targetDpusDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension UpdateCapacityReservationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateCapacityReservationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateCapacityReservationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateCapacityReservationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateCapacityReservationOutputResponse: Swift.Equatable {
 
     public init () { }
 }

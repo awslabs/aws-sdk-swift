@@ -4805,7 +4805,7 @@ public struct GetWorkflowExecutionHistoryInput: Swift.Equatable {
     public var execution: SWFClientTypes.WorkflowExecution?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
     public var maximumPageSize: Swift.Int?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
     public var reverseOrder: Swift.Bool?
@@ -6070,7 +6070,7 @@ public struct ListActivityTypesInput: Swift.Equatable {
     public var maximumPageSize: Swift.Int?
     /// If specified, only lists the activity types that have this name.
     public var name: Swift.String?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// Specifies the registration status of the activity types to list.
     /// This member is required.
@@ -6284,7 +6284,7 @@ public struct ListClosedWorkflowExecutionsInput: Swift.Equatable {
     public var executionFilter: SWFClientTypes.WorkflowExecutionFilter?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
     public var maximumPageSize: Swift.Int?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
     public var reverseOrder: Swift.Bool?
@@ -6492,7 +6492,7 @@ extension ListDomainsInput: ClientRuntime.URLPathProvider {
 public struct ListDomainsInput: Swift.Equatable {
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
     public var maximumPageSize: Swift.Int?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// Specifies the registration status of the domains to list.
     /// This member is required.
@@ -6680,7 +6680,7 @@ public struct ListOpenWorkflowExecutionsInput: Swift.Equatable {
     public var executionFilter: SWFClientTypes.WorkflowExecutionFilter?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
     public var maximumPageSize: Swift.Int?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
     public var reverseOrder: Swift.Bool?
@@ -7013,7 +7013,7 @@ public struct ListWorkflowTypesInput: Swift.Equatable {
     public var maximumPageSize: Swift.Int?
     /// If specified, lists the workflow type with this name.
     public var name: Swift.String?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// Specifies the registration status of the workflow types to list.
     /// This member is required.
@@ -7471,6 +7471,7 @@ extension PollForDecisionTaskInput: Swift.Encodable {
         case maximumPageSize
         case nextPageToken
         case reverseOrder
+        case startAtPreviousStartedEvent
         case taskList
     }
 
@@ -7490,6 +7491,9 @@ extension PollForDecisionTaskInput: Swift.Encodable {
         }
         if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
+        }
+        if let startAtPreviousStartedEvent = self.startAtPreviousStartedEvent {
+            try encodeContainer.encode(startAtPreviousStartedEvent, forKey: .startAtPreviousStartedEvent)
         }
         if let taskList = self.taskList {
             try encodeContainer.encode(taskList, forKey: .taskList)
@@ -7511,11 +7515,13 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
     public var identity: Swift.String?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
     public var maximumPageSize: Swift.Int?
-    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call. The nextPageToken returned by this action cannot be used with [GetWorkflowExecutionHistory] to get the next page. You must call [PollForDecisionTask] again (with the nextPageToken) to retrieve the next page of history records. Calling [PollForDecisionTask] with a nextPageToken doesn't return a new decision task.
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call. The nextPageToken returned by this action cannot be used with [GetWorkflowExecutionHistory] to get the next page. You must call [PollForDecisionTask] again (with the nextPageToken) to retrieve the next page of history records. Calling [PollForDecisionTask] with a nextPageToken doesn't return a new decision task.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
     public var reverseOrder: Swift.Bool?
-    /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// When set to true, returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent DecisionTaskStarted event. By default, this parameter is set to false.
+    public var startAtPreviousStartedEvent: Swift.Bool?
+    /// Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var taskList: SWFClientTypes.TaskList?
 
@@ -7525,6 +7531,7 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
         maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
         reverseOrder: Swift.Bool? = nil,
+        startAtPreviousStartedEvent: Swift.Bool? = nil,
         taskList: SWFClientTypes.TaskList? = nil
     )
     {
@@ -7533,6 +7540,7 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
         self.maximumPageSize = maximumPageSize
         self.nextPageToken = nextPageToken
         self.reverseOrder = reverseOrder
+        self.startAtPreviousStartedEvent = startAtPreviousStartedEvent
         self.taskList = taskList
     }
 }
@@ -7544,6 +7552,7 @@ struct PollForDecisionTaskInputBody: Swift.Equatable {
     let nextPageToken: Swift.String?
     let maximumPageSize: Swift.Int?
     let reverseOrder: Swift.Bool?
+    let startAtPreviousStartedEvent: Swift.Bool?
 }
 
 extension PollForDecisionTaskInputBody: Swift.Decodable {
@@ -7553,6 +7562,7 @@ extension PollForDecisionTaskInputBody: Swift.Decodable {
         case maximumPageSize
         case nextPageToken
         case reverseOrder
+        case startAtPreviousStartedEvent
         case taskList
     }
 
@@ -7570,6 +7580,8 @@ extension PollForDecisionTaskInputBody: Swift.Decodable {
         maximumPageSize = maximumPageSizeDecoded
         let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
+        let startAtPreviousStartedEventDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startAtPreviousStartedEvent)
+        startAtPreviousStartedEvent = startAtPreviousStartedEventDecoded
     }
 }
 
@@ -8055,10 +8067,10 @@ public struct RegisterActivityTypeInput: Swift.Equatable {
     /// The name of the domain in which this activity is to be registered.
     /// This member is required.
     public var domain: Swift.String?
-    /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var name: Swift.String?
-    /// The version of the activity type. The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// The version of the activity type. The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var version: Swift.String?
 
@@ -8392,10 +8404,10 @@ public struct RegisterWorkflowTypeInput: Swift.Equatable {
     /// The name of the domain in which to register the workflow type.
     /// This member is required.
     public var domain: Swift.String?
-    /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var name: Swift.String?
-    /// The version of the workflow type. The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the [ListWorkflowTypes] action. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// The version of the workflow type. The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the [ListWorkflowTypes] action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var version: Swift.String?
 
@@ -9598,7 +9610,7 @@ extension SWFClientTypes {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     public struct ScheduleActivityTaskDecisionAttributes: Swift.Equatable {
-        /// The activityId of the activity task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The activityId of the activity task. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         /// This member is required.
         public var activityId: Swift.String?
         /// The type of the activity task to schedule.
@@ -9616,7 +9628,7 @@ extension SWFClientTypes {
         public var scheduleToStartTimeout: Swift.String?
         /// If set, specifies the maximum duration a worker may take to process this activity task. This overrides the default start-to-close timeout specified when registering the activity type using [RegisterActivityType]. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration. A start-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default start-to-close timeout was specified at registration time then a fault is returned.
         public var startToCloseTimeout: Swift.String?
-        /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type is used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault is returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type is used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault is returned. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public var taskList: SWFClientTypes.TaskList?
         /// If set, specifies the priority with which the activity task is to be assigned to a worker. This overrides the defaultTaskPriority specified when registering the activity type using [RegisterActivityType]. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see [Setting Task Priority](https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html) in the Amazon SWF Developer Guide.
         public var taskPriority: Swift.String?
@@ -9833,7 +9845,7 @@ extension SWFClientTypes {
         /// The name, or ARN, of the Lambda function to schedule.
         /// This member is required.
         public var name: Swift.String?
-        /// The timeout value, in seconds, after which the Lambda function is considered to be failed once it has started. This can be any integer from 1-300 (1s-5m). If no value is supplied, than a default value of 300s is assumed.
+        /// The timeout value, in seconds, after which the Lambda function is considered to be failed once it has started. This can be any integer from 1-900 (1s-15m). If no value is supplied, then a default value of 900s is assumed.
         public var startToCloseTimeout: Swift.String?
 
         public init (
@@ -10526,13 +10538,13 @@ extension SWFClientTypes {
         public var lambdaRole: Swift.String?
         /// The list of tags to associate with the child workflow execution. A maximum of 5 tags can be specified. You can list workflow executions with a specific tag by calling [ListOpenWorkflowExecutions] or [ListClosedWorkflowExecutions] and specifying a [TagFilter].
         public var tagList: [Swift.String]?
-        /// The name of the task list to be used for decision tasks of the child workflow execution. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The name of the task list to be used for decision tasks of the child workflow execution. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public var taskList: SWFClientTypes.TaskList?
         /// A task priority that, if set, specifies the priority for a decision task of this workflow execution. This overrides the defaultTaskPriority specified when registering the workflow type. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see [Setting Task Priority](https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html) in the Amazon SWF Developer Guide.
         public var taskPriority: Swift.String?
         /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using [RegisterWorkflowType]. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration. A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned.
         public var taskStartToCloseTimeout: Swift.String?
-        /// The workflowId of the workflow execution. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The workflowId of the workflow execution. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         /// This member is required.
         public var workflowId: Swift.String?
         /// The type of the workflow execution to be started.
@@ -11018,7 +11030,7 @@ extension SWFClientTypes {
         /// The duration to wait before firing the timer. The duration is specified in seconds, an integer greater than or equal to 0.
         /// This member is required.
         public var startToFireTimeout: Swift.String?
-        /// The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The unique ID of the timer. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         /// This member is required.
         public var timerId: Swift.String?
 
@@ -11206,7 +11218,7 @@ public struct StartWorkflowExecutionInput: Swift.Equatable {
     ///
     /// A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned.
     public var childPolicy: SWFClientTypes.ChildPolicy?
-    /// The name of the domain in which the workflow execution is created.
+    /// The name of the domain in which the workflow execution is created. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var domain: Swift.String?
     /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. Exceeding this limit causes the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for this timeout; there is a one-year max limit on the time that a workflow execution can run. An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned.
@@ -11217,13 +11229,13 @@ public struct StartWorkflowExecutionInput: Swift.Equatable {
     public var lambdaRole: Swift.String?
     /// The list of tags to associate with the workflow execution. You can specify a maximum of 5 tags. You can list workflow executions with a specific tag by calling [ListOpenWorkflowExecutions] or [ListClosedWorkflowExecutions] and specifying a [TagFilter].
     public var tagList: [Swift.String]?
-    /// The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     public var taskList: SWFClientTypes.TaskList?
     /// The task priority to use for this workflow execution. This overrides any default priority that was assigned when the workflow type was registered. If not set, then the default task priority for the workflow type is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see [Setting Task Priority](https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html) in the Amazon SWF Developer Guide.
     public var taskPriority: Swift.String?
     /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using [RegisterWorkflowType]. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration. A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned.
     public var taskStartToCloseTimeout: Swift.String?
-    /// The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time within the same domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
+    /// The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time within the same domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var workflowId: Swift.String?
     /// The type of the workflow to start.

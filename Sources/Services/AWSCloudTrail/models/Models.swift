@@ -295,9 +295,11 @@ extension AddTagsOutputError: ClientRuntime.HttpResponseBinding {
 extension AddTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -315,9 +317,11 @@ extension AddTagsOutputError {
 }
 
 public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
+    case channelARNInvalidException(ChannelARNInvalidException)
     case channelNotFoundException(ChannelNotFoundException)
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case conflictException(ConflictException)
+    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
     case inactiveEventDataStoreException(InactiveEventDataStoreException)
     case invalidTagParameterException(InvalidTagParameterException)
@@ -381,7 +385,7 @@ extension CloudTrailClientTypes.AdvancedEventSelector: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// Advanced event selectors let you create fine-grained selectors for the following CloudTrail event record ﬁelds. They help you control costs by logging only those events that are important to you. For more information about advanced event selectors, see [Logging data events for trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
+    /// Advanced event selectors let you create fine-grained selectors for the following CloudTrail event record ﬁelds. They help you control costs by logging only those events that are important to you. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
     ///
     /// * readOnly
     ///
@@ -573,33 +577,39 @@ extension CloudTrailClientTypes {
         ///
         /// * resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator, and the value can be one of the following:
         ///
-        /// * AWS::CloudTrail::Channel
-        ///
-        /// * AWS::S3::Object
+        /// * AWS::DynamoDB::Table
         ///
         /// * AWS::Lambda::Function
         ///
-        /// * AWS::DynamoDB::Table
+        /// * AWS::S3::Object
         ///
-        /// * AWS::S3Outposts::Object
+        /// * AWS::CloudTrail::Channel
         ///
-        /// * AWS::ManagedBlockchain::Node
-        ///
-        /// * AWS::S3ObjectLambda::AccessPoint
-        ///
-        /// * AWS::EC2::Snapshot
-        ///
-        /// * AWS::S3::AccessPoint
+        /// * AWS::Cognito::IdentityPool
         ///
         /// * AWS::DynamoDB::Stream
         ///
-        /// * AWS::Glue::Table
+        /// * AWS::EC2::Snapshot
         ///
         /// * AWS::FinSpace::Environment
+        ///
+        /// * AWS::Glue::Table
+        ///
+        /// * AWS::GuardDuty::Detector
+        ///
+        /// * AWS::KendraRanking::ExecutionPlan
+        ///
+        /// * AWS::ManagedBlockchain::Node
         ///
         /// * AWS::SageMaker::ExperimentTrialComponent
         ///
         /// * AWS::SageMaker::FeatureGroup
+        ///
+        /// * AWS::S3::AccessPoint
+        ///
+        /// * AWS::S3ObjectLambda::AccessPoint
+        ///
+        /// * AWS::S3Outposts::Object
         ///
         ///
         /// You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.
@@ -611,11 +621,9 @@ extension CloudTrailClientTypes {
         /// * arn::s3::://
         ///
         ///
-        /// When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.
+        /// When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
-        /// * arn::s3:::accesspoint/
-        ///
-        /// * arn::s3:::accesspoint//object/
+        /// * arn::dynamodb:::table/
         ///
         ///
         /// When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -623,34 +631,14 @@ extension CloudTrailClientTypes {
         /// * arn::lambda:::function:
         ///
         ///
-        /// When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::dynamodb:::table/
-        ///
-        ///
         /// When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::cloudtrail:::channel/
         ///
         ///
-        /// When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        /// When resources.type equals AWS::Cognito::IdentityPool, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
-        /// * arn::s3-outposts:::
-        ///
-        ///
-        /// When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::managedblockchain:::nodes/
-        ///
-        ///
-        /// When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::s3-object-lambda:::accesspoint/
-        ///
-        ///
-        /// When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::ec2:::snapshot/
+        /// * arn::cognito-identity:::identitypool/
         ///
         ///
         /// When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -658,14 +646,34 @@ extension CloudTrailClientTypes {
         /// * arn::dynamodb:::table//stream/
         ///
         ///
-        /// When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        /// When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
-        /// * arn::glue:::table//
+        /// * arn::ec2:::snapshot/
         ///
         ///
         /// When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::finspace:::environment/
+        ///
+        ///
+        /// When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::glue:::table//
+        ///
+        ///
+        /// When resources.type equals AWS::GuardDuty::Detector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::guardduty:::detector/
+        ///
+        ///
+        /// When resources.type equals AWS::KendraRanking::ExecutionPlan, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::kendra-ranking:::rescore-execution-plan/
+        ///
+        ///
+        /// When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::managedblockchain:::nodes/
         ///
         ///
         /// When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -676,6 +684,23 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sagemaker:::feature-group/
+        ///
+        ///
+        /// When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.
+        ///
+        /// * arn::s3:::accesspoint/
+        ///
+        /// * arn::s3:::accesspoint//object/
+        ///
+        ///
+        /// When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::s3-object-lambda:::accesspoint/
+        ///
+        ///
+        /// When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::s3-outposts:::
         /// This member is required.
         public var field: Swift.String?
         /// An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
@@ -2634,36 +2659,42 @@ extension CloudTrailClientTypes {
     public struct DataResource: Swift.Equatable {
         /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:
         ///
-        /// * AWS::S3::Object
+        /// * AWS::DynamoDB::Table
         ///
         /// * AWS::Lambda::Function
         ///
-        /// * AWS::DynamoDB::Table
+        /// * AWS::S3::Object
         ///
         ///
         /// The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see [AdvancedFieldSelector$Field].
         ///
         /// * AWS::CloudTrail::Channel
         ///
-        /// * AWS::S3Outposts::Object
-        ///
-        /// * AWS::ManagedBlockchain::Node
-        ///
-        /// * AWS::S3ObjectLambda::AccessPoint
-        ///
-        /// * AWS::EC2::Snapshot
-        ///
-        /// * AWS::S3::AccessPoint
+        /// * AWS::Cognito::IdentityPool
         ///
         /// * AWS::DynamoDB::Stream
         ///
-        /// * AWS::Glue::Table
+        /// * AWS::EC2::Snapshot
         ///
         /// * AWS::FinSpace::Environment
+        ///
+        /// * AWS::Glue::Table
+        ///
+        /// * AWS::GuardDuty::Detector
+        ///
+        /// * AWS::KendraRanking::ExecutionPlan
+        ///
+        /// * AWS::ManagedBlockchain::Node
         ///
         /// * AWS::SageMaker::ExperimentTrialComponent
         ///
         /// * AWS::SageMaker::FeatureGroup
+        ///
+        /// * AWS::S3::AccessPoint
+        ///
+        /// * AWS::S3ObjectLambda::AccessPoint
+        ///
+        /// * AWS::S3Outposts::Object
         public var type: Swift.String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.
         ///
@@ -6795,9 +6826,9 @@ extension CloudTrailClientTypes.InsightSelector: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// A JSON string that contains a list of insight types that are logged on a trail.
+    /// A JSON string that contains a list of Insights types that are logged on a trail.
     public struct InsightSelector: Swift.Equatable {
-        /// The type of insights to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid insight types.
+        /// The type of Insights events to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public var insightType: CloudTrailClientTypes.InsightType?
 
         public init (
@@ -6858,7 +6889,7 @@ extension InsufficientDependencyServiceAccessPermissionException {
     }
 }
 
-/// This exception is thrown when the IAM user or role that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
+/// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
 public struct InsufficientDependencyServiceAccessPermissionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -9651,7 +9682,9 @@ extension ListTagsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidToken" : self = .invalidTokenException(try InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -9667,7 +9700,9 @@ extension ListTagsOutputError {
 }
 
 public enum ListTagsOutputError: Swift.Error, Swift.Equatable {
+    case channelARNInvalidException(ChannelARNInvalidException)
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
+    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
     case inactiveEventDataStoreException(InactiveEventDataStoreException)
     case invalidTokenException(InvalidTokenException)
@@ -10696,7 +10731,7 @@ extension PutEventSelectorsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutEventSelectorsInput: Swift.Equatable {
-    /// Specifies the settings for advanced event selectors. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events for trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
+    /// Specifies the settings for advanced event selectors. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail. You can use either EventSelectors or AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
     public var eventSelectors: [CloudTrailClientTypes.EventSelector]?
@@ -10783,6 +10818,7 @@ extension PutEventSelectorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -10799,6 +10835,7 @@ extension PutEventSelectorsOutputError {
 
 public enum PutEventSelectorsOutputError: Swift.Error, Swift.Equatable {
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
+    case conflictException(ConflictException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidEventSelectorsException(InvalidEventSelectorsException)
     case invalidHomeRegionException(InvalidHomeRegionException)
@@ -10916,7 +10953,7 @@ extension PutInsightSelectorsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutInsightSelectorsInput: Swift.Equatable {
-    /// A JSON string that contains the insight types you want to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid insight types.
+    /// A JSON string that contains the insight types you want to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
     /// This member is required.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     /// The name of the CloudTrail trail for which you want to change or add Insights selectors.
@@ -11723,8 +11760,10 @@ extension RemoveTagsOutputError: ClientRuntime.HttpResponseBinding {
 extension RemoveTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -11741,8 +11780,10 @@ extension RemoveTagsOutputError {
 }
 
 public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
+    case channelARNInvalidException(ChannelARNInvalidException)
     case channelNotFoundException(ChannelNotFoundException)
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
+    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
     case inactiveEventDataStoreException(InactiveEventDataStoreException)
     case invalidTagParameterException(InvalidTagParameterException)

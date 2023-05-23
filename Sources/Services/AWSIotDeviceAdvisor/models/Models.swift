@@ -2,6 +2,38 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension IotDeviceAdvisorClientTypes {
+    public enum AuthenticationMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case signatureversion4
+        case x509clientcertificate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationMethod] {
+            return [
+                .signatureversion4,
+                .x509clientcertificate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .signatureversion4: return "SignatureVersion4"
+            case .x509clientcertificate: return "X509ClientCertificate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthenticationMethod(rawValue: rawValue) ?? AuthenticationMethod.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -288,6 +320,7 @@ public struct DeleteSuiteDefinitionOutputResponse: Swift.Equatable {
 extension IotDeviceAdvisorClientTypes.DeviceUnderTest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateArn
+        case deviceRoleArn
         case thingArn
     }
 
@@ -295,6 +328,9 @@ extension IotDeviceAdvisorClientTypes.DeviceUnderTest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateArn = self.certificateArn {
             try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let deviceRoleArn = self.deviceRoleArn {
+            try encodeContainer.encode(deviceRoleArn, forKey: .deviceRoleArn)
         }
         if let thingArn = self.thingArn {
             try encodeContainer.encode(thingArn, forKey: .thingArn)
@@ -307,23 +343,29 @@ extension IotDeviceAdvisorClientTypes.DeviceUnderTest: Swift.Codable {
         thingArn = thingArnDecoded
         let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
         certificateArn = certificateArnDecoded
+        let deviceRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceRoleArn)
+        deviceRoleArn = deviceRoleArnDecoded
     }
 }
 
 extension IotDeviceAdvisorClientTypes {
-    /// Information of a test device. A thing ARN or a certificate ARN is required.
+    /// Information of a test device. A thing ARN, certificate ARN or device role ARN is required.
     public struct DeviceUnderTest: Swift.Equatable {
-        /// Lists devices certificate ARN.
+        /// Lists device's certificate ARN.
         public var certificateArn: Swift.String?
-        /// Lists devices thing ARN.
+        /// Lists device's role ARN.
+        public var deviceRoleArn: Swift.String?
+        /// Lists device's thing ARN.
         public var thingArn: Swift.String?
 
         public init (
             certificateArn: Swift.String? = nil,
+            deviceRoleArn: Swift.String? = nil,
             thingArn: Swift.String? = nil
         )
         {
             self.certificateArn = certificateArn
+            self.deviceRoleArn = deviceRoleArn
             self.thingArn = thingArn
         }
     }
@@ -342,6 +384,14 @@ extension GetEndpointInput: ClientRuntime.QueryItemProvider {
                 let certificateArnQueryItem = ClientRuntime.URLQueryItem(name: "certificateArn".urlPercentEncoding(), value: Swift.String(certificateArn).urlPercentEncoding())
                 items.append(certificateArnQueryItem)
             }
+            if let deviceRoleArn = deviceRoleArn {
+                let deviceRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "deviceRoleArn".urlPercentEncoding(), value: Swift.String(deviceRoleArn).urlPercentEncoding())
+                items.append(deviceRoleArnQueryItem)
+            }
+            if let authenticationMethod = authenticationMethod {
+                let authenticationMethodQueryItem = ClientRuntime.URLQueryItem(name: "authenticationMethod".urlPercentEncoding(), value: Swift.String(authenticationMethod.rawValue).urlPercentEncoding())
+                items.append(authenticationMethodQueryItem)
+            }
             return items
         }
     }
@@ -354,17 +404,25 @@ extension GetEndpointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetEndpointInput: Swift.Equatable {
+    /// The authentication method used during the device connection.
+    public var authenticationMethod: IotDeviceAdvisorClientTypes.AuthenticationMethod?
     /// The certificate ARN of the device. This is an optional parameter.
     public var certificateArn: Swift.String?
+    /// The device role ARN of the device. This is an optional parameter.
+    public var deviceRoleArn: Swift.String?
     /// The thing ARN of the device. This is an optional parameter.
     public var thingArn: Swift.String?
 
     public init (
+        authenticationMethod: IotDeviceAdvisorClientTypes.AuthenticationMethod? = nil,
         certificateArn: Swift.String? = nil,
+        deviceRoleArn: Swift.String? = nil,
         thingArn: Swift.String? = nil
     )
     {
+        self.authenticationMethod = authenticationMethod
         self.certificateArn = certificateArn
+        self.deviceRoleArn = deviceRoleArn
         self.thingArn = thingArn
     }
 }
@@ -1079,7 +1137,7 @@ extension ListSuiteDefinitionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1100,12 +1158,12 @@ extension ListSuiteDefinitionsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSuiteDefinitionsInput: Swift.Equatable {
     /// The maximum number of results to return at once.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token used to get the next set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1214,7 +1272,7 @@ extension ListSuiteRunsInput: ClientRuntime.QueryItemProvider {
                 let suiteDefinitionIdQueryItem = ClientRuntime.URLQueryItem(name: "suiteDefinitionId".urlPercentEncoding(), value: Swift.String(suiteDefinitionId).urlPercentEncoding())
                 items.append(suiteDefinitionIdQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1239,7 +1297,7 @@ extension ListSuiteRunsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSuiteRunsInput: Swift.Equatable {
     /// The maximum number of results to return at once.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Lists the test suite runs of the specified test suite based on suite definition ID.
@@ -1248,7 +1306,7 @@ public struct ListSuiteRunsInput: Swift.Equatable {
     public var suiteDefinitionVersion: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionVersion: Swift.String? = nil
@@ -1462,13 +1520,17 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 extension IotDeviceAdvisorClientTypes {
     public enum ModelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case mqttv311
+        case mqttv311Overwebsocket
         case mqttv5
+        case mqttv5Overwebsocket
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelProtocol] {
             return [
                 .mqttv311,
+                .mqttv311Overwebsocket,
                 .mqttv5,
+                .mqttv5Overwebsocket,
                 .sdkUnknown("")
             ]
         }
@@ -1479,7 +1541,9 @@ extension IotDeviceAdvisorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .mqttv311: return "MqttV3_1_1"
+            case .mqttv311Overwebsocket: return "MqttV3_1_1_OverWebSocket"
             case .mqttv5: return "MqttV5"
+            case .mqttv5Overwebsocket: return "MqttV5_OverWebSocket"
             case let .sdkUnknown(s): return s
             }
         }

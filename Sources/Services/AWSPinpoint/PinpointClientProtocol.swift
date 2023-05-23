@@ -139,6 +139,12 @@ public protocol PinpointClientProtocol {
     func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput) async throws -> GetJourneyExecutionActivityMetricsOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
     func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput) async throws -> GetJourneyExecutionMetricsOutputResponse
+    /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
+    func getJourneyRunExecutionActivityMetrics(input: GetJourneyRunExecutionActivityMetricsInput) async throws -> GetJourneyRunExecutionActivityMetricsOutputResponse
+    /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
+    func getJourneyRunExecutionMetrics(input: GetJourneyRunExecutionMetricsInput) async throws -> GetJourneyRunExecutionMetricsOutputResponse
+    /// Provides information about the runs of a journey.
+    func getJourneyRuns(input: GetJourneyRunsInput) async throws -> GetJourneyRunsOutputResponse
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     func getPushTemplate(input: GetPushTemplateInput) async throws -> GetPushTemplateOutputResponse
     /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.

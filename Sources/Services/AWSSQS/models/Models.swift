@@ -581,7 +581,7 @@ extension ChangeMessageVisibilityInput: Swift.Encodable {
         if let receiptHandle = receiptHandle {
             try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
         }
-        if visibilityTimeout != 0 {
+        if let visibilityTimeout = visibilityTimeout {
             try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
         }
         try container.encode("ChangeMessageVisibility", forKey:ClientRuntime.Key("Action"))
@@ -604,12 +604,12 @@ public struct ChangeMessageVisibilityInput: Swift.Equatable {
     public var receiptHandle: Swift.String?
     /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200. Maximum: 12 hours.
     /// This member is required.
-    public var visibilityTimeout: Swift.Int
+    public var visibilityTimeout: Swift.Int?
 
     public init (
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil,
-        visibilityTimeout: Swift.Int = 0
+        visibilityTimeout: Swift.Int? = nil
     )
     {
         self.queueUrl = queueUrl
@@ -621,7 +621,7 @@ public struct ChangeMessageVisibilityInput: Swift.Equatable {
 struct ChangeMessageVisibilityInputBody: Swift.Equatable {
     let queueUrl: Swift.String?
     let receiptHandle: Swift.String?
-    let visibilityTimeout: Swift.Int
+    let visibilityTimeout: Swift.Int?
 }
 
 extension ChangeMessageVisibilityInputBody: Swift.Decodable {
@@ -637,7 +637,7 @@ extension ChangeMessageVisibilityInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let receiptHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiptHandle)
         receiptHandle = receiptHandleDecoded
-        let visibilityTimeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
     }
 }
@@ -1564,8 +1564,8 @@ extension GetQueueAttributesInputBody: Swift.Decodable {
                 var attributeNamesBuffer:[SQSClientTypes.QueueAttributeName]? = nil
                 if let attributeNamesContainer = attributeNamesContainer {
                     attributeNamesBuffer = [SQSClientTypes.QueueAttributeName]()
-                    for stringContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in attributeNamesContainer {
+                        attributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 attributeNames = attributeNamesBuffer
@@ -3156,7 +3156,7 @@ extension ReceiveMessageInput: Swift.Encodable {
                 try attributeNamesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if maxNumberOfMessages != 0 {
+        if let maxNumberOfMessages = maxNumberOfMessages {
             try container.encode(maxNumberOfMessages, forKey: ClientRuntime.Key("MaxNumberOfMessages"))
         }
         if let messageAttributeNames = messageAttributeNames {
@@ -3177,10 +3177,10 @@ extension ReceiveMessageInput: Swift.Encodable {
         if let receiveRequestAttemptId = receiveRequestAttemptId {
             try container.encode(receiveRequestAttemptId, forKey: ClientRuntime.Key("ReceiveRequestAttemptId"))
         }
-        if visibilityTimeout != 0 {
+        if let visibilityTimeout = visibilityTimeout {
             try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
         }
-        if waitTimeSeconds != 0 {
+        if let waitTimeSeconds = waitTimeSeconds {
             try container.encode(waitTimeSeconds, forKey: ClientRuntime.Key("WaitTimeSeconds"))
         }
         try container.encode("ReceiveMessage", forKey:ClientRuntime.Key("Action"))
@@ -3226,7 +3226,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
     public var attributeNames: [SQSClientTypes.QueueAttributeName]?
     /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
-    public var maxNumberOfMessages: Swift.Int
+    public var maxNumberOfMessages: Swift.Int?
     /// The name of the message attribute, where N is the index.
     ///
     /// * The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).
@@ -3240,7 +3240,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     /// * The name can be up to 256 characters long.
     ///
     ///
-    /// When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or . in your request. You can also use all message attributes starting with a prefix, for example bar..
+    /// When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
     public var messageAttributeNames: [Swift.String]?
     /// The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.
     /// This member is required.
@@ -3265,18 +3265,18 @@ public struct ReceiveMessageInput: Swift.Equatable {
     /// The maximum length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see [Using the ReceiveRequestAttemptId Request Parameter](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html) in the Amazon SQS Developer Guide.
     public var receiveRequestAttemptId: Swift.String?
     /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
-    public var visibilityTimeout: Swift.Int
+    public var visibilityTimeout: Swift.Int?
     /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages. To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the [ NettyNioAsyncHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/nio/netty/NettyNioAsyncHttpClient.html) for asynchronous clients, or the [ ApacheHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/apache/ApacheHttpClient.html) for synchronous clients.
-    public var waitTimeSeconds: Swift.Int
+    public var waitTimeSeconds: Swift.Int?
 
     public init (
         attributeNames: [SQSClientTypes.QueueAttributeName]? = nil,
-        maxNumberOfMessages: Swift.Int = 0,
+        maxNumberOfMessages: Swift.Int? = nil,
         messageAttributeNames: [Swift.String]? = nil,
         queueUrl: Swift.String? = nil,
         receiveRequestAttemptId: Swift.String? = nil,
-        visibilityTimeout: Swift.Int = 0,
-        waitTimeSeconds: Swift.Int = 0
+        visibilityTimeout: Swift.Int? = nil,
+        waitTimeSeconds: Swift.Int? = nil
     )
     {
         self.attributeNames = attributeNames
@@ -3293,9 +3293,9 @@ struct ReceiveMessageInputBody: Swift.Equatable {
     let queueUrl: Swift.String?
     let attributeNames: [SQSClientTypes.QueueAttributeName]?
     let messageAttributeNames: [Swift.String]?
-    let maxNumberOfMessages: Swift.Int
-    let visibilityTimeout: Swift.Int
-    let waitTimeSeconds: Swift.Int
+    let maxNumberOfMessages: Swift.Int?
+    let visibilityTimeout: Swift.Int?
+    let waitTimeSeconds: Swift.Int?
     let receiveRequestAttemptId: Swift.String?
 }
 
@@ -3321,8 +3321,8 @@ extension ReceiveMessageInputBody: Swift.Decodable {
                 var attributeNamesBuffer:[SQSClientTypes.QueueAttributeName]? = nil
                 if let attributeNamesContainer = attributeNamesContainer {
                     attributeNamesBuffer = [SQSClientTypes.QueueAttributeName]()
-                    for stringContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in attributeNamesContainer {
+                        attributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 attributeNames = attributeNamesBuffer
@@ -3350,11 +3350,11 @@ extension ReceiveMessageInputBody: Swift.Decodable {
         } else {
             messageAttributeNames = nil
         }
-        let maxNumberOfMessagesDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxNumberOfMessages)
+        let maxNumberOfMessagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessages)
         maxNumberOfMessages = maxNumberOfMessagesDecoded
-        let visibilityTimeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
-        let waitTimeSecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .waitTimeSeconds)
+        let waitTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitTimeSeconds)
         waitTimeSeconds = waitTimeSecondsDecoded
         let receiveRequestAttemptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiveRequestAttemptId)
         receiveRequestAttemptId = receiveRequestAttemptIdDecoded
@@ -4002,7 +4002,7 @@ extension SQSClientTypes {
 extension SendMessageInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if delaySeconds != 0 {
+        if let delaySeconds = delaySeconds {
             try container.encode(delaySeconds, forKey: ClientRuntime.Key("DelaySeconds"))
         }
         if let messageAttributes = messageAttributes {
@@ -4057,7 +4057,7 @@ extension SendMessageInput: ClientRuntime.URLPathProvider {
 ///
 public struct SendMessageInput: Swift.Equatable {
     /// The length of time, in seconds, for which to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies. When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level.
-    public var delaySeconds: Swift.Int
+    public var delaySeconds: Swift.Int?
     /// Each message attribute consists of a Name, Type, and Value. For more information, see [Amazon SQS message attributes](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes) in the Amazon SQS Developer Guide.
     public var messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]?
     /// The message to send. The minimum size is one character. The maximum size is 256 KB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
@@ -4105,7 +4105,7 @@ public struct SendMessageInput: Swift.Equatable {
     public var queueUrl: Swift.String?
 
     public init (
-        delaySeconds: Swift.Int = 0,
+        delaySeconds: Swift.Int? = nil,
         messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil,
         messageBody: Swift.String? = nil,
         messageDeduplicationId: Swift.String? = nil,
@@ -4127,7 +4127,7 @@ public struct SendMessageInput: Swift.Equatable {
 struct SendMessageInputBody: Swift.Equatable {
     let queueUrl: Swift.String?
     let messageBody: Swift.String?
-    let delaySeconds: Swift.Int
+    let delaySeconds: Swift.Int?
     let messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]?
     let messageSystemAttributes: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]?
     let messageDeduplicationId: Swift.String?
@@ -4151,7 +4151,7 @@ extension SendMessageInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let messageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageBody)
         messageBody = messageBodyDecoded
-        let delaySecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .delaySeconds)
+        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds)
         delaySeconds = delaySecondsDecoded
         if containerValues.contains(.messageAttributes) {
             struct KeyVal0{struct Name{}; struct Value{}}
@@ -4361,9 +4361,6 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     ///
     /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
-    ///
-    ///
-    ///
     /// * KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms). While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters) in the Key Management Service API Reference.
     ///
     /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
@@ -4391,9 +4388,6 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     /// * When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
     ///
     /// * If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.
-    ///
-    ///
-    ///
     ///
     ///
     ///

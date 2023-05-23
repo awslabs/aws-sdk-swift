@@ -3389,9 +3389,9 @@ extension SESv2ClientTypes {
         public var poolName: Swift.String?
         /// The type of the dedicated IP pool.
         ///
-        /// * STANDARD – A dedicated IP pool where the customer can control which IPs are part of the pool.
+        /// * STANDARD – A dedicated IP pool where you can control which IPs are part of the pool.
         ///
-        /// * MANAGED – A dedicated IP pool where the reputation and number of IPs is automatically managed by Amazon SES.
+        /// * MANAGED – A dedicated IP pool where the reputation and number of IPs are automatically managed by Amazon SES.
         /// This member is required.
         public var scalingMode: SESv2ClientTypes.ScalingMode?
 
@@ -6190,7 +6190,7 @@ public struct GetContactInput: Swift.Equatable {
     /// The name of the contact list to which the contact belongs.
     /// This member is required.
     public var contactListName: Swift.String?
-    /// The contact's email addres.
+    /// The contact's email address.
     /// This member is required.
     public var emailAddress: Swift.String?
 
@@ -6437,7 +6437,7 @@ public struct GetContactOutputResponse: Swift.Equatable {
     public var contactListName: Swift.String?
     /// A timestamp noting when the contact was created.
     public var createdTimestamp: ClientRuntime.Date?
-    /// The contact's email addres.
+    /// The contact's email address.
     public var emailAddress: Swift.String?
     /// A timestamp noting the last time the contact's information was updated.
     public var lastUpdatedTimestamp: ClientRuntime.Date?
@@ -13067,6 +13067,102 @@ public struct PutDedicatedIpInPoolOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension PutDedicatedIpPoolScalingAttributesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scalingMode = "ScalingMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scalingMode = self.scalingMode {
+            try encodeContainer.encode(scalingMode.rawValue, forKey: .scalingMode)
+        }
+    }
+}
+
+extension PutDedicatedIpPoolScalingAttributesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let poolName = poolName else {
+            return nil
+        }
+        return "/v2/email/dedicated-ip-pools/\(poolName.urlPercentEncoding())/scaling"
+    }
+}
+
+/// A request to convert a dedicated IP pool to a different scaling mode.
+public struct PutDedicatedIpPoolScalingAttributesInput: Swift.Equatable {
+    /// The name of the dedicated IP pool.
+    /// This member is required.
+    public var poolName: Swift.String?
+    /// The scaling mode to apply to the dedicated IP pool. Changing the scaling mode from MANAGED to STANDARD is not supported.
+    /// This member is required.
+    public var scalingMode: SESv2ClientTypes.ScalingMode?
+
+    public init (
+        poolName: Swift.String? = nil,
+        scalingMode: SESv2ClientTypes.ScalingMode? = nil
+    )
+    {
+        self.poolName = poolName
+        self.scalingMode = scalingMode
+    }
+}
+
+struct PutDedicatedIpPoolScalingAttributesInputBody: Swift.Equatable {
+    let scalingMode: SESv2ClientTypes.ScalingMode?
+}
+
+extension PutDedicatedIpPoolScalingAttributesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scalingMode = "ScalingMode"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingModeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ScalingMode.self, forKey: .scalingMode)
+        scalingMode = scalingModeDecoded
+    }
+}
+
+extension PutDedicatedIpPoolScalingAttributesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutDedicatedIpPoolScalingAttributesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutDedicatedIpPoolScalingAttributesOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case concurrentModificationException(ConcurrentModificationException)
+    case notFoundException(NotFoundException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutDedicatedIpPoolScalingAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct PutDedicatedIpPoolScalingAttributesOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension PutDedicatedIpWarmupAttributesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case warmupPercentage = "WarmupPercentage"
@@ -16584,7 +16680,7 @@ public struct UpdateContactInput: Swift.Equatable {
     /// The name of the contact list.
     /// This member is required.
     public var contactListName: Swift.String?
-    /// The contact's email addres.
+    /// The contact's email address.
     /// This member is required.
     public var emailAddress: Swift.String?
     /// The contact's preference for being opted-in to or opted-out of a topic.

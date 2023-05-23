@@ -935,7 +935,7 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public var scheduleExpression: Swift.String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         /// This member is required.
@@ -1083,7 +1083,7 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public var scheduleExpression: Swift.String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         /// This member is required.
@@ -5746,9 +5746,9 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
     public var resourceType: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
     public var sourceBackupVaultArn: Swift.String?
-    /// A status code specifying the state of the recovery point. PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see [UpdateBackupPlan](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_UpdateBackupPlan.html). You can also increase your backup plan window using the Console by choosing and editing your backup plan. EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see [ Step 3: Delete the recovery points](https://docs.aws.amazon.com/aws-backup/latest/devguide/gs-cleanup-resources.html#cleanup-backups) in the Clean up resources section of Getting started. STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted.
+    /// A status code specifying the state of the recovery point. PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see [UpdateBackupPlan](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_UpdateBackupPlan.html). You can also increase your backup plan window using the Console by choosing and editing your backup plan. EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see [ Step 3: Delete the recovery points](https://docs.aws.amazon.com/aws-backup/latest/devguide/gs-cleanup-resources.html#cleanup-backups) in the Clean up resources section of Getting started. STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
     public var status: BackupClientTypes.RecoveryPointStatus?
-    /// A status message explaining the reason for the recovery point deletion failure.
+    /// A status message explaining the status of the recovery point.
     public var statusMessage: Swift.String?
     /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
     public var storageClass: BackupClientTypes.StorageClass?
@@ -12201,13 +12201,25 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.RecoveryPointMember: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultName = "BackupVaultName"
         case recoveryPointArn = "RecoveryPointArn"
+        case resourceArn = "ResourceArn"
+        case resourceType = "ResourceType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupVaultName = self.backupVaultName {
+            try encodeContainer.encode(backupVaultName, forKey: .backupVaultName)
+        }
         if let recoveryPointArn = self.recoveryPointArn {
             try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
     }
 
@@ -12215,20 +12227,38 @@ extension BackupClientTypes.RecoveryPointMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recoveryPointArn)
         recoveryPointArn = recoveryPointArnDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let backupVaultNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultName)
+        backupVaultName = backupVaultNameDecoded
     }
 }
 
 extension BackupClientTypes {
     /// This is a recovery point which is a child (nested) recovery point of a parent (composite) recovery point. These recovery points can be disassociated from their parent (composite) recovery point, in which case they will no longer be a member.
     public struct RecoveryPointMember: Swift.Equatable {
+        /// This is the name of the backup vault (the logical container in which backups are stored).
+        public var backupVaultName: Swift.String?
         /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery point.
         public var recoveryPointArn: Swift.String?
+        /// This is the Amazon Resource Name (ARN) that uniquely identifies a saved resource.
+        public var resourceArn: Swift.String?
+        /// This is the Amazon Web Services resource type that is saved as a recovery point.
+        public var resourceType: Swift.String?
 
         public init (
-            recoveryPointArn: Swift.String? = nil
+            backupVaultName: Swift.String? = nil,
+            recoveryPointArn: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceType: Swift.String? = nil
         )
         {
+            self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
         }
     }
 
@@ -13268,7 +13298,7 @@ public struct StartBackupJobInput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors.
+    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
     public var startWindowMinutes: Swift.Int?
 
     public init (
@@ -13791,11 +13821,12 @@ extension StartReportJobOutputResponseBody: Swift.Decodable {
 
 extension StartRestoreJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartRestoreJobInput(iamRoleArn: \(Swift.String(describing: iamRoleArn)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceType: \(Swift.String(describing: resourceType)), metadata: \"CONTENT_REDACTED\")"}
+        "StartRestoreJobInput(copySourceTagsToRestoredResource: \(Swift.String(describing: copySourceTagsToRestoredResource)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceType: \(Swift.String(describing: resourceType)), metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension StartRestoreJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copySourceTagsToRestoredResource = "CopySourceTagsToRestoredResource"
         case iamRoleArn = "IamRoleArn"
         case idempotencyToken = "IdempotencyToken"
         case metadata = "Metadata"
@@ -13805,6 +13836,9 @@ extension StartRestoreJobInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copySourceTagsToRestoredResource = self.copySourceTagsToRestoredResource {
+            try encodeContainer.encode(copySourceTagsToRestoredResource, forKey: .copySourceTagsToRestoredResource)
+        }
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
         }
@@ -13833,6 +13867,8 @@ extension StartRestoreJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartRestoreJobInput: Swift.Equatable {
+    /// This is an optional parameter. If this equals True, tags included in the backup will be copied to the restored resource. This can only be applied to backups created through Backup.
+    public var copySourceTagsToRestoredResource: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
@@ -13863,6 +13899,8 @@ public struct StartRestoreJobInput: Swift.Equatable {
     ///
     /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
     ///
+    /// * CloudFormation for CloudFormation
+    ///
     /// * DynamoDB for Amazon DynamoDB
     ///
     /// * EBS for Amazon Elastic Block Store
@@ -13877,14 +13915,19 @@ public struct StartRestoreJobInput: Swift.Equatable {
     ///
     /// * RDS for Amazon Relational Database Service
     ///
+    /// * Redshift for Amazon Redshift
+    ///
     /// * Storage Gateway for Storage Gateway
     ///
     /// * S3 for Amazon S3
+    ///
+    /// * Timestream for Amazon Timestream
     ///
     /// * VirtualMachine for virtual machines
     public var resourceType: Swift.String?
 
     public init (
+        copySourceTagsToRestoredResource: Swift.Bool? = nil,
         iamRoleArn: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
@@ -13892,6 +13935,7 @@ public struct StartRestoreJobInput: Swift.Equatable {
         resourceType: Swift.String? = nil
     )
     {
+        self.copySourceTagsToRestoredResource = copySourceTagsToRestoredResource
         self.iamRoleArn = iamRoleArn
         self.idempotencyToken = idempotencyToken
         self.metadata = metadata
@@ -13906,10 +13950,12 @@ struct StartRestoreJobInputBody: Swift.Equatable {
     let iamRoleArn: Swift.String?
     let idempotencyToken: Swift.String?
     let resourceType: Swift.String?
+    let copySourceTagsToRestoredResource: Swift.Bool?
 }
 
 extension StartRestoreJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copySourceTagsToRestoredResource = "CopySourceTagsToRestoredResource"
         case iamRoleArn = "IamRoleArn"
         case idempotencyToken = "IdempotencyToken"
         case metadata = "Metadata"
@@ -13938,6 +13984,8 @@ extension StartRestoreJobInputBody: Swift.Decodable {
         idempotencyToken = idempotencyTokenDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let copySourceTagsToRestoredResourceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copySourceTagsToRestoredResource)
+        copySourceTagsToRestoredResource = copySourceTagsToRestoredResourceDecoded
     }
 }
 
@@ -13953,6 +14001,7 @@ extension StartRestoreJobOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameterValueException" : self = .missingParameterValueException(try MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -13963,6 +14012,7 @@ extension StartRestoreJobOutputError {
 
 public enum StartRestoreJobOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValueException(InvalidParameterValueException)
+    case invalidRequestException(InvalidRequestException)
     case missingParameterValueException(MissingParameterValueException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceUnavailableException(ServiceUnavailableException)

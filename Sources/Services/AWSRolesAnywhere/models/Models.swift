@@ -119,9 +119,9 @@ public struct CreateProfileInput: Swift.Equatable {
     /// The name of the profile.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether instance properties are required in [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) requests with this profile.
+    /// Specifies whether instance properties are required in temporary credential requests with this profile.
     public var requireInstanceProperties: Swift.Bool?
-    /// A list of IAM roles that this profile can assume in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+    /// A list of IAM roles that this profile can assume in a temporary credential request.
     /// This member is required.
     public var roleArns: [Swift.String]?
     /// A session policy that applies to the trust boundary of the vended session credentials.
@@ -290,6 +290,7 @@ extension CreateTrustAnchorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled
         case name
+        case notificationSettings
         case source
         case tags
     }
@@ -301,6 +302,12 @@ extension CreateTrustAnchorInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let notificationSettings = notificationSettings {
+            var notificationSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationSettings)
+            for notificationsetting0 in notificationSettings {
+                try notificationSettingsContainer.encode(notificationsetting0)
+            }
         }
         if let source = self.source {
             try encodeContainer.encode(source, forKey: .source)
@@ -326,6 +333,8 @@ public struct CreateTrustAnchorInput: Swift.Equatable {
     /// The name of the trust anchor.
     /// This member is required.
     public var name: Swift.String?
+    /// A list of notification settings to be associated to the trust anchor.
+    public var notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
     /// The trust anchor type and its related certificate data.
     /// This member is required.
     public var source: RolesAnywhereClientTypes.Source?
@@ -335,12 +344,14 @@ public struct CreateTrustAnchorInput: Swift.Equatable {
     public init (
         enabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
+        notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil
     )
     {
         self.enabled = enabled
         self.name = name
+        self.notificationSettings = notificationSettings
         self.source = source
         self.tags = tags
     }
@@ -351,12 +362,14 @@ struct CreateTrustAnchorInputBody: Swift.Equatable {
     let source: RolesAnywhereClientTypes.Source?
     let enabled: Swift.Bool?
     let tags: [RolesAnywhereClientTypes.Tag]?
+    let notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
 }
 
 extension CreateTrustAnchorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled
         case name
+        case notificationSettings
         case source
         case tags
     }
@@ -380,6 +393,17 @@ extension CreateTrustAnchorInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let notificationSettingsContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.NotificationSetting?].self, forKey: .notificationSettings)
+        var notificationSettingsDecoded0:[RolesAnywhereClientTypes.NotificationSetting]? = nil
+        if let notificationSettingsContainer = notificationSettingsContainer {
+            notificationSettingsDecoded0 = [RolesAnywhereClientTypes.NotificationSetting]()
+            for structure0 in notificationSettingsContainer {
+                if let structure0 = structure0 {
+                    notificationSettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        notificationSettings = notificationSettingsDecoded0
     }
 }
 
@@ -498,15 +522,15 @@ extension RolesAnywhereClientTypes.CredentialSummary: Swift.Codable {
 }
 
 extension RolesAnywhereClientTypes {
-    /// A record of a presented X509 credential to [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html).
+    /// A record of a presented X509 credential from a temporary credential request.
     public struct CredentialSummary: Swift.Equatable {
         /// Indicates whether the credential is enabled.
         public var enabled: Swift.Bool?
-        /// Indicates whether the [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation was successful.
+        /// Indicates whether the temporary credential request was successful.
         public var failed: Swift.Bool?
         /// The fully qualified domain name of the issuing certificate for the presented end-entity certificate.
         public var issuer: Swift.String?
-        /// The ISO-8601 time stamp of when the certificate was last used in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+        /// The ISO-8601 time stamp of when the certificate was last used in a temporary credential request.
         public var seenAt: ClientRuntime.Date?
         /// The serial number of the certificate.
         public var serialNumber: Swift.String?
@@ -1920,7 +1944,7 @@ extension ImportCrlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportCrlInput: Swift.Equatable {
-    /// The x509 v3 specified certificate revocation list
+    /// The x509 v3 specified certificate revocation list (CRL).
     /// This member is required.
     public var crlData: ClientRuntime.Data?
     /// Specifies whether the certificate revocation list (CRL) is enabled.
@@ -2102,11 +2126,11 @@ extension RolesAnywhereClientTypes.InstanceProperty: Swift.Codable {
 extension RolesAnywhereClientTypes {
     /// A key-value pair you set that identifies a property of the authenticating instance.
     public struct InstanceProperty: Swift.Equatable {
-        /// Indicates whether the [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation was successful.
+        /// Indicates whether the temporary credential request was successful.
         public var failed: Swift.Bool?
         /// A list of instanceProperty objects.
         public var properties: [Swift.String:Swift.String]?
-        /// The ISO-8601 time stamp of when the certificate was last used in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+        /// The ISO-8601 time stamp of when the certificate was last used in a temporary credential request.
         public var seenAt: ClientRuntime.Date?
 
         public init (
@@ -2147,7 +2171,7 @@ extension ListCrlsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListCrlsInput: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
     public var pageSize: Swift.Int?
@@ -2212,7 +2236,7 @@ extension ListCrlsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListCrlsOutputResponse: Swift.Equatable {
     /// A list of certificate revocation lists (CRL).
     public var crls: [RolesAnywhereClientTypes.CrlDetail]?
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
 
     public init (
@@ -2278,7 +2302,7 @@ extension ListProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListProfilesInput: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
     public var pageSize: Swift.Int?
@@ -2341,7 +2365,7 @@ extension ListProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListProfilesOutputResponse: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of profiles.
     public var profiles: [RolesAnywhereClientTypes.ProfileDetail]?
@@ -2409,7 +2433,7 @@ extension ListSubjectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSubjectsInput: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
     public var pageSize: Swift.Int?
@@ -2472,7 +2496,7 @@ extension ListSubjectsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListSubjectsOutputResponse: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of subjects.
     public var subjects: [RolesAnywhereClientTypes.SubjectSummary]?
@@ -2658,7 +2682,7 @@ extension ListTrustAnchorsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTrustAnchorsInput: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
     public var pageSize: Swift.Int?
@@ -2721,7 +2745,7 @@ extension ListTrustAnchorsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTrustAnchorsOutputResponse: Swift.Equatable {
-    /// A token that indicates where the output should continue from, if a previous operation did not show all results. To get the next results, call the operation again with this value.
+    /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of trust anchors.
     public var trustAnchors: [RolesAnywhereClientTypes.TrustAnchorDetail]?
@@ -2763,6 +2787,257 @@ extension ListTrustAnchorsOutputResponseBody: Swift.Decodable {
         }
         trustAnchors = trustAnchorsDecoded0
     }
+}
+
+extension RolesAnywhereClientTypes {
+    public enum NotificationChannel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotificationChannel] {
+            return [
+                .all,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NotificationChannel(rawValue: rawValue) ?? NotificationChannel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RolesAnywhereClientTypes {
+    public enum NotificationEvent: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case caCertificateExpiry
+        case endEntityCertificateExpiry
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotificationEvent] {
+            return [
+                .caCertificateExpiry,
+                .endEntityCertificateExpiry,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .caCertificateExpiry: return "CA_CERTIFICATE_EXPIRY"
+            case .endEntityCertificateExpiry: return "END_ENTITY_CERTIFICATE_EXPIRY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NotificationEvent(rawValue: rawValue) ?? NotificationEvent.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RolesAnywhereClientTypes.NotificationSetting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel
+        case enabled
+        case event
+        case threshold
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channel = self.channel {
+            try encodeContainer.encode(channel.rawValue, forKey: .channel)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let event = self.event {
+            try encodeContainer.encode(event.rawValue, forKey: .event)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let eventDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.NotificationEvent.self, forKey: .event)
+        event = eventDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.NotificationChannel.self, forKey: .channel)
+        channel = channelDecoded
+    }
+}
+
+extension RolesAnywhereClientTypes {
+    /// Customizable notification settings that will be applied to notification events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard.
+    public struct NotificationSetting: Swift.Equatable {
+        /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
+        public var channel: RolesAnywhereClientTypes.NotificationChannel?
+        /// Indicates whether the notification setting is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The event to which this notification setting is applied.
+        /// This member is required.
+        public var event: RolesAnywhereClientTypes.NotificationEvent?
+        /// The number of days before a notification event. This value is required for a notification setting that is enabled.
+        public var threshold: Swift.Int?
+
+        public init (
+            channel: RolesAnywhereClientTypes.NotificationChannel? = nil,
+            enabled: Swift.Bool? = nil,
+            event: RolesAnywhereClientTypes.NotificationEvent? = nil,
+            threshold: Swift.Int? = nil
+        )
+        {
+            self.channel = channel
+            self.enabled = enabled
+            self.event = event
+            self.threshold = threshold
+        }
+    }
+
+}
+
+extension RolesAnywhereClientTypes.NotificationSettingDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel
+        case configuredBy
+        case enabled
+        case event
+        case threshold
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channel = self.channel {
+            try encodeContainer.encode(channel.rawValue, forKey: .channel)
+        }
+        if let configuredBy = self.configuredBy {
+            try encodeContainer.encode(configuredBy, forKey: .configuredBy)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let event = self.event {
+            try encodeContainer.encode(event.rawValue, forKey: .event)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let eventDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.NotificationEvent.self, forKey: .event)
+        event = eventDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.NotificationChannel.self, forKey: .channel)
+        channel = channelDecoded
+        let configuredByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuredBy)
+        configuredBy = configuredByDecoded
+    }
+}
+
+extension RolesAnywhereClientTypes {
+    /// The state of a notification setting. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify.
+    public struct NotificationSettingDetail: Swift.Equatable {
+        /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
+        public var channel: RolesAnywhereClientTypes.NotificationChannel?
+        /// The principal that configured the notification setting. For default settings configured by IAM Roles Anywhere, the value is rolesanywhere.amazonaws.com, and for customized notifications settings, it is the respective account ID.
+        public var configuredBy: Swift.String?
+        /// Indicates whether the notification setting is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The event to which this notification setting is applied.
+        /// This member is required.
+        public var event: RolesAnywhereClientTypes.NotificationEvent?
+        /// The number of days before a notification event.
+        public var threshold: Swift.Int?
+
+        public init (
+            channel: RolesAnywhereClientTypes.NotificationChannel? = nil,
+            configuredBy: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            event: RolesAnywhereClientTypes.NotificationEvent? = nil,
+            threshold: Swift.Int? = nil
+        )
+        {
+            self.channel = channel
+            self.configuredBy = configuredBy
+            self.enabled = enabled
+            self.event = event
+            self.threshold = threshold
+        }
+    }
+
+}
+
+extension RolesAnywhereClientTypes.NotificationSettingKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel
+        case event
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channel = self.channel {
+            try encodeContainer.encode(channel.rawValue, forKey: .channel)
+        }
+        if let event = self.event {
+            try encodeContainer.encode(event.rawValue, forKey: .event)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.NotificationEvent.self, forKey: .event)
+        event = eventDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.NotificationChannel.self, forKey: .channel)
+        channel = channelDecoded
+    }
+}
+
+extension RolesAnywhereClientTypes {
+    /// A notification setting key to reset. A notification setting key includes the event and the channel.
+    public struct NotificationSettingKey: Swift.Equatable {
+        /// The specified channel of notification.
+        public var channel: RolesAnywhereClientTypes.NotificationChannel?
+        /// The notification setting event to reset.
+        /// This member is required.
+        public var event: RolesAnywhereClientTypes.NotificationEvent?
+
+        public init (
+            channel: RolesAnywhereClientTypes.NotificationChannel? = nil,
+            event: RolesAnywhereClientTypes.NotificationEvent? = nil
+        )
+        {
+            self.channel = channel
+            self.event = event
+        }
+    }
+
 }
 
 extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
@@ -2893,9 +3168,9 @@ extension RolesAnywhereClientTypes {
         public var profileArn: Swift.String?
         /// The unique identifier of the profile.
         public var profileId: Swift.String?
-        /// Specifies whether instance properties are required in [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) requests with this profile.
+        /// Specifies whether instance properties are required in temporary credential requests with this profile.
         public var requireInstanceProperties: Swift.Bool?
-        /// A list of IAM roles that this profile can assume in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+        /// A list of IAM roles that this profile can assume in a temporary credential request.
         public var roleArns: [Swift.String]?
         /// A session policy that applies to the trust boundary of the vended session credentials.
         public var sessionPolicy: Swift.String?
@@ -2932,6 +3207,286 @@ extension RolesAnywhereClientTypes {
         }
     }
 
+}
+
+extension PutNotificationSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notificationSettings
+        case trustAnchorId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let notificationSettings = notificationSettings {
+            var notificationSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationSettings)
+            for notificationsetting0 in notificationSettings {
+                try notificationSettingsContainer.encode(notificationsetting0)
+            }
+        }
+        if let trustAnchorId = self.trustAnchorId {
+            try encodeContainer.encode(trustAnchorId, forKey: .trustAnchorId)
+        }
+    }
+}
+
+extension PutNotificationSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/put-notifications-settings"
+    }
+}
+
+public struct PutNotificationSettingsInput: Swift.Equatable {
+    /// A list of notification settings to be associated to the trust anchor.
+    /// This member is required.
+    public var notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
+    /// The unique identifier of the trust anchor.
+    /// This member is required.
+    public var trustAnchorId: Swift.String?
+
+    public init (
+        notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]? = nil,
+        trustAnchorId: Swift.String? = nil
+    )
+    {
+        self.notificationSettings = notificationSettings
+        self.trustAnchorId = trustAnchorId
+    }
+}
+
+struct PutNotificationSettingsInputBody: Swift.Equatable {
+    let trustAnchorId: Swift.String?
+    let notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
+}
+
+extension PutNotificationSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notificationSettings
+        case trustAnchorId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustAnchorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustAnchorId)
+        trustAnchorId = trustAnchorIdDecoded
+        let notificationSettingsContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.NotificationSetting?].self, forKey: .notificationSettings)
+        var notificationSettingsDecoded0:[RolesAnywhereClientTypes.NotificationSetting]? = nil
+        if let notificationSettingsContainer = notificationSettingsContainer {
+            notificationSettingsDecoded0 = [RolesAnywhereClientTypes.NotificationSetting]()
+            for structure0 in notificationSettingsContainer {
+                if let structure0 = structure0 {
+                    notificationSettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        notificationSettings = notificationSettingsDecoded0
+    }
+}
+
+extension PutNotificationSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutNotificationSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutNotificationSettingsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutNotificationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: PutNotificationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.trustAnchor = output.trustAnchor
+        } else {
+            self.trustAnchor = nil
+        }
+    }
+}
+
+public struct PutNotificationSettingsOutputResponse: Swift.Equatable {
+    /// The state of the trust anchor after a read or write operation.
+    /// This member is required.
+    public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
+
+    public init (
+        trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
+    )
+    {
+        self.trustAnchor = trustAnchor
+    }
+}
+
+struct PutNotificationSettingsOutputResponseBody: Swift.Equatable {
+    let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
+}
+
+extension PutNotificationSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustAnchor
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustAnchorDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.TrustAnchorDetail.self, forKey: .trustAnchor)
+        trustAnchor = trustAnchorDecoded
+    }
+}
+
+extension ResetNotificationSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notificationSettingKeys
+        case trustAnchorId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let notificationSettingKeys = notificationSettingKeys {
+            var notificationSettingKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationSettingKeys)
+            for notificationsettingkey0 in notificationSettingKeys {
+                try notificationSettingKeysContainer.encode(notificationsettingkey0)
+            }
+        }
+        if let trustAnchorId = self.trustAnchorId {
+            try encodeContainer.encode(trustAnchorId, forKey: .trustAnchorId)
+        }
+    }
+}
+
+extension ResetNotificationSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/reset-notifications-settings"
+    }
+}
+
+public struct ResetNotificationSettingsInput: Swift.Equatable {
+    /// A list of notification setting keys to reset. A notification setting key includes the event and the channel.
+    /// This member is required.
+    public var notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]?
+    /// The unique identifier of the trust anchor.
+    /// This member is required.
+    public var trustAnchorId: Swift.String?
+
+    public init (
+        notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]? = nil,
+        trustAnchorId: Swift.String? = nil
+    )
+    {
+        self.notificationSettingKeys = notificationSettingKeys
+        self.trustAnchorId = trustAnchorId
+    }
+}
+
+struct ResetNotificationSettingsInputBody: Swift.Equatable {
+    let trustAnchorId: Swift.String?
+    let notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]?
+}
+
+extension ResetNotificationSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notificationSettingKeys
+        case trustAnchorId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustAnchorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustAnchorId)
+        trustAnchorId = trustAnchorIdDecoded
+        let notificationSettingKeysContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.NotificationSettingKey?].self, forKey: .notificationSettingKeys)
+        var notificationSettingKeysDecoded0:[RolesAnywhereClientTypes.NotificationSettingKey]? = nil
+        if let notificationSettingKeysContainer = notificationSettingKeysContainer {
+            notificationSettingKeysDecoded0 = [RolesAnywhereClientTypes.NotificationSettingKey]()
+            for structure0 in notificationSettingKeysContainer {
+                if let structure0 = structure0 {
+                    notificationSettingKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        notificationSettingKeys = notificationSettingKeysDecoded0
+    }
+}
+
+extension ResetNotificationSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ResetNotificationSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ResetNotificationSettingsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResetNotificationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ResetNotificationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.trustAnchor = output.trustAnchor
+        } else {
+            self.trustAnchor = nil
+        }
+    }
+}
+
+public struct ResetNotificationSettingsOutputResponse: Swift.Equatable {
+    /// The state of the trust anchor after a read or write operation.
+    /// This member is required.
+    public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
+
+    public init (
+        trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
+    )
+    {
+        self.trustAnchor = trustAnchor
+    }
+}
+
+struct ResetNotificationSettingsOutputResponseBody: Swift.Equatable {
+    let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
+}
+
+extension ResetNotificationSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustAnchor
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustAnchorDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.TrustAnchorDetail.self, forKey: .trustAnchor)
+        trustAnchor = trustAnchorDecoded
+    }
 }
 
 extension ResourceNotFoundException {
@@ -3070,7 +3625,7 @@ extension RolesAnywhereClientTypes {
     public enum SourceData: Swift.Equatable {
         /// The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE.
         case x509certificatedata(Swift.String)
-        /// The root certificate of the Certificate Manager Private Certificate Authority specified by this ARN is used in trust validation for [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operations. Included for trust anchors of type AWS_ACM_PCA.
+        /// The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for temporary credential requests. Included for trust anchors of type AWS_ACM_PCA.
         case acmpcaarn(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -3173,13 +3728,13 @@ extension RolesAnywhereClientTypes {
     public struct SubjectDetail: Swift.Equatable {
         /// The ISO-8601 timestamp when the subject was created.
         public var createdAt: ClientRuntime.Date?
-        /// The temporary session credentials vended at the last authenticating call with this Subject.
+        /// The temporary session credentials vended at the last authenticating call with this subject.
         public var credentials: [RolesAnywhereClientTypes.CredentialSummary]?
         /// The enabled status of the subject.
         public var enabled: Swift.Bool?
         /// The specified instance properties associated with the request.
         public var instanceProperties: [RolesAnywhereClientTypes.InstanceProperty]?
-        /// The ISO-8601 timestamp of the last time this Subject requested temporary session credentials.
+        /// The ISO-8601 timestamp of the last time this subject requested temporary session credentials.
         public var lastSeenAt: ClientRuntime.Date?
         /// The ARN of the resource.
         public var subjectArn: Swift.String?
@@ -3272,13 +3827,13 @@ extension RolesAnywhereClientTypes.SubjectSummary: Swift.Codable {
 }
 
 extension RolesAnywhereClientTypes {
-    /// A summary representation of Subject resources returned in read operations; primarily ListSubjects.
+    /// A summary representation of subjects.
     public struct SubjectSummary: Swift.Equatable {
-        /// The ISO-8601 time stamp of when the certificate was first used in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+        /// The ISO-8601 time stamp of when the certificate was first used in a temporary credential request.
         public var createdAt: ClientRuntime.Date?
-        /// The enabled status of the Subject.
+        /// The enabled status of the subject.
         public var enabled: Swift.Bool?
-        /// The ISO-8601 time stamp of when the certificate was last used in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+        /// The ISO-8601 time stamp of when the certificate was last used in a temporary credential request.
         public var lastSeenAt: ClientRuntime.Date?
         /// The ARN of the resource.
         public var subjectArn: Swift.String?
@@ -3530,6 +4085,7 @@ extension RolesAnywhereClientTypes.TrustAnchorDetail: Swift.Codable {
         case createdAt
         case enabled
         case name
+        case notificationSettings
         case source
         case trustAnchorArn
         case trustAnchorId
@@ -3546,6 +4102,12 @@ extension RolesAnywhereClientTypes.TrustAnchorDetail: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let notificationSettings = notificationSettings {
+            var notificationSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationSettings)
+            for notificationsettingdetail0 in notificationSettings {
+                try notificationSettingsContainer.encode(notificationsettingdetail0)
+            }
         }
         if let source = self.source {
             try encodeContainer.encode(source, forKey: .source)
@@ -3577,6 +4139,17 @@ extension RolesAnywhereClientTypes.TrustAnchorDetail: Swift.Codable {
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let notificationSettingsContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.NotificationSettingDetail?].self, forKey: .notificationSettings)
+        var notificationSettingsDecoded0:[RolesAnywhereClientTypes.NotificationSettingDetail]? = nil
+        if let notificationSettingsContainer = notificationSettingsContainer {
+            notificationSettingsDecoded0 = [RolesAnywhereClientTypes.NotificationSettingDetail]()
+            for structure0 in notificationSettingsContainer {
+                if let structure0 = structure0 {
+                    notificationSettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        notificationSettings = notificationSettingsDecoded0
     }
 }
 
@@ -3589,6 +4162,8 @@ extension RolesAnywhereClientTypes {
         public var enabled: Swift.Bool?
         /// The name of the trust anchor.
         public var name: Swift.String?
+        /// A list of notification settings to be associated to the trust anchor.
+        public var notificationSettings: [RolesAnywhereClientTypes.NotificationSettingDetail]?
         /// The trust anchor type and its related certificate data.
         public var source: RolesAnywhereClientTypes.Source?
         /// The ARN of the trust anchor.
@@ -3602,6 +4177,7 @@ extension RolesAnywhereClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             enabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            notificationSettings: [RolesAnywhereClientTypes.NotificationSettingDetail]? = nil,
             source: RolesAnywhereClientTypes.Source? = nil,
             trustAnchorArn: Swift.String? = nil,
             trustAnchorId: Swift.String? = nil,
@@ -3611,6 +4187,7 @@ extension RolesAnywhereClientTypes {
             self.createdAt = createdAt
             self.enabled = enabled
             self.name = name
+            self.notificationSettings = notificationSettings
             self.source = source
             self.trustAnchorArn = trustAnchorArn
             self.trustAnchorId = trustAnchorId
@@ -3791,7 +4368,7 @@ extension UpdateCrlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateCrlInput: Swift.Equatable {
-    /// The x509 v3 specified certificate revocation list
+    /// The x509 v3 specified certificate revocation list (CRL).
     public var crlData: ClientRuntime.Data?
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
@@ -3952,7 +4529,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
-    /// A list of IAM roles that this profile can assume in a [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateSession.html) operation.
+    /// A list of IAM roles that this profile can assume in a temporary credential request.
     public var roleArns: [Swift.String]?
     /// A session policy that applies to the trust boundary of the vended session credentials.
     public var sessionPolicy: Swift.String?

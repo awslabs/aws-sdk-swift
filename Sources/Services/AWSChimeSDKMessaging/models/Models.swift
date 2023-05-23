@@ -3704,19 +3704,6 @@ extension DeleteChannelInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension DeleteChannelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let subChannelId = subChannelId {
-                let subChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
-                items.append(subChannelIdQueryItem)
-            }
-            return items
-        }
-    }
-}
-
 extension DeleteChannelInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let channelArn = channelArn else {
@@ -3733,18 +3720,14 @@ public struct DeleteChannelInput: Swift.Equatable {
     /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
-    /// The ID of the SubChannel in the request.
-    public var subChannelId: Swift.String?
 
     public init (
         channelArn: Swift.String? = nil,
-        chimeBearer: Swift.String? = nil,
-        subChannelId: Swift.String? = nil
+        chimeBearer: Swift.String? = nil
     )
     {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
-        self.subChannelId = subChannelId
     }
 }
 
@@ -4093,6 +4076,7 @@ extension DeleteChannelOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4105,6 +4089,7 @@ extension DeleteChannelOutputError {
 
 public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
     case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
     case forbiddenException(ForbiddenException)
     case serviceFailureException(ServiceFailureException)
     case serviceUnavailableException(ServiceUnavailableException)
@@ -4165,6 +4150,7 @@ extension DeleteMessagingStreamingConfigurationsOutputError: ClientRuntime.HttpR
 extension DeleteMessagingStreamingConfigurationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4176,6 +4162,7 @@ extension DeleteMessagingStreamingConfigurationsOutputError {
 }
 
 public enum DeleteMessagingStreamingConfigurationsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
     case forbiddenException(ForbiddenException)
     case serviceFailureException(ServiceFailureException)
     case serviceUnavailableException(ServiceUnavailableException)
@@ -11197,19 +11184,6 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension UpdateChannelReadMarkerInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case subChannelId = "SubChannelId"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let subChannelId = self.subChannelId {
-            try encodeContainer.encode(subChannelId, forKey: .subChannelId)
-        }
-    }
-}
-
 extension UpdateChannelReadMarkerInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -11236,34 +11210,23 @@ public struct UpdateChannelReadMarkerInput: Swift.Equatable {
     /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
-    /// The ID of the SubChannel in the request.
-    public var subChannelId: Swift.String?
 
     public init (
         channelArn: Swift.String? = nil,
-        chimeBearer: Swift.String? = nil,
-        subChannelId: Swift.String? = nil
+        chimeBearer: Swift.String? = nil
     )
     {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
-        self.subChannelId = subChannelId
     }
 }
 
 struct UpdateChannelReadMarkerInputBody: Swift.Equatable {
-    let subChannelId: Swift.String?
 }
 
 extension UpdateChannelReadMarkerInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case subChannelId = "SubChannelId"
-    }
 
     public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subChannelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subChannelId)
-        subChannelId = subChannelIdDecoded
     }
 }
 
@@ -11307,10 +11270,8 @@ extension UpdateChannelReadMarkerOutputResponse: ClientRuntime.HttpResponseBindi
             let responseDecoder = decoder {
             let output: UpdateChannelReadMarkerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
-            self.subChannelId = output.subChannelId
         } else {
             self.channelArn = nil
-            self.subChannelId = nil
         }
     }
 }
@@ -11318,35 +11279,27 @@ extension UpdateChannelReadMarkerOutputResponse: ClientRuntime.HttpResponseBindi
 public struct UpdateChannelReadMarkerOutputResponse: Swift.Equatable {
     /// The ARN of the channel.
     public var channelArn: Swift.String?
-    /// The ID of the SubChannel in the response.
-    public var subChannelId: Swift.String?
 
     public init (
-        channelArn: Swift.String? = nil,
-        subChannelId: Swift.String? = nil
+        channelArn: Swift.String? = nil
     )
     {
         self.channelArn = channelArn
-        self.subChannelId = subChannelId
     }
 }
 
 struct UpdateChannelReadMarkerOutputResponseBody: Swift.Equatable {
     let channelArn: Swift.String?
-    let subChannelId: Swift.String?
 }
 
 extension UpdateChannelReadMarkerOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn = "ChannelArn"
-        case subChannelId = "SubChannelId"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
         channelArn = channelArnDecoded
-        let subChannelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subChannelId)
-        subChannelId = subChannelIdDecoded
     }
 }

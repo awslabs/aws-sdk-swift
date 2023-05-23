@@ -3,6 +3,66 @@
 import ClientRuntime
 
 extension DataSyncClient {
+    /// Paginate over `[DescribeStorageSystemResourceMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeStorageSystemResourceMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageSystemResourceMetricsOutputResponse`
+    public func describeStorageSystemResourceMetricsPaginated(input: DescribeStorageSystemResourceMetricsInput) -> ClientRuntime.PaginatorSequence<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutputResponse>(input: input, inputKey: \DescribeStorageSystemResourceMetricsInput.nextToken, outputKey: \DescribeStorageSystemResourceMetricsOutputResponse.nextToken, paginationFunction: self.describeStorageSystemResourceMetrics(input:))
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeStorageSystemResourceMetricsInput {
+        return DescribeStorageSystemResourceMetricsInput(
+            discoveryJobArn: self.discoveryJobArn,
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceType: self.resourceType,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeStorageSystemResourceMetricsInput, Output == DescribeStorageSystemResourceMetricsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeStorageSystemResourceMetricsPaginated`
+    /// to access the nested member `[DataSyncClientTypes.ResourceMetrics]`
+    /// - Returns: `[DataSyncClientTypes.ResourceMetrics]`
+    public func metrics() async throws -> [DataSyncClientTypes.ResourceMetrics] {
+        return try await self.asyncCompactMap { item in item.metrics }
+    }
+}
+extension DataSyncClient {
+    /// Paginate over `[DescribeStorageSystemResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeStorageSystemResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageSystemResourcesOutputResponse`
+    public func describeStorageSystemResourcesPaginated(input: DescribeStorageSystemResourcesInput) -> ClientRuntime.PaginatorSequence<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutputResponse>(input: input, inputKey: \DescribeStorageSystemResourcesInput.nextToken, outputKey: \DescribeStorageSystemResourcesOutputResponse.nextToken, paginationFunction: self.describeStorageSystemResources(input:))
+    }
+}
+
+extension DescribeStorageSystemResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeStorageSystemResourcesInput {
+        return DescribeStorageSystemResourcesInput(
+            discoveryJobArn: self.discoveryJobArn,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIds: self.resourceIds,
+            resourceType: self.resourceType
+        )}
+}
+extension DataSyncClient {
     /// Paginate over `[ListAgentsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -30,6 +90,37 @@ extension PaginatorSequence where Input == ListAgentsInput, Output == ListAgents
     /// - Returns: `[DataSyncClientTypes.AgentListEntry]`
     public func agents() async throws -> [DataSyncClientTypes.AgentListEntry] {
         return try await self.asyncCompactMap { item in item.agents }
+    }
+}
+extension DataSyncClient {
+    /// Paginate over `[ListDiscoveryJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDiscoveryJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveryJobsOutputResponse`
+    public func listDiscoveryJobsPaginated(input: ListDiscoveryJobsInput) -> ClientRuntime.PaginatorSequence<ListDiscoveryJobsInput, ListDiscoveryJobsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListDiscoveryJobsInput, ListDiscoveryJobsOutputResponse>(input: input, inputKey: \ListDiscoveryJobsInput.nextToken, outputKey: \ListDiscoveryJobsOutputResponse.nextToken, paginationFunction: self.listDiscoveryJobs(input:))
+    }
+}
+
+extension ListDiscoveryJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDiscoveryJobsInput {
+        return ListDiscoveryJobsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            storageSystemArn: self.storageSystemArn
+        )}
+}
+
+extension PaginatorSequence where Input == ListDiscoveryJobsInput, Output == ListDiscoveryJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDiscoveryJobsPaginated`
+    /// to access the nested member `[DataSyncClientTypes.DiscoveryJobListEntry]`
+    /// - Returns: `[DataSyncClientTypes.DiscoveryJobListEntry]`
+    public func discoveryJobs() async throws -> [DataSyncClientTypes.DiscoveryJobListEntry] {
+        return try await self.asyncCompactMap { item in item.discoveryJobs }
     }
 }
 extension DataSyncClient {
@@ -61,6 +152,36 @@ extension PaginatorSequence where Input == ListLocationsInput, Output == ListLoc
     /// - Returns: `[DataSyncClientTypes.LocationListEntry]`
     public func locations() async throws -> [DataSyncClientTypes.LocationListEntry] {
         return try await self.asyncCompactMap { item in item.locations }
+    }
+}
+extension DataSyncClient {
+    /// Paginate over `[ListStorageSystemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStorageSystemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStorageSystemsOutputResponse`
+    public func listStorageSystemsPaginated(input: ListStorageSystemsInput) -> ClientRuntime.PaginatorSequence<ListStorageSystemsInput, ListStorageSystemsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListStorageSystemsInput, ListStorageSystemsOutputResponse>(input: input, inputKey: \ListStorageSystemsInput.nextToken, outputKey: \ListStorageSystemsOutputResponse.nextToken, paginationFunction: self.listStorageSystems(input:))
+    }
+}
+
+extension ListStorageSystemsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStorageSystemsInput {
+        return ListStorageSystemsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListStorageSystemsInput, Output == ListStorageSystemsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listStorageSystemsPaginated`
+    /// to access the nested member `[DataSyncClientTypes.StorageSystemListEntry]`
+    /// - Returns: `[DataSyncClientTypes.StorageSystemListEntry]`
+    public func storageSystems() async throws -> [DataSyncClientTypes.StorageSystemListEntry] {
+        return try await self.asyncCompactMap { item in item.storageSystems }
     }
 }
 extension DataSyncClient {

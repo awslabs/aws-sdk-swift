@@ -337,6 +337,11 @@ extension AssumeRoleOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension AssumeRoleWithSAMLInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssumeRoleWithSAMLInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), principalArn: \(Swift.String(describing: principalArn)), roleArn: \(Swift.String(describing: roleArn)), samlAssertion: \"CONTENT_REDACTED\")"}
+}
+
 extension AssumeRoleWithSAMLInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -544,7 +549,7 @@ public struct AssumeRoleWithSAMLOutputResponse: Swift.Equatable {
     /// * The friendly name (the last part of the ARN) of the SAML provider in IAM.
     ///
     ///
-    /// The combination of NameQualifier and Subject can be used to uniquely identify a federated user. The following pseudocode shows how the hash value is calculated: BASE64 ( SHA1 ( "https://example.com/saml" + "123456789012" + "/MySAMLIdP" ) )
+    /// The combination of NameQualifier and Subject can be used to uniquely identify a user. The following pseudocode shows how the hash value is calculated: BASE64 ( SHA1 ( "https://example.com/saml" + "123456789012" + "/MySAMLIdP" ) )
     public var nameQualifier: Swift.String?
     /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
     public var packedPolicySize: Swift.Int?
@@ -626,6 +631,11 @@ extension AssumeRoleWithSAMLOutputResponseBody: Swift.Decodable {
         let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
         sourceIdentity = sourceIdentityDecoded
     }
+}
+
+extension AssumeRoleWithWebIdentityInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssumeRoleWithWebIdentityInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), providerId: \(Swift.String(describing: providerId)), roleArn: \(Swift.String(describing: roleArn)), roleSessionName: \(Swift.String(describing: roleSessionName)), webIdentityToken: \"CONTENT_REDACTED\")"}
 }
 
 extension AssumeRoleWithWebIdentityInput: Swift.Encodable {
@@ -985,6 +995,11 @@ extension STSClientTypes.Credentials: Swift.Codable {
         let expirationDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expiration)
         expiration = expirationDecoded
     }
+}
+
+extension STSClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Credentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), sessionToken: \(Swift.String(describing: sessionToken)), secretAccessKey: \"CONTENT_REDACTED\")"}
 }
 
 extension STSClientTypes {
@@ -1523,7 +1538,7 @@ extension GetFederationTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetFederationTokenInput: Swift.Equatable {
-    /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using Amazon Web Services account root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
+    /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
     public var durationSeconds: Swift.Int?
     /// The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     /// This member is required.

@@ -778,7 +778,7 @@ extension AssociateApiInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateApiInput: Swift.Equatable {
-    /// The API ID.
+    /// The API ID. Private APIs can not be associated with custom domains.
     /// This member is required.
     public var apiId: Swift.String?
     /// The domain name.
@@ -1585,13 +1585,13 @@ extension CreateApiCacheInput: Swift.Encodable {
         if let apiCachingBehavior = self.apiCachingBehavior {
             try encodeContainer.encode(apiCachingBehavior.rawValue, forKey: .apiCachingBehavior)
         }
-        if atRestEncryptionEnabled != false {
+        if let atRestEncryptionEnabled = self.atRestEncryptionEnabled {
             try encodeContainer.encode(atRestEncryptionEnabled, forKey: .atRestEncryptionEnabled)
         }
-        if transitEncryptionEnabled != false {
+        if let transitEncryptionEnabled = self.transitEncryptionEnabled {
             try encodeContainer.encode(transitEncryptionEnabled, forKey: .transitEncryptionEnabled)
         }
-        if ttl != 0 {
+        if let ttl = self.ttl {
             try encodeContainer.encode(ttl, forKey: .ttl)
         }
         if let type = self.type {
@@ -1622,12 +1622,12 @@ public struct CreateApiCacheInput: Swift.Equatable {
     /// This member is required.
     public var apiId: Swift.String?
     /// At-rest encryption flag for cache. You cannot update this setting after creation.
-    public var atRestEncryptionEnabled: Swift.Bool
+    public var atRestEncryptionEnabled: Swift.Bool?
     /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
-    public var transitEncryptionEnabled: Swift.Bool
+    public var transitEncryptionEnabled: Swift.Bool?
     /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
     /// This member is required.
-    public var ttl: Swift.Int
+    public var ttl: Swift.Int?
     /// The cache instance type. Valid values are
     ///
     /// * SMALL
@@ -1668,9 +1668,9 @@ public struct CreateApiCacheInput: Swift.Equatable {
     public init (
         apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
         apiId: Swift.String? = nil,
-        atRestEncryptionEnabled: Swift.Bool = false,
-        transitEncryptionEnabled: Swift.Bool = false,
-        ttl: Swift.Int = 0,
+        atRestEncryptionEnabled: Swift.Bool? = nil,
+        transitEncryptionEnabled: Swift.Bool? = nil,
+        ttl: Swift.Int? = nil,
         type: AppSyncClientTypes.ApiCacheType? = nil
     )
     {
@@ -1684,9 +1684,9 @@ public struct CreateApiCacheInput: Swift.Equatable {
 }
 
 struct CreateApiCacheInputBody: Swift.Equatable {
-    let ttl: Swift.Int
-    let transitEncryptionEnabled: Swift.Bool
-    let atRestEncryptionEnabled: Swift.Bool
+    let ttl: Swift.Int?
+    let transitEncryptionEnabled: Swift.Bool?
+    let atRestEncryptionEnabled: Swift.Bool?
     let apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     let type: AppSyncClientTypes.ApiCacheType?
 }
@@ -1702,11 +1702,11 @@ extension CreateApiCacheInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl) ?? 0
+        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
         ttl = ttlDecoded
-        let transitEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .transitEncryptionEnabled) ?? false
+        let transitEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .transitEncryptionEnabled)
         transitEncryptionEnabled = transitEncryptionEnabledDecoded
-        let atRestEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .atRestEncryptionEnabled) ?? false
+        let atRestEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .atRestEncryptionEnabled)
         atRestEncryptionEnabled = atRestEncryptionEnabledDecoded
         let apiCachingBehaviorDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ApiCachingBehavior.self, forKey: .apiCachingBehavior)
         apiCachingBehavior = apiCachingBehaviorDecoded
@@ -1797,7 +1797,7 @@ extension CreateApiKeyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if expires != 0 {
+        if let expires = self.expires {
             try encodeContainer.encode(expires, forKey: .expires)
         }
     }
@@ -1819,12 +1819,12 @@ public struct CreateApiKeyInput: Swift.Equatable {
     /// A description of the purpose of the API key.
     public var description: Swift.String?
     /// From the creation time, the time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
-    public var expires: Swift.Int
+    public var expires: Swift.Int?
 
     public init (
         apiId: Swift.String? = nil,
         description: Swift.String? = nil,
-        expires: Swift.Int = 0
+        expires: Swift.Int? = nil
     )
     {
         self.apiId = apiId
@@ -1835,7 +1835,7 @@ public struct CreateApiKeyInput: Swift.Equatable {
 
 struct CreateApiKeyInputBody: Swift.Equatable {
     let description: Swift.String?
-    let expires: Swift.Int
+    let expires: Swift.Int?
 }
 
 extension CreateApiKeyInputBody: Swift.Decodable {
@@ -1848,7 +1848,7 @@ extension CreateApiKeyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let expiresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expires) ?? 0
+        let expiresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expires)
         expires = expiresDecoded
     }
 }
@@ -2341,7 +2341,7 @@ extension CreateFunctionInput: Swift.Encodable {
         if let functionVersion = self.functionVersion {
             try encodeContainer.encode(functionVersion, forKey: .functionVersion)
         }
-        if maxBatchSize != 0 {
+        if let maxBatchSize = self.maxBatchSize {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
         }
         if let name = self.name {
@@ -2385,7 +2385,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
     public var functionVersion: Swift.String?
     /// The maximum batching size for a resolver.
-    public var maxBatchSize: Swift.Int
+    public var maxBatchSize: Swift.Int?
     /// The Function name. The function name does not have to be unique.
     /// This member is required.
     public var name: Swift.String?
@@ -2404,7 +2404,7 @@ public struct CreateFunctionInput: Swift.Equatable {
         dataSourceName: Swift.String? = nil,
         description: Swift.String? = nil,
         functionVersion: Swift.String? = nil,
-        maxBatchSize: Swift.Int = 0,
+        maxBatchSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -2434,7 +2434,7 @@ struct CreateFunctionInputBody: Swift.Equatable {
     let responseMappingTemplate: Swift.String?
     let functionVersion: Swift.String?
     let syncConfig: AppSyncClientTypes.SyncConfig?
-    let maxBatchSize: Swift.Int
+    let maxBatchSize: Swift.Int?
     let runtime: AppSyncClientTypes.AppSyncRuntime?
     let code: Swift.String?
 }
@@ -2469,7 +2469,7 @@ extension CreateFunctionInputBody: Swift.Decodable {
         functionVersion = functionVersionDecoded
         let syncConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.SyncConfig.self, forKey: .syncConfig)
         syncConfig = syncConfigDecoded
-        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
+        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize)
         maxBatchSize = maxBatchSizeDecoded
         let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
         runtime = runtimeDecoded
@@ -2556,6 +2556,7 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         case openIDConnectConfig
         case tags
         case userPoolConfig
+        case visibility
         case xrayEnabled
     }
 
@@ -2591,7 +2592,10 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         if let userPoolConfig = self.userPoolConfig {
             try encodeContainer.encode(userPoolConfig, forKey: .userPoolConfig)
         }
-        if xrayEnabled != false {
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+        if let xrayEnabled = self.xrayEnabled {
             try encodeContainer.encode(xrayEnabled, forKey: .xrayEnabled)
         }
     }
@@ -2622,8 +2626,10 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The Amazon Cognito user pool configuration.
     public var userPoolConfig: AppSyncClientTypes.UserPoolConfig?
+    /// Sets the value of the GraphQL API to public (GLOBAL) or private (PRIVATE). If no value is provided, the visibility will be set to GLOBAL by default. This value cannot be changed once the API has been created.
+    public var visibility: AppSyncClientTypes.GraphQLApiVisibility?
     /// A flag indicating whether to use X-Ray tracing for the GraphqlApi.
-    public var xrayEnabled: Swift.Bool
+    public var xrayEnabled: Swift.Bool?
 
     public init (
         additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]? = nil,
@@ -2634,7 +2640,8 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
         openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
-        xrayEnabled: Swift.Bool = false
+        visibility: AppSyncClientTypes.GraphQLApiVisibility? = nil,
+        xrayEnabled: Swift.Bool? = nil
     )
     {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
@@ -2645,6 +2652,7 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
         self.openIDConnectConfig = openIDConnectConfig
         self.tags = tags
         self.userPoolConfig = userPoolConfig
+        self.visibility = visibility
         self.xrayEnabled = xrayEnabled
     }
 }
@@ -2657,8 +2665,9 @@ struct CreateGraphqlApiInputBody: Swift.Equatable {
     let openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig?
     let tags: [Swift.String:Swift.String]?
     let additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]?
-    let xrayEnabled: Swift.Bool
+    let xrayEnabled: Swift.Bool?
     let lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
+    let visibility: AppSyncClientTypes.GraphQLApiVisibility?
 }
 
 extension CreateGraphqlApiInputBody: Swift.Decodable {
@@ -2671,6 +2680,7 @@ extension CreateGraphqlApiInputBody: Swift.Decodable {
         case openIDConnectConfig
         case tags
         case userPoolConfig
+        case visibility
         case xrayEnabled
     }
 
@@ -2708,10 +2718,12 @@ extension CreateGraphqlApiInputBody: Swift.Decodable {
             }
         }
         additionalAuthenticationProviders = additionalAuthenticationProvidersDecoded0
-        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled) ?? false
+        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled)
         xrayEnabled = xrayEnabledDecoded
         let lambdaAuthorizerConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.LambdaAuthorizerConfig.self, forKey: .lambdaAuthorizerConfig)
         lambdaAuthorizerConfig = lambdaAuthorizerConfigDecoded
+        let visibilityDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphQLApiVisibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
     }
 }
 
@@ -2819,7 +2831,7 @@ extension CreateResolverInput: Swift.Encodable {
         if let kind = self.kind {
             try encodeContainer.encode(kind.rawValue, forKey: .kind)
         }
-        if maxBatchSize != 0 {
+        if let maxBatchSize = self.maxBatchSize {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
         }
         if let pipelineConfig = self.pipelineConfig {
@@ -2872,7 +2884,7 @@ public struct CreateResolverInput: Swift.Equatable {
     /// * PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
     public var kind: AppSyncClientTypes.ResolverKind?
     /// The maximum batching size for a resolver.
-    public var maxBatchSize: Swift.Int
+    public var maxBatchSize: Swift.Int?
     /// The PipelineConfig.
     public var pipelineConfig: AppSyncClientTypes.PipelineConfig?
     /// The mapping template to use for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
@@ -2894,7 +2906,7 @@ public struct CreateResolverInput: Swift.Equatable {
         dataSourceName: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
-        maxBatchSize: Swift.Int = 0,
+        maxBatchSize: Swift.Int? = nil,
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -2928,7 +2940,7 @@ struct CreateResolverInputBody: Swift.Equatable {
     let pipelineConfig: AppSyncClientTypes.PipelineConfig?
     let syncConfig: AppSyncClientTypes.SyncConfig?
     let cachingConfig: AppSyncClientTypes.CachingConfig?
-    let maxBatchSize: Swift.Int
+    let maxBatchSize: Swift.Int?
     let runtime: AppSyncClientTypes.AppSyncRuntime?
     let code: Swift.String?
 }
@@ -2966,7 +2978,7 @@ extension CreateResolverInputBody: Swift.Decodable {
         syncConfig = syncConfigDecoded
         let cachingConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.CachingConfig.self, forKey: .cachingConfig)
         cachingConfig = cachingConfigDecoded
-        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
+        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize)
         maxBatchSize = maxBatchSizeDecoded
         let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
         runtime = runtimeDecoded
@@ -6181,6 +6193,38 @@ extension GetTypeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension AppSyncClientTypes {
+    public enum GraphQLApiVisibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case global
+        case `private`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GraphQLApiVisibility] {
+            return [
+                .global,
+                .private,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case .private: return "PRIVATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GraphQLApiVisibility(rawValue: rawValue) ?? GraphQLApiVisibility.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GraphQLSchemaException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -6238,6 +6282,7 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         case apiId
         case arn
         case authenticationType
+        case dns
         case lambdaAuthorizerConfig
         case logConfig
         case name
@@ -6245,6 +6290,7 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         case tags
         case uris
         case userPoolConfig
+        case visibility
         case wafWebAclArn
         case xrayEnabled
     }
@@ -6265,6 +6311,12 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         }
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let dns = dns {
+            var dnsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dns)
+            for (dictKey0, mapOfStringToString0) in dns {
+                try dnsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let lambdaAuthorizerConfig = self.lambdaAuthorizerConfig {
             try encodeContainer.encode(lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
@@ -6292,6 +6344,9 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         }
         if let userPoolConfig = self.userPoolConfig {
             try encodeContainer.encode(userPoolConfig, forKey: .userPoolConfig)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
         }
         if let wafWebAclArn = self.wafWebAclArn {
             try encodeContainer.encode(wafWebAclArn, forKey: .wafWebAclArn)
@@ -6356,6 +6411,19 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         wafWebAclArn = wafWebAclArnDecoded
         let lambdaAuthorizerConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.LambdaAuthorizerConfig.self, forKey: .lambdaAuthorizerConfig)
         lambdaAuthorizerConfig = lambdaAuthorizerConfigDecoded
+        let dnsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dns)
+        var dnsDecoded0: [Swift.String:Swift.String]? = nil
+        if let dnsContainer = dnsContainer {
+            dnsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in dnsContainer {
+                if let string0 = string0 {
+                    dnsDecoded0?[key0] = string0
+                }
+            }
+        }
+        dns = dnsDecoded0
+        let visibilityDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphQLApiVisibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
     }
 }
 
@@ -6370,6 +6438,8 @@ extension AppSyncClientTypes {
         public var arn: Swift.String?
         /// The authentication type.
         public var authenticationType: AppSyncClientTypes.AuthenticationType?
+        /// The DNS records for the API.
+        public var dns: [Swift.String:Swift.String]?
         /// Configuration for Lambda function authorization.
         public var lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
@@ -6384,6 +6454,8 @@ extension AppSyncClientTypes {
         public var uris: [Swift.String:Swift.String]?
         /// The Amazon Cognito user pool configuration.
         public var userPoolConfig: AppSyncClientTypes.UserPoolConfig?
+        /// Sets the value of the GraphQL API to public (GLOBAL) or private (PRIVATE). If no value is provided, the visibility will be set to GLOBAL by default. This value cannot be changed once the API has been created.
+        public var visibility: AppSyncClientTypes.GraphQLApiVisibility?
         /// The ARN of the WAF access control list (ACL) associated with this GraphqlApi, if one exists.
         public var wafWebAclArn: Swift.String?
         /// A flag indicating whether to use X-Ray tracing for this GraphqlApi.
@@ -6394,6 +6466,7 @@ extension AppSyncClientTypes {
             apiId: Swift.String? = nil,
             arn: Swift.String? = nil,
             authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
+            dns: [Swift.String:Swift.String]? = nil,
             lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
             logConfig: AppSyncClientTypes.LogConfig? = nil,
             name: Swift.String? = nil,
@@ -6401,6 +6474,7 @@ extension AppSyncClientTypes {
             tags: [Swift.String:Swift.String]? = nil,
             uris: [Swift.String:Swift.String]? = nil,
             userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
+            visibility: AppSyncClientTypes.GraphQLApiVisibility? = nil,
             wafWebAclArn: Swift.String? = nil,
             xrayEnabled: Swift.Bool = false
         )
@@ -6409,6 +6483,7 @@ extension AppSyncClientTypes {
             self.apiId = apiId
             self.arn = arn
             self.authenticationType = authenticationType
+            self.dns = dns
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.logConfig = logConfig
             self.name = name
@@ -6416,6 +6491,7 @@ extension AppSyncClientTypes {
             self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
+            self.visibility = visibility
             self.wafWebAclArn = wafWebAclArn
             self.xrayEnabled = xrayEnabled
         }
@@ -6553,7 +6629,7 @@ extension AppSyncClientTypes.LambdaAuthorizerConfig: Swift.Codable {
 extension AppSyncClientTypes {
     /// A LambdaAuthorizerConfig specifies how to authorize AppSync API access when using the AWS_LAMBDA authorizer mode. Be aware that an AppSync API can have only one Lambda authorizer configured at a time.
     public struct LambdaAuthorizerConfig: Swift.Equatable {
-        /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds). The Lambda function can override this by returning a ttlOverride key in its response. A value of 0 disables caching of responses.
+        /// The number of seconds a response should be cached for. The default is 0 seconds, which disables caching. If you don't specify a value for authorizerResultTtlInSeconds, the default value is used. The maximum value is one hour (3600 seconds). The Lambda function can override this by returning a ttlOverride key in its response.
         public var authorizerResultTtlInSeconds: Swift.Int
         /// The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3), or an alias ARN. Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the console, this is done for you. To use the Command Line Interface (CLI), run the following: aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
         /// This member is required.
@@ -6705,7 +6781,7 @@ extension ListApiKeysInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -6728,13 +6804,13 @@ public struct ListApiKeysInput: Swift.Equatable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init (
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -6848,7 +6924,7 @@ extension ListDataSourcesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -6871,13 +6947,13 @@ public struct ListDataSourcesInput: Swift.Equatable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init (
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -6991,7 +7067,7 @@ extension ListDomainNamesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7008,12 +7084,12 @@ extension ListDomainNamesInput: ClientRuntime.URLPathProvider {
 
 public struct ListDomainNamesInput: Swift.Equatable {
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The API token.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7124,7 +7200,7 @@ extension ListFunctionsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7147,13 +7223,13 @@ public struct ListFunctionsInput: Swift.Equatable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init (
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7267,7 +7343,7 @@ extension ListGraphqlApisInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7284,12 +7360,12 @@ extension ListGraphqlApisInput: ClientRuntime.URLPathProvider {
 
 public struct ListGraphqlApisInput: Swift.Equatable {
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7400,7 +7476,7 @@ extension ListResolversByFunctionInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7429,14 +7505,14 @@ public struct ListResolversByFunctionInput: Swift.Equatable {
     /// This member is required.
     public var functionId: Swift.String?
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init (
         apiId: Swift.String? = nil,
         functionId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7551,7 +7627,7 @@ extension ListResolversInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7577,7 +7653,7 @@ public struct ListResolversInput: Swift.Equatable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The type name.
@@ -7586,7 +7662,7 @@ public struct ListResolversInput: Swift.Equatable {
 
     public init (
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         typeName: Swift.String? = nil
     )
@@ -7814,7 +7890,7 @@ extension ListTypesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7846,14 +7922,14 @@ public struct ListTypesInput: Swift.Equatable {
     /// This member is required.
     public var format: AppSyncClientTypes.TypeDefinitionFormat?
     /// The maximum number of results that you want the request to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init (
         apiId: Swift.String? = nil,
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9262,7 +9338,7 @@ extension UpdateApiCacheInput: Swift.Encodable {
         if let apiCachingBehavior = self.apiCachingBehavior {
             try encodeContainer.encode(apiCachingBehavior.rawValue, forKey: .apiCachingBehavior)
         }
-        if ttl != 0 {
+        if let ttl = self.ttl {
             try encodeContainer.encode(ttl, forKey: .ttl)
         }
         if let type = self.type {
@@ -9294,7 +9370,7 @@ public struct UpdateApiCacheInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
     /// This member is required.
-    public var ttl: Swift.Int
+    public var ttl: Swift.Int?
     /// The cache instance type. Valid values are
     ///
     /// * SMALL
@@ -9335,7 +9411,7 @@ public struct UpdateApiCacheInput: Swift.Equatable {
     public init (
         apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
         apiId: Swift.String? = nil,
-        ttl: Swift.Int = 0,
+        ttl: Swift.Int? = nil,
         type: AppSyncClientTypes.ApiCacheType? = nil
     )
     {
@@ -9347,7 +9423,7 @@ public struct UpdateApiCacheInput: Swift.Equatable {
 }
 
 struct UpdateApiCacheInputBody: Swift.Equatable {
-    let ttl: Swift.Int
+    let ttl: Swift.Int?
     let apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     let type: AppSyncClientTypes.ApiCacheType?
 }
@@ -9361,7 +9437,7 @@ extension UpdateApiCacheInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl) ?? 0
+        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
         ttl = ttlDecoded
         let apiCachingBehaviorDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ApiCachingBehavior.self, forKey: .apiCachingBehavior)
         apiCachingBehavior = apiCachingBehaviorDecoded
@@ -9452,7 +9528,7 @@ extension UpdateApiKeyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if expires != 0 {
+        if let expires = self.expires {
             try encodeContainer.encode(expires, forKey: .expires)
         }
     }
@@ -9477,7 +9553,7 @@ public struct UpdateApiKeyInput: Swift.Equatable {
     /// A description of the purpose of the API key.
     public var description: Swift.String?
     /// From the update time, the time after which the API key expires. The date is represented as seconds since the epoch. For more information, see .
-    public var expires: Swift.Int
+    public var expires: Swift.Int?
     /// The API key ID.
     /// This member is required.
     public var id: Swift.String?
@@ -9485,7 +9561,7 @@ public struct UpdateApiKeyInput: Swift.Equatable {
     public init (
         apiId: Swift.String? = nil,
         description: Swift.String? = nil,
-        expires: Swift.Int = 0,
+        expires: Swift.Int? = nil,
         id: Swift.String? = nil
     )
     {
@@ -9498,7 +9574,7 @@ public struct UpdateApiKeyInput: Swift.Equatable {
 
 struct UpdateApiKeyInputBody: Swift.Equatable {
     let description: Swift.String?
-    let expires: Swift.Int
+    let expires: Swift.Int?
 }
 
 extension UpdateApiKeyInputBody: Swift.Decodable {
@@ -9511,7 +9587,7 @@ extension UpdateApiKeyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let expiresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expires) ?? 0
+        let expiresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expires)
         expires = expiresDecoded
     }
 }
@@ -9983,7 +10059,7 @@ extension UpdateFunctionInput: Swift.Encodable {
         if let functionVersion = self.functionVersion {
             try encodeContainer.encode(functionVersion, forKey: .functionVersion)
         }
-        if maxBatchSize != 0 {
+        if let maxBatchSize = self.maxBatchSize {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
         }
         if let name = self.name {
@@ -10033,7 +10109,7 @@ public struct UpdateFunctionInput: Swift.Equatable {
     /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
     public var functionVersion: Swift.String?
     /// The maximum batching size for a resolver.
-    public var maxBatchSize: Swift.Int
+    public var maxBatchSize: Swift.Int?
     /// The Function name.
     /// This member is required.
     public var name: Swift.String?
@@ -10053,7 +10129,7 @@ public struct UpdateFunctionInput: Swift.Equatable {
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
         functionVersion: Swift.String? = nil,
-        maxBatchSize: Swift.Int = 0,
+        maxBatchSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -10084,7 +10160,7 @@ struct UpdateFunctionInputBody: Swift.Equatable {
     let responseMappingTemplate: Swift.String?
     let functionVersion: Swift.String?
     let syncConfig: AppSyncClientTypes.SyncConfig?
-    let maxBatchSize: Swift.Int
+    let maxBatchSize: Swift.Int?
     let runtime: AppSyncClientTypes.AppSyncRuntime?
     let code: Swift.String?
 }
@@ -10119,7 +10195,7 @@ extension UpdateFunctionInputBody: Swift.Decodable {
         functionVersion = functionVersionDecoded
         let syncConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.SyncConfig.self, forKey: .syncConfig)
         syncConfig = syncConfigDecoded
-        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
+        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize)
         maxBatchSize = maxBatchSizeDecoded
         let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
         runtime = runtimeDecoded
@@ -10234,7 +10310,7 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
         if let userPoolConfig = self.userPoolConfig {
             try encodeContainer.encode(userPoolConfig, forKey: .userPoolConfig)
         }
-        if xrayEnabled != false {
+        if let xrayEnabled = self.xrayEnabled {
             try encodeContainer.encode(xrayEnabled, forKey: .xrayEnabled)
         }
     }
@@ -10269,7 +10345,7 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
     /// The new Amazon Cognito user pool configuration for the ~GraphqlApi object.
     public var userPoolConfig: AppSyncClientTypes.UserPoolConfig?
     /// A flag indicating whether to use X-Ray tracing for the GraphqlApi.
-    public var xrayEnabled: Swift.Bool
+    public var xrayEnabled: Swift.Bool?
 
     public init (
         additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]? = nil,
@@ -10280,7 +10356,7 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
         name: Swift.String? = nil,
         openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
-        xrayEnabled: Swift.Bool = false
+        xrayEnabled: Swift.Bool? = nil
     )
     {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
@@ -10302,7 +10378,7 @@ struct UpdateGraphqlApiInputBody: Swift.Equatable {
     let userPoolConfig: AppSyncClientTypes.UserPoolConfig?
     let openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig?
     let additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]?
-    let xrayEnabled: Swift.Bool
+    let xrayEnabled: Swift.Bool?
     let lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
 }
 
@@ -10341,7 +10417,7 @@ extension UpdateGraphqlApiInputBody: Swift.Decodable {
             }
         }
         additionalAuthenticationProviders = additionalAuthenticationProvidersDecoded0
-        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled) ?? false
+        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled)
         xrayEnabled = xrayEnabledDecoded
         let lambdaAuthorizerConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.LambdaAuthorizerConfig.self, forKey: .lambdaAuthorizerConfig)
         lambdaAuthorizerConfig = lambdaAuthorizerConfigDecoded
@@ -10448,7 +10524,7 @@ extension UpdateResolverInput: Swift.Encodable {
         if let kind = self.kind {
             try encodeContainer.encode(kind.rawValue, forKey: .kind)
         }
-        if maxBatchSize != 0 {
+        if let maxBatchSize = self.maxBatchSize {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
         }
         if let pipelineConfig = self.pipelineConfig {
@@ -10504,7 +10580,7 @@ public struct UpdateResolverInput: Swift.Equatable {
     /// * PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
     public var kind: AppSyncClientTypes.ResolverKind?
     /// The maximum batching size for a resolver.
-    public var maxBatchSize: Swift.Int
+    public var maxBatchSize: Swift.Int?
     /// The PipelineConfig.
     public var pipelineConfig: AppSyncClientTypes.PipelineConfig?
     /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
@@ -10526,7 +10602,7 @@ public struct UpdateResolverInput: Swift.Equatable {
         dataSourceName: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
-        maxBatchSize: Swift.Int = 0,
+        maxBatchSize: Swift.Int? = nil,
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -10559,7 +10635,7 @@ struct UpdateResolverInputBody: Swift.Equatable {
     let pipelineConfig: AppSyncClientTypes.PipelineConfig?
     let syncConfig: AppSyncClientTypes.SyncConfig?
     let cachingConfig: AppSyncClientTypes.CachingConfig?
-    let maxBatchSize: Swift.Int
+    let maxBatchSize: Swift.Int?
     let runtime: AppSyncClientTypes.AppSyncRuntime?
     let code: Swift.String?
 }
@@ -10594,7 +10670,7 @@ extension UpdateResolverInputBody: Swift.Decodable {
         syncConfig = syncConfigDecoded
         let cachingConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.CachingConfig.self, forKey: .cachingConfig)
         cachingConfig = cachingConfigDecoded
-        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize) ?? 0
+        let maxBatchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBatchSize)
         maxBatchSize = maxBatchSizeDecoded
         let runtimeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.AppSyncRuntime.self, forKey: .runtime)
         runtime = runtimeDecoded

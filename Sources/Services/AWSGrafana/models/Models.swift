@@ -739,7 +739,7 @@ extension CreateWorkspaceApiKeyOutputResponseBody: Swift.Decodable {
 
 extension CreateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateWorkspaceInput: Swift.Encodable {
@@ -748,6 +748,7 @@ extension CreateWorkspaceInput: Swift.Encodable {
         case authenticationProviders
         case clientToken
         case configuration
+        case grafanaVersion
         case networkAccessControl
         case organizationRoleName
         case permissionType
@@ -778,6 +779,9 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let grafanaVersion = self.grafanaVersion {
+            try encodeContainer.encode(grafanaVersion, forKey: .grafanaVersion)
         }
         if let networkAccessControl = self.networkAccessControl {
             try encodeContainer.encode(networkAccessControl, forKey: .networkAccessControl)
@@ -847,6 +851,8 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     public var configuration: Swift.String?
+    /// Specifies the version of Grafana to support in the new workspace. Supported values are 8.4 and 9.4.
+    public var grafanaVersion: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
     /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
@@ -878,6 +884,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
         authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]? = nil,
         clientToken: Swift.String? = nil,
         configuration: Swift.String? = nil,
+        grafanaVersion: Swift.String? = nil,
         networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
@@ -896,6 +903,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
         self.authenticationProviders = authenticationProviders
         self.clientToken = clientToken
         self.configuration = configuration
+        self.grafanaVersion = grafanaVersion
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
@@ -928,6 +936,7 @@ struct CreateWorkspaceInputBody: Swift.Equatable {
     let vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
     let configuration: Swift.String?
     let networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
+    let grafanaVersion: Swift.String?
 }
 
 extension CreateWorkspaceInputBody: Swift.Decodable {
@@ -936,6 +945,7 @@ extension CreateWorkspaceInputBody: Swift.Decodable {
         case authenticationProviders
         case clientToken
         case configuration
+        case grafanaVersion
         case networkAccessControl
         case organizationRoleName
         case permissionType
@@ -1029,6 +1039,8 @@ extension CreateWorkspaceInputBody: Swift.Decodable {
         configuration = configurationDecoded
         let networkAccessControlDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.NetworkAccessConfiguration.self, forKey: .networkAccessControl)
         networkAccessControl = networkAccessControlDecoded
+        let grafanaVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grafanaVersion)
+        grafanaVersion = grafanaVersionDecoded
     }
 }
 

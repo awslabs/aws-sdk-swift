@@ -52,9 +52,9 @@ extension WAFV2ClientTypes.APIKeySummary: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Information for a single API key.
+    /// Information for a single API key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     public struct APIKeySummary: Swift.Equatable {
-        /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration. For information about how to use this in your CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+        /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration.
         public var apiKey: Swift.String?
         /// The date and time that the key was created.
         public var creationTimestamp: ClientRuntime.Date?
@@ -409,6 +409,8 @@ public struct AssociateWebACLInput: Swift.Equatable {
     /// * For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id
     ///
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
+    ///
+    /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -750,7 +752,7 @@ extension WAFV2ClientTypes {
         /// If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive. If you're using the WAF API Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 200 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString. If you're using the CLI or one of the Amazon Web Services SDKs The value that you want WAF to search for. The SDK automatically base64 encodes the value.
         /// This member is required.
         public var searchString: ClientRuntime.Data?
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
@@ -1082,7 +1084,7 @@ public struct CheckCapacityInput: Swift.Equatable {
     /// An array of [Rule] that you're configuring to use in a rule group or web ACL.
     /// This member is required.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2277,14 +2279,14 @@ extension CreateAPIKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAPIKeyInput: Swift.Equatable {
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// The client application domains that you want to use this API key for.
+    /// The client application domains that you want to use this API key for. Example JSON: "TokenDomains": ["abc.com", "store.abc.com"] Public suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
     /// This member is required.
     public var tokenDomains: [Swift.String]?
 
@@ -2368,7 +2370,7 @@ extension CreateAPIKeyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateAPIKeyOutputResponse: Swift.Equatable {
-    /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration. For information about how to use this in your CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+    /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration.
     public var apiKey: Swift.String?
 
     public init (
@@ -2471,7 +2473,7 @@ public struct CreateIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2679,7 +2681,7 @@ public struct CreateRegexPatternSetInput: Swift.Equatable {
     /// Array of regular expression strings.
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2900,7 +2902,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -3182,7 +3184,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -3838,7 +3840,7 @@ public struct DeleteIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4147,7 +4149,7 @@ public struct DeleteRegexPatternSetInput: Swift.Equatable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4284,7 +4286,7 @@ public struct DeleteRuleGroupInput: Swift.Equatable {
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4421,7 +4423,7 @@ public struct DeleteWebACLInput: Swift.Equatable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4552,7 +4554,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Equatable {
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4801,6 +4803,8 @@ public struct DisassociateWebACLInput: Swift.Equatable {
     /// * For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id
     ///
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
+    ///
+    /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5662,7 +5666,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Equatable {
     /// The encrypted API key.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5821,7 +5825,7 @@ public struct GetIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6093,7 +6097,7 @@ public struct GetManagedRuleSetInput: Swift.Equatable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6499,7 +6503,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Equatable {
     /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
     /// This member is required.
     public var ruleName: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6576,6 +6580,7 @@ extension GetRateBasedStatementManagedKeysOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "WAFUnsupportedAggregateKeyTypeException" : self = .wAFUnsupportedAggregateKeyTypeException(try WAFUnsupportedAggregateKeyTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -6586,6 +6591,7 @@ public enum GetRateBasedStatementManagedKeysOutputError: Swift.Error, Swift.Equa
     case wAFInvalidOperationException(WAFInvalidOperationException)
     case wAFInvalidParameterException(WAFInvalidParameterException)
     case wAFNonexistentItemException(WAFNonexistentItemException)
+    case wAFUnsupportedAggregateKeyTypeException(WAFUnsupportedAggregateKeyTypeException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -6673,7 +6679,7 @@ public struct GetRegexPatternSetInput: Swift.Equatable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6833,7 +6839,7 @@ public struct GetRuleGroupInput: Swift.Equatable {
     public var id: Swift.String?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7002,7 +7008,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests.
     /// This member is required.
     public var ruleMetricName: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7190,6 +7196,8 @@ public struct GetWebACLForResourceInput: Swift.Equatable {
     /// * For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id
     ///
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
+    ///
+    /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -7321,7 +7329,7 @@ public struct GetWebACLInput: Swift.Equatable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8564,7 +8572,7 @@ public struct ListAPIKeysInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8655,7 +8663,7 @@ extension ListAPIKeysOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListAPIKeysOutputResponse: Swift.Equatable {
     /// The array of key summaries. If you specified a Limit in your request, this might not be the full list.
     public var apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]?
-    /// The CAPTCHA application integration URL, for use in your JavaScript implementation. For information about how to use this in your CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+    /// The CAPTCHA application integration URL, for use in your JavaScript implementation.
     public var applicationIntegrationURL: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
@@ -8748,7 +8756,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Equatable {
     public var name: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8936,7 +8944,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9097,7 +9105,7 @@ public struct ListIPSetsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9258,7 +9266,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9419,7 +9427,7 @@ public struct ListManagedRuleSetsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9737,7 +9745,7 @@ public struct ListRegexPatternSetsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9890,7 +9898,7 @@ extension ListResourcesForWebACLInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListResourcesForWebACLInput: Swift.Equatable {
-    /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
+    /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
     public var resourceType: WAFV2ClientTypes.ResourceType?
     /// The Amazon Resource Name (ARN) of the web ACL.
     /// This member is required.
@@ -10035,7 +10043,7 @@ public struct ListRuleGroupsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -10350,7 +10358,7 @@ public struct ListWebACLsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -11593,6 +11601,7 @@ extension WAFV2ClientTypes {
         case challengeConfig
         case changePropagationStatus
         case cookieMatchPattern
+        case customKeys
         case customRequestHandling
         case customResponse
         case customResponseBody
@@ -11639,6 +11648,7 @@ extension WAFV2ClientTypes {
         case ruleAction
         case ruleGroup
         case ruleGroupReferenceStatement
+        case scopeDown
         case scopeValue
         case singleHeader
         case singleQueryArgument
@@ -11664,6 +11674,7 @@ extension WAFV2ClientTypes {
                 .challengeConfig,
                 .changePropagationStatus,
                 .cookieMatchPattern,
+                .customKeys,
                 .customRequestHandling,
                 .customResponse,
                 .customResponseBody,
@@ -11710,6 +11721,7 @@ extension WAFV2ClientTypes {
                 .ruleAction,
                 .ruleGroup,
                 .ruleGroupReferenceStatement,
+                .scopeDown,
                 .scopeValue,
                 .singleHeader,
                 .singleQueryArgument,
@@ -11740,6 +11752,7 @@ extension WAFV2ClientTypes {
             case .challengeConfig: return "CHALLENGE_CONFIG"
             case .changePropagationStatus: return "CHANGE_PROPAGATION_STATUS"
             case .cookieMatchPattern: return "COOKIE_MATCH_PATTERN"
+            case .customKeys: return "CUSTOM_KEYS"
             case .customRequestHandling: return "CUSTOM_REQUEST_HANDLING"
             case .customResponse: return "CUSTOM_RESPONSE"
             case .customResponseBody: return "CUSTOM_RESPONSE_BODY"
@@ -11786,6 +11799,7 @@ extension WAFV2ClientTypes {
             case .ruleAction: return "RULE_ACTION"
             case .ruleGroup: return "RULE_GROUP"
             case .ruleGroupReferenceStatement: return "RULE_GROUP_REFERENCE_STATEMENT"
+            case .scopeDown: return "SCOPE_DOWN"
             case .scopeValue: return "SCOPE_VALUE"
             case .singleHeader: return "SINGLE_HEADER"
             case .singleQueryArgument: return "SINGLE_QUERY_ARGUMENT"
@@ -12128,7 +12142,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Equatable {
     public var name: Swift.String?
     /// The version of the named managed rule group that you'd like your customers to choose, from among your version offerings.
     public var recommendedVersion: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -12406,6 +12420,7 @@ extension WAFV2ClientTypes {
 extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregateKeyType = "AggregateKeyType"
+        case customKeys = "CustomKeys"
         case forwardedIPConfig = "ForwardedIPConfig"
         case limit = "Limit"
         case scopeDownStatement = "ScopeDownStatement"
@@ -12415,6 +12430,12 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregateKeyType = self.aggregateKeyType {
             try encodeContainer.encode(aggregateKeyType.rawValue, forKey: .aggregateKeyType)
+        }
+        if let customKeys = customKeys {
+            var customKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customKeys)
+            for ratebasedstatementcustomkey0 in customKeys {
+                try customKeysContainer.encode(ratebasedstatementcustomkey0)
+            }
         }
         if let forwardedIPConfig = self.forwardedIPConfig {
             try encodeContainer.encode(forwardedIPConfig, forKey: .forwardedIPConfig)
@@ -12437,42 +12458,101 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
         scopeDownStatement = scopeDownStatementDecoded
         let forwardedIPConfigDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ForwardedIPConfig.self, forKey: .forwardedIPConfig)
         forwardedIPConfig = forwardedIPConfigDecoded
+        let customKeysContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.RateBasedStatementCustomKey?].self, forKey: .customKeys)
+        var customKeysDecoded0:[WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil
+        if let customKeysContainer = customKeysContainer {
+            customKeysDecoded0 = [WAFV2ClientTypes.RateBasedStatementCustomKey]()
+            for structure0 in customKeysContainer {
+                if let structure0 = structure0 {
+                    customKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        customKeys = customKeysDecoded0
     }
 }
 
 extension WAFV2ClientTypes {
-    /// A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span. You can use this to put a temporary block on requests from an IP address that is sending excessive requests. WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF. When the rule action triggers, WAF blocks additional requests from the IP address until the request rate falls below the limit. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts requests that match the nested statement. For example, based on recent requests that you have seen from an attacker, you might create a rate-based rule with a nested AND rule statement that contains the following nested statements:
+    /// A rate-based rule counts incoming requests and rate limits requests when they are coming at too fast a rate. The rule categorizes requests according to your aggregation criteria, collects them into aggregation instances, and counts and rate limits the requests for each instance. You can specify individual aggregation keys, like IP address or HTTP method. You can also specify aggregation key combinations, like IP address and HTTP method, or HTTP method, query argument, and cookie. Each unique set of values for the aggregation keys that you specify is a separate aggregation instance, with the value from each key contributing to the aggregation instance definition. For example, assume the rule evaluates web requests with the following IP address and HTTP method values:
     ///
-    /// * An IP match statement with an IP set that specifies the address 192.0.2.44.
+    /// * IP address 10.1.1.1, HTTP method POST
     ///
-    /// * A string match statement that searches in the User-Agent header for the string BadBot.
+    /// * IP address 10.1.1.1, HTTP method GET
+    ///
+    /// * IP address 127.0.0.0, HTTP method POST
+    ///
+    /// * IP address 10.1.1.1, HTTP method GET
     ///
     ///
-    /// In this rate-based rule, you also define a rate limit. For this example, the rate limit is 1,000. Requests that meet the criteria of both of the nested statements are counted. If the count exceeds 1,000 requests per five minutes, the rule action triggers. Requests that do not meet the criteria of both of the nested statements are not counted towards the rate limit and are not affected by this rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group.
+    /// The rule would create different aggregation instances according to your aggregation criteria, for example:
+    ///
+    /// * If the aggregation criteria is just the IP address, then each individual address is an aggregation instance, and WAF counts requests separately for each. The aggregation instances and request counts for our example would be the following:
+    ///
+    /// * IP address 10.1.1.1: count 3
+    ///
+    /// * IP address 127.0.0.0: count 1
+    ///
+    ///
+    ///
+    ///
+    /// * If the aggregation criteria is HTTP method, then each individual HTTP method is an aggregation instance. The aggregation instances and request counts for our example would be the following:
+    ///
+    /// * HTTP method POST: count 2
+    ///
+    /// * HTTP method GET: count 2
+    ///
+    ///
+    ///
+    ///
+    /// * If the aggregation criteria is IP address and HTTP method, then each IP address and each HTTP method would contribute to the combined aggregation instance. The aggregation instances and request counts for our example would be the following:
+    ///
+    /// * IP address 10.1.1.1, HTTP method POST: count 1
+    ///
+    /// * IP address 10.1.1.1, HTTP method GET: count 2
+    ///
+    /// * IP address 127.0.0.0, HTTP method POST: count 1
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For any n-tuple of aggregation keys, each unique combination of values for the keys defines a separate aggregation instance, which WAF counts and rate-limits individually. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts and rate limits requests that match the nested statement. You can use this nested scope-down statement in conjunction with your aggregation key specifications or you can just count and rate limit all requests that match the scope-down statement, without additional aggregation. When you choose to just manage all requests that match a scope-down statement, the aggregation instance is singular for the rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group. For additional information about the options, see [Rate limiting web requests using rate-based rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rate-based-rules.html) in the WAF Developer Guide. If you only aggregate on the individual IP address or forwarded IP address, you can retrieve the list of IP addresses that WAF is currently rate limiting for a rule through the API call GetRateBasedStatementManagedKeys. This option is not available for other aggregation configurations. WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF.
     public struct RateBasedStatement: Swift.Equatable {
-        /// Setting that indicates how to aggregate the request counts. The options are the following:
+        /// Setting that indicates how to aggregate the request counts. Web requests that are missing any of the components specified in the aggregation keys are omitted from the rate-based rule evaluation and handling.
         ///
-        /// * IP - Aggregate the request counts on the IP address from the web request origin.
+        /// * CONSTANT - Count and limit the requests that match the rate-based rule's scope-down statement. With this option, the counted requests aren't further aggregated. The scope-down statement is the only specification used. When the count of all requests that satisfy the scope-down statement goes over the limit, WAF applies the rule action to all requests that satisfy the scope-down statement. With this option, you must configure the ScopeDownStatement property.
         ///
-        /// * FORWARDED_IP - Aggregate the request counts on the first IP address in an HTTP header. If you use this, configure the ForwardedIPConfig, to specify the header to use.
+        /// * CUSTOM_KEYS - Aggregate the request counts using one or more web request components as the aggregate keys. With this option, you must specify the aggregate keys in the CustomKeys property. To aggregate on only the IP address or only the forwarded IP address, don't use custom keys. Instead, set the aggregate key type to IP or FORWARDED_IP.
+        ///
+        /// * FORWARDED_IP - Aggregate the request counts on the first IP address in an HTTP header. With this option, you must specify the header to use in the ForwardedIPConfig property. To aggregate on a combination of the forwarded IP address with other aggregate keys, use CUSTOM_KEYS.
+        ///
+        /// * IP - Aggregate the request counts on the IP address from the web request origin. To aggregate on a combination of the IP address with other aggregate keys, use CUSTOM_KEYS.
         /// This member is required.
         public var aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType?
-        /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This is required if AggregateKeyType is set to FORWARDED_IP.
+        /// Specifies the aggregate keys to use in a rate-base rule.
+        public var customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]?
+        /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This is required if you specify a forwarded IP in the rule's aggregate key settings.
         public var forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig?
-        /// The limit on requests per 5-minute period for a single originating IP address. If the statement includes a ScopeDownStatement, this limit is applied only to the requests that match the statement.
+        /// The limit on requests per 5-minute period for a single aggregation instance for the rate-based rule. If the rate-based statement includes a ScopeDownStatement, this limit is applied only to the requests that match the statement. Examples:
+        ///
+        /// * If you aggregate on just the IP address, this is the limit on requests from any single IP address.
+        ///
+        /// * If you aggregate on the HTTP method and the query argument name "city", then this is the limit on requests for any single method, city pair.
         /// This member is required.
         public var limit: Swift.Int
-        /// An optional nested statement that narrows the scope of the web requests that are evaluated by the rate-based statement. Requests are only tracked by the rate-based statement if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
+        /// An optional nested statement that narrows the scope of the web requests that are evaluated and managed by the rate-based statement. When you use a scope-down statement, the rate-based rule only tracks and rate limits requests that match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
 
         public init (
             aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType? = nil,
+            customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
             limit: Swift.Int = 0,
             scopeDownStatement: Box<WAFV2ClientTypes.Statement>? = nil
         )
         {
             self.aggregateKeyType = aggregateKeyType
+            self.customKeys = customKeys
             self.forwardedIPConfig = forwardedIPConfig
             self.limit = limit
             self.scopeDownStatement = scopeDownStatement
@@ -12483,12 +12563,16 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
     public enum RateBasedStatementAggregateKeyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case constant
+        case customKeys
         case forwardedIp
         case ip
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RateBasedStatementAggregateKeyType] {
             return [
+                .constant,
+                .customKeys,
                 .forwardedIp,
                 .ip,
                 .sdkUnknown("")
@@ -12500,6 +12584,8 @@ extension WAFV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .constant: return "CONSTANT"
+            case .customKeys: return "CUSTOM_KEYS"
             case .forwardedIp: return "FORWARDED_IP"
             case .ip: return "IP"
             case let .sdkUnknown(s): return s
@@ -12511,6 +12597,111 @@ extension WAFV2ClientTypes {
             self = RateBasedStatementAggregateKeyType(rawValue: rawValue) ?? RateBasedStatementAggregateKeyType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension WAFV2ClientTypes.RateBasedStatementCustomKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cookie = "Cookie"
+        case forwardedIP = "ForwardedIP"
+        case httpMethod = "HTTPMethod"
+        case header = "Header"
+        case ip = "IP"
+        case labelNamespace = "LabelNamespace"
+        case queryArgument = "QueryArgument"
+        case queryString = "QueryString"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cookie = self.cookie {
+            try encodeContainer.encode(cookie, forKey: .cookie)
+        }
+        if let forwardedIP = self.forwardedIP {
+            try encodeContainer.encode(forwardedIP, forKey: .forwardedIP)
+        }
+        if let httpMethod = self.httpMethod {
+            try encodeContainer.encode(httpMethod, forKey: .httpMethod)
+        }
+        if let header = self.header {
+            try encodeContainer.encode(header, forKey: .header)
+        }
+        if let ip = self.ip {
+            try encodeContainer.encode(ip, forKey: .ip)
+        }
+        if let labelNamespace = self.labelNamespace {
+            try encodeContainer.encode(labelNamespace, forKey: .labelNamespace)
+        }
+        if let queryArgument = self.queryArgument {
+            try encodeContainer.encode(queryArgument, forKey: .queryArgument)
+        }
+        if let queryString = self.queryString {
+            try encodeContainer.encode(queryString, forKey: .queryString)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let headerDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitHeader.self, forKey: .header)
+        header = headerDecoded
+        let cookieDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitCookie.self, forKey: .cookie)
+        cookie = cookieDecoded
+        let queryArgumentDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitQueryArgument.self, forKey: .queryArgument)
+        queryArgument = queryArgumentDecoded
+        let queryStringDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitQueryString.self, forKey: .queryString)
+        queryString = queryStringDecoded
+        let httpMethodDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitHTTPMethod.self, forKey: .httpMethod)
+        httpMethod = httpMethodDecoded
+        let forwardedIPDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitForwardedIP.self, forKey: .forwardedIP)
+        forwardedIP = forwardedIPDecoded
+        let ipDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitIP.self, forKey: .ip)
+        ip = ipDecoded
+        let labelNamespaceDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitLabelNamespace.self, forKey: .labelNamespace)
+        labelNamespace = labelNamespaceDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies a single custom aggregate key for a rate-base rule. Web requests that are missing any of the components specified in the aggregation keys are omitted from the rate-based rule evaluation and handling.
+    public struct RateBasedStatementCustomKey: Swift.Equatable {
+        /// Use the value of a cookie in the request as an aggregate key. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
+        public var cookie: WAFV2ClientTypes.RateLimitCookie?
+        /// Use the first IP address in an HTTP header as an aggregate key. Each distinct forwarded IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. With this option, you must specify the header to use in the rate-based rule's ForwardedIPConfig property.
+        public var forwardedIP: WAFV2ClientTypes.RateLimitForwardedIP?
+        /// Use the value of a header in the request as an aggregate key. Each distinct value in the header contributes to the aggregation instance. If you use a single header as your custom key, then each value fully defines an aggregation instance.
+        public var header: WAFV2ClientTypes.RateLimitHeader?
+        /// Use the request's HTTP method as an aggregate key. Each distinct HTTP method contributes to the aggregation instance. If you use just the HTTP method as your custom key, then each method fully defines an aggregation instance.
+        public var httpMethod: WAFV2ClientTypes.RateLimitHTTPMethod?
+        /// Use the request's originating IP address as an aggregate key. Each distinct IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the IP address by specifying IP in your rate-based statement's AggregateKeyType.
+        public var ip: WAFV2ClientTypes.RateLimitIP?
+        /// Use the specified label namespace as an aggregate key. Each distinct fully qualified label name that has the specified label namespace contributes to the aggregation instance. If you use just one label namespace as your custom key, then each label name fully defines an aggregation instance. This uses only labels that have been added to the request by rules that are evaluated before this rate-based rule in the web ACL. For information about label namespaces and names, see [Label syntax and naming requirements](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html) in the WAF Developer Guide.
+        public var labelNamespace: WAFV2ClientTypes.RateLimitLabelNamespace?
+        /// Use the specified query argument as an aggregate key. Each distinct value for the named query argument contributes to the aggregation instance. If you use a single query argument as your custom key, then each value fully defines an aggregation instance.
+        public var queryArgument: WAFV2ClientTypes.RateLimitQueryArgument?
+        /// Use the request's query string as an aggregate key. Each distinct string contributes to the aggregation instance. If you use just the query string as your custom key, then each string fully defines an aggregation instance.
+        public var queryString: WAFV2ClientTypes.RateLimitQueryString?
+
+        public init (
+            cookie: WAFV2ClientTypes.RateLimitCookie? = nil,
+            forwardedIP: WAFV2ClientTypes.RateLimitForwardedIP? = nil,
+            header: WAFV2ClientTypes.RateLimitHeader? = nil,
+            httpMethod: WAFV2ClientTypes.RateLimitHTTPMethod? = nil,
+            ip: WAFV2ClientTypes.RateLimitIP? = nil,
+            labelNamespace: WAFV2ClientTypes.RateLimitLabelNamespace? = nil,
+            queryArgument: WAFV2ClientTypes.RateLimitQueryArgument? = nil,
+            queryString: WAFV2ClientTypes.RateLimitQueryString? = nil
+        )
+        {
+            self.cookie = cookie
+            self.forwardedIP = forwardedIP
+            self.header = header
+            self.httpMethod = httpMethod
+            self.ip = ip
+            self.labelNamespace = labelNamespace
+            self.queryArgument = queryArgument
+            self.queryString = queryString
+        }
+    }
+
 }
 
 extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet: Swift.Codable {
@@ -12551,7 +12742,7 @@ extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// The set of IP addresses that are currently blocked for a [RateBasedStatement].
+    /// The set of IP addresses that are currently blocked for a [RateBasedStatement]. This is only available for rate-based rules that aggregate on just the IP address, with the AggregateKeyType set to IP or FORWARDED_IP. A rate-based rule applies its rule action to requests from IP addresses that are in the rule's managed keys list and that match the rule's scope-down statement. When a rule has no scope-down statement, it applies the action to all requests from the IP addresses that are in the list. The rule applies its rule action to rate limit the matching requests. The action is usually Block but it can be any valid rule action except for Allow. The maximum number of IP addresses that can be rate limited by a single rate-based rule instance is 10,000. If more than 10,000 addresses exceed the rate limit, WAF limits those with the highest rates.
     public struct RateBasedStatementManagedKeysIPSet: Swift.Equatable {
         /// The IP addresses that are currently blocked.
         public var addresses: [Swift.String]?
@@ -12565,6 +12756,327 @@ extension WAFV2ClientTypes {
         {
             self.addresses = addresses
             self.ipAddressVersion = ipAddressVersion
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitCookie: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case textTransformations = "TextTransformations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let textTransformations = textTransformations {
+            var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let textTransformationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.TextTransformation?].self, forKey: .textTransformations)
+        var textTransformationsDecoded0:[WAFV2ClientTypes.TextTransformation]? = nil
+        if let textTransformationsContainer = textTransformationsContainer {
+            textTransformationsDecoded0 = [WAFV2ClientTypes.TextTransformation]()
+            for structure0 in textTransformationsContainer {
+                if let structure0 = structure0 {
+                    textTransformationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        textTransformations = textTransformationsDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies a cookie as an aggregate key for a rate-based rule. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
+    public struct RateLimitCookie: Swift.Equatable {
+        /// The name of the cookie to use.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// This member is required.
+        public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
+
+        public init (
+            name: Swift.String? = nil,
+            textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
+        )
+        {
+            self.name = name
+            self.textTransformations = textTransformations
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitForwardedIP: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies the first IP address in an HTTP header as an aggregate key for a rate-based rule. Each distinct forwarded IP address contributes to the aggregation instance. This setting is used only in the RateBasedStatementCustomKey specification of a rate-based rule statement. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. This data type supports using the forwarded IP address in the web request aggregation for a rate-based rule, in RateBasedStatementCustomKey. The JSON specification for using the forwarded IP address doesn't explicitly use this data type. JSON specification: "ForwardedIP": {} When you use this specification, you must also configure the forwarded IP address in the rate-based statement's ForwardedIPConfig.
+    public struct RateLimitForwardedIP: Swift.Equatable {
+
+        public init () { }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitHTTPMethod: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies the request's HTTP method as an aggregate key for a rate-based rule. Each distinct HTTP method contributes to the aggregation instance. If you use just the HTTP method as your custom key, then each method fully defines an aggregation instance. JSON specification: "RateLimitHTTPMethod": {}
+    public struct RateLimitHTTPMethod: Swift.Equatable {
+
+        public init () { }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitHeader: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case textTransformations = "TextTransformations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let textTransformations = textTransformations {
+            var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let textTransformationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.TextTransformation?].self, forKey: .textTransformations)
+        var textTransformationsDecoded0:[WAFV2ClientTypes.TextTransformation]? = nil
+        if let textTransformationsContainer = textTransformationsContainer {
+            textTransformationsDecoded0 = [WAFV2ClientTypes.TextTransformation]()
+            for structure0 in textTransformationsContainer {
+                if let structure0 = structure0 {
+                    textTransformationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        textTransformations = textTransformationsDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies a header as an aggregate key for a rate-based rule. Each distinct value in the header contributes to the aggregation instance. If you use a single header as your custom key, then each value fully defines an aggregation instance.
+    public struct RateLimitHeader: Swift.Equatable {
+        /// The name of the header to use.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// This member is required.
+        public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
+
+        public init (
+            name: Swift.String? = nil,
+            textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
+        )
+        {
+            self.name = name
+            self.textTransformations = textTransformations
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitIP: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies the IP address in the web request as an aggregate key for a rate-based rule. Each distinct IP address contributes to the aggregation instance. This setting is used only in the RateBasedStatementCustomKey specification of a rate-based rule statement. To use this in the custom key settings, you must specify at least one other key to use, along with the IP address. To aggregate on only the IP address, in your rate-based statement's AggregateKeyType, specify IP. JSON specification: "RateLimitIP": {}
+    public struct RateLimitIP: Swift.Equatable {
+
+        public init () { }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitLabelNamespace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespace = "Namespace"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies a label namespace to use as an aggregate key for a rate-based rule. Each distinct fully qualified label name that has the specified label namespace contributes to the aggregation instance. If you use just one label namespace as your custom key, then each label name fully defines an aggregation instance. This uses only labels that have been added to the request by rules that are evaluated before this rate-based rule in the web ACL. For information about label namespaces and names, see [Label syntax and naming requirements](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html) in the WAF Developer Guide.
+    public struct RateLimitLabelNamespace: Swift.Equatable {
+        /// The namespace to use for aggregation.
+        /// This member is required.
+        public var namespace: Swift.String?
+
+        public init (
+            namespace: Swift.String? = nil
+        )
+        {
+            self.namespace = namespace
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitQueryArgument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case textTransformations = "TextTransformations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let textTransformations = textTransformations {
+            var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let textTransformationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.TextTransformation?].self, forKey: .textTransformations)
+        var textTransformationsDecoded0:[WAFV2ClientTypes.TextTransformation]? = nil
+        if let textTransformationsContainer = textTransformationsContainer {
+            textTransformationsDecoded0 = [WAFV2ClientTypes.TextTransformation]()
+            for structure0 in textTransformationsContainer {
+                if let structure0 = structure0 {
+                    textTransformationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        textTransformations = textTransformationsDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies a query argument in the request as an aggregate key for a rate-based rule. Each distinct value for the named query argument contributes to the aggregation instance. If you use a single query argument as your custom key, then each value fully defines an aggregation instance.
+    public struct RateLimitQueryArgument: Swift.Equatable {
+        /// The name of the query argument to use.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// This member is required.
+        public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
+
+        public init (
+            name: Swift.String? = nil,
+            textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
+        )
+        {
+            self.name = name
+            self.textTransformations = textTransformations
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitQueryString: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case textTransformations = "TextTransformations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let textTransformations = textTransformations {
+            var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textTransformationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.TextTransformation?].self, forKey: .textTransformations)
+        var textTransformationsDecoded0:[WAFV2ClientTypes.TextTransformation]? = nil
+        if let textTransformationsContainer = textTransformationsContainer {
+            textTransformationsDecoded0 = [WAFV2ClientTypes.TextTransformation]()
+            for structure0 in textTransformationsContainer {
+                if let structure0 = structure0 {
+                    textTransformationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        textTransformations = textTransformationsDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies the request's query string as an aggregate key for a rate-based rule. Each distinct string contributes to the aggregation instance. If you use just the query string as your custom key, then each string fully defines an aggregation instance.
+    public struct RateLimitQueryString: Swift.Equatable {
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// This member is required.
+        public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
+
+        public init (
+            textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
+        )
+        {
+            self.textTransformations = textTransformations
         }
     }
 
@@ -12657,7 +13169,7 @@ extension WAFV2ClientTypes {
         /// The string representing the regular expression.
         /// This member is required.
         public var regexString: Swift.String?
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
@@ -12814,7 +13326,7 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
@@ -13061,6 +13573,7 @@ extension WAFV2ClientTypes {
         case appsync
         case appRunnerService
         case cognitioUserPool
+        case verifiedAccessInstance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -13070,6 +13583,7 @@ extension WAFV2ClientTypes {
                 .appsync,
                 .appRunnerService,
                 .cognitioUserPool,
+                .verifiedAccessInstance,
                 .sdkUnknown("")
             ]
         }
@@ -13084,6 +13598,7 @@ extension WAFV2ClientTypes {
             case .appsync: return "APPSYNC"
             case .appRunnerService: return "APP_RUNNER_SERVICE"
             case .cognitioUserPool: return "COGNITO_USER_POOL"
+            case .verifiedAccessInstance: return "VERIFIED_ACCESS_INSTANCE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14519,7 +15034,7 @@ extension WAFV2ClientTypes {
         /// The size, in byte, to compare to the request part, after any transformations.
         /// This member is required.
         public var size: Swift.Int
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
@@ -14628,7 +15143,7 @@ extension WAFV2ClientTypes {
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
         /// The sensitivity that you want WAF to use to inspect for SQL injection attacks. HIGH detects more attacks, but might generate more false positives, especially if your web requests frequently contain unusual strings. For information about identifying and mitigating false positives, see [Testing and tuning](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html) in the WAF Developer Guide. LOW is generally a better choice for resources that already have other protections against SQL injection attacks or that have a low tolerance for false positives. Default: LOW
         public var sensitivityLevel: WAFV2ClientTypes.SensitivityLevel?
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
@@ -14775,14 +15290,50 @@ extension WAFV2ClientTypes {
         public var notStatement: WAFV2ClientTypes.NotStatement?
         /// A logical rule statement used to combine other rule statements with OR logic. You provide more than one [Statement] within the OrStatement.
         public var orStatement: WAFV2ClientTypes.OrStatement?
-        /// A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span. You can use this to put a temporary block on requests from an IP address that is sending excessive requests. WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF. When the rule action triggers, WAF blocks additional requests from the IP address until the request rate falls below the limit. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts requests that match the nested statement. For example, based on recent requests that you have seen from an attacker, you might create a rate-based rule with a nested AND rule statement that contains the following nested statements:
+        /// A rate-based rule counts incoming requests and rate limits requests when they are coming at too fast a rate. The rule categorizes requests according to your aggregation criteria, collects them into aggregation instances, and counts and rate limits the requests for each instance. You can specify individual aggregation keys, like IP address or HTTP method. You can also specify aggregation key combinations, like IP address and HTTP method, or HTTP method, query argument, and cookie. Each unique set of values for the aggregation keys that you specify is a separate aggregation instance, with the value from each key contributing to the aggregation instance definition. For example, assume the rule evaluates web requests with the following IP address and HTTP method values:
         ///
-        /// * An IP match statement with an IP set that specifies the address 192.0.2.44.
+        /// * IP address 10.1.1.1, HTTP method POST
         ///
-        /// * A string match statement that searches in the User-Agent header for the string BadBot.
+        /// * IP address 10.1.1.1, HTTP method GET
+        ///
+        /// * IP address 127.0.0.0, HTTP method POST
+        ///
+        /// * IP address 10.1.1.1, HTTP method GET
         ///
         ///
-        /// In this rate-based rule, you also define a rate limit. For this example, the rate limit is 1,000. Requests that meet the criteria of both of the nested statements are counted. If the count exceeds 1,000 requests per five minutes, the rule action triggers. Requests that do not meet the criteria of both of the nested statements are not counted towards the rate limit and are not affected by this rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group.
+        /// The rule would create different aggregation instances according to your aggregation criteria, for example:
+        ///
+        /// * If the aggregation criteria is just the IP address, then each individual address is an aggregation instance, and WAF counts requests separately for each. The aggregation instances and request counts for our example would be the following:
+        ///
+        /// * IP address 10.1.1.1: count 3
+        ///
+        /// * IP address 127.0.0.0: count 1
+        ///
+        ///
+        ///
+        ///
+        /// * If the aggregation criteria is HTTP method, then each individual HTTP method is an aggregation instance. The aggregation instances and request counts for our example would be the following:
+        ///
+        /// * HTTP method POST: count 2
+        ///
+        /// * HTTP method GET: count 2
+        ///
+        ///
+        ///
+        ///
+        /// * If the aggregation criteria is IP address and HTTP method, then each IP address and each HTTP method would contribute to the combined aggregation instance. The aggregation instances and request counts for our example would be the following:
+        ///
+        /// * IP address 10.1.1.1, HTTP method POST: count 1
+        ///
+        /// * IP address 10.1.1.1, HTTP method GET: count 2
+        ///
+        /// * IP address 127.0.0.0, HTTP method POST: count 1
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// For any n-tuple of aggregation keys, each unique combination of values for the keys defines a separate aggregation instance, which WAF counts and rate-limits individually. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts and rate limits requests that match the nested statement. You can use this nested scope-down statement in conjunction with your aggregation key specifications or you can just count and rate limit all requests that match the scope-down statement, without additional aggregation. When you choose to just manage all requests that match a scope-down statement, the aggregation instance is singular for the rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group. For additional information about the options, see [Rate limiting web requests using rate-based rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rate-based-rules.html) in the WAF Developer Guide. If you only aggregate on the individual IP address or forwarded IP address, you can retrieve the list of IP addresses that WAF is currently rate limiting for a rule through the API call GetRateBasedStatementManagedKeys. This option is not available for other aggregation configurations. WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF.
         public var rateBasedStatement: WAFV2ClientTypes.RateBasedStatement?
         /// A rule statement used to search web request components for a match against a single regular expression.
         public var regexMatchStatement: WAFV2ClientTypes.RegexMatchStatement?
@@ -15084,7 +15635,7 @@ extension WAFV2ClientTypes.TextTransformation: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection.
     public struct TextTransformation: Swift.Equatable {
-        /// Sets the relative processing order for multiple transformations that are defined for a rule statement. WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different.
+        /// Sets the relative processing order for multiple transformations. WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different.
         /// This member is required.
         public var priority: Swift.Int
         /// You can specify the following transformation types: BASE64_DECODE - Decode a Base64-encoded string. BASE64_DECODE_EXT - Decode a Base64-encoded string, but use a forgiving implementation that ignores characters that aren't valid. CMD_LINE - Command-line transformations. These are helpful in reducing effectiveness of attackers who inject an operating system command-line command and use unusual formatting to disguise some or all of the command.
@@ -15476,7 +16027,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -15673,7 +16224,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Equatable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -15885,7 +16436,7 @@ public struct UpdateRegexPatternSetInput: Swift.Equatable {
     ///
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -16099,7 +16650,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -16375,7 +16926,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -17723,6 +18274,57 @@ extension WAFUnavailableEntityExceptionBody: Swift.Decodable {
     }
 }
 
+extension WAFUnsupportedAggregateKeyTypeException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: WAFUnsupportedAggregateKeyTypeExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
+public struct WAFUnsupportedAggregateKeyTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct WAFUnsupportedAggregateKeyTypeExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension WAFUnsupportedAggregateKeyTypeExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension WAFV2ClientTypes.WebACL: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
@@ -17899,7 +18501,7 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has an action defined (allow, block, or count) for requests that match the statement of the rule. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has an action defined (allow, block, or count) for requests that match the statement of the rule. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
     public struct WebACL: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
@@ -18105,7 +18707,7 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. If you specify one or more transformations in a rule statement, WAF performs all transformations on the content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
