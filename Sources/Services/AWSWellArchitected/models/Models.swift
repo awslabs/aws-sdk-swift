@@ -2855,6 +2855,38 @@ extension CreateWorkloadShareOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension WellArchitectedClientTypes {
+    public enum DefinitionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case appRegistry
+        case workloadMetadata
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefinitionType] {
+            return [
+                .appRegistry,
+                .workloadMetadata,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .appRegistry: return "APP_REGISTRY"
+            case .workloadMetadata: return "WORKLOAD_METADATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DefinitionType(rawValue: rawValue) ?? DefinitionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DeleteLensInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3400,6 +3432,38 @@ extension DisassociateLensesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DisassociateLensesOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension WellArchitectedClientTypes {
+    public enum DiscoveryIntegrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryIntegrationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryIntegrationStatus(rawValue: rawValue) ?? DiscoveryIntegrationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ExportLensInput: ClientRuntime.QueryItemProvider {
@@ -9933,11 +9997,15 @@ extension UpdateAnswerOutputResponseBody: Swift.Decodable {
 
 extension UpdateGlobalSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
         case organizationSharingStatus = "OrganizationSharingStatus"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryIntegrationStatus = self.discoveryIntegrationStatus {
+            try encodeContainer.encode(discoveryIntegrationStatus.rawValue, forKey: .discoveryIntegrationStatus)
+        }
         if let organizationSharingStatus = self.organizationSharingStatus {
             try encodeContainer.encode(organizationSharingStatus.rawValue, forKey: .organizationSharingStatus)
         }
@@ -9951,23 +10019,29 @@ extension UpdateGlobalSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateGlobalSettingsInput: Swift.Equatable {
+    /// The status of discovery support settings.
+    public var discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
     /// The status of organization sharing settings.
     public var organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
 
     public init (
+        discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus? = nil,
         organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus? = nil
     )
     {
+        self.discoveryIntegrationStatus = discoveryIntegrationStatus
         self.organizationSharingStatus = organizationSharingStatus
     }
 }
 
 struct UpdateGlobalSettingsInputBody: Swift.Equatable {
     let organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
+    let discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
 }
 
 extension UpdateGlobalSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
         case organizationSharingStatus = "OrganizationSharingStatus"
     }
 
@@ -9975,6 +10049,8 @@ extension UpdateGlobalSettingsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationSharingStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.OrganizationSharingStatus.self, forKey: .organizationSharingStatus)
         organizationSharingStatus = organizationSharingStatusDecoded
+        let discoveryIntegrationStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.DiscoveryIntegrationStatus.self, forKey: .discoveryIntegrationStatus)
+        discoveryIntegrationStatus = discoveryIntegrationStatusDecoded
     }
 }
 
@@ -11650,6 +11726,7 @@ extension WellArchitectedClientTypes {
 extension WellArchitectedClientTypes.WorkloadDiscoveryConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case trustedAdvisorIntegrationStatus = "TrustedAdvisorIntegrationStatus"
+        case workloadResourceDefinition = "WorkloadResourceDefinition"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11657,12 +11734,29 @@ extension WellArchitectedClientTypes.WorkloadDiscoveryConfig: Swift.Codable {
         if let trustedAdvisorIntegrationStatus = self.trustedAdvisorIntegrationStatus {
             try encodeContainer.encode(trustedAdvisorIntegrationStatus.rawValue, forKey: .trustedAdvisorIntegrationStatus)
         }
+        if let workloadResourceDefinition = workloadResourceDefinition {
+            var workloadResourceDefinitionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workloadResourceDefinition)
+            for definitiontype0 in workloadResourceDefinition {
+                try workloadResourceDefinitionContainer.encode(definitiontype0.rawValue)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trustedAdvisorIntegrationStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.TrustedAdvisorIntegrationStatus.self, forKey: .trustedAdvisorIntegrationStatus)
         trustedAdvisorIntegrationStatus = trustedAdvisorIntegrationStatusDecoded
+        let workloadResourceDefinitionContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.DefinitionType?].self, forKey: .workloadResourceDefinition)
+        var workloadResourceDefinitionDecoded0:[WellArchitectedClientTypes.DefinitionType]? = nil
+        if let workloadResourceDefinitionContainer = workloadResourceDefinitionContainer {
+            workloadResourceDefinitionDecoded0 = [WellArchitectedClientTypes.DefinitionType]()
+            for enum0 in workloadResourceDefinitionContainer {
+                if let enum0 = enum0 {
+                    workloadResourceDefinitionDecoded0?.append(enum0)
+                }
+            }
+        }
+        workloadResourceDefinition = workloadResourceDefinitionDecoded0
     }
 }
 
@@ -11671,12 +11765,16 @@ extension WellArchitectedClientTypes {
     public struct WorkloadDiscoveryConfig: Swift.Equatable {
         /// Discovery integration status in respect to Trusted Advisor for the workload.
         public var trustedAdvisorIntegrationStatus: WellArchitectedClientTypes.TrustedAdvisorIntegrationStatus?
+        /// The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA, APP_REGISTRY, or both.
+        public var workloadResourceDefinition: [WellArchitectedClientTypes.DefinitionType]?
 
         public init (
-            trustedAdvisorIntegrationStatus: WellArchitectedClientTypes.TrustedAdvisorIntegrationStatus? = nil
+            trustedAdvisorIntegrationStatus: WellArchitectedClientTypes.TrustedAdvisorIntegrationStatus? = nil,
+            workloadResourceDefinition: [WellArchitectedClientTypes.DefinitionType]? = nil
         )
         {
             self.trustedAdvisorIntegrationStatus = trustedAdvisorIntegrationStatus
+            self.workloadResourceDefinition = workloadResourceDefinition
         }
     }
 

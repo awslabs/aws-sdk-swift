@@ -1959,7 +1959,7 @@ extension ECSClientTypes {
         public var healthStatus: ECSClientTypes.HealthStatus?
         /// The image used for the container.
         public var image: Swift.String?
-        /// The container image manifest digest. The imageDigest is only returned if the container is using an image hosted in Amazon ECR, otherwise it is omitted.
+        /// The container image manifest digest.
         public var imageDigest: Swift.String?
         /// The last known status of the container.
         public var lastStatus: Swift.String?
@@ -3834,6 +3834,7 @@ extension CreateClusterOutputError {
         switch errorType {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -3843,6 +3844,7 @@ extension CreateClusterOutputError {
 public enum CreateClusterOutputError: Swift.Error, Swift.Equatable {
     case clientException(ClientException)
     case invalidParameterException(InvalidParameterException)
+    case namespaceNotFoundException(NamespaceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -4023,7 +4025,7 @@ public struct CreateServiceInput: Swift.Equatable {
     public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
     /// The deployment controller to use for the service. If no deployment controller is specified, the default value of ECS is used.
     public var deploymentController: ECSClientTypes.DeploymentController?
-    /// The number of instantiations of the specified task definition to place and keep running on your cluster. This is required if schedulingStrategy is REPLICA or isn't specified. If schedulingStrategy is DAEMON then this isn't required.
+    /// The number of instantiations of the specified task definition to place and keep running in your service. This is required if schedulingStrategy is REPLICA or isn't specified. If schedulingStrategy is DAEMON then this isn't required.
     public var desiredCount: Swift.Int?
     /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
     public var enableECSManagedTags: Swift.Bool?
@@ -13658,7 +13660,7 @@ public struct PutAccountSettingDefaultInput: Swift.Equatable {
     /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If tagResourceAuthorization is specified, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
-    /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
+    /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, on, and off.
     /// This member is required.
     public var value: Swift.String?
 
@@ -13791,7 +13793,7 @@ public struct PutAccountSettingInput: Swift.Equatable {
     public var name: ECSClientTypes.SettingName?
     /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
     public var principalArn: Swift.String?
-    /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
+    /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, on, and off.
     /// This member is required.
     public var value: Swift.String?
 
@@ -20880,6 +20882,7 @@ extension UpdateClusterOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -20890,6 +20893,7 @@ public enum UpdateClusterOutputError: Swift.Error, Swift.Equatable {
     case clientException(ClientException)
     case clusterNotFoundException(ClusterNotFoundException)
     case invalidParameterException(InvalidParameterException)
+    case namespaceNotFoundException(NamespaceNotFoundException)
     case serverException(ServerException)
     case unknown(UnknownAWSHttpServiceError)
 }

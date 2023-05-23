@@ -157,6 +157,39 @@ extension PaginatorSequence where Input == GetEnabledStandardsInput, Output == G
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[GetFindingHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetFindingHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingHistoryOutputResponse`
+    public func getFindingHistoryPaginated(input: GetFindingHistoryInput) -> ClientRuntime.PaginatorSequence<GetFindingHistoryInput, GetFindingHistoryOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetFindingHistoryInput, GetFindingHistoryOutputResponse>(input: input, inputKey: \GetFindingHistoryInput.nextToken, outputKey: \GetFindingHistoryOutputResponse.nextToken, paginationFunction: self.getFindingHistory(input:))
+    }
+}
+
+extension GetFindingHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetFindingHistoryInput {
+        return GetFindingHistoryInput(
+            endTime: self.endTime,
+            findingIdentifier: self.findingIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where Input == GetFindingHistoryInput, Output == GetFindingHistoryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getFindingHistoryPaginated`
+    /// to access the nested member `[SecurityHubClientTypes.FindingHistoryRecord]`
+    /// - Returns: `[SecurityHubClientTypes.FindingHistoryRecord]`
+    public func records() async throws -> [SecurityHubClientTypes.FindingHistoryRecord] {
+        return try await self.asyncCompactMap { item in item.records }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[GetFindingsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

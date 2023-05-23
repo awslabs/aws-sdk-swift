@@ -446,15 +446,19 @@ extension TransferClientTypes.CopyStepDetails: Swift.Codable {
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure.
     public struct CopyStepDetails: Swift.Equatable {
-        /// Specifies the location for the file being copied. Use ${Transfer:username} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.
+        /// Specifies the location for the file being copied. Use ${Transfer:UserName} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.
         ///
-        /// * Set the value of DestinationFileLocation to ${Transfer:username} to copy uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.
+        /// * Set the value of DestinationFileLocation to ${Transfer:UserName} to copy uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.
         ///
-        /// * Set the value of DestinationFileLocation to ${Transfer:UploadDate} to copy uploaded files to an Amazon S3 bucket that is prefixed with the date of the upload. The system resolves UploadDate to a date format of YYYY-MM-DD, based on the date the file is uploaded.
+        /// * Set the value of DestinationFileLocation to ${Transfer:UploadDate} to copy uploaded files to an Amazon S3 bucket that is prefixed with the date of the upload. The system resolves UploadDate to a date format of YYYY-MM-DD, based on the date the file is uploaded in UTC.
         public var destinationFileLocation: TransferClientTypes.InputFileLocation?
         /// The name of the step, used as an identifier.
         public var name: Swift.String?
-        /// A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE.
+        /// A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE. If the workflow is processing a file that has the same name as an existing file, the behavior is as follows:
+        ///
+        /// * If OverwriteExisting is TRUE, the existing file is replaced with the file being processed.
+        ///
+        /// * If OverwriteExisting is FALSE, nothing happens, and the workflow processing stops.
         public var overwriteExisting: TransferClientTypes.OverwriteExisting?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
         ///
@@ -1405,9 +1409,9 @@ public struct CreateServerInput: Swift.Equatable {
     public var endpointType: TransferClientTypes.EndpointType?
     /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Manage host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
     public var hostKey: Swift.String?
-    /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
+    /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
-    /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter or the IdentityProviderDetails data type.
+    /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
     public var identityProviderType: TransferClientTypes.IdentityProviderType?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
@@ -1452,7 +1456,7 @@ public struct CreateServerInput: Swift.Equatable {
     public var securityPolicyName: Swift.String?
     /// Key-value pairs that can be used to group and search for servers.
     public var tags: [TransferClientTypes.Tag]?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -1892,7 +1896,7 @@ public struct CreateUserOutputResponse: Swift.Equatable {
     /// The identifier of the server that the user is attached to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// A unique string that identifies a user account associated with a server.
+    /// A unique string that identifies a Transfer Family user.
     /// This member is required.
     public var userName: Swift.String?
 
@@ -1969,7 +1973,7 @@ extension CreateWorkflowInput: ClientRuntime.URLPathProvider {
 public struct CreateWorkflowInput: Swift.Equatable {
     /// A textual description for the workflow.
     public var description: Swift.String?
-    /// Specifies the steps (actions) to take if errors are encountered during execution of the workflow. For custom steps, the lambda function needs to send FAILURE to the call back API to kick off the exception steps. Additionally, if the lambda does not send SUCCESS before it times out, the exception steps are executed.
+    /// Specifies the steps (actions) to take if errors are encountered during execution of the workflow. For custom steps, the Lambda function needs to send FAILURE to the call back API to kick off the exception steps. Additionally, if the Lambda does not send SUCCESS before it times out, the exception steps are executed.
     public var onExceptionSteps: [TransferClientTypes.WorkflowStep]?
     /// Specifies the details for the steps that are in the specified workflow. The TYPE specifies which of the following actions is being taken for this step.
     ///
@@ -2180,7 +2184,7 @@ extension TransferClientTypes {
         ///
         /// * To use the originally uploaded file location as input for this step, enter ${original.file}.
         public var sourceFileLocation: Swift.String?
-        /// The ARN for the lambda function that is being called.
+        /// The ARN for the Lambda function that is being called.
         public var target: Swift.String?
         /// Timeout, in seconds, for the step.
         public var timeoutSeconds: Swift.Int?
@@ -2279,12 +2283,20 @@ extension TransferClientTypes.DecryptStepDetails: Swift.Codable {
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure.
     public struct DecryptStepDetails: Swift.Equatable {
-        /// Specifies the location for the file that's being processed.
+        /// Specifies the location for the file being decrypted. Use ${Transfer:UserName} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.
+        ///
+        /// * Set the value of DestinationFileLocation to ${Transfer:UserName} to decrypt uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.
+        ///
+        /// * Set the value of DestinationFileLocation to ${Transfer:UploadDate} to decrypt uploaded files to an Amazon S3 bucket that is prefixed with the date of the upload. The system resolves UploadDate to a date format of YYYY-MM-DD, based on the date the file is uploaded in UTC.
         /// This member is required.
         public var destinationFileLocation: TransferClientTypes.InputFileLocation?
         /// The name of the step, used as an identifier.
         public var name: Swift.String?
-        /// A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE.
+        /// A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE. If the workflow is processing a file that has the same name as an existing file, the behavior is as follows:
+        ///
+        /// * If OverwriteExisting is TRUE, the existing file is replaced with the file being processed.
+        ///
+        /// * If OverwriteExisting is FALSE, nothing happens, and the workflow processing stops.
         public var overwriteExisting: TransferClientTypes.OverwriteExisting?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
         ///
@@ -4543,7 +4555,7 @@ public struct DescribeUserOutputResponse: Swift.Equatable {
     /// A system-assigned unique identifier for a server that has this user assigned.
     /// This member is required.
     public var serverId: Swift.String?
-    /// An array containing the properties of the user account for the ServerID value that you specified.
+    /// An array containing the properties of the Transfer Family user for the ServerID value that you specified.
     /// This member is required.
     public var user: TransferClientTypes.DescribedUser?
 
@@ -5866,7 +5878,7 @@ extension TransferClientTypes {
         public var hostKeyFingerprint: Swift.String?
         /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of a server is AWS_DIRECTORY_SERVICE or SERVICE_MANAGED.
         public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
-        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter or the IdentityProviderDetails data type.
+        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public var identityProviderType: TransferClientTypes.IdentityProviderType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
@@ -5917,7 +5929,7 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public var userCount: Swift.Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
         public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
         public init (
@@ -6954,6 +6966,7 @@ extension TransferClientTypes.IdentityProviderDetails: Swift.Codable {
         case directoryId = "DirectoryId"
         case function = "Function"
         case invocationRole = "InvocationRole"
+        case sftpAuthenticationMethods = "SftpAuthenticationMethods"
         case url = "Url"
     }
 
@@ -6967,6 +6980,9 @@ extension TransferClientTypes.IdentityProviderDetails: Swift.Codable {
         }
         if let invocationRole = self.invocationRole {
             try encodeContainer.encode(invocationRole, forKey: .invocationRole)
+        }
+        if let sftpAuthenticationMethods = self.sftpAuthenticationMethods {
+            try encodeContainer.encode(sftpAuthenticationMethods.rawValue, forKey: .sftpAuthenticationMethods)
         }
         if let url = self.url {
             try encodeContainer.encode(url, forKey: .url)
@@ -6983,6 +6999,8 @@ extension TransferClientTypes.IdentityProviderDetails: Swift.Codable {
         directoryId = directoryIdDecoded
         let functionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .function)
         function = functionDecoded
+        let sftpAuthenticationMethodsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpAuthenticationMethods.self, forKey: .sftpAuthenticationMethods)
+        sftpAuthenticationMethods = sftpAuthenticationMethodsDecoded
     }
 }
 
@@ -6991,10 +7009,20 @@ extension TransferClientTypes {
     public struct IdentityProviderDetails: Swift.Equatable {
         /// The identifier of the Directory Service directory that you want to stop sharing.
         public var directoryId: Swift.String?
-        /// The ARN for a lambda function to use for the Identity provider.
+        /// The ARN for a Lambda function to use for the Identity provider.
         public var function: Swift.String?
-        /// Provides the type of InvocationRole used to authenticate the user account.
+        /// This parameter is only applicable if your IdentityProviderType is API_GATEWAY. Provides the type of InvocationRole used to authenticate the user account.
         public var invocationRole: Swift.String?
+        /// For SFTP-enabled servers, and for custom identity providers only, you can specify whether to authenticate using a password, SSH key pair, or both.
+        ///
+        /// * PASSWORD - users must provide their password to connect.
+        ///
+        /// * PUBLIC_KEY - users must provide their private key to connect.
+        ///
+        /// * PUBLIC_KEY_OR_PASSWORD - users can authenticate with either their password or their key. This is the default value.
+        ///
+        /// * PUBLIC_KEY_AND_PASSWORD - users must provide both their private key and their password to connect. The server checks the key first, and then if the key is valid, the system prompts for a password. If the private key provided does not match the public key that is stored, authentication fails.
+        public var sftpAuthenticationMethods: TransferClientTypes.SftpAuthenticationMethods?
         /// Provides the location of the service endpoint used to authenticate users.
         public var url: Swift.String?
 
@@ -7002,12 +7030,14 @@ extension TransferClientTypes {
             directoryId: Swift.String? = nil,
             function: Swift.String? = nil,
             invocationRole: Swift.String? = nil,
+            sftpAuthenticationMethods: TransferClientTypes.SftpAuthenticationMethods? = nil,
             url: Swift.String? = nil
         )
         {
             self.directoryId = directoryId
             self.function = function
             self.invocationRole = invocationRole
+            self.sftpAuthenticationMethods = sftpAuthenticationMethods
             self.url = url
         }
     }
@@ -7015,7 +7045,7 @@ extension TransferClientTypes {
 }
 
 extension TransferClientTypes {
-    /// Returns information related to the type of user authentication that is in use for a file transfer protocol-enabled server's users. For AWS_DIRECTORY_SERVICE or SERVICE_MANAGED authentication, the Secure Shell (SSH) public keys are stored with a user on the server instance. For API_GATEWAY authentication, your custom authentication method is implemented by using an API call. The server can have only one method of authentication.
+    /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
     public enum IdentityProviderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case apiGateway
         case awsDirectoryService
@@ -7496,7 +7526,7 @@ public struct ImportSshPublicKeyInput: Swift.Equatable {
     /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
     /// This member is required.
     public var sshPublicKeyBody: Swift.String?
-    /// The name of the user account that is assigned to one or more servers.
+    /// The name of the Transfer Family user that is assigned to one or more servers.
     /// This member is required.
     public var userName: Swift.String?
 
@@ -8585,15 +8615,7 @@ extension ListExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListExecutionsOutputResponse: Swift.Equatable {
-    /// Returns the details for each execution.
-    ///
-    /// * NextToken: returned from a call to several APIs, you can use pass it to a subsequent command to continue listing additional executions.
-    ///
-    /// * StartTime: timestamp indicating when the execution began.
-    ///
-    /// * Executions: details of the execution, including the execution ID, initial file location, and Service metadata.
-    ///
-    /// * Status: one of the following values: IN_PROGRESS, COMPLETED, EXCEPTION, HANDLING_EXEPTION.
+    /// Returns the details for each execution, in a ListedExecution array.
     /// This member is required.
     public var executions: [TransferClientTypes.ListedExecution]?
     /// ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions.
@@ -9568,7 +9590,7 @@ public struct ListUsersOutputResponse: Swift.Equatable {
     /// A system-assigned unique identifier for a server that the users are assigned to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// Returns the user accounts and their properties for the ServerId value that you specify.
+    /// Returns the Transfer Family users and their properties for the ServerId value that you specify.
     /// This member is required.
     public var users: [TransferClientTypes.ListedUser]?
 
@@ -10381,7 +10403,7 @@ extension TransferClientTypes {
         public var domain: TransferClientTypes.Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public var endpointType: TransferClientTypes.EndpointType?
-        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter or the IdentityProviderDetails data type.
+        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public var identityProviderType: TransferClientTypes.IdentityProviderType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
@@ -11482,6 +11504,44 @@ extension TransferClientTypes {
 }
 
 extension TransferClientTypes {
+    public enum SftpAuthenticationMethods: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case password
+        case publicKey
+        case publicKeyAndPassword
+        case publicKeyOrPassword
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SftpAuthenticationMethods] {
+            return [
+                .password,
+                .publicKey,
+                .publicKeyAndPassword,
+                .publicKeyOrPassword,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .password: return "PASSWORD"
+            case .publicKey: return "PUBLIC_KEY"
+            case .publicKeyAndPassword: return "PUBLIC_KEY_AND_PASSWORD"
+            case .publicKeyOrPassword: return "PUBLIC_KEY_OR_PASSWORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SftpAuthenticationMethods(rawValue: rawValue) ?? SftpAuthenticationMethods.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TransferClientTypes {
     public enum SigningAlg: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
         case sha1
@@ -11554,9 +11614,9 @@ extension TransferClientTypes.SshPublicKey: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Provides information about the public Secure Shell (SSH) key that is associated with a user account for the specific file transfer protocol-enabled server (as identified by ServerId). The information returned includes the date the key was imported, the public key contents, and the public key ID. A user can store more than one SSH public key associated with their user name on a specific server.
+    /// Provides information about the public Secure Shell (SSH) key that is associated with a Transfer Family user for the specific file transfer protocol-enabled server (as identified by ServerId). The information returned includes the date the key was imported, the public key contents, and the public key ID. A user can store more than one SSH public key associated with their user name on a specific server.
     public struct SshPublicKey: Swift.Equatable {
-        /// Specifies the date that the public key was added to the user account.
+        /// Specifies the date that the public key was added to the Transfer Family user.
         /// This member is required.
         public var dateImported: ClientRuntime.Date?
         /// Specifies the content of the SSH public key as specified by the PublicKeyId. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
@@ -12022,7 +12082,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// An Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a server, user, or role.
     /// This member is required.
     public var arn: Swift.String?
-    /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
+    /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (servers, users, workflows, and so on) for any purpose.
     /// This member is required.
     public var tags: [TransferClientTypes.Tag]?
 
@@ -12225,13 +12285,15 @@ public struct TestIdentityProviderInput: Swift.Equatable {
     /// * File Transfer Protocol Secure (FTPS)
     ///
     /// * File Transfer Protocol (FTP)
+    ///
+    /// * Applicability Statement 2 (AS2)
     public var serverProtocol: TransferClientTypes.ModelProtocol?
-    /// The source IP address of the user account to be tested.
+    /// The source IP address of the account to be tested.
     public var sourceIp: Swift.String?
-    /// The name of the user account to be tested.
+    /// The name of the account to be tested.
     /// This member is required.
     public var userName: Swift.String?
-    /// The password of the user account to be tested.
+    /// The password of the account to be tested.
     public var userPassword: Swift.String?
 
     public init (
@@ -12331,9 +12393,9 @@ extension TestIdentityProviderOutputResponse: ClientRuntime.HttpResponseBinding 
 public struct TestIdentityProviderOutputResponse: Swift.Equatable {
     /// A message that indicates whether the test was successful or not. If an empty string is returned, the most likely cause is that the authentication failed due to an incorrect username or password.
     public var message: Swift.String?
-    /// The response that is returned from your API Gateway.
+    /// The response that is returned from your API Gateway or your Lambda function.
     public var response: Swift.String?
-    /// The HTTP status code that is the response from your API Gateway.
+    /// The HTTP status code that is the response from your API Gateway or your Lambda function.
     /// This member is required.
     public var statusCode: Swift.Int
     /// The endpoint of the service used to authenticate a user.
@@ -13759,10 +13821,10 @@ public struct UpdateServerInput: Swift.Equatable {
     public var protocols: [TransferClientTypes.ModelProtocol]?
     /// Specifies the name of the security policy that is attached to the server.
     public var securityPolicyName: Swift.String?
-    /// A system-assigned unique identifier for a server instance that the user account is assigned to.
+    /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -13919,7 +13981,7 @@ extension UpdateServerOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateServerOutputResponse: Swift.Equatable {
-    /// A system-assigned unique identifier for a server that the user account is assigned to.
+    /// A system-assigned unique identifier for a server that the Transfer Family user is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
 
@@ -14010,7 +14072,7 @@ public struct UpdateUserInput: Swift.Equatable {
     public var posixProfile: TransferClientTypes.PosixProfile?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
     public var role: Swift.String?
-    /// A system-assigned unique identifier for a server instance that the user account is assigned to.
+    /// A system-assigned unique identifier for a Transfer Family server instance that the user is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
     /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign.
@@ -14138,7 +14200,7 @@ extension UpdateUserOutputResponse: ClientRuntime.HttpResponseBinding {
 
 /// UpdateUserResponse returns the user name and identifier for the request to update a user's properties.
 public struct UpdateUserOutputResponse: Swift.Equatable {
-    /// A system-assigned unique identifier for a server instance that the user account is assigned to.
+    /// A system-assigned unique identifier for a Transfer Family server instance that the account is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
     /// The unique identifier for a user that is assigned to a server instance that was specified in the request.
@@ -14214,7 +14276,7 @@ extension TransferClientTypes {
         public var serverId: Swift.String?
         /// The system-assigned unique identifier for a session that corresponds to the workflow.
         public var sessionId: Swift.String?
-        /// A unique string that identifies a user account associated with a server.
+        /// A unique string that identifies a Transfer Family user associated with a server.
         /// This member is required.
         public var userName: Swift.String?
 
@@ -14258,7 +14320,7 @@ extension TransferClientTypes.WorkflowDetail: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
     public struct WorkflowDetail: Swift.Equatable {
         /// Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources
         /// This member is required.

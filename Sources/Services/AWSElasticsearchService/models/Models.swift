@@ -3600,7 +3600,7 @@ extension DescribeDomainAutoTunesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3624,13 +3624,13 @@ public struct DescribeDomainAutoTunesInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
     /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3641,7 +3641,7 @@ public struct DescribeDomainAutoTunesInput: Swift.Equatable {
 }
 
 struct DescribeDomainAutoTunesInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3653,7 +3653,7 @@ extension DescribeDomainAutoTunesInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4368,7 +4368,7 @@ extension DescribeInboundCrossClusterSearchConnectionsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4398,13 +4398,13 @@ public struct DescribeInboundCrossClusterSearchConnectionsInput: Swift.Equatable
     /// * destination-domain-info.domain-name
     public var filters: [ElasticsearchClientTypes.Filter]?
     /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
     public var nextToken: Swift.String?
 
     public init (
         filters: [ElasticsearchClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4416,7 +4416,7 @@ public struct DescribeInboundCrossClusterSearchConnectionsInput: Swift.Equatable
 
 struct DescribeInboundCrossClusterSearchConnectionsInputBody: Swift.Equatable {
     let filters: [ElasticsearchClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4440,7 +4440,7 @@ extension DescribeInboundCrossClusterSearchConnectionsInputBody: Swift.Decodable
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4546,7 +4546,7 @@ extension DescribeOutboundCrossClusterSearchConnectionsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4576,13 +4576,13 @@ public struct DescribeOutboundCrossClusterSearchConnectionsInput: Swift.Equatabl
     /// * source-domain-info.domain-name
     public var filters: [ElasticsearchClientTypes.Filter]?
     /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
     public var nextToken: Swift.String?
 
     public init (
         filters: [ElasticsearchClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4594,7 +4594,7 @@ public struct DescribeOutboundCrossClusterSearchConnectionsInput: Swift.Equatabl
 
 struct DescribeOutboundCrossClusterSearchConnectionsInputBody: Swift.Equatable {
     let filters: [ElasticsearchClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4618,7 +4618,7 @@ extension DescribeOutboundCrossClusterSearchConnectionsInputBody: Swift.Decodabl
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4751,7 +4751,7 @@ extension ElasticsearchClientTypes {
     public struct DescribePackagesFilter: Swift.Equatable {
         /// Any field from PackageDetails.
         public var name: ElasticsearchClientTypes.DescribePackagesFilterName?
-        /// A list of values for the specified field.
+        /// A non-empty list of values for the specified field.
         public var value: [Swift.String]?
 
         public init (
@@ -4816,7 +4816,7 @@ extension DescribePackagesInput: Swift.Encodable {
                 try filtersContainer.encode(describepackagesfilter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4836,13 +4836,13 @@ public struct DescribePackagesInput: Swift.Equatable {
     /// Only returns packages that match the DescribePackagesFilterList values.
     public var filters: [ElasticsearchClientTypes.DescribePackagesFilter]?
     /// Limits results to a maximum number of packages.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
     public var nextToken: Swift.String?
 
     public init (
         filters: [ElasticsearchClientTypes.DescribePackagesFilter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4854,7 +4854,7 @@ public struct DescribePackagesInput: Swift.Equatable {
 
 struct DescribePackagesInputBody: Swift.Equatable {
     let filters: [ElasticsearchClientTypes.DescribePackagesFilter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4878,7 +4878,7 @@ extension DescribePackagesInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4982,7 +4982,7 @@ extension DescribeReservedElasticsearchInstanceOfferingsInput: ClientRuntime.Que
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5004,14 +5004,14 @@ extension DescribeReservedElasticsearchInstanceOfferingsInput: ClientRuntime.URL
 /// Container for parameters to DescribeReservedElasticsearchInstanceOfferings
 public struct DescribeReservedElasticsearchInstanceOfferingsInput: Swift.Equatable {
     /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
     public var nextToken: Swift.String?
     /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
     public var reservedElasticsearchInstanceOfferingId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceOfferingId: Swift.String? = nil
     )
@@ -5131,7 +5131,7 @@ extension DescribeReservedElasticsearchInstancesInput: ClientRuntime.QueryItemPr
                 let reservedElasticsearchInstanceIdQueryItem = ClientRuntime.URLQueryItem(name: "reservationId".urlPercentEncoding(), value: Swift.String(reservedElasticsearchInstanceId).urlPercentEncoding())
                 items.append(reservedElasticsearchInstanceIdQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5149,14 +5149,14 @@ extension DescribeReservedElasticsearchInstancesInput: ClientRuntime.URLPathProv
 /// Container for parameters to DescribeReservedElasticsearchInstances
 public struct DescribeReservedElasticsearchInstancesInput: Swift.Equatable {
     /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
     public var nextToken: Swift.String?
     /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved Elasticsearch instance ID.
     public var reservedElasticsearchInstanceId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceId: Swift.String? = nil
     )
@@ -7486,7 +7486,7 @@ extension GetPackageVersionHistoryInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7507,7 +7507,7 @@ extension GetPackageVersionHistoryInput: ClientRuntime.URLPathProvider {
 /// Container for request parameters to [GetPackageVersionHistory] operation.
 public struct GetPackageVersionHistoryInput: Swift.Equatable {
     /// Limits results to a maximum number of versions.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
     public var nextToken: Swift.String?
     /// Returns an audit history of versions of the package.
@@ -7515,7 +7515,7 @@ public struct GetPackageVersionHistoryInput: Swift.Equatable {
     public var packageID: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
     )
@@ -7641,7 +7641,7 @@ extension GetUpgradeHistoryInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7665,13 +7665,13 @@ public struct GetUpgradeHistoryInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
     /// Set this value to limit the number of results returned.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Paginated APIs accepts NextToken input to returns next page results and provides a NextToken output in the response which can be used by the client to retrieve more results.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -8579,7 +8579,7 @@ extension ListDomainsForPackageInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8600,7 +8600,7 @@ extension ListDomainsForPackageInput: ClientRuntime.URLPathProvider {
 /// Container for request parameters to [ListDomainsForPackage] operation.
 public struct ListDomainsForPackageInput: Swift.Equatable {
     /// Limits results to a maximum number of domains.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
     public var nextToken: Swift.String?
     /// The package for which to list domains.
@@ -8608,7 +8608,7 @@ public struct ListDomainsForPackageInput: Swift.Equatable {
     public var packageID: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
     )
@@ -8729,7 +8729,7 @@ extension ListElasticsearchInstanceTypesInput: ClientRuntime.QueryItemProvider {
                 let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
                 items.append(domainNameQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8755,14 +8755,14 @@ public struct ListElasticsearchInstanceTypesInput: Swift.Equatable {
     /// This member is required.
     public var elasticsearchVersion: Swift.String?
     /// Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
         elasticsearchVersion: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -8878,7 +8878,7 @@ extension ListElasticsearchVersionsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8896,12 +8896,12 @@ extension ListElasticsearchVersionsInput: ClientRuntime.URLPathProvider {
 /// Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve.
 public struct ListElasticsearchVersionsInput: Swift.Equatable {
     /// Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Paginated APIs accepts NextToken input to returns next page results and provides a NextToken output in the response which can be used by the client to retrieve more results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9015,7 +9015,7 @@ extension ListPackagesForDomainInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -9039,13 +9039,13 @@ public struct ListPackagesForDomainInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
     /// Limits results to a maximum number of packages.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10665,7 +10665,7 @@ extension PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if instanceCount != 0 {
+        if let instanceCount = self.instanceCount {
             try encodeContainer.encode(instanceCount, forKey: .instanceCount)
         }
         if let reservationName = self.reservationName {
@@ -10686,7 +10686,7 @@ extension PurchaseReservedElasticsearchInstanceOfferingInput: ClientRuntime.URLP
 /// Container for parameters to PurchaseReservedElasticsearchInstanceOffering
 public struct PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Equatable {
     /// The number of Elasticsearch instances to reserve.
-    public var instanceCount: Swift.Int
+    public var instanceCount: Swift.Int?
     /// A customer-specified identifier to track this reservation.
     /// This member is required.
     public var reservationName: Swift.String?
@@ -10695,7 +10695,7 @@ public struct PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Equatabl
     public var reservedElasticsearchInstanceOfferingId: Swift.String?
 
     public init (
-        instanceCount: Swift.Int = 0,
+        instanceCount: Swift.Int? = nil,
         reservationName: Swift.String? = nil,
         reservedElasticsearchInstanceOfferingId: Swift.String? = nil
     )
@@ -10709,7 +10709,7 @@ public struct PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Equatabl
 struct PurchaseReservedElasticsearchInstanceOfferingInputBody: Swift.Equatable {
     let reservedElasticsearchInstanceOfferingId: Swift.String?
     let reservationName: Swift.String?
-    let instanceCount: Swift.Int
+    let instanceCount: Swift.Int?
 }
 
 extension PurchaseReservedElasticsearchInstanceOfferingInputBody: Swift.Decodable {
@@ -10725,7 +10725,7 @@ extension PurchaseReservedElasticsearchInstanceOfferingInputBody: Swift.Decodabl
         reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingIdDecoded
         let reservationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservationName)
         reservationName = reservationNameDecoded
-        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount) ?? 0
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
         instanceCount = instanceCountDecoded
     }
 }

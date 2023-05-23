@@ -1822,6 +1822,2183 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyses = "Analyses"
+        case dashboards = "Dashboards"
+        case dataSets = "DataSets"
+        case dataSources = "DataSources"
+        case refreshSchedules = "RefreshSchedules"
+        case resourceIdOverrideConfiguration = "ResourceIdOverrideConfiguration"
+        case themes = "Themes"
+        case vpcConnections = "VPCConnections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyses = analyses {
+            var analysesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analyses)
+            for assetbundleexportjobanalysisoverrideproperties0 in analyses {
+                try analysesContainer.encode(assetbundleexportjobanalysisoverrideproperties0)
+            }
+        }
+        if let dashboards = dashboards {
+            var dashboardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashboards)
+            for assetbundleexportjobdashboardoverrideproperties0 in dashboards {
+                try dashboardsContainer.encode(assetbundleexportjobdashboardoverrideproperties0)
+            }
+        }
+        if let dataSets = dataSets {
+            var dataSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSets)
+            for assetbundleexportjobdatasetoverrideproperties0 in dataSets {
+                try dataSetsContainer.encode(assetbundleexportjobdatasetoverrideproperties0)
+            }
+        }
+        if let dataSources = dataSources {
+            var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
+            for assetbundleexportjobdatasourceoverrideproperties0 in dataSources {
+                try dataSourcesContainer.encode(assetbundleexportjobdatasourceoverrideproperties0)
+            }
+        }
+        if let refreshSchedules = refreshSchedules {
+            var refreshSchedulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .refreshSchedules)
+            for assetbundleexportjobrefreshscheduleoverrideproperties0 in refreshSchedules {
+                try refreshSchedulesContainer.encode(assetbundleexportjobrefreshscheduleoverrideproperties0)
+            }
+        }
+        if let resourceIdOverrideConfiguration = self.resourceIdOverrideConfiguration {
+            try encodeContainer.encode(resourceIdOverrideConfiguration, forKey: .resourceIdOverrideConfiguration)
+        }
+        if let themes = themes {
+            var themesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .themes)
+            for assetbundleexportjobthemeoverrideproperties0 in themes {
+                try themesContainer.encode(assetbundleexportjobthemeoverrideproperties0)
+            }
+        }
+        if let vpcConnections = vpcConnections {
+            var vpcConnectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConnections)
+            for assetbundleexportjobvpcconnectionoverrideproperties0 in vpcConnections {
+                try vpcConnectionsContainer.encode(assetbundleexportjobvpcconnectionoverrideproperties0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdOverrideConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration.self, forKey: .resourceIdOverrideConfiguration)
+        resourceIdOverrideConfiguration = resourceIdOverrideConfigurationDecoded
+        let vpcConnectionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties?].self, forKey: .vpcConnections)
+        var vpcConnectionsDecoded0:[QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]? = nil
+        if let vpcConnectionsContainer = vpcConnectionsContainer {
+            vpcConnectionsDecoded0 = [QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]()
+            for structure0 in vpcConnectionsContainer {
+                if let structure0 = structure0 {
+                    vpcConnectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcConnections = vpcConnectionsDecoded0
+        let refreshSchedulesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties?].self, forKey: .refreshSchedules)
+        var refreshSchedulesDecoded0:[QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil
+        if let refreshSchedulesContainer = refreshSchedulesContainer {
+            refreshSchedulesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]()
+            for structure0 in refreshSchedulesContainer {
+                if let structure0 = structure0 {
+                    refreshSchedulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        refreshSchedules = refreshSchedulesDecoded0
+        let dataSourcesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties?].self, forKey: .dataSources)
+        var dataSourcesDecoded0:[QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties]? = nil
+        if let dataSourcesContainer = dataSourcesContainer {
+            dataSourcesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties]()
+            for structure0 in dataSourcesContainer {
+                if let structure0 = structure0 {
+                    dataSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSources = dataSourcesDecoded0
+        let dataSetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties?].self, forKey: .dataSets)
+        var dataSetsDecoded0:[QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties]? = nil
+        if let dataSetsContainer = dataSetsContainer {
+            dataSetsDecoded0 = [QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties]()
+            for structure0 in dataSetsContainer {
+                if let structure0 = structure0 {
+                    dataSetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSets = dataSetsDecoded0
+        let themesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties?].self, forKey: .themes)
+        var themesDecoded0:[QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]? = nil
+        if let themesContainer = themesContainer {
+            themesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]()
+            for structure0 in themesContainer {
+                if let structure0 = structure0 {
+                    themesDecoded0?.append(structure0)
+                }
+            }
+        }
+        themes = themesDecoded0
+        let analysesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties?].self, forKey: .analyses)
+        var analysesDecoded0:[QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties]? = nil
+        if let analysesContainer = analysesContainer {
+            analysesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties]()
+            for structure0 in analysesContainer {
+                if let structure0 = structure0 {
+                    analysesDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyses = analysesDecoded0
+        let dashboardsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties?].self, forKey: .dashboards)
+        var dashboardsDecoded0:[QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties]? = nil
+        if let dashboardsContainer = dashboardsContainer {
+            dashboardsDecoded0 = [QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties]()
+            for structure0 in dashboardsContainer {
+                if let structure0 = structure0 {
+                    dashboardsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashboards = dashboardsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An optional collection of CloudFormation property configurations that control how the export job is generated.
+    public struct AssetBundleCloudFormationOverridePropertyConfiguration: Swift.Equatable {
+        /// An optional list of structures that control how Analysis resources are parameterized in the returned CloudFormation template.
+        public var analyses: [QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties]?
+        /// An optional list of structures that control how Dashboard resources are parameterized in the returned CloudFormation template.
+        public var dashboards: [QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties]?
+        /// An optional list of structures that control how DataSet resources are parameterized in the returned CloudFormation template.
+        public var dataSets: [QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties]?
+        /// An optional list of structures that control how DataSource resources are parameterized in the returned CloudFormation template.
+        public var dataSources: [QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties]?
+        /// An optional list of structures that control how RefreshSchedule resources are parameterized in the returned CloudFormation template.
+        public var refreshSchedules: [QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]?
+        /// An optional list of structures that control how resource IDs are parameterized in the returned CloudFormation template.
+        public var resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration?
+        /// An optional list of structures that control how Theme resources are parameterized in the returned CloudFormation template.
+        public var themes: [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]?
+        /// An optional list of structures that control how VPCConnection resources are parameterized in the returned CloudFormation template.
+        public var vpcConnections: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]?
+
+        public init (
+            analyses: [QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties]? = nil,
+            dashboards: [QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties]? = nil,
+            dataSets: [QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties]? = nil,
+            dataSources: [QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties]? = nil,
+            refreshSchedules: [QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil,
+            resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration? = nil,
+            themes: [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]? = nil,
+            vpcConnections: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]? = nil
+        )
+        {
+            self.analyses = analyses
+            self.dashboards = dashboards
+            self.dataSets = dataSets
+            self.dataSources = dataSources
+            self.refreshSchedules = refreshSchedules
+            self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
+            self.themes = themes
+            self.vpcConnections = vpcConnections
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudformationJson
+        case quicksightJson
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportFormat] {
+            return [
+                .cloudformationJson,
+                .quicksightJson,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudformationJson: return "CLOUDFORMATION_JSON"
+            case .quicksightJson: return "QUICKSIGHT_JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportFormat(rawValue: rawValue) ?? AssetBundleExportFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobanalysispropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobanalysispropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific Analysis resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobAnalysisOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific Analysis resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of Analysis resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobAnalysisPropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobAnalysisPropertyToOverride] {
+            return [
+                .name,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "Name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobAnalysisPropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobAnalysisPropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobdashboardpropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobdashboardpropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific Dashboard resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobDashboardOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific Dashboard resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of Dashboard resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobDashboardPropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobDashboardPropertyToOverride] {
+            return [
+                .name,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "Name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobDashboardPropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobDashboardPropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobdatasetpropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobdatasetpropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific DataSet resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobDataSetOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific DataSet resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of DataSet resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobDataSetPropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobDataSetPropertyToOverride] {
+            return [
+                .name,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "Name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobDataSetPropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobDataSetPropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobdatasourcepropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobdatasourcepropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific DataSource resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobDataSourceOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific DataSource resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of DataSource resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobDataSourcePropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case catalog
+        case clusterId
+        case database
+        case dataSetName
+        case disableSsl
+        case domain
+        case host
+        case instanceId
+        case manifestFileLocation
+        case name
+        case password
+        case port
+        case roleArn
+        case secretArn
+        case username
+        case warehouse
+        case workGroup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobDataSourcePropertyToOverride] {
+            return [
+                .catalog,
+                .clusterId,
+                .database,
+                .dataSetName,
+                .disableSsl,
+                .domain,
+                .host,
+                .instanceId,
+                .manifestFileLocation,
+                .name,
+                .password,
+                .port,
+                .roleArn,
+                .secretArn,
+                .username,
+                .warehouse,
+                .workGroup,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .catalog: return "Catalog"
+            case .clusterId: return "ClusterId"
+            case .database: return "Database"
+            case .dataSetName: return "DataSetName"
+            case .disableSsl: return "DisableSsl"
+            case .domain: return "Domain"
+            case .host: return "Host"
+            case .instanceId: return "InstanceId"
+            case .manifestFileLocation: return "ManifestFileLocation"
+            case .name: return "Name"
+            case .password: return "Password"
+            case .port: return "Port"
+            case .roleArn: return "RoleArn"
+            case .secretArn: return "SecretArn"
+            case .username: return "Username"
+            case .warehouse: return "Warehouse"
+            case .workGroup: return "WorkGroup"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobDataSourcePropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobDataSourcePropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case message = "Message"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Describes an error that occurred during an Asset Bundle export job.
+    public struct AssetBundleExportJobError: Swift.Equatable {
+        /// The ARN of the resource whose processing caused an error.
+        public var arn: Swift.String?
+        /// A description of the error.
+        public var message: Swift.String?
+        /// The specific error type of the error that occurred.
+        public var type: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            message: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.message = message
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobrefreshschedulepropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobrefreshschedulepropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific RefreshSchedule resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobRefreshScheduleOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific RefreshSchedule resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of RefreshSchedule resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobRefreshSchedulePropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case startAfterDateTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobRefreshSchedulePropertyToOverride] {
+            return [
+                .startAfterDateTime,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .startAfterDateTime: return "StartAfterDateTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobRefreshSchedulePropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobRefreshSchedulePropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case prefixForAllResources = "PrefixForAllResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if prefixForAllResources != false {
+            try encodeContainer.encode(prefixForAllResources, forKey: .prefixForAllResources)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixForAllResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .prefixForAllResources) ?? false
+        prefixForAllResources = prefixForAllResourcesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An optional structure that configures resource ID overrides for the export job.
+    public struct AssetBundleExportJobResourceIdOverrideConfiguration: Swift.Equatable {
+        /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
+        public var prefixForAllResources: Swift.Bool
+
+        public init (
+            prefixForAllResources: Swift.Bool = false
+        )
+        {
+            self.prefixForAllResources = prefixForAllResources
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case queuedForImmediateExecution
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .queuedForImmediateExecution,
+                .successful,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .queuedForImmediateExecution: return "QUEUED_FOR_IMMEDIATE_EXECUTION"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobStatus(rawValue: rawValue) ?? AssetBundleExportJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assetBundleExportJobId = "AssetBundleExportJobId"
+        case createdTime = "CreatedTime"
+        case exportFormat = "ExportFormat"
+        case includeAllDependencies = "IncludeAllDependencies"
+        case jobStatus = "JobStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let assetBundleExportJobId = self.assetBundleExportJobId {
+            try encodeContainer.encode(assetBundleExportJobId, forKey: .assetBundleExportJobId)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let exportFormat = self.exportFormat {
+            try encodeContainer.encode(exportFormat.rawValue, forKey: .exportFormat)
+        }
+        if includeAllDependencies != false {
+            try encodeContainer.encode(includeAllDependencies, forKey: .includeAllDependencies)
+        }
+        if let jobStatus = self.jobStatus {
+            try encodeContainer.encode(jobStatus.rawValue, forKey: .jobStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportJobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let assetBundleExportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleExportJobId)
+        assetBundleExportJobId = assetBundleExportJobIdDecoded
+        let includeAllDependenciesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeAllDependencies) ?? false
+        includeAllDependencies = includeAllDependenciesDecoded
+        let exportFormatDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportFormat.self, forKey: .exportFormat)
+        exportFormat = exportFormatDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A summary of the export job that includes details of the job's configuration and its current status.
+    public struct AssetBundleExportJobSummary: Swift.Equatable {
+        /// The ARN of the export job.
+        public var arn: Swift.String?
+        /// The ID of the export job.
+        public var assetBundleExportJobId: Swift.String?
+        /// The time that the export job was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The format for the export job.
+        public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
+        /// The flag that determines the inclusion of resource dependencies in the returned asset bundle.
+        public var includeAllDependencies: Swift.Bool
+        /// The current status of the export job.
+        public var jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
+
+        public init (
+            arn: Swift.String? = nil,
+            assetBundleExportJobId: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
+            includeAllDependencies: Swift.Bool = false,
+            jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus? = nil
+        )
+        {
+            self.arn = arn
+            self.assetBundleExportJobId = assetBundleExportJobId
+            self.createdTime = createdTime
+            self.exportFormat = exportFormat
+            self.includeAllDependencies = includeAllDependencies
+            self.jobStatus = jobStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobthemepropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobthemepropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific Theme resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobThemeOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific Theme resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of Theme resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobThemePropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobThemePropertyToOverride] {
+            return [
+                .name,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "Name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobThemePropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobThemePropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case properties = "Properties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for assetbundleexportjobvpcconnectionpropertytooverride0 in properties {
+                try propertiesContainer.encode(assetbundleexportjobvpcconnectionpropertytooverride0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let propertiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride?].self, forKey: .properties)
+        var propertiesDecoded0:[QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride]()
+            for enum0 in propertiesContainer {
+                if let enum0 = enum0 {
+                    propertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Controls how a specific VPCConnection resource is parameterized in the outputted CloudFormation template.
+    public struct AssetBundleExportJobVPCConnectionOverrideProperties: Swift.Equatable {
+        /// The ARN of the specific VPCConnection resource whose override properties are configured in this structure.
+        public var arn: Swift.String?
+        /// A list of VPCConnection resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride]?
+
+        public init (
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleExportJobVPCConnectionPropertyToOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dnsResolvers
+        case name
+        case roleArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobVPCConnectionPropertyToOverride] {
+            return [
+                .dnsResolvers,
+                .name,
+                .roleArn,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dnsResolvers: return "DnsResolvers"
+            case .name: return "Name"
+            case .roleArn: return "RoleArn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleExportJobVPCConnectionPropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobVPCConnectionPropertyToOverride.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleImportFailureAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case doNothing
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleImportFailureAction] {
+            return [
+                .doNothing,
+                .rollback,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .doNothing: return "DO_NOTHING"
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleImportFailureAction(rawValue: rawValue) ?? AssetBundleImportFailureAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisId = "AnalysisId"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisId = self.analysisId {
+            try encodeContainer.encode(analysisId, forKey: .analysisId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisId)
+        analysisId = analysisIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The override parameters for a single analysis that is being imported.
+    public struct AssetBundleImportJobAnalysisOverrideParameters: Swift.Equatable {
+        /// The ID of the analysis that you ant to apply overrides to.
+        /// This member is required.
+        public var analysisId: Swift.String?
+        /// A new name for the analysis.
+        public var name: Swift.String?
+
+        public init (
+            analysisId: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.analysisId = analysisId
+            self.name = name
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dashboardId = "DashboardId"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dashboardId = self.dashboardId {
+            try encodeContainer.encode(dashboardId, forKey: .dashboardId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dashboardIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dashboardId)
+        dashboardId = dashboardIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The override parameters for a single dashboard that is being imported.
+    public struct AssetBundleImportJobDashboardOverrideParameters: Swift.Equatable {
+        /// The ID of the dashboard that you want to apply overrides to.
+        /// This member is required.
+        public var dashboardId: Swift.String?
+        /// A new name for the dashboard.
+        public var name: Swift.String?
+
+        public init (
+            dashboardId: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.dashboardId = dashboardId
+            self.name = name
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetId = "DataSetId"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The override parameters for a single dataset that is being imported.
+    public struct AssetBundleImportJobDataSetOverrideParameters: Swift.Equatable {
+        /// The ID of the dataset to apply overrides to.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// A new name for the dataset.
+        public var name: Swift.String?
+
+        public init (
+            dataSetId: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.dataSetId = dataSetId
+            self.name = name
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case password = "Password"
+        case username = "Username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let password = self.password {
+            try encodeContainer.encode(password, forKey: .password)
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+        let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
+        password = passwordDecoded
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A username and password credential pair to use to import a data source resource.
+    public struct AssetBundleImportJobDataSourceCredentialPair: Swift.Equatable {
+        /// The password for the data source connection.
+        /// This member is required.
+        public var password: Swift.String?
+        /// The username for the data source connection.
+        /// This member is required.
+        public var username: Swift.String?
+
+        public init (
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.username = username
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialPair = "CredentialPair"
+        case secretArn = "SecretArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let credentialPair = self.credentialPair {
+            try encodeContainer.encode(credentialPair, forKey: .credentialPair)
+        }
+        if let secretArn = self.secretArn {
+            try encodeContainer.encode(secretArn, forKey: .secretArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let credentialPairDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair.self, forKey: .credentialPair)
+        credentialPair = credentialPairDecoded
+        let secretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretArn)
+        secretArn = secretArnDecoded
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssetBundleImportJobDataSourceCredentials(secretArn: \(Swift.String(describing: secretArn)), credentialPair: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// The login credentials to use to import a data source resource.
+    public struct AssetBundleImportJobDataSourceCredentials: Swift.Equatable {
+        /// A username and password credential pair to be used to create the imported data source. Leave this field blank if you are using an Secrets Manager Secret to provide credentials.
+        public var credentialPair: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair?
+        /// The ARN of the Secrets Manager Secret to be used to create the imported data source leave this field blank if you aren't using a Secret in place of a credential pair.
+        public var secretArn: Swift.String?
+
+        public init (
+            credentialPair: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.credentialPair = credentialPair
+            self.secretArn = secretArn
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentials = "Credentials"
+        case dataSourceId = "DataSourceId"
+        case dataSourceParameters = "DataSourceParameters"
+        case name = "Name"
+        case sslProperties = "SslProperties"
+        case vpcConnectionProperties = "VpcConnectionProperties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let credentials = self.credentials {
+            try encodeContainer.encode(credentials, forKey: .credentials)
+        }
+        if let dataSourceId = self.dataSourceId {
+            try encodeContainer.encode(dataSourceId, forKey: .dataSourceId)
+        }
+        if let dataSourceParameters = self.dataSourceParameters {
+            try encodeContainer.encode(dataSourceParameters, forKey: .dataSourceParameters)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let sslProperties = self.sslProperties {
+            try encodeContainer.encode(sslProperties, forKey: .sslProperties)
+        }
+        if let vpcConnectionProperties = self.vpcConnectionProperties {
+            try encodeContainer.encode(vpcConnectionProperties, forKey: .vpcConnectionProperties)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSourceId)
+        dataSourceId = dataSourceIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let dataSourceParametersDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataSourceParameters.self, forKey: .dataSourceParameters)
+        dataSourceParameters = dataSourceParametersDecoded
+        let vpcConnectionPropertiesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VpcConnectionProperties.self, forKey: .vpcConnectionProperties)
+        vpcConnectionProperties = vpcConnectionPropertiesDecoded
+        let sslPropertiesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SslProperties.self, forKey: .sslProperties)
+        sslProperties = sslPropertiesDecoded
+        let credentialsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The override parameters for a single data source that is being imported.
+    public struct AssetBundleImportJobDataSourceOverrideParameters: Swift.Equatable {
+        /// An optional structure that provides the credentials to be used to create the imported data source.
+        public var credentials: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials?
+        /// The ID of the data source to apply overrides to.
+        /// This member is required.
+        public var dataSourceId: Swift.String?
+        /// The parameters that Amazon QuickSight uses to connect to your underlying data source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+        public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
+        /// A new name for the data source.
+        public var name: Swift.String?
+        /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying data source.
+        public var sslProperties: QuickSightClientTypes.SslProperties?
+        /// VPC connection properties.
+        public var vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+
+        public init (
+            credentials: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials? = nil,
+            dataSourceId: Swift.String? = nil,
+            dataSourceParameters: QuickSightClientTypes.DataSourceParameters? = nil,
+            name: Swift.String? = nil,
+            sslProperties: QuickSightClientTypes.SslProperties? = nil,
+            vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil
+        )
+        {
+            self.credentials = credentials
+            self.dataSourceId = dataSourceId
+            self.dataSourceParameters = dataSourceParameters
+            self.name = name
+            self.sslProperties = sslProperties
+            self.vpcConnectionProperties = vpcConnectionProperties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case message = "Message"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Describes an error that occurred within an Asset Bundle import execution.
+    public struct AssetBundleImportJobError: Swift.Equatable {
+        /// The ARN of the resource whose processing caused an error.
+        public var arn: Swift.String?
+        /// A description of the error.
+        public var message: Swift.String?
+        /// The specific error type or the error that occurred.
+        public var type: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            message: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.message = message
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyses = "Analyses"
+        case dashboards = "Dashboards"
+        case dataSets = "DataSets"
+        case dataSources = "DataSources"
+        case refreshSchedules = "RefreshSchedules"
+        case resourceIdOverrideConfiguration = "ResourceIdOverrideConfiguration"
+        case themes = "Themes"
+        case vpcConnections = "VPCConnections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyses = analyses {
+            var analysesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analyses)
+            for assetbundleimportjobanalysisoverrideparameters0 in analyses {
+                try analysesContainer.encode(assetbundleimportjobanalysisoverrideparameters0)
+            }
+        }
+        if let dashboards = dashboards {
+            var dashboardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashboards)
+            for assetbundleimportjobdashboardoverrideparameters0 in dashboards {
+                try dashboardsContainer.encode(assetbundleimportjobdashboardoverrideparameters0)
+            }
+        }
+        if let dataSets = dataSets {
+            var dataSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSets)
+            for assetbundleimportjobdatasetoverrideparameters0 in dataSets {
+                try dataSetsContainer.encode(assetbundleimportjobdatasetoverrideparameters0)
+            }
+        }
+        if let dataSources = dataSources {
+            var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
+            for assetbundleimportjobdatasourceoverrideparameters0 in dataSources {
+                try dataSourcesContainer.encode(assetbundleimportjobdatasourceoverrideparameters0)
+            }
+        }
+        if let refreshSchedules = refreshSchedules {
+            var refreshSchedulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .refreshSchedules)
+            for assetbundleimportjobrefreshscheduleoverrideparameters0 in refreshSchedules {
+                try refreshSchedulesContainer.encode(assetbundleimportjobrefreshscheduleoverrideparameters0)
+            }
+        }
+        if let resourceIdOverrideConfiguration = self.resourceIdOverrideConfiguration {
+            try encodeContainer.encode(resourceIdOverrideConfiguration, forKey: .resourceIdOverrideConfiguration)
+        }
+        if let themes = themes {
+            var themesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .themes)
+            for assetbundleimportjobthemeoverrideparameters0 in themes {
+                try themesContainer.encode(assetbundleimportjobthemeoverrideparameters0)
+            }
+        }
+        if let vpcConnections = vpcConnections {
+            var vpcConnectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConnections)
+            for assetbundleimportjobvpcconnectionoverrideparameters0 in vpcConnections {
+                try vpcConnectionsContainer.encode(assetbundleimportjobvpcconnectionoverrideparameters0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdOverrideConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration.self, forKey: .resourceIdOverrideConfiguration)
+        resourceIdOverrideConfiguration = resourceIdOverrideConfigurationDecoded
+        let vpcConnectionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters?].self, forKey: .vpcConnections)
+        var vpcConnectionsDecoded0:[QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]? = nil
+        if let vpcConnectionsContainer = vpcConnectionsContainer {
+            vpcConnectionsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]()
+            for structure0 in vpcConnectionsContainer {
+                if let structure0 = structure0 {
+                    vpcConnectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcConnections = vpcConnectionsDecoded0
+        let refreshSchedulesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters?].self, forKey: .refreshSchedules)
+        var refreshSchedulesDecoded0:[QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil
+        if let refreshSchedulesContainer = refreshSchedulesContainer {
+            refreshSchedulesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]()
+            for structure0 in refreshSchedulesContainer {
+                if let structure0 = structure0 {
+                    refreshSchedulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        refreshSchedules = refreshSchedulesDecoded0
+        let dataSourcesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters?].self, forKey: .dataSources)
+        var dataSourcesDecoded0:[QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters]? = nil
+        if let dataSourcesContainer = dataSourcesContainer {
+            dataSourcesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters]()
+            for structure0 in dataSourcesContainer {
+                if let structure0 = structure0 {
+                    dataSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSources = dataSourcesDecoded0
+        let dataSetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters?].self, forKey: .dataSets)
+        var dataSetsDecoded0:[QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters]? = nil
+        if let dataSetsContainer = dataSetsContainer {
+            dataSetsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters]()
+            for structure0 in dataSetsContainer {
+                if let structure0 = structure0 {
+                    dataSetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSets = dataSetsDecoded0
+        let themesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters?].self, forKey: .themes)
+        var themesDecoded0:[QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]? = nil
+        if let themesContainer = themesContainer {
+            themesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]()
+            for structure0 in themesContainer {
+                if let structure0 = structure0 {
+                    themesDecoded0?.append(structure0)
+                }
+            }
+        }
+        themes = themesDecoded0
+        let analysesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters?].self, forKey: .analyses)
+        var analysesDecoded0:[QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters]? = nil
+        if let analysesContainer = analysesContainer {
+            analysesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters]()
+            for structure0 in analysesContainer {
+                if let structure0 = structure0 {
+                    analysesDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyses = analysesDecoded0
+        let dashboardsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters?].self, forKey: .dashboards)
+        var dashboardsDecoded0:[QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters]? = nil
+        if let dashboardsContainer = dashboardsContainer {
+            dashboardsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters]()
+            for structure0 in dashboardsContainer {
+                if let structure0 = structure0 {
+                    dashboardsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashboards = dashboardsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A list of overrides that modify the asset bundle resource configuration before the resource is imported.
+    public struct AssetBundleImportJobOverrideParameters: Swift.Equatable {
+        /// A list of overrides for any Analysis resources that are present in the asset bundle that is imported.
+        public var analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters]?
+        /// A list of overrides for any Dashboard resources that are present in the asset bundle that is imported.
+        public var dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters]?
+        /// A list of overrides for any DataSet resources that are present in the asset bundle that is imported.
+        public var dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters]?
+        /// A list of overrides for any DataSource resources that are present in the asset bundle that is imported.
+        public var dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters]?
+        /// A list of overrides for any RefreshSchedule resources that are present in the asset bundle that is imported.
+        public var refreshSchedules: [QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]?
+        /// An optional structure that configures resource ID overrides to be applied within the import job.
+        public var resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration?
+        /// A list of overrides for any Theme resources that are present in the asset bundle that is imported.
+        public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]?
+        /// A list of overrides for any VPCConnection resources that are present in the asset bundle that is imported.
+        public var vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]?
+
+        public init (
+            analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters]? = nil,
+            dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters]? = nil,
+            dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters]? = nil,
+            dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters]? = nil,
+            refreshSchedules: [QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil,
+            resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration? = nil,
+            themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]? = nil,
+            vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]? = nil
+        )
+        {
+            self.analyses = analyses
+            self.dashboards = dashboards
+            self.dataSets = dataSets
+            self.dataSources = dataSources
+            self.refreshSchedules = refreshSchedules
+            self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
+            self.themes = themes
+            self.vpcConnections = vpcConnections
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetId = "DataSetId"
+        case scheduleId = "ScheduleId"
+        case startAfterDateTime = "StartAfterDateTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetId = self.dataSetId {
+            try encodeContainer.encode(dataSetId, forKey: .dataSetId)
+        }
+        if let scheduleId = self.scheduleId {
+            try encodeContainer.encode(scheduleId, forKey: .scheduleId)
+        }
+        if let startAfterDateTime = self.startAfterDateTime {
+            try encodeContainer.encodeTimestamp(startAfterDateTime, format: .epochSeconds, forKey: .startAfterDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetId)
+        dataSetId = dataSetIdDecoded
+        let scheduleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleId)
+        scheduleId = scheduleIdDecoded
+        let startAfterDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startAfterDateTime)
+        startAfterDateTime = startAfterDateTimeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A list of overrides for a specific RefreshsSchedule resource that is present in the asset bundle that is imported.
+    public struct AssetBundleImportJobRefreshScheduleOverrideParameters: Swift.Equatable {
+        /// A partial identifier for the specific RefreshSchedule resource that is being overridden. This structure is used together with the ScheduleID structure.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// A partial identifier for the specific RefreshSchedule resource being overridden. This structure is used together with the DataSetId structure.
+        /// This member is required.
+        public var scheduleId: Swift.String?
+        /// An override for the StartAfterDateTime of a RefreshSchedule to ensure that the StartAfterDateTime is set to a time that takes place in the future.
+        public var startAfterDateTime: ClientRuntime.Date?
+
+        public init (
+            dataSetId: Swift.String? = nil,
+            scheduleId: Swift.String? = nil,
+            startAfterDateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataSetId = dataSetId
+            self.scheduleId = scheduleId
+            self.startAfterDateTime = startAfterDateTime
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case prefixForAllResources = "PrefixForAllResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let prefixForAllResources = self.prefixForAllResources {
+            try encodeContainer.encode(prefixForAllResources, forKey: .prefixForAllResources)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixForAllResourcesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefixForAllResources)
+        prefixForAllResources = prefixForAllResourcesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An optional structure that configures resource ID overrides for the import job
+    public struct AssetBundleImportJobResourceIdOverrideConfiguration: Swift.Equatable {
+        /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
+        public var prefixForAllResources: Swift.String?
+
+        public init (
+            prefixForAllResources: Swift.String? = nil
+        )
+        {
+            self.prefixForAllResources = prefixForAllResources
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum AssetBundleImportJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case failedRollbackCompleted
+        case failedRollbackError
+        case failedRollbackInProgress
+        case inProgress
+        case queuedForImmediateExecution
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleImportJobStatus] {
+            return [
+                .failed,
+                .failedRollbackCompleted,
+                .failedRollbackError,
+                .failedRollbackInProgress,
+                .inProgress,
+                .queuedForImmediateExecution,
+                .successful,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .failedRollbackCompleted: return "FAILED_ROLLBACK_COMPLETED"
+            case .failedRollbackError: return "FAILED_ROLLBACK_ERROR"
+            case .failedRollbackInProgress: return "FAILED_ROLLBACK_IN_PROGRESS"
+            case .inProgress: return "IN_PROGRESS"
+            case .queuedForImmediateExecution: return "QUEUED_FOR_IMMEDIATE_EXECUTION"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssetBundleImportJobStatus(rawValue: rawValue) ?? AssetBundleImportJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assetBundleImportJobId = "AssetBundleImportJobId"
+        case createdTime = "CreatedTime"
+        case failureAction = "FailureAction"
+        case jobStatus = "JobStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let assetBundleImportJobId = self.assetBundleImportJobId {
+            try encodeContainer.encode(assetBundleImportJobId, forKey: .assetBundleImportJobId)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let failureAction = self.failureAction {
+            try encodeContainer.encode(failureAction.rawValue, forKey: .failureAction)
+        }
+        if let jobStatus = self.jobStatus {
+            try encodeContainer.encode(jobStatus.rawValue, forKey: .jobStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let assetBundleImportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleImportJobId)
+        assetBundleImportJobId = assetBundleImportJobIdDecoded
+        let failureActionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportFailureAction.self, forKey: .failureAction)
+        failureAction = failureActionDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A summary of the import job that includes details of the requested job's configuration and its current status.
+    public struct AssetBundleImportJobSummary: Swift.Equatable {
+        /// The ARN of the import job.
+        public var arn: Swift.String?
+        /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
+        public var assetBundleImportJobId: Swift.String?
+        /// The time that the import job was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The failure action for the import job.
+        public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
+        /// The current status of the import job.
+        public var jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus?
+
+        public init (
+            arn: Swift.String? = nil,
+            assetBundleImportJobId: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            failureAction: QuickSightClientTypes.AssetBundleImportFailureAction? = nil,
+            jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus? = nil
+        )
+        {
+            self.arn = arn
+            self.assetBundleImportJobId = assetBundleImportJobId
+            self.createdTime = createdTime
+            self.failureAction = failureAction
+            self.jobStatus = jobStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case themeId = "ThemeId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let themeId = self.themeId {
+            try encodeContainer.encode(themeId, forKey: .themeId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let themeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .themeId)
+        themeId = themeIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The override parameters for a single theme that is imported.
+    public struct AssetBundleImportJobThemeOverrideParameters: Swift.Equatable {
+        /// A new name for the theme.
+        public var name: Swift.String?
+        /// The ID of the theme to apply overrides to.
+        /// This member is required.
+        public var themeId: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            themeId: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.themeId = themeId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsResolvers = "DnsResolvers"
+        case name = "Name"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case subnetIds = "SubnetIds"
+        case vpcConnectionId = "VPCConnectionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dnsResolvers = dnsResolvers {
+            var dnsResolversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsResolvers)
+            for ipv4address0 in dnsResolvers {
+                try dnsResolversContainer.encode(ipv4address0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
+            }
+        }
+        if let vpcConnectionId = self.vpcConnectionId {
+            try encodeContainer.encode(vpcConnectionId, forKey: .vpcConnectionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let dnsResolversContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsResolvers)
+        var dnsResolversDecoded0:[Swift.String]? = nil
+        if let dnsResolversContainer = dnsResolversContainer {
+            dnsResolversDecoded0 = [Swift.String]()
+            for string0 in dnsResolversContainer {
+                if let string0 = string0 {
+                    dnsResolversDecoded0?.append(string0)
+                }
+            }
+        }
+        dnsResolvers = dnsResolversDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The override parameters for a single VPC connection that is imported.
+    public struct AssetBundleImportJobVPCConnectionOverrideParameters: Swift.Equatable {
+        /// An optional override of dns resolvers to be used by the VPC connection.
+        public var dnsResolvers: [Swift.String]?
+        /// A new name for the VPC connection.
+        public var name: Swift.String?
+        /// An optional override of the role ARN to be used by the VPC connection.
+        public var roleArn: Swift.String?
+        /// A new security group ID for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or region.
+        public var securityGroupIds: [Swift.String]?
+        /// A list of new subnet IDs for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or region.
+        public var subnetIds: [Swift.String]?
+        /// The ID of the VPC Connection to apply overrides to.
+        /// This member is required.
+        public var vpcConnectionId: Swift.String?
+
+        public init (
+            dnsResolvers: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcConnectionId: Swift.String? = nil
+        )
+        {
+            self.dnsResolvers = dnsResolvers
+            self.name = name
+            self.roleArn = roleArn
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcConnectionId = vpcConnectionId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body.base64EncodedString(), forKey: .body)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .body)
+        body = bodyDecoded
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssetBundleImportSource(s3Uri: \(Swift.String(describing: s3Uri)), body: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// The source of the asset bundle zip file that contains the data that you want to import.
+    public struct AssetBundleImportSource: Swift.Equatable {
+        /// The bytes of the Base64 encoded asset bundle import zip file. This file can't exceed 20MB. If you are calling the APIs from the Amazon Web Services Java, JavaScript, Python, or PHP SDKs, the SDK encodes Base64 automatically to allow the direct setting of the zip file's bytes. If you are using a SDK of a different language or are receiving related errors, try to Base64 encode your data.
+        public var body: ClientRuntime.Data?
+        /// The Amazon S3 uri for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20MB.
+        public var s3Uri: Swift.String?
+
+        public init (
+            body: ClientRuntime.Data? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.body = body
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportSourceDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body, forKey: .body)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .body)
+        body = bodyDecoded
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A description of the import source that you provide at the start of an import job. This value is set to either Body or S3Uri depending on how the StartAssetBundleImportJobRequest is configured.
+    public struct AssetBundleImportSourceDescription: Swift.Equatable {
+        /// A HTTPS download URL for the provided asset bundle that you optionally provided at the start of the import job. This URL is valid for 5 minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a .qs zip file.
+        public var body: Swift.String?
+        /// The Amazon S3 uri that you provided at the start of the import job.
+        public var s3Uri: Swift.String?
+
+        public init (
+            body: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.body = body
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
 extension QuickSightClientTypes {
     public enum AssignmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -2049,6 +4226,68 @@ extension QuickSightClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = AuthenticationMethodOption(rawValue: rawValue) ?? AuthenticationMethodOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum AuthorSpecifiedAggregation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case count
+        case distinctCount
+        case max
+        case median
+        case min
+        case percentile
+        case stdev
+        case stdevp
+        case sum
+        case `var`
+        case varp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthorSpecifiedAggregation] {
+            return [
+                .average,
+                .count,
+                .distinctCount,
+                .max,
+                .median,
+                .min,
+                .percentile,
+                .stdev,
+                .stdevp,
+                .sum,
+                .var,
+                .varp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
+            case .distinctCount: return "DISTINCT_COUNT"
+            case .max: return "MAX"
+            case .median: return "MEDIAN"
+            case .min: return "MIN"
+            case .percentile: return "PERCENTILE"
+            case .stdev: return "STDEV"
+            case .stdevp: return "STDEVP"
+            case .sum: return "SUM"
+            case .var: return "VAR"
+            case .varp: return "VARP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthorSpecifiedAggregation(rawValue: rawValue) ?? AuthorSpecifiedAggregation.sdkUnknown(rawValue)
         }
     }
 }
@@ -3527,6 +5766,42 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.BookmarksConfigurations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The bookmarks configuration of an embedded dashboard.
+    public struct BookmarksConfigurations: Swift.Equatable {
+        /// A Boolean value that determines whether a user can bookmark an embedded dashboard.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init (
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.BorderStyle: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case show = "Show"
@@ -4916,6 +7191,38 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+    public enum CategoryFilterFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contains
+        case exact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CategoryFilterFunction] {
+            return [
+                .contains,
+                .exact,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .exact: return "EXACT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CategoryFilterFunction(rawValue: rawValue) ?? CategoryFilterFunction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
     public enum CategoryFilterMatchOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case contains
         case doesNotContain
@@ -4986,6 +7293,98 @@ extension QuickSightClientTypes {
             self = CategoryFilterSelectAllOptions(rawValue: rawValue) ?? CategoryFilterSelectAllOptions.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes {
+    public enum CategoryFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case customFilter
+        case customFilterList
+        case filterList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CategoryFilterType] {
+            return [
+                .customFilter,
+                .customFilterList,
+                .filterList,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .customFilter: return "CUSTOM_FILTER"
+            case .customFilterList: return "CUSTOM_FILTER_LIST"
+            case .filterList: return "FILTER_LIST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CategoryFilterType(rawValue: rawValue) ?? CategoryFilterType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.CellValueSynonym: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cellValue = "CellValue"
+        case synonyms = "Synonyms"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cellValue = self.cellValue {
+            try encodeContainer.encode(cellValue, forKey: .cellValue)
+        }
+        if let synonyms = synonyms {
+            var synonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .synonyms)
+            for string0 in synonyms {
+                try synonymsContainer.encode(string0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cellValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cellValue)
+        cellValue = cellValueDecoded
+        let synonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .synonyms)
+        var synonymsDecoded0:[Swift.String]? = nil
+        if let synonymsContainer = synonymsContainer {
+            synonymsDecoded0 = [Swift.String]()
+            for string0 in synonymsContainer {
+                if let string0 = string0 {
+                    synonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        synonyms = synonymsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents the cell value synonym.
+    public struct CellValueSynonym: Swift.Equatable {
+        /// The cell value.
+        public var cellValue: Swift.String?
+        /// Other names or aliases for the cell value.
+        public var synonyms: [Swift.String]?
+
+        public init (
+            cellValue: Swift.String? = nil,
+            synonyms: [Swift.String]? = nil
+        )
+        {
+            self.cellValue = cellValue
+            self.synonyms = synonyms
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.ChartAxisLabelOptions: Swift.Codable {
@@ -5116,7 +7515,7 @@ extension QuickSightClientTypes.ClusterMarkerConfiguration: Swift.Codable {
 extension QuickSightClientTypes {
     /// The cluster marker configuration of the geospatial map selected point style.
     public struct ClusterMarkerConfiguration: Swift.Equatable {
-        /// The cluster marker that is a part of the cluster marker configuration
+        /// The cluster marker that is a part of the cluster marker configuration.
         public var clusterMarker: QuickSightClientTypes.ClusterMarker?
 
         public init (
@@ -5124,6 +7523,53 @@ extension QuickSightClientTypes {
         )
         {
             self.clusterMarker = clusterMarker
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.CollectiveConstant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case valueList = "ValueList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let valueList = valueList {
+            var valueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueList)
+            for string0 in valueList {
+                try valueListContainer.encode(string0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .valueList)
+        var valueListDecoded0:[Swift.String]? = nil
+        if let valueListContainer = valueListContainer {
+            valueListDecoded0 = [Swift.String]()
+            for string0 in valueListContainer {
+                if let string0 = string0 {
+                    valueListDecoded0?.append(string0)
+                }
+            }
+        }
+        valueList = valueListDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a collective constant.
+    public struct CollectiveConstant: Swift.Equatable {
+        /// A list of values for the collective constant.
+        public var valueList: [Swift.String]?
+
+        public init (
+            valueList: [Swift.String]? = nil
+        )
+        {
+            self.valueList = valueList
         }
     }
 
@@ -5284,6 +7730,38 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes {
+    public enum ColumnDataRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dimension
+        case measure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColumnDataRole] {
+            return [
+                .dimension,
+                .measure,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dimension: return "DIMENSION"
+            case .measure: return "MEASURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ColumnDataRole(rawValue: rawValue) ?? ColumnDataRole.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes {
@@ -5655,6 +8133,41 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes {
+    public enum ColumnOrderingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case greaterIsBetter
+        case lesserIsBetter
+        case specified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColumnOrderingType] {
+            return [
+                .greaterIsBetter,
+                .lesserIsBetter,
+                .specified,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .greaterIsBetter: return "GREATER_IS_BETTER"
+            case .lesserIsBetter: return "LESSER_IS_BETTER"
+            case .specified: return "SPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ColumnOrderingType(rawValue: rawValue) ?? ColumnOrderingType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes {
@@ -6489,6 +9002,73 @@ extension QuickSightClientTypes {
             self.subtitle = subtitle
             self.title = title
             self.visualId = visualId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.ComparativeOrder: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case specifedOrder = "SpecifedOrder"
+        case treatUndefinedSpecifiedValues = "TreatUndefinedSpecifiedValues"
+        case useOrdering = "UseOrdering"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let specifedOrder = specifedOrder {
+            var specifedOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .specifedOrder)
+            for string0 in specifedOrder {
+                try specifedOrderContainer.encode(string0)
+            }
+        }
+        if let treatUndefinedSpecifiedValues = self.treatUndefinedSpecifiedValues {
+            try encodeContainer.encode(treatUndefinedSpecifiedValues.rawValue, forKey: .treatUndefinedSpecifiedValues)
+        }
+        if let useOrdering = self.useOrdering {
+            try encodeContainer.encode(useOrdering.rawValue, forKey: .useOrdering)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let useOrderingDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnOrderingType.self, forKey: .useOrdering)
+        useOrdering = useOrderingDecoded
+        let specifedOrderContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .specifedOrder)
+        var specifedOrderDecoded0:[Swift.String]? = nil
+        if let specifedOrderContainer = specifedOrderContainer {
+            specifedOrderDecoded0 = [Swift.String]()
+            for string0 in specifedOrderContainer {
+                if let string0 = string0 {
+                    specifedOrderDecoded0?.append(string0)
+                }
+            }
+        }
+        specifedOrder = specifedOrderDecoded0
+        let treatUndefinedSpecifiedValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.UndefinedSpecifiedValueType.self, forKey: .treatUndefinedSpecifiedValues)
+        treatUndefinedSpecifiedValues = treatUndefinedSpecifiedValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a comparative order.
+    public struct ComparativeOrder: Swift.Equatable {
+        /// The list of columns to be used in the ordering.
+        public var specifedOrder: [Swift.String]?
+        /// The treat of undefined specified values. Valid values for this structure are LEAST and MOST.
+        public var treatUndefinedSpecifiedValues: QuickSightClientTypes.UndefinedSpecifiedValueType?
+        /// The ordering type for a column. Valid values for this structure are GREATER_IS_BETTER, LESSER_IS_BETTER and SPECIFIED.
+        public var useOrdering: QuickSightClientTypes.ColumnOrderingType?
+
+        public init (
+            specifedOrder: [Swift.String]? = nil,
+            treatUndefinedSpecifiedValues: QuickSightClientTypes.UndefinedSpecifiedValueType? = nil,
+            useOrdering: QuickSightClientTypes.ColumnOrderingType? = nil
+        )
+        {
+            self.specifedOrder = specifedOrder
+            self.treatUndefinedSpecifiedValues = treatUndefinedSpecifiedValues
+            self.useOrdering = useOrdering
         }
     }
 
@@ -7352,6 +9932,41 @@ extension ConflictExceptionBody: Swift.Decodable {
         message = messageDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum ConstantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case collective
+        case range
+        case singular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConstantType] {
+            return [
+                .collective,
+                .range,
+                .singular,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .collective: return "COLLECTIVE"
+            case .range: return "RANGE"
+            case .singular: return "SINGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConstantType(rawValue: rawValue) ?? ConstantType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -8636,6 +11251,7 @@ extension CreateDataSetInput: Swift.Encodable {
         case columnLevelPermissionRules = "ColumnLevelPermissionRules"
         case dataSetId = "DataSetId"
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
+        case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
         case importMode = "ImportMode"
         case logicalTableMap = "LogicalTableMap"
@@ -8666,6 +11282,12 @@ extension CreateDataSetInput: Swift.Encodable {
         }
         if let dataSetUsageConfiguration = self.dataSetUsageConfiguration {
             try encodeContainer.encode(dataSetUsageConfiguration, forKey: .dataSetUsageConfiguration)
+        }
+        if let datasetParameters = datasetParameters {
+            var datasetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetParameters)
+            for datasetparameter0 in datasetParameters {
+                try datasetParametersContainer.encode(datasetparameter0)
+            }
         }
         if let fieldFolders = fieldFolders {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
@@ -8734,6 +11356,8 @@ public struct CreateDataSetInput: Swift.Equatable {
     public var dataSetId: Swift.String?
     /// The usage configuration to apply to child datasets that reference this dataset as a source.
     public var dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
+    /// The parameter declarations of the dataset.
+    public var datasetParameters: [QuickSightClientTypes.DatasetParameter]?
     /// The folder that contains fields and nested subfolders for your dataset.
     public var fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]?
     /// Indicates whether you want to import the data into SPICE.
@@ -8762,6 +11386,7 @@ public struct CreateDataSetInput: Swift.Equatable {
         columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]? = nil,
         dataSetId: Swift.String? = nil,
         dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
+        datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
         fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]? = nil,
         importMode: QuickSightClientTypes.DataSetImportMode? = nil,
         logicalTableMap: [Swift.String:QuickSightClientTypes.LogicalTable]? = nil,
@@ -8778,6 +11403,7 @@ public struct CreateDataSetInput: Swift.Equatable {
         self.columnLevelPermissionRules = columnLevelPermissionRules
         self.dataSetId = dataSetId
         self.dataSetUsageConfiguration = dataSetUsageConfiguration
+        self.datasetParameters = datasetParameters
         self.fieldFolders = fieldFolders
         self.importMode = importMode
         self.logicalTableMap = logicalTableMap
@@ -8804,6 +11430,7 @@ struct CreateDataSetInputBody: Swift.Equatable {
     let columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]?
     let tags: [QuickSightClientTypes.Tag]?
     let dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
+    let datasetParameters: [QuickSightClientTypes.DatasetParameter]?
 }
 
 extension CreateDataSetInputBody: Swift.Decodable {
@@ -8812,6 +11439,7 @@ extension CreateDataSetInputBody: Swift.Decodable {
         case columnLevelPermissionRules = "ColumnLevelPermissionRules"
         case dataSetId = "DataSetId"
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
+        case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
         case importMode = "ImportMode"
         case logicalTableMap = "LogicalTableMap"
@@ -8914,6 +11542,17 @@ extension CreateDataSetInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let dataSetUsageConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataSetUsageConfiguration.self, forKey: .dataSetUsageConfiguration)
         dataSetUsageConfiguration = dataSetUsageConfigurationDecoded
+        let datasetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DatasetParameter?].self, forKey: .datasetParameters)
+        var datasetParametersDecoded0:[QuickSightClientTypes.DatasetParameter]? = nil
+        if let datasetParametersContainer = datasetParametersContainer {
+            datasetParametersDecoded0 = [QuickSightClientTypes.DatasetParameter]()
+            for structure0 in datasetParametersContainer {
+                if let structure0 = structure0 {
+                    datasetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        datasetParameters = datasetParametersDecoded0
     }
 }
 
@@ -10102,7 +12741,7 @@ extension CreateIAMPolicyAssignmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateIAMPolicyAssignmentInput: Swift.Equatable {
-    /// The name of the assignment, also called a rule. It must be unique within an Amazon Web Services account.
+    /// The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account.
     /// This member is required.
     public var assignmentName: Swift.String?
     /// The status of the assignment. Possible values are as follows:
@@ -10247,7 +12886,7 @@ extension CreateIAMPolicyAssignmentOutputResponse: ClientRuntime.HttpResponseBin
 public struct CreateIAMPolicyAssignmentOutputResponse: Swift.Equatable {
     /// The ID for the assignment.
     public var assignmentId: Swift.String?
-    /// The name of the assignment. This name must be unique within the Amazon Web Services account.
+    /// The name of the assignment. The name must be unique within the Amazon Web Services account.
     public var assignmentName: Swift.String?
     /// The status of the assignment. Possible values are as follows:
     ///
@@ -11805,6 +14444,723 @@ extension CreateThemeOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+    }
+}
+
+extension CreateTopicInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+        case topic = "Topic"
+        case topicId = "TopicId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let topic = self.topic {
+            try encodeContainer.encode(topic, forKey: .topic)
+        }
+        if let topicId = self.topicId {
+            try encodeContainer.encode(topicId, forKey: .topicId)
+        }
+    }
+}
+
+extension CreateTopicInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics"
+    }
+}
+
+public struct CreateTopicInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that you want to create a topic in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// The definition of a topic to create.
+    /// This member is required.
+    public var topic: QuickSightClientTypes.TopicDetails?
+    /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        topic: QuickSightClientTypes.TopicDetails? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.tags = tags
+        self.topic = topic
+        self.topicId = topicId
+    }
+}
+
+struct CreateTopicInputBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topic: QuickSightClientTypes.TopicDetails?
+    let tags: [QuickSightClientTypes.Tag]?
+}
+
+extension CreateTopicInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+        case topic = "Topic"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicDetails.self, forKey: .topic)
+        topic = topicDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateTopicOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateTopicOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateTopicOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateTopicOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateTopicOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.refreshArn = output.refreshArn
+            self.requestId = output.requestId
+            self.topicId = output.topicId
+        } else {
+            self.arn = nil
+            self.refreshArn = nil
+            self.requestId = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct CreateTopicOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the topic refresh.
+    public var refreshArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        refreshArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.refreshArn = refreshArn
+        self.requestId = requestId
+        self.status = status
+        self.topicId = topicId
+    }
+}
+
+struct CreateTopicOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let topicId: Swift.String?
+    let refreshArn: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension CreateTopicOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case refreshArn = "RefreshArn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let refreshArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshArn)
+        refreshArn = refreshArnDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension CreateTopicRefreshScheduleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case datasetName = "DatasetName"
+        case refreshSchedule = "RefreshSchedule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let refreshSchedule = self.refreshSchedule {
+            try encodeContainer.encode(refreshSchedule, forKey: .refreshSchedule)
+        }
+    }
+}
+
+extension CreateTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules"
+    }
+}
+
+public struct CreateTopicRefreshScheduleInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The name of the dataset.
+    public var datasetName: Swift.String?
+    /// The definition of a refresh schedule.
+    /// This member is required.
+    public var refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        datasetArn: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.datasetArn = datasetArn
+        self.datasetName = datasetName
+        self.refreshSchedule = refreshSchedule
+        self.topicId = topicId
+    }
+}
+
+struct CreateTopicRefreshScheduleInputBody: Swift.Equatable {
+    let datasetArn: Swift.String?
+    let datasetName: Swift.String?
+    let refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+}
+
+extension CreateTopicRefreshScheduleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case datasetName = "DatasetName"
+        case refreshSchedule = "RefreshSchedule"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let refreshScheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRefreshSchedule.self, forKey: .refreshSchedule)
+        refreshSchedule = refreshScheduleDecoded
+    }
+}
+
+extension CreateTopicRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateTopicRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateTopicRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateTopicRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateTopicRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.datasetArn = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct CreateTopicRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    public var datasetArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        datasetArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct CreateTopicRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let datasetArn: Swift.String?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension CreateTopicRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
+extension CreateVPCConnectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsResolvers = "DnsResolvers"
+        case name = "Name"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case subnetIds = "SubnetIds"
+        case tags = "Tags"
+        case vpcConnectionId = "VPCConnectionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dnsResolvers = dnsResolvers {
+            var dnsResolversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsResolvers)
+            for ipv4address0 in dnsResolvers {
+                try dnsResolversContainer.encode(ipv4address0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let vpcConnectionId = self.vpcConnectionId {
+            try encodeContainer.encode(vpcConnectionId, forKey: .vpcConnectionId)
+        }
+    }
+}
+
+extension CreateVPCConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections"
+    }
+}
+
+public struct CreateVPCConnectionInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the account where you want to create a new VPC connection.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A list of IP addresses of DNS resolver endpoints for the VPC connection.
+    public var dnsResolvers: [Swift.String]?
+    /// The display name for the VPC connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The IAM role to associate with the VPC connection.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// A list of security group IDs for the VPC connection.
+    /// This member is required.
+    public var securityGroupIds: [Swift.String]?
+    /// A list of subnet IDs for the VPC connection.
+    /// This member is required.
+    public var subnetIds: [Swift.String]?
+    /// A map of the key-value pairs for the resource tag or tags assigned to the VPC connection.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+    /// This member is required.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dnsResolvers: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        subnetIds: [Swift.String]? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dnsResolvers = dnsResolvers
+        self.name = name
+        self.roleArn = roleArn
+        self.securityGroupIds = securityGroupIds
+        self.subnetIds = subnetIds
+        self.tags = tags
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct CreateVPCConnectionInputBody: Swift.Equatable {
+    let vpcConnectionId: Swift.String?
+    let name: Swift.String?
+    let subnetIds: [Swift.String]?
+    let securityGroupIds: [Swift.String]?
+    let dnsResolvers: [Swift.String]?
+    let roleArn: Swift.String?
+    let tags: [QuickSightClientTypes.Tag]?
+}
+
+extension CreateVPCConnectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsResolvers = "DnsResolvers"
+        case name = "Name"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case subnetIds = "SubnetIds"
+        case tags = "Tags"
+        case vpcConnectionId = "VPCConnectionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let dnsResolversContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsResolvers)
+        var dnsResolversDecoded0:[Swift.String]? = nil
+        if let dnsResolversContainer = dnsResolversContainer {
+            dnsResolversDecoded0 = [Swift.String]()
+            for string0 in dnsResolversContainer {
+                if let string0 = string0 {
+                    dnsResolversDecoded0?.append(string0)
+                }
+            }
+        }
+        dnsResolvers = dnsResolversDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateVPCConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateVPCConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateVPCConnectionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVPCConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateVPCConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.availabilityStatus = output.availabilityStatus
+            self.creationStatus = output.creationStatus
+            self.requestId = output.requestId
+            self.vpcConnectionId = output.vpcConnectionId
+        } else {
+            self.arn = nil
+            self.availabilityStatus = nil
+            self.creationStatus = nil
+            self.requestId = nil
+            self.vpcConnectionId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct CreateVPCConnectionOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the VPC connection.
+    public var arn: Swift.String?
+    /// The availability status of the VPC connection.
+    public var availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+    /// The status of the creation of the VPC connection.
+    public var creationStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID for the VPC connection that you're creating. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus? = nil,
+        creationStatus: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.availabilityStatus = availabilityStatus
+        self.creationStatus = creationStatus
+        self.requestId = requestId
+        self.status = status
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct CreateVPCConnectionOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let vpcConnectionId: Swift.String?
+    let creationStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
+    let availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension CreateVPCConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case availabilityStatus = "AvailabilityStatus"
+        case creationStatus = "CreationStatus"
+        case requestId = "RequestId"
+        case status = "Status"
+        case vpcConnectionId = "VPCConnectionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let creationStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionResourceStatus.self, forKey: .creationStatus)
+        creationStatus = creationStatusDecoded
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
     }
 }
 
@@ -14111,6 +17467,51 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.DataAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetRowDateGranularity = "DatasetRowDateGranularity"
+        case defaultDateColumnName = "DefaultDateColumnName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetRowDateGranularity = self.datasetRowDateGranularity {
+            try encodeContainer.encode(datasetRowDateGranularity.rawValue, forKey: .datasetRowDateGranularity)
+        }
+        if let defaultDateColumnName = self.defaultDateColumnName {
+            try encodeContainer.encode(defaultDateColumnName, forKey: .defaultDateColumnName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetRowDateGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicTimeGranularity.self, forKey: .datasetRowDateGranularity)
+        datasetRowDateGranularity = datasetRowDateGranularityDecoded
+        let defaultDateColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultDateColumnName)
+        defaultDateColumnName = defaultDateColumnNameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a data aggregation.
+    public struct DataAggregation: Swift.Equatable {
+        /// The level of time precision that is used to aggregate DateTime values.
+        public var datasetRowDateGranularity: QuickSightClientTypes.TopicTimeGranularity?
+        /// The column name for the default date.
+        public var defaultDateColumnName: Swift.String?
+
+        public init (
+            datasetRowDateGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil,
+            defaultDateColumnName: Swift.String? = nil
+        )
+        {
+            self.datasetRowDateGranularity = datasetRowDateGranularity
+            self.defaultDateColumnName = defaultDateColumnName
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DataBarsOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldId = "FieldId"
@@ -14408,6 +17809,7 @@ extension QuickSightClientTypes.DataLabelOptions: Swift.Codable {
         case measureLabelVisibility = "MeasureLabelVisibility"
         case overlap = "Overlap"
         case position = "Position"
+        case totalsVisibility = "TotalsVisibility"
         case visibility = "Visibility"
     }
 
@@ -14439,6 +17841,9 @@ extension QuickSightClientTypes.DataLabelOptions: Swift.Codable {
         }
         if let position = self.position {
             try encodeContainer.encode(position.rawValue, forKey: .position)
+        }
+        if let totalsVisibility = self.totalsVisibility {
+            try encodeContainer.encode(totalsVisibility.rawValue, forKey: .totalsVisibility)
         }
         if let visibility = self.visibility {
             try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
@@ -14474,6 +17879,8 @@ extension QuickSightClientTypes.DataLabelOptions: Swift.Codable {
         labelColor = labelColorDecoded
         let overlapDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataLabelOverlap.self, forKey: .overlap)
         overlap = overlapDecoded
+        let totalsVisibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .totalsVisibility)
+        totalsVisibility = totalsVisibilityDecoded
     }
 }
 
@@ -14496,6 +17903,8 @@ extension QuickSightClientTypes {
         public var overlap: QuickSightClientTypes.DataLabelOverlap?
         /// Determines the position of the data labels.
         public var position: QuickSightClientTypes.DataLabelPosition?
+        /// Determines the visibility of the total.
+        public var totalsVisibility: QuickSightClientTypes.Visibility?
         /// Determines the visibility of the data labels.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -14508,6 +17917,7 @@ extension QuickSightClientTypes {
             measureLabelVisibility: QuickSightClientTypes.Visibility? = nil,
             overlap: QuickSightClientTypes.DataLabelOverlap? = nil,
             position: QuickSightClientTypes.DataLabelPosition? = nil,
+            totalsVisibility: QuickSightClientTypes.Visibility? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
         )
         {
@@ -14519,6 +17929,7 @@ extension QuickSightClientTypes {
             self.measureLabelVisibility = measureLabelVisibility
             self.overlap = overlap
             self.position = position
+            self.totalsVisibility = totalsVisibility
             self.visibility = visibility
         }
     }
@@ -15018,6 +18429,7 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         case createdTime = "CreatedTime"
         case dataSetId = "DataSetId"
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
+        case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
         case importMode = "ImportMode"
         case lastUpdatedTime = "LastUpdatedTime"
@@ -15057,6 +18469,12 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         }
         if let dataSetUsageConfiguration = self.dataSetUsageConfiguration {
             try encodeContainer.encode(dataSetUsageConfiguration, forKey: .dataSetUsageConfiguration)
+        }
+        if let datasetParameters = datasetParameters {
+            var datasetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetParameters)
+            for datasetparameter0 in datasetParameters {
+                try datasetParametersContainer.encode(datasetparameter0)
+            }
         }
         if let fieldFolders = fieldFolders {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
@@ -15187,6 +18605,17 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         columnLevelPermissionRules = columnLevelPermissionRulesDecoded0
         let dataSetUsageConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataSetUsageConfiguration.self, forKey: .dataSetUsageConfiguration)
         dataSetUsageConfiguration = dataSetUsageConfigurationDecoded
+        let datasetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DatasetParameter?].self, forKey: .datasetParameters)
+        var datasetParametersDecoded0:[QuickSightClientTypes.DatasetParameter]? = nil
+        if let datasetParametersContainer = datasetParametersContainer {
+            datasetParametersDecoded0 = [QuickSightClientTypes.DatasetParameter]()
+            for structure0 in datasetParametersContainer {
+                if let structure0 = structure0 {
+                    datasetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        datasetParameters = datasetParametersDecoded0
     }
 }
 
@@ -15207,6 +18636,8 @@ extension QuickSightClientTypes {
         public var dataSetId: Swift.String?
         /// The usage configuration to apply to child datasets that reference this dataset as a source.
         public var dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
+        /// The parameters that are declared in a dataset.
+        public var datasetParameters: [QuickSightClientTypes.DatasetParameter]?
         /// The folder that contains fields and nested subfolders for your dataset.
         public var fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]?
         /// A value that indicates whether you want to import the data into SPICE.
@@ -15234,6 +18665,7 @@ extension QuickSightClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             dataSetId: Swift.String? = nil,
             dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
+            datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
             fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]? = nil,
             importMode: QuickSightClientTypes.DataSetImportMode? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
@@ -15252,6 +18684,7 @@ extension QuickSightClientTypes {
             self.createdTime = createdTime
             self.dataSetId = dataSetId
             self.dataSetUsageConfiguration = dataSetUsageConfiguration
+            self.datasetParameters = datasetParameters
             self.fieldFolders = fieldFolders
             self.importMode = importMode
             self.lastUpdatedTime = lastUpdatedTime
@@ -16747,6 +20180,257 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.DatasetMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculatedFields = "CalculatedFields"
+        case columns = "Columns"
+        case dataAggregation = "DataAggregation"
+        case datasetArn = "DatasetArn"
+        case datasetDescription = "DatasetDescription"
+        case datasetName = "DatasetName"
+        case filters = "Filters"
+        case namedEntities = "NamedEntities"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculatedFields = calculatedFields {
+            var calculatedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .calculatedFields)
+            for topiccalculatedfield0 in calculatedFields {
+                try calculatedFieldsContainer.encode(topiccalculatedfield0)
+            }
+        }
+        if let columns = columns {
+            var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
+            for topiccolumn0 in columns {
+                try columnsContainer.encode(topiccolumn0)
+            }
+        }
+        if let dataAggregation = self.dataAggregation {
+            try encodeContainer.encode(dataAggregation, forKey: .dataAggregation)
+        }
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+        if let datasetDescription = self.datasetDescription {
+            try encodeContainer.encode(datasetDescription, forKey: .datasetDescription)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for topicfilter0 in filters {
+                try filtersContainer.encode(topicfilter0)
+            }
+        }
+        if let namedEntities = namedEntities {
+            var namedEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .namedEntities)
+            for topicnamedentity0 in namedEntities {
+                try namedEntitiesContainer.encode(topicnamedentity0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let datasetDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetDescription)
+        datasetDescription = datasetDescriptionDecoded
+        let dataAggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataAggregation.self, forKey: .dataAggregation)
+        dataAggregation = dataAggregationDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TopicFilter?].self, forKey: .filters)
+        var filtersDecoded0:[QuickSightClientTypes.TopicFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [QuickSightClientTypes.TopicFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let columnsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TopicColumn?].self, forKey: .columns)
+        var columnsDecoded0:[QuickSightClientTypes.TopicColumn]? = nil
+        if let columnsContainer = columnsContainer {
+            columnsDecoded0 = [QuickSightClientTypes.TopicColumn]()
+            for structure0 in columnsContainer {
+                if let structure0 = structure0 {
+                    columnsDecoded0?.append(structure0)
+                }
+            }
+        }
+        columns = columnsDecoded0
+        let calculatedFieldsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TopicCalculatedField?].self, forKey: .calculatedFields)
+        var calculatedFieldsDecoded0:[QuickSightClientTypes.TopicCalculatedField]? = nil
+        if let calculatedFieldsContainer = calculatedFieldsContainer {
+            calculatedFieldsDecoded0 = [QuickSightClientTypes.TopicCalculatedField]()
+            for structure0 in calculatedFieldsContainer {
+                if let structure0 = structure0 {
+                    calculatedFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        calculatedFields = calculatedFieldsDecoded0
+        let namedEntitiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TopicNamedEntity?].self, forKey: .namedEntities)
+        var namedEntitiesDecoded0:[QuickSightClientTypes.TopicNamedEntity]? = nil
+        if let namedEntitiesContainer = namedEntitiesContainer {
+            namedEntitiesDecoded0 = [QuickSightClientTypes.TopicNamedEntity]()
+            for structure0 in namedEntitiesContainer {
+                if let structure0 = structure0 {
+                    namedEntitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        namedEntities = namedEntitiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a dataset.
+    public struct DatasetMetadata: Swift.Equatable {
+        /// The list of calculated field definitions.
+        public var calculatedFields: [QuickSightClientTypes.TopicCalculatedField]?
+        /// The list of column definitions.
+        public var columns: [QuickSightClientTypes.TopicColumn]?
+        /// The definition of a data aggregation.
+        public var dataAggregation: QuickSightClientTypes.DataAggregation?
+        /// The Amazon Resource Name (ARN) of the dataset.
+        /// This member is required.
+        public var datasetArn: Swift.String?
+        /// The description of the dataset.
+        public var datasetDescription: Swift.String?
+        /// The name of the dataset.
+        public var datasetName: Swift.String?
+        /// The list of filter definitions.
+        public var filters: [QuickSightClientTypes.TopicFilter]?
+        /// The list of named entities definitions.
+        public var namedEntities: [QuickSightClientTypes.TopicNamedEntity]?
+
+        public init (
+            calculatedFields: [QuickSightClientTypes.TopicCalculatedField]? = nil,
+            columns: [QuickSightClientTypes.TopicColumn]? = nil,
+            dataAggregation: QuickSightClientTypes.DataAggregation? = nil,
+            datasetArn: Swift.String? = nil,
+            datasetDescription: Swift.String? = nil,
+            datasetName: Swift.String? = nil,
+            filters: [QuickSightClientTypes.TopicFilter]? = nil,
+            namedEntities: [QuickSightClientTypes.TopicNamedEntity]? = nil
+        )
+        {
+            self.calculatedFields = calculatedFields
+            self.columns = columns
+            self.dataAggregation = dataAggregation
+            self.datasetArn = datasetArn
+            self.datasetDescription = datasetDescription
+            self.datasetName = datasetName
+            self.filters = filters
+            self.namedEntities = namedEntities
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DatasetParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dateTimeDatasetParameter = "DateTimeDatasetParameter"
+        case decimalDatasetParameter = "DecimalDatasetParameter"
+        case integerDatasetParameter = "IntegerDatasetParameter"
+        case stringDatasetParameter = "StringDatasetParameter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dateTimeDatasetParameter = self.dateTimeDatasetParameter {
+            try encodeContainer.encode(dateTimeDatasetParameter, forKey: .dateTimeDatasetParameter)
+        }
+        if let decimalDatasetParameter = self.decimalDatasetParameter {
+            try encodeContainer.encode(decimalDatasetParameter, forKey: .decimalDatasetParameter)
+        }
+        if let integerDatasetParameter = self.integerDatasetParameter {
+            try encodeContainer.encode(integerDatasetParameter, forKey: .integerDatasetParameter)
+        }
+        if let stringDatasetParameter = self.stringDatasetParameter {
+            try encodeContainer.encode(stringDatasetParameter, forKey: .stringDatasetParameter)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stringDatasetParameterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StringDatasetParameter.self, forKey: .stringDatasetParameter)
+        stringDatasetParameter = stringDatasetParameterDecoded
+        let decimalDatasetParameterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DecimalDatasetParameter.self, forKey: .decimalDatasetParameter)
+        decimalDatasetParameter = decimalDatasetParameterDecoded
+        let integerDatasetParameterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IntegerDatasetParameter.self, forKey: .integerDatasetParameter)
+        integerDatasetParameter = integerDatasetParameterDecoded
+        let dateTimeDatasetParameterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DateTimeDatasetParameter.self, forKey: .dateTimeDatasetParameter)
+        dateTimeDatasetParameter = dateTimeDatasetParameterDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A dataset parameter.
+    public struct DatasetParameter: Swift.Equatable {
+        /// A date time parameter that is created in the dataset.
+        public var dateTimeDatasetParameter: QuickSightClientTypes.DateTimeDatasetParameter?
+        /// A decimal parameter that is created in the dataset.
+        public var decimalDatasetParameter: QuickSightClientTypes.DecimalDatasetParameter?
+        /// An integer parameter that is created in the dataset.
+        public var integerDatasetParameter: QuickSightClientTypes.IntegerDatasetParameter?
+        /// A string parameter that is created in the dataset.
+        public var stringDatasetParameter: QuickSightClientTypes.StringDatasetParameter?
+
+        public init (
+            dateTimeDatasetParameter: QuickSightClientTypes.DateTimeDatasetParameter? = nil,
+            decimalDatasetParameter: QuickSightClientTypes.DecimalDatasetParameter? = nil,
+            integerDatasetParameter: QuickSightClientTypes.IntegerDatasetParameter? = nil,
+            stringDatasetParameter: QuickSightClientTypes.StringDatasetParameter? = nil
+        )
+        {
+            self.dateTimeDatasetParameter = dateTimeDatasetParameter
+            self.decimalDatasetParameter = decimalDatasetParameter
+            self.integerDatasetParameter = integerDatasetParameter
+            self.stringDatasetParameter = stringDatasetParameter
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum DatasetParameterValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case multiValued
+        case singleValued
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetParameterValueType] {
+            return [
+                .multiValued,
+                .singleValued,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiValued: return "MULTI_VALUED"
+            case .singleValued: return "SINGLE_VALUED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatasetParameterValueType(rawValue: rawValue) ?? DatasetParameterValueType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes {
     public enum DateAggregationFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case count
@@ -16977,6 +20661,131 @@ extension QuickSightClientTypes {
             self.column = column
             self.fieldId = fieldId
             self.formatConfiguration = formatConfiguration
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DateTimeDatasetParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValues = "DefaultValues"
+        case id = "Id"
+        case name = "Name"
+        case timeGranularity = "TimeGranularity"
+        case valueType = "ValueType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValues = self.defaultValues {
+            try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let timeGranularity = self.timeGranularity {
+            try encodeContainer.encode(timeGranularity.rawValue, forKey: .timeGranularity)
+        }
+        if let valueType = self.valueType {
+            try encodeContainer.encode(valueType.rawValue, forKey: .valueType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DatasetParameterValueType.self, forKey: .valueType)
+        valueType = valueTypeDecoded
+        let timeGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TimeGranularity.self, forKey: .timeGranularity)
+        timeGranularity = timeGranularityDecoded
+        let defaultValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DateTimeDatasetParameterDefaultValues.self, forKey: .defaultValues)
+        defaultValues = defaultValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A date time parameter for a dataset.
+    public struct DateTimeDatasetParameter: Swift.Equatable {
+        /// A list of default values for a given date time parameter. This structure only accepts static values.
+        public var defaultValues: QuickSightClientTypes.DateTimeDatasetParameterDefaultValues?
+        /// An identifier for the parameter that is created in the dataset.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the date time parameter that is created in the dataset.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The time granularity of the date time parameter.
+        public var timeGranularity: QuickSightClientTypes.TimeGranularity?
+        /// The value type of the dataset parameter. Valid values are single value or multi value.
+        /// This member is required.
+        public var valueType: QuickSightClientTypes.DatasetParameterValueType?
+
+        public init (
+            defaultValues: QuickSightClientTypes.DateTimeDatasetParameterDefaultValues? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
+            valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
+        )
+        {
+            self.defaultValues = defaultValues
+            self.id = id
+            self.name = name
+            self.timeGranularity = timeGranularity
+            self.valueType = valueType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DateTimeDatasetParameterDefaultValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case staticValues = "StaticValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let staticValues = staticValues {
+            var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
+            for datetimedatasetparameterdefaultvalue0 in staticValues {
+                try staticValuesContainer.encodeTimestamp(datetimedatasetparameterdefaultvalue0, format: .epochSeconds)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let staticValuesContainer = try containerValues.decodeIfPresent([ClientRuntime.Date?].self, forKey: .staticValues)
+        var staticValuesDecoded0:[ClientRuntime.Date]? = nil
+        if let staticValuesContainer = staticValuesContainer {
+            staticValuesDecoded0 = [ClientRuntime.Date]()
+            for timestamp0 in staticValuesContainer {
+                if let timestamp0 = timestamp0 {
+                    staticValuesDecoded0?.append(timestamp0)
+                }
+            }
+        }
+        staticValues = staticValuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default values of a date time parameter.
+    public struct DateTimeDatasetParameterDefaultValues: Swift.Equatable {
+        /// A list of static default values for a given date time parameter.
+        public var staticValues: [ClientRuntime.Date]?
+
+        public init (
+            staticValues: [ClientRuntime.Date]? = nil
+        )
+        {
+            self.staticValues = staticValues
         }
     }
 
@@ -17224,6 +21033,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.DateTimeParameterDeclaration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValues = "DefaultValues"
+        case mappedDataSetParameters = "MappedDataSetParameters"
         case name = "Name"
         case timeGranularity = "TimeGranularity"
         case valueWhenUnset = "ValueWhenUnset"
@@ -17233,6 +21043,12 @@ extension QuickSightClientTypes.DateTimeParameterDeclaration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValues = self.defaultValues {
             try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let mappedDataSetParameters = mappedDataSetParameters {
+            var mappedDataSetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappedDataSetParameters)
+            for mappeddatasetparameter0 in mappedDataSetParameters {
+                try mappedDataSetParametersContainer.encode(mappeddatasetparameter0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -17255,6 +21071,17 @@ extension QuickSightClientTypes.DateTimeParameterDeclaration: Swift.Codable {
         timeGranularity = timeGranularityDecoded
         let valueWhenUnsetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DateTimeValueWhenUnsetConfiguration.self, forKey: .valueWhenUnset)
         valueWhenUnset = valueWhenUnsetDecoded
+        let mappedDataSetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.MappedDataSetParameter?].self, forKey: .mappedDataSetParameters)
+        var mappedDataSetParametersDecoded0:[QuickSightClientTypes.MappedDataSetParameter]? = nil
+        if let mappedDataSetParametersContainer = mappedDataSetParametersContainer {
+            mappedDataSetParametersDecoded0 = [QuickSightClientTypes.MappedDataSetParameter]()
+            for structure0 in mappedDataSetParametersContainer {
+                if let structure0 = structure0 {
+                    mappedDataSetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedDataSetParameters = mappedDataSetParametersDecoded0
     }
 }
 
@@ -17263,6 +21090,8 @@ extension QuickSightClientTypes {
     public struct DateTimeParameterDeclaration: Swift.Equatable {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.DateTimeDefaultValues?
+        /// A list of dataset parameters that are mapped to an analysis parameter.
+        public var mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]?
         /// The name of the parameter that is being declared.
         /// This member is required.
         public var name: Swift.String?
@@ -17273,12 +21102,14 @@ extension QuickSightClientTypes {
 
         public init (
             defaultValues: QuickSightClientTypes.DateTimeDefaultValues? = nil,
+            mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]? = nil,
             name: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             valueWhenUnset: QuickSightClientTypes.DateTimeValueWhenUnsetConfiguration? = nil
         )
         {
             self.defaultValues = defaultValues
+            self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
             self.timeGranularity = timeGranularity
             self.valueWhenUnset = valueWhenUnset
@@ -17433,6 +21264,121 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.DecimalDatasetParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValues = "DefaultValues"
+        case id = "Id"
+        case name = "Name"
+        case valueType = "ValueType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValues = self.defaultValues {
+            try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let valueType = self.valueType {
+            try encodeContainer.encode(valueType.rawValue, forKey: .valueType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DatasetParameterValueType.self, forKey: .valueType)
+        valueType = valueTypeDecoded
+        let defaultValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DecimalDatasetParameterDefaultValues.self, forKey: .defaultValues)
+        defaultValues = defaultValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A decimal parameter for a dataset.
+    public struct DecimalDatasetParameter: Swift.Equatable {
+        /// A list of default values for a given decimal parameter. This structure only accepts static values.
+        public var defaultValues: QuickSightClientTypes.DecimalDatasetParameterDefaultValues?
+        /// An identifier for the decimal parameter created in the dataset.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the decimal parameter that is created in the dataset.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value type of the dataset parameter. Valid values are single value or multi value.
+        /// This member is required.
+        public var valueType: QuickSightClientTypes.DatasetParameterValueType?
+
+        public init (
+            defaultValues: QuickSightClientTypes.DecimalDatasetParameterDefaultValues? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
+        )
+        {
+            self.defaultValues = defaultValues
+            self.id = id
+            self.name = name
+            self.valueType = valueType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DecimalDatasetParameterDefaultValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case staticValues = "StaticValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let staticValues = staticValues {
+            var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
+            for decimaldatasetparameterdefaultvalue0 in staticValues {
+                try staticValuesContainer.encode(decimaldatasetparameterdefaultvalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let staticValuesContainer = try containerValues.decodeIfPresent([Swift.Double?].self, forKey: .staticValues)
+        var staticValuesDecoded0:[Swift.Double]? = nil
+        if let staticValuesContainer = staticValuesContainer {
+            staticValuesDecoded0 = [Swift.Double]()
+            for double0 in staticValuesContainer {
+                if let double0 = double0 {
+                    staticValuesDecoded0?.append(double0)
+                }
+            }
+        }
+        staticValues = staticValuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default values of a decimal parameter.
+    public struct DecimalDatasetParameterDefaultValues: Swift.Equatable {
+        /// A list of static default values for a given decimal parameter.
+        public var staticValues: [Swift.Double]?
+
+        public init (
+            staticValues: [Swift.Double]? = nil
+        )
+        {
+            self.staticValues = staticValues
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DecimalDefaultValues: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dynamicValue = "DynamicValue"
@@ -17552,6 +21498,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.DecimalParameterDeclaration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValues = "DefaultValues"
+        case mappedDataSetParameters = "MappedDataSetParameters"
         case name = "Name"
         case parameterValueType = "ParameterValueType"
         case valueWhenUnset = "ValueWhenUnset"
@@ -17561,6 +21508,12 @@ extension QuickSightClientTypes.DecimalParameterDeclaration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValues = self.defaultValues {
             try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let mappedDataSetParameters = mappedDataSetParameters {
+            var mappedDataSetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappedDataSetParameters)
+            for mappeddatasetparameter0 in mappedDataSetParameters {
+                try mappedDataSetParametersContainer.encode(mappeddatasetparameter0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -17583,6 +21536,17 @@ extension QuickSightClientTypes.DecimalParameterDeclaration: Swift.Codable {
         defaultValues = defaultValuesDecoded
         let valueWhenUnsetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DecimalValueWhenUnsetConfiguration.self, forKey: .valueWhenUnset)
         valueWhenUnset = valueWhenUnsetDecoded
+        let mappedDataSetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.MappedDataSetParameter?].self, forKey: .mappedDataSetParameters)
+        var mappedDataSetParametersDecoded0:[QuickSightClientTypes.MappedDataSetParameter]? = nil
+        if let mappedDataSetParametersContainer = mappedDataSetParametersContainer {
+            mappedDataSetParametersDecoded0 = [QuickSightClientTypes.MappedDataSetParameter]()
+            for structure0 in mappedDataSetParametersContainer {
+                if let structure0 = structure0 {
+                    mappedDataSetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedDataSetParameters = mappedDataSetParametersDecoded0
     }
 }
 
@@ -17591,6 +21555,8 @@ extension QuickSightClientTypes {
     public struct DecimalParameterDeclaration: Swift.Equatable {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.DecimalDefaultValues?
+        /// A list of dataset parameters that are mapped to an analysis parameter.
+        public var mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]?
         /// The name of the parameter that is being declared.
         /// This member is required.
         public var name: Swift.String?
@@ -17602,12 +21568,14 @@ extension QuickSightClientTypes {
 
         public init (
             defaultValues: QuickSightClientTypes.DecimalDefaultValues? = nil,
+            mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]? = nil,
             name: Swift.String? = nil,
             parameterValueType: QuickSightClientTypes.ParameterValueType? = nil,
             valueWhenUnset: QuickSightClientTypes.DecimalValueWhenUnsetConfiguration? = nil
         )
         {
             self.defaultValues = defaultValues
+            self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
             self.parameterValueType = parameterValueType
             self.valueWhenUnset = valueWhenUnset
@@ -17701,6 +21669,95 @@ extension QuickSightClientTypes {
         {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum DefaultAggregation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case count
+        case distinctCount
+        case max
+        case min
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultAggregation] {
+            return [
+                .average,
+                .count,
+                .distinctCount,
+                .max,
+                .min,
+                .sum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
+            case .distinctCount: return "DISTINCT_COUNT"
+            case .max: return "MAX"
+            case .min: return "MIN"
+            case .sum: return "SUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DefaultAggregation(rawValue: rawValue) ?? DefaultAggregation.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.DefaultFormatting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayFormat = "DisplayFormat"
+        case displayFormatOptions = "DisplayFormatOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayFormat = self.displayFormat {
+            try encodeContainer.encode(displayFormat.rawValue, forKey: .displayFormat)
+        }
+        if let displayFormatOptions = self.displayFormatOptions {
+            try encodeContainer.encode(displayFormatOptions, forKey: .displayFormatOptions)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayFormatDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DisplayFormat.self, forKey: .displayFormat)
+        displayFormat = displayFormatDecoded
+        let displayFormatOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DisplayFormatOptions.self, forKey: .displayFormatOptions)
+        displayFormatOptions = displayFormatOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a default formatting definition.
+    public struct DefaultFormatting: Swift.Equatable {
+        /// The display format. Valid values for this structure are AUTO, PERCENT, CURRENCY, NUMBER, DATE, and STRING.
+        public var displayFormat: QuickSightClientTypes.DisplayFormat?
+        /// The additional options for display formatting.
+        public var displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions?
+
+        public init (
+            displayFormat: QuickSightClientTypes.DisplayFormat? = nil,
+            displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions? = nil
+        )
+        {
+            self.displayFormat = displayFormat
+            self.displayFormatOptions = displayFormatOptions
         }
     }
 
@@ -20515,6 +24572,308 @@ extension DeleteThemeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteTopicInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTopicInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to delete.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+struct DeleteTopicInputBody: Swift.Equatable {
+}
+
+extension DeleteTopicInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTopicOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteTopicOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteTopicOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTopicOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeleteTopicOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.requestId = output.requestId
+            self.topicId = output.topicId
+        } else {
+            self.arn = nil
+            self.requestId = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteTopicOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
+        self.topicId = topicId
+    }
+}
+
+struct DeleteTopicOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let topicId: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DeleteTopicOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension DeleteTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        guard let datasetId = datasetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTopicRefreshScheduleInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.datasetId = datasetId
+        self.topicId = topicId
+    }
+}
+
+struct DeleteTopicRefreshScheduleInputBody: Swift.Equatable {
+}
+
+extension DeleteTopicRefreshScheduleInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTopicRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteTopicRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteTopicRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTopicRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeleteTopicRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.datasetArn = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteTopicRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    public var datasetArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        datasetArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct DeleteTopicRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let datasetArn: Swift.String?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension DeleteTopicRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
 extension DeleteUserByPrincipalIdInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -20769,6 +25128,168 @@ extension DeleteUserOutputResponseBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension DeleteVPCConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let vpcConnectionId = vpcConnectionId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections/\(vpcConnectionId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteVPCConnectionInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the account where you want to delete a VPC connection.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+    /// This member is required.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct DeleteVPCConnectionInputBody: Swift.Equatable {
+}
+
+extension DeleteVPCConnectionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteVPCConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteVPCConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteVPCConnectionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVPCConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeleteVPCConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.availabilityStatus = output.availabilityStatus
+            self.deletionStatus = output.deletionStatus
+            self.requestId = output.requestId
+            self.vpcConnectionId = output.vpcConnectionId
+        } else {
+            self.arn = nil
+            self.availabilityStatus = nil
+            self.deletionStatus = nil
+            self.requestId = nil
+            self.vpcConnectionId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteVPCConnectionOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the deleted VPC connection.
+    public var arn: Swift.String?
+    /// The availability status of the VPC connection.
+    public var availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+    /// The deletion status of the VPC connection.
+    public var deletionStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus? = nil,
+        deletionStatus: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.availabilityStatus = availabilityStatus
+        self.deletionStatus = deletionStatus
+        self.requestId = requestId
+        self.status = status
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct DeleteVPCConnectionOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let vpcConnectionId: Swift.String?
+    let deletionStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
+    let availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DeleteVPCConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case availabilityStatus = "AvailabilityStatus"
+        case deletionStatus = "DeletionStatus"
+        case requestId = "RequestId"
+        case status = "Status"
+        case vpcConnectionId = "VPCConnectionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let deletionStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionResourceStatus.self, forKey: .deletionStatus)
+        deletionStatus = deletionStatusDecoded
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
@@ -21698,6 +26219,488 @@ extension DescribeAnalysisPermissionsOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+    }
+}
+
+extension DescribeAssetBundleExportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let assetBundleExportJobId = assetBundleExportJobId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-export-jobs/\(assetBundleExportJobId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeAssetBundleExportJobInput: Swift.Equatable {
+    /// The ID of the job that you want described. The job ID is set when you start a new job with a StartAssetBundleExportJob API call.
+    /// This member is required.
+    public var assetBundleExportJobId: Swift.String?
+    /// The ID of the Amazon Web Services account the export job is executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init (
+        assetBundleExportJobId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.assetBundleExportJobId = assetBundleExportJobId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+struct DescribeAssetBundleExportJobInputBody: Swift.Equatable {
+}
+
+extension DescribeAssetBundleExportJobInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeAssetBundleExportJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeAssetBundleExportJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeAssetBundleExportJobOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAssetBundleExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeAssetBundleExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.assetBundleExportJobId = output.assetBundleExportJobId
+            self.awsAccountId = output.awsAccountId
+            self.cloudFormationOverridePropertyConfiguration = output.cloudFormationOverridePropertyConfiguration
+            self.createdTime = output.createdTime
+            self.downloadUrl = output.downloadUrl
+            self.errors = output.errors
+            self.exportFormat = output.exportFormat
+            self.includeAllDependencies = output.includeAllDependencies
+            self.jobStatus = output.jobStatus
+            self.requestId = output.requestId
+            self.resourceArns = output.resourceArns
+        } else {
+            self.arn = nil
+            self.assetBundleExportJobId = nil
+            self.awsAccountId = nil
+            self.cloudFormationOverridePropertyConfiguration = nil
+            self.createdTime = nil
+            self.downloadUrl = nil
+            self.errors = nil
+            self.exportFormat = nil
+            self.includeAllDependencies = false
+            self.jobStatus = nil
+            self.requestId = nil
+            self.resourceArns = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeAssetBundleExportJobOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the export job.
+    public var arn: Swift.String?
+    /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleExportJob API call.
+    public var assetBundleExportJobId: Swift.String?
+    /// The ID of the Amazon Web Services account that the export job was executed in.
+    public var awsAccountId: Swift.String?
+    /// The CloudFormation override property configuration for the export job.
+    public var cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration?
+    /// The time that the export job was created.
+    public var createdTime: ClientRuntime.Date?
+    /// The URL to download the exported asset bundle data from. This URL is available only after the job has succeeded. This URL is valid for 5 minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a zip file named assetbundle-{jobId}.qs. The file has a .qs extension. This URL can't be used in a StartAssetBundleImportJob API call and should only be used for download purposes.
+    public var downloadUrl: Swift.String?
+    /// An array of error records that describes any failures that occurred during the export job processing. Error records accumulate while the job runs. The complete set of error records is available after the job has completed and failed.
+    public var errors: [QuickSightClientTypes.AssetBundleExportJobError]?
+    /// The format of the export.
+    public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
+    /// The include dependencies flag.
+    public var includeAllDependencies: Swift.Bool
+    /// Indicates tha status of a job through its queueing and execution. Poll this DescribeAssetBundleExportApi until JobStatus is either SUCCESSFUL or FAILED.
+    public var jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// A list of resource ARNs that exported with the job.
+    public var resourceArns: [Swift.String]?
+    /// The HTTP status of the response.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        assetBundleExportJobId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration? = nil,
+        createdTime: ClientRuntime.Date? = nil,
+        downloadUrl: Swift.String? = nil,
+        errors: [QuickSightClientTypes.AssetBundleExportJobError]? = nil,
+        exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
+        includeAllDependencies: Swift.Bool = false,
+        jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus? = nil,
+        requestId: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.assetBundleExportJobId = assetBundleExportJobId
+        self.awsAccountId = awsAccountId
+        self.cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfiguration
+        self.createdTime = createdTime
+        self.downloadUrl = downloadUrl
+        self.errors = errors
+        self.exportFormat = exportFormat
+        self.includeAllDependencies = includeAllDependencies
+        self.jobStatus = jobStatus
+        self.requestId = requestId
+        self.resourceArns = resourceArns
+        self.status = status
+    }
+}
+
+struct DescribeAssetBundleExportJobOutputResponseBody: Swift.Equatable {
+    let jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
+    let downloadUrl: Swift.String?
+    let errors: [QuickSightClientTypes.AssetBundleExportJobError]?
+    let arn: Swift.String?
+    let createdTime: ClientRuntime.Date?
+    let assetBundleExportJobId: Swift.String?
+    let awsAccountId: Swift.String?
+    let resourceArns: [Swift.String]?
+    let includeAllDependencies: Swift.Bool
+    let exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
+    let cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeAssetBundleExportJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assetBundleExportJobId = "AssetBundleExportJobId"
+        case awsAccountId = "AwsAccountId"
+        case cloudFormationOverridePropertyConfiguration = "CloudFormationOverridePropertyConfiguration"
+        case createdTime = "CreatedTime"
+        case downloadUrl = "DownloadUrl"
+        case errors = "Errors"
+        case exportFormat = "ExportFormat"
+        case includeAllDependencies = "IncludeAllDependencies"
+        case jobStatus = "JobStatus"
+        case requestId = "RequestId"
+        case resourceArns = "ResourceArns"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportJobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let downloadUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .downloadUrl)
+        downloadUrl = downloadUrlDecoded
+        let errorsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobError?].self, forKey: .errors)
+        var errorsDecoded0:[QuickSightClientTypes.AssetBundleExportJobError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [QuickSightClientTypes.AssetBundleExportJobError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let assetBundleExportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleExportJobId)
+        assetBundleExportJobId = assetBundleExportJobIdDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
+        var resourceArnsDecoded0:[Swift.String]? = nil
+        if let resourceArnsContainer = resourceArnsContainer {
+            resourceArnsDecoded0 = [Swift.String]()
+            for string0 in resourceArnsContainer {
+                if let string0 = string0 {
+                    resourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceArns = resourceArnsDecoded0
+        let includeAllDependenciesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeAllDependencies) ?? false
+        includeAllDependencies = includeAllDependenciesDecoded
+        let exportFormatDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportFormat.self, forKey: .exportFormat)
+        exportFormat = exportFormatDecoded
+        let cloudFormationOverridePropertyConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration.self, forKey: .cloudFormationOverridePropertyConfiguration)
+        cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfigurationDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension DescribeAssetBundleImportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let assetBundleImportJobId = assetBundleImportJobId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs/\(assetBundleImportJobId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeAssetBundleImportJobInput: Swift.Equatable {
+    /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call.
+    /// This member is required.
+    public var assetBundleImportJobId: Swift.String?
+    /// The ID of the Amazon Web Services account the import job was executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init (
+        assetBundleImportJobId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.assetBundleImportJobId = assetBundleImportJobId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+struct DescribeAssetBundleImportJobInputBody: Swift.Equatable {
+}
+
+extension DescribeAssetBundleImportJobInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeAssetBundleImportJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeAssetBundleImportJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeAssetBundleImportJobOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAssetBundleImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeAssetBundleImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.assetBundleImportJobId = output.assetBundleImportJobId
+            self.assetBundleImportSource = output.assetBundleImportSource
+            self.awsAccountId = output.awsAccountId
+            self.createdTime = output.createdTime
+            self.errors = output.errors
+            self.failureAction = output.failureAction
+            self.jobStatus = output.jobStatus
+            self.overrideParameters = output.overrideParameters
+            self.requestId = output.requestId
+            self.rollbackErrors = output.rollbackErrors
+        } else {
+            self.arn = nil
+            self.assetBundleImportJobId = nil
+            self.assetBundleImportSource = nil
+            self.awsAccountId = nil
+            self.createdTime = nil
+            self.errors = nil
+            self.failureAction = nil
+            self.jobStatus = nil
+            self.overrideParameters = nil
+            self.requestId = nil
+            self.rollbackErrors = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeAssetBundleImportJobOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the import job.
+    public var arn: Swift.String?
+    /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call.
+    public var assetBundleImportJobId: Swift.String?
+    /// The source of the asset bundle zip file that contains the data that is imported by the job.
+    public var assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSourceDescription?
+    /// The ID of the Amazon Web Services account the import job was executed in.
+    public var awsAccountId: Swift.String?
+    /// The time that the import job was created.
+    public var createdTime: ClientRuntime.Date?
+    /// An array of error records that describes any failures that occurred during the export job processing. Error records accumulate while the job is still running. The complete set of error records is available after the job has completed and failed.
+    public var errors: [QuickSightClientTypes.AssetBundleImportJobError]?
+    /// The failure action for the import job.
+    public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
+    /// Indicates tha status of a job through its queueing and execution. Poll this DescribeAssetBundleImport API until JobStatus returns one of the following values.
+    ///
+    /// * SUCCESSFUL
+    ///
+    /// * FAILED
+    ///
+    /// * FAILED_ROLLBACK_COMPLETED
+    ///
+    /// * FAILED_ROLLBACK_ERROR
+    public var jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus?
+    /// Optional overrides to be applied to the resource configuration before import.
+    public var overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// An array of error records that describes any failures that occurred while an import job was attempting a rollback. Error records accumulate while the job is still running. The complete set of error records is available after the job has completed and failed.
+    public var rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]?
+    /// The HTTP status of the response.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        assetBundleImportJobId: Swift.String? = nil,
+        assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSourceDescription? = nil,
+        awsAccountId: Swift.String? = nil,
+        createdTime: ClientRuntime.Date? = nil,
+        errors: [QuickSightClientTypes.AssetBundleImportJobError]? = nil,
+        failureAction: QuickSightClientTypes.AssetBundleImportFailureAction? = nil,
+        jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus? = nil,
+        overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters? = nil,
+        requestId: Swift.String? = nil,
+        rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.assetBundleImportJobId = assetBundleImportJobId
+        self.assetBundleImportSource = assetBundleImportSource
+        self.awsAccountId = awsAccountId
+        self.createdTime = createdTime
+        self.errors = errors
+        self.failureAction = failureAction
+        self.jobStatus = jobStatus
+        self.overrideParameters = overrideParameters
+        self.requestId = requestId
+        self.rollbackErrors = rollbackErrors
+        self.status = status
+    }
+}
+
+struct DescribeAssetBundleImportJobOutputResponseBody: Swift.Equatable {
+    let jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus?
+    let errors: [QuickSightClientTypes.AssetBundleImportJobError]?
+    let rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]?
+    let arn: Swift.String?
+    let createdTime: ClientRuntime.Date?
+    let assetBundleImportJobId: Swift.String?
+    let awsAccountId: Swift.String?
+    let assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSourceDescription?
+    let overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
+    let failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeAssetBundleImportJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assetBundleImportJobId = "AssetBundleImportJobId"
+        case assetBundleImportSource = "AssetBundleImportSource"
+        case awsAccountId = "AwsAccountId"
+        case createdTime = "CreatedTime"
+        case errors = "Errors"
+        case failureAction = "FailureAction"
+        case jobStatus = "JobStatus"
+        case overrideParameters = "OverrideParameters"
+        case requestId = "RequestId"
+        case rollbackErrors = "RollbackErrors"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let errorsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobError?].self, forKey: .errors)
+        var errorsDecoded0:[QuickSightClientTypes.AssetBundleImportJobError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+        let rollbackErrorsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobError?].self, forKey: .rollbackErrors)
+        var rollbackErrorsDecoded0:[QuickSightClientTypes.AssetBundleImportJobError]? = nil
+        if let rollbackErrorsContainer = rollbackErrorsContainer {
+            rollbackErrorsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobError]()
+            for structure0 in rollbackErrorsContainer {
+                if let structure0 = structure0 {
+                    rollbackErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rollbackErrors = rollbackErrorsDecoded0
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let assetBundleImportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleImportJobId)
+        assetBundleImportJobId = assetBundleImportJobIdDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let assetBundleImportSourceDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportSourceDescription.self, forKey: .assetBundleImportSource)
+        assetBundleImportSource = assetBundleImportSourceDecoded
+        let overrideParametersDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideParameters.self, forKey: .overrideParameters)
+        overrideParameters = overrideParametersDecoded
+        let failureActionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportFailureAction.self, forKey: .failureAction)
+        failureAction = failureActionDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
     }
 }
 
@@ -25550,6 +30553,619 @@ extension DescribeThemePermissionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeTopicInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTopicInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicInputBody: Swift.Equatable {
+}
+
+extension DescribeTopicInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeTopicOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeTopicOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeTopicOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTopicOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeTopicOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.requestId = output.requestId
+            self.topic = output.topic
+            self.topicId = output.topicId
+        } else {
+            self.arn = nil
+            self.requestId = nil
+            self.topic = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeTopicOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The definition of a topic.
+    public var topic: QuickSightClientTypes.TopicDetails?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topic: QuickSightClientTypes.TopicDetails? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
+        self.topic = topic
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let topicId: Swift.String?
+    let topic: QuickSightClientTypes.TopicDetails?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeTopicOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topic = "Topic"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicDetails.self, forKey: .topic)
+        topic = topicDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension DescribeTopicPermissionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/permissions"
+    }
+}
+
+public struct DescribeTopicPermissionsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicPermissionsInputBody: Swift.Equatable {
+}
+
+extension DescribeTopicPermissionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeTopicPermissionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeTopicPermissionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeTopicPermissionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTopicPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeTopicPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.permissions = output.permissions
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.permissions = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeTopicPermissionsOutputResponse: Swift.Equatable {
+    /// A list of resource permissions that are configured to the topic.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicPermissionsOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let permissions: [QuickSightClientTypes.ResourcePermission]?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension DescribeTopicPermissionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case permissions = "Permissions"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let permissionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.ResourcePermission?].self, forKey: .permissions)
+        var permissionsDecoded0:[QuickSightClientTypes.ResourcePermission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [QuickSightClientTypes.ResourcePermission]()
+            for structure0 in permissionsContainer {
+                if let structure0 = structure0 {
+                    permissionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
+extension DescribeTopicRefreshInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        guard let refreshId = refreshId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/refresh/\(refreshId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTopicRefreshInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic whose refresh you want to describe.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the refresh, which is performed when the topic is created or updated.
+    /// This member is required.
+    public var refreshId: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        refreshId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.refreshId = refreshId
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicRefreshInputBody: Swift.Equatable {
+}
+
+extension DescribeTopicRefreshInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeTopicRefreshOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeTopicRefreshOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeTopicRefreshOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTopicRefreshOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeTopicRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.refreshDetails = output.refreshDetails
+            self.requestId = output.requestId
+        } else {
+            self.refreshDetails = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeTopicRefreshOutputResponse: Swift.Equatable {
+    /// Details of the refresh, which is performed when the topic is created or updated.
+    public var refreshDetails: QuickSightClientTypes.TopicRefreshDetails?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        refreshDetails: QuickSightClientTypes.TopicRefreshDetails? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.refreshDetails = refreshDetails
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DescribeTopicRefreshOutputResponseBody: Swift.Equatable {
+    let refreshDetails: QuickSightClientTypes.TopicRefreshDetails?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeTopicRefreshOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshDetails = "RefreshDetails"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refreshDetailsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRefreshDetails.self, forKey: .refreshDetails)
+        refreshDetails = refreshDetailsDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension DescribeTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        guard let datasetId = datasetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTopicRefreshScheduleInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The ID of the topic that contains the refresh schedule that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.datasetId = datasetId
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicRefreshScheduleInputBody: Swift.Equatable {
+}
+
+extension DescribeTopicRefreshScheduleInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeTopicRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeTopicRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeTopicRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTopicRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeTopicRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+            self.refreshSchedule = output.refreshSchedule
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.datasetArn = nil
+            self.refreshSchedule = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeTopicRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    public var datasetArn: Swift.String?
+    /// The definition of a refresh schedule.
+    public var refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that contains the refresh schedule that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        datasetArn: Swift.String? = nil,
+        refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+        self.refreshSchedule = refreshSchedule
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct DescribeTopicRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let datasetArn: Swift.String?
+    let refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension DescribeTopicRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case refreshSchedule = "RefreshSchedule"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let refreshScheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRefreshSchedule.self, forKey: .refreshSchedule)
+        refreshSchedule = refreshScheduleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
 extension DescribeUserInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -25690,10 +31306,142 @@ extension DescribeUserOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeVPCConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let vpcConnectionId = vpcConnectionId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections/\(vpcConnectionId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeVPCConnectionInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+    /// This member is required.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct DescribeVPCConnectionInputBody: Swift.Equatable {
+}
+
+extension DescribeVPCConnectionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeVPCConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeVPCConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeVPCConnectionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeVPCConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeVPCConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+            self.status = output.status
+            self.vpcConnection = output.vpcConnection
+        } else {
+            self.requestId = nil
+            self.status = 0
+            self.vpcConnection = nil
+        }
+    }
+}
+
+public struct DescribeVPCConnectionOutputResponse: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// A response object that provides information for the specified VPC connection.
+    public var vpcConnection: QuickSightClientTypes.VPCConnection?
+
+    public init (
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        vpcConnection: QuickSightClientTypes.VPCConnection? = nil
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+        self.vpcConnection = vpcConnection
+    }
+}
+
+struct DescribeVPCConnectionOutputResponseBody: Swift.Equatable {
+    let vpcConnection: QuickSightClientTypes.VPCConnection?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeVPCConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+        case vpcConnection = "VPCConnection"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnection.self, forKey: .vpcConnection)
+        vpcConnection = vpcConnectionDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension QuickSightClientTypes.DestinationParameterValueConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customValuesConfiguration = "CustomValuesConfiguration"
         case selectAllValueOptions = "SelectAllValueOptions"
+        case sourceColumn = "SourceColumn"
         case sourceField = "SourceField"
         case sourceParameterName = "SourceParameterName"
     }
@@ -25705,6 +31453,9 @@ extension QuickSightClientTypes.DestinationParameterValueConfiguration: Swift.Co
         }
         if let selectAllValueOptions = self.selectAllValueOptions {
             try encodeContainer.encode(selectAllValueOptions.rawValue, forKey: .selectAllValueOptions)
+        }
+        if let sourceColumn = self.sourceColumn {
+            try encodeContainer.encode(sourceColumn, forKey: .sourceColumn)
         }
         if let sourceField = self.sourceField {
             try encodeContainer.encode(sourceField, forKey: .sourceField)
@@ -25724,6 +31475,8 @@ extension QuickSightClientTypes.DestinationParameterValueConfiguration: Swift.Co
         sourceParameterName = sourceParameterNameDecoded
         let sourceFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceField)
         sourceField = sourceFieldDecoded
+        let sourceColumnDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnIdentifier.self, forKey: .sourceColumn)
+        sourceColumn = sourceColumnDecoded
     }
 }
 
@@ -25734,6 +31487,8 @@ extension QuickSightClientTypes {
         public var customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration?
         /// The configuration that selects all options.
         public var selectAllValueOptions: QuickSightClientTypes.SelectAllValueOptions?
+        /// A column of a data set.
+        public var sourceColumn: QuickSightClientTypes.ColumnIdentifier?
         /// The source field ID of the destination parameter.
         public var sourceField: Swift.String?
         /// The source parameter name of the destination parameter.
@@ -25742,12 +31497,14 @@ extension QuickSightClientTypes {
         public init (
             customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration? = nil,
             selectAllValueOptions: QuickSightClientTypes.SelectAllValueOptions? = nil,
+            sourceColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
             sourceField: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil
         )
         {
             self.customValuesConfiguration = customValuesConfiguration
             self.selectAllValueOptions = selectAllValueOptions
+            self.sourceColumn = sourceColumn
             self.sourceField = sourceField
             self.sourceParameterName = sourceParameterName
         }
@@ -25805,6 +31562,195 @@ extension QuickSightClientTypes {
             self.categoricalDimensionField = categoricalDimensionField
             self.dateDimensionField = dateDimensionField
             self.numericalDimensionField = numericalDimensionField
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum DisplayFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case currency
+        case date
+        case number
+        case percent
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisplayFormat] {
+            return [
+                .auto,
+                .currency,
+                .date,
+                .number,
+                .percent,
+                .string,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .currency: return "CURRENCY"
+            case .date: return "DATE"
+            case .number: return "NUMBER"
+            case .percent: return "PERCENT"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DisplayFormat(rawValue: rawValue) ?? DisplayFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.DisplayFormatOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blankCellFormat = "BlankCellFormat"
+        case currencySymbol = "CurrencySymbol"
+        case dateFormat = "DateFormat"
+        case decimalSeparator = "DecimalSeparator"
+        case fractionDigits = "FractionDigits"
+        case groupingSeparator = "GroupingSeparator"
+        case negativeFormat = "NegativeFormat"
+        case `prefix` = "Prefix"
+        case suffix = "Suffix"
+        case unitScaler = "UnitScaler"
+        case useBlankCellFormat = "UseBlankCellFormat"
+        case useGrouping = "UseGrouping"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blankCellFormat = self.blankCellFormat {
+            try encodeContainer.encode(blankCellFormat, forKey: .blankCellFormat)
+        }
+        if let currencySymbol = self.currencySymbol {
+            try encodeContainer.encode(currencySymbol, forKey: .currencySymbol)
+        }
+        if let dateFormat = self.dateFormat {
+            try encodeContainer.encode(dateFormat, forKey: .dateFormat)
+        }
+        if let decimalSeparator = self.decimalSeparator {
+            try encodeContainer.encode(decimalSeparator.rawValue, forKey: .decimalSeparator)
+        }
+        if fractionDigits != 0 {
+            try encodeContainer.encode(fractionDigits, forKey: .fractionDigits)
+        }
+        if let groupingSeparator = self.groupingSeparator {
+            try encodeContainer.encode(groupingSeparator, forKey: .groupingSeparator)
+        }
+        if let negativeFormat = self.negativeFormat {
+            try encodeContainer.encode(negativeFormat, forKey: .negativeFormat)
+        }
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+        if let suffix = self.suffix {
+            try encodeContainer.encode(suffix, forKey: .suffix)
+        }
+        if let unitScaler = self.unitScaler {
+            try encodeContainer.encode(unitScaler.rawValue, forKey: .unitScaler)
+        }
+        if useBlankCellFormat != false {
+            try encodeContainer.encode(useBlankCellFormat, forKey: .useBlankCellFormat)
+        }
+        if useGrouping != false {
+            try encodeContainer.encode(useGrouping, forKey: .useGrouping)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let useBlankCellFormatDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useBlankCellFormat) ?? false
+        useBlankCellFormat = useBlankCellFormatDecoded
+        let blankCellFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blankCellFormat)
+        blankCellFormat = blankCellFormatDecoded
+        let dateFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dateFormat)
+        dateFormat = dateFormatDecoded
+        let decimalSeparatorDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicNumericSeparatorSymbol.self, forKey: .decimalSeparator)
+        decimalSeparator = decimalSeparatorDecoded
+        let groupingSeparatorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupingSeparator)
+        groupingSeparator = groupingSeparatorDecoded
+        let useGroupingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useGrouping) ?? false
+        useGrouping = useGroupingDecoded
+        let fractionDigitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fractionDigits) ?? 0
+        fractionDigits = fractionDigitsDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let suffixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .suffix)
+        suffix = suffixDecoded
+        let unitScalerDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NumberScale.self, forKey: .unitScaler)
+        unitScaler = unitScalerDecoded
+        let negativeFormatDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NegativeFormat.self, forKey: .negativeFormat)
+        negativeFormat = negativeFormatDecoded
+        let currencySymbolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencySymbol)
+        currencySymbol = currencySymbolDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents additional options for display formatting.
+    public struct DisplayFormatOptions: Swift.Equatable {
+        /// Determines the blank cell format.
+        public var blankCellFormat: Swift.String?
+        /// The currency symbol, such as USD.
+        public var currencySymbol: Swift.String?
+        /// Determines the DateTime format.
+        public var dateFormat: Swift.String?
+        /// Determines the decimal separator.
+        public var decimalSeparator: QuickSightClientTypes.TopicNumericSeparatorSymbol?
+        /// Determines the number of fraction digits.
+        public var fractionDigits: Swift.Int
+        /// Determines the grouping separator.
+        public var groupingSeparator: Swift.String?
+        /// The negative format.
+        public var negativeFormat: QuickSightClientTypes.NegativeFormat?
+        /// The prefix value for a display format.
+        public var `prefix`: Swift.String?
+        /// The suffix value for a display format.
+        public var suffix: Swift.String?
+        /// The unit scaler. Valid values for this structure are: NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, and TRILLIONS.
+        public var unitScaler: QuickSightClientTypes.NumberScale?
+        /// A Boolean value that indicates whether to use blank cell format.
+        public var useBlankCellFormat: Swift.Bool
+        /// A Boolean value that indicates whether to use grouping.
+        public var useGrouping: Swift.Bool
+
+        public init (
+            blankCellFormat: Swift.String? = nil,
+            currencySymbol: Swift.String? = nil,
+            dateFormat: Swift.String? = nil,
+            decimalSeparator: QuickSightClientTypes.TopicNumericSeparatorSymbol? = nil,
+            fractionDigits: Swift.Int = 0,
+            groupingSeparator: Swift.String? = nil,
+            negativeFormat: QuickSightClientTypes.NegativeFormat? = nil,
+            `prefix`: Swift.String? = nil,
+            suffix: Swift.String? = nil,
+            unitScaler: QuickSightClientTypes.NumberScale? = nil,
+            useBlankCellFormat: Swift.Bool = false,
+            useGrouping: Swift.Bool = false
+        )
+        {
+            self.blankCellFormat = blankCellFormat
+            self.currencySymbol = currencySymbol
+            self.dateFormat = dateFormat
+            self.decimalSeparator = decimalSeparator
+            self.fractionDigits = fractionDigits
+            self.groupingSeparator = groupingSeparator
+            self.negativeFormat = negativeFormat
+            self.`prefix` = `prefix`
+            self.suffix = suffix
+            self.unitScaler = unitScaler
+            self.useBlankCellFormat = useBlankCellFormat
+            self.useGrouping = useGrouping
         }
     }
 
@@ -27688,6 +33634,41 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum FilterClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case conditionalValueFilter
+        case enforcedValueFilter
+        case namedValueFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterClass] {
+            return [
+                .conditionalValueFilter,
+                .enforcedValueFilter,
+                .namedValueFilter,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .conditionalValueFilter: return "CONDITIONAL_VALUE_FILTER"
+            case .enforcedValueFilter: return "ENFORCED_VALUE_FILTER"
+            case .namedValueFilter: return "NAMED_VALUE_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FilterClass(rawValue: rawValue) ?? FilterClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.FilterControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateTimePicker = "DateTimePicker"
@@ -28312,12 +34293,19 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.FilterOperationSelectedFieldsConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case selectedColumns = "SelectedColumns"
         case selectedFieldOptions = "SelectedFieldOptions"
         case selectedFields = "SelectedFields"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let selectedColumns = selectedColumns {
+            var selectedColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedColumns)
+            for columnidentifier0 in selectedColumns {
+                try selectedColumnsContainer.encode(columnidentifier0)
+            }
+        }
         if let selectedFieldOptions = self.selectedFieldOptions {
             try encodeContainer.encode(selectedFieldOptions.rawValue, forKey: .selectedFieldOptions)
         }
@@ -28344,12 +34332,25 @@ extension QuickSightClientTypes.FilterOperationSelectedFieldsConfiguration: Swif
         selectedFields = selectedFieldsDecoded0
         let selectedFieldOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SelectedFieldOptions.self, forKey: .selectedFieldOptions)
         selectedFieldOptions = selectedFieldOptionsDecoded
+        let selectedColumnsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.ColumnIdentifier?].self, forKey: .selectedColumns)
+        var selectedColumnsDecoded0:[QuickSightClientTypes.ColumnIdentifier]? = nil
+        if let selectedColumnsContainer = selectedColumnsContainer {
+            selectedColumnsDecoded0 = [QuickSightClientTypes.ColumnIdentifier]()
+            for structure0 in selectedColumnsContainer {
+                if let structure0 = structure0 {
+                    selectedColumnsDecoded0?.append(structure0)
+                }
+            }
+        }
+        selectedColumns = selectedColumnsDecoded0
     }
 }
 
 extension QuickSightClientTypes {
     /// The configuration of selected fields in theCustomActionFilterOperation. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct FilterOperationSelectedFieldsConfiguration: Swift.Equatable {
+        /// The selected columns of a dataset.
+        public var selectedColumns: [QuickSightClientTypes.ColumnIdentifier]?
         /// A structure that contains the options that choose which fields are filtered in the CustomActionFilterOperation. Valid values are defined as follows:
         ///
         /// * ALL_FIELDS: Applies the filter operation to all fields.
@@ -28358,10 +34359,12 @@ extension QuickSightClientTypes {
         public var selectedFields: [Swift.String]?
 
         public init (
+            selectedColumns: [QuickSightClientTypes.ColumnIdentifier]? = nil,
             selectedFieldOptions: QuickSightClientTypes.SelectedFieldOptions? = nil,
             selectedFields: [Swift.String]? = nil
         )
         {
+            self.selectedColumns = selectedColumns
             self.selectedFieldOptions = selectedFieldOptions
             self.selectedFields = selectedFields
         }
@@ -31968,6 +37971,124 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.GeospatialHeatmapColorScale: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case colors = "Colors"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let colors = colors {
+            var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
+            for geospatialheatmapdatacolor0 in colors {
+                try colorsContainer.encode(geospatialheatmapdatacolor0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let colorsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.GeospatialHeatmapDataColor?].self, forKey: .colors)
+        var colorsDecoded0:[QuickSightClientTypes.GeospatialHeatmapDataColor]? = nil
+        if let colorsContainer = colorsContainer {
+            colorsDecoded0 = [QuickSightClientTypes.GeospatialHeatmapDataColor]()
+            for structure0 in colorsContainer {
+                if let structure0 = structure0 {
+                    colorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        colors = colorsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The color scale specification for the heatmap point style.
+    public struct GeospatialHeatmapColorScale: Swift.Equatable {
+        /// The list of colors to be used in heatmap point style.
+        public var colors: [QuickSightClientTypes.GeospatialHeatmapDataColor]?
+
+        public init (
+            colors: [QuickSightClientTypes.GeospatialHeatmapDataColor]? = nil
+        )
+        {
+            self.colors = colors
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.GeospatialHeatmapConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case heatmapColor = "HeatmapColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let heatmapColor = self.heatmapColor {
+            try encodeContainer.encode(heatmapColor, forKey: .heatmapColor)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let heatmapColorDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.GeospatialHeatmapColorScale.self, forKey: .heatmapColor)
+        heatmapColor = heatmapColorDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The heatmap configuration of the geospatial point style.
+    public struct GeospatialHeatmapConfiguration: Swift.Equatable {
+        /// The color scale specification for the heatmap point style.
+        public var heatmapColor: QuickSightClientTypes.GeospatialHeatmapColorScale?
+
+        public init (
+            heatmapColor: QuickSightClientTypes.GeospatialHeatmapColorScale? = nil
+        )
+        {
+            self.heatmapColor = heatmapColor
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.GeospatialHeatmapDataColor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case color = "Color"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let color = self.color {
+            try encodeContainer.encode(color, forKey: .color)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let colorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .color)
+        color = colorDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The color to be used in the heatmap point style.
+    public struct GeospatialHeatmapDataColor: Swift.Equatable {
+        /// The hex color to be used in the heatmap point style.
+        /// This member is required.
+        public var color: Swift.String?
+
+        public init (
+            color: Swift.String? = nil
+        )
+        {
+            self.color = color
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.GeospatialMapAggregatedFieldWells: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case colors = "Colors"
@@ -32337,6 +38458,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.GeospatialPointStyleOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterMarkerConfiguration = "ClusterMarkerConfiguration"
+        case heatmapConfiguration = "HeatmapConfiguration"
         case selectedPointStyle = "SelectedPointStyle"
     }
 
@@ -32344,6 +38466,9 @@ extension QuickSightClientTypes.GeospatialPointStyleOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterMarkerConfiguration = self.clusterMarkerConfiguration {
             try encodeContainer.encode(clusterMarkerConfiguration, forKey: .clusterMarkerConfiguration)
+        }
+        if let heatmapConfiguration = self.heatmapConfiguration {
+            try encodeContainer.encode(heatmapConfiguration, forKey: .heatmapConfiguration)
         }
         if let selectedPointStyle = self.selectedPointStyle {
             try encodeContainer.encode(selectedPointStyle.rawValue, forKey: .selectedPointStyle)
@@ -32356,6 +38481,8 @@ extension QuickSightClientTypes.GeospatialPointStyleOptions: Swift.Codable {
         selectedPointStyle = selectedPointStyleDecoded
         let clusterMarkerConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ClusterMarkerConfiguration.self, forKey: .clusterMarkerConfiguration)
         clusterMarkerConfiguration = clusterMarkerConfigurationDecoded
+        let heatmapConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.GeospatialHeatmapConfiguration.self, forKey: .heatmapConfiguration)
+        heatmapConfiguration = heatmapConfigurationDecoded
     }
 }
 
@@ -32364,15 +38491,19 @@ extension QuickSightClientTypes {
     public struct GeospatialPointStyleOptions: Swift.Equatable {
         /// The cluster marker configuration of the geospatial point style.
         public var clusterMarkerConfiguration: QuickSightClientTypes.ClusterMarkerConfiguration?
+        /// The heatmap configuration of the geospatial point style.
+        public var heatmapConfiguration: QuickSightClientTypes.GeospatialHeatmapConfiguration?
         /// The selected point styles (point, cluster) of the geospatial map.
         public var selectedPointStyle: QuickSightClientTypes.GeospatialSelectedPointStyle?
 
         public init (
             clusterMarkerConfiguration: QuickSightClientTypes.ClusterMarkerConfiguration? = nil,
+            heatmapConfiguration: QuickSightClientTypes.GeospatialHeatmapConfiguration? = nil,
             selectedPointStyle: QuickSightClientTypes.GeospatialSelectedPointStyle? = nil
         )
         {
             self.clusterMarkerConfiguration = clusterMarkerConfiguration
+            self.heatmapConfiguration = heatmapConfiguration
             self.selectedPointStyle = selectedPointStyle
         }
     }
@@ -32382,12 +38513,14 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     public enum GeospatialSelectedPointStyle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cluster
+        case heatmap
         case point
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GeospatialSelectedPointStyle] {
             return [
                 .cluster,
+                .heatmap,
                 .point,
                 .sdkUnknown("")
             ]
@@ -32399,6 +38532,7 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cluster: return "CLUSTER"
+            case .heatmap: return "HEATMAP"
             case .point: return "POINT"
             case let .sdkUnknown(s): return s
             }
@@ -35604,6 +41738,121 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.IntegerDatasetParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValues = "DefaultValues"
+        case id = "Id"
+        case name = "Name"
+        case valueType = "ValueType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValues = self.defaultValues {
+            try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let valueType = self.valueType {
+            try encodeContainer.encode(valueType.rawValue, forKey: .valueType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DatasetParameterValueType.self, forKey: .valueType)
+        valueType = valueTypeDecoded
+        let defaultValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IntegerDatasetParameterDefaultValues.self, forKey: .defaultValues)
+        defaultValues = defaultValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An integer parameter for a dataset.
+    public struct IntegerDatasetParameter: Swift.Equatable {
+        /// A list of default values for a given integer parameter. This structure only accepts static values.
+        public var defaultValues: QuickSightClientTypes.IntegerDatasetParameterDefaultValues?
+        /// An identifier for the integer parameter created in the dataset.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the integer parameter that is created in the dataset.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value type of the dataset parameter. Valid values are single value or multi value.
+        /// This member is required.
+        public var valueType: QuickSightClientTypes.DatasetParameterValueType?
+
+        public init (
+            defaultValues: QuickSightClientTypes.IntegerDatasetParameterDefaultValues? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
+        )
+        {
+            self.defaultValues = defaultValues
+            self.id = id
+            self.name = name
+            self.valueType = valueType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.IntegerDatasetParameterDefaultValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case staticValues = "StaticValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let staticValues = staticValues {
+            var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
+            for integerdatasetparameterdefaultvalue0 in staticValues {
+                try staticValuesContainer.encode(integerdatasetparameterdefaultvalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let staticValuesContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .staticValues)
+        var staticValuesDecoded0:[Swift.Int]? = nil
+        if let staticValuesContainer = staticValuesContainer {
+            staticValuesDecoded0 = [Swift.Int]()
+            for long0 in staticValuesContainer {
+                if let long0 = long0 {
+                    staticValuesDecoded0?.append(long0)
+                }
+            }
+        }
+        staticValues = staticValuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default values of an integer parameter.
+    public struct IntegerDatasetParameterDefaultValues: Swift.Equatable {
+        /// A list of static default values for a given integer parameter.
+        public var staticValues: [Swift.Int]?
+
+        public init (
+            staticValues: [Swift.Int]? = nil
+        )
+        {
+            self.staticValues = staticValues
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.IntegerDefaultValues: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dynamicValue = "DynamicValue"
@@ -35723,6 +41972,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.IntegerParameterDeclaration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValues = "DefaultValues"
+        case mappedDataSetParameters = "MappedDataSetParameters"
         case name = "Name"
         case parameterValueType = "ParameterValueType"
         case valueWhenUnset = "ValueWhenUnset"
@@ -35732,6 +41982,12 @@ extension QuickSightClientTypes.IntegerParameterDeclaration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValues = self.defaultValues {
             try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let mappedDataSetParameters = mappedDataSetParameters {
+            var mappedDataSetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappedDataSetParameters)
+            for mappeddatasetparameter0 in mappedDataSetParameters {
+                try mappedDataSetParametersContainer.encode(mappeddatasetparameter0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -35754,6 +42010,17 @@ extension QuickSightClientTypes.IntegerParameterDeclaration: Swift.Codable {
         defaultValues = defaultValuesDecoded
         let valueWhenUnsetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IntegerValueWhenUnsetConfiguration.self, forKey: .valueWhenUnset)
         valueWhenUnset = valueWhenUnsetDecoded
+        let mappedDataSetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.MappedDataSetParameter?].self, forKey: .mappedDataSetParameters)
+        var mappedDataSetParametersDecoded0:[QuickSightClientTypes.MappedDataSetParameter]? = nil
+        if let mappedDataSetParametersContainer = mappedDataSetParametersContainer {
+            mappedDataSetParametersDecoded0 = [QuickSightClientTypes.MappedDataSetParameter]()
+            for structure0 in mappedDataSetParametersContainer {
+                if let structure0 = structure0 {
+                    mappedDataSetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedDataSetParameters = mappedDataSetParametersDecoded0
     }
 }
 
@@ -35762,6 +42029,8 @@ extension QuickSightClientTypes {
     public struct IntegerParameterDeclaration: Swift.Equatable {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.IntegerDefaultValues?
+        /// A list of dataset parameters that are mapped to an analysis parameter.
+        public var mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]?
         /// The name of the parameter that is being declared.
         /// This member is required.
         public var name: Swift.String?
@@ -35773,12 +42042,14 @@ extension QuickSightClientTypes {
 
         public init (
             defaultValues: QuickSightClientTypes.IntegerDefaultValues? = nil,
+            mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]? = nil,
             name: Swift.String? = nil,
             parameterValueType: QuickSightClientTypes.ParameterValueType? = nil,
             valueWhenUnset: QuickSightClientTypes.IntegerValueWhenUnsetConfiguration? = nil
         )
         {
             self.defaultValues = defaultValues
+            self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
             self.parameterValueType = parameterValueType
             self.valueWhenUnset = valueWhenUnset
@@ -38572,6 +44843,334 @@ extension ListAnalysesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListAssetBundleExportJobsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListAssetBundleExportJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-export-jobs"
+    }
+}
+
+public struct ListAssetBundleExportJobsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that the export jobs were executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAssetBundleExportJobsInputBody: Swift.Equatable {
+}
+
+extension ListAssetBundleExportJobsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListAssetBundleExportJobsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListAssetBundleExportJobsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListAssetBundleExportJobsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAssetBundleExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListAssetBundleExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.assetBundleExportJobSummaryList = output.assetBundleExportJobSummaryList
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+        } else {
+            self.assetBundleExportJobSummaryList = nil
+            self.nextToken = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListAssetBundleExportJobsOutputResponse: Swift.Equatable {
+    /// A list of export job summaries.
+    public var assetBundleExportJobSummaryList: [QuickSightClientTypes.AssetBundleExportJobSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        assetBundleExportJobSummaryList: [QuickSightClientTypes.AssetBundleExportJobSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.assetBundleExportJobSummaryList = assetBundleExportJobSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct ListAssetBundleExportJobsOutputResponseBody: Swift.Equatable {
+    let assetBundleExportJobSummaryList: [QuickSightClientTypes.AssetBundleExportJobSummary]?
+    let nextToken: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension ListAssetBundleExportJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetBundleExportJobSummaryList = "AssetBundleExportJobSummaryList"
+        case nextToken = "NextToken"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetBundleExportJobSummaryListContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobSummary?].self, forKey: .assetBundleExportJobSummaryList)
+        var assetBundleExportJobSummaryListDecoded0:[QuickSightClientTypes.AssetBundleExportJobSummary]? = nil
+        if let assetBundleExportJobSummaryListContainer = assetBundleExportJobSummaryListContainer {
+            assetBundleExportJobSummaryListDecoded0 = [QuickSightClientTypes.AssetBundleExportJobSummary]()
+            for structure0 in assetBundleExportJobSummaryListContainer {
+                if let structure0 = structure0 {
+                    assetBundleExportJobSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        assetBundleExportJobSummaryList = assetBundleExportJobSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension ListAssetBundleImportJobsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListAssetBundleImportJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs"
+    }
+}
+
+public struct ListAssetBundleImportJobsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that the import jobs were executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAssetBundleImportJobsInputBody: Swift.Equatable {
+}
+
+extension ListAssetBundleImportJobsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListAssetBundleImportJobsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListAssetBundleImportJobsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListAssetBundleImportJobsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAssetBundleImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListAssetBundleImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.assetBundleImportJobSummaryList = output.assetBundleImportJobSummaryList
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+        } else {
+            self.assetBundleImportJobSummaryList = nil
+            self.nextToken = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListAssetBundleImportJobsOutputResponse: Swift.Equatable {
+    /// A list of import job summaries.
+    public var assetBundleImportJobSummaryList: [QuickSightClientTypes.AssetBundleImportJobSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the response.
+    public var status: Swift.Int
+
+    public init (
+        assetBundleImportJobSummaryList: [QuickSightClientTypes.AssetBundleImportJobSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.assetBundleImportJobSummaryList = assetBundleImportJobSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct ListAssetBundleImportJobsOutputResponseBody: Swift.Equatable {
+    let assetBundleImportJobSummaryList: [QuickSightClientTypes.AssetBundleImportJobSummary]?
+    let nextToken: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension ListAssetBundleImportJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetBundleImportJobSummaryList = "AssetBundleImportJobSummaryList"
+        case nextToken = "NextToken"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetBundleImportJobSummaryListContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobSummary?].self, forKey: .assetBundleImportJobSummaryList)
+        var assetBundleImportJobSummaryListDecoded0:[QuickSightClientTypes.AssetBundleImportJobSummary]? = nil
+        if let assetBundleImportJobSummaryListContainer = assetBundleImportJobSummaryListContainer {
+            assetBundleImportJobSummaryListDecoded0 = [QuickSightClientTypes.AssetBundleImportJobSummary]()
+            for structure0 in assetBundleImportJobSummaryListContainer {
+                if let structure0 = structure0 {
+                    assetBundleImportJobSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        assetBundleImportJobSummaryList = assetBundleImportJobSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension QuickSightClientTypes.ListControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case searchOptions = "SearchOptions"
@@ -40253,19 +46852,6 @@ extension ListIAMPolicyAssignmentsForUserOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension ListIAMPolicyAssignmentsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case assignmentStatus = "AssignmentStatus"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let assignmentStatus = self.assignmentStatus {
-            try encodeContainer.encode(assignmentStatus.rawValue, forKey: .assignmentStatus)
-        }
-    }
-}
-
 extension ListIAMPolicyAssignmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -40277,6 +46863,10 @@ extension ListIAMPolicyAssignmentsInput: ClientRuntime.QueryItemProvider {
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
+            }
+            if let assignmentStatus = assignmentStatus {
+                let assignmentStatusQueryItem = ClientRuntime.URLQueryItem(name: "assignment-status".urlPercentEncoding(), value: Swift.String(assignmentStatus.rawValue).urlPercentEncoding())
+                items.append(assignmentStatusQueryItem)
             }
             return items
         }
@@ -40291,7 +46881,7 @@ extension ListIAMPolicyAssignmentsInput: ClientRuntime.URLPathProvider {
         guard let namespace = namespace else {
             return nil
         }
-        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/iam-policy-assignments"
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/v2/iam-policy-assignments"
     }
 }
 
@@ -40326,18 +46916,11 @@ public struct ListIAMPolicyAssignmentsInput: Swift.Equatable {
 }
 
 struct ListIAMPolicyAssignmentsInputBody: Swift.Equatable {
-    let assignmentStatus: QuickSightClientTypes.AssignmentStatus?
 }
 
 extension ListIAMPolicyAssignmentsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case assignmentStatus = "AssignmentStatus"
-    }
 
     public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let assignmentStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssignmentStatus.self, forKey: .assignmentStatus)
-        assignmentStatus = assignmentStatusDecoded
     }
 }
 
@@ -42111,6 +48694,333 @@ extension ListThemesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListTopicRefreshSchedulesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules"
+    }
+}
+
+public struct ListTopicRefreshSchedulesInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+struct ListTopicRefreshSchedulesInputBody: Swift.Equatable {
+}
+
+extension ListTopicRefreshSchedulesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTopicRefreshSchedulesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTopicRefreshSchedulesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListTopicRefreshSchedulesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTopicRefreshSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListTopicRefreshSchedulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.refreshSchedules = output.refreshSchedules
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.refreshSchedules = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListTopicRefreshSchedulesOutputResponse: Swift.Equatable {
+    /// The list of topic refresh schedules.
+    public var refreshSchedules: [QuickSightClientTypes.TopicRefreshScheduleSummary]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID for the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        refreshSchedules: [QuickSightClientTypes.TopicRefreshScheduleSummary]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.refreshSchedules = refreshSchedules
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct ListTopicRefreshSchedulesOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let refreshSchedules: [QuickSightClientTypes.TopicRefreshScheduleSummary]?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension ListTopicRefreshSchedulesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshSchedules = "RefreshSchedules"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let refreshSchedulesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TopicRefreshScheduleSummary?].self, forKey: .refreshSchedules)
+        var refreshSchedulesDecoded0:[QuickSightClientTypes.TopicRefreshScheduleSummary]? = nil
+        if let refreshSchedulesContainer = refreshSchedulesContainer {
+            refreshSchedulesDecoded0 = [QuickSightClientTypes.TopicRefreshScheduleSummary]()
+            for structure0 in refreshSchedulesContainer {
+                if let structure0 = structure0 {
+                    refreshSchedulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        refreshSchedules = refreshSchedulesDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
+extension ListTopicsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListTopicsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics"
+    }
+}
+
+public struct ListTopicsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topics that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListTopicsInputBody: Swift.Equatable {
+}
+
+extension ListTopicsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTopicsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTopicsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListTopicsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTopicsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListTopicsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+            self.topicsSummaries = output.topicsSummaries
+        } else {
+            self.nextToken = nil
+            self.requestId = nil
+            self.topicsSummaries = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListTopicsOutputResponse: Swift.Equatable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// A list of topic summaries.
+    public var topicsSummaries: [QuickSightClientTypes.TopicSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicsSummaries: [QuickSightClientTypes.TopicSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+        self.topicsSummaries = topicsSummaries
+    }
+}
+
+struct ListTopicsOutputResponseBody: Swift.Equatable {
+    let topicsSummaries: [QuickSightClientTypes.TopicSummary]?
+    let nextToken: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension ListTopicsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicsSummaries = "TopicsSummaries"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicsSummariesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TopicSummary?].self, forKey: .topicsSummaries)
+        var topicsSummariesDecoded0:[QuickSightClientTypes.TopicSummary]? = nil
+        if let topicsSummariesContainer = topicsSummariesContainer {
+            topicsSummariesDecoded0 = [QuickSightClientTypes.TopicSummary]()
+            for structure0 in topicsSummariesContainer {
+                if let structure0 = structure0 {
+                    topicsSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        topicsSummaries = topicsSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension ListUserGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -42464,6 +49374,172 @@ extension ListUsersOutputResponseBody: Swift.Decodable {
             }
         }
         userList = userListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension ListVPCConnectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVPCConnectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections"
+    }
+}
+
+public struct ListVPCConnectionsInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the account that contains the VPC connections that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVPCConnectionsInputBody: Swift.Equatable {
+}
+
+extension ListVPCConnectionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVPCConnectionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVPCConnectionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListVPCConnectionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVPCConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListVPCConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+            self.vpcConnectionSummaries = output.vpcConnectionSummaries
+        } else {
+            self.nextToken = nil
+            self.requestId = nil
+            self.vpcConnectionSummaries = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListVPCConnectionsOutputResponse: Swift.Equatable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// A VPCConnectionSummaries object that returns a summary of VPC connection objects.
+    public var vpcConnectionSummaries: [QuickSightClientTypes.VPCConnectionSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        vpcConnectionSummaries: [QuickSightClientTypes.VPCConnectionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+        self.vpcConnectionSummaries = vpcConnectionSummaries
+    }
+}
+
+struct ListVPCConnectionsOutputResponseBody: Swift.Equatable {
+    let vpcConnectionSummaries: [QuickSightClientTypes.VPCConnectionSummary]?
+    let nextToken: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension ListVPCConnectionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case requestId = "RequestId"
+        case status = "Status"
+        case vpcConnectionSummaries = "VPCConnectionSummaries"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionSummariesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.VPCConnectionSummary?].self, forKey: .vpcConnectionSummaries)
+        var vpcConnectionSummariesDecoded0:[QuickSightClientTypes.VPCConnectionSummary]? = nil
+        if let vpcConnectionSummariesContainer = vpcConnectionSummariesContainer {
+            vpcConnectionSummariesDecoded0 = [QuickSightClientTypes.VPCConnectionSummary]()
+            for structure0 in vpcConnectionSummariesContainer {
+                if let structure0 = structure0 {
+                    vpcConnectionSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcConnectionSummaries = vpcConnectionSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
@@ -42883,6 +49959,53 @@ extension QuickSightClientTypes {
             self = MapZoomMode(rawValue: rawValue) ?? MapZoomMode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.MappedDataSetParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetIdentifier = "DataSetIdentifier"
+        case dataSetParameterName = "DataSetParameterName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetIdentifier = self.dataSetIdentifier {
+            try encodeContainer.encode(dataSetIdentifier, forKey: .dataSetIdentifier)
+        }
+        if let dataSetParameterName = self.dataSetParameterName {
+            try encodeContainer.encode(dataSetParameterName, forKey: .dataSetParameterName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetIdentifier)
+        dataSetIdentifier = dataSetIdentifierDecoded
+        let dataSetParameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetParameterName)
+        dataSetParameterName = dataSetParameterNameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A dataset parameter that is mapped to an analysis parameter.
+    public struct MappedDataSetParameter: Swift.Equatable {
+        /// A unique name that identifies a dataset within the analysis or dashboard.
+        /// This member is required.
+        public var dataSetIdentifier: Swift.String?
+        /// The name of the dataset parameter.
+        /// This member is required.
+        public var dataSetParameterName: Swift.String?
+
+        public init (
+            dataSetIdentifier: Swift.String? = nil,
+            dataSetParameterName: Swift.String? = nil
+        )
+        {
+            self.dataSetIdentifier = dataSetIdentifier
+            self.dataSetParameterName = dataSetParameterName
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.MarginStyle: Swift.Codable {
@@ -43520,6 +50643,306 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum NamedEntityAggType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case count
+        case custom
+        case distinctCount
+        case max
+        case median
+        case min
+        case percentile
+        case stdev
+        case stdevp
+        case sum
+        case `var`
+        case varp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NamedEntityAggType] {
+            return [
+                .average,
+                .count,
+                .custom,
+                .distinctCount,
+                .max,
+                .median,
+                .min,
+                .percentile,
+                .stdev,
+                .stdevp,
+                .sum,
+                .var,
+                .varp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
+            case .custom: return "CUSTOM"
+            case .distinctCount: return "DISTINCT_COUNT"
+            case .max: return "MAX"
+            case .median: return "MEDIAN"
+            case .min: return "MIN"
+            case .percentile: return "PERCENTILE"
+            case .stdev: return "STDEV"
+            case .stdevp: return "STDEVP"
+            case .sum: return "SUM"
+            case .var: return "VAR"
+            case .varp: return "VARP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NamedEntityAggType(rawValue: rawValue) ?? NamedEntityAggType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.NamedEntityDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldName = "FieldName"
+        case metric = "Metric"
+        case propertyName = "PropertyName"
+        case propertyRole = "PropertyRole"
+        case propertyUsage = "PropertyUsage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldName = self.fieldName {
+            try encodeContainer.encode(fieldName, forKey: .fieldName)
+        }
+        if let metric = self.metric {
+            try encodeContainer.encode(metric, forKey: .metric)
+        }
+        if let propertyName = self.propertyName {
+            try encodeContainer.encode(propertyName, forKey: .propertyName)
+        }
+        if let propertyRole = self.propertyRole {
+            try encodeContainer.encode(propertyRole.rawValue, forKey: .propertyRole)
+        }
+        if let propertyUsage = self.propertyUsage {
+            try encodeContainer.encode(propertyUsage.rawValue, forKey: .propertyUsage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldName)
+        fieldName = fieldNameDecoded
+        let propertyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertyName)
+        propertyName = propertyNameDecoded
+        let propertyRoleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PropertyRole.self, forKey: .propertyRole)
+        propertyRole = propertyRoleDecoded
+        let propertyUsageDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PropertyUsage.self, forKey: .propertyUsage)
+        propertyUsage = propertyUsageDecoded
+        let metricDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NamedEntityDefinitionMetric.self, forKey: .metric)
+        metric = metricDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a named entity.
+    public struct NamedEntityDefinition: Swift.Equatable {
+        /// The name of the entity.
+        public var fieldName: Swift.String?
+        /// The definition of a metric.
+        public var metric: QuickSightClientTypes.NamedEntityDefinitionMetric?
+        /// The property name to be used for the named entity.
+        public var propertyName: Swift.String?
+        /// The property role. Valid values for this structure are PRIMARY and ID.
+        public var propertyRole: QuickSightClientTypes.PropertyRole?
+        /// The property usage. Valid values for this structure are INHERIT, DIMENSION, and MEASURE.
+        public var propertyUsage: QuickSightClientTypes.PropertyUsage?
+
+        public init (
+            fieldName: Swift.String? = nil,
+            metric: QuickSightClientTypes.NamedEntityDefinitionMetric? = nil,
+            propertyName: Swift.String? = nil,
+            propertyRole: QuickSightClientTypes.PropertyRole? = nil,
+            propertyUsage: QuickSightClientTypes.PropertyUsage? = nil
+        )
+        {
+            self.fieldName = fieldName
+            self.metric = metric
+            self.propertyName = propertyName
+            self.propertyRole = propertyRole
+            self.propertyUsage = propertyUsage
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.NamedEntityDefinitionMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregation = "Aggregation"
+        case aggregationFunctionParameters = "AggregationFunctionParameters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregation = self.aggregation {
+            try encodeContainer.encode(aggregation.rawValue, forKey: .aggregation)
+        }
+        if let aggregationFunctionParameters = aggregationFunctionParameters {
+            var aggregationFunctionParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .aggregationFunctionParameters)
+            for (dictKey0, aggregationFunctionParameters0) in aggregationFunctionParameters {
+                try aggregationFunctionParametersContainer.encode(aggregationFunctionParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NamedEntityAggType.self, forKey: .aggregation)
+        aggregation = aggregationDecoded
+        let aggregationFunctionParametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .aggregationFunctionParameters)
+        var aggregationFunctionParametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let aggregationFunctionParametersContainer = aggregationFunctionParametersContainer {
+            aggregationFunctionParametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, limitedstring0) in aggregationFunctionParametersContainer {
+                if let limitedstring0 = limitedstring0 {
+                    aggregationFunctionParametersDecoded0?[key0] = limitedstring0
+                }
+            }
+        }
+        aggregationFunctionParameters = aggregationFunctionParametersDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a metric.
+    public struct NamedEntityDefinitionMetric: Swift.Equatable {
+        /// The aggregation of a named entity. Valid values for this structure are SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, and CUSTOM.
+        public var aggregation: QuickSightClientTypes.NamedEntityAggType?
+        /// The additional parameters for an aggregation function.
+        public var aggregationFunctionParameters: [Swift.String:Swift.String]?
+
+        public init (
+            aggregation: QuickSightClientTypes.NamedEntityAggType? = nil,
+            aggregationFunctionParameters: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.aggregationFunctionParameters = aggregationFunctionParameters
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum NamedFilterAggType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case count
+        case distinctCount
+        case max
+        case median
+        case min
+        case noAggregation
+        case stdev
+        case stdevp
+        case sum
+        case `var`
+        case varp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NamedFilterAggType] {
+            return [
+                .average,
+                .count,
+                .distinctCount,
+                .max,
+                .median,
+                .min,
+                .noAggregation,
+                .stdev,
+                .stdevp,
+                .sum,
+                .var,
+                .varp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
+            case .distinctCount: return "DISTINCT_COUNT"
+            case .max: return "MAX"
+            case .median: return "MEDIAN"
+            case .min: return "MIN"
+            case .noAggregation: return "NO_AGGREGATION"
+            case .stdev: return "STDEV"
+            case .stdevp: return "STDEVP"
+            case .sum: return "SUM"
+            case .var: return "VAR"
+            case .varp: return "VARP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NamedFilterAggType(rawValue: rawValue) ?? NamedFilterAggType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum NamedFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case categoryFilter
+        case dateRangeFilter
+        case numericEqualityFilter
+        case numericRangeFilter
+        case relativeDateFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NamedFilterType] {
+            return [
+                .categoryFilter,
+                .dateRangeFilter,
+                .numericEqualityFilter,
+                .numericRangeFilter,
+                .relativeDateFilter,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .categoryFilter: return "CATEGORY_FILTER"
+            case .dateRangeFilter: return "DATE_RANGE_FILTER"
+            case .numericEqualityFilter: return "NUMERIC_EQUALITY_FILTER"
+            case .numericRangeFilter: return "NUMERIC_RANGE_FILTER"
+            case .relativeDateFilter: return "RELATIVE_DATE_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NamedFilterType(rawValue: rawValue) ?? NamedFilterType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.NamespaceError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
@@ -43723,6 +51146,51 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.NegativeFormat: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case `prefix` = "Prefix"
+        case suffix = "Suffix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+        if let suffix = self.suffix {
+            try encodeContainer.encode(suffix, forKey: .suffix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let suffixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .suffix)
+        suffix = suffixDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a negative format.
+    public struct NegativeFormat: Swift.Equatable {
+        /// The prefix for a negative format.
+        public var `prefix`: Swift.String?
+        /// The suffix for a negative format.
+        public var suffix: Swift.String?
+
+        public init (
+            `prefix`: Swift.String? = nil,
+            suffix: Swift.String? = nil
+        )
+        {
+            self.`prefix` = `prefix`
+            self.suffix = suffix
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.NegativeValueConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayMode = "DisplayMode"
@@ -43789,6 +51257,250 @@ extension QuickSightClientTypes {
             self = NegativeValueDisplayMode(rawValue: rawValue) ?? NegativeValueDisplayMode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.NetworkInterface: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case errorMessage = "ErrorMessage"
+        case networkInterfaceId = "NetworkInterfaceId"
+        case status = "Status"
+        case subnetId = "SubnetId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let networkInterfaceId = self.networkInterfaceId {
+            try encodeContainer.encode(networkInterfaceId, forKey: .networkInterfaceId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let subnetId = self.subnetId {
+            try encodeContainer.encode(subnetId, forKey: .subnetId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
+        subnetId = subnetIdDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NetworkInterfaceStatus.self, forKey: .status)
+        status = statusDecoded
+        let networkInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkInterfaceId)
+        networkInterfaceId = networkInterfaceIdDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The structure that contains information about a network interface.
+    public struct NetworkInterface: Swift.Equatable {
+        /// The availability zone that the network interface resides in.
+        public var availabilityZone: Swift.String?
+        /// An error message.
+        public var errorMessage: Swift.String?
+        /// The network interface ID.
+        public var networkInterfaceId: Swift.String?
+        /// The status of the network interface.
+        public var status: QuickSightClientTypes.NetworkInterfaceStatus?
+        /// The subnet ID associated with the network interface.
+        public var subnetId: Swift.String?
+
+        public init (
+            availabilityZone: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            networkInterfaceId: Swift.String? = nil,
+            status: QuickSightClientTypes.NetworkInterfaceStatus? = nil,
+            subnetId: Swift.String? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.errorMessage = errorMessage
+            self.networkInterfaceId = networkInterfaceId
+            self.status = status
+            self.subnetId = subnetId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum NetworkInterfaceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachmentFailedRollbackFailed
+        case available
+        case creating
+        case creationFailed
+        case deleted
+        case deleting
+        case deletionFailed
+        case deletionScheduled
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkInterfaceStatus] {
+            return [
+                .attachmentFailedRollbackFailed,
+                .available,
+                .creating,
+                .creationFailed,
+                .deleted,
+                .deleting,
+                .deletionFailed,
+                .deletionScheduled,
+                .updateFailed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachmentFailedRollbackFailed: return "ATTACHMENT_FAILED_ROLLBACK_FAILED"
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .deletionFailed: return "DELETION_FAILED"
+            case .deletionScheduled: return "DELETION_SCHEDULED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NetworkInterfaceStatus(rawValue: rawValue) ?? NetworkInterfaceStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.NewDefaultValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dateTimeStaticValues = "DateTimeStaticValues"
+        case decimalStaticValues = "DecimalStaticValues"
+        case integerStaticValues = "IntegerStaticValues"
+        case stringStaticValues = "StringStaticValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dateTimeStaticValues = dateTimeStaticValues {
+            var dateTimeStaticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dateTimeStaticValues)
+            for datetimedatasetparameterdefaultvalue0 in dateTimeStaticValues {
+                try dateTimeStaticValuesContainer.encodeTimestamp(datetimedatasetparameterdefaultvalue0, format: .epochSeconds)
+            }
+        }
+        if let decimalStaticValues = decimalStaticValues {
+            var decimalStaticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .decimalStaticValues)
+            for decimaldatasetparameterdefaultvalue0 in decimalStaticValues {
+                try decimalStaticValuesContainer.encode(decimaldatasetparameterdefaultvalue0)
+            }
+        }
+        if let integerStaticValues = integerStaticValues {
+            var integerStaticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerStaticValues)
+            for integerdatasetparameterdefaultvalue0 in integerStaticValues {
+                try integerStaticValuesContainer.encode(integerdatasetparameterdefaultvalue0)
+            }
+        }
+        if let stringStaticValues = stringStaticValues {
+            var stringStaticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringStaticValues)
+            for stringdatasetparameterdefaultvalue0 in stringStaticValues {
+                try stringStaticValuesContainer.encode(stringdatasetparameterdefaultvalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stringStaticValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .stringStaticValues)
+        var stringStaticValuesDecoded0:[Swift.String]? = nil
+        if let stringStaticValuesContainer = stringStaticValuesContainer {
+            stringStaticValuesDecoded0 = [Swift.String]()
+            for string0 in stringStaticValuesContainer {
+                if let string0 = string0 {
+                    stringStaticValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        stringStaticValues = stringStaticValuesDecoded0
+        let decimalStaticValuesContainer = try containerValues.decodeIfPresent([Swift.Double?].self, forKey: .decimalStaticValues)
+        var decimalStaticValuesDecoded0:[Swift.Double]? = nil
+        if let decimalStaticValuesContainer = decimalStaticValuesContainer {
+            decimalStaticValuesDecoded0 = [Swift.Double]()
+            for double0 in decimalStaticValuesContainer {
+                if let double0 = double0 {
+                    decimalStaticValuesDecoded0?.append(double0)
+                }
+            }
+        }
+        decimalStaticValues = decimalStaticValuesDecoded0
+        let dateTimeStaticValuesContainer = try containerValues.decodeIfPresent([ClientRuntime.Date?].self, forKey: .dateTimeStaticValues)
+        var dateTimeStaticValuesDecoded0:[ClientRuntime.Date]? = nil
+        if let dateTimeStaticValuesContainer = dateTimeStaticValuesContainer {
+            dateTimeStaticValuesDecoded0 = [ClientRuntime.Date]()
+            for timestamp0 in dateTimeStaticValuesContainer {
+                if let timestamp0 = timestamp0 {
+                    dateTimeStaticValuesDecoded0?.append(timestamp0)
+                }
+            }
+        }
+        dateTimeStaticValues = dateTimeStaticValuesDecoded0
+        let integerStaticValuesContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .integerStaticValues)
+        var integerStaticValuesDecoded0:[Swift.Int]? = nil
+        if let integerStaticValuesContainer = integerStaticValuesContainer {
+            integerStaticValuesDecoded0 = [Swift.Int]()
+            for long0 in integerStaticValuesContainer {
+                if let long0 = long0 {
+                    integerStaticValuesDecoded0?.append(long0)
+                }
+            }
+        }
+        integerStaticValues = integerStaticValuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The configuration that overrides the existing default values for a dataset parameter that is inherited from another dataset.
+    public struct NewDefaultValues: Swift.Equatable {
+        /// A list of static default values for a given date time parameter.
+        public var dateTimeStaticValues: [ClientRuntime.Date]?
+        /// A list of static default values for a given decimal parameter.
+        public var decimalStaticValues: [Swift.Double]?
+        /// A list of static default values for a given integer parameter.
+        public var integerStaticValues: [Swift.Int]?
+        /// A list of static default values for a given string parameter.
+        public var stringStaticValues: [Swift.String]?
+
+        public init (
+            dateTimeStaticValues: [ClientRuntime.Date]? = nil,
+            decimalStaticValues: [Swift.Double]? = nil,
+            integerStaticValues: [Swift.Int]? = nil,
+            stringStaticValues: [Swift.String]? = nil
+        )
+        {
+            self.dateTimeStaticValues = dateTimeStaticValues
+            self.decimalStaticValues = decimalStaticValues
+            self.integerStaticValues = integerStaticValues
+            self.stringStaticValues = stringStaticValues
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.NullValueFormatConfiguration: Swift.Codable {
@@ -44822,13 +52534,13 @@ extension QuickSightClientTypes.OracleParameters: Swift.Codable {
 extension QuickSightClientTypes {
     /// The parameters for Oracle.
     public struct OracleParameters: Swift.Equatable {
-        /// Database.
+        /// The database.
         /// This member is required.
         public var database: Swift.String?
         /// An Oracle host.
         /// This member is required.
         public var host: Swift.String?
-        /// Port.
+        /// The port.
         /// This member is required.
         public var port: Swift.Int
 
@@ -44916,7 +52628,7 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// A display name for the dataset.
         public var name: Swift.String?
-        /// Type.
+        /// The type.
         public var type: QuickSightClientTypes.ColumnDataType?
 
         public init (
@@ -44928,6 +52640,62 @@ extension QuickSightClientTypes {
             self.description = description
             self.name = name
             self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.OverrideDatasetParameterOperation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case newDefaultValues = "NewDefaultValues"
+        case newParameterName = "NewParameterName"
+        case parameterName = "ParameterName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let newDefaultValues = self.newDefaultValues {
+            try encodeContainer.encode(newDefaultValues, forKey: .newDefaultValues)
+        }
+        if let newParameterName = self.newParameterName {
+            try encodeContainer.encode(newParameterName, forKey: .newParameterName)
+        }
+        if let parameterName = self.parameterName {
+            try encodeContainer.encode(parameterName, forKey: .parameterName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
+        parameterName = parameterNameDecoded
+        let newParameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newParameterName)
+        newParameterName = newParameterNameDecoded
+        let newDefaultValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NewDefaultValues.self, forKey: .newDefaultValues)
+        newDefaultValues = newDefaultValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A transform operation that overrides the dataset parameter values that are defined in another dataset.
+    public struct OverrideDatasetParameterOperation: Swift.Equatable {
+        /// The new default values for the parameter.
+        public var newDefaultValues: QuickSightClientTypes.NewDefaultValues?
+        /// The new name for the parameter.
+        public var newParameterName: Swift.String?
+        /// The name of the parameter to be overridden with different values.
+        /// This member is required.
+        public var parameterName: Swift.String?
+
+        public init (
+            newDefaultValues: QuickSightClientTypes.NewDefaultValues? = nil,
+            newParameterName: Swift.String? = nil,
+            parameterName: Swift.String? = nil
+        )
+        {
+            self.newDefaultValues = newDefaultValues
+            self.newParameterName = newParameterName
+            self.parameterName = parameterName
         }
     }
 
@@ -48650,6 +56418,73 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum PropertyRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case id
+        case primary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyRole] {
+            return [
+                .id,
+                .primary,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .id: return "ID"
+            case .primary: return "PRIMARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PropertyRole(rawValue: rawValue) ?? PropertyRole.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum PropertyUsage: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dimension
+        case inherit
+        case measure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyUsage] {
+            return [
+                .dimension,
+                .inherit,
+                .measure,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dimension: return "DIMENSION"
+            case .inherit: return "INHERIT"
+            case .measure: return "MEASURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PropertyUsage(rawValue: rawValue) ?? PropertyUsage.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension PutDataSetRefreshPropertiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetRefreshProperties = "DataSetRefreshProperties"
@@ -49499,6 +57334,51 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.RangeConstant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maximum = "Maximum"
+        case minimum = "Minimum"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maximum = self.maximum {
+            try encodeContainer.encode(maximum, forKey: .maximum)
+        }
+        if let minimum = self.minimum {
+            try encodeContainer.encode(minimum, forKey: .minimum)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minimumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimum)
+        minimum = minimumDecoded
+        let maximumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maximum)
+        maximum = maximumDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a range constant.
+    public struct RangeConstant: Swift.Equatable {
+        /// The maximum value for a range constant.
+        public var maximum: Swift.String?
+        /// The minimum value for a range constant.
+        public var minimum: Swift.String?
+
+        public init (
+            maximum: Swift.String? = nil,
+            minimum: Swift.String? = nil
+        )
+        {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.RangeEndsLabelType: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case visibility = "Visibility"
@@ -49853,7 +57733,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
         /// The aggregation function that is used in the dynamic data.
-        /// This member is required.
         public var measureAggregationFunction: QuickSightClientTypes.AggregationFunction?
 
         public init (
@@ -50876,11 +58755,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bookmarks = "Bookmarks"
         case statePersistence = "StatePersistence"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bookmarks = self.bookmarks {
+            try encodeContainer.encode(bookmarks, forKey: .bookmarks)
+        }
         if let statePersistence = self.statePersistence {
             try encodeContainer.encode(statePersistence, forKey: .statePersistence)
         }
@@ -50890,19 +58773,25 @@ extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations: Sw
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statePersistenceDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StatePersistenceConfigurations.self, forKey: .statePersistence)
         statePersistence = statePersistenceDecoded
+        let bookmarksDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.BookmarksConfigurations.self, forKey: .bookmarks)
+        bookmarks = bookmarksDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The feature configuration for an embedded dashboard.
     public struct RegisteredUserDashboardFeatureConfigurations: Swift.Equatable {
+        /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
+        public var bookmarks: QuickSightClientTypes.BookmarksConfigurations?
         /// The state persistence settings of an embedded dashboard.
         public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
 
         public init (
+            bookmarks: QuickSightClientTypes.BookmarksConfigurations? = nil,
             statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
         )
         {
+            self.bookmarks = bookmarks
             self.statePersistence = statePersistence
         }
     }
@@ -52998,6 +60887,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case category = "Category"
+        case label = "Label"
         case size = "Size"
         case xAxis = "XAxis"
         case yAxis = "YAxis"
@@ -53009,6 +60899,12 @@ extension QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells: Sw
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
             for dimensionfield0 in category {
                 try categoryContainer.encode(dimensionfield0)
+            }
+        }
+        if let label = label {
+            var labelContainer = encodeContainer.nestedUnkeyedContainer(forKey: .label)
+            for dimensionfield0 in label {
+                try labelContainer.encode(dimensionfield0)
             }
         }
         if let size = size {
@@ -53077,6 +60973,17 @@ extension QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells: Sw
             }
         }
         size = sizeDecoded0
+        let labelContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DimensionField?].self, forKey: .label)
+        var labelDecoded0:[QuickSightClientTypes.DimensionField]? = nil
+        if let labelContainer = labelContainer {
+            labelDecoded0 = [QuickSightClientTypes.DimensionField]()
+            for structure0 in labelContainer {
+                if let structure0 = structure0 {
+                    labelDecoded0?.append(structure0)
+                }
+            }
+        }
+        label = labelDecoded0
     }
 }
 
@@ -53085,6 +60992,8 @@ extension QuickSightClientTypes {
     public struct ScatterPlotCategoricallyAggregatedFieldWells: Swift.Equatable {
         /// The category field well of a scatter plot.
         public var category: [QuickSightClientTypes.DimensionField]?
+        /// The label field well of a scatter plot.
+        public var label: [QuickSightClientTypes.DimensionField]?
         /// The size field well of a scatter plot.
         public var size: [QuickSightClientTypes.MeasureField]?
         /// The x-axis field well of a scatter plot. The x-axis is aggregated by category.
@@ -53094,12 +61003,14 @@ extension QuickSightClientTypes {
 
         public init (
             category: [QuickSightClientTypes.DimensionField]? = nil,
+            label: [QuickSightClientTypes.DimensionField]? = nil,
             size: [QuickSightClientTypes.MeasureField]? = nil,
             xAxis: [QuickSightClientTypes.MeasureField]? = nil,
             yAxis: [QuickSightClientTypes.MeasureField]? = nil
         )
         {
             self.category = category
+            self.label = label
             self.size = size
             self.xAxis = xAxis
             self.yAxis = yAxis
@@ -53251,9 +61162,9 @@ extension QuickSightClientTypes.ScatterPlotFieldWells: Swift.Codable {
 extension QuickSightClientTypes {
     /// The field well configuration of a scatter plot. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct ScatterPlotFieldWells: Swift.Equatable {
-        /// The aggregated field wells of a scatter plot. Scatter plots that have a field in the category (group/color) field will have aggregated field wells. The x and y-axes of these scatter plots are aggregated by category.
+        /// The aggregated field wells of a scatter plot. The x and y-axes of scatter plots with aggregated field wells are aggregated by category, label, or both.
         public var scatterPlotCategoricallyAggregatedFieldWells: QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells?
-        /// The unaggregated field wells of a scatter plot. Scatter plots without a category field well have unaggregated field wells. The x and y-axes of these scatter plots are unaggregated.
+        /// The unaggregated field wells of a scatter plot. The x and y-axes of these scatter plots are unaggregated.
         public var scatterPlotUnaggregatedFieldWells: QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells?
 
         public init (
@@ -53270,6 +61181,8 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case category = "Category"
+        case label = "Label"
         case size = "Size"
         case xAxis = "XAxis"
         case yAxis = "YAxis"
@@ -53277,6 +61190,18 @@ extension QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells: Swift.Codable
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let category = category {
+            var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
+            }
+        }
+        if let label = label {
+            var labelContainer = encodeContainer.nestedUnkeyedContainer(forKey: .label)
+            for dimensionfield0 in label {
+                try labelContainer.encode(dimensionfield0)
+            }
+        }
         if let size = size {
             var sizeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .size)
             for measurefield0 in size {
@@ -53332,12 +61257,38 @@ extension QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells: Swift.Codable
             }
         }
         size = sizeDecoded0
+        let categoryContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DimensionField?].self, forKey: .category)
+        var categoryDecoded0:[QuickSightClientTypes.DimensionField]? = nil
+        if let categoryContainer = categoryContainer {
+            categoryDecoded0 = [QuickSightClientTypes.DimensionField]()
+            for structure0 in categoryContainer {
+                if let structure0 = structure0 {
+                    categoryDecoded0?.append(structure0)
+                }
+            }
+        }
+        category = categoryDecoded0
+        let labelContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DimensionField?].self, forKey: .label)
+        var labelDecoded0:[QuickSightClientTypes.DimensionField]? = nil
+        if let labelContainer = labelContainer {
+            labelDecoded0 = [QuickSightClientTypes.DimensionField]()
+            for structure0 in labelContainer {
+                if let structure0 = structure0 {
+                    labelDecoded0?.append(structure0)
+                }
+            }
+        }
+        label = labelDecoded0
     }
 }
 
 extension QuickSightClientTypes {
     /// The unaggregated field wells of a scatter plot.
     public struct ScatterPlotUnaggregatedFieldWells: Swift.Equatable {
+        /// The category field well of a scatter plot.
+        public var category: [QuickSightClientTypes.DimensionField]?
+        /// The label field well of a scatter plot.
+        public var label: [QuickSightClientTypes.DimensionField]?
         /// The size field well of a scatter plot.
         public var size: [QuickSightClientTypes.MeasureField]?
         /// The x-axis field well of a scatter plot. The x-axis is a dimension field and cannot be aggregated.
@@ -53346,11 +61297,15 @@ extension QuickSightClientTypes {
         public var yAxis: [QuickSightClientTypes.DimensionField]?
 
         public init (
+            category: [QuickSightClientTypes.DimensionField]? = nil,
+            label: [QuickSightClientTypes.DimensionField]? = nil,
             size: [QuickSightClientTypes.MeasureField]? = nil,
             xAxis: [QuickSightClientTypes.DimensionField]? = nil,
             yAxis: [QuickSightClientTypes.DimensionField]? = nil
         )
         {
+            self.category = category
+            self.label = label
             self.size = size
             self.xAxis = xAxis
             self.yAxis = yAxis
@@ -55342,6 +63297,209 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.SemanticEntityType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subTypeName = "SubTypeName"
+        case typeName = "TypeName"
+        case typeParameters = "TypeParameters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let subTypeName = self.subTypeName {
+            try encodeContainer.encode(subTypeName, forKey: .subTypeName)
+        }
+        if let typeName = self.typeName {
+            try encodeContainer.encode(typeName, forKey: .typeName)
+        }
+        if let typeParameters = typeParameters {
+            var typeParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .typeParameters)
+            for (dictKey0, typeParameters0) in typeParameters {
+                try typeParametersContainer.encode(typeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
+        typeName = typeNameDecoded
+        let subTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subTypeName)
+        subTypeName = subTypeNameDecoded
+        let typeParametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .typeParameters)
+        var typeParametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let typeParametersContainer = typeParametersContainer {
+            typeParametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, limitedstring0) in typeParametersContainer {
+                if let limitedstring0 = limitedstring0 {
+                    typeParametersDecoded0?[key0] = limitedstring0
+                }
+            }
+        }
+        typeParameters = typeParametersDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a semantic entity type.
+    public struct SemanticEntityType: Swift.Equatable {
+        /// The semantic entity sub type name.
+        public var subTypeName: Swift.String?
+        /// The semantic entity type name.
+        public var typeName: Swift.String?
+        /// The semantic entity type parameters.
+        public var typeParameters: [Swift.String:Swift.String]?
+
+        public init (
+            subTypeName: Swift.String? = nil,
+            typeName: Swift.String? = nil,
+            typeParameters: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.subTypeName = subTypeName
+            self.typeName = typeName
+            self.typeParameters = typeParameters
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SemanticType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case falseyCellValue = "FalseyCellValue"
+        case falseyCellValueSynonyms = "FalseyCellValueSynonyms"
+        case subTypeName = "SubTypeName"
+        case truthyCellValue = "TruthyCellValue"
+        case truthyCellValueSynonyms = "TruthyCellValueSynonyms"
+        case typeName = "TypeName"
+        case typeParameters = "TypeParameters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let falseyCellValue = self.falseyCellValue {
+            try encodeContainer.encode(falseyCellValue, forKey: .falseyCellValue)
+        }
+        if let falseyCellValueSynonyms = falseyCellValueSynonyms {
+            var falseyCellValueSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .falseyCellValueSynonyms)
+            for sensitivestring0 in falseyCellValueSynonyms {
+                try falseyCellValueSynonymsContainer.encode(sensitivestring0)
+            }
+        }
+        if let subTypeName = self.subTypeName {
+            try encodeContainer.encode(subTypeName, forKey: .subTypeName)
+        }
+        if let truthyCellValue = self.truthyCellValue {
+            try encodeContainer.encode(truthyCellValue, forKey: .truthyCellValue)
+        }
+        if let truthyCellValueSynonyms = truthyCellValueSynonyms {
+            var truthyCellValueSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .truthyCellValueSynonyms)
+            for sensitivestring0 in truthyCellValueSynonyms {
+                try truthyCellValueSynonymsContainer.encode(sensitivestring0)
+            }
+        }
+        if let typeName = self.typeName {
+            try encodeContainer.encode(typeName, forKey: .typeName)
+        }
+        if let typeParameters = typeParameters {
+            var typeParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .typeParameters)
+            for (dictKey0, typeParameters0) in typeParameters {
+                try typeParametersContainer.encode(typeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
+        typeName = typeNameDecoded
+        let subTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subTypeName)
+        subTypeName = subTypeNameDecoded
+        let typeParametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .typeParameters)
+        var typeParametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let typeParametersContainer = typeParametersContainer {
+            typeParametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, limitedstring0) in typeParametersContainer {
+                if let limitedstring0 = limitedstring0 {
+                    typeParametersDecoded0?[key0] = limitedstring0
+                }
+            }
+        }
+        typeParameters = typeParametersDecoded0
+        let truthyCellValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .truthyCellValue)
+        truthyCellValue = truthyCellValueDecoded
+        let truthyCellValueSynonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .truthyCellValueSynonyms)
+        var truthyCellValueSynonymsDecoded0:[Swift.String]? = nil
+        if let truthyCellValueSynonymsContainer = truthyCellValueSynonymsContainer {
+            truthyCellValueSynonymsDecoded0 = [Swift.String]()
+            for string0 in truthyCellValueSynonymsContainer {
+                if let string0 = string0 {
+                    truthyCellValueSynonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        truthyCellValueSynonyms = truthyCellValueSynonymsDecoded0
+        let falseyCellValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .falseyCellValue)
+        falseyCellValue = falseyCellValueDecoded
+        let falseyCellValueSynonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .falseyCellValueSynonyms)
+        var falseyCellValueSynonymsDecoded0:[Swift.String]? = nil
+        if let falseyCellValueSynonymsContainer = falseyCellValueSynonymsContainer {
+            falseyCellValueSynonymsDecoded0 = [Swift.String]()
+            for string0 in falseyCellValueSynonymsContainer {
+                if let string0 = string0 {
+                    falseyCellValueSynonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        falseyCellValueSynonyms = falseyCellValueSynonymsDecoded0
+    }
+}
+
+extension QuickSightClientTypes.SemanticType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SemanticType(falseyCellValueSynonyms: \(Swift.String(describing: falseyCellValueSynonyms)), subTypeName: \(Swift.String(describing: subTypeName)), truthyCellValueSynonyms: \(Swift.String(describing: truthyCellValueSynonyms)), typeName: \(Swift.String(describing: typeName)), typeParameters: \(Swift.String(describing: typeParameters)), falseyCellValue: \"CONTENT_REDACTED\", truthyCellValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a semantic type.
+    public struct SemanticType: Swift.Equatable {
+        /// The semantic type falsey cell value.
+        public var falseyCellValue: Swift.String?
+        /// The other names or aliases for the false cell value.
+        public var falseyCellValueSynonyms: [Swift.String]?
+        /// The semantic type sub type name.
+        public var subTypeName: Swift.String?
+        /// The semantic type truthy cell value.
+        public var truthyCellValue: Swift.String?
+        /// The other names or aliases for the true cell value.
+        public var truthyCellValueSynonyms: [Swift.String]?
+        /// The semantic type name.
+        public var typeName: Swift.String?
+        /// The semantic type parameters.
+        public var typeParameters: [Swift.String:Swift.String]?
+
+        public init (
+            falseyCellValue: Swift.String? = nil,
+            falseyCellValueSynonyms: [Swift.String]? = nil,
+            subTypeName: Swift.String? = nil,
+            truthyCellValue: Swift.String? = nil,
+            truthyCellValueSynonyms: [Swift.String]? = nil,
+            typeName: Swift.String? = nil,
+            typeParameters: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.falseyCellValue = falseyCellValue
+            self.falseyCellValueSynonyms = falseyCellValueSynonyms
+            self.subTypeName = subTypeName
+            self.truthyCellValue = truthyCellValue
+            self.truthyCellValueSynonyms = truthyCellValueSynonyms
+            self.typeName = typeName
+            self.typeParameters = typeParameters
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.SeriesItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataFieldSeriesItem = "DataFieldSeriesItem"
@@ -56989,6 +65147,440 @@ extension QuickSightClientTypes {
 
 }
 
+extension StartAssetBundleExportJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetBundleExportJobId = "AssetBundleExportJobId"
+        case cloudFormationOverridePropertyConfiguration = "CloudFormationOverridePropertyConfiguration"
+        case exportFormat = "ExportFormat"
+        case includeAllDependencies = "IncludeAllDependencies"
+        case resourceArns = "ResourceArns"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assetBundleExportJobId = self.assetBundleExportJobId {
+            try encodeContainer.encode(assetBundleExportJobId, forKey: .assetBundleExportJobId)
+        }
+        if let cloudFormationOverridePropertyConfiguration = self.cloudFormationOverridePropertyConfiguration {
+            try encodeContainer.encode(cloudFormationOverridePropertyConfiguration, forKey: .cloudFormationOverridePropertyConfiguration)
+        }
+        if let exportFormat = self.exportFormat {
+            try encodeContainer.encode(exportFormat.rawValue, forKey: .exportFormat)
+        }
+        if let includeAllDependencies = self.includeAllDependencies {
+            try encodeContainer.encode(includeAllDependencies, forKey: .includeAllDependencies)
+        }
+        if let resourceArns = resourceArns {
+            var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
+            for arn0 in resourceArns {
+                try resourceArnsContainer.encode(arn0)
+            }
+        }
+    }
+}
+
+extension StartAssetBundleExportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-export-jobs/export"
+    }
+}
+
+public struct StartAssetBundleExportJobInput: Swift.Equatable {
+    /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
+    /// This member is required.
+    public var assetBundleExportJobId: Swift.String?
+    /// The ID of the Amazon Web Services account to export assets from.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// An optional collection of structures that generate CloudFormation parameters to override the existing resource property values when the resource is exported to a new CloudFormation template. Use this field if the ExportFormat field of a StartAssetBundleExportJobRequest API call is set to CLOUDFORMATION_JSON.
+    public var cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration?
+    /// The export data format.
+    /// This member is required.
+    public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
+    /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and dataource resource that is a dependency of the dashboard is also exported.
+    public var includeAllDependencies: Swift.Bool?
+    /// An array of resource ARNs to export. The following resources are supported.
+    ///
+    /// * Analysis
+    ///
+    /// * Dashboard
+    ///
+    /// * DataSet
+    ///
+    /// * DataSource
+    ///
+    /// * RefreshSchedule
+    ///
+    /// * Theme
+    ///
+    /// * VPCConnection
+    ///
+    ///
+    /// The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    /// This member is required.
+    public var resourceArns: [Swift.String]?
+
+    public init (
+        assetBundleExportJobId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration? = nil,
+        exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
+        includeAllDependencies: Swift.Bool? = nil,
+        resourceArns: [Swift.String]? = nil
+    )
+    {
+        self.assetBundleExportJobId = assetBundleExportJobId
+        self.awsAccountId = awsAccountId
+        self.cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfiguration
+        self.exportFormat = exportFormat
+        self.includeAllDependencies = includeAllDependencies
+        self.resourceArns = resourceArns
+    }
+}
+
+struct StartAssetBundleExportJobInputBody: Swift.Equatable {
+    let assetBundleExportJobId: Swift.String?
+    let resourceArns: [Swift.String]?
+    let includeAllDependencies: Swift.Bool?
+    let exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
+    let cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration?
+}
+
+extension StartAssetBundleExportJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetBundleExportJobId = "AssetBundleExportJobId"
+        case cloudFormationOverridePropertyConfiguration = "CloudFormationOverridePropertyConfiguration"
+        case exportFormat = "ExportFormat"
+        case includeAllDependencies = "IncludeAllDependencies"
+        case resourceArns = "ResourceArns"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetBundleExportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleExportJobId)
+        assetBundleExportJobId = assetBundleExportJobIdDecoded
+        let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
+        var resourceArnsDecoded0:[Swift.String]? = nil
+        if let resourceArnsContainer = resourceArnsContainer {
+            resourceArnsDecoded0 = [Swift.String]()
+            for string0 in resourceArnsContainer {
+                if let string0 = string0 {
+                    resourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceArns = resourceArnsDecoded0
+        let includeAllDependenciesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeAllDependencies)
+        includeAllDependencies = includeAllDependenciesDecoded
+        let exportFormatDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportFormat.self, forKey: .exportFormat)
+        exportFormat = exportFormatDecoded
+        let cloudFormationOverridePropertyConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration.self, forKey: .cloudFormationOverridePropertyConfiguration)
+        cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfigurationDecoded
+    }
+}
+
+extension StartAssetBundleExportJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartAssetBundleExportJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartAssetBundleExportJobOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartAssetBundleExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: StartAssetBundleExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.assetBundleExportJobId = output.assetBundleExportJobId
+            self.requestId = output.requestId
+        } else {
+            self.arn = nil
+            self.assetBundleExportJobId = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct StartAssetBundleExportJobOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the export job.
+    public var arn: Swift.String?
+    /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
+    public var assetBundleExportJobId: Swift.String?
+    /// The Amazon Web Services response ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the response.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        assetBundleExportJobId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.assetBundleExportJobId = assetBundleExportJobId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct StartAssetBundleExportJobOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let assetBundleExportJobId: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension StartAssetBundleExportJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assetBundleExportJobId = "AssetBundleExportJobId"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let assetBundleExportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleExportJobId)
+        assetBundleExportJobId = assetBundleExportJobIdDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension StartAssetBundleImportJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetBundleImportJobId = "AssetBundleImportJobId"
+        case assetBundleImportSource = "AssetBundleImportSource"
+        case failureAction = "FailureAction"
+        case overrideParameters = "OverrideParameters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assetBundleImportJobId = self.assetBundleImportJobId {
+            try encodeContainer.encode(assetBundleImportJobId, forKey: .assetBundleImportJobId)
+        }
+        if let assetBundleImportSource = self.assetBundleImportSource {
+            try encodeContainer.encode(assetBundleImportSource, forKey: .assetBundleImportSource)
+        }
+        if let failureAction = self.failureAction {
+            try encodeContainer.encode(failureAction.rawValue, forKey: .failureAction)
+        }
+        if let overrideParameters = self.overrideParameters {
+            try encodeContainer.encode(overrideParameters, forKey: .overrideParameters)
+        }
+    }
+}
+
+extension StartAssetBundleImportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs/import"
+    }
+}
+
+public struct StartAssetBundleImportJobInput: Swift.Equatable {
+    /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
+    /// This member is required.
+    public var assetBundleImportJobId: Swift.String?
+    /// The source of the asset bundle zip file that contains the data that you want to import.
+    /// This member is required.
+    public var assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource?
+    /// The ID of the Amazon Web Services account to import assets into.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly leaving the Amazon QuickSight account in an inconsistent state.
+    public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
+    /// Optional overrides to be applied to the resource configuration before import.
+    public var overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
+
+    public init (
+        assetBundleImportJobId: Swift.String? = nil,
+        assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource? = nil,
+        awsAccountId: Swift.String? = nil,
+        failureAction: QuickSightClientTypes.AssetBundleImportFailureAction? = nil,
+        overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters? = nil
+    )
+    {
+        self.assetBundleImportJobId = assetBundleImportJobId
+        self.assetBundleImportSource = assetBundleImportSource
+        self.awsAccountId = awsAccountId
+        self.failureAction = failureAction
+        self.overrideParameters = overrideParameters
+    }
+}
+
+struct StartAssetBundleImportJobInputBody: Swift.Equatable {
+    let assetBundleImportJobId: Swift.String?
+    let assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource?
+    let overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
+    let failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
+}
+
+extension StartAssetBundleImportJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assetBundleImportJobId = "AssetBundleImportJobId"
+        case assetBundleImportSource = "AssetBundleImportSource"
+        case failureAction = "FailureAction"
+        case overrideParameters = "OverrideParameters"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assetBundleImportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleImportJobId)
+        assetBundleImportJobId = assetBundleImportJobIdDecoded
+        let assetBundleImportSourceDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportSource.self, forKey: .assetBundleImportSource)
+        assetBundleImportSource = assetBundleImportSourceDecoded
+        let overrideParametersDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideParameters.self, forKey: .overrideParameters)
+        overrideParameters = overrideParametersDecoded
+        let failureActionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportFailureAction.self, forKey: .failureAction)
+        failureAction = failureActionDecoded
+    }
+}
+
+extension StartAssetBundleImportJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartAssetBundleImportJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartAssetBundleImportJobOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartAssetBundleImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: StartAssetBundleImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.assetBundleImportJobId = output.assetBundleImportJobId
+            self.requestId = output.requestId
+        } else {
+            self.arn = nil
+            self.assetBundleImportJobId = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct StartAssetBundleImportJobOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the import job.
+    public var arn: Swift.String?
+    /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
+    public var assetBundleImportJobId: Swift.String?
+    /// The Amazon Web Services response ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the response.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        assetBundleImportJobId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.assetBundleImportJobId = assetBundleImportJobId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct StartAssetBundleImportJobOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let assetBundleImportJobId: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension StartAssetBundleImportJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assetBundleImportJobId = "AssetBundleImportJobId"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let assetBundleImportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleImportJobId)
+        assetBundleImportJobId = assetBundleImportJobIdDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension QuickSightClientTypes.StatePersistenceConfigurations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
@@ -57055,6 +65647,121 @@ extension QuickSightClientTypes {
             self = Status(rawValue: rawValue) ?? Status.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.StringDatasetParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValues = "DefaultValues"
+        case id = "Id"
+        case name = "Name"
+        case valueType = "ValueType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValues = self.defaultValues {
+            try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let valueType = self.valueType {
+            try encodeContainer.encode(valueType.rawValue, forKey: .valueType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DatasetParameterValueType.self, forKey: .valueType)
+        valueType = valueTypeDecoded
+        let defaultValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StringDatasetParameterDefaultValues.self, forKey: .defaultValues)
+        defaultValues = defaultValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A string parameter for a dataset.
+    public struct StringDatasetParameter: Swift.Equatable {
+        /// A list of default values for a given string dataset parameter type. This structure only accepts static values.
+        public var defaultValues: QuickSightClientTypes.StringDatasetParameterDefaultValues?
+        /// An identifier for the string parameter that is created in the dataset.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the string parameter that is created in the dataset.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value type of the dataset parameter. Valid values are single value or multi value.
+        /// This member is required.
+        public var valueType: QuickSightClientTypes.DatasetParameterValueType?
+
+        public init (
+            defaultValues: QuickSightClientTypes.StringDatasetParameterDefaultValues? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
+        )
+        {
+            self.defaultValues = defaultValues
+            self.id = id
+            self.name = name
+            self.valueType = valueType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.StringDatasetParameterDefaultValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case staticValues = "StaticValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let staticValues = staticValues {
+            var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
+            for stringdatasetparameterdefaultvalue0 in staticValues {
+                try staticValuesContainer.encode(stringdatasetparameterdefaultvalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let staticValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .staticValues)
+        var staticValuesDecoded0:[Swift.String]? = nil
+        if let staticValuesContainer = staticValuesContainer {
+            staticValuesDecoded0 = [Swift.String]()
+            for string0 in staticValuesContainer {
+                if let string0 = string0 {
+                    staticValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        staticValues = staticValuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default values of a string parameter.
+    public struct StringDatasetParameterDefaultValues: Swift.Equatable {
+        /// A list of static default values for a given string parameter.
+        public var staticValues: [Swift.String]?
+
+        public init (
+            staticValues: [Swift.String]? = nil
+        )
+        {
+            self.staticValues = staticValues
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.StringDefaultValues: Swift.Codable {
@@ -57221,6 +65928,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.StringParameterDeclaration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValues = "DefaultValues"
+        case mappedDataSetParameters = "MappedDataSetParameters"
         case name = "Name"
         case parameterValueType = "ParameterValueType"
         case valueWhenUnset = "ValueWhenUnset"
@@ -57230,6 +65938,12 @@ extension QuickSightClientTypes.StringParameterDeclaration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValues = self.defaultValues {
             try encodeContainer.encode(defaultValues, forKey: .defaultValues)
+        }
+        if let mappedDataSetParameters = mappedDataSetParameters {
+            var mappedDataSetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappedDataSetParameters)
+            for mappeddatasetparameter0 in mappedDataSetParameters {
+                try mappedDataSetParametersContainer.encode(mappeddatasetparameter0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -57252,6 +65966,17 @@ extension QuickSightClientTypes.StringParameterDeclaration: Swift.Codable {
         defaultValues = defaultValuesDecoded
         let valueWhenUnsetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StringValueWhenUnsetConfiguration.self, forKey: .valueWhenUnset)
         valueWhenUnset = valueWhenUnsetDecoded
+        let mappedDataSetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.MappedDataSetParameter?].self, forKey: .mappedDataSetParameters)
+        var mappedDataSetParametersDecoded0:[QuickSightClientTypes.MappedDataSetParameter]? = nil
+        if let mappedDataSetParametersContainer = mappedDataSetParametersContainer {
+            mappedDataSetParametersDecoded0 = [QuickSightClientTypes.MappedDataSetParameter]()
+            for structure0 in mappedDataSetParametersContainer {
+                if let structure0 = structure0 {
+                    mappedDataSetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedDataSetParameters = mappedDataSetParametersDecoded0
     }
 }
 
@@ -57260,6 +65985,8 @@ extension QuickSightClientTypes {
     public struct StringParameterDeclaration: Swift.Equatable {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.StringDefaultValues?
+        /// A list of dataset parameters that are mapped to an analysis parameter.
+        public var mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]?
         /// The name of the parameter that is being declared.
         /// This member is required.
         public var name: Swift.String?
@@ -57271,12 +65998,14 @@ extension QuickSightClientTypes {
 
         public init (
             defaultValues: QuickSightClientTypes.StringDefaultValues? = nil,
+            mappedDataSetParameters: [QuickSightClientTypes.MappedDataSetParameter]? = nil,
             name: Swift.String? = nil,
             parameterValueType: QuickSightClientTypes.ParameterValueType? = nil,
             valueWhenUnset: QuickSightClientTypes.StringValueWhenUnsetConfiguration? = nil
         )
         {
             self.defaultValues = defaultValues
+            self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
             self.parameterValueType = parameterValueType
             self.valueWhenUnset = valueWhenUnset
@@ -62290,6 +71019,1713 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.TopicCalculatedField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregation = "Aggregation"
+        case allowedAggregations = "AllowedAggregations"
+        case calculatedFieldDescription = "CalculatedFieldDescription"
+        case calculatedFieldName = "CalculatedFieldName"
+        case calculatedFieldSynonyms = "CalculatedFieldSynonyms"
+        case cellValueSynonyms = "CellValueSynonyms"
+        case columnDataRole = "ColumnDataRole"
+        case comparativeOrder = "ComparativeOrder"
+        case defaultFormatting = "DefaultFormatting"
+        case disableIndexing = "DisableIndexing"
+        case expression = "Expression"
+        case isIncludedInTopic = "IsIncludedInTopic"
+        case neverAggregateInFilter = "NeverAggregateInFilter"
+        case notAllowedAggregations = "NotAllowedAggregations"
+        case semanticType = "SemanticType"
+        case timeGranularity = "TimeGranularity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregation = self.aggregation {
+            try encodeContainer.encode(aggregation.rawValue, forKey: .aggregation)
+        }
+        if let allowedAggregations = allowedAggregations {
+            var allowedAggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedAggregations)
+            for authorspecifiedaggregation0 in allowedAggregations {
+                try allowedAggregationsContainer.encode(authorspecifiedaggregation0.rawValue)
+            }
+        }
+        if let calculatedFieldDescription = self.calculatedFieldDescription {
+            try encodeContainer.encode(calculatedFieldDescription, forKey: .calculatedFieldDescription)
+        }
+        if let calculatedFieldName = self.calculatedFieldName {
+            try encodeContainer.encode(calculatedFieldName, forKey: .calculatedFieldName)
+        }
+        if let calculatedFieldSynonyms = calculatedFieldSynonyms {
+            var calculatedFieldSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .calculatedFieldSynonyms)
+            for limitedstring0 in calculatedFieldSynonyms {
+                try calculatedFieldSynonymsContainer.encode(limitedstring0)
+            }
+        }
+        if let cellValueSynonyms = cellValueSynonyms {
+            var cellValueSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cellValueSynonyms)
+            for cellvaluesynonym0 in cellValueSynonyms {
+                try cellValueSynonymsContainer.encode(cellvaluesynonym0)
+            }
+        }
+        if let columnDataRole = self.columnDataRole {
+            try encodeContainer.encode(columnDataRole.rawValue, forKey: .columnDataRole)
+        }
+        if let comparativeOrder = self.comparativeOrder {
+            try encodeContainer.encode(comparativeOrder, forKey: .comparativeOrder)
+        }
+        if let defaultFormatting = self.defaultFormatting {
+            try encodeContainer.encode(defaultFormatting, forKey: .defaultFormatting)
+        }
+        if let disableIndexing = self.disableIndexing {
+            try encodeContainer.encode(disableIndexing, forKey: .disableIndexing)
+        }
+        if let expression = self.expression {
+            try encodeContainer.encode(expression, forKey: .expression)
+        }
+        if isIncludedInTopic != false {
+            try encodeContainer.encode(isIncludedInTopic, forKey: .isIncludedInTopic)
+        }
+        if neverAggregateInFilter != false {
+            try encodeContainer.encode(neverAggregateInFilter, forKey: .neverAggregateInFilter)
+        }
+        if let notAllowedAggregations = notAllowedAggregations {
+            var notAllowedAggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notAllowedAggregations)
+            for authorspecifiedaggregation0 in notAllowedAggregations {
+                try notAllowedAggregationsContainer.encode(authorspecifiedaggregation0.rawValue)
+            }
+        }
+        if let semanticType = self.semanticType {
+            try encodeContainer.encode(semanticType, forKey: .semanticType)
+        }
+        if let timeGranularity = self.timeGranularity {
+            try encodeContainer.encode(timeGranularity.rawValue, forKey: .timeGranularity)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculatedFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedFieldName)
+        calculatedFieldName = calculatedFieldNameDecoded
+        let calculatedFieldDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculatedFieldDescription)
+        calculatedFieldDescription = calculatedFieldDescriptionDecoded
+        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
+        expression = expressionDecoded
+        let calculatedFieldSynonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .calculatedFieldSynonyms)
+        var calculatedFieldSynonymsDecoded0:[Swift.String]? = nil
+        if let calculatedFieldSynonymsContainer = calculatedFieldSynonymsContainer {
+            calculatedFieldSynonymsDecoded0 = [Swift.String]()
+            for string0 in calculatedFieldSynonymsContainer {
+                if let string0 = string0 {
+                    calculatedFieldSynonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        calculatedFieldSynonyms = calculatedFieldSynonymsDecoded0
+        let isIncludedInTopicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isIncludedInTopic) ?? false
+        isIncludedInTopic = isIncludedInTopicDecoded
+        let disableIndexingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableIndexing)
+        disableIndexing = disableIndexingDecoded
+        let columnDataRoleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataRole.self, forKey: .columnDataRole)
+        columnDataRole = columnDataRoleDecoded
+        let timeGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicTimeGranularity.self, forKey: .timeGranularity)
+        timeGranularity = timeGranularityDecoded
+        let defaultFormattingDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFormatting.self, forKey: .defaultFormatting)
+        defaultFormatting = defaultFormattingDecoded
+        let aggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultAggregation.self, forKey: .aggregation)
+        aggregation = aggregationDecoded
+        let comparativeOrderDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ComparativeOrder.self, forKey: .comparativeOrder)
+        comparativeOrder = comparativeOrderDecoded
+        let semanticTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SemanticType.self, forKey: .semanticType)
+        semanticType = semanticTypeDecoded
+        let allowedAggregationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AuthorSpecifiedAggregation?].self, forKey: .allowedAggregations)
+        var allowedAggregationsDecoded0:[QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil
+        if let allowedAggregationsContainer = allowedAggregationsContainer {
+            allowedAggregationsDecoded0 = [QuickSightClientTypes.AuthorSpecifiedAggregation]()
+            for enum0 in allowedAggregationsContainer {
+                if let enum0 = enum0 {
+                    allowedAggregationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        allowedAggregations = allowedAggregationsDecoded0
+        let notAllowedAggregationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AuthorSpecifiedAggregation?].self, forKey: .notAllowedAggregations)
+        var notAllowedAggregationsDecoded0:[QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil
+        if let notAllowedAggregationsContainer = notAllowedAggregationsContainer {
+            notAllowedAggregationsDecoded0 = [QuickSightClientTypes.AuthorSpecifiedAggregation]()
+            for enum0 in notAllowedAggregationsContainer {
+                if let enum0 = enum0 {
+                    notAllowedAggregationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        notAllowedAggregations = notAllowedAggregationsDecoded0
+        let neverAggregateInFilterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .neverAggregateInFilter) ?? false
+        neverAggregateInFilter = neverAggregateInFilterDecoded
+        let cellValueSynonymsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.CellValueSynonym?].self, forKey: .cellValueSynonyms)
+        var cellValueSynonymsDecoded0:[QuickSightClientTypes.CellValueSynonym]? = nil
+        if let cellValueSynonymsContainer = cellValueSynonymsContainer {
+            cellValueSynonymsDecoded0 = [QuickSightClientTypes.CellValueSynonym]()
+            for structure0 in cellValueSynonymsContainer {
+                if let structure0 = structure0 {
+                    cellValueSynonymsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cellValueSynonyms = cellValueSynonymsDecoded0
+    }
+}
+
+extension QuickSightClientTypes.TopicCalculatedField: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicCalculatedField(aggregation: \(Swift.String(describing: aggregation)), allowedAggregations: \(Swift.String(describing: allowedAggregations)), calculatedFieldDescription: \(Swift.String(describing: calculatedFieldDescription)), calculatedFieldName: \(Swift.String(describing: calculatedFieldName)), calculatedFieldSynonyms: \(Swift.String(describing: calculatedFieldSynonyms)), cellValueSynonyms: \(Swift.String(describing: cellValueSynonyms)), columnDataRole: \(Swift.String(describing: columnDataRole)), comparativeOrder: \(Swift.String(describing: comparativeOrder)), defaultFormatting: \(Swift.String(describing: defaultFormatting)), disableIndexing: \(Swift.String(describing: disableIndexing)), isIncludedInTopic: \(Swift.String(describing: isIncludedInTopic)), neverAggregateInFilter: \(Swift.String(describing: neverAggregateInFilter)), notAllowedAggregations: \(Swift.String(describing: notAllowedAggregations)), semanticType: \(Swift.String(describing: semanticType)), timeGranularity: \(Swift.String(describing: timeGranularity)), expression: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a calculated field.
+    public struct TopicCalculatedField: Swift.Equatable {
+        /// The default aggregation. Valid values for this structure are SUM, MAX, MIN, COUNT, DISTINCT_COUNT, and AVERAGE.
+        public var aggregation: QuickSightClientTypes.DefaultAggregation?
+        /// The list of aggregation types that are allowed for the calculated field. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
+        public var allowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
+        /// The calculated field description.
+        public var calculatedFieldDescription: Swift.String?
+        /// The calculated field name.
+        /// This member is required.
+        public var calculatedFieldName: Swift.String?
+        /// The other names or aliases for the calculated field.
+        public var calculatedFieldSynonyms: [Swift.String]?
+        /// The other names or aliases for the calculated field cell value.
+        public var cellValueSynonyms: [QuickSightClientTypes.CellValueSynonym]?
+        /// The column data role for a calculated field. Valid values for this structure are DIMENSION and MEASURE.
+        public var columnDataRole: QuickSightClientTypes.ColumnDataRole?
+        /// The order in which data is displayed for the calculated field when it's used in a comparative context.
+        public var comparativeOrder: QuickSightClientTypes.ComparativeOrder?
+        /// The default formatting definition.
+        public var defaultFormatting: QuickSightClientTypes.DefaultFormatting?
+        /// A Boolean value that indicates if a calculated field is visible in the autocomplete.
+        public var disableIndexing: Swift.Bool?
+        /// The calculated field expression.
+        /// This member is required.
+        public var expression: Swift.String?
+        /// A boolean value that indicates if a calculated field is included in the topic.
+        public var isIncludedInTopic: Swift.Bool
+        /// A Boolean value that indicates whether to never aggregate calculated field in filters.
+        public var neverAggregateInFilter: Swift.Bool
+        /// The list of aggregation types that are not allowed for the calculated field. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
+        public var notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
+        /// The semantic type.
+        public var semanticType: QuickSightClientTypes.SemanticType?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public var timeGranularity: QuickSightClientTypes.TopicTimeGranularity?
+
+        public init (
+            aggregation: QuickSightClientTypes.DefaultAggregation? = nil,
+            allowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
+            calculatedFieldDescription: Swift.String? = nil,
+            calculatedFieldName: Swift.String? = nil,
+            calculatedFieldSynonyms: [Swift.String]? = nil,
+            cellValueSynonyms: [QuickSightClientTypes.CellValueSynonym]? = nil,
+            columnDataRole: QuickSightClientTypes.ColumnDataRole? = nil,
+            comparativeOrder: QuickSightClientTypes.ComparativeOrder? = nil,
+            defaultFormatting: QuickSightClientTypes.DefaultFormatting? = nil,
+            disableIndexing: Swift.Bool? = nil,
+            expression: Swift.String? = nil,
+            isIncludedInTopic: Swift.Bool = false,
+            neverAggregateInFilter: Swift.Bool = false,
+            notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
+            semanticType: QuickSightClientTypes.SemanticType? = nil,
+            timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.allowedAggregations = allowedAggregations
+            self.calculatedFieldDescription = calculatedFieldDescription
+            self.calculatedFieldName = calculatedFieldName
+            self.calculatedFieldSynonyms = calculatedFieldSynonyms
+            self.cellValueSynonyms = cellValueSynonyms
+            self.columnDataRole = columnDataRole
+            self.comparativeOrder = comparativeOrder
+            self.defaultFormatting = defaultFormatting
+            self.disableIndexing = disableIndexing
+            self.expression = expression
+            self.isIncludedInTopic = isIncludedInTopic
+            self.neverAggregateInFilter = neverAggregateInFilter
+            self.notAllowedAggregations = notAllowedAggregations
+            self.semanticType = semanticType
+            self.timeGranularity = timeGranularity
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicCategoryFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryFilterFunction = "CategoryFilterFunction"
+        case categoryFilterType = "CategoryFilterType"
+        case constant = "Constant"
+        case inverse = "Inverse"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryFilterFunction = self.categoryFilterFunction {
+            try encodeContainer.encode(categoryFilterFunction.rawValue, forKey: .categoryFilterFunction)
+        }
+        if let categoryFilterType = self.categoryFilterType {
+            try encodeContainer.encode(categoryFilterType.rawValue, forKey: .categoryFilterType)
+        }
+        if let constant = self.constant {
+            try encodeContainer.encode(constant, forKey: .constant)
+        }
+        if inverse != false {
+            try encodeContainer.encode(inverse, forKey: .inverse)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let categoryFilterFunctionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CategoryFilterFunction.self, forKey: .categoryFilterFunction)
+        categoryFilterFunction = categoryFilterFunctionDecoded
+        let categoryFilterTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CategoryFilterType.self, forKey: .categoryFilterType)
+        categoryFilterType = categoryFilterTypeDecoded
+        let constantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicCategoryFilterConstant.self, forKey: .constant)
+        constant = constantDecoded
+        let inverseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inverse) ?? false
+        inverse = inverseDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicCategoryFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicCategoryFilter(categoryFilterFunction: \(Swift.String(describing: categoryFilterFunction)), categoryFilterType: \(Swift.String(describing: categoryFilterType)), inverse: \(Swift.String(describing: inverse)), constant: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a category filter.
+    public struct TopicCategoryFilter: Swift.Equatable {
+        /// The category filter function. Valid values for this structure are EXACT and CONTAINS.
+        public var categoryFilterFunction: QuickSightClientTypes.CategoryFilterFunction?
+        /// The category filter type. This element is used to specify whether a filter is a simple category filter or an inverse category filter.
+        public var categoryFilterType: QuickSightClientTypes.CategoryFilterType?
+        /// The constant used in a category filter.
+        public var constant: QuickSightClientTypes.TopicCategoryFilterConstant?
+        /// A Boolean value that indicates if the filter is inverse.
+        public var inverse: Swift.Bool
+
+        public init (
+            categoryFilterFunction: QuickSightClientTypes.CategoryFilterFunction? = nil,
+            categoryFilterType: QuickSightClientTypes.CategoryFilterType? = nil,
+            constant: QuickSightClientTypes.TopicCategoryFilterConstant? = nil,
+            inverse: Swift.Bool = false
+        )
+        {
+            self.categoryFilterFunction = categoryFilterFunction
+            self.categoryFilterType = categoryFilterType
+            self.constant = constant
+            self.inverse = inverse
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicCategoryFilterConstant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectiveConstant = "CollectiveConstant"
+        case constantType = "ConstantType"
+        case singularConstant = "SingularConstant"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectiveConstant = self.collectiveConstant {
+            try encodeContainer.encode(collectiveConstant, forKey: .collectiveConstant)
+        }
+        if let constantType = self.constantType {
+            try encodeContainer.encode(constantType.rawValue, forKey: .constantType)
+        }
+        if let singularConstant = self.singularConstant {
+            try encodeContainer.encode(singularConstant, forKey: .singularConstant)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let constantTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConstantType.self, forKey: .constantType)
+        constantType = constantTypeDecoded
+        let singularConstantDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .singularConstant)
+        singularConstant = singularConstantDecoded
+        let collectiveConstantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CollectiveConstant.self, forKey: .collectiveConstant)
+        collectiveConstant = collectiveConstantDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicCategoryFilterConstant: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A constant used in a category filter.
+    public struct TopicCategoryFilterConstant: Swift.Equatable {
+        /// A collective constant used in a category filter. This element is used to specify a list of values for the constant.
+        public var collectiveConstant: QuickSightClientTypes.CollectiveConstant?
+        /// The type of category filter constant. This element is used to specify whether a constant is a singular or collective. Valid values are SINGULAR and COLLECTIVE.
+        public var constantType: QuickSightClientTypes.ConstantType?
+        /// A singular constant used in a category filter. This element is used to specify a single value for the constant.
+        public var singularConstant: Swift.String?
+
+        public init (
+            collectiveConstant: QuickSightClientTypes.CollectiveConstant? = nil,
+            constantType: QuickSightClientTypes.ConstantType? = nil,
+            singularConstant: Swift.String? = nil
+        )
+        {
+            self.collectiveConstant = collectiveConstant
+            self.constantType = constantType
+            self.singularConstant = singularConstant
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicColumn: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregation = "Aggregation"
+        case allowedAggregations = "AllowedAggregations"
+        case cellValueSynonyms = "CellValueSynonyms"
+        case columnDataRole = "ColumnDataRole"
+        case columnDescription = "ColumnDescription"
+        case columnFriendlyName = "ColumnFriendlyName"
+        case columnName = "ColumnName"
+        case columnSynonyms = "ColumnSynonyms"
+        case comparativeOrder = "ComparativeOrder"
+        case defaultFormatting = "DefaultFormatting"
+        case disableIndexing = "DisableIndexing"
+        case isIncludedInTopic = "IsIncludedInTopic"
+        case neverAggregateInFilter = "NeverAggregateInFilter"
+        case notAllowedAggregations = "NotAllowedAggregations"
+        case semanticType = "SemanticType"
+        case timeGranularity = "TimeGranularity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregation = self.aggregation {
+            try encodeContainer.encode(aggregation.rawValue, forKey: .aggregation)
+        }
+        if let allowedAggregations = allowedAggregations {
+            var allowedAggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedAggregations)
+            for authorspecifiedaggregation0 in allowedAggregations {
+                try allowedAggregationsContainer.encode(authorspecifiedaggregation0.rawValue)
+            }
+        }
+        if let cellValueSynonyms = cellValueSynonyms {
+            var cellValueSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cellValueSynonyms)
+            for cellvaluesynonym0 in cellValueSynonyms {
+                try cellValueSynonymsContainer.encode(cellvaluesynonym0)
+            }
+        }
+        if let columnDataRole = self.columnDataRole {
+            try encodeContainer.encode(columnDataRole.rawValue, forKey: .columnDataRole)
+        }
+        if let columnDescription = self.columnDescription {
+            try encodeContainer.encode(columnDescription, forKey: .columnDescription)
+        }
+        if let columnFriendlyName = self.columnFriendlyName {
+            try encodeContainer.encode(columnFriendlyName, forKey: .columnFriendlyName)
+        }
+        if let columnName = self.columnName {
+            try encodeContainer.encode(columnName, forKey: .columnName)
+        }
+        if let columnSynonyms = columnSynonyms {
+            var columnSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnSynonyms)
+            for limitedstring0 in columnSynonyms {
+                try columnSynonymsContainer.encode(limitedstring0)
+            }
+        }
+        if let comparativeOrder = self.comparativeOrder {
+            try encodeContainer.encode(comparativeOrder, forKey: .comparativeOrder)
+        }
+        if let defaultFormatting = self.defaultFormatting {
+            try encodeContainer.encode(defaultFormatting, forKey: .defaultFormatting)
+        }
+        if let disableIndexing = self.disableIndexing {
+            try encodeContainer.encode(disableIndexing, forKey: .disableIndexing)
+        }
+        if isIncludedInTopic != false {
+            try encodeContainer.encode(isIncludedInTopic, forKey: .isIncludedInTopic)
+        }
+        if neverAggregateInFilter != false {
+            try encodeContainer.encode(neverAggregateInFilter, forKey: .neverAggregateInFilter)
+        }
+        if let notAllowedAggregations = notAllowedAggregations {
+            var notAllowedAggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notAllowedAggregations)
+            for authorspecifiedaggregation0 in notAllowedAggregations {
+                try notAllowedAggregationsContainer.encode(authorspecifiedaggregation0.rawValue)
+            }
+        }
+        if let semanticType = self.semanticType {
+            try encodeContainer.encode(semanticType, forKey: .semanticType)
+        }
+        if let timeGranularity = self.timeGranularity {
+            try encodeContainer.encode(timeGranularity.rawValue, forKey: .timeGranularity)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnName)
+        columnName = columnNameDecoded
+        let columnFriendlyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnFriendlyName)
+        columnFriendlyName = columnFriendlyNameDecoded
+        let columnDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnDescription)
+        columnDescription = columnDescriptionDecoded
+        let columnSynonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .columnSynonyms)
+        var columnSynonymsDecoded0:[Swift.String]? = nil
+        if let columnSynonymsContainer = columnSynonymsContainer {
+            columnSynonymsDecoded0 = [Swift.String]()
+            for string0 in columnSynonymsContainer {
+                if let string0 = string0 {
+                    columnSynonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        columnSynonyms = columnSynonymsDecoded0
+        let columnDataRoleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataRole.self, forKey: .columnDataRole)
+        columnDataRole = columnDataRoleDecoded
+        let aggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultAggregation.self, forKey: .aggregation)
+        aggregation = aggregationDecoded
+        let isIncludedInTopicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isIncludedInTopic) ?? false
+        isIncludedInTopic = isIncludedInTopicDecoded
+        let disableIndexingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableIndexing)
+        disableIndexing = disableIndexingDecoded
+        let comparativeOrderDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ComparativeOrder.self, forKey: .comparativeOrder)
+        comparativeOrder = comparativeOrderDecoded
+        let semanticTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SemanticType.self, forKey: .semanticType)
+        semanticType = semanticTypeDecoded
+        let timeGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicTimeGranularity.self, forKey: .timeGranularity)
+        timeGranularity = timeGranularityDecoded
+        let allowedAggregationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AuthorSpecifiedAggregation?].self, forKey: .allowedAggregations)
+        var allowedAggregationsDecoded0:[QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil
+        if let allowedAggregationsContainer = allowedAggregationsContainer {
+            allowedAggregationsDecoded0 = [QuickSightClientTypes.AuthorSpecifiedAggregation]()
+            for enum0 in allowedAggregationsContainer {
+                if let enum0 = enum0 {
+                    allowedAggregationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        allowedAggregations = allowedAggregationsDecoded0
+        let notAllowedAggregationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AuthorSpecifiedAggregation?].self, forKey: .notAllowedAggregations)
+        var notAllowedAggregationsDecoded0:[QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil
+        if let notAllowedAggregationsContainer = notAllowedAggregationsContainer {
+            notAllowedAggregationsDecoded0 = [QuickSightClientTypes.AuthorSpecifiedAggregation]()
+            for enum0 in notAllowedAggregationsContainer {
+                if let enum0 = enum0 {
+                    notAllowedAggregationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        notAllowedAggregations = notAllowedAggregationsDecoded0
+        let defaultFormattingDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFormatting.self, forKey: .defaultFormatting)
+        defaultFormatting = defaultFormattingDecoded
+        let neverAggregateInFilterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .neverAggregateInFilter) ?? false
+        neverAggregateInFilter = neverAggregateInFilterDecoded
+        let cellValueSynonymsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.CellValueSynonym?].self, forKey: .cellValueSynonyms)
+        var cellValueSynonymsDecoded0:[QuickSightClientTypes.CellValueSynonym]? = nil
+        if let cellValueSynonymsContainer = cellValueSynonymsContainer {
+            cellValueSynonymsDecoded0 = [QuickSightClientTypes.CellValueSynonym]()
+            for structure0 in cellValueSynonymsContainer {
+                if let structure0 = structure0 {
+                    cellValueSynonymsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cellValueSynonyms = cellValueSynonymsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Represents a column in a dataset.
+    public struct TopicColumn: Swift.Equatable {
+        /// The type of aggregation that is performed on the column data when it's queried. Valid values for this structure are SUM, MAX, MIN, COUNT, DISTINCT_COUNT, and AVERAGE.
+        public var aggregation: QuickSightClientTypes.DefaultAggregation?
+        /// The list of aggregation types that are allowed for the column. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
+        public var allowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
+        /// The other names or aliases for the column cell value.
+        public var cellValueSynonyms: [QuickSightClientTypes.CellValueSynonym]?
+        /// The role of the column in the data. Valid values are DIMENSION and MEASURE.
+        public var columnDataRole: QuickSightClientTypes.ColumnDataRole?
+        /// A description of the column and its contents.
+        public var columnDescription: Swift.String?
+        /// A user-friendly name for the column.
+        public var columnFriendlyName: Swift.String?
+        /// The name of the column.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The other names or aliases for the column.
+        public var columnSynonyms: [Swift.String]?
+        /// The order in which data is displayed for the column when it's used in a comparative context.
+        public var comparativeOrder: QuickSightClientTypes.ComparativeOrder?
+        /// The default formatting used for values in the column.
+        public var defaultFormatting: QuickSightClientTypes.DefaultFormatting?
+        /// A Boolean value that indicates whether the column shows in the autocomplete functionality.
+        public var disableIndexing: Swift.Bool?
+        /// A Boolean value that indicates whether the column is included in the query results.
+        public var isIncludedInTopic: Swift.Bool
+        /// A Boolean value that indicates whether to aggregate the column data when it's used in a filter context.
+        public var neverAggregateInFilter: Swift.Bool
+        /// The list of aggregation types that are not allowed for the column. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
+        public var notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
+        /// The semantic type of data contained in the column.
+        public var semanticType: QuickSightClientTypes.SemanticType?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public var timeGranularity: QuickSightClientTypes.TopicTimeGranularity?
+
+        public init (
+            aggregation: QuickSightClientTypes.DefaultAggregation? = nil,
+            allowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
+            cellValueSynonyms: [QuickSightClientTypes.CellValueSynonym]? = nil,
+            columnDataRole: QuickSightClientTypes.ColumnDataRole? = nil,
+            columnDescription: Swift.String? = nil,
+            columnFriendlyName: Swift.String? = nil,
+            columnName: Swift.String? = nil,
+            columnSynonyms: [Swift.String]? = nil,
+            comparativeOrder: QuickSightClientTypes.ComparativeOrder? = nil,
+            defaultFormatting: QuickSightClientTypes.DefaultFormatting? = nil,
+            disableIndexing: Swift.Bool? = nil,
+            isIncludedInTopic: Swift.Bool = false,
+            neverAggregateInFilter: Swift.Bool = false,
+            notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
+            semanticType: QuickSightClientTypes.SemanticType? = nil,
+            timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.allowedAggregations = allowedAggregations
+            self.cellValueSynonyms = cellValueSynonyms
+            self.columnDataRole = columnDataRole
+            self.columnDescription = columnDescription
+            self.columnFriendlyName = columnFriendlyName
+            self.columnName = columnName
+            self.columnSynonyms = columnSynonyms
+            self.comparativeOrder = comparativeOrder
+            self.defaultFormatting = defaultFormatting
+            self.disableIndexing = disableIndexing
+            self.isIncludedInTopic = isIncludedInTopic
+            self.neverAggregateInFilter = neverAggregateInFilter
+            self.notAllowedAggregations = notAllowedAggregations
+            self.semanticType = semanticType
+            self.timeGranularity = timeGranularity
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicDateRangeFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case constant = "Constant"
+        case inclusive = "Inclusive"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let constant = self.constant {
+            try encodeContainer.encode(constant, forKey: .constant)
+        }
+        if inclusive != false {
+            try encodeContainer.encode(inclusive, forKey: .inclusive)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inclusiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inclusive) ?? false
+        inclusive = inclusiveDecoded
+        let constantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRangeFilterConstant.self, forKey: .constant)
+        constant = constantDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicDateRangeFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicDateRangeFilter(inclusive: \(Swift.String(describing: inclusive)), constant: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A filter used to restrict data based on a range of dates or times.
+    public struct TopicDateRangeFilter: Swift.Equatable {
+        /// The constant used in a date range filter.
+        public var constant: QuickSightClientTypes.TopicRangeFilterConstant?
+        /// A Boolean value that indicates whether the date range filter should include the boundary values. If set to true, the filter includes the start and end dates. If set to false, the filter excludes them.
+        public var inclusive: Swift.Bool
+
+        public init (
+            constant: QuickSightClientTypes.TopicRangeFilterConstant? = nil,
+            inclusive: Swift.Bool = false
+        )
+        {
+            self.constant = constant
+            self.inclusive = inclusive
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSets = "DataSets"
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSets = dataSets {
+            var dataSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSets)
+            for datasetmetadata0 in dataSets {
+                try dataSetsContainer.encode(datasetmetadata0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let dataSetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DatasetMetadata?].self, forKey: .dataSets)
+        var dataSetsDecoded0:[QuickSightClientTypes.DatasetMetadata]? = nil
+        if let dataSetsContainer = dataSetsContainer {
+            dataSetsDecoded0 = [QuickSightClientTypes.DatasetMetadata]()
+            for structure0 in dataSetsContainer {
+                if let structure0 = structure0 {
+                    dataSetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSets = dataSetsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that describes the details of a topic, such as its name, description, and associated data sets.
+    public struct TopicDetails: Swift.Equatable {
+        /// The data sets that the topic is associated with.
+        public var dataSets: [QuickSightClientTypes.DatasetMetadata]?
+        /// The description of the topic.
+        public var description: Swift.String?
+        /// The name of the topic.
+        public var name: Swift.String?
+
+        public init (
+            dataSets: [QuickSightClientTypes.DatasetMetadata]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.dataSets = dataSets
+            self.description = description
+            self.name = name
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryFilter = "CategoryFilter"
+        case dateRangeFilter = "DateRangeFilter"
+        case filterClass = "FilterClass"
+        case filterDescription = "FilterDescription"
+        case filterName = "FilterName"
+        case filterSynonyms = "FilterSynonyms"
+        case filterType = "FilterType"
+        case numericEqualityFilter = "NumericEqualityFilter"
+        case numericRangeFilter = "NumericRangeFilter"
+        case operandFieldName = "OperandFieldName"
+        case relativeDateFilter = "RelativeDateFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryFilter = self.categoryFilter {
+            try encodeContainer.encode(categoryFilter, forKey: .categoryFilter)
+        }
+        if let dateRangeFilter = self.dateRangeFilter {
+            try encodeContainer.encode(dateRangeFilter, forKey: .dateRangeFilter)
+        }
+        if let filterClass = self.filterClass {
+            try encodeContainer.encode(filterClass.rawValue, forKey: .filterClass)
+        }
+        if let filterDescription = self.filterDescription {
+            try encodeContainer.encode(filterDescription, forKey: .filterDescription)
+        }
+        if let filterName = self.filterName {
+            try encodeContainer.encode(filterName, forKey: .filterName)
+        }
+        if let filterSynonyms = filterSynonyms {
+            var filterSynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterSynonyms)
+            for limitedstring0 in filterSynonyms {
+                try filterSynonymsContainer.encode(limitedstring0)
+            }
+        }
+        if let filterType = self.filterType {
+            try encodeContainer.encode(filterType.rawValue, forKey: .filterType)
+        }
+        if let numericEqualityFilter = self.numericEqualityFilter {
+            try encodeContainer.encode(numericEqualityFilter, forKey: .numericEqualityFilter)
+        }
+        if let numericRangeFilter = self.numericRangeFilter {
+            try encodeContainer.encode(numericRangeFilter, forKey: .numericRangeFilter)
+        }
+        if let operandFieldName = self.operandFieldName {
+            try encodeContainer.encode(operandFieldName, forKey: .operandFieldName)
+        }
+        if let relativeDateFilter = self.relativeDateFilter {
+            try encodeContainer.encode(relativeDateFilter, forKey: .relativeDateFilter)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterDescription)
+        filterDescription = filterDescriptionDecoded
+        let filterClassDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterClass.self, forKey: .filterClass)
+        filterClass = filterClassDecoded
+        let filterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterName)
+        filterName = filterNameDecoded
+        let filterSynonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .filterSynonyms)
+        var filterSynonymsDecoded0:[Swift.String]? = nil
+        if let filterSynonymsContainer = filterSynonymsContainer {
+            filterSynonymsDecoded0 = [Swift.String]()
+            for string0 in filterSynonymsContainer {
+                if let string0 = string0 {
+                    filterSynonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        filterSynonyms = filterSynonymsDecoded0
+        let operandFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operandFieldName)
+        operandFieldName = operandFieldNameDecoded
+        let filterTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NamedFilterType.self, forKey: .filterType)
+        filterType = filterTypeDecoded
+        let categoryFilterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicCategoryFilter.self, forKey: .categoryFilter)
+        categoryFilter = categoryFilterDecoded
+        let numericEqualityFilterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicNumericEqualityFilter.self, forKey: .numericEqualityFilter)
+        numericEqualityFilter = numericEqualityFilterDecoded
+        let numericRangeFilterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicNumericRangeFilter.self, forKey: .numericRangeFilter)
+        numericRangeFilter = numericRangeFilterDecoded
+        let dateRangeFilterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicDateRangeFilter.self, forKey: .dateRangeFilter)
+        dateRangeFilter = dateRangeFilterDecoded
+        let relativeDateFilterDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRelativeDateFilter.self, forKey: .relativeDateFilter)
+        relativeDateFilter = relativeDateFilterDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a filter used to select items for a topic.
+    public struct TopicFilter: Swift.Equatable {
+        /// The category filter that is associated with this filter.
+        public var categoryFilter: QuickSightClientTypes.TopicCategoryFilter?
+        /// The date range filter.
+        public var dateRangeFilter: QuickSightClientTypes.TopicDateRangeFilter?
+        /// The class of the filter. Valid values for this structure are ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, and NAMED_VALUE_FILTER.
+        public var filterClass: QuickSightClientTypes.FilterClass?
+        /// A description of the filter used to select items for a topic.
+        public var filterDescription: Swift.String?
+        /// The name of the filter.
+        /// This member is required.
+        public var filterName: Swift.String?
+        /// The other names or aliases for the filter.
+        public var filterSynonyms: [Swift.String]?
+        /// The type of the filter. Valid values for this structure are CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, and RELATIVE_DATE_FILTER.
+        public var filterType: QuickSightClientTypes.NamedFilterType?
+        /// The numeric equality filter.
+        public var numericEqualityFilter: QuickSightClientTypes.TopicNumericEqualityFilter?
+        /// The numeric range filter.
+        public var numericRangeFilter: QuickSightClientTypes.TopicNumericRangeFilter?
+        /// The name of the field that the filter operates on.
+        /// This member is required.
+        public var operandFieldName: Swift.String?
+        /// The relative date filter.
+        public var relativeDateFilter: QuickSightClientTypes.TopicRelativeDateFilter?
+
+        public init (
+            categoryFilter: QuickSightClientTypes.TopicCategoryFilter? = nil,
+            dateRangeFilter: QuickSightClientTypes.TopicDateRangeFilter? = nil,
+            filterClass: QuickSightClientTypes.FilterClass? = nil,
+            filterDescription: Swift.String? = nil,
+            filterName: Swift.String? = nil,
+            filterSynonyms: [Swift.String]? = nil,
+            filterType: QuickSightClientTypes.NamedFilterType? = nil,
+            numericEqualityFilter: QuickSightClientTypes.TopicNumericEqualityFilter? = nil,
+            numericRangeFilter: QuickSightClientTypes.TopicNumericRangeFilter? = nil,
+            operandFieldName: Swift.String? = nil,
+            relativeDateFilter: QuickSightClientTypes.TopicRelativeDateFilter? = nil
+        )
+        {
+            self.categoryFilter = categoryFilter
+            self.dateRangeFilter = dateRangeFilter
+            self.filterClass = filterClass
+            self.filterDescription = filterDescription
+            self.filterName = filterName
+            self.filterSynonyms = filterSynonyms
+            self.filterType = filterType
+            self.numericEqualityFilter = numericEqualityFilter
+            self.numericRangeFilter = numericRangeFilter
+            self.operandFieldName = operandFieldName
+            self.relativeDateFilter = relativeDateFilter
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicNamedEntity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition = "Definition"
+        case entityDescription = "EntityDescription"
+        case entityName = "EntityName"
+        case entitySynonyms = "EntitySynonyms"
+        case semanticEntityType = "SemanticEntityType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let definition = definition {
+            var definitionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .definition)
+            for namedentitydefinition0 in definition {
+                try definitionContainer.encode(namedentitydefinition0)
+            }
+        }
+        if let entityDescription = self.entityDescription {
+            try encodeContainer.encode(entityDescription, forKey: .entityDescription)
+        }
+        if let entityName = self.entityName {
+            try encodeContainer.encode(entityName, forKey: .entityName)
+        }
+        if let entitySynonyms = entitySynonyms {
+            var entitySynonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitySynonyms)
+            for limitedstring0 in entitySynonyms {
+                try entitySynonymsContainer.encode(limitedstring0)
+            }
+        }
+        if let semanticEntityType = self.semanticEntityType {
+            try encodeContainer.encode(semanticEntityType, forKey: .semanticEntityType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entityNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityName)
+        entityName = entityNameDecoded
+        let entityDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityDescription)
+        entityDescription = entityDescriptionDecoded
+        let entitySynonymsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .entitySynonyms)
+        var entitySynonymsDecoded0:[Swift.String]? = nil
+        if let entitySynonymsContainer = entitySynonymsContainer {
+            entitySynonymsDecoded0 = [Swift.String]()
+            for string0 in entitySynonymsContainer {
+                if let string0 = string0 {
+                    entitySynonymsDecoded0?.append(string0)
+                }
+            }
+        }
+        entitySynonyms = entitySynonymsDecoded0
+        let semanticEntityTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SemanticEntityType.self, forKey: .semanticEntityType)
+        semanticEntityType = semanticEntityTypeDecoded
+        let definitionContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.NamedEntityDefinition?].self, forKey: .definition)
+        var definitionDecoded0:[QuickSightClientTypes.NamedEntityDefinition]? = nil
+        if let definitionContainer = definitionContainer {
+            definitionDecoded0 = [QuickSightClientTypes.NamedEntityDefinition]()
+            for structure0 in definitionContainer {
+                if let structure0 = structure0 {
+                    definitionDecoded0?.append(structure0)
+                }
+            }
+        }
+        definition = definitionDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a named entity.
+    public struct TopicNamedEntity: Swift.Equatable {
+        /// The definition of a named entity.
+        public var definition: [QuickSightClientTypes.NamedEntityDefinition]?
+        /// The description of the named entity.
+        public var entityDescription: Swift.String?
+        /// The name of the named entity.
+        /// This member is required.
+        public var entityName: Swift.String?
+        /// The other names or aliases for the named entity.
+        public var entitySynonyms: [Swift.String]?
+        /// The type of named entity that a topic represents.
+        public var semanticEntityType: QuickSightClientTypes.SemanticEntityType?
+
+        public init (
+            definition: [QuickSightClientTypes.NamedEntityDefinition]? = nil,
+            entityDescription: Swift.String? = nil,
+            entityName: Swift.String? = nil,
+            entitySynonyms: [Swift.String]? = nil,
+            semanticEntityType: QuickSightClientTypes.SemanticEntityType? = nil
+        )
+        {
+            self.definition = definition
+            self.entityDescription = entityDescription
+            self.entityName = entityName
+            self.entitySynonyms = entitySynonyms
+            self.semanticEntityType = semanticEntityType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicNumericEqualityFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregation = "Aggregation"
+        case constant = "Constant"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregation = self.aggregation {
+            try encodeContainer.encode(aggregation.rawValue, forKey: .aggregation)
+        }
+        if let constant = self.constant {
+            try encodeContainer.encode(constant, forKey: .constant)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let constantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicSingularFilterConstant.self, forKey: .constant)
+        constant = constantDecoded
+        let aggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NamedFilterAggType.self, forKey: .aggregation)
+        aggregation = aggregationDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicNumericEqualityFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicNumericEqualityFilter(aggregation: \(Swift.String(describing: aggregation)), constant: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A filter that filters topics based on the value of a numeric field. The filter includes only topics whose numeric field value matches the specified value.
+    public struct TopicNumericEqualityFilter: Swift.Equatable {
+        /// An aggregation function that specifies how to calculate the value of a numeric field for a topic. Valid values for this structure are NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, and VARP.
+        public var aggregation: QuickSightClientTypes.NamedFilterAggType?
+        /// The constant used in a numeric equality filter.
+        public var constant: QuickSightClientTypes.TopicSingularFilterConstant?
+
+        public init (
+            aggregation: QuickSightClientTypes.NamedFilterAggType? = nil,
+            constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.constant = constant
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicNumericRangeFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregation = "Aggregation"
+        case constant = "Constant"
+        case inclusive = "Inclusive"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregation = self.aggregation {
+            try encodeContainer.encode(aggregation.rawValue, forKey: .aggregation)
+        }
+        if let constant = self.constant {
+            try encodeContainer.encode(constant, forKey: .constant)
+        }
+        if inclusive != false {
+            try encodeContainer.encode(inclusive, forKey: .inclusive)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inclusiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inclusive) ?? false
+        inclusive = inclusiveDecoded
+        let constantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRangeFilterConstant.self, forKey: .constant)
+        constant = constantDecoded
+        let aggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.NamedFilterAggType.self, forKey: .aggregation)
+        aggregation = aggregationDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicNumericRangeFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicNumericRangeFilter(aggregation: \(Swift.String(describing: aggregation)), inclusive: \(Swift.String(describing: inclusive)), constant: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A filter that filters topics based on the value of a numeric field. The filter includes only topics whose numeric field value falls within the specified range.
+    public struct TopicNumericRangeFilter: Swift.Equatable {
+        /// An aggregation function that specifies how to calculate the value of a numeric field for a topic, Valid values for this structure are NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, and VARP.
+        public var aggregation: QuickSightClientTypes.NamedFilterAggType?
+        /// The constant used in a numeric range filter.
+        public var constant: QuickSightClientTypes.TopicRangeFilterConstant?
+        /// A Boolean value that indicates whether the endpoints of the numeric range are included in the filter. If set to true, topics whose numeric field value is equal to the endpoint values will be included in the filter. If set to false, topics whose numeric field value is equal to the endpoint values will be excluded from the filter.
+        public var inclusive: Swift.Bool
+
+        public init (
+            aggregation: QuickSightClientTypes.NamedFilterAggType? = nil,
+            constant: QuickSightClientTypes.TopicRangeFilterConstant? = nil,
+            inclusive: Swift.Bool = false
+        )
+        {
+            self.aggregation = aggregation
+            self.constant = constant
+            self.inclusive = inclusive
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum TopicNumericSeparatorSymbol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case comma
+        case dot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicNumericSeparatorSymbol] {
+            return [
+                .comma,
+                .dot,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .comma: return "COMMA"
+            case .dot: return "DOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TopicNumericSeparatorSymbol(rawValue: rawValue) ?? TopicNumericSeparatorSymbol.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.TopicRangeFilterConstant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case constantType = "ConstantType"
+        case rangeConstant = "RangeConstant"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let constantType = self.constantType {
+            try encodeContainer.encode(constantType.rawValue, forKey: .constantType)
+        }
+        if let rangeConstant = self.rangeConstant {
+            try encodeContainer.encode(rangeConstant, forKey: .rangeConstant)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let constantTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConstantType.self, forKey: .constantType)
+        constantType = constantTypeDecoded
+        let rangeConstantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RangeConstant.self, forKey: .rangeConstant)
+        rangeConstant = rangeConstantDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicRangeFilterConstant: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A constant value that is used in a range filter to specify the endpoints of the range.
+    public struct TopicRangeFilterConstant: Swift.Equatable {
+        /// The data type of the constant value that is used in a range filter. Valid values for this structure are RANGE.
+        public var constantType: QuickSightClientTypes.ConstantType?
+        /// The value of the constant that is used to specify the endpoints of a range filter.
+        public var rangeConstant: QuickSightClientTypes.RangeConstant?
+
+        public init (
+            constantType: QuickSightClientTypes.ConstantType? = nil,
+            rangeConstant: QuickSightClientTypes.RangeConstant? = nil
+        )
+        {
+            self.constantType = constantType
+            self.rangeConstant = rangeConstant
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicRefreshDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshArn = "RefreshArn"
+        case refreshId = "RefreshId"
+        case refreshStatus = "RefreshStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let refreshArn = self.refreshArn {
+            try encodeContainer.encode(refreshArn, forKey: .refreshArn)
+        }
+        if let refreshId = self.refreshId {
+            try encodeContainer.encode(refreshId, forKey: .refreshId)
+        }
+        if let refreshStatus = self.refreshStatus {
+            try encodeContainer.encode(refreshStatus.rawValue, forKey: .refreshStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refreshArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshArn)
+        refreshArn = refreshArnDecoded
+        let refreshIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshId)
+        refreshId = refreshIdDecoded
+        let refreshStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRefreshStatus.self, forKey: .refreshStatus)
+        refreshStatus = refreshStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The details about the refresh of a topic.
+    public struct TopicRefreshDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the topic refresh.
+        public var refreshArn: Swift.String?
+        /// The ID of the refresh, which occurs as a result of topic creation or topic update.
+        public var refreshId: Swift.String?
+        /// The status of the refresh job that indicates whether the job is still running, completed successfully, or failed.
+        public var refreshStatus: QuickSightClientTypes.TopicRefreshStatus?
+
+        public init (
+            refreshArn: Swift.String? = nil,
+            refreshId: Swift.String? = nil,
+            refreshStatus: QuickSightClientTypes.TopicRefreshStatus? = nil
+        )
+        {
+            self.refreshArn = refreshArn
+            self.refreshId = refreshId
+            self.refreshStatus = refreshStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicRefreshSchedule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case basedOnSpiceSchedule = "BasedOnSpiceSchedule"
+        case isEnabled = "IsEnabled"
+        case repeatAt = "RepeatAt"
+        case startingAt = "StartingAt"
+        case timezone = "Timezone"
+        case topicScheduleType = "TopicScheduleType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if basedOnSpiceSchedule != false {
+            try encodeContainer.encode(basedOnSpiceSchedule, forKey: .basedOnSpiceSchedule)
+        }
+        if let isEnabled = self.isEnabled {
+            try encodeContainer.encode(isEnabled, forKey: .isEnabled)
+        }
+        if let repeatAt = self.repeatAt {
+            try encodeContainer.encode(repeatAt, forKey: .repeatAt)
+        }
+        if let startingAt = self.startingAt {
+            try encodeContainer.encodeTimestamp(startingAt, format: .epochSeconds, forKey: .startingAt)
+        }
+        if let timezone = self.timezone {
+            try encodeContainer.encode(timezone, forKey: .timezone)
+        }
+        if let topicScheduleType = self.topicScheduleType {
+            try encodeContainer.encode(topicScheduleType.rawValue, forKey: .topicScheduleType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEnabled)
+        isEnabled = isEnabledDecoded
+        let basedOnSpiceScheduleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .basedOnSpiceSchedule) ?? false
+        basedOnSpiceSchedule = basedOnSpiceScheduleDecoded
+        let startingAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startingAt)
+        startingAt = startingAtDecoded
+        let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
+        timezone = timezoneDecoded
+        let repeatAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repeatAt)
+        repeatAt = repeatAtDecoded
+        let topicScheduleTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicScheduleType.self, forKey: .topicScheduleType)
+        topicScheduleType = topicScheduleTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a topic refresh schedule.
+    public struct TopicRefreshSchedule: Swift.Equatable {
+        /// A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset.
+        /// This member is required.
+        public var basedOnSpiceSchedule: Swift.Bool
+        /// A Boolean value that controls whether to schedule is enabled.
+        /// This member is required.
+        public var isEnabled: Swift.Bool?
+        /// The time of day when the refresh should run, for example, Monday-Sunday.
+        public var repeatAt: Swift.String?
+        /// The starting date and time for the refresh schedule.
+        public var startingAt: ClientRuntime.Date?
+        /// The timezone that you want the refresh schedule to use.
+        public var timezone: Swift.String?
+        /// The type of refresh schedule. Valid values for this structure are HOURLY, DAILY, WEEKLY, and MONTHLY.
+        public var topicScheduleType: QuickSightClientTypes.TopicScheduleType?
+
+        public init (
+            basedOnSpiceSchedule: Swift.Bool = false,
+            isEnabled: Swift.Bool? = nil,
+            repeatAt: Swift.String? = nil,
+            startingAt: ClientRuntime.Date? = nil,
+            timezone: Swift.String? = nil,
+            topicScheduleType: QuickSightClientTypes.TopicScheduleType? = nil
+        )
+        {
+            self.basedOnSpiceSchedule = basedOnSpiceSchedule
+            self.isEnabled = isEnabled
+            self.repeatAt = repeatAt
+            self.startingAt = startingAt
+            self.timezone = timezone
+            self.topicScheduleType = topicScheduleType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicRefreshScheduleSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case datasetId = "DatasetId"
+        case datasetName = "DatasetName"
+        case refreshSchedule = "RefreshSchedule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+        if let datasetId = self.datasetId {
+            try encodeContainer.encode(datasetId, forKey: .datasetId)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let refreshSchedule = self.refreshSchedule {
+            try encodeContainer.encode(refreshSchedule, forKey: .refreshSchedule)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetId)
+        datasetId = datasetIdDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let refreshScheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRefreshSchedule.self, forKey: .refreshSchedule)
+        refreshSchedule = refreshScheduleDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A summary of the refresh schedule details for a dataset.
+    public struct TopicRefreshScheduleSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public var datasetArn: Swift.String?
+        /// The ID of the dataset.
+        public var datasetId: Swift.String?
+        /// The name of the dataset.
+        public var datasetName: Swift.String?
+        /// The definition of a refresh schedule.
+        public var refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+
+        public init (
+            datasetArn: Swift.String? = nil,
+            datasetId: Swift.String? = nil,
+            datasetName: Swift.String? = nil,
+            refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil
+        )
+        {
+            self.datasetArn = datasetArn
+            self.datasetId = datasetId
+            self.datasetName = datasetName
+            self.refreshSchedule = refreshSchedule
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum TopicRefreshStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case initialized
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicRefreshStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .initialized,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .initialized: return "INITIALIZED"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TopicRefreshStatus(rawValue: rawValue) ?? TopicRefreshStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.TopicRelativeDateFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case constant = "Constant"
+        case relativeDateFilterFunction = "RelativeDateFilterFunction"
+        case timeGranularity = "TimeGranularity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let constant = self.constant {
+            try encodeContainer.encode(constant, forKey: .constant)
+        }
+        if let relativeDateFilterFunction = self.relativeDateFilterFunction {
+            try encodeContainer.encode(relativeDateFilterFunction.rawValue, forKey: .relativeDateFilterFunction)
+        }
+        if let timeGranularity = self.timeGranularity {
+            try encodeContainer.encode(timeGranularity.rawValue, forKey: .timeGranularity)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timeGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicTimeGranularity.self, forKey: .timeGranularity)
+        timeGranularity = timeGranularityDecoded
+        let relativeDateFilterFunctionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRelativeDateFilterFunction.self, forKey: .relativeDateFilterFunction)
+        relativeDateFilterFunction = relativeDateFilterFunctionDecoded
+        let constantDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicSingularFilterConstant.self, forKey: .constant)
+        constant = constantDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicRelativeDateFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicRelativeDateFilter(relativeDateFilterFunction: \(Swift.String(describing: relativeDateFilterFunction)), timeGranularity: \(Swift.String(describing: timeGranularity)), constant: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a relative date filter.
+    public struct TopicRelativeDateFilter: Swift.Equatable {
+        /// The constant used in a relative date filter.
+        public var constant: QuickSightClientTypes.TopicSingularFilterConstant?
+        /// The function to be used in a relative date filter to determine the range of dates to include in the results. Valid values for this structure are BEFORE, AFTER, and BETWEEN.
+        public var relativeDateFilterFunction: QuickSightClientTypes.TopicRelativeDateFilterFunction?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public var timeGranularity: QuickSightClientTypes.TopicTimeGranularity?
+
+        public init (
+            constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil,
+            relativeDateFilterFunction: QuickSightClientTypes.TopicRelativeDateFilterFunction? = nil,
+            timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
+        )
+        {
+            self.constant = constant
+            self.relativeDateFilterFunction = relativeDateFilterFunction
+            self.timeGranularity = timeGranularity
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum TopicRelativeDateFilterFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case last
+        case next
+        case now
+        case previous
+        case `this`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicRelativeDateFilterFunction] {
+            return [
+                .last,
+                .next,
+                .now,
+                .previous,
+                .this,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .last: return "LAST"
+            case .next: return "NEXT"
+            case .now: return "NOW"
+            case .previous: return "PREVIOUS"
+            case .this: return "THIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TopicRelativeDateFilterFunction(rawValue: rawValue) ?? TopicRelativeDateFilterFunction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum TopicScheduleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case daily
+        case hourly
+        case monthly
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicScheduleType] {
+            return [
+                .daily,
+                .hourly,
+                .monthly,
+                .weekly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .daily: return "DAILY"
+            case .hourly: return "HOURLY"
+            case .monthly: return "MONTHLY"
+            case .weekly: return "WEEKLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TopicScheduleType(rawValue: rawValue) ?? TopicScheduleType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.TopicSingularFilterConstant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case constantType = "ConstantType"
+        case singularConstant = "SingularConstant"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let constantType = self.constantType {
+            try encodeContainer.encode(constantType.rawValue, forKey: .constantType)
+        }
+        if let singularConstant = self.singularConstant {
+            try encodeContainer.encode(singularConstant, forKey: .singularConstant)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let constantTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConstantType.self, forKey: .constantType)
+        constantType = constantTypeDecoded
+        let singularConstantDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .singularConstant)
+        singularConstant = singularConstantDecoded
+    }
+}
+
+extension QuickSightClientTypes.TopicSingularFilterConstant: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a singular filter constant, used in filters to specify a single value to match against.
+    public struct TopicSingularFilterConstant: Swift.Equatable {
+        /// The type of the singular filter constant. Valid values for this structure are SINGULAR.
+        public var constantType: QuickSightClientTypes.ConstantType?
+        /// The value of the singular filter constant.
+        public var singularConstant: Swift.String?
+
+        public init (
+            constantType: QuickSightClientTypes.ConstantType? = nil,
+            singularConstant: Swift.String? = nil
+        )
+        {
+            self.constantType = constantType
+            self.singularConstant = singularConstant
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case name = "Name"
+        case topicId = "TopicId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let topicId = self.topicId {
+            try encodeContainer.encode(topicId, forKey: .topicId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A topic summary.
+    public struct TopicSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the topic.
+        public var arn: Swift.String?
+        /// The name of the topic.
+        public var name: Swift.String?
+        /// The ID for the topic. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public var topicId: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            topicId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.topicId = topicId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum TopicTimeGranularity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case day
+        case hour
+        case minute
+        case month
+        case quarter
+        case second
+        case week
+        case year
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicTimeGranularity] {
+            return [
+                .day,
+                .hour,
+                .minute,
+                .month,
+                .quarter,
+                .second,
+                .week,
+                .year,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .day: return "DAY"
+            case .hour: return "HOUR"
+            case .minute: return "MINUTE"
+            case .month: return "MONTH"
+            case .quarter: return "QUARTER"
+            case .second: return "SECOND"
+            case .week: return "WEEK"
+            case .year: return "YEAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TopicTimeGranularity(rawValue: rawValue) ?? TopicTimeGranularity.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.TotalAggregationComputation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computationId = "ComputationId"
@@ -62427,6 +72863,7 @@ extension QuickSightClientTypes.TransformOperation: Swift.Codable {
         case castcolumntypeoperation = "CastColumnTypeOperation"
         case createcolumnsoperation = "CreateColumnsOperation"
         case filteroperation = "FilterOperation"
+        case overridedatasetparameteroperation = "OverrideDatasetParameterOperation"
         case projectoperation = "ProjectOperation"
         case renamecolumnoperation = "RenameColumnOperation"
         case tagcolumnoperation = "TagColumnOperation"
@@ -62443,6 +72880,8 @@ extension QuickSightClientTypes.TransformOperation: Swift.Codable {
                 try container.encode(createcolumnsoperation, forKey: .createcolumnsoperation)
             case let .filteroperation(filteroperation):
                 try container.encode(filteroperation, forKey: .filteroperation)
+            case let .overridedatasetparameteroperation(overridedatasetparameteroperation):
+                try container.encode(overridedatasetparameteroperation, forKey: .overridedatasetparameteroperation)
             case let .projectoperation(projectoperation):
                 try container.encode(projectoperation, forKey: .projectoperation)
             case let .renamecolumnoperation(renamecolumnoperation):
@@ -62493,6 +72932,11 @@ extension QuickSightClientTypes.TransformOperation: Swift.Codable {
             self = .untagcolumnoperation(untagcolumnoperation)
             return
         }
+        let overridedatasetparameteroperationDecoded = try values.decodeIfPresent(QuickSightClientTypes.OverrideDatasetParameterOperation.self, forKey: .overridedatasetparameteroperation)
+        if let overridedatasetparameteroperation = overridedatasetparameteroperationDecoded {
+            self = .overridedatasetparameteroperation(overridedatasetparameteroperation)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -62514,6 +72958,8 @@ extension QuickSightClientTypes {
         case tagcolumnoperation(QuickSightClientTypes.TagColumnOperation)
         /// A transform operation that removes tags associated with a column.
         case untagcolumnoperation(QuickSightClientTypes.UntagColumnOperation)
+        /// A transform operation that overrides the dataset parameter values that are defined in another dataset.
+        case overridedatasetparameteroperation(QuickSightClientTypes.OverrideDatasetParameterOperation)
         case sdkUnknown(Swift.String)
     }
 
@@ -63331,6 +73777,38 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes {
+    public enum UndefinedSpecifiedValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case least
+        case most
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UndefinedSpecifiedValueType] {
+            return [
+                .least,
+                .most,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .least: return "LEAST"
+            case .most: return "MOST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UndefinedSpecifiedValueType(rawValue: rawValue) ?? UndefinedSpecifiedValueType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes.UniqueValuesComputation: Swift.Codable {
@@ -65204,6 +75682,7 @@ extension UpdateDataSetInput: Swift.Encodable {
         case columnGroups = "ColumnGroups"
         case columnLevelPermissionRules = "ColumnLevelPermissionRules"
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
+        case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
         case importMode = "ImportMode"
         case logicalTableMap = "LogicalTableMap"
@@ -65229,6 +75708,12 @@ extension UpdateDataSetInput: Swift.Encodable {
         }
         if let dataSetUsageConfiguration = self.dataSetUsageConfiguration {
             try encodeContainer.encode(dataSetUsageConfiguration, forKey: .dataSetUsageConfiguration)
+        }
+        if let datasetParameters = datasetParameters {
+            var datasetParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetParameters)
+            for datasetparameter0 in datasetParameters {
+                try datasetParametersContainer.encode(datasetparameter0)
+            }
         }
         if let fieldFolders = fieldFolders {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
@@ -65288,6 +75773,8 @@ public struct UpdateDataSetInput: Swift.Equatable {
     public var dataSetId: Swift.String?
     /// The usage configuration to apply to child datasets that reference this dataset as a source.
     public var dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
+    /// The parameter declarations of the dataset.
+    public var datasetParameters: [QuickSightClientTypes.DatasetParameter]?
     /// The folder that contains fields and nested subfolders for your dataset.
     public var fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]?
     /// Indicates whether you want to import the data into SPICE.
@@ -65312,6 +75799,7 @@ public struct UpdateDataSetInput: Swift.Equatable {
         columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]? = nil,
         dataSetId: Swift.String? = nil,
         dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
+        datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
         fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]? = nil,
         importMode: QuickSightClientTypes.DataSetImportMode? = nil,
         logicalTableMap: [Swift.String:QuickSightClientTypes.LogicalTable]? = nil,
@@ -65326,6 +75814,7 @@ public struct UpdateDataSetInput: Swift.Equatable {
         self.columnLevelPermissionRules = columnLevelPermissionRules
         self.dataSetId = dataSetId
         self.dataSetUsageConfiguration = dataSetUsageConfiguration
+        self.datasetParameters = datasetParameters
         self.fieldFolders = fieldFolders
         self.importMode = importMode
         self.logicalTableMap = logicalTableMap
@@ -65347,6 +75836,7 @@ struct UpdateDataSetInputBody: Swift.Equatable {
     let rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration?
     let columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]?
     let dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
+    let datasetParameters: [QuickSightClientTypes.DatasetParameter]?
 }
 
 extension UpdateDataSetInputBody: Swift.Decodable {
@@ -65354,6 +75844,7 @@ extension UpdateDataSetInputBody: Swift.Decodable {
         case columnGroups = "ColumnGroups"
         case columnLevelPermissionRules = "ColumnLevelPermissionRules"
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
+        case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
         case importMode = "ImportMode"
         case logicalTableMap = "LogicalTableMap"
@@ -65430,6 +75921,17 @@ extension UpdateDataSetInputBody: Swift.Decodable {
         columnLevelPermissionRules = columnLevelPermissionRulesDecoded0
         let dataSetUsageConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataSetUsageConfiguration.self, forKey: .dataSetUsageConfiguration)
         dataSetUsageConfiguration = dataSetUsageConfigurationDecoded
+        let datasetParametersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DatasetParameter?].self, forKey: .datasetParameters)
+        var datasetParametersDecoded0:[QuickSightClientTypes.DatasetParameter]? = nil
+        if let datasetParametersContainer = datasetParametersContainer {
+            datasetParametersDecoded0 = [QuickSightClientTypes.DatasetParameter]()
+            for structure0 in datasetParametersContainer {
+                if let structure0 = structure0 {
+                    datasetParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        datasetParameters = datasetParametersDecoded0
     }
 }
 
@@ -66784,7 +77286,7 @@ extension UpdateIAMPolicyAssignmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateIAMPolicyAssignmentInput: Swift.Equatable {
-    /// The name of the assignment, also called a rule. This name must be unique within an Amazon Web Services account.
+    /// The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account.
     /// This member is required.
     public var assignmentName: Swift.String?
     /// The status of the assignment. Possible values are as follows:
@@ -68709,6 +79211,595 @@ extension UpdateThemePermissionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateTopicInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case topic = "Topic"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let topic = self.topic {
+            try encodeContainer.encode(topic, forKey: .topic)
+        }
+    }
+}
+
+extension UpdateTopicInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateTopicInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of the topic that you want to update.
+    /// This member is required.
+    public var topic: QuickSightClientTypes.TopicDetails?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        topic: QuickSightClientTypes.TopicDetails? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.topic = topic
+        self.topicId = topicId
+    }
+}
+
+struct UpdateTopicInputBody: Swift.Equatable {
+    let topic: QuickSightClientTypes.TopicDetails?
+}
+
+extension UpdateTopicInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case topic = "Topic"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicDetails.self, forKey: .topic)
+        topic = topicDecoded
+    }
+}
+
+extension UpdateTopicOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateTopicOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateTopicOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTopicOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateTopicOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.refreshArn = output.refreshArn
+            self.requestId = output.requestId
+            self.topicId = output.topicId
+        } else {
+            self.arn = nil
+            self.refreshArn = nil
+            self.requestId = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateTopicOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the topic refresh.
+    public var refreshArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        refreshArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.refreshArn = refreshArn
+        self.requestId = requestId
+        self.status = status
+        self.topicId = topicId
+    }
+}
+
+struct UpdateTopicOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let arn: Swift.String?
+    let refreshArn: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension UpdateTopicOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case refreshArn = "RefreshArn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let refreshArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshArn)
+        refreshArn = refreshArnDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension UpdateTopicPermissionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grantPermissions = "GrantPermissions"
+        case revokePermissions = "RevokePermissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let grantPermissions = grantPermissions {
+            var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
+            }
+        }
+        if let revokePermissions = revokePermissions {
+            var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
+            }
+        }
+    }
+}
+
+extension UpdateTopicPermissionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/permissions"
+    }
+}
+
+public struct UpdateTopicPermissionsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to update the permissions for.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The resource permissions that you want to grant to the topic.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The resource permissions that you want to revoke from the topic.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+        self.topicId = topicId
+    }
+}
+
+struct UpdateTopicPermissionsInputBody: Swift.Equatable {
+    let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+}
+
+extension UpdateTopicPermissionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grantPermissions = "GrantPermissions"
+        case revokePermissions = "RevokePermissions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let grantPermissionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.ResourcePermission?].self, forKey: .grantPermissions)
+        var grantPermissionsDecoded0:[QuickSightClientTypes.ResourcePermission]? = nil
+        if let grantPermissionsContainer = grantPermissionsContainer {
+            grantPermissionsDecoded0 = [QuickSightClientTypes.ResourcePermission]()
+            for structure0 in grantPermissionsContainer {
+                if let structure0 = structure0 {
+                    grantPermissionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        grantPermissions = grantPermissionsDecoded0
+        let revokePermissionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.ResourcePermission?].self, forKey: .revokePermissions)
+        var revokePermissionsDecoded0:[QuickSightClientTypes.ResourcePermission]? = nil
+        if let revokePermissionsContainer = revokePermissionsContainer {
+            revokePermissionsDecoded0 = [QuickSightClientTypes.ResourcePermission]()
+            for structure0 in revokePermissionsContainer {
+                if let structure0 = structure0 {
+                    revokePermissionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        revokePermissions = revokePermissionsDecoded0
+    }
+}
+
+extension UpdateTopicPermissionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateTopicPermissionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateTopicPermissionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTopicPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateTopicPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.permissions = output.permissions
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.permissions = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateTopicPermissionsOutputResponse: Swift.Equatable {
+    /// A list of resource permissions on the topic.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct UpdateTopicPermissionsOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let permissions: [QuickSightClientTypes.ResourcePermission]?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension UpdateTopicPermissionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case permissions = "Permissions"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let permissionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.ResourcePermission?].self, forKey: .permissions)
+        var permissionsDecoded0:[QuickSightClientTypes.ResourcePermission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [QuickSightClientTypes.ResourcePermission]()
+            for structure0 in permissionsContainer {
+                if let structure0 = structure0 {
+                    permissionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
+extension UpdateTopicRefreshScheduleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshSchedule = "RefreshSchedule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let refreshSchedule = self.refreshSchedule {
+            try encodeContainer.encode(refreshSchedule, forKey: .refreshSchedule)
+        }
+    }
+}
+
+extension UpdateTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let topicId = topicId else {
+            return nil
+        }
+        guard let datasetId = datasetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateTopicRefreshScheduleInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The definition of a refresh schedule.
+    /// This member is required.
+    public var refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.datasetId = datasetId
+        self.refreshSchedule = refreshSchedule
+        self.topicId = topicId
+    }
+}
+
+struct UpdateTopicRefreshScheduleInputBody: Swift.Equatable {
+    let refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
+}
+
+extension UpdateTopicRefreshScheduleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshSchedule = "RefreshSchedule"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refreshScheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicRefreshSchedule.self, forKey: .refreshSchedule)
+        refreshSchedule = refreshScheduleDecoded
+    }
+}
+
+extension UpdateTopicRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateTopicRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateTopicRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTopicRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateTopicRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+            self.requestId = output.requestId
+            self.topicArn = output.topicArn
+            self.topicId = output.topicId
+        } else {
+            self.datasetArn = nil
+            self.requestId = nil
+            self.topicArn = nil
+            self.topicId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateTopicRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    public var datasetArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init (
+        datasetArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+struct UpdateTopicRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let topicId: Swift.String?
+    let topicArn: Swift.String?
+    let datasetArn: Swift.String?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension UpdateTopicRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case requestId = "RequestId"
+        case status = "Status"
+        case topicArn = "TopicArn"
+        case topicId = "TopicId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicId)
+        topicId = topicIdDecoded
+        let topicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicArn)
+        topicArn = topicArnDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
 extension UpdateUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customFederationProviderUrl = "CustomFederationProviderUrl"
@@ -68966,6 +80057,282 @@ extension UpdateUserOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.User.self, forKey: .user)
         user = userDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension UpdateVPCConnectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsResolvers = "DnsResolvers"
+        case name = "Name"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case subnetIds = "SubnetIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dnsResolvers = dnsResolvers {
+            var dnsResolversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsResolvers)
+            for ipv4address0 in dnsResolvers {
+                try dnsResolversContainer.encode(ipv4address0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
+            }
+        }
+    }
+}
+
+extension UpdateVPCConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let vpcConnectionId = vpcConnectionId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections/\(vpcConnectionId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateVPCConnectionInput: Swift.Equatable {
+    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A list of IP addresses of DNS resolver endpoints for the VPC connection.
+    public var dnsResolvers: [Swift.String]?
+    /// The display name for the VPC connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// An IAM role associated with the VPC connection.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// A list of security group IDs for the VPC connection.
+    /// This member is required.
+    public var securityGroupIds: [Swift.String]?
+    /// A list of subnet IDs for the VPC connection.
+    /// This member is required.
+    public var subnetIds: [Swift.String]?
+    /// The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+    /// This member is required.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dnsResolvers: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        subnetIds: [Swift.String]? = nil,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dnsResolvers = dnsResolvers
+        self.name = name
+        self.roleArn = roleArn
+        self.securityGroupIds = securityGroupIds
+        self.subnetIds = subnetIds
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct UpdateVPCConnectionInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let subnetIds: [Swift.String]?
+    let securityGroupIds: [Swift.String]?
+    let dnsResolvers: [Swift.String]?
+    let roleArn: Swift.String?
+}
+
+extension UpdateVPCConnectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsResolvers = "DnsResolvers"
+        case name = "Name"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case subnetIds = "SubnetIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let dnsResolversContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsResolvers)
+        var dnsResolversDecoded0:[Swift.String]? = nil
+        if let dnsResolversContainer = dnsResolversContainer {
+            dnsResolversDecoded0 = [Swift.String]()
+            for string0 in dnsResolversContainer {
+                if let string0 = string0 {
+                    dnsResolversDecoded0?.append(string0)
+                }
+            }
+        }
+        dnsResolvers = dnsResolversDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension UpdateVPCConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateVPCConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedUserEditionException" : self = .unsupportedUserEditionException(try UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateVPCConnectionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unsupportedUserEditionException(UnsupportedUserEditionException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVPCConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: UpdateVPCConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.availabilityStatus = output.availabilityStatus
+            self.requestId = output.requestId
+            self.updateStatus = output.updateStatus
+            self.vpcConnectionId = output.vpcConnectionId
+        } else {
+            self.arn = nil
+            self.availabilityStatus = nil
+            self.requestId = nil
+            self.updateStatus = nil
+            self.vpcConnectionId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateVPCConnectionOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the VPC connection.
+    public var arn: Swift.String?
+    /// The availability status of the VPC connection.
+    public var availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The update status of the VPC connection's last update.
+    public var updateStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
+    /// The ID of the VPC connection that you are updating. This ID is a unique identifier for each Amazon Web Services Region in anAmazon Web Services account.
+    public var vpcConnectionId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        updateStatus: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
+        vpcConnectionId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.availabilityStatus = availabilityStatus
+        self.requestId = requestId
+        self.status = status
+        self.updateStatus = updateStatus
+        self.vpcConnectionId = vpcConnectionId
+    }
+}
+
+struct UpdateVPCConnectionOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let vpcConnectionId: Swift.String?
+    let updateStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
+    let availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension UpdateVPCConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case availabilityStatus = "AvailabilityStatus"
+        case requestId = "RequestId"
+        case status = "Status"
+        case updateStatus = "UpdateStatus"
+        case vpcConnectionId = "VPCConnectionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionResourceStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
@@ -69236,6 +80603,456 @@ extension QuickSightClientTypes {
             self = UserRole(rawValue: rawValue) ?? UserRole.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.VPCConnection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case availabilityStatus = "AvailabilityStatus"
+        case createdTime = "CreatedTime"
+        case dnsResolvers = "DnsResolvers"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case name = "Name"
+        case networkInterfaces = "NetworkInterfaces"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case status = "Status"
+        case vpcConnectionId = "VPCConnectionId"
+        case vpcId = "VPCId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let dnsResolvers = dnsResolvers {
+            var dnsResolversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsResolvers)
+            for string0 in dnsResolvers {
+                try dnsResolversContainer.encode(string0)
+            }
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkInterfaces = networkInterfaces {
+            var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
+            }
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let vpcConnectionId = self.vpcConnectionId {
+            try encodeContainer.encode(vpcConnectionId, forKey: .vpcConnectionId)
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let dnsResolversContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsResolvers)
+        var dnsResolversDecoded0:[Swift.String]? = nil
+        if let dnsResolversContainer = dnsResolversContainer {
+            dnsResolversDecoded0 = [Swift.String]()
+            for string0 in dnsResolversContainer {
+                if let string0 = string0 {
+                    dnsResolversDecoded0?.append(string0)
+                }
+            }
+        }
+        dnsResolvers = dnsResolversDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionResourceStatus.self, forKey: .status)
+        status = statusDecoded
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+        let networkInterfacesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.NetworkInterface?].self, forKey: .networkInterfaces)
+        var networkInterfacesDecoded0:[QuickSightClientTypes.NetworkInterface]? = nil
+        if let networkInterfacesContainer = networkInterfacesContainer {
+            networkInterfacesDecoded0 = [QuickSightClientTypes.NetworkInterface]()
+            for structure0 in networkInterfacesContainer {
+                if let structure0 = structure0 {
+                    networkInterfacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkInterfaces = networkInterfacesDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The structure of a VPC connection.
+    public struct VPCConnection: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the VPC connection.
+        public var arn: Swift.String?
+        /// The availability status of the VPC connection.
+        public var availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+        /// The time that the VPC connection was created.
+        public var createdTime: ClientRuntime.Date?
+        /// A list of IP addresses of DNS resolver endpoints for the VPC connection.
+        public var dnsResolvers: [Swift.String]?
+        /// The time that the VPC connection was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The display name for the VPC connection.
+        public var name: Swift.String?
+        /// A list of network interfaces.
+        public var networkInterfaces: [QuickSightClientTypes.NetworkInterface]?
+        /// The ARN of the IAM role associated with the VPC connection.
+        public var roleArn: Swift.String?
+        /// The Amazon EC2 security group IDs associated with the VPC connection.
+        public var securityGroupIds: [Swift.String]?
+        /// The status of the VPC connection.
+        public var status: QuickSightClientTypes.VPCConnectionResourceStatus?
+        /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+        public var vpcConnectionId: Swift.String?
+        /// The Amazon EC2 VPC ID associated with the VPC connection.
+        public var vpcId: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            dnsResolvers: [Swift.String]? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            networkInterfaces: [QuickSightClientTypes.NetworkInterface]? = nil,
+            roleArn: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            status: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
+            vpcConnectionId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.availabilityStatus = availabilityStatus
+            self.createdTime = createdTime
+            self.dnsResolvers = dnsResolvers
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.networkInterfaces = networkInterfaces
+            self.roleArn = roleArn
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.vpcConnectionId = vpcConnectionId
+            self.vpcId = vpcId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum VPCConnectionAvailabilityStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case partiallyAvailable
+        case unavailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VPCConnectionAvailabilityStatus] {
+            return [
+                .available,
+                .partiallyAvailable,
+                .unavailable,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .partiallyAvailable: return "PARTIALLY_AVAILABLE"
+            case .unavailable: return "UNAVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VPCConnectionAvailabilityStatus(rawValue: rawValue) ?? VPCConnectionAvailabilityStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum VPCConnectionResourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case creationFailed
+        case creationInProgress
+        case creationSuccessful
+        case deleted
+        case deletionFailed
+        case deletionInProgress
+        case updateFailed
+        case updateInProgress
+        case updateSuccessful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VPCConnectionResourceStatus] {
+            return [
+                .creationFailed,
+                .creationInProgress,
+                .creationSuccessful,
+                .deleted,
+                .deletionFailed,
+                .deletionInProgress,
+                .updateFailed,
+                .updateInProgress,
+                .updateSuccessful,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationFailed: return "CREATION_FAILED"
+            case .creationInProgress: return "CREATION_IN_PROGRESS"
+            case .creationSuccessful: return "CREATION_SUCCESSFUL"
+            case .deleted: return "DELETED"
+            case .deletionFailed: return "DELETION_FAILED"
+            case .deletionInProgress: return "DELETION_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateSuccessful: return "UPDATE_SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VPCConnectionResourceStatus(rawValue: rawValue) ?? VPCConnectionResourceStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.VPCConnectionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case availabilityStatus = "AvailabilityStatus"
+        case createdTime = "CreatedTime"
+        case dnsResolvers = "DnsResolvers"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case name = "Name"
+        case networkInterfaces = "NetworkInterfaces"
+        case roleArn = "RoleArn"
+        case securityGroupIds = "SecurityGroupIds"
+        case status = "Status"
+        case vpcConnectionId = "VPCConnectionId"
+        case vpcId = "VPCId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let dnsResolvers = dnsResolvers {
+            var dnsResolversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsResolvers)
+            for string0 in dnsResolvers {
+                try dnsResolversContainer.encode(string0)
+            }
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkInterfaces = networkInterfaces {
+            var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
+            }
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let vpcConnectionId = self.vpcConnectionId {
+            try encodeContainer.encode(vpcConnectionId, forKey: .vpcConnectionId)
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionId)
+        vpcConnectionId = vpcConnectionIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let dnsResolversContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsResolvers)
+        var dnsResolversDecoded0:[Swift.String]? = nil
+        if let dnsResolversContainer = dnsResolversContainer {
+            dnsResolversDecoded0 = [Swift.String]()
+            for string0 in dnsResolversContainer {
+                if let string0 = string0 {
+                    dnsResolversDecoded0?.append(string0)
+                }
+            }
+        }
+        dnsResolvers = dnsResolversDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionResourceStatus.self, forKey: .status)
+        status = statusDecoded
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+        let networkInterfacesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.NetworkInterface?].self, forKey: .networkInterfaces)
+        var networkInterfacesDecoded0:[QuickSightClientTypes.NetworkInterface]? = nil
+        if let networkInterfacesContainer = networkInterfacesContainer {
+            networkInterfacesDecoded0 = [QuickSightClientTypes.NetworkInterface]()
+            for structure0 in networkInterfacesContainer {
+                if let structure0 = structure0 {
+                    networkInterfacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkInterfaces = networkInterfacesDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The summary metadata that describes a VPC connection.
+    public struct VPCConnectionSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the VPC connection.
+        public var arn: Swift.String?
+        /// The availability status of the VPC connection.
+        public var availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus?
+        /// The time that the VPC connection was created.
+        public var createdTime: ClientRuntime.Date?
+        /// A list of IP addresses of DNS resolver endpoints for the VPC connection.
+        public var dnsResolvers: [Swift.String]?
+        /// The time that the VPC connection was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The display name for the VPC connection.
+        public var name: Swift.String?
+        /// A list of network interfaces.
+        public var networkInterfaces: [QuickSightClientTypes.NetworkInterface]?
+        /// The ARN of the IAM role associated with the VPC connection.
+        public var roleArn: Swift.String?
+        /// The Amazon EC2 security group IDs associated with the VPC connection.
+        public var securityGroupIds: [Swift.String]?
+        /// The status of the VPC connection.
+        public var status: QuickSightClientTypes.VPCConnectionResourceStatus?
+        /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+        public var vpcConnectionId: Swift.String?
+        /// The Amazon EC2 VPC ID associated with the VPC connection.
+        public var vpcId: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            availabilityStatus: QuickSightClientTypes.VPCConnectionAvailabilityStatus? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            dnsResolvers: [Swift.String]? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            networkInterfaces: [QuickSightClientTypes.NetworkInterface]? = nil,
+            roleArn: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            status: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
+            vpcConnectionId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.availabilityStatus = availabilityStatus
+            self.createdTime = createdTime
+            self.dnsResolvers = dnsResolvers
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.networkInterfaces = networkInterfaces
+            self.roleArn = roleArn
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.vpcConnectionId = vpcConnectionId
+            self.vpcId = vpcId
+        }
+    }
+
 }
 
 extension QuickSightClientTypes {

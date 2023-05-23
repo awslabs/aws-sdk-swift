@@ -1557,7 +1557,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Updates whether the Amazon Web Services account is opted into organization sharing features.
+    /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

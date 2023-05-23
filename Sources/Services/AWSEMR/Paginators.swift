@@ -177,6 +177,7 @@ extension ListNotebookExecutionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListNotebookExecutionsInput {
         return ListNotebookExecutionsInput(
             editorId: self.editorId,
+            executionEngineId: self.executionEngineId,
             from: self.from,
             marker: token,
             status: self.status,

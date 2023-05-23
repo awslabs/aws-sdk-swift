@@ -533,6 +533,7 @@ extension KafkaClientTypes.BrokerNodeGroupInfo: Swift.Codable {
         case instanceType = "instanceType"
         case securityGroups = "securityGroups"
         case storageInfo = "storageInfo"
+        case zoneIds = "zoneIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -560,6 +561,12 @@ extension KafkaClientTypes.BrokerNodeGroupInfo: Swift.Codable {
         }
         if let storageInfo = self.storageInfo {
             try encodeContainer.encode(storageInfo, forKey: .storageInfo)
+        }
+        if let zoneIds = zoneIds {
+            var zoneIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .zoneIds)
+            for __string0 in zoneIds {
+                try zoneIdsContainer.encode(__string0)
+            }
         }
     }
 
@@ -595,6 +602,17 @@ extension KafkaClientTypes.BrokerNodeGroupInfo: Swift.Codable {
         storageInfo = storageInfoDecoded
         let connectivityInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ConnectivityInfo.self, forKey: .connectivityInfo)
         connectivityInfo = connectivityInfoDecoded
+        let zoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .zoneIds)
+        var zoneIdsDecoded0:[Swift.String]? = nil
+        if let zoneIdsContainer = zoneIdsContainer {
+            zoneIdsDecoded0 = [Swift.String]()
+            for string0 in zoneIdsContainer {
+                if let string0 = string0 {
+                    zoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        zoneIds = zoneIdsDecoded0
     }
 }
 
@@ -615,6 +633,8 @@ extension KafkaClientTypes {
         public var securityGroups: [Swift.String]?
         /// Contains information about storage volumes attached to MSK broker nodes.
         public var storageInfo: KafkaClientTypes.StorageInfo?
+        /// The list of zoneIds for the cluster in the virtual private cloud (VPC).
+        public var zoneIds: [Swift.String]?
 
         public init (
             brokerAZDistribution: KafkaClientTypes.BrokerAZDistribution? = nil,
@@ -622,7 +642,8 @@ extension KafkaClientTypes {
             connectivityInfo: KafkaClientTypes.ConnectivityInfo? = nil,
             instanceType: Swift.String? = nil,
             securityGroups: [Swift.String]? = nil,
-            storageInfo: KafkaClientTypes.StorageInfo? = nil
+            storageInfo: KafkaClientTypes.StorageInfo? = nil,
+            zoneIds: [Swift.String]? = nil
         )
         {
             self.brokerAZDistribution = brokerAZDistribution
@@ -631,6 +652,7 @@ extension KafkaClientTypes {
             self.instanceType = instanceType
             self.securityGroups = securityGroups
             self.storageInfo = storageInfo
+            self.zoneIds = zoneIds
         }
     }
 
@@ -877,6 +899,82 @@ extension KafkaClientTypes {
             self = ClientBroker(rawValue: rawValue) ?? ClientBroker.sdkUnknown(rawValue)
         }
     }
+}
+
+extension KafkaClientTypes.ClientVpcConnection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authentication = "authentication"
+        case creationTime = "creationTime"
+        case owner = "owner"
+        case state = "state"
+        case vpcConnectionArn = "vpcConnectionArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authentication = self.authentication {
+            try encodeContainer.encode(authentication, forKey: .authentication)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let vpcConnectionArn = self.vpcConnectionArn {
+            try encodeContainer.encode(vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authenticationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authentication)
+        authentication = authenticationDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionState.self, forKey: .state)
+        state = stateDecoded
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// The client VPC connection object.
+    public struct ClientVpcConnection: Swift.Equatable {
+        /// Information about the auth scheme of Vpc Connection.
+        public var authentication: Swift.String?
+        /// Creation time of the Vpc Connection.
+        public var creationTime: ClientRuntime.Date?
+        /// The Owner of the Vpc Connection.
+        public var owner: Swift.String?
+        /// State of the Vpc Connection.
+        public var state: KafkaClientTypes.VpcConnectionState?
+        /// The ARN that identifies the Vpc Connection.
+        /// This member is required.
+        public var vpcConnectionArn: Swift.String?
+
+        public init (
+            authentication: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            owner: Swift.String? = nil,
+            state: KafkaClientTypes.VpcConnectionState? = nil,
+            vpcConnectionArn: Swift.String? = nil
+        )
+        {
+            self.authentication = authentication
+            self.creationTime = creationTime
+            self.owner = owner
+            self.state = state
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+
 }
 
 extension KafkaClientTypes.CloudWatchLogs: Swift.Codable {
@@ -1307,6 +1405,7 @@ extension KafkaClientTypes.ClusterOperationInfo: Swift.Codable {
         case operationType = "operationType"
         case sourceClusterInfo = "sourceClusterInfo"
         case targetClusterInfo = "targetClusterInfo"
+        case vpcConnectionInfo = "vpcConnectionInfo"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1347,6 +1446,9 @@ extension KafkaClientTypes.ClusterOperationInfo: Swift.Codable {
         if let targetClusterInfo = self.targetClusterInfo {
             try encodeContainer.encode(targetClusterInfo, forKey: .targetClusterInfo)
         }
+        if let vpcConnectionInfo = self.vpcConnectionInfo {
+            try encodeContainer.encode(vpcConnectionInfo, forKey: .vpcConnectionInfo)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1382,6 +1484,8 @@ extension KafkaClientTypes.ClusterOperationInfo: Swift.Codable {
         sourceClusterInfo = sourceClusterInfoDecoded
         let targetClusterInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.MutableClusterInfo.self, forKey: .targetClusterInfo)
         targetClusterInfo = targetClusterInfoDecoded
+        let vpcConnectionInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionInfo.self, forKey: .vpcConnectionInfo)
+        vpcConnectionInfo = vpcConnectionInfoDecoded
     }
 }
 
@@ -1410,6 +1514,8 @@ extension KafkaClientTypes {
         public var sourceClusterInfo: KafkaClientTypes.MutableClusterInfo?
         /// Information about cluster attributes after a cluster is updated.
         public var targetClusterInfo: KafkaClientTypes.MutableClusterInfo?
+        /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
+        public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo?
 
         public init (
             clientRequestId: Swift.String? = nil,
@@ -1422,7 +1528,8 @@ extension KafkaClientTypes {
             operationSteps: [KafkaClientTypes.ClusterOperationStep]? = nil,
             operationType: Swift.String? = nil,
             sourceClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
-            targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil
+            targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
+            vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo? = nil
         )
         {
             self.clientRequestId = clientRequestId
@@ -1436,6 +1543,7 @@ extension KafkaClientTypes {
             self.operationType = operationType
             self.sourceClusterInfo = sourceClusterInfo
             self.targetClusterInfo = targetClusterInfo
+            self.vpcConnectionInfo = vpcConnectionInfo
         }
     }
 
@@ -1981,6 +2089,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension KafkaClientTypes.ConnectivityInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicAccess = "publicAccess"
+        case vpcConnectivity = "vpcConnectivity"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1988,12 +2097,17 @@ extension KafkaClientTypes.ConnectivityInfo: Swift.Codable {
         if let publicAccess = self.publicAccess {
             try encodeContainer.encode(publicAccess, forKey: .publicAccess)
         }
+        if let vpcConnectivity = self.vpcConnectivity {
+            try encodeContainer.encode(vpcConnectivity, forKey: .vpcConnectivity)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicAccessDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.PublicAccess.self, forKey: .publicAccess)
         publicAccess = publicAccessDecoded
+        let vpcConnectivityDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectivity.self, forKey: .vpcConnectivity)
+        vpcConnectivity = vpcConnectivityDecoded
     }
 }
 
@@ -2002,12 +2116,16 @@ extension KafkaClientTypes {
     public struct ConnectivityInfo: Swift.Equatable {
         /// Public access control for brokers.
         public var publicAccess: KafkaClientTypes.PublicAccess?
+        /// VPC connectivity access control for brokers.
+        public var vpcConnectivity: KafkaClientTypes.VpcConnectivity?
 
         public init (
-            publicAccess: KafkaClientTypes.PublicAccess? = nil
+            publicAccess: KafkaClientTypes.PublicAccess? = nil,
+            vpcConnectivity: KafkaClientTypes.VpcConnectivity? = nil
         )
         {
             self.publicAccess = publicAccess
+            self.vpcConnectivity = vpcConnectivity
         }
     }
 
@@ -2712,6 +2830,323 @@ extension CreateConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateVpcConnectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authentication = "authentication"
+        case clientSubnets = "clientSubnets"
+        case securityGroups = "securityGroups"
+        case tags = "tags"
+        case targetClusterArn = "targetClusterArn"
+        case vpcId = "vpcId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authentication = self.authentication {
+            try encodeContainer.encode(authentication, forKey: .authentication)
+        }
+        if let clientSubnets = clientSubnets {
+            var clientSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientSubnets)
+            for __string0 in clientSubnets {
+                try clientSubnetsContainer.encode(__string0)
+            }
+        }
+        if let securityGroups = securityGroups {
+            var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetClusterArn = self.targetClusterArn {
+            try encodeContainer.encode(targetClusterArn, forKey: .targetClusterArn)
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+}
+
+extension CreateVpcConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/vpc-connection"
+    }
+}
+
+public struct CreateVpcConnectionInput: Swift.Equatable {
+    /// The authentication type of VPC connection.
+    /// This member is required.
+    public var authentication: Swift.String?
+    /// The list of client subnets.
+    /// This member is required.
+    public var clientSubnets: [Swift.String]?
+    /// The list of security groups.
+    /// This member is required.
+    public var securityGroups: [Swift.String]?
+    /// A map of tags for the VPC connection.
+    public var tags: [Swift.String:Swift.String]?
+    /// The cluster Amazon Resource Name (ARN) for the VPC connection.
+    /// This member is required.
+    public var targetClusterArn: Swift.String?
+    /// The VPC ID of VPC connection.
+    /// This member is required.
+    public var vpcId: Swift.String?
+
+    public init (
+        authentication: Swift.String? = nil,
+        clientSubnets: [Swift.String]? = nil,
+        securityGroups: [Swift.String]? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetClusterArn: Swift.String? = nil,
+        vpcId: Swift.String? = nil
+    )
+    {
+        self.authentication = authentication
+        self.clientSubnets = clientSubnets
+        self.securityGroups = securityGroups
+        self.tags = tags
+        self.targetClusterArn = targetClusterArn
+        self.vpcId = vpcId
+    }
+}
+
+struct CreateVpcConnectionInputBody: Swift.Equatable {
+    let targetClusterArn: Swift.String?
+    let authentication: Swift.String?
+    let vpcId: Swift.String?
+    let clientSubnets: [Swift.String]?
+    let securityGroups: [Swift.String]?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateVpcConnectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authentication = "authentication"
+        case clientSubnets = "clientSubnets"
+        case securityGroups = "securityGroups"
+        case tags = "tags"
+        case targetClusterArn = "targetClusterArn"
+        case vpcId = "vpcId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetClusterArn)
+        targetClusterArn = targetClusterArnDecoded
+        let authenticationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authentication)
+        authentication = authenticationDecoded
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let clientSubnetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clientSubnets)
+        var clientSubnetsDecoded0:[Swift.String]? = nil
+        if let clientSubnetsContainer = clientSubnetsContainer {
+            clientSubnetsDecoded0 = [Swift.String]()
+            for string0 in clientSubnetsContainer {
+                if let string0 = string0 {
+                    clientSubnetsDecoded0?.append(string0)
+                }
+            }
+        }
+        clientSubnets = clientSubnetsDecoded0
+        let securityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroups)
+        var securityGroupsDecoded0:[Swift.String]? = nil
+        if let securityGroupsContainer = securityGroupsContainer {
+            securityGroupsDecoded0 = [Swift.String]()
+            for string0 in securityGroupsContainer {
+                if let string0 = string0 {
+                    securityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroups = securityGroupsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateVpcConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateVpcConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateVpcConnectionOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unauthorizedException(UnauthorizedException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVpcConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: CreateVpcConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.authentication = output.authentication
+            self.clientSubnets = output.clientSubnets
+            self.creationTime = output.creationTime
+            self.securityGroups = output.securityGroups
+            self.state = output.state
+            self.tags = output.tags
+            self.vpcConnectionArn = output.vpcConnectionArn
+            self.vpcId = output.vpcId
+        } else {
+            self.authentication = nil
+            self.clientSubnets = nil
+            self.creationTime = nil
+            self.securityGroups = nil
+            self.state = nil
+            self.tags = nil
+            self.vpcConnectionArn = nil
+            self.vpcId = nil
+        }
+    }
+}
+
+public struct CreateVpcConnectionOutputResponse: Swift.Equatable {
+    /// The authentication type of VPC connection.
+    public var authentication: Swift.String?
+    /// The list of client subnets.
+    public var clientSubnets: [Swift.String]?
+    /// The creation time of VPC connection.
+    public var creationTime: ClientRuntime.Date?
+    /// The list of security groups.
+    public var securityGroups: [Swift.String]?
+    /// The State of Vpc Connection.
+    public var state: KafkaClientTypes.VpcConnectionState?
+    /// A map of tags for the VPC connection.
+    public var tags: [Swift.String:Swift.String]?
+    /// The VPC connection ARN.
+    public var vpcConnectionArn: Swift.String?
+    /// The VPC ID of the VPC connection.
+    public var vpcId: Swift.String?
+
+    public init (
+        authentication: Swift.String? = nil,
+        clientSubnets: [Swift.String]? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        securityGroups: [Swift.String]? = nil,
+        state: KafkaClientTypes.VpcConnectionState? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        vpcConnectionArn: Swift.String? = nil,
+        vpcId: Swift.String? = nil
+    )
+    {
+        self.authentication = authentication
+        self.clientSubnets = clientSubnets
+        self.creationTime = creationTime
+        self.securityGroups = securityGroups
+        self.state = state
+        self.tags = tags
+        self.vpcConnectionArn = vpcConnectionArn
+        self.vpcId = vpcId
+    }
+}
+
+struct CreateVpcConnectionOutputResponseBody: Swift.Equatable {
+    let vpcConnectionArn: Swift.String?
+    let state: KafkaClientTypes.VpcConnectionState?
+    let authentication: Swift.String?
+    let vpcId: Swift.String?
+    let clientSubnets: [Swift.String]?
+    let securityGroups: [Swift.String]?
+    let creationTime: ClientRuntime.Date?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateVpcConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authentication = "authentication"
+        case clientSubnets = "clientSubnets"
+        case creationTime = "creationTime"
+        case securityGroups = "securityGroups"
+        case state = "state"
+        case tags = "tags"
+        case vpcConnectionArn = "vpcConnectionArn"
+        case vpcId = "vpcId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionState.self, forKey: .state)
+        state = stateDecoded
+        let authenticationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authentication)
+        authentication = authenticationDecoded
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let clientSubnetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clientSubnets)
+        var clientSubnetsDecoded0:[Swift.String]? = nil
+        if let clientSubnetsContainer = clientSubnetsContainer {
+            clientSubnetsDecoded0 = [Swift.String]()
+            for string0 in clientSubnetsContainer {
+                if let string0 = string0 {
+                    clientSubnetsDecoded0?.append(string0)
+                }
+            }
+        }
+        clientSubnets = clientSubnetsDecoded0
+        let securityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroups)
+        var securityGroupsDecoded0:[Swift.String]? = nil
+        if let securityGroupsContainer = securityGroupsContainer {
+            securityGroupsDecoded0 = [Swift.String]()
+            for string0 in securityGroupsContainer {
+                if let string0 = string0 {
+                    securityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroups = securityGroupsDecoded0
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
 extension DeleteClusterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -2838,6 +3273,75 @@ extension DeleteClusterOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteClusterPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterArn = clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/policy"
+    }
+}
+
+public struct DeleteClusterPolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init (
+        clusterArn: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+    }
+}
+
+struct DeleteClusterPolicyInputBody: Swift.Equatable {
+}
+
+extension DeleteClusterPolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteClusterPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteClusterPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteClusterPolicyOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteClusterPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteClusterPolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let arn = arn else {
@@ -2943,6 +3447,115 @@ extension DeleteConfigurationOutputResponseBody: Swift.Decodable {
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
         let stateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ConfigurationState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension DeleteVpcConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let arn = arn else {
+            return nil
+        }
+        return "/v1/vpc-connection/\(arn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteVpcConnectionInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DeleteVpcConnectionInputBody: Swift.Equatable {
+}
+
+extension DeleteVpcConnectionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteVpcConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteVpcConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteVpcConnectionOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVpcConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DeleteVpcConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.state = output.state
+            self.vpcConnectionArn = output.vpcConnectionArn
+        } else {
+            self.state = nil
+            self.vpcConnectionArn = nil
+        }
+    }
+}
+
+public struct DeleteVpcConnectionOutputResponse: Swift.Equatable {
+    /// The state of the VPC connection.
+    public var state: KafkaClientTypes.VpcConnectionState?
+    /// The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
+    public var vpcConnectionArn: Swift.String?
+
+    public init (
+        state: KafkaClientTypes.VpcConnectionState? = nil,
+        vpcConnectionArn: Swift.String? = nil
+    )
+    {
+        self.state = state
+        self.vpcConnectionArn = vpcConnectionArn
+    }
+}
+
+struct DeleteVpcConnectionOutputResponseBody: Swift.Equatable {
+    let vpcConnectionArn: Swift.String?
+    let state: KafkaClientTypes.VpcConnectionState?
+}
+
+extension DeleteVpcConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "state"
+        case vpcConnectionArn = "vpcConnectionArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionState.self, forKey: .state)
         state = stateDecoded
     }
 }
@@ -3573,6 +4186,216 @@ extension DescribeConfigurationRevisionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeVpcConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let arn = arn else {
+            return nil
+        }
+        return "/v1/vpc-connection/\(arn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeVpcConnectionInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DescribeVpcConnectionInputBody: Swift.Equatable {
+}
+
+extension DescribeVpcConnectionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeVpcConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeVpcConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeVpcConnectionOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedException(UnauthorizedException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeVpcConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeVpcConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.authentication = output.authentication
+            self.creationTime = output.creationTime
+            self.securityGroups = output.securityGroups
+            self.state = output.state
+            self.subnets = output.subnets
+            self.tags = output.tags
+            self.targetClusterArn = output.targetClusterArn
+            self.vpcConnectionArn = output.vpcConnectionArn
+            self.vpcId = output.vpcId
+        } else {
+            self.authentication = nil
+            self.creationTime = nil
+            self.securityGroups = nil
+            self.state = nil
+            self.subnets = nil
+            self.tags = nil
+            self.targetClusterArn = nil
+            self.vpcConnectionArn = nil
+            self.vpcId = nil
+        }
+    }
+}
+
+public struct DescribeVpcConnectionOutputResponse: Swift.Equatable {
+    /// The authentication type of VPC connection.
+    public var authentication: Swift.String?
+    /// The creation time of the VPC connection.
+    public var creationTime: ClientRuntime.Date?
+    /// The list of security groups for the VPC connection.
+    public var securityGroups: [Swift.String]?
+    /// The state of VPC connection.
+    public var state: KafkaClientTypes.VpcConnectionState?
+    /// The list of subnets for the VPC connection.
+    public var subnets: [Swift.String]?
+    /// A map of tags for the VPC connection.
+    public var tags: [Swift.String:Swift.String]?
+    /// The Amazon Resource Name (ARN) that uniquely identifies an MSK cluster.
+    public var targetClusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
+    public var vpcConnectionArn: Swift.String?
+    /// The VPC Id for the VPC connection.
+    public var vpcId: Swift.String?
+
+    public init (
+        authentication: Swift.String? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        securityGroups: [Swift.String]? = nil,
+        state: KafkaClientTypes.VpcConnectionState? = nil,
+        subnets: [Swift.String]? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetClusterArn: Swift.String? = nil,
+        vpcConnectionArn: Swift.String? = nil,
+        vpcId: Swift.String? = nil
+    )
+    {
+        self.authentication = authentication
+        self.creationTime = creationTime
+        self.securityGroups = securityGroups
+        self.state = state
+        self.subnets = subnets
+        self.tags = tags
+        self.targetClusterArn = targetClusterArn
+        self.vpcConnectionArn = vpcConnectionArn
+        self.vpcId = vpcId
+    }
+}
+
+struct DescribeVpcConnectionOutputResponseBody: Swift.Equatable {
+    let vpcConnectionArn: Swift.String?
+    let targetClusterArn: Swift.String?
+    let state: KafkaClientTypes.VpcConnectionState?
+    let authentication: Swift.String?
+    let vpcId: Swift.String?
+    let subnets: [Swift.String]?
+    let securityGroups: [Swift.String]?
+    let creationTime: ClientRuntime.Date?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension DescribeVpcConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authentication = "authentication"
+        case creationTime = "creationTime"
+        case securityGroups = "securityGroups"
+        case state = "state"
+        case subnets = "subnets"
+        case tags = "tags"
+        case targetClusterArn = "targetClusterArn"
+        case vpcConnectionArn = "vpcConnectionArn"
+        case vpcId = "vpcId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+        let targetClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetClusterArn)
+        targetClusterArn = targetClusterArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionState.self, forKey: .state)
+        state = stateDecoded
+        let authenticationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authentication)
+        authentication = authenticationDecoded
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let subnetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnets)
+        var subnetsDecoded0:[Swift.String]? = nil
+        if let subnetsContainer = subnetsContainer {
+            subnetsDecoded0 = [Swift.String]()
+            for string0 in subnetsContainer {
+                if let string0 = string0 {
+                    subnetsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnets = subnetsDecoded0
+        let securityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroups)
+        var securityGroupsDecoded0:[Swift.String]? = nil
+        if let securityGroupsContainer = securityGroupsContainer {
+            securityGroupsDecoded0 = [Swift.String]()
+            for string0 in securityGroupsContainer {
+                if let string0 = string0 {
+                    securityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroups = securityGroupsDecoded0
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
 extension KafkaClientTypes.EBSStorageInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case provisionedThroughput = "provisionedThroughput"
@@ -4006,6 +4829,9 @@ extension GetBootstrapBrokersOutputResponse: ClientRuntime.HttpResponseBinding {
             self.bootstrapBrokerStringSaslIam = output.bootstrapBrokerStringSaslIam
             self.bootstrapBrokerStringSaslScram = output.bootstrapBrokerStringSaslScram
             self.bootstrapBrokerStringTls = output.bootstrapBrokerStringTls
+            self.bootstrapBrokerStringVpcConnectivitySaslIam = output.bootstrapBrokerStringVpcConnectivitySaslIam
+            self.bootstrapBrokerStringVpcConnectivitySaslScram = output.bootstrapBrokerStringVpcConnectivitySaslScram
+            self.bootstrapBrokerStringVpcConnectivityTls = output.bootstrapBrokerStringVpcConnectivityTls
         } else {
             self.bootstrapBrokerString = nil
             self.bootstrapBrokerStringPublicSaslIam = nil
@@ -4014,6 +4840,9 @@ extension GetBootstrapBrokersOutputResponse: ClientRuntime.HttpResponseBinding {
             self.bootstrapBrokerStringSaslIam = nil
             self.bootstrapBrokerStringSaslScram = nil
             self.bootstrapBrokerStringTls = nil
+            self.bootstrapBrokerStringVpcConnectivitySaslIam = nil
+            self.bootstrapBrokerStringVpcConnectivitySaslScram = nil
+            self.bootstrapBrokerStringVpcConnectivityTls = nil
         }
     }
 }
@@ -4033,6 +4862,12 @@ public struct GetBootstrapBrokersOutputResponse: Swift.Equatable {
     public var bootstrapBrokerStringSaslScram: Swift.String?
     /// A string containing one or more DNS names (or IP) and TLS port pairs.
     public var bootstrapBrokerStringTls: Swift.String?
+    /// A string containing one or more DNS names (or IP) and SASL/IAM port pairs for VPC connectivity.
+    public var bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String?
+    /// A string containing one or more DNS names (or IP) and SASL/SCRAM port pairs for VPC connectivity.
+    public var bootstrapBrokerStringVpcConnectivitySaslScram: Swift.String?
+    /// A string containing one or more DNS names (or IP) and TLS port pairs for VPC connectivity.
+    public var bootstrapBrokerStringVpcConnectivityTls: Swift.String?
 
     public init (
         bootstrapBrokerString: Swift.String? = nil,
@@ -4041,7 +4876,10 @@ public struct GetBootstrapBrokersOutputResponse: Swift.Equatable {
         bootstrapBrokerStringPublicTls: Swift.String? = nil,
         bootstrapBrokerStringSaslIam: Swift.String? = nil,
         bootstrapBrokerStringSaslScram: Swift.String? = nil,
-        bootstrapBrokerStringTls: Swift.String? = nil
+        bootstrapBrokerStringTls: Swift.String? = nil,
+        bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String? = nil,
+        bootstrapBrokerStringVpcConnectivitySaslScram: Swift.String? = nil,
+        bootstrapBrokerStringVpcConnectivityTls: Swift.String? = nil
     )
     {
         self.bootstrapBrokerString = bootstrapBrokerString
@@ -4051,6 +4889,9 @@ public struct GetBootstrapBrokersOutputResponse: Swift.Equatable {
         self.bootstrapBrokerStringSaslIam = bootstrapBrokerStringSaslIam
         self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
         self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
+        self.bootstrapBrokerStringVpcConnectivitySaslIam = bootstrapBrokerStringVpcConnectivitySaslIam
+        self.bootstrapBrokerStringVpcConnectivitySaslScram = bootstrapBrokerStringVpcConnectivitySaslScram
+        self.bootstrapBrokerStringVpcConnectivityTls = bootstrapBrokerStringVpcConnectivityTls
     }
 }
 
@@ -4062,6 +4903,9 @@ struct GetBootstrapBrokersOutputResponseBody: Swift.Equatable {
     let bootstrapBrokerStringPublicTls: Swift.String?
     let bootstrapBrokerStringPublicSaslScram: Swift.String?
     let bootstrapBrokerStringPublicSaslIam: Swift.String?
+    let bootstrapBrokerStringVpcConnectivityTls: Swift.String?
+    let bootstrapBrokerStringVpcConnectivitySaslScram: Swift.String?
+    let bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String?
 }
 
 extension GetBootstrapBrokersOutputResponseBody: Swift.Decodable {
@@ -4073,6 +4917,9 @@ extension GetBootstrapBrokersOutputResponseBody: Swift.Decodable {
         case bootstrapBrokerStringSaslIam = "bootstrapBrokerStringSaslIam"
         case bootstrapBrokerStringSaslScram = "bootstrapBrokerStringSaslScram"
         case bootstrapBrokerStringTls = "bootstrapBrokerStringTls"
+        case bootstrapBrokerStringVpcConnectivitySaslIam = "bootstrapBrokerStringVpcConnectivitySaslIam"
+        case bootstrapBrokerStringVpcConnectivitySaslScram = "bootstrapBrokerStringVpcConnectivitySaslScram"
+        case bootstrapBrokerStringVpcConnectivityTls = "bootstrapBrokerStringVpcConnectivityTls"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -4091,6 +4938,121 @@ extension GetBootstrapBrokersOutputResponseBody: Swift.Decodable {
         bootstrapBrokerStringPublicSaslScram = bootstrapBrokerStringPublicSaslScramDecoded
         let bootstrapBrokerStringPublicSaslIamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bootstrapBrokerStringPublicSaslIam)
         bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIamDecoded
+        let bootstrapBrokerStringVpcConnectivityTlsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bootstrapBrokerStringVpcConnectivityTls)
+        bootstrapBrokerStringVpcConnectivityTls = bootstrapBrokerStringVpcConnectivityTlsDecoded
+        let bootstrapBrokerStringVpcConnectivitySaslScramDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bootstrapBrokerStringVpcConnectivitySaslScram)
+        bootstrapBrokerStringVpcConnectivitySaslScram = bootstrapBrokerStringVpcConnectivitySaslScramDecoded
+        let bootstrapBrokerStringVpcConnectivitySaslIamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bootstrapBrokerStringVpcConnectivitySaslIam)
+        bootstrapBrokerStringVpcConnectivitySaslIam = bootstrapBrokerStringVpcConnectivitySaslIamDecoded
+    }
+}
+
+extension GetClusterPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterArn = clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/policy"
+    }
+}
+
+public struct GetClusterPolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init (
+        clusterArn: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+    }
+}
+
+struct GetClusterPolicyInputBody: Swift.Equatable {
+}
+
+extension GetClusterPolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetClusterPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetClusterPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetClusterPolicyOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetClusterPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: GetClusterPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.currentVersion = output.currentVersion
+            self.policy = output.policy
+        } else {
+            self.currentVersion = nil
+            self.policy = nil
+        }
+    }
+}
+
+public struct GetClusterPolicyOutputResponse: Swift.Equatable {
+    /// The version of cluster policy.
+    public var currentVersion: Swift.String?
+    /// The cluster policy.
+    public var policy: Swift.String?
+
+    public init (
+        currentVersion: Swift.String? = nil,
+        policy: Swift.String? = nil
+    )
+    {
+        self.currentVersion = currentVersion
+        self.policy = policy
+    }
+}
+
+struct GetClusterPolicyOutputResponseBody: Swift.Equatable {
+    let currentVersion: Swift.String?
+    let policy: Swift.String?
+}
+
+extension GetClusterPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentVersion = "currentVersion"
+        case policy = "policy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
+        currentVersion = currentVersionDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
     }
 }
 
@@ -4457,6 +5419,151 @@ extension KafkaClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = KafkaVersionStatus(rawValue: rawValue) ?? KafkaVersionStatus.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ListClientVpcConnectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListClientVpcConnectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterArn = clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/client-vpc-connections"
+    }
+}
+
+public struct ListClientVpcConnectionsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListClientVpcConnectionsInputBody: Swift.Equatable {
+}
+
+extension ListClientVpcConnectionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListClientVpcConnectionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListClientVpcConnectionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListClientVpcConnectionsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedException(UnauthorizedException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListClientVpcConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListClientVpcConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clientVpcConnections = output.clientVpcConnections
+            self.nextToken = output.nextToken
+        } else {
+            self.clientVpcConnections = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListClientVpcConnectionsOutputResponse: Swift.Equatable {
+    /// List of client VPC connections.
+    public var clientVpcConnections: [KafkaClientTypes.ClientVpcConnection]?
+    /// The paginated results marker. When the result of a ListClientVpcConnections operation is truncated, the call returns NextToken in the response. To get another batch of configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        clientVpcConnections: [KafkaClientTypes.ClientVpcConnection]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clientVpcConnections = clientVpcConnections
+        self.nextToken = nextToken
+    }
+}
+
+struct ListClientVpcConnectionsOutputResponseBody: Swift.Equatable {
+    let clientVpcConnections: [KafkaClientTypes.ClientVpcConnection]?
+    let nextToken: Swift.String?
+}
+
+extension ListClientVpcConnectionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientVpcConnections = "clientVpcConnections"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientVpcConnectionsContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ClientVpcConnection?].self, forKey: .clientVpcConnections)
+        var clientVpcConnectionsDecoded0:[KafkaClientTypes.ClientVpcConnection]? = nil
+        if let clientVpcConnectionsContainer = clientVpcConnectionsContainer {
+            clientVpcConnectionsDecoded0 = [KafkaClientTypes.ClientVpcConnection]()
+            for structure0 in clientVpcConnectionsContainer {
+                if let structure0 = structure0 {
+                    clientVpcConnectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        clientVpcConnections = clientVpcConnectionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -5712,6 +6819,143 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListVpcConnectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVpcConnectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/vpc-connections"
+    }
+}
+
+public struct ListVpcConnectionsInput: Swift.Equatable {
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVpcConnectionsInputBody: Swift.Equatable {
+}
+
+extension ListVpcConnectionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVpcConnectionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVpcConnectionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListVpcConnectionsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedException(UnauthorizedException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVpcConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListVpcConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.vpcConnections = output.vpcConnections
+        } else {
+            self.nextToken = nil
+            self.vpcConnections = nil
+        }
+    }
+}
+
+public struct ListVpcConnectionsOutputResponse: Swift.Equatable {
+    /// The paginated results marker. When the result of a ListClientVpcConnections operation is truncated, the call returns NextToken in the response. To get another batch of configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// List of VPC connections.
+    public var vpcConnections: [KafkaClientTypes.VpcConnection]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        vpcConnections: [KafkaClientTypes.VpcConnection]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.vpcConnections = vpcConnections
+    }
+}
+
+struct ListVpcConnectionsOutputResponseBody: Swift.Equatable {
+    let vpcConnections: [KafkaClientTypes.VpcConnection]?
+    let nextToken: Swift.String?
+}
+
+extension ListVpcConnectionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "nextToken"
+        case vpcConnections = "vpcConnections"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionsContainer = try containerValues.decodeIfPresent([KafkaClientTypes.VpcConnection?].self, forKey: .vpcConnections)
+        var vpcConnectionsDecoded0:[KafkaClientTypes.VpcConnection]? = nil
+        if let vpcConnectionsContainer = vpcConnectionsContainer {
+            vpcConnectionsDecoded0 = [KafkaClientTypes.VpcConnection]()
+            for structure0 in vpcConnectionsContainer {
+                if let structure0 = structure0 {
+                    vpcConnectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcConnections = vpcConnectionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension KafkaClientTypes.LoggingInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case brokerLogs = "brokerLogs"
@@ -6659,6 +7903,140 @@ extension KafkaClientTypes {
 
 }
 
+extension PutClusterPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentVersion = "currentVersion"
+        case policy = "policy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentVersion = self.currentVersion {
+            try encodeContainer.encode(currentVersion, forKey: .currentVersion)
+        }
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+    }
+}
+
+extension PutClusterPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterArn = clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/policy"
+    }
+}
+
+public struct PutClusterPolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The policy version.
+    public var currentVersion: Swift.String?
+    /// The policy.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init (
+        clusterArn: Swift.String? = nil,
+        currentVersion: Swift.String? = nil,
+        policy: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.currentVersion = currentVersion
+        self.policy = policy
+    }
+}
+
+struct PutClusterPolicyInputBody: Swift.Equatable {
+    let currentVersion: Swift.String?
+    let policy: Swift.String?
+}
+
+extension PutClusterPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentVersion = "currentVersion"
+        case policy = "policy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
+        currentVersion = currentVersionDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+extension PutClusterPolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutClusterPolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutClusterPolicyOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutClusterPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: PutClusterPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.currentVersion = output.currentVersion
+        } else {
+            self.currentVersion = nil
+        }
+    }
+}
+
+public struct PutClusterPolicyOutputResponse: Swift.Equatable {
+    /// The policy version.
+    public var currentVersion: Swift.String?
+
+    public init (
+        currentVersion: Swift.String? = nil
+    )
+    {
+        self.currentVersion = currentVersion
+    }
+}
+
+struct PutClusterPolicyOutputResponseBody: Swift.Equatable {
+    let currentVersion: Swift.String?
+}
+
+extension PutClusterPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentVersion = "currentVersion"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
+        currentVersion = currentVersionDecoded
+    }
+}
+
 extension RebootBrokerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case brokerIds = "brokerIds"
@@ -6810,6 +8188,102 @@ extension RebootBrokerOutputResponseBody: Swift.Decodable {
         let clusterOperationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterOperationArn)
         clusterOperationArn = clusterOperationArnDecoded
     }
+}
+
+extension RejectClientVpcConnectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcConnectionArn = "vpcConnectionArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vpcConnectionArn = self.vpcConnectionArn {
+            try encodeContainer.encode(vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+    }
+}
+
+extension RejectClientVpcConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterArn = clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/client-vpc-connection"
+    }
+}
+
+public struct RejectClientVpcConnectionInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The VPC connection ARN.
+    /// This member is required.
+    public var vpcConnectionArn: Swift.String?
+
+    public init (
+        clusterArn: Swift.String? = nil,
+        vpcConnectionArn: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.vpcConnectionArn = vpcConnectionArn
+    }
+}
+
+struct RejectClientVpcConnectionInputBody: Swift.Equatable {
+    let vpcConnectionArn: Swift.String?
+}
+
+extension RejectClientVpcConnectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcConnectionArn = "vpcConnectionArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+    }
+}
+
+extension RejectClientVpcConnectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RejectClientVpcConnectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum RejectClientVpcConnectionOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedException(UnauthorizedException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RejectClientVpcConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct RejectClientVpcConnectionOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension KafkaClientTypes.S3: Swift.Codable {
@@ -9367,6 +10841,84 @@ extension UpdateStorageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension KafkaClientTypes.UserIdentity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principalId = "principalId"
+        case type = "type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.UserIdentityType.self, forKey: .type)
+        type = typeDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Description of the requester that calls the API operation.
+    public struct UserIdentity: Swift.Equatable {
+        /// A unique identifier for the requester that calls the API operation.
+        public var principalId: Swift.String?
+        /// The identity type of the requester that calls the API operation.
+        public var type: KafkaClientTypes.UserIdentityType?
+
+        public init (
+            principalId: Swift.String? = nil,
+            type: KafkaClientTypes.UserIdentityType? = nil
+        )
+        {
+            self.principalId = principalId
+            self.type = type
+        }
+    }
+
+}
+
+extension KafkaClientTypes {
+    /// The identity type of the requester that calls the API operation.
+    public enum UserIdentityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsaccount
+        case awsservice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserIdentityType] {
+            return [
+                .awsaccount,
+                .awsservice,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsaccount: return "AWSACCOUNT"
+            case .awsservice: return "AWSSERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UserIdentityType(rawValue: rawValue) ?? UserIdentityType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KafkaClientTypes.VpcConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityGroupIds = "securityGroupIds"
@@ -9432,6 +10984,439 @@ extension KafkaClientTypes {
         {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authentication = "authentication"
+        case creationTime = "creationTime"
+        case state = "state"
+        case targetClusterArn = "targetClusterArn"
+        case vpcConnectionArn = "vpcConnectionArn"
+        case vpcId = "vpcId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authentication = self.authentication {
+            try encodeContainer.encode(authentication, forKey: .authentication)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let targetClusterArn = self.targetClusterArn {
+            try encodeContainer.encode(targetClusterArn, forKey: .targetClusterArn)
+        }
+        if let vpcConnectionArn = self.vpcConnectionArn {
+            try encodeContainer.encode(vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+        let targetClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetClusterArn)
+        targetClusterArn = targetClusterArnDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let authenticationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authentication)
+        authentication = authenticationDecoded
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// The VPC connection object.
+    public struct VpcConnection: Swift.Equatable {
+        /// Information about the auth scheme of Vpc Connection.
+        public var authentication: Swift.String?
+        /// Creation time of the Vpc Connection.
+        public var creationTime: ClientRuntime.Date?
+        /// State of the Vpc Connection.
+        public var state: KafkaClientTypes.VpcConnectionState?
+        /// The ARN that identifies the Cluster which the Vpc Connection belongs to.
+        /// This member is required.
+        public var targetClusterArn: Swift.String?
+        /// The ARN that identifies the Vpc Connection.
+        /// This member is required.
+        public var vpcConnectionArn: Swift.String?
+        /// The vpcId that belongs to the Vpc Connection.
+        public var vpcId: Swift.String?
+
+        public init (
+            authentication: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            state: KafkaClientTypes.VpcConnectionState? = nil,
+            targetClusterArn: Swift.String? = nil,
+            vpcConnectionArn: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.authentication = authentication
+            self.creationTime = creationTime
+            self.state = state
+            self.targetClusterArn = targetClusterArn
+            self.vpcConnectionArn = vpcConnectionArn
+            self.vpcId = vpcId
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectionInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "creationTime"
+        case owner = "owner"
+        case userIdentity = "userIdentity"
+        case vpcConnectionArn = "vpcConnectionArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let userIdentity = self.userIdentity {
+            try encodeContainer.encode(userIdentity, forKey: .userIdentity)
+        }
+        if let vpcConnectionArn = self.vpcConnectionArn {
+            try encodeContainer.encode(vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let userIdentityDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.UserIdentity.self, forKey: .userIdentity)
+        userIdentity = userIdentityDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Description of the VPC connection.
+    public struct VpcConnectionInfo: Swift.Equatable {
+        /// The time when Amazon MSK creates the VPC Connnection.
+        public var creationTime: ClientRuntime.Date?
+        /// The owner of the VPC Connection.
+        public var owner: Swift.String?
+        /// Description of the requester that calls the API operation.
+        public var userIdentity: KafkaClientTypes.UserIdentity?
+        /// The Amazon Resource Name (ARN) of the VPC connection.
+        public var vpcConnectionArn: Swift.String?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            owner: Swift.String? = nil,
+            userIdentity: KafkaClientTypes.UserIdentity? = nil,
+            vpcConnectionArn: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.owner = owner
+            self.userIdentity = userIdentity
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+
+}
+
+extension KafkaClientTypes {
+    /// The state of a VPC connection.
+    public enum VpcConnectionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case creating
+        case deactivating
+        case deleting
+        case failed
+        case inactive
+        case rejected
+        case rejecting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcConnectionState] {
+            return [
+                .available,
+                .creating,
+                .deactivating,
+                .deleting,
+                .failed,
+                .inactive,
+                .rejected,
+                .rejecting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deactivating: return "DEACTIVATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
+            case .rejected: return "REJECTED"
+            case .rejecting: return "REJECTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VpcConnectionState(rawValue: rawValue) ?? VpcConnectionState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KafkaClientTypes.VpcConnectivity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientAuthentication = "clientAuthentication"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientAuthentication = self.clientAuthentication {
+            try encodeContainer.encode(clientAuthentication, forKey: .clientAuthentication)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientAuthenticationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectivityClientAuthentication.self, forKey: .clientAuthentication)
+        clientAuthentication = clientAuthenticationDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// VPC connectivity access control for brokers.
+    public struct VpcConnectivity: Swift.Equatable {
+        /// Includes all client authentication information for VPC connectivity.
+        public var clientAuthentication: KafkaClientTypes.VpcConnectivityClientAuthentication?
+
+        public init (
+            clientAuthentication: KafkaClientTypes.VpcConnectivityClientAuthentication? = nil
+        )
+        {
+            self.clientAuthentication = clientAuthentication
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectivityClientAuthentication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sasl = "sasl"
+        case tls = "tls"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sasl = self.sasl {
+            try encodeContainer.encode(sasl, forKey: .sasl)
+        }
+        if let tls = self.tls {
+            try encodeContainer.encode(tls, forKey: .tls)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let saslDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectivitySasl.self, forKey: .sasl)
+        sasl = saslDecoded
+        let tlsDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectivityTls.self, forKey: .tls)
+        tls = tlsDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Includes all client authentication information for VPC connectivity.
+    public struct VpcConnectivityClientAuthentication: Swift.Equatable {
+        /// SASL authentication type details for VPC connectivity.
+        public var sasl: KafkaClientTypes.VpcConnectivitySasl?
+        /// TLS authentication type details for VPC connectivity.
+        public var tls: KafkaClientTypes.VpcConnectivityTls?
+
+        public init (
+            sasl: KafkaClientTypes.VpcConnectivitySasl? = nil,
+            tls: KafkaClientTypes.VpcConnectivityTls? = nil
+        )
+        {
+            self.sasl = sasl
+            self.tls = tls
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectivityIam: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details for IAM access control for VPC connectivity.
+    public struct VpcConnectivityIam: Swift.Equatable {
+        /// SASL/IAM authentication is on or off for VPC connectivity.
+        public var enabled: Swift.Bool?
+
+        public init (
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectivitySasl: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iam = "iam"
+        case scram = "scram"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iam = self.iam {
+            try encodeContainer.encode(iam, forKey: .iam)
+        }
+        if let scram = self.scram {
+            try encodeContainer.encode(scram, forKey: .scram)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scramDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectivityScram.self, forKey: .scram)
+        scram = scramDecoded
+        let iamDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectivityIam.self, forKey: .iam)
+        iam = iamDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details for SASL client authentication for VPC connectivity.
+    public struct VpcConnectivitySasl: Swift.Equatable {
+        /// Details for SASL/IAM client authentication for VPC connectivity.
+        public var iam: KafkaClientTypes.VpcConnectivityIam?
+        /// Details for SASL/SCRAM client authentication for VPC connectivity.
+        public var scram: KafkaClientTypes.VpcConnectivityScram?
+
+        public init (
+            iam: KafkaClientTypes.VpcConnectivityIam? = nil,
+            scram: KafkaClientTypes.VpcConnectivityScram? = nil
+        )
+        {
+            self.iam = iam
+            self.scram = scram
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectivityScram: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details for SASL/SCRAM client authentication for VPC connectivity.
+    public struct VpcConnectivityScram: Swift.Equatable {
+        /// SASL/SCRAM authentication is on or off for VPC connectivity.
+        public var enabled: Swift.Bool?
+
+        public init (
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectivityTls: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details for TLS client authentication for VPC connectivity.
+    public struct VpcConnectivityTls: Swift.Equatable {
+        /// TLS authentication is on or off for VPC connectivity.
+        public var enabled: Swift.Bool?
+
+        public init (
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
         }
     }
 

@@ -6364,6 +6364,8 @@ extension EFSClientTypes {
         case enabled
         case enabling
         case error
+        case paused
+        case pausing
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReplicationStatus] {
@@ -6372,6 +6374,8 @@ extension EFSClientTypes {
                 .enabled,
                 .enabling,
                 .error,
+                .paused,
+                .pausing,
                 .sdkUnknown("")
             ]
         }
@@ -6385,6 +6389,8 @@ extension EFSClientTypes {
             case .enabled: return "ENABLED"
             case .enabling: return "ENABLING"
             case .error: return "ERROR"
+            case .paused: return "PAUSED"
+            case .pausing: return "PAUSING"
             case let .sdkUnknown(s): return s
             }
         }

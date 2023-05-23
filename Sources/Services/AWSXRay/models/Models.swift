@@ -6025,7 +6025,7 @@ extension PutResourcePolicyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassPolicyLockoutCheck != false {
+        if let bypassPolicyLockoutCheck = self.bypassPolicyLockoutCheck {
             try encodeContainer.encode(bypassPolicyLockoutCheck, forKey: .bypassPolicyLockoutCheck)
         }
         if let policyDocument = self.policyDocument {
@@ -6048,7 +6048,7 @@ extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
 
 public struct PutResourcePolicyInput: Swift.Equatable {
     /// A flag to indicate whether to bypass the resource policy lockout safety check. Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscriminately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
-    public var bypassPolicyLockoutCheck: Swift.Bool
+    public var bypassPolicyLockoutCheck: Swift.Bool?
     /// The resource policy document, which can be up to 5kb in size.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -6059,7 +6059,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     public var policyRevisionId: Swift.String?
 
     public init (
-        bypassPolicyLockoutCheck: Swift.Bool = false,
+        bypassPolicyLockoutCheck: Swift.Bool? = nil,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyRevisionId: Swift.String? = nil
@@ -6076,7 +6076,7 @@ struct PutResourcePolicyInputBody: Swift.Equatable {
     let policyName: Swift.String?
     let policyDocument: Swift.String?
     let policyRevisionId: Swift.String?
-    let bypassPolicyLockoutCheck: Swift.Bool
+    let bypassPolicyLockoutCheck: Swift.Bool?
 }
 
 extension PutResourcePolicyInputBody: Swift.Decodable {
@@ -6095,7 +6095,7 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
         policyDocument = policyDocumentDecoded
         let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
         policyRevisionId = policyRevisionIdDecoded
-        let bypassPolicyLockoutCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutCheck) ?? false
+        let bypassPolicyLockoutCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutCheck)
         bypassPolicyLockoutCheck = bypassPolicyLockoutCheckDecoded
     }
 }

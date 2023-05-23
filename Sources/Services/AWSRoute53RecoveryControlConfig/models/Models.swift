@@ -88,7 +88,7 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRule: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
-        if waitPeriodMs != 0 {
+        if let waitPeriodMs = self.waitPeriodMs {
             try encodeContainer.encode(waitPeriodMs, forKey: .waitPeriodMs)
         }
     }
@@ -116,7 +116,7 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRule: Swift.Codable {
         safetyRuleArn = safetyRuleArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.Status.self, forKey: .status)
         status = statusDecoded
-        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs) ?? 0
+        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
     }
 }
@@ -144,7 +144,7 @@ extension Route53RecoveryControlConfigClientTypes {
         public var status: Route53RecoveryControlConfigClientTypes.Status?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         /// This member is required.
-        public var waitPeriodMs: Swift.Int
+        public var waitPeriodMs: Swift.Int?
 
         public init (
             assertedControls: [Swift.String]? = nil,
@@ -153,7 +153,7 @@ extension Route53RecoveryControlConfigClientTypes {
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
             safetyRuleArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil,
-            waitPeriodMs: Swift.Int = 0
+            waitPeriodMs: Swift.Int? = nil
         )
         {
             self.assertedControls = assertedControls
@@ -183,7 +183,7 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRuleUpdate: Swift.Cod
         if let safetyRuleArn = self.safetyRuleArn {
             try encodeContainer.encode(safetyRuleArn, forKey: .safetyRuleArn)
         }
-        if waitPeriodMs != 0 {
+        if let waitPeriodMs = self.waitPeriodMs {
             try encodeContainer.encode(waitPeriodMs, forKey: .waitPeriodMs)
         }
     }
@@ -194,7 +194,7 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRuleUpdate: Swift.Cod
         name = nameDecoded
         let safetyRuleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .safetyRuleArn)
         safetyRuleArn = safetyRuleArnDecoded
-        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs) ?? 0
+        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
     }
 }
@@ -210,12 +210,12 @@ extension Route53RecoveryControlConfigClientTypes {
         public var safetyRuleArn: Swift.String?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         /// This member is required.
-        public var waitPeriodMs: Swift.Int
+        public var waitPeriodMs: Swift.Int?
 
         public init (
             name: Swift.String? = nil,
             safetyRuleArn: Swift.String? = nil,
-            waitPeriodMs: Swift.Int = 0
+            waitPeriodMs: Swift.Int? = nil
         )
         {
             self.name = name
@@ -418,13 +418,13 @@ extension Route53RecoveryControlConfigClientTypes.ControlPanel: Swift.Codable {
         if let controlPanelArn = self.controlPanelArn {
             try encodeContainer.encode(controlPanelArn, forKey: .controlPanelArn)
         }
-        if defaultControlPanel != false {
+        if let defaultControlPanel = self.defaultControlPanel {
             try encodeContainer.encode(defaultControlPanel, forKey: .defaultControlPanel)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if routingControlCount != 0 {
+        if let routingControlCount = self.routingControlCount {
             try encodeContainer.encode(routingControlCount, forKey: .routingControlCount)
         }
         if let status = self.status {
@@ -438,11 +438,11 @@ extension Route53RecoveryControlConfigClientTypes.ControlPanel: Swift.Codable {
         clusterArn = clusterArnDecoded
         let controlPanelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlPanelArn)
         controlPanelArn = controlPanelArnDecoded
-        let defaultControlPanelDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultControlPanel) ?? false
+        let defaultControlPanelDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultControlPanel)
         defaultControlPanel = defaultControlPanelDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let routingControlCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .routingControlCount) ?? 0
+        let routingControlCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .routingControlCount)
         routingControlCount = routingControlCountDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.Status.self, forKey: .status)
         status = statusDecoded
@@ -457,20 +457,20 @@ extension Route53RecoveryControlConfigClientTypes {
         /// The Amazon Resource Name (ARN) of the control panel.
         public var controlPanelArn: Swift.String?
         /// A flag that Amazon Route 53 Application Recovery Controller sets to true to designate the default control panel for a cluster. When you create a cluster, Amazon Route 53 Application Recovery Controller creates a control panel, and sets this flag for that control panel. If you create a control panel yourself, this flag is set to false.
-        public var defaultControlPanel: Swift.Bool
+        public var defaultControlPanel: Swift.Bool?
         /// The name of the control panel. You can use any non-white space character in the name.
         public var name: Swift.String?
         /// The number of routing controls in the control panel.
-        public var routingControlCount: Swift.Int
+        public var routingControlCount: Swift.Int?
         /// The deployment status of control panel. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public var status: Route53RecoveryControlConfigClientTypes.Status?
 
         public init (
             clusterArn: Swift.String? = nil,
             controlPanelArn: Swift.String? = nil,
-            defaultControlPanel: Swift.Bool = false,
+            defaultControlPanel: Swift.Bool? = nil,
             name: Swift.String? = nil,
-            routingControlCount: Swift.Int = 0,
+            routingControlCount: Swift.Int? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
         )
         {
@@ -1938,7 +1938,7 @@ extension Route53RecoveryControlConfigClientTypes.GatingRule: Swift.Codable {
                 try targetControlsContainer.encode(__stringmin1max256patternazaz090)
             }
         }
-        if waitPeriodMs != 0 {
+        if let waitPeriodMs = self.waitPeriodMs {
             try encodeContainer.encode(waitPeriodMs, forKey: .waitPeriodMs)
         }
     }
@@ -1977,7 +1977,7 @@ extension Route53RecoveryControlConfigClientTypes.GatingRule: Swift.Codable {
             }
         }
         targetControls = targetControlsDecoded0
-        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs) ?? 0
+        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
     }
 }
@@ -2008,7 +2008,7 @@ extension Route53RecoveryControlConfigClientTypes {
         public var targetControls: [Swift.String]?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         /// This member is required.
-        public var waitPeriodMs: Swift.Int
+        public var waitPeriodMs: Swift.Int?
 
         public init (
             controlPanelArn: Swift.String? = nil,
@@ -2018,7 +2018,7 @@ extension Route53RecoveryControlConfigClientTypes {
             safetyRuleArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil,
             targetControls: [Swift.String]? = nil,
-            waitPeriodMs: Swift.Int = 0
+            waitPeriodMs: Swift.Int? = nil
         )
         {
             self.controlPanelArn = controlPanelArn
@@ -2049,7 +2049,7 @@ extension Route53RecoveryControlConfigClientTypes.GatingRuleUpdate: Swift.Codabl
         if let safetyRuleArn = self.safetyRuleArn {
             try encodeContainer.encode(safetyRuleArn, forKey: .safetyRuleArn)
         }
-        if waitPeriodMs != 0 {
+        if let waitPeriodMs = self.waitPeriodMs {
             try encodeContainer.encode(waitPeriodMs, forKey: .waitPeriodMs)
         }
     }
@@ -2060,7 +2060,7 @@ extension Route53RecoveryControlConfigClientTypes.GatingRuleUpdate: Swift.Codabl
         name = nameDecoded
         let safetyRuleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .safetyRuleArn)
         safetyRuleArn = safetyRuleArnDecoded
-        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs) ?? 0
+        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
     }
 }
@@ -2076,12 +2076,12 @@ extension Route53RecoveryControlConfigClientTypes {
         public var safetyRuleArn: Swift.String?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         /// This member is required.
-        public var waitPeriodMs: Swift.Int
+        public var waitPeriodMs: Swift.Int?
 
         public init (
             name: Swift.String? = nil,
             safetyRuleArn: Swift.String? = nil,
-            waitPeriodMs: Swift.Int = 0
+            waitPeriodMs: Swift.Int? = nil
         )
         {
             self.name = name
@@ -2152,7 +2152,7 @@ extension ListAssociatedRoute53HealthChecksInput: ClientRuntime.QueryItemProvide
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2172,7 +2172,7 @@ extension ListAssociatedRoute53HealthChecksInput: ClientRuntime.URLPathProvider 
 
 public struct ListAssociatedRoute53HealthChecksInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the routing control.
@@ -2180,7 +2180,7 @@ public struct ListAssociatedRoute53HealthChecksInput: Swift.Equatable {
     public var routingControlArn: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         routingControlArn: Swift.String? = nil
     )
@@ -2293,7 +2293,7 @@ extension ListClustersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2310,12 +2310,12 @@ extension ListClustersInput: ClientRuntime.URLPathProvider {
 
 public struct ListClustersInput: Swift.Equatable {
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2434,7 +2434,7 @@ extension ListControlPanelsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2453,13 +2453,13 @@ public struct ListControlPanelsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of a cluster.
     public var clusterArn: Swift.String?
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
         clusterArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2575,7 +2575,7 @@ extension ListRoutingControlsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2598,13 +2598,13 @@ public struct ListRoutingControlsInput: Swift.Equatable {
     /// This member is required.
     public var controlPanelArn: Swift.String?
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
         controlPanelArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2720,7 +2720,7 @@ extension ListSafetyRulesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -2743,13 +2743,13 @@ public struct ListSafetyRulesInput: Swift.Equatable {
     /// This member is required.
     public var controlPanelArn: Swift.String?
     /// The number of objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
 
     public init (
         controlPanelArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2989,7 +2989,7 @@ extension Route53RecoveryControlConfigClientTypes.NewAssertionRule: Swift.Codabl
         if let ruleConfig = self.ruleConfig {
             try encodeContainer.encode(ruleConfig, forKey: .ruleConfig)
         }
-        if waitPeriodMs != 0 {
+        if let waitPeriodMs = self.waitPeriodMs {
             try encodeContainer.encode(waitPeriodMs, forKey: .waitPeriodMs)
         }
     }
@@ -3013,7 +3013,7 @@ extension Route53RecoveryControlConfigClientTypes.NewAssertionRule: Swift.Codabl
         name = nameDecoded
         let ruleConfigDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.RuleConfig.self, forKey: .ruleConfig)
         ruleConfig = ruleConfigDecoded
-        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs) ?? 0
+        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
     }
 }
@@ -3035,14 +3035,14 @@ extension Route53RecoveryControlConfigClientTypes {
         public var ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         /// This member is required.
-        public var waitPeriodMs: Swift.Int
+        public var waitPeriodMs: Swift.Int?
 
         public init (
             assertedControls: [Swift.String]? = nil,
             controlPanelArn: Swift.String? = nil,
             name: Swift.String? = nil,
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
-            waitPeriodMs: Swift.Int = 0
+            waitPeriodMs: Swift.Int? = nil
         )
         {
             self.assertedControls = assertedControls
@@ -3088,7 +3088,7 @@ extension Route53RecoveryControlConfigClientTypes.NewGatingRule: Swift.Codable {
                 try targetControlsContainer.encode(__stringmin1max256patternazaz090)
             }
         }
-        if waitPeriodMs != 0 {
+        if let waitPeriodMs = self.waitPeriodMs {
             try encodeContainer.encode(waitPeriodMs, forKey: .waitPeriodMs)
         }
     }
@@ -3123,7 +3123,7 @@ extension Route53RecoveryControlConfigClientTypes.NewGatingRule: Swift.Codable {
             }
         }
         targetControls = targetControlsDecoded0
-        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs) ?? 0
+        let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
     }
 }
@@ -3148,7 +3148,7 @@ extension Route53RecoveryControlConfigClientTypes {
         public var targetControls: [Swift.String]?
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         /// This member is required.
-        public var waitPeriodMs: Swift.Int
+        public var waitPeriodMs: Swift.Int?
 
         public init (
             controlPanelArn: Swift.String? = nil,
@@ -3156,7 +3156,7 @@ extension Route53RecoveryControlConfigClientTypes {
             name: Swift.String? = nil,
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
             targetControls: [Swift.String]? = nil,
-            waitPeriodMs: Swift.Int = 0
+            waitPeriodMs: Swift.Int? = nil
         )
         {
             self.controlPanelArn = controlPanelArn
@@ -3341,10 +3341,10 @@ extension Route53RecoveryControlConfigClientTypes.RuleConfig: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if inverted != false {
+        if let inverted = self.inverted {
             try encodeContainer.encode(inverted, forKey: .inverted)
         }
-        if threshold != 0 {
+        if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
         }
         if let type = self.type {
@@ -3354,9 +3354,9 @@ extension Route53RecoveryControlConfigClientTypes.RuleConfig: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let invertedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inverted) ?? false
+        let invertedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inverted)
         inverted = invertedDecoded
-        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threshold) ?? 0
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threshold)
         threshold = thresholdDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.RuleType.self, forKey: .type)
         type = typeDecoded
@@ -3368,17 +3368,17 @@ extension Route53RecoveryControlConfigClientTypes {
     public struct RuleConfig: Swift.Equatable {
         /// Logical negation of the rule. If the rule would usually evaluate true, it's evaluated as false, and vice versa.
         /// This member is required.
-        public var inverted: Swift.Bool
+        public var inverted: Swift.Bool?
         /// The value of N, when you specify an ATLEAST rule type. That is, Threshold is the number of controls that must be set when you specify an ATLEAST type.
         /// This member is required.
-        public var threshold: Swift.Int
+        public var threshold: Swift.Int?
         /// A rule can be one of the following: ATLEAST, AND, or OR.
         /// This member is required.
         public var type: Route53RecoveryControlConfigClientTypes.RuleType?
 
         public init (
-            inverted: Swift.Bool = false,
-            threshold: Swift.Int = 0,
+            inverted: Swift.Bool? = nil,
+            threshold: Swift.Int? = nil,
             type: Route53RecoveryControlConfigClientTypes.RuleType? = nil
         )
         {

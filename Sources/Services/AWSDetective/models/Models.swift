@@ -802,7 +802,7 @@ extension CreateMembersInput: Swift.Encodable {
                 try accountsContainer.encode(account0)
             }
         }
-        if disableEmailNotification != false {
+        if let disableEmailNotification = self.disableEmailNotification {
             try encodeContainer.encode(disableEmailNotification, forKey: .disableEmailNotification)
         }
         if let graphArn = self.graphArn {
@@ -825,7 +825,7 @@ public struct CreateMembersInput: Swift.Equatable {
     /// This member is required.
     public var accounts: [DetectiveClientTypes.Account]?
     /// if set to true, then the invited accounts do not receive email notifications. By default, this is set to false, and the invited accounts receive email notifications. Organization accounts in the organization behavior graph do not receive email notifications.
-    public var disableEmailNotification: Swift.Bool
+    public var disableEmailNotification: Swift.Bool?
     /// The ARN of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
@@ -834,7 +834,7 @@ public struct CreateMembersInput: Swift.Equatable {
 
     public init (
         accounts: [DetectiveClientTypes.Account]? = nil,
-        disableEmailNotification: Swift.Bool = false,
+        disableEmailNotification: Swift.Bool? = nil,
         graphArn: Swift.String? = nil,
         message: Swift.String? = nil
     )
@@ -849,7 +849,7 @@ public struct CreateMembersInput: Swift.Equatable {
 struct CreateMembersInputBody: Swift.Equatable {
     let graphArn: Swift.String?
     let message: Swift.String?
-    let disableEmailNotification: Swift.Bool
+    let disableEmailNotification: Swift.Bool?
     let accounts: [DetectiveClientTypes.Account]?
 }
 
@@ -867,7 +867,7 @@ extension CreateMembersInputBody: Swift.Decodable {
         graphArn = graphArnDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
-        let disableEmailNotificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableEmailNotification) ?? false
+        let disableEmailNotificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableEmailNotification)
         disableEmailNotification = disableEmailNotificationDecoded
         let accountsContainer = try containerValues.decodeIfPresent([DetectiveClientTypes.Account?].self, forKey: .accounts)
         var accountsDecoded0:[DetectiveClientTypes.Account]? = nil
@@ -983,12 +983,14 @@ extension CreateMembersOutputResponseBody: Swift.Decodable {
 
 extension DetectiveClientTypes {
     public enum DatasourcePackage: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asffSecurityhubFinding
         case detectiveCore
         case eksAudit
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatasourcePackage] {
             return [
+                .asffSecurityhubFinding,
                 .detectiveCore,
                 .eksAudit,
                 .sdkUnknown("")
@@ -1000,6 +1002,7 @@ extension DetectiveClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .asffSecurityhubFinding: return "ASFF_SECURITYHUB_FINDING"
             case .detectiveCore: return "DETECTIVE_CORE"
             case .eksAudit: return "EKS_AUDIT"
             case let .sdkUnknown(s): return s
@@ -4140,7 +4143,7 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
         if let graphArn = self.graphArn {
@@ -4157,13 +4160,13 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     /// Indicates whether to automatically enable new organization accounts as member accounts in the organization behavior graph.
-    public var autoEnable: Swift.Bool
+    public var autoEnable: Swift.Bool?
     /// The ARN of the organization behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
 
     public init (
-        autoEnable: Swift.Bool = false,
+        autoEnable: Swift.Bool? = nil,
         graphArn: Swift.String? = nil
     )
     {
@@ -4174,7 +4177,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
 
 struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
     let graphArn: Swift.String?
-    let autoEnable: Swift.Bool
+    let autoEnable: Swift.Bool?
 }
 
 extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
@@ -4187,7 +4190,7 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
         graphArn = graphArnDecoded
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }

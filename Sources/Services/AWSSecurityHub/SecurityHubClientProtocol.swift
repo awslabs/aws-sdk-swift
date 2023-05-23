@@ -166,6 +166,8 @@ public protocol SecurityHubClientProtocol {
     func getEnabledStandards(input: GetEnabledStandardsInput) async throws -> GetEnabledStandardsOutputResponse
     /// Returns the current finding aggregation configuration.
     func getFindingAggregator(input: GetFindingAggregatorInput) async throws -> GetFindingAggregatorOutputResponse
+    /// Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF).
+    func getFindingHistory(input: GetFindingHistoryInput) async throws -> GetFindingHistoryOutputResponse
     /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
     func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutputResponse
     /// Lists the results of the Security Hub insight specified by the insight ARN.

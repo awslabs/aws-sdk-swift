@@ -7576,6 +7576,7 @@ extension CreateDomainConfigurationInput: Swift.Encodable {
         case serverCertificateArns
         case serviceType
         case tags
+        case tlsConfig
         case validationCertificateArn
     }
 
@@ -7601,6 +7602,9 @@ extension CreateDomainConfigurationInput: Swift.Encodable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
+        }
+        if let tlsConfig = self.tlsConfig {
+            try encodeContainer.encode(tlsConfig, forKey: .tlsConfig)
         }
         if let validationCertificateArn = self.validationCertificateArn {
             try encodeContainer.encode(validationCertificateArn, forKey: .validationCertificateArn)
@@ -7631,6 +7635,8 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
     public var serviceType: IoTClientTypes.ServiceType?
     /// Metadata which can be used to manage the domain configuration. For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
     public var tags: [IoTClientTypes.Tag]?
+    /// An object that specifies the TLS configuration for a domain.
+    public var tlsConfig: IoTClientTypes.TlsConfig?
     /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for Amazon Web Services-managed domains.
     public var validationCertificateArn: Swift.String?
 
@@ -7641,6 +7647,7 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
         serverCertificateArns: [Swift.String]? = nil,
         serviceType: IoTClientTypes.ServiceType? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
+        tlsConfig: IoTClientTypes.TlsConfig? = nil,
         validationCertificateArn: Swift.String? = nil
     )
     {
@@ -7650,6 +7657,7 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
         self.serverCertificateArns = serverCertificateArns
         self.serviceType = serviceType
         self.tags = tags
+        self.tlsConfig = tlsConfig
         self.validationCertificateArn = validationCertificateArn
     }
 }
@@ -7661,6 +7669,7 @@ struct CreateDomainConfigurationInputBody: Swift.Equatable {
     let authorizerConfig: IoTClientTypes.AuthorizerConfig?
     let serviceType: IoTClientTypes.ServiceType?
     let tags: [IoTClientTypes.Tag]?
+    let tlsConfig: IoTClientTypes.TlsConfig?
 }
 
 extension CreateDomainConfigurationInputBody: Swift.Decodable {
@@ -7670,6 +7679,7 @@ extension CreateDomainConfigurationInputBody: Swift.Decodable {
         case serverCertificateArns
         case serviceType
         case tags
+        case tlsConfig
         case validationCertificateArn
     }
 
@@ -7705,6 +7715,8 @@ extension CreateDomainConfigurationInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let tlsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TlsConfig.self, forKey: .tlsConfig)
+        tlsConfig = tlsConfigDecoded
     }
 }
 
@@ -8389,7 +8401,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var document: Swift.String?
     /// Parameters of an Amazon Web Services managed template that you can specify to create the job document. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
     public var documentParameters: [Swift.String:Swift.String]?
-    /// An S3 link to the job document. Required if you don't specify a value for document. If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form: ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key} where bucket is your bucket name and key is the object in the bucket to which you are linking.
+    /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0. For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
     public var documentSource: Swift.String?
     /// Allows you to create the criteria to retry a job.
     public var jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
@@ -16815,6 +16827,7 @@ extension DescribeDomainConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.lastStatusChangeDate = output.lastStatusChangeDate
             self.serverCertificates = output.serverCertificates
             self.serviceType = output.serviceType
+            self.tlsConfig = output.tlsConfig
         } else {
             self.authorizerConfig = nil
             self.domainConfigurationArn = nil
@@ -16825,6 +16838,7 @@ extension DescribeDomainConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.lastStatusChangeDate = nil
             self.serverCertificates = nil
             self.serviceType = nil
+            self.tlsConfig = nil
         }
     }
 }
@@ -16848,6 +16862,8 @@ public struct DescribeDomainConfigurationOutputResponse: Swift.Equatable {
     public var serverCertificates: [IoTClientTypes.ServerCertificateSummary]?
     /// The type of service delivered by the endpoint.
     public var serviceType: IoTClientTypes.ServiceType?
+    /// An object that specifies the TLS configuration for a domain.
+    public var tlsConfig: IoTClientTypes.TlsConfig?
 
     public init (
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
@@ -16858,7 +16874,8 @@ public struct DescribeDomainConfigurationOutputResponse: Swift.Equatable {
         domainType: IoTClientTypes.DomainType? = nil,
         lastStatusChangeDate: ClientRuntime.Date? = nil,
         serverCertificates: [IoTClientTypes.ServerCertificateSummary]? = nil,
-        serviceType: IoTClientTypes.ServiceType? = nil
+        serviceType: IoTClientTypes.ServiceType? = nil,
+        tlsConfig: IoTClientTypes.TlsConfig? = nil
     )
     {
         self.authorizerConfig = authorizerConfig
@@ -16870,6 +16887,7 @@ public struct DescribeDomainConfigurationOutputResponse: Swift.Equatable {
         self.lastStatusChangeDate = lastStatusChangeDate
         self.serverCertificates = serverCertificates
         self.serviceType = serviceType
+        self.tlsConfig = tlsConfig
     }
 }
 
@@ -16883,6 +16901,7 @@ struct DescribeDomainConfigurationOutputResponseBody: Swift.Equatable {
     let serviceType: IoTClientTypes.ServiceType?
     let domainType: IoTClientTypes.DomainType?
     let lastStatusChangeDate: ClientRuntime.Date?
+    let tlsConfig: IoTClientTypes.TlsConfig?
 }
 
 extension DescribeDomainConfigurationOutputResponseBody: Swift.Decodable {
@@ -16896,6 +16915,7 @@ extension DescribeDomainConfigurationOutputResponseBody: Swift.Decodable {
         case lastStatusChangeDate
         case serverCertificates
         case serviceType
+        case tlsConfig
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -16927,6 +16947,8 @@ extension DescribeDomainConfigurationOutputResponseBody: Swift.Decodable {
         domainType = domainTypeDecoded
         let lastStatusChangeDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastStatusChangeDate)
         lastStatusChangeDate = lastStatusChangeDateDecoded
+        let tlsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TlsConfig.self, forKey: .tlsConfig)
+        tlsConfig = tlsConfigDecoded
     }
 }
 
@@ -38224,7 +38246,7 @@ extension IoTClientTypes {
     public struct PresignedUrlConfig: Swift.Equatable {
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document.
         public var expiresInSec: Swift.Int?
-        /// The ARN of an IAM role that grants grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files. For information about addressing the confused deputy problem, see [cross-service confused deputy prevention](https://docs.aws.amazon.com/iot/latest/developerguide/cross-service-confused-deputy-prevention.html) in the Amazon Web Services IoT Core developer guide.
+        /// The ARN of an IAM role that grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files. For information about addressing the confused deputy problem, see [cross-service confused deputy prevention](https://docs.aws.amazon.com/iot/latest/developerguide/cross-service-confused-deputy-prevention.html) in the Amazon Web Services IoT Core developer guide.
         public var roleArn: Swift.String?
 
         public init (
@@ -46033,6 +46055,41 @@ extension IoTClientTypes {
 
 }
 
+extension IoTClientTypes.TlsConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityPolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityPolicy = self.securityPolicy {
+            try encodeContainer.encode(securityPolicy, forKey: .securityPolicy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityPolicy)
+        securityPolicy = securityPolicyDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// An object that specifies the TLS configuration for a domain.
+    public struct TlsConfig: Swift.Equatable {
+        /// The security policy for a domain configuration. For more information, see [Security policies ](https://docs.aws.amazon.com/iot/latest/developerguide/transport-security.html#tls-policy-table) in the Amazon Web Services IoT Core developer guide.
+        public var securityPolicy: Swift.String?
+
+        public init (
+            securityPolicy: Swift.String? = nil
+        )
+        {
+            self.securityPolicy = securityPolicy
+        }
+    }
+
+}
+
 extension IoTClientTypes.TlsContext: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serverName
@@ -48410,6 +48467,7 @@ extension UpdateDomainConfigurationInput: Swift.Encodable {
         case authorizerConfig
         case domainConfigurationStatus
         case removeAuthorizerConfig
+        case tlsConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -48422,6 +48480,9 @@ extension UpdateDomainConfigurationInput: Swift.Encodable {
         }
         if let removeAuthorizerConfig = self.removeAuthorizerConfig {
             try encodeContainer.encode(removeAuthorizerConfig, forKey: .removeAuthorizerConfig)
+        }
+        if let tlsConfig = self.tlsConfig {
+            try encodeContainer.encode(tlsConfig, forKey: .tlsConfig)
         }
     }
 }
@@ -48445,18 +48506,22 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
     public var domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
     /// Removes the authorization configuration from a domain.
     public var removeAuthorizerConfig: Swift.Bool?
+    /// An object that specifies the TLS configuration for a domain.
+    public var tlsConfig: IoTClientTypes.TlsConfig?
 
     public init (
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
         domainConfigurationName: Swift.String? = nil,
         domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus? = nil,
-        removeAuthorizerConfig: Swift.Bool? = nil
+        removeAuthorizerConfig: Swift.Bool? = nil,
+        tlsConfig: IoTClientTypes.TlsConfig? = nil
     )
     {
         self.authorizerConfig = authorizerConfig
         self.domainConfigurationName = domainConfigurationName
         self.domainConfigurationStatus = domainConfigurationStatus
         self.removeAuthorizerConfig = removeAuthorizerConfig
+        self.tlsConfig = tlsConfig
     }
 }
 
@@ -48464,6 +48529,7 @@ struct UpdateDomainConfigurationInputBody: Swift.Equatable {
     let authorizerConfig: IoTClientTypes.AuthorizerConfig?
     let domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
     let removeAuthorizerConfig: Swift.Bool?
+    let tlsConfig: IoTClientTypes.TlsConfig?
 }
 
 extension UpdateDomainConfigurationInputBody: Swift.Decodable {
@@ -48471,6 +48537,7 @@ extension UpdateDomainConfigurationInputBody: Swift.Decodable {
         case authorizerConfig
         case domainConfigurationStatus
         case removeAuthorizerConfig
+        case tlsConfig
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -48481,6 +48548,8 @@ extension UpdateDomainConfigurationInputBody: Swift.Decodable {
         domainConfigurationStatus = domainConfigurationStatusDecoded
         let removeAuthorizerConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAuthorizerConfig)
         removeAuthorizerConfig = removeAuthorizerConfigDecoded
+        let tlsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TlsConfig.self, forKey: .tlsConfig)
+        tlsConfig = tlsConfigDecoded
     }
 }
 

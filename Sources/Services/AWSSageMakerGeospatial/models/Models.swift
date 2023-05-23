@@ -1064,43 +1064,6 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
-extension SageMakerGeospatialClientTypes.EojDataSourceConfigInput: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case s3data = "S3Data"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .s3data(s3data):
-                try container.encode(s3data, forKey: .s3data)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
-        }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let s3dataDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.S3DataInput.self, forKey: .s3data)
-        if let s3data = s3dataDecoded {
-            self = .s3data(s3data)
-            return
-        }
-        self = .sdkUnknown("")
-    }
-}
-
-extension SageMakerGeospatialClientTypes {
-    /// Union representing different data sources to be used as input for an Earth Observation job.
-    public enum EojDataSourceConfigInput: Swift.Equatable {
-        /// The input structure for S3Data; representing the Amazon S3 location of the input data objects.
-        case s3data(SageMakerGeospatialClientTypes.S3DataInput)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
 extension ExportEarthObservationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -2902,16 +2865,12 @@ extension SageMakerGeospatialClientTypes {
 
 extension SageMakerGeospatialClientTypes.InputConfigInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dataSourceConfig = "DataSourceConfig"
         case previousEarthObservationJobArn = "PreviousEarthObservationJobArn"
         case rasterDataCollectionQuery = "RasterDataCollectionQuery"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let dataSourceConfig = self.dataSourceConfig {
-            try encodeContainer.encode(dataSourceConfig, forKey: .dataSourceConfig)
-        }
         if let previousEarthObservationJobArn = self.previousEarthObservationJobArn {
             try encodeContainer.encode(previousEarthObservationJobArn, forKey: .previousEarthObservationJobArn)
         }
@@ -2924,8 +2883,6 @@ extension SageMakerGeospatialClientTypes.InputConfigInput: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let previousEarthObservationJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousEarthObservationJobArn)
         previousEarthObservationJobArn = previousEarthObservationJobArnDecoded
-        let dataSourceConfigDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.EojDataSourceConfigInput.self, forKey: .dataSourceConfig)
-        dataSourceConfig = dataSourceConfigDecoded
         let rasterDataCollectionQueryDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput.self, forKey: .rasterDataCollectionQuery)
         rasterDataCollectionQuery = rasterDataCollectionQueryDecoded
     }
@@ -2934,20 +2891,16 @@ extension SageMakerGeospatialClientTypes.InputConfigInput: Swift.Codable {
 extension SageMakerGeospatialClientTypes {
     /// Input configuration information.
     public struct InputConfigInput: Swift.Equatable {
-        /// The location of the input data.>
-        public var dataSourceConfig: SageMakerGeospatialClientTypes.EojDataSourceConfigInput?
         /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
         public var previousEarthObservationJobArn: Swift.String?
         /// The structure representing the RasterDataCollection Query consisting of the Area of Interest, RasterDataCollectionArn,TimeRange and Property Filters.
         public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput?
 
         public init (
-            dataSourceConfig: SageMakerGeospatialClientTypes.EojDataSourceConfigInput? = nil,
             previousEarthObservationJobArn: Swift.String? = nil,
             rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput? = nil
         )
         {
-            self.dataSourceConfig = dataSourceConfig
             self.previousEarthObservationJobArn = previousEarthObservationJobArn
             self.rasterDataCollectionQuery = rasterDataCollectionQuery
         }
@@ -2957,16 +2910,12 @@ extension SageMakerGeospatialClientTypes {
 
 extension SageMakerGeospatialClientTypes.InputConfigOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dataSourceConfig = "DataSourceConfig"
         case previousEarthObservationJobArn = "PreviousEarthObservationJobArn"
         case rasterDataCollectionQuery = "RasterDataCollectionQuery"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let dataSourceConfig = self.dataSourceConfig {
-            try encodeContainer.encode(dataSourceConfig, forKey: .dataSourceConfig)
-        }
         if let previousEarthObservationJobArn = self.previousEarthObservationJobArn {
             try encodeContainer.encode(previousEarthObservationJobArn, forKey: .previousEarthObservationJobArn)
         }
@@ -2979,8 +2928,6 @@ extension SageMakerGeospatialClientTypes.InputConfigOutput: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let previousEarthObservationJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousEarthObservationJobArn)
         previousEarthObservationJobArn = previousEarthObservationJobArnDecoded
-        let dataSourceConfigDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.EojDataSourceConfigInput.self, forKey: .dataSourceConfig)
-        dataSourceConfig = dataSourceConfigDecoded
         let rasterDataCollectionQueryDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput.self, forKey: .rasterDataCollectionQuery)
         rasterDataCollectionQuery = rasterDataCollectionQueryDecoded
     }
@@ -2989,20 +2936,16 @@ extension SageMakerGeospatialClientTypes.InputConfigOutput: Swift.Codable {
 extension SageMakerGeospatialClientTypes {
     /// The InputConfig for an EarthObservationJob response.
     public struct InputConfigOutput: Swift.Equatable {
-        /// The location of the input data.
-        public var dataSourceConfig: SageMakerGeospatialClientTypes.EojDataSourceConfigInput?
         /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
         public var previousEarthObservationJobArn: Swift.String?
         /// The structure representing the RasterDataCollection Query consisting of the Area of Interest, RasterDataCollectionArn, RasterDataCollectionName, TimeRange, and Property Filters.
         public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput?
 
         public init (
-            dataSourceConfig: SageMakerGeospatialClientTypes.EojDataSourceConfigInput? = nil,
             previousEarthObservationJobArn: Swift.String? = nil,
             rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput? = nil
         )
         {
-            self.dataSourceConfig = dataSourceConfig
             self.previousEarthObservationJobArn = previousEarthObservationJobArn
             self.rasterDataCollectionQuery = rasterDataCollectionQuery
         }
@@ -4319,36 +4262,6 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
-extension SageMakerGeospatialClientTypes {
-    public enum MetadataProvider: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        /// PLANET_ORDER
-        case planetOrder
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MetadataProvider] {
-            return [
-                .planetOrder,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .planetOrder: return "PLANET_ORDER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MetadataProvider(rawValue: rawValue) ?? MetadataProvider.sdkUnknown(rawValue)
-        }
-    }
-}
-
 extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case coordinates = "Coordinates"
@@ -5660,63 +5573,6 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
-extension SageMakerGeospatialClientTypes.S3DataInput: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case kmsKeyId = "KmsKeyId"
-        case metadataProvider = "MetadataProvider"
-        case s3Uri = "S3Uri"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let kmsKeyId = self.kmsKeyId {
-            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
-        }
-        if let metadataProvider = self.metadataProvider {
-            try encodeContainer.encode(metadataProvider.rawValue, forKey: .metadataProvider)
-        }
-        if let s3Uri = self.s3Uri {
-            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
-        }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
-        s3Uri = s3UriDecoded
-        let metadataProviderDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.MetadataProvider.self, forKey: .metadataProvider)
-        metadataProvider = metadataProviderDecoded
-        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
-        kmsKeyId = kmsKeyIdDecoded
-    }
-}
-
-extension SageMakerGeospatialClientTypes {
-    /// Path to Amazon S3 storage location for input data.
-    public struct S3DataInput: Swift.Equatable {
-        /// The Key Management Service key ID for server-side encryption.
-        public var kmsKeyId: Swift.String?
-        /// Metadata provider from whom the Amazon S3 data has been acquired.
-        /// This member is required.
-        public var metadataProvider: SageMakerGeospatialClientTypes.MetadataProvider?
-        /// The URL to the Amazon S3 input.
-        /// This member is required.
-        public var s3Uri: Swift.String?
-
-        public init (
-            kmsKeyId: Swift.String? = nil,
-            metadataProvider: SageMakerGeospatialClientTypes.MetadataProvider? = nil,
-            s3Uri: Swift.String? = nil
-        )
-        {
-            self.kmsKeyId = kmsKeyId
-            self.metadataProvider = metadataProvider
-            self.s3Uri = s3Uri
-        }
-    }
-
-}
-
 extension SearchRasterDataCollectionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SearchRasterDataCollectionInput(arn: \(Swift.String(describing: arn)), rasterDataCollectionQuery: \(Swift.String(describing: rasterDataCollectionQuery)), nextToken: \"CONTENT_REDACTED\")"}
@@ -6103,6 +5959,7 @@ public struct StartEarthObservationJobInput: Swift.Equatable {
     /// A unique token that guarantees that the call to this API is idempotent.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job.
+    /// This member is required.
     public var executionRoleArn: Swift.String?
     /// Input configuration information for the Earth Observation job.
     /// This member is required.
@@ -6262,6 +6119,7 @@ public struct StartEarthObservationJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var durationInSeconds: Swift.Int?
     /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job.
+    /// This member is required.
     public var executionRoleArn: Swift.String?
     /// Input configuration information for the Earth Observation job.
     public var inputConfig: SageMakerGeospatialClientTypes.InputConfigOutput?

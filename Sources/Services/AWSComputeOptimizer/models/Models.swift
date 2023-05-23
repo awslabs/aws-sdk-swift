@@ -372,6 +372,10 @@ extension ComputeOptimizerClientTypes {
         /// * PostgreSql - Infers that PostgreSQL might be running on the instances.
         ///
         /// * Redis - Infers that Redis might be running on the instances.
+        ///
+        /// * Kafka - Infers that Kafka might be running on the instance.
+        ///
+        /// * SQLServer - Infers that SQLServer might be running on the instance.
         public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
         /// The timestamp of when the Auto Scaling group recommendation was last generated.
         public var lastRefreshTimestamp: ClientRuntime.Date?
@@ -1161,7 +1165,7 @@ extension ComputeOptimizerClientTypes.EBSFilter: Swift.Codable {
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of Amazon Elastic Block Store (Amazon EBS) volume recommendations. Use this filter with the [GetEBSVolumeRecommendations] action. You can use LambdaFunctionRecommendationFilter with the [GetLambdaFunctionRecommendations] action, JobFilter with the [DescribeRecommendationExportJobs] action, and Filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions.
     public struct EBSFilter: Swift.Equatable {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized).
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). You can filter your Amazon EBS volume recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon EBS volume recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon EBS volume recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon EBS volume recommendations. Use this filter to find all of your Amazon EBS volume recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Amazon EBS volume recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.EBSFilterName?
         /// The value of the filter. The valid values are Optimized, or NotOptimized.
         public var values: [Swift.String]?
@@ -1622,6 +1626,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
         case lookbackPeriodInDays
         case serviceArn
         case serviceRecommendationOptions
+        case tags
         case utilizationMetrics
     }
 
@@ -1661,6 +1666,12 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
             var serviceRecommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRecommendationOptions)
             for ecsservicerecommendationoption0 in serviceRecommendationOptions {
                 try serviceRecommendationOptionsContainer.encode(ecsservicerecommendationoption0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let utilizationMetrics = utilizationMetrics {
@@ -1722,6 +1733,17 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
         serviceRecommendationOptions = serviceRecommendationOptionsDecoded0
         let currentPerformanceRiskDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CurrentPerformanceRisk.self, forKey: .currentPerformanceRisk)
         currentPerformanceRisk = currentPerformanceRiskDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComputeOptimizerClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComputeOptimizerClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1762,6 +1784,8 @@ extension ComputeOptimizerClientTypes {
         public var serviceArn: Swift.String?
         /// An array of objects that describe the recommendation options for the Amazon ECS service.
         public var serviceRecommendationOptions: [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]?
+        /// A list of tags assigned to your Amazon ECS service recommendations.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
         /// An array of objects that describe the utilization metrics of the Amazon ECS service.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]?
 
@@ -1776,6 +1800,7 @@ extension ComputeOptimizerClientTypes {
             lookbackPeriodInDays: Swift.Double = 0.0,
             serviceArn: Swift.String? = nil,
             serviceRecommendationOptions: [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]? = nil,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]? = nil
         )
         {
@@ -1789,6 +1814,7 @@ extension ComputeOptimizerClientTypes {
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.serviceArn = serviceArn
             self.serviceRecommendationOptions = serviceRecommendationOptions
+            self.tags = tags
             self.utilizationMetrics = utilizationMetrics
         }
     }
@@ -1835,7 +1861,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter: Swift.Coda
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of Amazon ECS service recommendations. Use this filter with the [GetECSServiceRecommendations] action.
     public struct ECSServiceRecommendationFilter: Swift.Equatable {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code.
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your Amazon ECS service recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon ECS service recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon ECS service recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon ECS service recommendations. Use this filter to find all of your Amazon ECS service recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Amazon ECS service recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows:
         ///
@@ -3852,6 +3878,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
         case recommendationOptionsSavingsOpportunityPercentage
         case serviceArn
+        case tags
         case utilizationMetricsCpuMaximum
         case utilizationMetricsMemoryMaximum
         case sdkUnknown(Swift.String)
@@ -3879,6 +3906,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .serviceArn,
+                .tags,
                 .utilizationMetricsCpuMaximum,
                 .utilizationMetricsMemoryMaximum,
                 .sdkUnknown("")
@@ -3911,6 +3939,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .serviceArn: return "ServiceArn"
+            case .tags: return "Tags"
             case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case let .sdkUnknown(s): return s
@@ -3940,6 +3969,8 @@ extension ComputeOptimizerClientTypes {
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
         case effectiveRecommendationPreferencesExternalMetricsSource
         case effectiveRecommendationPreferencesInferredWorkloadTypes
+        case externalMetricStatusCode
+        case externalMetricStatusReason
         case finding
         case findingReasonCodes
         case inferredWorkloadTypes
@@ -3966,6 +3997,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice
         case recommendationOptionsStorage
         case recommendationOptionsVcpus
+        case tags
         case utilizationMetricsCpuMaximum
         case utilizationMetricsDiskReadBytesPerSecondMaximum
         case utilizationMetricsDiskReadOpsPerSecondMaximum
@@ -3998,6 +4030,8 @@ extension ComputeOptimizerClientTypes {
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
                 .effectiveRecommendationPreferencesExternalMetricsSource,
                 .effectiveRecommendationPreferencesInferredWorkloadTypes,
+                .externalMetricStatusCode,
+                .externalMetricStatusReason,
                 .finding,
                 .findingReasonCodes,
                 .inferredWorkloadTypes,
@@ -4024,6 +4058,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
                 .recommendationOptionsStorage,
                 .recommendationOptionsVcpus,
+                .tags,
                 .utilizationMetricsCpuMaximum,
                 .utilizationMetricsDiskReadBytesPerSecondMaximum,
                 .utilizationMetricsDiskReadOpsPerSecondMaximum,
@@ -4061,6 +4096,8 @@ extension ComputeOptimizerClientTypes {
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
             case .effectiveRecommendationPreferencesExternalMetricsSource: return "EffectiveRecommendationPreferencesExternalMetricsSource"
             case .effectiveRecommendationPreferencesInferredWorkloadTypes: return "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+            case .externalMetricStatusCode: return "ExternalMetricStatusCode"
+            case .externalMetricStatusReason: return "ExternalMetricStatusReason"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
@@ -4087,6 +4124,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
             case .recommendationOptionsStorage: return "RecommendationOptionsStorage"
             case .recommendationOptionsVcpus: return "RecommendationOptionsVcpus"
+            case .tags: return "Tags"
             case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
             case .utilizationMetricsDiskReadBytesPerSecondMaximum: return "UtilizationMetricsDiskReadBytesPerSecondMaximum"
             case .utilizationMetricsDiskReadOpsPerSecondMaximum: return "UtilizationMetricsDiskReadOpsPerSecondMaximum"
@@ -4136,6 +4174,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsProjectedUtilizationMetricsDurationLowerBound
         case recommendationOptionsProjectedUtilizationMetricsDurationUpperBound
         case recommendationOptionsSavingsOpportunityPercentage
+        case tags
         case utilizationMetricsDurationAverage
         case utilizationMetricsDurationMaximum
         case utilizationMetricsMemoryAverage
@@ -4166,6 +4205,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsProjectedUtilizationMetricsDurationLowerBound,
                 .recommendationOptionsProjectedUtilizationMetricsDurationUpperBound,
                 .recommendationOptionsSavingsOpportunityPercentage,
+                .tags,
                 .utilizationMetricsDurationAverage,
                 .utilizationMetricsDurationMaximum,
                 .utilizationMetricsMemoryAverage,
@@ -4201,6 +4241,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsProjectedUtilizationMetricsDurationLowerBound: return "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound"
             case .recommendationOptionsProjectedUtilizationMetricsDurationUpperBound: return "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
+            case .tags: return "Tags"
             case .utilizationMetricsDurationAverage: return "UtilizationMetricsDurationAverage"
             case .utilizationMetricsDurationMaximum: return "UtilizationMetricsDurationMaximum"
             case .utilizationMetricsMemoryAverage: return "UtilizationMetricsMemoryAverage"
@@ -4242,6 +4283,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsPerformanceRisk
         case recommendationOptionsSavingsOpportunityPercentage
         case rootVolume
+        case tags
         case utilizationMetricsVolumeReadBytesPerSecondMaximum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
         case utilizationMetricsVolumeWriteBytesPerSecondMaximum
@@ -4275,6 +4317,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsPerformanceRisk,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .rootVolume,
+                .tags,
                 .utilizationMetricsVolumeReadBytesPerSecondMaximum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
                 .utilizationMetricsVolumeWriteBytesPerSecondMaximum,
@@ -4313,6 +4356,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .rootVolume: return "RootVolume"
+            case .tags: return "Tags"
             case .utilizationMetricsVolumeReadBytesPerSecondMaximum: return "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
             case .utilizationMetricsVolumeWriteBytesPerSecondMaximum: return "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
@@ -4325,6 +4369,107 @@ extension ComputeOptimizerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ExportableVolumeField(rawValue: rawValue) ?? ExportableVolumeField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.ExternalMetricStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case statusCode
+        case statusReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let statusCode = self.statusCode {
+            try encodeContainer.encode(statusCode.rawValue, forKey: .statusCode)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricStatusCode.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes Compute Optimizer's integration status with your chosen external metric provider. For example, Datadog.
+    public struct ExternalMetricStatus: Swift.Equatable {
+        /// The status code for Compute Optimizer's integration with an external metrics provider.
+        public var statusCode: ComputeOptimizerClientTypes.ExternalMetricStatusCode?
+        /// The reason for Compute Optimizer's integration status with your external metric provider.
+        public var statusReason: Swift.String?
+
+        public init (
+            statusCode: ComputeOptimizerClientTypes.ExternalMetricStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ExternalMetricStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case datadogIntegrationError
+        case dynatraceIntegrationError
+        case instanaIntegrationError
+        case insufficientDatadogMetrics
+        case insufficientDynatraceMetrics
+        case insufficientInstanaMetrics
+        case insufficientNewrelicMetrics
+        case integrationSuccess
+        case newrelicIntegrationError
+        case noExternalMetricSet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalMetricStatusCode] {
+            return [
+                .datadogIntegrationError,
+                .dynatraceIntegrationError,
+                .instanaIntegrationError,
+                .insufficientDatadogMetrics,
+                .insufficientDynatraceMetrics,
+                .insufficientInstanaMetrics,
+                .insufficientNewrelicMetrics,
+                .integrationSuccess,
+                .newrelicIntegrationError,
+                .noExternalMetricSet,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .datadogIntegrationError: return "DATADOG_INTEGRATION_ERROR"
+            case .dynatraceIntegrationError: return "DYNATRACE_INTEGRATION_ERROR"
+            case .instanaIntegrationError: return "INSTANA_INTEGRATION_ERROR"
+            case .insufficientDatadogMetrics: return "INSUFFICIENT_DATADOG_METRICS"
+            case .insufficientDynatraceMetrics: return "INSUFFICIENT_DYNATRACE_METRICS"
+            case .insufficientInstanaMetrics: return "INSUFFICIENT_INSTANA_METRICS"
+            case .insufficientNewrelicMetrics: return "INSUFFICIENT_NEWRELIC_METRICS"
+            case .integrationSuccess: return "INTEGRATION_SUCCESS"
+            case .newrelicIntegrationError: return "NEWRELIC_INTEGRATION_ERROR"
+            case .noExternalMetricSet: return "NO_EXTERNAL_METRIC_SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExternalMetricStatusCode(rawValue: rawValue) ?? ExternalMetricStatusCode.sdkUnknown(rawValue)
         }
     }
 }
@@ -4471,7 +4616,7 @@ extension ComputeOptimizerClientTypes.Filter: Swift.Codable {
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of recommendations. Use this filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. You can use EBSFilter with the [GetEBSVolumeRecommendations] action, LambdaFunctionRecommendationFilter with the [GetLambdaFunctionRecommendations] action, and JobFilter with the [DescribeRecommendationExportJobs] action.
     public struct Filter: Swift.Equatable {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, Underprovisioned). Specify RecommendationSourceType to return recommendations of a specific resource type (for example, Ec2Instance). Specify FindingReasonCodes to return recommendations with a specific finding reason code (for example, CPUUnderprovisioned).
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. For example, Underprovisioned. Specify RecommendationSourceType to return recommendations of a specific resource type. For example, Ec2Instance. Specify FindingReasonCodes to return recommendations with a specific finding reason code. For example, CPUUnderprovisioned. Specify InferredWorkloadTypes to return recommendations of a specific inferred workload. For example, Redis. You can filter your EC2 instance recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your recommendations. Use this filter to find all of your recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.FilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:
         ///
@@ -4532,6 +4677,7 @@ extension ComputeOptimizerClientTypes {
     public enum FilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case finding
         case findingReasonCodes
+        case inferredWorkloadTypes
         case recommendationSourceType
         case sdkUnknown(Swift.String)
 
@@ -4539,6 +4685,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .finding,
                 .findingReasonCodes,
+                .inferredWorkloadTypes,
                 .recommendationSourceType,
                 .sdkUnknown("")
             ]
@@ -4551,6 +4698,7 @@ extension ComputeOptimizerClientTypes {
             switch self {
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
+            case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .recommendationSourceType: return "RecommendationSourceType"
             case let .sdkUnknown(s): return s
             }
@@ -7103,6 +7251,81 @@ extension GetRecommendationSummariesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ComputeOptimizerClientTypes.InferredWorkloadSaving: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case inferredWorkloadTypes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if let inferredWorkloadTypes = inferredWorkloadTypes {
+            var inferredWorkloadTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferredWorkloadTypes)
+            for inferredworkloadtype0 in inferredWorkloadTypes {
+                try inferredWorkloadTypesContainer.encode(inferredworkloadtype0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inferredWorkloadTypesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.InferredWorkloadType?].self, forKey: .inferredWorkloadTypes)
+        var inferredWorkloadTypesDecoded0:[ComputeOptimizerClientTypes.InferredWorkloadType]? = nil
+        if let inferredWorkloadTypesContainer = inferredWorkloadTypesContainer {
+            inferredWorkloadTypesDecoded0 = [ComputeOptimizerClientTypes.InferredWorkloadType]()
+            for enum0 in inferredWorkloadTypesContainer {
+                if let enum0 = enum0 {
+                    inferredWorkloadTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        inferredWorkloadTypes = inferredWorkloadTypesDecoded0
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The estimated monthly savings after you adjust the configurations of your instances running on the inferred workload types to the recommended configurations. If the inferredWorkloadTypes list contains multiple entries, then the savings are the sum of the monthly savings from instances that run the exact combination of the inferred workload types.
+    public struct InferredWorkloadSaving: Swift.Equatable {
+        /// An object that describes the estimated monthly savings amount possible by adopting Compute Optimizer recommendations for a given resource. This is based on the On-Demand instance pricing.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings?
+        /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:
+        ///
+        /// * AmazonEmr - Infers that Amazon EMR might be running on the instance.
+        ///
+        /// * ApacheCassandra - Infers that Apache Cassandra might be running on the instance.
+        ///
+        /// * ApacheHadoop - Infers that Apache Hadoop might be running on the instance.
+        ///
+        /// * Memcached - Infers that Memcached might be running on the instance.
+        ///
+        /// * NGINX - Infers that NGINX might be running on the instance.
+        ///
+        /// * PostgreSql - Infers that PostgreSQL might be running on the instance.
+        ///
+        /// * Redis - Infers that Redis might be running on the instance.
+        ///
+        /// * Kafka - Infers that Kafka might be running on the instance.
+        ///
+        /// * SQLServer - Infers that SQLServer might be running on the instance.
+        public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
+
+        public init (
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings? = nil,
+            inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.inferredWorkloadTypes = inferredWorkloadTypes
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes {
     public enum InferredWorkloadType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazonEmr
@@ -7113,6 +7336,7 @@ extension ComputeOptimizerClientTypes {
         case nginx
         case postgreSql
         case redis
+        case sqlserver
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InferredWorkloadType] {
@@ -7125,6 +7349,7 @@ extension ComputeOptimizerClientTypes {
                 .nginx,
                 .postgreSql,
                 .redis,
+                .sqlserver,
                 .sdkUnknown("")
             ]
         }
@@ -7142,6 +7367,7 @@ extension ComputeOptimizerClientTypes {
             case .nginx: return "Nginx"
             case .postgreSql: return "PostgreSql"
             case .redis: return "Redis"
+            case .sqlserver: return "SQLServer"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7191,6 +7417,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         case currentInstanceType
         case currentPerformanceRisk
         case effectiveRecommendationPreferences
+        case externalMetricStatus
         case finding
         case findingReasonCodes
         case inferredWorkloadTypes
@@ -7201,6 +7428,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         case lookBackPeriodInDays
         case recommendationOptions
         case recommendationSources
+        case tags
         case utilizationMetrics
     }
 
@@ -7217,6 +7445,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         }
         if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
             try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
+        }
+        if let externalMetricStatus = self.externalMetricStatus {
+            try encodeContainer.encode(externalMetricStatus, forKey: .externalMetricStatus)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -7258,6 +7489,12 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
             var recommendationSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationSources)
             for recommendationsource0 in recommendationSources {
                 try recommendationSourcesContainer.encode(recommendationsource0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let utilizationMetrics = utilizationMetrics {
@@ -7345,6 +7582,19 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         inferredWorkloadTypes = inferredWorkloadTypesDecoded0
         let instanceStateDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceState.self, forKey: .instanceState)
         instanceState = instanceStateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComputeOptimizerClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComputeOptimizerClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let externalMetricStatusDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricStatus.self, forKey: .externalMetricStatus)
+        externalMetricStatus = externalMetricStatusDecoded
     }
 }
 
@@ -7359,6 +7609,8 @@ extension ComputeOptimizerClientTypes {
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
         /// An object that describes the effective recommendation preferences for the instance.
         public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences?
+        /// An object that describes Compute Optimizer's integration status with your external metrics provider.
+        public var externalMetricStatus: ComputeOptimizerClientTypes.ExternalMetricStatus?
         /// The finding classification of the instance. Findings for instances include:
         ///
         /// * Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.
@@ -7379,7 +7631,7 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.
         ///
-        /// * EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes> metrics of EBS volumes attached to the current instance during the look-back period.
+        /// * EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.
         ///
         /// * EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.
         ///
@@ -7421,6 +7673,8 @@ extension ComputeOptimizerClientTypes {
         /// * Redis - Infers that Redis might be running on the instance.
         ///
         /// * Kafka - Infers that Kafka might be running on the instance.
+        ///
+        /// * SQLServer - Infers that SQLServer might be running on the instance.
         public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
         /// The Amazon Resource Name (ARN) of the current instance.
         public var instanceArn: Swift.String?
@@ -7436,6 +7690,8 @@ extension ComputeOptimizerClientTypes {
         public var recommendationOptions: [ComputeOptimizerClientTypes.InstanceRecommendationOption]?
         /// An array of objects that describe the source resource of the recommendation.
         public var recommendationSources: [ComputeOptimizerClientTypes.RecommendationSource]?
+        /// A list of tags assigned to your Amazon EC2 instance recommendations.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
         /// An array of objects that describe the utilization metrics of the instance.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]?
 
@@ -7444,6 +7700,7 @@ extension ComputeOptimizerClientTypes {
             currentInstanceType: Swift.String? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences? = nil,
+            externalMetricStatus: ComputeOptimizerClientTypes.ExternalMetricStatus? = nil,
             finding: ComputeOptimizerClientTypes.Finding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]? = nil,
             inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil,
@@ -7454,6 +7711,7 @@ extension ComputeOptimizerClientTypes {
             lookBackPeriodInDays: Swift.Double = 0.0,
             recommendationOptions: [ComputeOptimizerClientTypes.InstanceRecommendationOption]? = nil,
             recommendationSources: [ComputeOptimizerClientTypes.RecommendationSource]? = nil,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil
         )
         {
@@ -7461,6 +7719,7 @@ extension ComputeOptimizerClientTypes {
             self.currentInstanceType = currentInstanceType
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
+            self.externalMetricStatus = externalMetricStatus
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.inferredWorkloadTypes = inferredWorkloadTypes
@@ -7471,6 +7730,7 @@ extension ComputeOptimizerClientTypes {
             self.lookBackPeriodInDays = lookBackPeriodInDays
             self.recommendationOptions = recommendationOptions
             self.recommendationSources = recommendationSources
+            self.tags = tags
             self.utilizationMetrics = utilizationMetrics
         }
     }
@@ -8232,6 +8492,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         case lookbackPeriodInDays
         case memorySizeRecommendationOptions
         case numberOfInvocations
+        case tags
         case utilizationMetrics
     }
 
@@ -8275,6 +8536,12 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         }
         if numberOfInvocations != 0 {
             try encodeContainer.encode(numberOfInvocations, forKey: .numberOfInvocations)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let utilizationMetrics = utilizationMetrics {
             var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
@@ -8337,6 +8604,17 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         memorySizeRecommendationOptions = memorySizeRecommendationOptionsDecoded0
         let currentPerformanceRiskDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CurrentPerformanceRisk.self, forKey: .currentPerformanceRisk)
         currentPerformanceRisk = currentPerformanceRiskDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComputeOptimizerClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComputeOptimizerClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -8379,6 +8657,8 @@ extension ComputeOptimizerClientTypes {
         public var memorySizeRecommendationOptions: [ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption]?
         /// The number of times your function code was applied during the look-back period.
         public var numberOfInvocations: Swift.Int
+        /// A list of tags assigned to your Lambda function recommendations.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
         /// An array of objects that describe the utilization metrics of the function.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric]?
 
@@ -8394,6 +8674,7 @@ extension ComputeOptimizerClientTypes {
             lookbackPeriodInDays: Swift.Double = 0.0,
             memorySizeRecommendationOptions: [ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption]? = nil,
             numberOfInvocations: Swift.Int = 0,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric]? = nil
         )
         {
@@ -8408,6 +8689,7 @@ extension ComputeOptimizerClientTypes {
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.memorySizeRecommendationOptions = memorySizeRecommendationOptions
             self.numberOfInvocations = numberOfInvocations
+            self.tags = tags
             self.utilizationMetrics = utilizationMetrics
         }
     }
@@ -8454,7 +8736,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter: Swift.
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of Lambda function recommendations. Use this filter with the [GetLambdaFunctionRecommendations] action. You can use EBSFilter with the [GetEBSVolumeRecommendations] action, JobFilter with the [DescribeRecommendationExportJobs] action, and Filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions.
     public struct LambdaFunctionRecommendationFilter: Swift.Equatable {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). Specify FindingReasonCode to return recommendations with a specific finding reason code (for example, MemoryUnderprovisioned).
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). Specify FindingReasonCode to return recommendations with a specific finding reason code (for example, MemoryUnderprovisioned). You can filter your Lambda function recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Lambda function recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Lambda function recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Lambda function recommendations. Use this filter to find all of your Lambda function recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Lambda function recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:
         ///
@@ -9637,6 +9919,7 @@ extension ComputeOptimizerClientTypes.RecommendationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
         case currentPerformanceRiskRatings
+        case inferredWorkloadSavings
         case recommendationResourceType
         case savingsOpportunity
         case summaries
@@ -9649,6 +9932,12 @@ extension ComputeOptimizerClientTypes.RecommendationSummary: Swift.Codable {
         }
         if let currentPerformanceRiskRatings = self.currentPerformanceRiskRatings {
             try encodeContainer.encode(currentPerformanceRiskRatings, forKey: .currentPerformanceRiskRatings)
+        }
+        if let inferredWorkloadSavings = inferredWorkloadSavings {
+            var inferredWorkloadSavingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferredWorkloadSavings)
+            for inferredworkloadsaving0 in inferredWorkloadSavings {
+                try inferredWorkloadSavingsContainer.encode(inferredworkloadsaving0)
+            }
         }
         if let recommendationResourceType = self.recommendationResourceType {
             try encodeContainer.encode(recommendationResourceType.rawValue, forKey: .recommendationResourceType)
@@ -9685,6 +9974,17 @@ extension ComputeOptimizerClientTypes.RecommendationSummary: Swift.Codable {
         savingsOpportunity = savingsOpportunityDecoded
         let currentPerformanceRiskRatingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings.self, forKey: .currentPerformanceRiskRatings)
         currentPerformanceRiskRatings = currentPerformanceRiskRatingsDecoded
+        let inferredWorkloadSavingsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.InferredWorkloadSaving?].self, forKey: .inferredWorkloadSavings)
+        var inferredWorkloadSavingsDecoded0:[ComputeOptimizerClientTypes.InferredWorkloadSaving]? = nil
+        if let inferredWorkloadSavingsContainer = inferredWorkloadSavingsContainer {
+            inferredWorkloadSavingsDecoded0 = [ComputeOptimizerClientTypes.InferredWorkloadSaving]()
+            for structure0 in inferredWorkloadSavingsContainer {
+                if let structure0 = structure0 {
+                    inferredWorkloadSavingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        inferredWorkloadSavings = inferredWorkloadSavingsDecoded0
     }
 }
 
@@ -9695,6 +9995,8 @@ extension ComputeOptimizerClientTypes {
         public var accountId: Swift.String?
         /// An object that describes the performance risk ratings for a given resource type.
         public var currentPerformanceRiskRatings: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings?
+        /// An array of objects that describes the estimated monthly saving amounts for the instances running on the specified inferredWorkloadTypes. The array contains the top three savings opportunites for the instances running inferred workload types.
+        public var inferredWorkloadSavings: [ComputeOptimizerClientTypes.InferredWorkloadSaving]?
         /// The resource type that the recommendation summary applies to.
         public var recommendationResourceType: ComputeOptimizerClientTypes.RecommendationSourceType?
         /// An object that describes the savings opportunity for a given resource type. Savings opportunity includes the estimated monthly savings amount and percentage.
@@ -9705,6 +10007,7 @@ extension ComputeOptimizerClientTypes {
         public init (
             accountId: Swift.String? = nil,
             currentPerformanceRiskRatings: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings? = nil,
+            inferredWorkloadSavings: [ComputeOptimizerClientTypes.InferredWorkloadSaving]? = nil,
             recommendationResourceType: ComputeOptimizerClientTypes.RecommendationSourceType? = nil,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             summaries: [ComputeOptimizerClientTypes.Summary]? = nil
@@ -9712,6 +10015,7 @@ extension ComputeOptimizerClientTypes {
         {
             self.accountId = accountId
             self.currentPerformanceRiskRatings = currentPerformanceRiskRatings
+            self.inferredWorkloadSavings = inferredWorkloadSavings
             self.recommendationResourceType = recommendationResourceType
             self.savingsOpportunity = savingsOpportunity
             self.summaries = summaries
@@ -10010,7 +10314,7 @@ extension ComputeOptimizerClientTypes.SavingsOpportunity: Swift.Codable {
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
     public struct SavingsOpportunity: Swift.Equatable {
-        /// An object that describes the estimated monthly savings amount possible, based on On-Demand instance pricing, by adopting Compute Optimizer recommendations for a given resource.
+        /// An object that describes the estimated monthly savings amount possible by adopting Compute Optimizer recommendations for a given resource. This is based on the On-Demand instance pricing..
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer recommendations for a given resource.
         public var savingsOpportunityPercentage: Swift.Double
@@ -10366,6 +10670,51 @@ extension ComputeOptimizerClientTypes {
         {
             self.name = name
             self.reasonCodeSummaries = reasonCodeSummaries
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.Tag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// A list of tag key and value pairs that you define.
+    public struct Tag: Swift.Equatable {
+        /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
+        public var key: Swift.String?
+        /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
             self.value = value
         }
     }
@@ -10759,6 +11108,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         case finding
         case lastRefreshTimestamp
         case lookBackPeriodInDays
+        case tags
         case utilizationMetrics
         case volumeArn
         case volumeRecommendationOptions
@@ -10783,6 +11133,12 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         }
         if lookBackPeriodInDays != 0.0 {
             try encodeContainer.encode(lookBackPeriodInDays, forKey: .lookBackPeriodInDays)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let utilizationMetrics = utilizationMetrics {
             var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
@@ -10839,6 +11195,17 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         lastRefreshTimestamp = lastRefreshTimestampDecoded
         let currentPerformanceRiskDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CurrentPerformanceRisk.self, forKey: .currentPerformanceRisk)
         currentPerformanceRisk = currentPerformanceRiskDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComputeOptimizerClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComputeOptimizerClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -10861,6 +11228,8 @@ extension ComputeOptimizerClientTypes {
         public var lastRefreshTimestamp: ClientRuntime.Date?
         /// The number of days for which utilization metrics were analyzed for the volume.
         public var lookBackPeriodInDays: Swift.Double
+        /// A list of tags assigned to your Amazon EBS volume recommendations.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
         /// An array of objects that describe the utilization metrics of the volume.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.EBSUtilizationMetric]?
         /// The Amazon Resource Name (ARN) of the current volume.
@@ -10875,6 +11244,7 @@ extension ComputeOptimizerClientTypes {
             finding: ComputeOptimizerClientTypes.EBSFinding? = nil,
             lastRefreshTimestamp: ClientRuntime.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.EBSUtilizationMetric]? = nil,
             volumeArn: Swift.String? = nil,
             volumeRecommendationOptions: [ComputeOptimizerClientTypes.VolumeRecommendationOption]? = nil
@@ -10886,6 +11256,7 @@ extension ComputeOptimizerClientTypes {
             self.finding = finding
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
+            self.tags = tags
             self.utilizationMetrics = utilizationMetrics
             self.volumeArn = volumeArn
             self.volumeRecommendationOptions = volumeRecommendationOptions

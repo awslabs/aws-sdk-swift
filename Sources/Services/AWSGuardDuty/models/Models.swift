@@ -255,6 +255,68 @@ extension GuardDutyClientTypes {
 
 }
 
+extension AccessDeniedException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.type = output.type
+        } else {
+            self.message = nil
+            self.type = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// An access denied exception object.
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The error message.
+    public var message: Swift.String?
+    /// The error type.
+    public var type: Swift.String?
+
+    public init (
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.type = type
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let type: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "message"
+        case type = "__type"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
 extension GuardDutyClientTypes.AccessKeyDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessKeyId = "accessKeyId"
@@ -1511,6 +1573,68 @@ extension GuardDutyClientTypes {
         }
     }
 
+}
+
+extension ConflictException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.type = output.type
+        } else {
+            self.message = nil
+            self.type = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A request conflict exception object.
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The error message.
+    public var message: Swift.String?
+    /// The error type.
+    public var type: Swift.String?
+
+    public init (
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.type = type
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let type: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "message"
+        case type = "__type"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
 }
 
 extension GuardDutyClientTypes.Container: Swift.Codable {
@@ -3606,6 +3730,7 @@ extension GuardDutyClientTypes {
         case scanId
         case scanStartTime
         case scanStatus
+        case scanType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CriterionKey] {
@@ -3616,6 +3741,7 @@ extension GuardDutyClientTypes {
                 .scanId,
                 .scanStartTime,
                 .scanStatus,
+                .scanType,
                 .sdkUnknown("")
             ]
         }
@@ -3631,6 +3757,7 @@ extension GuardDutyClientTypes {
             case .scanId: return "SCAN_ID"
             case .scanStartTime: return "SCAN_START_TIME"
             case .scanStatus: return "SCAN_STATUS"
+            case .scanType: return "SCAN_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6399,6 +6526,7 @@ extension GuardDutyClientTypes.EbsVolumeScanDetails: Swift.Codable {
         case scanDetections = "scanDetections"
         case scanId = "scanId"
         case scanStartedAt = "scanStartedAt"
+        case scanType = "scanType"
         case sources = "sources"
         case triggerFindingId = "triggerFindingId"
     }
@@ -6416,6 +6544,9 @@ extension GuardDutyClientTypes.EbsVolumeScanDetails: Swift.Codable {
         }
         if let scanStartedAt = self.scanStartedAt {
             try encodeContainer.encodeTimestamp(scanStartedAt, format: .epochSeconds, forKey: .scanStartedAt)
+        }
+        if let scanType = self.scanType {
+            try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
@@ -6451,6 +6582,8 @@ extension GuardDutyClientTypes.EbsVolumeScanDetails: Swift.Codable {
         sources = sourcesDecoded0
         let scanDetectionsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ScanDetections.self, forKey: .scanDetections)
         scanDetections = scanDetectionsDecoded
+        let scanTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ScanType.self, forKey: .scanType)
+        scanType = scanTypeDecoded
     }
 }
 
@@ -6465,6 +6598,8 @@ extension GuardDutyClientTypes {
         public var scanId: Swift.String?
         /// Returns the start date and time of the malware scan.
         public var scanStartedAt: ClientRuntime.Date?
+        /// Specifies the scan type that invoked the malware scan.
+        public var scanType: GuardDutyClientTypes.ScanType?
         /// Contains list of threat intelligence sources used to detect threats.
         public var sources: [Swift.String]?
         /// GuardDuty finding ID that triggered a malware scan.
@@ -6475,6 +6610,7 @@ extension GuardDutyClientTypes {
             scanDetections: GuardDutyClientTypes.ScanDetections? = nil,
             scanId: Swift.String? = nil,
             scanStartedAt: ClientRuntime.Date? = nil,
+            scanType: GuardDutyClientTypes.ScanType? = nil,
             sources: [Swift.String]? = nil,
             triggerFindingId: Swift.String? = nil
         )
@@ -6483,6 +6619,7 @@ extension GuardDutyClientTypes {
             self.scanDetections = scanDetections
             self.scanId = scanId
             self.scanStartedAt = scanStartedAt
+            self.scanType = scanType
             self.sources = sources
             self.triggerFindingId = triggerFindingId
         }
@@ -12902,6 +13039,7 @@ extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -12910,6 +13048,7 @@ extension ListTagsForResourceOutputError {
 }
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
@@ -16715,6 +16854,7 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         case scanResultDetails = "scanResultDetails"
         case scanStartTime = "scanStartTime"
         case scanStatus = "scanStatus"
+        case scanType = "scanType"
         case totalBytes = "totalBytes"
         case triggerDetails = "triggerDetails"
     }
@@ -16759,6 +16899,9 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         }
         if let scanStatus = self.scanStatus {
             try encodeContainer.encode(scanStatus.rawValue, forKey: .scanStatus)
+        }
+        if let scanType = self.scanType {
+            try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
         }
         if totalBytes != 0 {
             try encodeContainer.encode(totalBytes, forKey: .totalBytes)
@@ -16807,6 +16950,8 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
             }
         }
         attachedVolumes = attachedVolumesDecoded0
+        let scanTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ScanType.self, forKey: .scanType)
+        scanType = scanTypeDecoded
     }
 }
 
@@ -16837,6 +16982,8 @@ extension GuardDutyClientTypes {
         public var scanStartTime: ClientRuntime.Date?
         /// An enum value representing possible scan statuses.
         public var scanStatus: GuardDutyClientTypes.ScanStatus?
+        /// Specifies the scan type that invoked the malware scan.
+        public var scanType: GuardDutyClientTypes.ScanType?
         /// Represents total bytes that were scanned.
         public var totalBytes: Swift.Int
         /// Specifies the reason why the scan was initiated.
@@ -16855,6 +17002,7 @@ extension GuardDutyClientTypes {
             scanResultDetails: GuardDutyClientTypes.ScanResultDetails? = nil,
             scanStartTime: ClientRuntime.Date? = nil,
             scanStatus: GuardDutyClientTypes.ScanStatus? = nil,
+            scanType: GuardDutyClientTypes.ScanType? = nil,
             totalBytes: Swift.Int = 0,
             triggerDetails: GuardDutyClientTypes.TriggerDetails? = nil
         )
@@ -16871,6 +17019,7 @@ extension GuardDutyClientTypes {
             self.scanResultDetails = scanResultDetails
             self.scanStartTime = scanStartTime
             self.scanStatus = scanStatus
+            self.scanType = scanType
             self.totalBytes = totalBytes
             self.triggerDetails = triggerDetails
         }
@@ -17343,6 +17492,7 @@ extension GuardDutyClientTypes {
         case completed
         case failed
         case running
+        case skipped
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanStatus] {
@@ -17350,6 +17500,7 @@ extension GuardDutyClientTypes {
                 .completed,
                 .failed,
                 .running,
+                .skipped,
                 .sdkUnknown("")
             ]
         }
@@ -17362,6 +17513,7 @@ extension GuardDutyClientTypes {
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .running: return "RUNNING"
+            case .skipped: return "SKIPPED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17448,6 +17600,38 @@ extension GuardDutyClientTypes {
         }
     }
 
+}
+
+extension GuardDutyClientTypes {
+    public enum ScanType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case guarddutyInitiated
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanType] {
+            return [
+                .guarddutyInitiated,
+                .onDemand,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .guarddutyInitiated: return "GUARDDUTY_INITIATED"
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScanType(rawValue: rawValue) ?? ScanType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GuardDutyClientTypes.ScannedItemCount: Swift.Codable {
@@ -17838,6 +18022,120 @@ extension GuardDutyClientTypes {
         }
     }
 
+}
+
+extension StartMalwareScanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "resourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension StartMalwareScanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/malware-scan/start"
+    }
+}
+
+public struct StartMalwareScanInput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the resource for which you invoked the API.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct StartMalwareScanInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension StartMalwareScanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "resourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension StartMalwareScanOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartMalwareScanOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartMalwareScanOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case internalServerErrorException(InternalServerErrorException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartMalwareScanOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: StartMalwareScanOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.scanId = output.scanId
+        } else {
+            self.scanId = nil
+        }
+    }
+}
+
+public struct StartMalwareScanOutputResponse: Swift.Equatable {
+    /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+    public var scanId: Swift.String?
+
+    public init (
+        scanId: Swift.String? = nil
+    )
+    {
+        self.scanId = scanId
+    }
+}
+
+struct StartMalwareScanOutputResponseBody: Swift.Equatable {
+    let scanId: Swift.String?
+}
+
+extension StartMalwareScanOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanId = "scanId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanId)
+        scanId = scanIdDecoded
+    }
 }
 
 extension StartMonitoringMembersInput: Swift.Encodable {
@@ -18248,6 +18546,7 @@ extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension TagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -18256,6 +18555,7 @@ extension TagResourceOutputError {
 }
 
 public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)
@@ -18869,6 +19169,7 @@ extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -18877,6 +19178,7 @@ extension UntagResourceOutputError {
 }
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case badRequestException(BadRequestException)
     case internalServerErrorException(InternalServerErrorException)
     case unknown(UnknownAWSHttpServiceError)

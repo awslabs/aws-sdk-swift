@@ -1040,6 +1040,241 @@ extension KendraClientTypes {
 
 }
 
+extension KendraClientTypes.AttributeSuggestionsDescribeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsMode = "AttributeSuggestionsMode"
+        case suggestableConfigList = "SuggestableConfigList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsMode = self.attributeSuggestionsMode {
+            try encodeContainer.encode(attributeSuggestionsMode.rawValue, forKey: .attributeSuggestionsMode)
+        }
+        if let suggestableConfigList = suggestableConfigList {
+            var suggestableConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestableConfigList)
+            for suggestableconfig0 in suggestableConfigList {
+                try suggestableConfigListContainer.encode(suggestableconfig0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suggestableConfigListContainer = try containerValues.decodeIfPresent([KendraClientTypes.SuggestableConfig?].self, forKey: .suggestableConfigList)
+        var suggestableConfigListDecoded0:[KendraClientTypes.SuggestableConfig]? = nil
+        if let suggestableConfigListContainer = suggestableConfigListContainer {
+            suggestableConfigListDecoded0 = [KendraClientTypes.SuggestableConfig]()
+            for structure0 in suggestableConfigListContainer {
+                if let structure0 = structure0 {
+                    suggestableConfigListDecoded0?.append(structure0)
+                }
+            }
+        }
+        suggestableConfigList = suggestableConfigListDecoded0
+        let attributeSuggestionsModeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsMode.self, forKey: .attributeSuggestionsMode)
+        attributeSuggestionsMode = attributeSuggestionsModeDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Gets information on the configuration of document fields/attributes that you want to base query suggestions on. To change your configuration, use [AttributeSuggestionsUpdateConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_AttributeSuggestionsUpdateConfig.html) and then call [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html).
+    public struct AttributeSuggestionsDescribeConfig: Swift.Equatable {
+        /// The mode is set to either ACTIVE or INACTIVE. If the Mode for query history is set to ENABLED when calling [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html) and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE, and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the query history.
+        public var attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode?
+        /// The list of fields/attributes that you want to set as suggestible for query suggestions.
+        public var suggestableConfigList: [KendraClientTypes.SuggestableConfig]?
+
+        public init (
+            attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode? = nil,
+            suggestableConfigList: [KendraClientTypes.SuggestableConfig]? = nil
+        )
+        {
+            self.attributeSuggestionsMode = attributeSuggestionsMode
+            self.suggestableConfigList = suggestableConfigList
+        }
+    }
+
+}
+
+extension KendraClientTypes.AttributeSuggestionsGetConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalResponseAttributes = "AdditionalResponseAttributes"
+        case attributeFilter = "AttributeFilter"
+        case suggestionAttributes = "SuggestionAttributes"
+        case userContext = "UserContext"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalResponseAttributes = additionalResponseAttributes {
+            var additionalResponseAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalResponseAttributes)
+            for documentattributekey0 in additionalResponseAttributes {
+                try additionalResponseAttributesContainer.encode(documentattributekey0)
+            }
+        }
+        if let attributeFilter = self.attributeFilter {
+            try encodeContainer.encode(attributeFilter, forKey: .attributeFilter)
+        }
+        if let suggestionAttributes = suggestionAttributes {
+            var suggestionAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestionAttributes)
+            for documentattributekey0 in suggestionAttributes {
+                try suggestionAttributesContainer.encode(documentattributekey0)
+            }
+        }
+        if let userContext = self.userContext {
+            try encodeContainer.encode(userContext, forKey: .userContext)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suggestionAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .suggestionAttributes)
+        var suggestionAttributesDecoded0:[Swift.String]? = nil
+        if let suggestionAttributesContainer = suggestionAttributesContainer {
+            suggestionAttributesDecoded0 = [Swift.String]()
+            for string0 in suggestionAttributesContainer {
+                if let string0 = string0 {
+                    suggestionAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        suggestionAttributes = suggestionAttributesDecoded0
+        let additionalResponseAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .additionalResponseAttributes)
+        var additionalResponseAttributesDecoded0:[Swift.String]? = nil
+        if let additionalResponseAttributesContainer = additionalResponseAttributesContainer {
+            additionalResponseAttributesDecoded0 = [Swift.String]()
+            for string0 in additionalResponseAttributesContainer {
+                if let string0 = string0 {
+                    additionalResponseAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        additionalResponseAttributes = additionalResponseAttributesDecoded0
+        let attributeFilterDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeFilter.self, forKey: .attributeFilter)
+        attributeFilter = attributeFilterDecoded
+        let userContextDecoded = try containerValues.decodeIfPresent(KendraClientTypes.UserContext.self, forKey: .userContext)
+        userContext = userContextDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides the configuration information for the document fields/attributes that you want to base query suggestions on.
+    public struct AttributeSuggestionsGetConfig: Swift.Equatable {
+        /// The list of additional document field/attribute keys or field names to include in the response. You can use additional fields to provide extra information in the response. Additional fields are not used to based suggestions on.
+        public var additionalResponseAttributes: [Swift.String]?
+        /// Filters the search results based on document fields/attributes.
+        public var attributeFilter: KendraClientTypes.AttributeFilter?
+        /// The list of document field/attribute keys or field names to use for query suggestions. If the content within any of the fields match what your user starts typing as their query, then the field content is returned as a query suggestion.
+        public var suggestionAttributes: [Swift.String]?
+        /// Applies user context filtering so that only users who are given access to certain documents see these document in their search results.
+        public var userContext: KendraClientTypes.UserContext?
+
+        public init (
+            additionalResponseAttributes: [Swift.String]? = nil,
+            attributeFilter: KendraClientTypes.AttributeFilter? = nil,
+            suggestionAttributes: [Swift.String]? = nil,
+            userContext: KendraClientTypes.UserContext? = nil
+        )
+        {
+            self.additionalResponseAttributes = additionalResponseAttributes
+            self.attributeFilter = attributeFilter
+            self.suggestionAttributes = suggestionAttributes
+            self.userContext = userContext
+        }
+    }
+
+}
+
+extension KendraClientTypes {
+    public enum AttributeSuggestionsMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeSuggestionsMode] {
+            return [
+                .active,
+                .inactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttributeSuggestionsMode(rawValue: rawValue) ?? AttributeSuggestionsMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KendraClientTypes.AttributeSuggestionsUpdateConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsMode = "AttributeSuggestionsMode"
+        case suggestableConfigList = "SuggestableConfigList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsMode = self.attributeSuggestionsMode {
+            try encodeContainer.encode(attributeSuggestionsMode.rawValue, forKey: .attributeSuggestionsMode)
+        }
+        if let suggestableConfigList = suggestableConfigList {
+            var suggestableConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestableConfigList)
+            for suggestableconfig0 in suggestableConfigList {
+                try suggestableConfigListContainer.encode(suggestableconfig0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suggestableConfigListContainer = try containerValues.decodeIfPresent([KendraClientTypes.SuggestableConfig?].self, forKey: .suggestableConfigList)
+        var suggestableConfigListDecoded0:[KendraClientTypes.SuggestableConfig]? = nil
+        if let suggestableConfigListContainer = suggestableConfigListContainer {
+            suggestableConfigListDecoded0 = [KendraClientTypes.SuggestableConfig]()
+            for structure0 in suggestableConfigListContainer {
+                if let structure0 = structure0 {
+                    suggestableConfigListDecoded0?.append(structure0)
+                }
+            }
+        }
+        suggestableConfigList = suggestableConfigListDecoded0
+        let attributeSuggestionsModeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsMode.self, forKey: .attributeSuggestionsMode)
+        attributeSuggestionsMode = attributeSuggestionsModeDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Updates the configuration information for the document fields/attributes that you want to base query suggestions on. To deactivate using documents fields for query suggestions, set the mode to INACTIVE. You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html). If you set to QUERY, then Amazon Kendra uses the query history to base suggestions on. If you set to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the contents of document fields to base suggestions on.
+    public struct AttributeSuggestionsUpdateConfig: Swift.Equatable {
+        /// You can set the mode to ACTIVE or INACTIVE. You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html). If Mode to use query history is set to ENABLED when calling [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html) and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE, and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the query history.
+        public var attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode?
+        /// The list of fields/attributes that you want to set as suggestible for query suggestions.
+        public var suggestableConfigList: [KendraClientTypes.SuggestableConfig]?
+
+        public init (
+            attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode? = nil,
+            suggestableConfigList: [KendraClientTypes.SuggestableConfig]? = nil
+        )
+        {
+            self.attributeSuggestionsMode = attributeSuggestionsMode
+            self.suggestableConfigList = suggestableConfigList
+        }
+    }
+
+}
+
 extension KendraClientTypes.AuthenticationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case basicAuthentication = "BasicAuthentication"
@@ -9660,6 +9895,7 @@ extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpRespon
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DescribeQuerySuggestionsConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributeSuggestionsConfig = output.attributeSuggestionsConfig
             self.includeQueriesWithoutUserInformation = output.includeQueriesWithoutUserInformation
             self.lastClearTime = output.lastClearTime
             self.lastSuggestionsBuildTime = output.lastSuggestionsBuildTime
@@ -9670,6 +9906,7 @@ extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpRespon
             self.status = output.status
             self.totalSuggestionsCount = output.totalSuggestionsCount
         } else {
+            self.attributeSuggestionsConfig = nil
             self.includeQueriesWithoutUserInformation = nil
             self.lastClearTime = nil
             self.lastSuggestionsBuildTime = nil
@@ -9684,11 +9921,13 @@ extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on.
+    public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig?
     /// TRUE to use all queries, otherwise use only queries that include user information to generate the query suggestions.
     public var includeQueriesWithoutUserInformation: Swift.Bool?
     /// The Unix timestamp when query suggestions for an index was last cleared. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. Amazon Kendra only considers re-occurences of a query from the time you cleared suggestions.
     public var lastClearTime: ClientRuntime.Date?
-    /// The Unix timestamp when query suggestions for an index was last updated.
+    /// The Unix timestamp when query suggestions for an index was last updated. Amazon Kendra automatically updates suggestions every 24 hours, after you change a setting or after you apply a [block list](https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#query-suggestions-blocklist).
     public var lastSuggestionsBuildTime: ClientRuntime.Date?
     /// The minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users.
     public var minimumNumberOfQueryingUsers: Swift.Int?
@@ -9700,10 +9939,11 @@ public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
     public var queryLogLookBackWindowInDays: Swift.Int?
     /// Whether the status of query suggestions settings is currently ACTIVE or UPDATING. Active means the current settings apply and Updating means your changed settings are in the process of applying.
     public var status: KendraClientTypes.QuerySuggestionsStatus?
-    /// The current total count of query suggestions for an index. This count can change when you update your query suggestions settings, if you filter out certain queries from suggestions using a block list, and as the query log accumulates more queries for Amazon Kendra to learn from.
+    /// The current total count of query suggestions for an index. This count can change when you update your query suggestions settings, if you filter out certain queries from suggestions using a block list, and as the query log accumulates more queries for Amazon Kendra to learn from. If the count is much lower than you expected, it could be because Amazon Kendra needs more queries in the query history to learn from or your current query suggestions settings are too strict.
     public var totalSuggestionsCount: Swift.Int?
 
     public init (
+        attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig? = nil,
         includeQueriesWithoutUserInformation: Swift.Bool? = nil,
         lastClearTime: ClientRuntime.Date? = nil,
         lastSuggestionsBuildTime: ClientRuntime.Date? = nil,
@@ -9715,6 +9955,7 @@ public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
         totalSuggestionsCount: Swift.Int? = nil
     )
     {
+        self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
         self.lastClearTime = lastClearTime
         self.lastSuggestionsBuildTime = lastSuggestionsBuildTime
@@ -9737,10 +9978,12 @@ struct DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Equatable {
     let lastSuggestionsBuildTime: ClientRuntime.Date?
     let lastClearTime: ClientRuntime.Date?
     let totalSuggestionsCount: Swift.Int?
+    let attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig?
 }
 
 extension DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
         case lastClearTime = "LastClearTime"
         case lastSuggestionsBuildTime = "LastSuggestionsBuildTime"
@@ -9772,6 +10015,8 @@ extension DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Decodable {
         lastClearTime = lastClearTimeDecoded
         let totalSuggestionsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSuggestionsCount)
         totalSuggestionsCount = totalSuggestionsCountDecoded
+        let attributeSuggestionsConfigDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsDescribeConfig.self, forKey: .attributeSuggestionsConfig)
+        attributeSuggestionsConfig = attributeSuggestionsConfigDecoded
     }
 }
 
@@ -12778,13 +13023,18 @@ extension KendraClientTypes {
 
 extension GetQuerySuggestionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case indexId = "IndexId"
         case maxSuggestionsCount = "MaxSuggestionsCount"
         case queryText = "QueryText"
+        case suggestionTypes = "SuggestionTypes"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsConfig = self.attributeSuggestionsConfig {
+            try encodeContainer.encode(attributeSuggestionsConfig, forKey: .attributeSuggestionsConfig)
+        }
         if let indexId = self.indexId {
             try encodeContainer.encode(indexId, forKey: .indexId)
         }
@@ -12793,6 +13043,12 @@ extension GetQuerySuggestionsInput: Swift.Encodable {
         }
         if let queryText = self.queryText {
             try encodeContainer.encode(queryText, forKey: .queryText)
+        }
+        if let suggestionTypes = suggestionTypes {
+            var suggestionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestionTypes)
+            for suggestiontype0 in suggestionTypes {
+                try suggestionTypesContainer.encode(suggestiontype0.rawValue)
+            }
         }
     }
 }
@@ -12804,6 +13060,8 @@ extension GetQuerySuggestionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetQuerySuggestionsInput: Swift.Equatable {
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on.
+    public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig?
     /// The identifier of the index you want to get query suggestions from.
     /// This member is required.
     public var indexId: Swift.String?
@@ -12812,16 +13070,22 @@ public struct GetQuerySuggestionsInput: Swift.Equatable {
     /// The text of a user's query to generate query suggestions. A query is suggested if the query prefix matches what a user starts to type as their query. Amazon Kendra does not show any suggestions if a user types fewer than two characters or more than 60 characters. A query must also have at least one search result and contain at least one word of more than four characters.
     /// This member is required.
     public var queryText: Swift.String?
+    /// The suggestions type to base query suggestions on. The suggestion types are query history or document fields/attributes. You can set one type or the other. If you set query history as your suggestions type, Amazon Kendra suggests queries relevant to your users based on popular queries in the query history. If you set document fields/attributes as your suggestions type, Amazon Kendra suggests queries relevant to your users based on the contents of document fields.
+    public var suggestionTypes: [KendraClientTypes.SuggestionType]?
 
     public init (
+        attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig? = nil,
         indexId: Swift.String? = nil,
         maxSuggestionsCount: Swift.Int? = nil,
-        queryText: Swift.String? = nil
+        queryText: Swift.String? = nil,
+        suggestionTypes: [KendraClientTypes.SuggestionType]? = nil
     )
     {
+        self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.indexId = indexId
         self.maxSuggestionsCount = maxSuggestionsCount
         self.queryText = queryText
+        self.suggestionTypes = suggestionTypes
     }
 }
 
@@ -12829,13 +13093,17 @@ struct GetQuerySuggestionsInputBody: Swift.Equatable {
     let indexId: Swift.String?
     let queryText: Swift.String?
     let maxSuggestionsCount: Swift.Int?
+    let suggestionTypes: [KendraClientTypes.SuggestionType]?
+    let attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig?
 }
 
 extension GetQuerySuggestionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case indexId = "IndexId"
         case maxSuggestionsCount = "MaxSuggestionsCount"
         case queryText = "QueryText"
+        case suggestionTypes = "SuggestionTypes"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -12846,6 +13114,19 @@ extension GetQuerySuggestionsInputBody: Swift.Decodable {
         queryText = queryTextDecoded
         let maxSuggestionsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSuggestionsCount)
         maxSuggestionsCount = maxSuggestionsCountDecoded
+        let suggestionTypesContainer = try containerValues.decodeIfPresent([KendraClientTypes.SuggestionType?].self, forKey: .suggestionTypes)
+        var suggestionTypesDecoded0:[KendraClientTypes.SuggestionType]? = nil
+        if let suggestionTypesContainer = suggestionTypesContainer {
+            suggestionTypesDecoded0 = [KendraClientTypes.SuggestionType]()
+            for enum0 in suggestionTypesContainer {
+                if let enum0 = enum0 {
+                    suggestionTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        suggestionTypes = suggestionTypesDecoded0
+        let attributeSuggestionsConfigDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsGetConfig.self, forKey: .attributeSuggestionsConfig)
+        attributeSuggestionsConfig = attributeSuggestionsConfigDecoded
     }
 }
 
@@ -22089,6 +22370,85 @@ extension KendraClientTypes {
 
 }
 
+extension KendraClientTypes.SourceDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAttributes = "AdditionalAttributes"
+        case documentId = "DocumentId"
+        case suggestionAttributes = "SuggestionAttributes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalAttributes = additionalAttributes {
+            var additionalAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAttributes)
+            for documentattribute0 in additionalAttributes {
+                try additionalAttributesContainer.encode(documentattribute0)
+            }
+        }
+        if let documentId = self.documentId {
+            try encodeContainer.encode(documentId, forKey: .documentId)
+        }
+        if let suggestionAttributes = suggestionAttributes {
+            var suggestionAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestionAttributes)
+            for documentattributekey0 in suggestionAttributes {
+                try suggestionAttributesContainer.encode(documentattributekey0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
+        documentId = documentIdDecoded
+        let suggestionAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .suggestionAttributes)
+        var suggestionAttributesDecoded0:[Swift.String]? = nil
+        if let suggestionAttributesContainer = suggestionAttributesContainer {
+            suggestionAttributesDecoded0 = [Swift.String]()
+            for string0 in suggestionAttributesContainer {
+                if let string0 = string0 {
+                    suggestionAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        suggestionAttributes = suggestionAttributesDecoded0
+        let additionalAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.DocumentAttribute?].self, forKey: .additionalAttributes)
+        var additionalAttributesDecoded0:[KendraClientTypes.DocumentAttribute]? = nil
+        if let additionalAttributesContainer = additionalAttributesContainer {
+            additionalAttributesDecoded0 = [KendraClientTypes.DocumentAttribute]()
+            for structure0 in additionalAttributesContainer {
+                if let structure0 = structure0 {
+                    additionalAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        additionalAttributes = additionalAttributesDecoded0
+    }
+}
+
+extension KendraClientTypes {
+    /// The document ID and its fields/attributes that are used for a query suggestion, if document fields set to use for query suggestions.
+    public struct SourceDocument: Swift.Equatable {
+        /// The additional fields/attributes to include in the response. You can use additional fields to provide extra information in the response. Additional fields are not used to based suggestions on.
+        public var additionalAttributes: [KendraClientTypes.DocumentAttribute]?
+        /// The identifier of the document used for a query suggestion.
+        public var documentId: Swift.String?
+        /// The document fields/attributes used for a query suggestion.
+        public var suggestionAttributes: [Swift.String]?
+
+        public init (
+            additionalAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
+            documentId: Swift.String? = nil,
+            suggestionAttributes: [Swift.String]? = nil
+        )
+        {
+            self.additionalAttributes = additionalAttributes
+            self.documentId = documentId
+            self.suggestionAttributes = suggestionAttributes
+        }
+    }
+
+}
+
 extension KendraClientTypes.SpellCorrectedQuery: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case corrections = "Corrections"
@@ -22669,9 +23029,55 @@ public struct SubmitFeedbackOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension KendraClientTypes.SuggestableConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeName = "AttributeName"
+        case suggestable = "Suggestable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeName = self.attributeName {
+            try encodeContainer.encode(attributeName, forKey: .attributeName)
+        }
+        if let suggestable = self.suggestable {
+            try encodeContainer.encode(suggestable, forKey: .suggestable)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
+        attributeName = attributeNameDecoded
+        let suggestableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .suggestable)
+        suggestable = suggestableDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides the configuration information for a document field/attribute that you want to base query suggestions on.
+    public struct SuggestableConfig: Swift.Equatable {
+        /// The name of the document field/attribute.
+        public var attributeName: Swift.String?
+        /// TRUE means the document field/attribute is suggestible, so the contents within the field can be used for query suggestions.
+        public var suggestable: Swift.Bool?
+
+        public init (
+            attributeName: Swift.String? = nil,
+            suggestable: Swift.Bool? = nil
+        )
+        {
+            self.attributeName = attributeName
+            self.suggestable = suggestable
+        }
+    }
+
+}
+
 extension KendraClientTypes.Suggestion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
+        case sourceDocuments = "SourceDocuments"
         case value = "Value"
     }
 
@@ -22679,6 +23085,12 @@ extension KendraClientTypes.Suggestion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let sourceDocuments = sourceDocuments {
+            var sourceDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDocuments)
+            for sourcedocument0 in sourceDocuments {
+                try sourceDocumentsContainer.encode(sourcedocument0)
+            }
         }
         if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
@@ -22691,6 +23103,17 @@ extension KendraClientTypes.Suggestion: Swift.Codable {
         id = idDecoded
         let valueDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SuggestionValue.self, forKey: .value)
         value = valueDecoded
+        let sourceDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.SourceDocument?].self, forKey: .sourceDocuments)
+        var sourceDocumentsDecoded0:[KendraClientTypes.SourceDocument]? = nil
+        if let sourceDocumentsContainer = sourceDocumentsContainer {
+            sourceDocumentsDecoded0 = [KendraClientTypes.SourceDocument]()
+            for structure0 in sourceDocumentsContainer {
+                if let structure0 = structure0 {
+                    sourceDocumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceDocuments = sourceDocumentsDecoded0
     }
 }
 
@@ -22699,15 +23122,19 @@ extension KendraClientTypes {
     public struct Suggestion: Swift.Equatable {
         /// The UUID (universally unique identifier) of a single query suggestion.
         public var id: Swift.String?
+        /// The list of document IDs and their fields/attributes that are used for a single query suggestion, if document fields set to use for query suggestions.
+        public var sourceDocuments: [KendraClientTypes.SourceDocument]?
         /// The value for the UUID (universally unique identifier) of a single query suggestion. The value is the text string of a suggestion.
         public var value: KendraClientTypes.SuggestionValue?
 
         public init (
             id: Swift.String? = nil,
+            sourceDocuments: [KendraClientTypes.SourceDocument]? = nil,
             value: KendraClientTypes.SuggestionValue? = nil
         )
         {
             self.id = id
+            self.sourceDocuments = sourceDocuments
             self.value = value
         }
     }
@@ -22814,6 +23241,38 @@ extension KendraClientTypes {
         }
     }
 
+}
+
+extension KendraClientTypes {
+    public enum SuggestionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case documentAttributes
+        case query
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuggestionType] {
+            return [
+                .documentAttributes,
+                .query,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .documentAttributes: return "DOCUMENT_ATTRIBUTES"
+            case .query: return "QUERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SuggestionType(rawValue: rawValue) ?? SuggestionType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension KendraClientTypes.SuggestionValue: Swift.Codable {
@@ -24260,7 +24719,7 @@ public struct UpdateFeaturedResultsSetInput: Swift.Equatable {
     public var description: Swift.String?
     /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
     public var featuredDocuments: [KendraClientTypes.FeaturedDocument]?
-    /// The identifier of the index used for featuring results.
+    /// The identifier of the set of featured results that you want to update.
     /// This member is required.
     public var featuredResultsSetId: Swift.String?
     /// A new name for the set of featured results.
@@ -24788,6 +25247,7 @@ public struct UpdateQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
 
 extension UpdateQuerySuggestionsConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
         case indexId = "IndexId"
         case minimumNumberOfQueryingUsers = "MinimumNumberOfQueryingUsers"
@@ -24798,6 +25258,9 @@ extension UpdateQuerySuggestionsConfigInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsConfig = self.attributeSuggestionsConfig {
+            try encodeContainer.encode(attributeSuggestionsConfig, forKey: .attributeSuggestionsConfig)
+        }
         if let includeQueriesWithoutUserInformation = self.includeQueriesWithoutUserInformation {
             try encodeContainer.encode(includeQueriesWithoutUserInformation, forKey: .includeQueriesWithoutUserInformation)
         }
@@ -24826,6 +25289,8 @@ extension UpdateQuerySuggestionsConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on.
+    public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig?
     /// TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only include queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE, Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE, Amazon Kendra ignores all user information and learns from all queries.
     public var includeQueriesWithoutUserInformation: Swift.Bool?
     /// The identifier of the index with query suggestions you want to update.
@@ -24841,6 +25306,7 @@ public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
     public var queryLogLookBackWindowInDays: Swift.Int?
 
     public init (
+        attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig? = nil,
         includeQueriesWithoutUserInformation: Swift.Bool? = nil,
         indexId: Swift.String? = nil,
         minimumNumberOfQueryingUsers: Swift.Int? = nil,
@@ -24849,6 +25315,7 @@ public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
         queryLogLookBackWindowInDays: Swift.Int? = nil
     )
     {
+        self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
         self.indexId = indexId
         self.minimumNumberOfQueryingUsers = minimumNumberOfQueryingUsers
@@ -24865,10 +25332,12 @@ struct UpdateQuerySuggestionsConfigInputBody: Swift.Equatable {
     let includeQueriesWithoutUserInformation: Swift.Bool?
     let minimumNumberOfQueryingUsers: Swift.Int?
     let minimumQueryCount: Swift.Int?
+    let attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig?
 }
 
 extension UpdateQuerySuggestionsConfigInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
         case indexId = "IndexId"
         case minimumNumberOfQueryingUsers = "MinimumNumberOfQueryingUsers"
@@ -24891,6 +25360,8 @@ extension UpdateQuerySuggestionsConfigInputBody: Swift.Decodable {
         minimumNumberOfQueryingUsers = minimumNumberOfQueryingUsersDecoded
         let minimumQueryCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumQueryCount)
         minimumQueryCount = minimumQueryCountDecoded
+        let attributeSuggestionsConfigDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsUpdateConfig.self, forKey: .attributeSuggestionsConfig)
+        attributeSuggestionsConfig = attributeSuggestionsConfigDecoded
     }
 }
 

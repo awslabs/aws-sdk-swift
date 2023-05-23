@@ -319,6 +319,8 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -362,6 +364,8 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -513,6 +517,8 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -556,6 +562,8 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The name of the scheduled action.
@@ -706,6 +714,8 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.
@@ -749,6 +759,8 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -905,6 +917,8 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     public var resourceIds: [Swift.String]?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -947,6 +961,8 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1175,6 +1191,8 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1217,6 +1235,8 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1445,6 +1465,8 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1487,6 +1509,8 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1724,6 +1748,8 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1766,6 +1792,8 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The names of the scheduled actions to describe.
     public var scheduledActionNames: [Swift.String]?
@@ -2392,6 +2420,7 @@ extension ApplicationAutoScalingClientTypes {
         case rdsreaderaveragecpuutilization
         case rdsreaderaveragedatabaseconnections
         case sagemakervariantinvocationsperinstance
+        case sagemakervariantprovisionedconcurrencyutilization
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MetricType] {
@@ -2417,6 +2446,7 @@ extension ApplicationAutoScalingClientTypes {
                 .rdsreaderaveragecpuutilization,
                 .rdsreaderaveragedatabaseconnections,
                 .sagemakervariantinvocationsperinstance,
+                .sagemakervariantprovisionedconcurrencyutilization,
                 .sdkUnknown("")
             ]
         }
@@ -2447,6 +2477,7 @@ extension ApplicationAutoScalingClientTypes {
             case .rdsreaderaveragecpuutilization: return "RDSReaderAverageCPUUtilization"
             case .rdsreaderaveragedatabaseconnections: return "RDSReaderAverageDatabaseConnections"
             case .sagemakervariantinvocationsperinstance: return "SageMakerVariantInvocationsPerInstance"
+            case .sagemakervariantprovisionedconcurrencyutilization: return "SageMakerVariantProvisionedConcurrencyUtilization"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2752,6 +2783,8 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -2795,6 +2828,8 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -3044,6 +3079,8 @@ public struct PutScheduledActionInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -3087,6 +3124,8 @@ public struct PutScheduledActionInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
@@ -3290,6 +3329,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     ///
     /// * Lambda provisioned concurrency
     ///
+    /// * SageMaker Serverless endpoint provisioned concurrency
+    ///
     /// * SageMaker endpoint variants
     ///
     /// * Spot Fleets
@@ -3332,6 +3373,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+    ///
+    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     /// This member is required.
     public var resourceId: Swift.String?
     /// This parameter is required for services that do not support service-linked roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. If the service supports service-linked roles, Application Auto Scaling uses a service-linked role, which it creates if it does not yet exist. For more information, see [Application Auto Scaling IAM roles](https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles).
@@ -3377,6 +3420,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+    ///
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -3622,6 +3667,7 @@ extension ApplicationAutoScalingClientTypes {
         case neptuneclusterreadreplicacount
         case rdsclusterreadreplicacount
         case sagemakervariantdesiredinstancecount
+        case sagemakervariantdesiredprovisionedconcurrency
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScalableDimension] {
@@ -3646,6 +3692,7 @@ extension ApplicationAutoScalingClientTypes {
                 .neptuneclusterreadreplicacount,
                 .rdsclusterreadreplicacount,
                 .sagemakervariantdesiredinstancecount,
+                .sagemakervariantdesiredprovisionedconcurrency,
                 .sdkUnknown("")
             ]
         }
@@ -3675,6 +3722,7 @@ extension ApplicationAutoScalingClientTypes {
             case .neptuneclusterreadreplicacount: return "neptune:cluster:ReadReplicaCount"
             case .rdsclusterreadreplicacount: return "rds:cluster:ReadReplicaCount"
             case .sagemakervariantdesiredinstancecount: return "sagemaker:variant:DesiredInstanceCount"
+            case .sagemakervariantdesiredprovisionedconcurrency: return "sagemaker:variant:DesiredProvisionedConcurrency"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3798,6 +3846,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+        ///
+        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -3844,6 +3894,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+        ///
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The ARN of the scalable target.
@@ -4073,6 +4125,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+        ///
+        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4116,6 +4170,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+        ///
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -4341,6 +4397,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+        ///
+        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4384,6 +4442,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+        ///
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -4542,6 +4602,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
+        ///
+        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4585,6 +4647,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
+        ///
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
         public var scalableTargetAction: ApplicationAutoScalingClientTypes.ScalableTargetAction?
@@ -4855,6 +4919,8 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Neptune clusters
         ///
+        /// * SageMaker Serverless endpoint provisioned concurrency
+        ///
         /// * SageMaker endpoint variants
         ///
         /// * Spot Fleets
@@ -4984,7 +5050,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// Identifies the Application Auto Scaling scalable target that you want to apply tags to. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// The tags assigned to the resource. A tag is a label that you assign to an AWS resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the Amazon Web Services Billing and Cost Management User Guide.
+    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the Amazon Web Services Billing and Cost Management User Guide.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -5380,6 +5446,8 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Neptune clusters
         ///
+        /// * SageMaker Serverless endpoint provisioned concurrency
+        ///
         /// * SageMaker endpoint variants
         ///
         /// * Spot Fleets
@@ -5410,6 +5478,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * EMR clusters
         ///
         /// * Neptune clusters
+        ///
+        /// * SageMaker Serverless endpoint provisioned concurrency
         ///
         /// * SageMaker endpoint variants
         ///

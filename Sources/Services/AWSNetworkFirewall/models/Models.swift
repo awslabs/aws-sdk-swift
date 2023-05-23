@@ -523,7 +523,7 @@ extension NetworkFirewallClientTypes {
         public var endpointId: Swift.String?
         /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING or DELETING.
         public var status: NetworkFirewallClientTypes.AttachmentStatus?
-        /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the failure and how to resolve it. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the errors and solutions available for this field, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
+        /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the error or failure and how to resolve it. A FAILED status indicates a non-recoverable state, and a ERROR status indicates an issue that you can fix. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the causes for failiure or errors and solutions available for this field, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
         public var statusMessage: Swift.String?
         /// The unique identifier of the subnet that you've specified to be used for a firewall endpoint.
         public var subnetId: Swift.String?
@@ -548,6 +548,8 @@ extension NetworkFirewallClientTypes {
     public enum AttachmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case creating
         case deleting
+        case error
+        case failed
         case ready
         case scaling
         case sdkUnknown(Swift.String)
@@ -556,6 +558,8 @@ extension NetworkFirewallClientTypes {
             return [
                 .creating,
                 .deleting,
+                .error,
+                .failed,
                 .ready,
                 .scaling,
                 .sdkUnknown("")
@@ -569,6 +573,8 @@ extension NetworkFirewallClientTypes {
             switch self {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .failed: return "FAILED"
             case .ready: return "READY"
             case .scaling: return "SCALING"
             case let .sdkUnknown(s): return s
@@ -3922,6 +3928,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyVariables = "PolicyVariables"
         case statefulDefaultActions = "StatefulDefaultActions"
         case statefulEngineOptions = "StatefulEngineOptions"
         case statefulRuleGroupReferences = "StatefulRuleGroupReferences"
@@ -3934,6 +3941,9 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policyVariables = self.policyVariables {
+            try encodeContainer.encode(policyVariables, forKey: .policyVariables)
+        }
         if let statefulDefaultActions = statefulDefaultActions {
             var statefulDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statefulDefaultActions)
             for collectionmember_string0 in statefulDefaultActions {
@@ -4050,12 +4060,16 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
         statefulEngineOptions = statefulEngineOptionsDecoded
         let tlsInspectionConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationArn)
         tlsInspectionConfigurationArn = tlsInspectionConfigurationArnDecoded
+        let policyVariablesDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.PolicyVariables.self, forKey: .policyVariables)
+        policyVariables = policyVariablesDecoded
     }
 }
 
 extension NetworkFirewallClientTypes {
     /// The firewall policy defines the behavior of a firewall using a collection of stateless and stateful rule groups and other settings. You can use one firewall policy for multiple firewalls. This, along with [FirewallPolicyResponse], define the policy. You can retrieve all objects for a firewall policy by calling [DescribeFirewallPolicy].
     public struct FirewallPolicy: Swift.Equatable {
+        /// Contains variables that you can use to override default Suricata settings in your firewall policy.
+        public var policyVariables: NetworkFirewallClientTypes.PolicyVariables?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:
         ///
         /// * aws:drop_strict
@@ -4087,6 +4101,7 @@ extension NetworkFirewallClientTypes {
         public var tlsInspectionConfigurationArn: Swift.String?
 
         public init (
+            policyVariables: NetworkFirewallClientTypes.PolicyVariables? = nil,
             statefulDefaultActions: [Swift.String]? = nil,
             statefulEngineOptions: NetworkFirewallClientTypes.StatefulEngineOptions? = nil,
             statefulRuleGroupReferences: [NetworkFirewallClientTypes.StatefulRuleGroupReference]? = nil,
@@ -4097,6 +4112,7 @@ extension NetworkFirewallClientTypes {
             tlsInspectionConfigurationArn: Swift.String? = nil
         )
         {
+            self.policyVariables = policyVariables
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
@@ -6383,6 +6399,53 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes.PolicyVariables: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ruleVariables = "RuleVariables"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ruleVariables = ruleVariables {
+            var ruleVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ruleVariables)
+            for (dictKey0, ipSets0) in ruleVariables {
+                try ruleVariablesContainer.encode(ipSets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleVariablesContainer = try containerValues.decodeIfPresent([Swift.String: NetworkFirewallClientTypes.IPSet?].self, forKey: .ruleVariables)
+        var ruleVariablesDecoded0: [Swift.String:NetworkFirewallClientTypes.IPSet]? = nil
+        if let ruleVariablesContainer = ruleVariablesContainer {
+            ruleVariablesDecoded0 = [Swift.String:NetworkFirewallClientTypes.IPSet]()
+            for (key0, ipset0) in ruleVariablesContainer {
+                if let ipset0 = ipset0 {
+                    ruleVariablesDecoded0?[key0] = ipset0
+                }
+            }
+        }
+        ruleVariables = ruleVariablesDecoded0
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// Contains variables that you can use to override default Suricata settings in your firewall policy.
+    public struct PolicyVariables: Swift.Equatable {
+        /// The IPv4 or IPv6 addresses in CIDR notation to use for the Suricata HOME_NET variable. If your firewall uses an inspection VPC, you might want to override the HOME_NET variable with the CIDRs of your home networks. If you don't override HOME_NET with your own CIDRs, Network Firewall by default uses the CIDR of your inspection VPC.
+        public var ruleVariables: [Swift.String:NetworkFirewallClientTypes.IPSet]?
+
+        public init (
+            ruleVariables: [Swift.String:NetworkFirewallClientTypes.IPSet]? = nil
+        )
+        {
+            self.ruleVariables = ruleVariables
+        }
+    }
+
+}
+
 extension NetworkFirewallClientTypes.PortRange: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fromPort = "FromPort"
@@ -6559,10 +6622,6 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     ///
     ///
     /// For a firewall policy resource, you can specify the following operations in the Actions section of the statement:
-    ///
-    /// * network-firewall:CreateFirewall
-    ///
-    /// * network-firewall:UpdateFirewall
     ///
     /// * network-firewall:AssociateFirewallPolicy
     ///
@@ -7961,6 +8020,8 @@ extension NetworkFirewallClientTypes {
         /// * DROP - Network Firewall fails closed and drops all subsequent traffic going to the firewall. This is the default behavior.
         ///
         /// * CONTINUE - Network Firewall continues to apply rules to the subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on this context. For example, if you have a stateful rule to drop http traffic, Network Firewall won't match the traffic for this rule because the service won't have the context from session initialization defining the application layer protocol as HTTP. However, this behavior is rule dependent—a TCP-layer rule using a flow:stateless rule would still match, as would the aws:drop_strict default action.
+        ///
+        /// * REJECT - Network Firewall fails closed and drops all subsequent traffic going to the firewall. Network Firewall also sends a TCP reject packet back to your client so that the client can immediately establish a new session. Network Firewall will have context about the new session and will apply rules to the subsequent traffic.
         public var streamExceptionPolicy: NetworkFirewallClientTypes.StreamExceptionPolicy?
 
         public init (
@@ -8462,12 +8523,14 @@ extension NetworkFirewallClientTypes {
     public enum StreamExceptionPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `continue`
         case drop
+        case reject
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StreamExceptionPolicy] {
             return [
                 .continue,
                 .drop,
+                .reject,
                 .sdkUnknown("")
             ]
         }
@@ -8479,6 +8542,7 @@ extension NetworkFirewallClientTypes {
             switch self {
             case .continue: return "CONTINUE"
             case .drop: return "DROP"
+            case .reject: return "REJECT"
             case let .sdkUnknown(s): return s
             }
         }

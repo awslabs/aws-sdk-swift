@@ -2658,6 +2658,7 @@ extension ConnectCasesClientTypes {
         case number
         case singleSelect
         case text
+        case url
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FieldType] {
@@ -2667,6 +2668,7 @@ extension ConnectCasesClientTypes {
                 .number,
                 .singleSelect,
                 .text,
+                .url,
                 .sdkUnknown("")
             ]
         }
@@ -2681,6 +2683,7 @@ extension ConnectCasesClientTypes {
             case .number: return "Number"
             case .singleSelect: return "SingleSelect"
             case .text: return "Text"
+            case .url: return "Url"
             case let .sdkUnknown(s): return s
             }
         }

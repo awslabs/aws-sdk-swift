@@ -26,6 +26,15 @@ extension ListChangeSetsInput: ClientRuntime.PaginateToken {
             sort: self.sort
         )}
 }
+
+extension PaginatorSequence where Input == ListChangeSetsInput, Output == ListChangeSetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listChangeSetsPaginated`
+    /// to access the nested member `[MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]`
+    /// - Returns: `[MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]`
+    public func changeSetSummaryList() async throws -> [MarketplaceCatalogClientTypes.ChangeSetSummaryListItem] {
+        return try await self.asyncCompactMap { item in item.changeSetSummaryList }
+    }
+}
 extension MarketplaceCatalogClient {
     /// Paginate over `[ListEntitiesOutputResponse]` results.
     ///
@@ -51,4 +60,13 @@ extension ListEntitiesInput: ClientRuntime.PaginateToken {
             ownershipType: self.ownershipType,
             sort: self.sort
         )}
+}
+
+extension PaginatorSequence where Input == ListEntitiesInput, Output == ListEntitiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntitiesPaginated`
+    /// to access the nested member `[MarketplaceCatalogClientTypes.EntitySummary]`
+    /// - Returns: `[MarketplaceCatalogClientTypes.EntitySummary]`
+    public func entitySummaryList() async throws -> [MarketplaceCatalogClientTypes.EntitySummary] {
+        return try await self.asyncCompactMap { item in item.entitySummaryList }
+    }
 }

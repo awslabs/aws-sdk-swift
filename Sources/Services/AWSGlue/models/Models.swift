@@ -450,6 +450,484 @@ extension AlreadyExistsExceptionBody: Swift.Decodable {
     }
 }
 
+extension GlueClientTypes.AmazonRedshiftAdvancedOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Amazon Redshift data store.
+    public struct AmazonRedshiftAdvancedOption: Swift.Equatable {
+        /// The key when specifying a key-value pair.
+        public var key: Swift.String?
+        /// The value when specifying a key-value pair.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension GlueClientTypes.AmazonRedshiftNodeData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessType = "AccessType"
+        case action = "Action"
+        case advancedOptions = "AdvancedOptions"
+        case catalogDatabase = "CatalogDatabase"
+        case catalogRedshiftSchema = "CatalogRedshiftSchema"
+        case catalogRedshiftTable = "CatalogRedshiftTable"
+        case catalogTable = "CatalogTable"
+        case connection = "Connection"
+        case crawlerConnection = "CrawlerConnection"
+        case iamRole = "IamRole"
+        case mergeAction = "MergeAction"
+        case mergeClause = "MergeClause"
+        case mergeWhenMatched = "MergeWhenMatched"
+        case mergeWhenNotMatched = "MergeWhenNotMatched"
+        case postAction = "PostAction"
+        case preAction = "PreAction"
+        case sampleQuery = "SampleQuery"
+        case schema = "Schema"
+        case selectedColumns = "SelectedColumns"
+        case sourceType = "SourceType"
+        case stagingTable = "StagingTable"
+        case table = "Table"
+        case tablePrefix = "TablePrefix"
+        case tableSchema = "TableSchema"
+        case tempDir = "TempDir"
+        case upsert = "Upsert"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessType = self.accessType {
+            try encodeContainer.encode(accessType, forKey: .accessType)
+        }
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let advancedOptions = advancedOptions {
+            var advancedOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedOptions)
+            for amazonredshiftadvancedoption0 in advancedOptions {
+                try advancedOptionsContainer.encode(amazonredshiftadvancedoption0)
+            }
+        }
+        if let catalogDatabase = self.catalogDatabase {
+            try encodeContainer.encode(catalogDatabase, forKey: .catalogDatabase)
+        }
+        if let catalogRedshiftSchema = self.catalogRedshiftSchema {
+            try encodeContainer.encode(catalogRedshiftSchema, forKey: .catalogRedshiftSchema)
+        }
+        if let catalogRedshiftTable = self.catalogRedshiftTable {
+            try encodeContainer.encode(catalogRedshiftTable, forKey: .catalogRedshiftTable)
+        }
+        if let catalogTable = self.catalogTable {
+            try encodeContainer.encode(catalogTable, forKey: .catalogTable)
+        }
+        if let connection = self.connection {
+            try encodeContainer.encode(connection, forKey: .connection)
+        }
+        if let crawlerConnection = self.crawlerConnection {
+            try encodeContainer.encode(crawlerConnection, forKey: .crawlerConnection)
+        }
+        if let iamRole = self.iamRole {
+            try encodeContainer.encode(iamRole, forKey: .iamRole)
+        }
+        if let mergeAction = self.mergeAction {
+            try encodeContainer.encode(mergeAction, forKey: .mergeAction)
+        }
+        if let mergeClause = self.mergeClause {
+            try encodeContainer.encode(mergeClause, forKey: .mergeClause)
+        }
+        if let mergeWhenMatched = self.mergeWhenMatched {
+            try encodeContainer.encode(mergeWhenMatched, forKey: .mergeWhenMatched)
+        }
+        if let mergeWhenNotMatched = self.mergeWhenNotMatched {
+            try encodeContainer.encode(mergeWhenNotMatched, forKey: .mergeWhenNotMatched)
+        }
+        if let postAction = self.postAction {
+            try encodeContainer.encode(postAction, forKey: .postAction)
+        }
+        if let preAction = self.preAction {
+            try encodeContainer.encode(preAction, forKey: .preAction)
+        }
+        if let sampleQuery = self.sampleQuery {
+            try encodeContainer.encode(sampleQuery, forKey: .sampleQuery)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let selectedColumns = selectedColumns {
+            var selectedColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedColumns)
+            for option0 in selectedColumns {
+                try selectedColumnsContainer.encode(option0)
+            }
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType, forKey: .sourceType)
+        }
+        if let stagingTable = self.stagingTable {
+            try encodeContainer.encode(stagingTable, forKey: .stagingTable)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+        if let tablePrefix = self.tablePrefix {
+            try encodeContainer.encode(tablePrefix, forKey: .tablePrefix)
+        }
+        if let tableSchema = tableSchema {
+            var tableSchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tableSchema)
+            for option0 in tableSchema {
+                try tableSchemaContainer.encode(option0)
+            }
+        }
+        if let tempDir = self.tempDir {
+            try encodeContainer.encode(tempDir, forKey: .tempDir)
+        }
+        if upsert != false {
+            try encodeContainer.encode(upsert, forKey: .upsert)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessType)
+        accessType = accessTypeDecoded
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let connectionDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .connection)
+        connection = connectionDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .schema)
+        schema = schemaDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .table)
+        table = tableDecoded
+        let catalogDatabaseDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .catalogDatabase)
+        catalogDatabase = catalogDatabaseDecoded
+        let catalogTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .catalogTable)
+        catalogTable = catalogTableDecoded
+        let catalogRedshiftSchemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogRedshiftSchema)
+        catalogRedshiftSchema = catalogRedshiftSchemaDecoded
+        let catalogRedshiftTableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogRedshiftTable)
+        catalogRedshiftTable = catalogRedshiftTableDecoded
+        let tempDirDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tempDir)
+        tempDir = tempDirDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+        let advancedOptionsContainer = try containerValues.decodeIfPresent([GlueClientTypes.AmazonRedshiftAdvancedOption?].self, forKey: .advancedOptions)
+        var advancedOptionsDecoded0:[GlueClientTypes.AmazonRedshiftAdvancedOption]? = nil
+        if let advancedOptionsContainer = advancedOptionsContainer {
+            advancedOptionsDecoded0 = [GlueClientTypes.AmazonRedshiftAdvancedOption]()
+            for structure0 in advancedOptionsContainer {
+                if let structure0 = structure0 {
+                    advancedOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        advancedOptions = advancedOptionsDecoded0
+        let sampleQueryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sampleQuery)
+        sampleQuery = sampleQueryDecoded
+        let preActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preAction)
+        preAction = preActionDecoded
+        let postActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .postAction)
+        postAction = postActionDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let tablePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tablePrefix)
+        tablePrefix = tablePrefixDecoded
+        let upsertDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .upsert) ?? false
+        upsert = upsertDecoded
+        let mergeActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeAction)
+        mergeAction = mergeActionDecoded
+        let mergeWhenMatchedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeWhenMatched)
+        mergeWhenMatched = mergeWhenMatchedDecoded
+        let mergeWhenNotMatchedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeWhenNotMatched)
+        mergeWhenNotMatched = mergeWhenNotMatchedDecoded
+        let mergeClauseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeClause)
+        mergeClause = mergeClauseDecoded
+        let crawlerConnectionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .crawlerConnection)
+        crawlerConnection = crawlerConnectionDecoded
+        let tableSchemaContainer = try containerValues.decodeIfPresent([GlueClientTypes.Option?].self, forKey: .tableSchema)
+        var tableSchemaDecoded0:[GlueClientTypes.Option]? = nil
+        if let tableSchemaContainer = tableSchemaContainer {
+            tableSchemaDecoded0 = [GlueClientTypes.Option]()
+            for structure0 in tableSchemaContainer {
+                if let structure0 = structure0 {
+                    tableSchemaDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableSchema = tableSchemaDecoded0
+        let stagingTableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingTable)
+        stagingTable = stagingTableDecoded
+        let selectedColumnsContainer = try containerValues.decodeIfPresent([GlueClientTypes.Option?].self, forKey: .selectedColumns)
+        var selectedColumnsDecoded0:[GlueClientTypes.Option]? = nil
+        if let selectedColumnsContainer = selectedColumnsContainer {
+            selectedColumnsDecoded0 = [GlueClientTypes.Option]()
+            for structure0 in selectedColumnsContainer {
+                if let structure0 = structure0 {
+                    selectedColumnsDecoded0?.append(structure0)
+                }
+            }
+        }
+        selectedColumns = selectedColumnsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Amazon Redshift node.
+    public struct AmazonRedshiftNodeData: Swift.Equatable {
+        /// The access type for the Redshift connection. Can be a direct connection or catalog connections.
+        public var accessType: Swift.String?
+        /// Specifies how writing to a Redshift cluser will occur.
+        public var action: Swift.String?
+        /// Optional values when connecting to the Redshift cluster.
+        public var advancedOptions: [GlueClientTypes.AmazonRedshiftAdvancedOption]?
+        /// The name of the Glue Data Catalog database when working with a data catalog.
+        public var catalogDatabase: GlueClientTypes.Option?
+        /// The Redshift schema name when working with a data catalog.
+        public var catalogRedshiftSchema: Swift.String?
+        /// The database table to read from.
+        public var catalogRedshiftTable: Swift.String?
+        /// The Glue Data Catalog table name when working with a data catalog.
+        public var catalogTable: GlueClientTypes.Option?
+        /// The Glue connection to the Redshift cluster.
+        public var connection: GlueClientTypes.Option?
+        /// Specifies the name of the connection that is associated with the catalog table used.
+        public var crawlerConnection: Swift.String?
+        /// Optional. The role name use when connection to S3. The IAM role ill default to the role on the job when left blank.
+        public var iamRole: GlueClientTypes.Option?
+        /// The action used when to detemine how a MERGE in a Redshift sink will be handled.
+        public var mergeAction: Swift.String?
+        /// The SQL used in a custom merge to deal with matching records.
+        public var mergeClause: Swift.String?
+        /// The action used when to detemine how a MERGE in a Redshift sink will be handled when an existing record matches a new record.
+        public var mergeWhenMatched: Swift.String?
+        /// The action used when to detemine how a MERGE in a Redshift sink will be handled when an existing record doesn't match a new record.
+        public var mergeWhenNotMatched: Swift.String?
+        /// The SQL used before a MERGE or APPEND with upsert is run.
+        public var postAction: Swift.String?
+        /// The SQL used before a MERGE or APPEND with upsert is run.
+        public var preAction: Swift.String?
+        /// The SQL used to fetch the data from a Redshift sources when the SourceType is 'query'.
+        public var sampleQuery: Swift.String?
+        /// The Redshift schema name when working with a direct connection.
+        public var schema: GlueClientTypes.Option?
+        /// The list of column names used to determine a matching record when doing a MERGE or APPEND with upsert.
+        public var selectedColumns: [GlueClientTypes.Option]?
+        /// The source type to specify whether a specific table is the source or a custom query.
+        public var sourceType: Swift.String?
+        /// The name of the temporary staging table that is used when doing a MERGE or APPEND with upsert.
+        public var stagingTable: Swift.String?
+        /// The Redshift table name when working with a direct connection.
+        public var table: GlueClientTypes.Option?
+        /// Specifies the prefix to a table.
+        public var tablePrefix: Swift.String?
+        /// The array of schema output for a given node.
+        public var tableSchema: [GlueClientTypes.Option]?
+        /// The Amazon S3 path where temporary data can be staged when copying out of the database.
+        public var tempDir: Swift.String?
+        /// The action used on Redshift sinks when doing an APPEND.
+        public var upsert: Swift.Bool
+
+        public init (
+            accessType: Swift.String? = nil,
+            action: Swift.String? = nil,
+            advancedOptions: [GlueClientTypes.AmazonRedshiftAdvancedOption]? = nil,
+            catalogDatabase: GlueClientTypes.Option? = nil,
+            catalogRedshiftSchema: Swift.String? = nil,
+            catalogRedshiftTable: Swift.String? = nil,
+            catalogTable: GlueClientTypes.Option? = nil,
+            connection: GlueClientTypes.Option? = nil,
+            crawlerConnection: Swift.String? = nil,
+            iamRole: GlueClientTypes.Option? = nil,
+            mergeAction: Swift.String? = nil,
+            mergeClause: Swift.String? = nil,
+            mergeWhenMatched: Swift.String? = nil,
+            mergeWhenNotMatched: Swift.String? = nil,
+            postAction: Swift.String? = nil,
+            preAction: Swift.String? = nil,
+            sampleQuery: Swift.String? = nil,
+            schema: GlueClientTypes.Option? = nil,
+            selectedColumns: [GlueClientTypes.Option]? = nil,
+            sourceType: Swift.String? = nil,
+            stagingTable: Swift.String? = nil,
+            table: GlueClientTypes.Option? = nil,
+            tablePrefix: Swift.String? = nil,
+            tableSchema: [GlueClientTypes.Option]? = nil,
+            tempDir: Swift.String? = nil,
+            upsert: Swift.Bool = false
+        )
+        {
+            self.accessType = accessType
+            self.action = action
+            self.advancedOptions = advancedOptions
+            self.catalogDatabase = catalogDatabase
+            self.catalogRedshiftSchema = catalogRedshiftSchema
+            self.catalogRedshiftTable = catalogRedshiftTable
+            self.catalogTable = catalogTable
+            self.connection = connection
+            self.crawlerConnection = crawlerConnection
+            self.iamRole = iamRole
+            self.mergeAction = mergeAction
+            self.mergeClause = mergeClause
+            self.mergeWhenMatched = mergeWhenMatched
+            self.mergeWhenNotMatched = mergeWhenNotMatched
+            self.postAction = postAction
+            self.preAction = preAction
+            self.sampleQuery = sampleQuery
+            self.schema = schema
+            self.selectedColumns = selectedColumns
+            self.sourceType = sourceType
+            self.stagingTable = stagingTable
+            self.table = table
+            self.tablePrefix = tablePrefix
+            self.tableSchema = tableSchema
+            self.tempDir = tempDir
+            self.upsert = upsert
+        }
+    }
+
+}
+
+extension GlueClientTypes.AmazonRedshiftSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(GlueClientTypes.AmazonRedshiftNodeData.self, forKey: .data)
+        data = dataDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Amazon Redshift source.
+    public struct AmazonRedshiftSource: Swift.Equatable {
+        /// Specifies the data of the Amazon Reshift source node.
+        public var data: GlueClientTypes.AmazonRedshiftNodeData?
+        /// The name of the Amazon Redshift source.
+        public var name: Swift.String?
+
+        public init (
+            data: GlueClientTypes.AmazonRedshiftNodeData? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.data = data
+            self.name = name
+        }
+    }
+
+}
+
+extension GlueClientTypes.AmazonRedshiftTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+        case inputs = "Inputs"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(GlueClientTypes.AmazonRedshiftNodeData.self, forKey: .data)
+        data = dataDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Amazon Redshift target.
+    public struct AmazonRedshiftTarget: Swift.Equatable {
+        /// Specifies the data of the Amazon Reshift target node.
+        public var data: GlueClientTypes.AmazonRedshiftNodeData?
+        /// The nodes that are inputs to the data target.
+        public var inputs: [Swift.String]?
+        /// The name of the Amazon Redshift target.
+        public var name: Swift.String?
+
+        public init (
+            data: GlueClientTypes.AmazonRedshiftNodeData? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.data = data
+            self.inputs = inputs
+            self.name = name
+        }
+    }
+
+}
+
 extension GlueClientTypes.ApplyMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputs = "Inputs"
@@ -5751,6 +6229,8 @@ extension GlueClientTypes {
 extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregate = "Aggregate"
+        case amazonRedshiftSource = "AmazonRedshiftSource"
+        case amazonRedshiftTarget = "AmazonRedshiftTarget"
         case applyMapping = "ApplyMapping"
         case athenaConnectorSource = "AthenaConnectorSource"
         case catalogDeltaSource = "CatalogDeltaSource"
@@ -5819,6 +6299,12 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregate = self.aggregate {
             try encodeContainer.encode(aggregate, forKey: .aggregate)
+        }
+        if let amazonRedshiftSource = self.amazonRedshiftSource {
+            try encodeContainer.encode(amazonRedshiftSource, forKey: .amazonRedshiftSource)
+        }
+        if let amazonRedshiftTarget = self.amazonRedshiftTarget {
+            try encodeContainer.encode(amazonRedshiftTarget, forKey: .amazonRedshiftTarget)
         }
         if let applyMapping = self.applyMapping {
             try encodeContainer.encode(applyMapping, forKey: .applyMapping)
@@ -6136,6 +6622,10 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         s3DeltaCatalogTarget = s3DeltaCatalogTargetDecoded
         let s3DeltaDirectTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3DeltaDirectTarget.self, forKey: .s3DeltaDirectTarget)
         s3DeltaDirectTarget = s3DeltaDirectTargetDecoded
+        let amazonRedshiftSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.AmazonRedshiftSource.self, forKey: .amazonRedshiftSource)
+        amazonRedshiftSource = amazonRedshiftSourceDecoded
+        let amazonRedshiftTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.AmazonRedshiftTarget.self, forKey: .amazonRedshiftTarget)
+        amazonRedshiftTarget = amazonRedshiftTargetDecoded
     }
 }
 
@@ -6144,6 +6634,10 @@ extension GlueClientTypes {
     public struct CodeGenConfigurationNode: Swift.Equatable {
         /// Specifies a transform that groups rows by chosen fields and computes the aggregated value by specified function.
         public var aggregate: GlueClientTypes.Aggregate?
+        /// Specifies a target that writes to a data source in Amazon Redshift.
+        public var amazonRedshiftSource: GlueClientTypes.AmazonRedshiftSource?
+        /// Specifies a target that writes to a data target in Amazon Redshift.
+        public var amazonRedshiftTarget: GlueClientTypes.AmazonRedshiftTarget?
         /// Specifies a transform that maps data property keys in the data source to data property keys in the data target. You can rename keys, modify the data types for keys, and choose which keys to drop from the dataset.
         public var applyMapping: GlueClientTypes.ApplyMapping?
         /// Specifies a connector to an Amazon Athena data source.
@@ -6271,6 +6765,8 @@ extension GlueClientTypes {
 
         public init (
             aggregate: GlueClientTypes.Aggregate? = nil,
+            amazonRedshiftSource: GlueClientTypes.AmazonRedshiftSource? = nil,
+            amazonRedshiftTarget: GlueClientTypes.AmazonRedshiftTarget? = nil,
             applyMapping: GlueClientTypes.ApplyMapping? = nil,
             athenaConnectorSource: GlueClientTypes.AthenaConnectorSource? = nil,
             catalogDeltaSource: GlueClientTypes.CatalogDeltaSource? = nil,
@@ -6336,6 +6832,8 @@ extension GlueClientTypes {
         )
         {
             self.aggregate = aggregate
+            self.amazonRedshiftSource = amazonRedshiftSource
+            self.amazonRedshiftTarget = amazonRedshiftTarget
             self.applyMapping = applyMapping
             self.athenaConnectorSource = athenaConnectorSource
             self.catalogDeltaSource = catalogDeltaSource
@@ -10155,6 +10653,7 @@ extension CreateCustomEntityTypeInput: Swift.Encodable {
         case contextWords = "ContextWords"
         case name = "Name"
         case regexString = "RegexString"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10170,6 +10669,12 @@ extension CreateCustomEntityTypeInput: Swift.Encodable {
         }
         if let regexString = self.regexString {
             try encodeContainer.encode(regexString, forKey: .regexString)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -10189,16 +10694,20 @@ public struct CreateCustomEntityTypeInput: Swift.Equatable {
     /// A regular expression string that is used for detecting sensitive data in a custom pattern.
     /// This member is required.
     public var regexString: Swift.String?
+    /// A list of tags applied to the custom entity type.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         contextWords: [Swift.String]? = nil,
         name: Swift.String? = nil,
-        regexString: Swift.String? = nil
+        regexString: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.contextWords = contextWords
         self.name = name
         self.regexString = regexString
+        self.tags = tags
     }
 }
 
@@ -10206,6 +10715,7 @@ struct CreateCustomEntityTypeInputBody: Swift.Equatable {
     let name: Swift.String?
     let regexString: Swift.String?
     let contextWords: [Swift.String]?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateCustomEntityTypeInputBody: Swift.Decodable {
@@ -10213,6 +10723,7 @@ extension CreateCustomEntityTypeInputBody: Swift.Decodable {
         case contextWords = "ContextWords"
         case name = "Name"
         case regexString = "RegexString"
+        case tags = "Tags"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -10232,6 +10743,17 @@ extension CreateCustomEntityTypeInputBody: Swift.Decodable {
             }
         }
         contextWords = contextWordsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -20484,6 +21006,7 @@ extension GlueClientTypes.DynamicTransform: Swift.Codable {
         case functionName = "FunctionName"
         case inputs = "Inputs"
         case name = "Name"
+        case outputSchemas = "OutputSchemas"
         case parameters = "Parameters"
         case path = "Path"
         case transformName = "TransformName"
@@ -20503,6 +21026,12 @@ extension GlueClientTypes.DynamicTransform: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
@@ -20555,6 +21084,17 @@ extension GlueClientTypes.DynamicTransform: Swift.Codable {
         path = pathDecoded
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
     }
 }
 
@@ -20570,6 +21110,8 @@ extension GlueClientTypes {
         /// Specifies the name of the dynamic transform.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the data schema for the dynamic transform.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
         /// Specifies the parameters of the dynamic transform.
         public var parameters: [GlueClientTypes.TransformConfigParameter]?
         /// Specifies the path of the dynamic transform source and config files.
@@ -20585,6 +21127,7 @@ extension GlueClientTypes {
             functionName: Swift.String? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             parameters: [GlueClientTypes.TransformConfigParameter]? = nil,
             path: Swift.String? = nil,
             transformName: Swift.String? = nil,
@@ -20594,6 +21137,7 @@ extension GlueClientTypes {
             self.functionName = functionName
             self.inputs = inputs
             self.name = name
+            self.outputSchemas = outputSchemas
             self.parameters = parameters
             self.path = path
             self.transformName = transformName
@@ -35553,14 +36097,11 @@ extension GlueClientTypes {
         public var lastModifiedOn: ClientRuntime.Date?
         /// This field is reserved for future use.
         public var logUri: Swift.String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0 or later jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
         ///
         /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
-        ///
-        ///
-        /// For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public var maxCapacity: Swift.Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public var maxRetries: Swift.Int
@@ -35584,9 +36125,13 @@ extension GlueClientTypes {
         ///
         /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        ///
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPU, 64 GB of memory, 256 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later jobs.
+        ///
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPU, 128 GB of memory, 512 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later jobs.
         ///
         /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public var workerType: GlueClientTypes.WorkerType?
@@ -38181,6 +38726,7 @@ extension ListCustomEntityTypesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -38190,6 +38736,12 @@ extension ListCustomEntityTypesInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -38205,26 +38757,32 @@ public struct ListCustomEntityTypesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A paginated token to offset the results.
     public var nextToken: Swift.String?
+    /// A list of key-value pair tags.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.tags = tags
     }
 }
 
 struct ListCustomEntityTypesInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension ListCustomEntityTypesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case tags = "Tags"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -38233,6 +38791,17 @@ extension ListCustomEntityTypesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -42389,6 +42958,61 @@ extension OperationTimeoutExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension GlueClientTypes.Option: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case label = "Label"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let label = self.label {
+            try encodeContainer.encode(label, forKey: .label)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
+        label = labelDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an option value.
+    public struct Option: Swift.Equatable {
+        /// Specifies the description of the option.
+        public var description: Swift.String?
+        /// Specifies the label of the option.
+        public var label: Swift.String?
+        /// Specifies the value of the option.
+        public var value: Swift.String?
+
+        public init (
+            description: Swift.String? = nil,
+            label: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.label = label
+            self.value = value
+        }
+    }
+
 }
 
 extension GlueClientTypes.OracleSQLCatalogSource: Swift.Codable {
@@ -61097,6 +61721,8 @@ extension GlueClientTypes {
         case g025x
         case g1x
         case g2x
+        case g4x
+        case g8x
         case standard
         case sdkUnknown(Swift.String)
 
@@ -61105,6 +61731,8 @@ extension GlueClientTypes {
                 .g025x,
                 .g1x,
                 .g2x,
+                .g4x,
+                .g8x,
                 .standard,
                 .sdkUnknown("")
             ]
@@ -61118,6 +61746,8 @@ extension GlueClientTypes {
             case .g025x: return "G.025X"
             case .g1x: return "G.1X"
             case .g2x: return "G.2X"
+            case .g4x: return "G.4X"
+            case .g8x: return "G.8X"
             case .standard: return "Standard"
             case let .sdkUnknown(s): return s
             }

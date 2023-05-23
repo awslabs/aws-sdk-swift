@@ -150,7 +150,7 @@ extension CreateLedgerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLedgerInput: Swift.Equatable {
-    /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
+    /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html) in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:
     ///
@@ -158,7 +158,7 @@ public struct CreateLedgerInput: Swift.Equatable {
     ///
     /// * Undefined: By default, use an Amazon Web Services owned KMS key.
     ///
-    /// * A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see [Using symmetric and asymmetric keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide.
+    /// * A valid symmetric customer managed KMS key: Use the specified symmetric encryption KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see [Using symmetric and asymmetric keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide.
     ///
     ///
     /// To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
@@ -302,7 +302,7 @@ public struct CreateLedgerOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
     public var creationDateTime: ClientRuntime.Date?
-    /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
+    /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// The ARN of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
     public var kmsKeyArn: Swift.String?
@@ -733,7 +733,7 @@ public struct DescribeLedgerOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
     public var creationDateTime: ClientRuntime.Date?
-    /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
+    /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error).
     public var encryptionDescription: QLDBClientTypes.LedgerEncryptionDescription?
@@ -919,11 +919,11 @@ public struct ExportJournalToS3Input: Swift.Equatable {
     /// The name of the ledger.
     /// This member is required.
     public var name: Swift.String?
-    /// The output format of your exported journal data. If this parameter is not specified, the exported data defaults to ION_TEXT format.
+    /// The output format of your exported journal data. A journal export job can write the data objects in either the text or binary representation of [Amazon Ion](https://docs.aws.amazon.com/qldb/latest/developerguide/ion.html) format, or in [JSON Lines](https://jsonlines.org/) text format. Default: ION_TEXT In JSON Lines format, each journal block in an exported data object is a valid JSON object that is delimited by a newline. You can use this format to directly integrate JSON exports with analytics tools such as Amazon Athena and Glue because these services can parse newline-delimited JSON automatically.
     public var outputFormat: QLDBClientTypes.OutputFormat?
     /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:
     ///
-    /// * Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.
+    /// * Write objects into your Amazon S3 bucket.
     ///
     /// * (Optional) Use your customer managed key in Key Management Service (KMS) for server-side encryption of your exported data.
     ///
@@ -1879,7 +1879,7 @@ extension QLDBClientTypes.KinesisConfiguration: Swift.Codable {
 extension QLDBClientTypes {
     /// The configuration settings of the Amazon Kinesis Data Streams destination for an Amazon QLDB journal stream.
     public struct KinesisConfiguration: Swift.Equatable {
-        /// Enables QLDB to publish multiple data records in a single Kinesis Data Streams record, increasing the number of records sent per API call. This option is enabled by default. Record aggregation has important implications for processing records and requires de-aggregation in your stream consumer. To learn more, see [KPL Key Concepts](https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-concepts.html) and [Consumer De-aggregation](https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-consumer-deaggregation.html) in the Amazon Kinesis Data Streams Developer Guide.
+        /// Enables QLDB to publish multiple data records in a single Kinesis Data Streams record, increasing the number of records sent per API call. Default: True Record aggregation has important implications for processing records and requires de-aggregation in your stream consumer. To learn more, see [KPL Key Concepts](https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-concepts.html) and [Consumer De-aggregation](https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-consumer-deaggregation.html) in the Amazon Kinesis Data Streams Developer Guide.
         public var aggregationEnabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the Kinesis Data Streams resource.
         /// This member is required.
@@ -2215,7 +2215,7 @@ public struct ListJournalKinesisStreamsForLedgerOutputResponse: Swift.Equatable 
     ///
     /// * If NextToken is not empty, more results are available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalKinesisStreamsForLedger call.
     public var nextToken: Swift.String?
-    /// The array of QLDB journal stream descriptors that are associated with the given ledger.
+    /// The QLDB journal streams that are currently associated with the given ledger.
     public var streams: [QLDBClientTypes.JournalKinesisStreamDescription]?
 
     public init (
@@ -2348,7 +2348,7 @@ extension ListJournalS3ExportsForLedgerOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct ListJournalS3ExportsForLedgerOutputResponse: Swift.Equatable {
-    /// The array of journal export job descriptions that are associated with the specified ledger.
+    /// The journal export jobs that are currently associated with the specified ledger.
     public var journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]?
     /// * If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.
     ///
@@ -2477,7 +2477,7 @@ extension ListJournalS3ExportsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct ListJournalS3ExportsOutputResponse: Swift.Equatable {
-    /// The array of journal export job descriptions for all ledgers that are associated with the current Amazon Web Services account and Region.
+    /// The journal export jobs for all ledgers that are associated with the current Amazon Web Services account and Region.
     public var journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]?
     /// * If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.
     ///
@@ -2606,7 +2606,7 @@ extension ListLedgersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListLedgersOutputResponse: Swift.Equatable {
-    /// The array of ledger summaries that are associated with the current Amazon Web Services account and Region.
+    /// The ledgers that are associated with the current Amazon Web Services account and Region.
     public var ledgers: [QLDBClientTypes.LedgerSummary]?
     /// A pagination token, indicating whether there are more results available:
     ///
@@ -3135,7 +3135,7 @@ extension QLDBClientTypes.S3EncryptionConfiguration: Swift.Codable {
 extension QLDBClientTypes {
     /// The encryption settings that are used by a journal export job to write data in an Amazon Simple Storage Service (Amazon S3) bucket.
     public struct S3EncryptionConfiguration: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of a symmetric key in Key Management Service (KMS). Amazon S3 does not support asymmetric KMS keys. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType. KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
+        /// The Amazon Resource Name (ARN) of a symmetric encryption key in Key Management Service (KMS). Amazon S3 does not support asymmetric KMS keys. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType. KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public var kmsKeyArn: Swift.String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see [Protecting Data Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html) in the Amazon S3 Developer Guide.
         /// This member is required.
@@ -3710,7 +3710,7 @@ extension UpdateLedgerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLedgerInput: Swift.Equatable {
-    /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
+    /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html) in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:
     ///
@@ -3718,7 +3718,7 @@ public struct UpdateLedgerInput: Swift.Equatable {
     ///
     /// * Undefined: Make no changes to the KMS key of the ledger.
     ///
-    /// * A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see [Using symmetric and asymmetric keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide.
+    /// * A valid symmetric customer managed KMS key: Use the specified symmetric encryption KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see [Using symmetric and asymmetric keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide.
     ///
     ///
     /// To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
@@ -3821,7 +3821,7 @@ public struct UpdateLedgerOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
     public var creationDateTime: ClientRuntime.Date?
-    /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
+    /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error).
     public var encryptionDescription: QLDBClientTypes.LedgerEncryptionDescription?

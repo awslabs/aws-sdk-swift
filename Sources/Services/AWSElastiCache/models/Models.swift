@@ -1659,11 +1659,11 @@ extension ElastiCacheClientTypes {
         public var engine: Swift.String?
         /// The version of the cache engine that is used in this cluster.
         public var engineVersion: Swift.String?
-        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
         /// Returns the destination, format and type of the logs.
         public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfiguration]?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var networkType: ElastiCacheClientTypes.NetworkType?
         /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
         public var notificationConfiguration: ElastiCacheClientTypes.NotificationConfiguration?
@@ -1935,7 +1935,7 @@ extension ElastiCacheClientTypes {
         public var cacheEngineDescription: Swift.String?
         /// The description of the cache engine version.
         public var cacheEngineVersionDescription: Swift.String?
-        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x
+        /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public var cacheParameterGroupFamily: Swift.String?
         /// The name of the cache engine.
         public var engine: Swift.String?
@@ -2443,7 +2443,7 @@ extension ElastiCacheClientTypes {
     public struct CacheParameterGroup: Swift.Equatable {
         /// The ARN (Amazon Resource Name) of the cache parameter group.
         public var arn: Swift.String?
-        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |
+        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public var cacheParameterGroupFamily: Swift.String?
         /// The name of the cache parameter group.
         public var cacheParameterGroupName: Swift.String?
@@ -3125,7 +3125,7 @@ extension ElastiCacheClientTypes {
         public var cacheSubnetGroupName: Swift.String?
         /// A list of subnets associated with the cache subnet group.
         public var subnets: [ElastiCacheClientTypes.Subnet]?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var supportedNetworkTypes: [ElastiCacheClientTypes.NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
         public var vpcId: Swift.String?
@@ -3470,6 +3470,41 @@ extension ElastiCacheClientTypes {
         }
     }
 
+}
+
+extension ElastiCacheClientTypes {
+    public enum ClusterMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case compatible
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterMode] {
+            return [
+                .compatible,
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .compatible: return "compatible"
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ClusterMode(rawValue: rawValue) ?? ClusterMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ClusterQuotaForCustomerExceededFault {
@@ -4212,11 +4247,11 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     public var engine: Swift.String?
     /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// Specifies the destination, format and type of the logs.
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
-    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var networkType: ElastiCacheClientTypes.NetworkType?
     /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent. The Amazon SNS topic owner must be the same as the cluster owner.
     public var notificationTopicArn: Swift.String?
@@ -4250,7 +4285,7 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     public var snapshotWindow: Swift.String?
     /// A list of tags to be added to this resource.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// A flag that enables in-transit encryption when set to true. Only available when creating a cache cluster in an Amazon VPC using Memcached version 1.6.12 or later.
+    /// A flag that enables in-transit encryption when set to true.
     public var transitEncryptionEnabled: Swift.Bool?
 
     public init (
@@ -4695,7 +4730,7 @@ extension CreateCacheParameterGroupInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a CreateCacheParameterGroup operation.
 public struct CreateCacheParameterGroupInput: Swift.Equatable {
-    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x
+    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
     /// A user-specified name for the cache parameter group.
@@ -5397,6 +5432,9 @@ extension CreateReplicationGroupInput: Swift.Encodable {
         if let cacheSubnetGroupName = cacheSubnetGroupName {
             try container.encode(cacheSubnetGroupName, forKey: ClientRuntime.Key("CacheSubnetGroupName"))
         }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
+        }
         if let dataTieringEnabled = dataTieringEnabled {
             try container.encode(dataTieringEnabled, forKey: ClientRuntime.Key("DataTieringEnabled"))
         }
@@ -5628,6 +5666,8 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// The name of the cache subnet group to be used for the replication group. If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see [Subnets and Subnet Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html).
     public var cacheSubnetGroupName: Swift.String?
+    /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    public var clusterMode: ElastiCacheClientTypes.ClusterMode?
     /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html).
     public var dataTieringEnabled: Swift.Bool?
     /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
@@ -5636,7 +5676,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The name of the Global datastore
     public var globalReplicationGroupId: Swift.String?
-    /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// The ID of the KMS key used to encrypt the disk in the cluster.
     public var kmsKeyId: Swift.String?
@@ -5644,7 +5684,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
     /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see [Minimizing Downtime: Multi-AZ](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html).
     public var multiAZEnabled: Swift.Bool?
-    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var networkType: ElastiCacheClientTypes.NetworkType?
     /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
     public var nodeGroupConfiguration: [ElastiCacheClientTypes.NodeGroupConfiguration]?
@@ -5707,7 +5747,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var tags: [ElastiCacheClientTypes.Tag]?
     /// A flag that enables in-transit encryption when set to true. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
     public var transitEncryptionEnabled: Swift.Bool?
-    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred first, after that you can set TransitEncryptionMode to required.
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
     public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     /// The user group to associate with the replication group.
     public var userGroupIds: [Swift.String]?
@@ -5721,6 +5761,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         cacheParameterGroupName: Swift.String? = nil,
         cacheSecurityGroupNames: [Swift.String]? = nil,
         cacheSubnetGroupName: Swift.String? = nil,
+        clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
         dataTieringEnabled: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
@@ -5760,6 +5801,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.cacheSecurityGroupNames = cacheSecurityGroupNames
         self.cacheSubnetGroupName = cacheSubnetGroupName
+        self.clusterMode = clusterMode
         self.dataTieringEnabled = dataTieringEnabled
         self.engine = engine
         self.engineVersion = engineVersion
@@ -5830,6 +5872,7 @@ struct CreateReplicationGroupInputBody: Swift.Equatable {
     let networkType: ElastiCacheClientTypes.NetworkType?
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
+    let clusterMode: ElastiCacheClientTypes.ClusterMode?
 }
 
 extension CreateReplicationGroupInputBody: Swift.Decodable {
@@ -5842,6 +5885,7 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         case cacheParameterGroupName = "CacheParameterGroupName"
         case cacheSecurityGroupNames = "CacheSecurityGroupNames"
         case cacheSubnetGroupName = "CacheSubnetGroupName"
+        case clusterMode = "ClusterMode"
         case dataTieringEnabled = "DataTieringEnabled"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
@@ -6085,6 +6129,8 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         ipDiscovery = ipDiscoveryDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
@@ -12705,7 +12751,7 @@ extension ElastiCacheClientTypes {
     public struct EngineDefaults: Swift.Equatable {
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         public var cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]?
-        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.x
+        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.x | redis7
         public var cacheParameterGroupFamily: Swift.String?
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: Swift.String?
@@ -15461,7 +15507,7 @@ public struct ModifyCacheClusterInput: Swift.Equatable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// The upgraded version of the cache engine to be run on the cache nodes. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// Specifies the destination, format and type of the logs.
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
@@ -16406,6 +16452,9 @@ extension ModifyReplicationGroupInput: Swift.Encodable {
                 try cacheSecurityGroupNamesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
+        }
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
@@ -16547,9 +16596,11 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
     public var cacheParameterGroupName: Swift.String?
     /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
     public var cacheSecurityGroupNames: [Swift.String]?
+    /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    public var clusterMode: ElastiCacheClientTypes.ClusterMode?
     /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
     public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     /// Specifies the destination, format and type of the logs.
     public var logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
@@ -16600,7 +16651,7 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
     public var snapshottingClusterId: Swift.String?
     /// A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred.
     public var transitEncryptionEnabled: Swift.Bool?
-    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred first, after that you can set TransitEncryptionMode to required.
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required.
     public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     /// The ID of the user group you are associating with the replication group.
     public var userGroupIdsToAdd: [Swift.String]?
@@ -16616,6 +16667,7 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
         cacheNodeType: Swift.String? = nil,
         cacheParameterGroupName: Swift.String? = nil,
         cacheSecurityGroupNames: [Swift.String]? = nil,
+        clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
         engineVersion: Swift.String? = nil,
         ipDiscovery: ElastiCacheClientTypes.IpDiscovery? = nil,
         logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]? = nil,
@@ -16646,6 +16698,7 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
         self.cacheNodeType = cacheNodeType
         self.cacheParameterGroupName = cacheParameterGroupName
         self.cacheSecurityGroupNames = cacheSecurityGroupNames
+        self.clusterMode = clusterMode
         self.engineVersion = engineVersion
         self.ipDiscovery = ipDiscovery
         self.logDeliveryConfigurations = logDeliveryConfigurations
@@ -16698,6 +16751,7 @@ struct ModifyReplicationGroupInputBody: Swift.Equatable {
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     let transitEncryptionEnabled: Swift.Bool?
     let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
+    let clusterMode: ElastiCacheClientTypes.ClusterMode?
 }
 
 extension ModifyReplicationGroupInputBody: Swift.Decodable {
@@ -16710,6 +16764,7 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         case cacheNodeType = "CacheNodeType"
         case cacheParameterGroupName = "CacheParameterGroupName"
         case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+        case clusterMode = "ClusterMode"
         case engineVersion = "EngineVersion"
         case ipDiscovery = "IpDiscovery"
         case logDeliveryConfigurations = "LogDeliveryConfigurations"
@@ -16875,6 +16930,8 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         transitEncryptionEnabled = transitEncryptionEnabledDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
@@ -20183,6 +20240,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         case automaticFailover = "AutomaticFailover"
         case cacheNodeType = "CacheNodeType"
         case clusterEnabled = "ClusterEnabled"
+        case clusterMode = "ClusterMode"
         case configurationEndpoint = "ConfigurationEndpoint"
         case dataTiering = "DataTiering"
         case description = "Description"
@@ -20232,6 +20290,9 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         }
         if let clusterEnabled = clusterEnabled {
             try container.encode(clusterEnabled, forKey: ClientRuntime.Key("ClusterEnabled"))
+        }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
         }
         if let configurationEndpoint = configurationEndpoint {
             try container.encode(configurationEndpoint, forKey: ClientRuntime.Key("ConfigurationEndpoint"))
@@ -20493,6 +20554,8 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         ipDiscovery = ipDiscoveryDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
@@ -20507,7 +20570,7 @@ extension ElastiCacheClientTypes {
         public var authTokenEnabled: Swift.Bool?
         /// The date the auth token was last modified
         public var authTokenLastModifiedDate: ClientRuntime.Date?
-        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+        /// If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public var autoMinorVersionUpgrade: Swift.Bool
         /// Indicates the status of automatic failover for this Redis replication group.
         public var automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus?
@@ -20515,6 +20578,8 @@ extension ElastiCacheClientTypes {
         public var cacheNodeType: Swift.String?
         /// A flag indicating whether or not this replication group is cluster enabled; i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false
         public var clusterEnabled: Swift.Bool?
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        public var clusterMode: ElastiCacheClientTypes.ClusterMode?
         /// The configuration endpoint for this replication group. Use the configuration endpoint to connect to this replication group.
         public var configurationEndpoint: ElastiCacheClientTypes.Endpoint?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html).
@@ -20523,7 +20588,7 @@ extension ElastiCacheClientTypes {
         public var description: Swift.String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public var globalReplicationGroupInfo: ElastiCacheClientTypes.GlobalReplicationGroupInfo?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public var kmsKeyId: Swift.String?
@@ -20535,7 +20600,7 @@ extension ElastiCacheClientTypes {
         public var memberClustersOutpostArns: [Swift.String]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see [Minimizing Downtime: Multi-AZ](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html)
         public var multiAZ: ElastiCacheClientTypes.MultiAZStatus?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var networkType: ElastiCacheClientTypes.NetworkType?
         /// A list of node groups in this replication group. For Redis (cluster mode disabled) replication groups, this is a single-element list. For Redis (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
         public var nodeGroups: [ElastiCacheClientTypes.NodeGroup]?
@@ -20569,6 +20634,7 @@ extension ElastiCacheClientTypes {
             automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus? = nil,
             cacheNodeType: Swift.String? = nil,
             clusterEnabled: Swift.Bool? = nil,
+            clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
             configurationEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
             dataTiering: ElastiCacheClientTypes.DataTieringStatus? = nil,
             description: Swift.String? = nil,
@@ -20601,6 +20667,7 @@ extension ElastiCacheClientTypes {
             self.automaticFailover = automaticFailover
             self.cacheNodeType = cacheNodeType
             self.clusterEnabled = clusterEnabled
+            self.clusterMode = clusterMode
             self.configurationEndpoint = configurationEndpoint
             self.dataTiering = dataTiering
             self.description = description
@@ -20836,6 +20903,7 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authTokenStatus = "AuthTokenStatus"
         case automaticFailoverStatus = "AutomaticFailoverStatus"
+        case clusterMode = "ClusterMode"
         case logDeliveryConfigurations = "LogDeliveryConfigurations"
         case primaryClusterId = "PrimaryClusterId"
         case resharding = "Resharding"
@@ -20851,6 +20919,9 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         }
         if let automaticFailoverStatus = automaticFailoverStatus {
             try container.encode(automaticFailoverStatus, forKey: ClientRuntime.Key("AutomaticFailoverStatus"))
+        }
+        if let clusterMode = clusterMode {
+            try container.encode(clusterMode, forKey: ClientRuntime.Key("ClusterMode"))
         }
         if let logDeliveryConfigurations = logDeliveryConfigurations {
             if !logDeliveryConfigurations.isEmpty {
@@ -20916,6 +20987,8 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         transitEncryptionEnabled = transitEncryptionEnabledDecoded
         let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
         transitEncryptionMode = transitEncryptionModeDecoded
+        let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
+        clusterMode = clusterModeDecoded
     }
 }
 
@@ -20926,6 +20999,8 @@ extension ElastiCacheClientTypes {
         public var authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus?
         /// Indicates the status of automatic failover for this Redis replication group.
         public var automaticFailoverStatus: ElastiCacheClientTypes.PendingAutomaticFailoverStatus?
+        /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+        public var clusterMode: ElastiCacheClientTypes.ClusterMode?
         /// The log delivery configurations being modified
         public var logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]?
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
@@ -20942,6 +21017,7 @@ extension ElastiCacheClientTypes {
         public init (
             authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus? = nil,
             automaticFailoverStatus: ElastiCacheClientTypes.PendingAutomaticFailoverStatus? = nil,
+            clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
             logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]? = nil,
             primaryClusterId: Swift.String? = nil,
             resharding: ElastiCacheClientTypes.ReshardingStatus? = nil,
@@ -20952,6 +21028,7 @@ extension ElastiCacheClientTypes {
         {
             self.authTokenStatus = authTokenStatus
             self.automaticFailoverStatus = automaticFailoverStatus
+            self.clusterMode = clusterMode
             self.logDeliveryConfigurations = logDeliveryConfigurations
             self.primaryClusterId = primaryClusterId
             self.resharding = resharding
@@ -23313,7 +23390,7 @@ extension ElastiCacheClientTypes {
         public var subnetIdentifier: Swift.String?
         /// The outpost ARN of the subnet.
         public var subnetOutpost: ElastiCacheClientTypes.SubnetOutpost?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](https://aws.amazon.com/ec2/nitro/).
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
         public var supportedNetworkTypes: [ElastiCacheClientTypes.NetworkType]?
 
         public init (

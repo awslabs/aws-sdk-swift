@@ -2692,6 +2692,7 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         case iops = "Iops"
         case masterUserPassword = "MasterUserPassword"
         case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
+        case storageType = "StorageType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2720,6 +2721,9 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         if let pendingCloudwatchLogsExports = pendingCloudwatchLogsExports {
             try container.encode(pendingCloudwatchLogsExports, forKey: ClientRuntime.Key("PendingCloudwatchLogsExports"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2740,6 +2744,8 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         allocatedStorage = allocatedStorageDecoded
         let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -2762,6 +2768,8 @@ extension RDSClientTypes {
         public var masterUserPassword: Swift.String?
         /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated.
         public var pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports?
+        /// The storage type for the DB cluster.
+        public var storageType: Swift.String?
 
         public init (
             allocatedStorage: Swift.Int? = nil,
@@ -2771,7 +2779,8 @@ extension RDSClientTypes {
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
             masterUserPassword: Swift.String? = nil,
-            pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil
+            pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil,
+            storageType: Swift.String? = nil
         )
         {
             self.allocatedStorage = allocatedStorage
@@ -2782,6 +2791,7 @@ extension RDSClientTypes {
             self.iops = iops
             self.masterUserPassword = masterUserPassword
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
+            self.storageType = storageType
         }
     }
 
@@ -5653,15 +5663,11 @@ public struct CreateDBClusterInput: Swift.Equatable {
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var engine: Swift.String?
-    /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:
+    /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. For information about limitations and requirements for Serverless DB clusters, see the following sections in the Amazon Aurora User Guide:
     ///
     /// * [Limitations of Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations)
     ///
     /// * [Requirements for Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.requirements.html)
-    ///
-    /// * [Limitations of parallel query](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations)
-    ///
-    /// * [Limitations of Aurora global databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations)
     ///
     ///
     /// Valid for: Aurora DB clusters only
@@ -5801,7 +5807,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     /// A value that indicates whether the DB cluster is encrypted. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageEncrypted: Swift.Bool?
-    /// Specifies the storage type to be associated with the DB cluster. This setting is required to create a Multi-AZ DB cluster. Valid values: io1 When specified, a value for the Iops parameter is required. Default: io1 Valid for: Multi-AZ DB clusters only
+    /// Specifies the storage type to be associated with the DB cluster. This setting is required to create a Multi-AZ DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
     /// Tags to assign to the DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
@@ -10862,6 +10868,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case hostedZoneId = "HostedZoneId"
         case httpEndpointEnabled = "HttpEndpointEnabled"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+        case ioOptimizedNextAllowedModificationTime = "IOOptimizedNextAllowedModificationTime"
         case iops = "Iops"
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
@@ -11085,6 +11092,9 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         }
         if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
+        }
+        if let ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime {
+            try container.encodeTimestamp(ioOptimizedNextAllowedModificationTime, format: .dateTime, forKey: ClientRuntime.Key("ioOptimizedNextAllowedModificationTime"))
         }
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
@@ -11513,6 +11523,8 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         dbSystemId = dbSystemIdDecoded
         let masterUserSecretDecoded = try containerValues.decodeIfPresent(RDSClientTypes.MasterUserSecret.self, forKey: .masterUserSecret)
         masterUserSecret = masterUserSecretDecoded
+        let ioOptimizedNextAllowedModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .ioOptimizedNextAllowedModificationTime)
+        ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTimeDecoded
     }
 }
 
@@ -11591,7 +11603,7 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The name of the database engine to be used for this DB cluster.
         public var engine: Swift.String?
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html).
+        /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html).
         public var engineMode: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
@@ -11605,6 +11617,8 @@ extension RDSClientTypes {
         public var httpEndpointEnabled: Swift.Bool?
         /// A value that indicates whether the mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
+        /// The next time you can modify the DB cluster to use the aurora-iopt1 storage type. This setting is only for Aurora DB clusters.
+        public var ioOptimizedNextAllowedModificationTime: ClientRuntime.Date?
         /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var iops: Swift.Int?
         /// If StorageEncrypted is enabled, the Amazon Web Services KMS key identifier for the encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
@@ -11682,7 +11696,7 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Specifies whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool
-        /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The storage type associated with the DB cluster.
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
         public var tagList: [RDSClientTypes.Tag]?
@@ -11733,6 +11747,7 @@ extension RDSClientTypes {
             hostedZoneId: Swift.String? = nil,
             httpEndpointEnabled: Swift.Bool? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
+            ioOptimizedNextAllowedModificationTime: ClientRuntime.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
@@ -11806,6 +11821,7 @@ extension RDSClientTypes {
             self.hostedZoneId = hostedZoneId
             self.httpEndpointEnabled = httpEndpointEnabled
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
+            self.ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
@@ -12940,6 +12956,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         case sourceDBClusterSnapshotArn = "SourceDBClusterSnapshotArn"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case tagList = "TagList"
         case vpcId = "VpcId"
     }
@@ -13017,6 +13034,9 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         }
         if storageEncrypted != false {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
+        }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
         if let tagList = tagList {
             if !tagList.isEmpty {
@@ -13117,6 +13137,8 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         }
         let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
         dbSystemId = dbSystemIdDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -13171,6 +13193,8 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Specifies whether the DB cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool
+        /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
+        public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// Provides the VPC ID associated with the DB cluster snapshot.
@@ -13198,6 +13222,7 @@ extension RDSClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool = false,
+            storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
         )
@@ -13223,6 +13248,7 @@ extension RDSClientTypes {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.tagList = tagList
             self.vpcId = vpcId
         }
@@ -14974,11 +15000,7 @@ extension RDSClientTypes {
         public var engineVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public var enhancedMonitoringResourceArn: Swift.String?
-        /// True if mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines:
-        ///
-        /// * For MySQL 5.7, minor version 5.7.16 or higher.
-        ///
-        /// * For Amazon Aurora, all versions of Aurora MySQL and Aurora PostgreSQL.
+        /// True if mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. For a list of engine versions that support IAM database authentication, see [IAM database authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RDS_Fea_Regions_DB-eng.Feature.IamDatabaseAuthentication.html) in the Amazon RDS User Guide and [IAM database authentication in Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.Aurora_Fea_Regions_DB-eng.Feature.IAMdbauth.html) in the Amazon Aurora User Guide.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool
         /// Provides the date and time the DB instance was created.
         public var instanceCreateTime: ClientRuntime.Date?
@@ -22408,7 +22430,7 @@ extension DescribeDBClusterBacktracksInput: ClientRuntime.URLPathProvider {
 public struct DescribeDBClusterBacktracksInput: Swift.Equatable {
     /// If specified, this value is the backtrack identifier of the backtrack to be described. Constraints:
     ///
-    /// * Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see [A Universally Unique Identifier (UUID) URN Namespace](http://www.ietf.org/rfc/rfc4122.txt).
+    /// * Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see [Universally unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier).
     ///
     ///
     /// Example: 123e4567-e89b-12d3-a456-426655440000
@@ -36244,7 +36266,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var scalingConfiguration: RDSClientTypes.ScalingConfiguration?
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
-    /// Specifies the storage type to be associated with the DB cluster. Valid values: io1 When specified, a value for the Iops parameter is required. Default: io1 Valid for: Multi-AZ DB clusters only
+    /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
     /// A list of VPC security groups that the DB cluster will belong to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var vpcSecurityGroupIds: [Swift.String]?
@@ -36553,6 +36575,7 @@ extension ModifyDBClusterOutputError {
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "StorageTypeNotAvailableFault" : self = .storageTypeNotAvailableFault(try StorageTypeNotAvailableFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -36572,6 +36595,7 @@ public enum ModifyDBClusterOutputError: Swift.Error, Swift.Equatable {
     case invalidSubnet(InvalidSubnet)
     case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
     case storageQuotaExceededFault(StorageQuotaExceededFault)
+    case storageTypeNotAvailableFault(StorageTypeNotAvailableFault)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -37252,7 +37276,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var iops: Swift.Int?
     /// The license model for the DB instance. This setting doesn't apply to RDS Custom. Valid values: license-included | bring-your-own-license | general-public-license
     public var licenseModel: Swift.String?
-    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
@@ -38776,6 +38800,10 @@ public struct ModifyDBSnapshotInput: Swift.Equatable {
     ///
     ///
     /// Oracle
+    ///
+    /// * 19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)
+    ///
+    /// * 19.0.0.0.ru-2022-07.rur-2022-07.r1 (supported for 12.1.0.2 DB snapshots)
     ///
     /// * 12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)
     ///
@@ -45018,6 +45046,9 @@ extension RestoreDBClusterFromS3Input: Swift.Encodable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -45169,6 +45200,8 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
     public var sourceEngineVersion: Swift.String?
     /// A value that indicates whether the restored DB cluster is encrypted.
     public var storageEncrypted: Swift.Bool?
+    /// Specifies the storage type to be associated with the DB cluster. Valid values: aurora, aurora-iopt1 Default: aurora Valid for: Aurora DB clusters only
+    public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with the restored DB cluster.
@@ -45208,6 +45241,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
         sourceEngine: Swift.String? = nil,
         sourceEngineVersion: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil,
+        storageType: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -45245,6 +45279,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
         self.sourceEngine = sourceEngine
         self.sourceEngineVersion = sourceEngineVersion
         self.storageEncrypted = storageEncrypted
+        self.storageType = storageType
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -45286,6 +45321,7 @@ struct RestoreDBClusterFromS3InputBody: Swift.Equatable {
     let networkType: Swift.String?
     let manageMasterUserPassword: Swift.Bool?
     let masterUserSecretKmsKeyId: Swift.String?
+    let storageType: Swift.String?
 }
 
 extension RestoreDBClusterFromS3InputBody: Swift.Decodable {
@@ -45323,6 +45359,7 @@ extension RestoreDBClusterFromS3InputBody: Swift.Decodable {
         case sourceEngine = "SourceEngine"
         case sourceEngineVersion = "SourceEngineVersion"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case tags = "Tags"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
@@ -45467,6 +45504,8 @@ extension RestoreDBClusterFromS3InputBody: Swift.Decodable {
         manageMasterUserPassword = manageMasterUserPasswordDecoded
         let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -45494,6 +45533,7 @@ extension RestoreDBClusterFromS3OutputError {
         case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -45514,6 +45554,7 @@ public enum RestoreDBClusterFromS3OutputError: Swift.Error, Swift.Equatable {
     case invalidVPCNetworkStateFault(InvalidVPCNetworkStateFault)
     case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
     case storageQuotaExceededFault(StorageQuotaExceededFault)
+    case storageTypeNotSupportedFault(StorageTypeNotSupportedFault)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -45805,7 +45846,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var snapshotIdentifier: Swift.String?
-    /// Specifies the storage type to be associated with the each DB instance in the Multi-AZ DB cluster. Valid values: io1 When specified, a value for the Iops parameter is required. Default: io1 Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
     /// The tags to be assigned to the restored DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
@@ -46410,7 +46451,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var sourceDBClusterIdentifier: Swift.String?
-    /// Specifies the storage type to be associated with the each DB instance in the Multi-AZ DB cluster. Valid values: io1 When specified, a value for the Iops parameter is required. Default: io1 Valid for: Multi-AZ DB clusters only
+    /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -51634,6 +51675,57 @@ extension StorageQuotaExceededFaultBody: Swift.Decodable {
     }
 }
 
+extension StorageTypeNotAvailableFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<StorageTypeNotAvailableFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
+public struct StorageTypeNotAvailableFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct StorageTypeNotAvailableFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension StorageTypeNotAvailableFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension StorageTypeNotSupportedFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -51650,7 +51742,7 @@ extension StorageTypeNotSupportedFault {
     }
 }
 
-/// Storage of the StorageType specified can't be associated with the DB instance.
+/// The specified StorageType can't be associated with the DB instance.
 public struct StorageTypeNotSupportedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

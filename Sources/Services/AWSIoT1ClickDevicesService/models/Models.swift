@@ -87,7 +87,7 @@ extension ClaimDevicesByClaimCodeOutputResponse: ClientRuntime.HttpResponseBindi
             self.total = output.total
         } else {
             self.claimCode = nil
-            self.total = 0
+            self.total = nil
         }
     }
 }
@@ -96,11 +96,11 @@ public struct ClaimDevicesByClaimCodeOutputResponse: Swift.Equatable {
     /// The claim code provided by the device manufacturer.
     public var claimCode: Swift.String?
     /// The total number of devices associated with the claim code that has been processed in the claim request.
-    public var total: Swift.Int
+    public var total: Swift.Int?
 
     public init (
         claimCode: Swift.String? = nil,
-        total: Swift.Int = 0
+        total: Swift.Int? = nil
     )
     {
         self.claimCode = claimCode
@@ -110,7 +110,7 @@ public struct ClaimDevicesByClaimCodeOutputResponse: Swift.Equatable {
 
 struct ClaimDevicesByClaimCodeOutputResponseBody: Swift.Equatable {
     let claimCode: Swift.String?
-    let total: Swift.Int
+    let total: Swift.Int?
 }
 
 extension ClaimDevicesByClaimCodeOutputResponseBody: Swift.Decodable {
@@ -123,7 +123,7 @@ extension ClaimDevicesByClaimCodeOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let claimCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .claimCode)
         claimCode = claimCodeDecoded
-        let totalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .total) ?? 0
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .total)
         total = totalDecoded
     }
 }
@@ -304,10 +304,10 @@ extension IoT1ClickDevicesClientTypes.DeviceDescription: Swift.Codable {
         if let deviceId = self.deviceId {
             try encodeContainer.encode(deviceId, forKey: .deviceId)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
-        if remainingLife != 0.0 {
+        if let remainingLife = self.remainingLife {
             try encodeContainer.encode(remainingLife, forKey: .remainingLife)
         }
         if let tags = tags {
@@ -338,9 +338,9 @@ extension IoT1ClickDevicesClientTypes.DeviceDescription: Swift.Codable {
         attributes = attributesDecoded0
         let deviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceId)
         deviceId = deviceIdDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
-        let remainingLifeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .remainingLife) ?? 0.0
+        let remainingLifeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .remainingLife)
         remainingLife = remainingLifeDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -367,9 +367,9 @@ extension IoT1ClickDevicesClientTypes {
         /// The unique identifier of the device.
         public var deviceId: Swift.String?
         /// A Boolean value indicating whether or not the device is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A value between 0 and 1 inclusive, representing the fraction of life remaining for the device.
-        public var remainingLife: Swift.Double
+        public var remainingLife: Swift.Double?
         /// The tags currently associated with the AWS IoT 1-Click device.
         public var tags: [Swift.String:Swift.String]?
         /// The type of the device, such as "button".
@@ -379,8 +379,8 @@ extension IoT1ClickDevicesClientTypes {
             arn: Swift.String? = nil,
             attributes: [Swift.String:Swift.String]? = nil,
             deviceId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
-            remainingLife: Swift.Double = 0.0,
+            enabled: Swift.Bool? = nil,
+            remainingLife: Swift.Double? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: Swift.String? = nil
         )
@@ -1163,7 +1163,7 @@ extension ListDeviceEventsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1195,7 +1195,7 @@ public struct ListDeviceEventsInput: Swift.Equatable {
     /// This member is required.
     public var fromTimeStamp: ClientRuntime.Date?
     /// The maximum number of results to return per request. If not set, a default value of 100 is used.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The end date for the device event query, in ISO8061 format. For example, 2018-03-28T15:45:12.880Z
@@ -1205,7 +1205,7 @@ public struct ListDeviceEventsInput: Swift.Equatable {
     public init (
         deviceId: Swift.String? = nil,
         fromTimeStamp: ClientRuntime.Date? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         toTimeStamp: ClientRuntime.Date? = nil
     )
@@ -1326,7 +1326,7 @@ extension ListDevicesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1345,13 +1345,13 @@ public struct ListDevicesInput: Swift.Equatable {
     /// The type of the device, such as "button".
     public var deviceType: Swift.String?
     /// The maximum number of results to return per request. If not set, a default value of 100 is used.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init (
         deviceType: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2100,7 +2100,7 @@ extension UpdateDeviceStateInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
@@ -2120,11 +2120,11 @@ public struct UpdateDeviceStateInput: Swift.Equatable {
     /// This member is required.
     public var deviceId: Swift.String?
     /// If true, the device is enabled. If false, the device is disabled.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
 
     public init (
         deviceId: Swift.String? = nil,
-        enabled: Swift.Bool = false
+        enabled: Swift.Bool? = nil
     )
     {
         self.deviceId = deviceId
@@ -2133,7 +2133,7 @@ public struct UpdateDeviceStateInput: Swift.Equatable {
 }
 
 struct UpdateDeviceStateInputBody: Swift.Equatable {
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
 }
 
 extension UpdateDeviceStateInputBody: Swift.Decodable {
@@ -2143,7 +2143,7 @@ extension UpdateDeviceStateInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }

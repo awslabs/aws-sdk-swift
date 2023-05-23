@@ -2010,6 +2010,7 @@ extension PinpointClientTypes.ActivityResponse: Swift.Codable {
         case applicationId = "ApplicationId"
         case campaignId = "CampaignId"
         case end = "End"
+        case executionMetrics = "ExecutionMetrics"
         case id = "Id"
         case result = "Result"
         case scheduledStart = "ScheduledStart"
@@ -2032,6 +2033,12 @@ extension PinpointClientTypes.ActivityResponse: Swift.Codable {
         }
         if let end = self.end {
             try encodeContainer.encode(end, forKey: .end)
+        }
+        if let executionMetrics = executionMetrics {
+            var executionMetricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .executionMetrics)
+            for (dictKey0, mapOf__string0) in executionMetrics {
+                try executionMetricsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -2093,6 +2100,17 @@ extension PinpointClientTypes.ActivityResponse: Swift.Codable {
         totalEndpointCount = totalEndpointCountDecoded
         let treatmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treatmentId)
         treatmentId = treatmentIdDecoded
+        let executionMetricsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .executionMetrics)
+        var executionMetricsDecoded0: [Swift.String:Swift.String]? = nil
+        if let executionMetricsContainer = executionMetricsContainer {
+            executionMetricsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in executionMetricsContainer {
+                if let __string0 = __string0 {
+                    executionMetricsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        executionMetrics = executionMetricsDecoded0
     }
 }
 
@@ -2107,6 +2125,8 @@ extension PinpointClientTypes {
         public var campaignId: Swift.String?
         /// The actual time, in ISO 8601 format, when the activity was marked CANCELLED or COMPLETED.
         public var end: Swift.String?
+        /// A JSON object that contains metrics relating to the campaign execution for this campaign activity. For information about the structure and contents of the results, see [Standard Amazon Pinpoint analytics metrics](https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html) in the Amazon Pinpoint Developer Guide.
+        public var executionMetrics: [Swift.String:Swift.String]?
         /// The unique identifier for the activity.
         /// This member is required.
         public var id: Swift.String?
@@ -2133,6 +2153,7 @@ extension PinpointClientTypes {
             applicationId: Swift.String? = nil,
             campaignId: Swift.String? = nil,
             end: Swift.String? = nil,
+            executionMetrics: [Swift.String:Swift.String]? = nil,
             id: Swift.String? = nil,
             result: Swift.String? = nil,
             scheduledStart: Swift.String? = nil,
@@ -2148,6 +2169,7 @@ extension PinpointClientTypes {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.end = end
+            self.executionMetrics = executionMetrics
             self.id = id
             self.result = result
             self.scheduledStart = scheduledStart
@@ -4832,17 +4854,17 @@ extension PinpointClientTypes.ClosedDays: Swift.Codable {
 }
 
 extension PinpointClientTypes {
-    /// The time when journey will stop sending messages.
+    /// The time when a journey will not send messages. QuietTime should be configured first and SendingSchedule should be set to true.
     public struct ClosedDays: Swift.Equatable {
-        /// Rules for Custom Channel.
+        /// Rules for the Custom channel.
         public var custom: [PinpointClientTypes.ClosedDaysRule]?
-        /// Rules for Email Channel.
+        /// Rules for the Email channel.
         public var email: [PinpointClientTypes.ClosedDaysRule]?
-        /// Rules for Push Channel.
+        /// Rules for the Push channel.
         public var push: [PinpointClientTypes.ClosedDaysRule]?
-        /// Rules for SMS Channel.
+        /// Rules for the SMS channel.
         public var sms: [PinpointClientTypes.ClosedDaysRule]?
-        /// Rules for Voice Channel.
+        /// Rules for the Voice channel.
         public var voice: [PinpointClientTypes.ClosedDaysRule]?
 
         public init (
@@ -4895,13 +4917,13 @@ extension PinpointClientTypes.ClosedDaysRule: Swift.Codable {
 }
 
 extension PinpointClientTypes {
-    /// Closed Days Rule. Part of Journey sending schedule.
+    /// Specifies the rule settings for when messages can't be sent.
     public struct ClosedDaysRule: Swift.Equatable {
-        /// End Datetime in ISO 8601 format.
+        /// End DateTime ISO 8601 format
         public var endDateTime: Swift.String?
-        /// Name of the rule.
+        /// The name of the closed day rule.
         public var name: Swift.String?
-        /// Start Datetime in ISO 8601 format.
+        /// Start DateTime ISO 8601 format
         public var startDateTime: Swift.String?
 
         public init (
@@ -7396,9 +7418,9 @@ extension PinpointClientTypes.CustomDeliveryConfiguration: Swift.Codable {
         var endpointTypesDecoded0:[PinpointClientTypes.__EndpointTypesElement]? = nil
         if let endpointTypesContainer = endpointTypesContainer {
             endpointTypesDecoded0 = [PinpointClientTypes.__EndpointTypesElement]()
-            for string0 in endpointTypesContainer {
-                if let string0 = string0 {
-                    endpointTypesDecoded0?.append(string0)
+            for enum0 in endpointTypesContainer {
+                if let enum0 = enum0 {
+                    endpointTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7474,9 +7496,9 @@ extension PinpointClientTypes.CustomMessageActivity: Swift.Codable {
         var endpointTypesDecoded0:[PinpointClientTypes.__EndpointTypesElement]? = nil
         if let endpointTypesContainer = endpointTypesContainer {
             endpointTypesDecoded0 = [PinpointClientTypes.__EndpointTypesElement]()
-            for string0 in endpointTypesContainer {
-                if let string0 = string0 {
-                    endpointTypesDecoded0?.append(string0)
+            for enum0 in endpointTypesContainer {
+                if let enum0 = enum0 {
+                    endpointTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -11276,7 +11298,7 @@ extension PinpointClientTypes {
         public var recommenderId: Swift.String?
         /// The subject line, or title, to use in email messages that are based on the message template.
         public var subject: Swift.String?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
         /// A custom description of the message template.
         public var templateDescription: Swift.String?
@@ -17857,7 +17879,7 @@ public struct GetJourneyExecutionActivityMetricsInput: Swift.Equatable {
     /// The unique identifier for the journey.
     /// This member is required.
     public var journeyId: Swift.String?
-    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var nextToken: Swift.String?
     /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var pageSize: Swift.String?
@@ -17997,7 +18019,7 @@ public struct GetJourneyExecutionMetricsInput: Swift.Equatable {
     /// The unique identifier for the journey.
     /// This member is required.
     public var journeyId: Swift.String?
-    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var nextToken: Swift.String?
     /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var pageSize: Swift.String?
@@ -18209,6 +18231,444 @@ extension GetJourneyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
         journeyResponse = journeyResponseDecoded
+    }
+}
+
+extension GetJourneyRunExecutionActivityMetricsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetJourneyRunExecutionActivityMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let applicationId = applicationId else {
+            return nil
+        }
+        guard let journeyId = journeyId else {
+            return nil
+        }
+        guard let runId = runId else {
+            return nil
+        }
+        guard let journeyActivityId = journeyActivityId else {
+            return nil
+        }
+        return "/v1/apps/\(applicationId.urlPercentEncoding())/journeys/\(journeyId.urlPercentEncoding())/runs/\(runId.urlPercentEncoding())/activities/\(journeyActivityId.urlPercentEncoding())/execution-metrics"
+    }
+}
+
+public struct GetJourneyRunExecutionActivityMetricsInput: Swift.Equatable {
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier for the journey activity.
+    /// This member is required.
+    public var journeyActivityId: Swift.String?
+    /// The unique identifier for the journey.
+    /// This member is required.
+    public var journeyId: Swift.String?
+    /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    public var nextToken: Swift.String?
+    /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    public var pageSize: Swift.String?
+    /// The unique identifier for the journey run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init (
+        applicationId: Swift.String? = nil,
+        journeyActivityId: Swift.String? = nil,
+        journeyId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.String? = nil,
+        runId: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.journeyActivityId = journeyActivityId
+        self.journeyId = journeyId
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+        self.runId = runId
+    }
+}
+
+struct GetJourneyRunExecutionActivityMetricsInputBody: Swift.Equatable {
+}
+
+extension GetJourneyRunExecutionActivityMetricsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetJourneyRunExecutionActivityMetricsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetJourneyRunExecutionActivityMetricsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PayloadTooLargeException" : self = .payloadTooLargeException(try PayloadTooLargeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetJourneyRunExecutionActivityMetricsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case methodNotAllowedException(MethodNotAllowedException)
+    case notFoundException(NotFoundException)
+    case payloadTooLargeException(PayloadTooLargeException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetJourneyRunExecutionActivityMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyRunExecutionActivityMetricsResponse = output
+        } else {
+            self.journeyRunExecutionActivityMetricsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyRunExecutionActivityMetricsOutputResponse: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity for a particular journey run, and provides information about that query.
+    /// This member is required.
+    public var journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
+
+    public init (
+        journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse? = nil
+    )
+    {
+        self.journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponse
+    }
+}
+
+struct GetJourneyRunExecutionActivityMetricsOutputResponseBody: Swift.Equatable {
+    let journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
+}
+
+extension GetJourneyRunExecutionActivityMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyRunExecutionActivityMetricsResponse = "JourneyRunExecutionActivityMetricsResponse"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyRunExecutionActivityMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse.self, forKey: .journeyRunExecutionActivityMetricsResponse)
+        journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponseDecoded
+    }
+}
+
+extension GetJourneyRunExecutionMetricsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetJourneyRunExecutionMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let applicationId = applicationId else {
+            return nil
+        }
+        guard let journeyId = journeyId else {
+            return nil
+        }
+        guard let runId = runId else {
+            return nil
+        }
+        return "/v1/apps/\(applicationId.urlPercentEncoding())/journeys/\(journeyId.urlPercentEncoding())/runs/\(runId.urlPercentEncoding())/execution-metrics"
+    }
+}
+
+public struct GetJourneyRunExecutionMetricsInput: Swift.Equatable {
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier for the journey.
+    /// This member is required.
+    public var journeyId: Swift.String?
+    /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    public var nextToken: Swift.String?
+    /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    public var pageSize: Swift.String?
+    /// The unique identifier for the journey run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init (
+        applicationId: Swift.String? = nil,
+        journeyId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.String? = nil,
+        runId: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.journeyId = journeyId
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+        self.runId = runId
+    }
+}
+
+struct GetJourneyRunExecutionMetricsInputBody: Swift.Equatable {
+}
+
+extension GetJourneyRunExecutionMetricsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetJourneyRunExecutionMetricsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetJourneyRunExecutionMetricsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PayloadTooLargeException" : self = .payloadTooLargeException(try PayloadTooLargeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetJourneyRunExecutionMetricsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case methodNotAllowedException(MethodNotAllowedException)
+    case notFoundException(NotFoundException)
+    case payloadTooLargeException(PayloadTooLargeException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetJourneyRunExecutionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyRunExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyRunExecutionMetricsResponse = output
+        } else {
+            self.journeyRunExecutionMetricsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyRunExecutionMetricsOutputResponse: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey run, and provides information about that query.
+    /// This member is required.
+    public var journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
+
+    public init (
+        journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse? = nil
+    )
+    {
+        self.journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponse
+    }
+}
+
+struct GetJourneyRunExecutionMetricsOutputResponseBody: Swift.Equatable {
+    let journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
+}
+
+extension GetJourneyRunExecutionMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyRunExecutionMetricsResponse = "JourneyRunExecutionMetricsResponse"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyRunExecutionMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunExecutionMetricsResponse.self, forKey: .journeyRunExecutionMetricsResponse)
+        journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponseDecoded
+    }
+}
+
+extension GetJourneyRunsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pageSize = pageSize {
+                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "page-size".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+                items.append(pageSizeQueryItem)
+            }
+            if let token = token {
+                let tokenQueryItem = ClientRuntime.URLQueryItem(name: "token".urlPercentEncoding(), value: Swift.String(token).urlPercentEncoding())
+                items.append(tokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetJourneyRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let applicationId = applicationId else {
+            return nil
+        }
+        guard let journeyId = journeyId else {
+            return nil
+        }
+        return "/v1/apps/\(applicationId.urlPercentEncoding())/journeys/\(journeyId.urlPercentEncoding())/runs"
+    }
+}
+
+public struct GetJourneyRunsInput: Swift.Equatable {
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier for the journey.
+    /// This member is required.
+    public var journeyId: Swift.String?
+    /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
+    public var pageSize: Swift.String?
+    /// The NextToken string that specifies which page of results to return in a paginated response.
+    public var token: Swift.String?
+
+    public init (
+        applicationId: Swift.String? = nil,
+        journeyId: Swift.String? = nil,
+        pageSize: Swift.String? = nil,
+        token: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.journeyId = journeyId
+        self.pageSize = pageSize
+        self.token = token
+    }
+}
+
+struct GetJourneyRunsInputBody: Swift.Equatable {
+}
+
+extension GetJourneyRunsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetJourneyRunsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetJourneyRunsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PayloadTooLargeException" : self = .payloadTooLargeException(try PayloadTooLargeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetJourneyRunsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case methodNotAllowedException(MethodNotAllowedException)
+    case notFoundException(NotFoundException)
+    case payloadTooLargeException(PayloadTooLargeException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetJourneyRunsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyRunsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyRunsResponse = output
+        } else {
+            self.journeyRunsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyRunsOutputResponse: Swift.Equatable {
+    /// Provides information from all runs of a journey.
+    /// This member is required.
+    public var journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
+
+    public init (
+        journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse? = nil
+    )
+    {
+        self.journeyRunsResponse = journeyRunsResponse
+    }
+}
+
+struct GetJourneyRunsOutputResponseBody: Swift.Equatable {
+    let journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
+}
+
+extension GetJourneyRunsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyRunsResponse = "JourneyRunsResponse"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyRunsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunsResponse.self, forKey: .journeyRunsResponse)
+        journeyRunsResponse = journeyRunsResponseDecoded
     }
 }
 
@@ -21057,7 +21517,7 @@ extension PinpointClientTypes {
         public var customConfig: [Swift.String:Swift.String]?
         /// The layout of the message.
         public var layout: PinpointClientTypes.Layout?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
         /// The description of the template.
         public var templateDescription: Swift.String?
@@ -21744,17 +22204,17 @@ extension PinpointClientTypes {
     public struct JourneyExecutionActivityMetricsResponse: Swift.Equatable {
         /// The type of activity that the metric applies to. Possible values are:
         ///
-        /// * CONDITIONAL_SPLIT - For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey.
+        /// * CONDITIONAL_SPLIT – For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey.
         ///
-        /// * HOLDOUT - For a holdout activity, which is an activity that stops a journey for a specified percentage of participants.
+        /// * HOLDOUT – For a holdout activity, which is an activity that stops a journey for a specified percentage of participants.
         ///
-        /// * MESSAGE - For an email activity, which is an activity that sends an email message to participants.
+        /// * MESSAGE – For an email activity, which is an activity that sends an email message to participants.
         ///
-        /// * MULTI_CONDITIONAL_SPLIT - For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey.
+        /// * MULTI_CONDITIONAL_SPLIT – For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey.
         ///
-        /// * RANDOM_SPLIT - For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey.
+        /// * RANDOM_SPLIT – For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey.
         ///
-        /// * WAIT - For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
+        /// * WAIT – For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
         /// This member is required.
         public var activityType: Swift.String?
         /// The unique identifier for the application that the metric applies to.
@@ -22145,7 +22605,7 @@ extension PinpointClientTypes {
         /// The unique identifier for the application that the journey applies to.
         /// This member is required.
         public var applicationId: Swift.String?
-        /// The time when journey will stop sending messages. QuietTime should be configured first and SendingSchedule should be set to true.
+        /// The time when a journey will not send messages. QuietTime should be configured first and SendingSchedule should be set to true.
         public var closedDays: PinpointClientTypes.ClosedDays?
         /// The date, in ISO 8601 format, when the journey was created.
         public var creationDate: Swift.String?
@@ -22163,7 +22623,7 @@ extension PinpointClientTypes {
         /// The name of the journey.
         /// This member is required.
         public var name: Swift.String?
-        /// The time when journey allow to send messages. QuietTime should be configured first and SendingSchedule should be set to true.
+        /// The time when a journey can send messages. QuietTime should be configured first and SendingSchedule should be set to true.
         public var openHours: PinpointClientTypes.OpenHours?
         /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met:
         ///
@@ -22178,11 +22638,11 @@ extension PinpointClientTypes {
         public var quietTime: PinpointClientTypes.QuietTime?
         /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
         public var refreshFrequency: Swift.String?
-        /// Specifies whether a journey should be refreshed on segment update.
+        /// Indicates whether the journey participants should be refreshed when a segment is updated.
         public var refreshOnSegmentUpdate: Swift.Bool?
         /// The schedule settings for the journey.
         public var schedule: PinpointClientTypes.JourneySchedule?
-        /// Indicates if journey have Advance Quiet Time (OpenHours and ClosedDays). This flag should be set to true in order to allow (OpenHours and ClosedDays)
+        /// Indicates if journey has Advance Quiet Time enabled. This flag should be set to true in order to allow using OpenHours and ClosedDays.
         public var sendingSchedule: Swift.Bool?
         /// The unique identifier for the first activity in the journey.
         public var startActivity: Swift.String?
@@ -22202,7 +22662,7 @@ extension PinpointClientTypes {
         public var state: PinpointClientTypes.State?
         /// This object is not used or supported.
         public var tags: [Swift.String:Swift.String]?
-        /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
+        /// Indicates whether endpoints in quiet hours should enter a wait activity until quiet hours have elapsed.
         public var waitForQuietTime: Swift.Bool?
 
         public init (
@@ -22250,6 +22710,389 @@ extension PinpointClientTypes {
             self.state = state
             self.tags = tags
             self.waitForQuietTime = waitForQuietTime
+        }
+    }
+
+}
+
+extension PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activityType = "ActivityType"
+        case applicationId = "ApplicationId"
+        case journeyActivityId = "JourneyActivityId"
+        case journeyId = "JourneyId"
+        case lastEvaluatedTime = "LastEvaluatedTime"
+        case metrics = "Metrics"
+        case runId = "RunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activityType = self.activityType {
+            try encodeContainer.encode(activityType, forKey: .activityType)
+        }
+        if let applicationId = self.applicationId {
+            try encodeContainer.encode(applicationId, forKey: .applicationId)
+        }
+        if let journeyActivityId = self.journeyActivityId {
+            try encodeContainer.encode(journeyActivityId, forKey: .journeyActivityId)
+        }
+        if let journeyId = self.journeyId {
+            try encodeContainer.encode(journeyId, forKey: .journeyId)
+        }
+        if let lastEvaluatedTime = self.lastEvaluatedTime {
+            try encodeContainer.encode(lastEvaluatedTime, forKey: .lastEvaluatedTime)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
+            for (dictKey0, mapOf__string0) in metrics {
+                try metricsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activityType)
+        activityType = activityTypeDecoded
+        let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
+        applicationId = applicationIdDecoded
+        let journeyActivityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .journeyActivityId)
+        journeyActivityId = journeyActivityIdDecoded
+        let journeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .journeyId)
+        journeyId = journeyIdDecoded
+        let lastEvaluatedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastEvaluatedTime)
+        lastEvaluatedTime = lastEvaluatedTimeDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metrics)
+        var metricsDecoded0: [Swift.String:Swift.String]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in metricsContainer {
+                if let __string0 = __string0 {
+                    metricsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension PinpointClientTypes {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity for a particular journey run, and provides information about that query.
+    public struct JourneyRunExecutionActivityMetricsResponse: Swift.Equatable {
+        /// The type of activity that the metric applies to. Possible values are:
+        ///
+        /// * CONDITIONAL_SPLIT – For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey.
+        ///
+        /// * HOLDOUT – For a holdout activity, which is an activity that stops a journey for a specified percentage of participants.
+        ///
+        /// * MESSAGE – For an email activity, which is an activity that sends an email message to participants.
+        ///
+        /// * MULTI_CONDITIONAL_SPLIT – For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey.
+        ///
+        /// * RANDOM_SPLIT – For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey.
+        ///
+        /// * WAIT – For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
+        /// This member is required.
+        public var activityType: Swift.String?
+        /// The unique identifier for the application that the metric applies to.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The unique identifier for the activity that the metric applies to.
+        /// This member is required.
+        public var journeyActivityId: Swift.String?
+        /// The unique identifier for the journey that the metric applies to.
+        /// This member is required.
+        public var journeyId: Swift.String?
+        /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the execution status of the activity for this journey run and updated the data for the metric.
+        /// This member is required.
+        public var lastEvaluatedTime: Swift.String?
+        /// A JSON object that contains the results of the query. For information about the structure and contents of the results, see see [Standard Amazon Pinpoint analytics metrics](https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html) in the Amazon Pinpoint Developer Guide.
+        /// This member is required.
+        public var metrics: [Swift.String:Swift.String]?
+        /// The unique identifier for the journey run that the metric applies to.
+        /// This member is required.
+        public var runId: Swift.String?
+
+        public init (
+            activityType: Swift.String? = nil,
+            applicationId: Swift.String? = nil,
+            journeyActivityId: Swift.String? = nil,
+            journeyId: Swift.String? = nil,
+            lastEvaluatedTime: Swift.String? = nil,
+            metrics: [Swift.String:Swift.String]? = nil,
+            runId: Swift.String? = nil
+        )
+        {
+            self.activityType = activityType
+            self.applicationId = applicationId
+            self.journeyActivityId = journeyActivityId
+            self.journeyId = journeyId
+            self.lastEvaluatedTime = lastEvaluatedTime
+            self.metrics = metrics
+            self.runId = runId
+        }
+    }
+
+}
+
+extension PinpointClientTypes.JourneyRunExecutionMetricsResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationId = "ApplicationId"
+        case journeyId = "JourneyId"
+        case lastEvaluatedTime = "LastEvaluatedTime"
+        case metrics = "Metrics"
+        case runId = "RunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationId = self.applicationId {
+            try encodeContainer.encode(applicationId, forKey: .applicationId)
+        }
+        if let journeyId = self.journeyId {
+            try encodeContainer.encode(journeyId, forKey: .journeyId)
+        }
+        if let lastEvaluatedTime = self.lastEvaluatedTime {
+            try encodeContainer.encode(lastEvaluatedTime, forKey: .lastEvaluatedTime)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
+            for (dictKey0, mapOf__string0) in metrics {
+                try metricsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
+        applicationId = applicationIdDecoded
+        let journeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .journeyId)
+        journeyId = journeyIdDecoded
+        let lastEvaluatedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastEvaluatedTime)
+        lastEvaluatedTime = lastEvaluatedTimeDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metrics)
+        var metricsDecoded0: [Swift.String:Swift.String]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in metricsContainer {
+                if let __string0 = __string0 {
+                    metricsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+    }
+}
+
+extension PinpointClientTypes {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey run, and provides information about that query.
+    public struct JourneyRunExecutionMetricsResponse: Swift.Equatable {
+        /// The unique identifier for the application that the metric applies to.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The unique identifier for the journey that the metric applies to.
+        /// This member is required.
+        public var journeyId: Swift.String?
+        /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the journey run and updated the data for the metric.
+        /// This member is required.
+        public var lastEvaluatedTime: Swift.String?
+        /// A JSON object that contains the results of the query. For information about the structure and contents of the results, see the [Standard Amazon Pinpoint analytics metrics](https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html) in the Amazon Pinpoint Developer Guide.
+        /// This member is required.
+        public var metrics: [Swift.String:Swift.String]?
+        /// The unique identifier for the journey run that the metric applies to.
+        /// This member is required.
+        public var runId: Swift.String?
+
+        public init (
+            applicationId: Swift.String? = nil,
+            journeyId: Swift.String? = nil,
+            lastEvaluatedTime: Swift.String? = nil,
+            metrics: [Swift.String:Swift.String]? = nil,
+            runId: Swift.String? = nil
+        )
+        {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+            self.lastEvaluatedTime = lastEvaluatedTime
+            self.metrics = metrics
+            self.runId = runId
+        }
+    }
+
+}
+
+extension PinpointClientTypes.JourneyRunResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case lastUpdateTime = "LastUpdateTime"
+        case runId = "RunId"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encode(creationTime, forKey: .creationTime)
+        }
+        if let lastUpdateTime = self.lastUpdateTime {
+            try encodeContainer.encode(lastUpdateTime, forKey: .lastUpdateTime)
+        }
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdateTime)
+        lastUpdateTime = lastUpdateTimeDecoded
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension PinpointClientTypes {
+    /// Provides information from a specified run of a journey.
+    public struct JourneyRunResponse: Swift.Equatable {
+        /// The time when the journey run was created or scheduled, in ISO 8601 format.
+        /// This member is required.
+        public var creationTime: Swift.String?
+        /// The last time the journey run was updated, in ISO 8601 format..
+        /// This member is required.
+        public var lastUpdateTime: Swift.String?
+        /// The unique identifier for the run.
+        /// This member is required.
+        public var runId: Swift.String?
+        /// The current status of the journey run.
+        /// This member is required.
+        public var status: PinpointClientTypes.JourneyRunStatus?
+
+        public init (
+            creationTime: Swift.String? = nil,
+            lastUpdateTime: Swift.String? = nil,
+            runId: Swift.String? = nil,
+            status: PinpointClientTypes.JourneyRunStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.lastUpdateTime = lastUpdateTime
+            self.runId = runId
+            self.status = status
+        }
+    }
+
+}
+
+extension PinpointClientTypes {
+    public enum JourneyRunStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
+        case completed
+        case running
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JourneyRunStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .running,
+                .scheduled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .running: return "RUNNING"
+            case .scheduled: return "SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JourneyRunStatus(rawValue: rawValue) ?? JourneyRunStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointClientTypes.JourneyRunsResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case item = "Item"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let item = item {
+            var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
+            for journeyrunresponse0 in item {
+                try itemContainer.encode(journeyrunresponse0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemContainer = try containerValues.decodeIfPresent([PinpointClientTypes.JourneyRunResponse?].self, forKey: .item)
+        var itemDecoded0:[PinpointClientTypes.JourneyRunResponse]? = nil
+        if let itemContainer = itemContainer {
+            itemDecoded0 = [PinpointClientTypes.JourneyRunResponse]()
+            for structure0 in itemContainer {
+                if let structure0 = structure0 {
+                    itemDecoded0?.append(structure0)
+                }
+            }
+        }
+        item = itemDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension PinpointClientTypes {
+    /// Provides information from all runs of a journey.
+    public struct JourneyRunsResponse: Swift.Equatable {
+        /// An array of responses, one for each run of the journey
+        /// This member is required.
+        public var item: [PinpointClientTypes.JourneyRunResponse]?
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+        public var nextToken: Swift.String?
+
+        public init (
+            item: [PinpointClientTypes.JourneyRunResponse]? = nil,
+            nextToken: Swift.String? = nil
+        )
+        {
+            self.item = item
+            self.nextToken = nextToken
         }
     }
 
@@ -24400,17 +25243,17 @@ extension PinpointClientTypes.OpenHours: Swift.Codable {
 }
 
 extension PinpointClientTypes {
-    /// The time when journey allow to send messages. QuietTime should be configured first and SendingSchedule should be set to true.
+    /// Specifies the times when message are allowed to be sent to endpoints.
     public struct OpenHours: Swift.Equatable {
-        /// Rules for Custom Channel.
+        /// Specifies the schedule settings for the custom channel.
         public var custom: [Swift.String:[PinpointClientTypes.OpenHoursRule]]?
-        /// Rules for Email Channel.
+        /// Specifies the schedule settings for the email channel.
         public var email: [Swift.String:[PinpointClientTypes.OpenHoursRule]]?
-        /// Rules for Push Channel.
+        /// Specifies the schedule settings for the push channel.
         public var push: [Swift.String:[PinpointClientTypes.OpenHoursRule]]?
-        /// Rules for SMS Channel.
+        /// Specifies the schedule settings for the SMS channel.
         public var sms: [Swift.String:[PinpointClientTypes.OpenHoursRule]]?
-        /// Rules for Voice Channel.
+        /// Specifies the schedule settings for the voice channel.
         public var voice: [Swift.String:[PinpointClientTypes.OpenHoursRule]]?
 
         public init (
@@ -24457,11 +25300,11 @@ extension PinpointClientTypes.OpenHoursRule: Swift.Codable {
 }
 
 extension PinpointClientTypes {
-    /// List of OpenHours Rules.
+    /// Specifies the start and end time for OpenHours.
     public struct OpenHoursRule: Swift.Equatable {
-        /// Local start time in ISO 8601 format.
+        /// The end of the scheduled time, in ISO 8601 format, when the channel can't send messages.
         public var endTime: Swift.String?
-        /// Local start time in ISO 8601 format.
+        /// The start of the scheduled time, in ISO 8601 format, when the channel can send messages.
         public var startTime: Swift.String?
 
         public init (
@@ -25106,7 +25949,7 @@ extension PinpointClientTypes {
         public var gcm: PinpointClientTypes.AndroidPushNotificationTemplate?
         /// The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template contains message variables for recommendation data.
         public var recommenderId: Swift.String?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
         /// A custom description of the message template.
         public var templateDescription: Swift.String?
@@ -26879,7 +27722,7 @@ extension PinpointClientTypes {
         public var defaultSubstitutions: Swift.String?
         /// The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template contains message variables for recommendation data.
         public var recommenderId: Swift.String?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
         /// A custom description of the message template.
         public var templateDescription: Swift.String?
@@ -35356,7 +36199,7 @@ extension PinpointClientTypes {
         public var defaultSubstitutions: Swift.String?
         /// The code for the language to use when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the [Amazon Polly Developer Guide](https://docs.aws.amazon.com/polly/latest/dg/what-is.html).
         public var languageCode: Swift.String?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
         /// A custom description of the message template.
         public var templateDescription: Swift.String?
@@ -35885,7 +36728,7 @@ extension PinpointClientTypes {
         public var segmentId: Swift.String?
         /// The version of the segment to associate with the campaign.
         public var segmentVersion: Swift.Int?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the campaign. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the campaign. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
         /// The message template to use for the campaign.
         public var templateConfiguration: PinpointClientTypes.TemplateConfiguration?
@@ -36151,11 +36994,11 @@ extension PinpointClientTypes {
         public var quietTime: PinpointClientTypes.QuietTime?
         /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
         public var refreshFrequency: Swift.String?
-        /// Specifies whether a journey should be refreshed on segment update.
+        /// Indicates whether the journey participants should be refreshed when a segment is updated.
         public var refreshOnSegmentUpdate: Swift.Bool?
         /// The schedule settings for the journey.
         public var schedule: PinpointClientTypes.JourneySchedule?
-        /// Indicates if journey have Advance Quiet Time (OpenHours and ClosedDays). This flag should be set to true in order to allow (OpenHours and ClosedDays)
+        /// Indicates if journey has Advance Quiet Time enabled. This flag should be set to true in order to allow using OpenHours and ClosedDays.
         public var sendingSchedule: Swift.Bool?
         /// The unique identifier for the first activity in the journey. The identifier for this activity can contain a maximum of 128 characters. The characters must be alphanumeric characters.
         public var startActivity: Swift.String?
@@ -36275,7 +37118,7 @@ extension PinpointClientTypes {
         public var name: Swift.String?
         /// The segment group to use and the dimensions to apply to the group's base segments in order to build the segment. A segment group can consist of zero or more base segments. Your request can include only one segment group.
         public var segmentGroups: PinpointClientTypes.SegmentGroupList?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the segment. Each tag consists of a required tag key and an associated tag value.
+        /// As of 22-05-2023 tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either [Tags](https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html) in the API Reference for Amazon Pinpoint, [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html) commands in the AWS Command Line Interface Documentation or [resourcegroupstaggingapi](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html) in the AWS SDK. (Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the segment. Each tag consists of a required tag key and an associated tag value.
         public var tags: [Swift.String:Swift.String]?
 
         public init (

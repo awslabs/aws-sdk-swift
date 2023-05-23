@@ -330,12 +330,16 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.AvailSuppression: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fillPolicy = "FillPolicy"
         case mode = "Mode"
         case value = "Value"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fillPolicy = self.fillPolicy {
+            try encodeContainer.encode(fillPolicy.rawValue, forKey: .fillPolicy)
+        }
         if let mode = self.mode {
             try encodeContainer.encode(mode.rawValue, forKey: .mode)
         }
@@ -350,22 +354,28 @@ extension MediaTailorClientTypes.AvailSuppression: Swift.Codable {
         mode = modeDecoded
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
+        let fillPolicyDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.FillPolicy.self, forKey: .fillPolicy)
+        fillPolicy = fillPolicyDecoded
     }
 }
 
 extension MediaTailorClientTypes {
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public struct AvailSuppression: Swift.Equatable {
-        /// Sets the ad suppression mode. By default, ad suppression is off and all ad breaks are filled with ads or slate. When Mode is set to BEHIND_LIVE_EDGE, ad suppression is active and MediaTailor won't fill ad breaks on or behind the ad suppression Value time in the manifest lookback window.
+        /// Defines the policy to apply to the avail suppression mode. BEHIND_LIVE_EDGE will always use the full avail suppression policy. AFTER_LIVE_EDGE mode can be used to invoke partial ad break fills when a session starts mid-break.
+        public var fillPolicy: MediaTailorClientTypes.FillPolicy?
+        /// Sets the ad suppression mode. By default, ad suppression is off and all ad breaks are filled with ads or slate. When Mode is set to BEHIND_LIVE_EDGE, ad suppression is active and MediaTailor won't fill ad breaks on or behind the ad suppression Value time in the manifest lookback window. When Mode is set to AFTER_LIVE_EDGE, ad suppression is active and MediaTailor won't fill ad breaks that are within the live edge plus the avail suppression value.
         public var mode: MediaTailorClientTypes.Mode?
         /// A live edge offset time in HH:MM:SS. MediaTailor won't fill ad breaks on or behind this time in the manifest lookback window. If Value is set to 00:00:00, it is in sync with the live edge, and MediaTailor won't fill any ad breaks on or behind the live edge. If you set a Value time, MediaTailor won't fill any ad breaks on or behind this time in the manifest lookback window. For example, if you set 00:45:00, then MediaTailor will fill ad breaks that occur within 45 minutes behind the live edge, but won't fill ad breaks on or behind 45 minutes behind the live edge.
         public var value: Swift.String?
 
         public init (
+            fillPolicy: MediaTailorClientTypes.FillPolicy? = nil,
             mode: MediaTailorClientTypes.Mode? = nil,
             value: Swift.String? = nil
         )
         {
+            self.fillPolicy = fillPolicy
             self.mode = mode
             self.value = value
         }
@@ -4266,6 +4276,38 @@ extension DescribeVodSourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MediaTailorClientTypes {
+    public enum FillPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fullAvailOnly
+        case partialAvail
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FillPolicy] {
+            return [
+                .fullAvailOnly,
+                .partialAvail,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullAvailOnly: return "FULL_AVAIL_ONLY"
+            case .partialAvail: return "PARTIAL_AVAIL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FillPolicy(rawValue: rawValue) ?? FillPolicy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GetChannelPolicyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let channelName = channelName else {
@@ -6507,12 +6549,14 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
     public enum Mode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case afterLiveEdge
         case behindLiveEdge
         case off
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Mode] {
             return [
+                .afterLiveEdge,
                 .behindLiveEdge,
                 .off,
                 .sdkUnknown("")
@@ -6524,6 +6568,7 @@ extension MediaTailorClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .afterLiveEdge: return "AFTER_LIVE_EDGE"
             case .behindLiveEdge: return "BEHIND_LIVE_EDGE"
             case .off: return "OFF"
             case let .sdkUnknown(s): return s

@@ -29,6 +29,8 @@ import ClientRuntime
 ///
 /// * [ListDevEnvironments], which retrieves a list of Dev Environments in a project.
 ///
+/// * [ListDevEnvironmentSessions], which retrieves a list of active Dev Environment sessions in a project.
+///
 /// * [ListProjects], which retrieves a list of projects in a space.
 ///
 /// * [ListSourceRepositories], which retrieves a list of source repositories in a project.
@@ -89,6 +91,8 @@ public protocol CodeCatalystClientProtocol {
     func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutputResponse
     /// Retrieves a list of Dev Environments in a project.
     func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutputResponse
+    /// Retrieves a list of active sessions for a Dev Environment in a project.
+    func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutputResponse
     /// Retrieves a list of events that occurred during a specified time period in a space. You can use these events to audit user and system activity in a space.
     func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutputResponse
     /// Retrieves a list of projects.

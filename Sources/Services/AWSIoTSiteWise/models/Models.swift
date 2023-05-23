@@ -2986,9 +2986,9 @@ public struct BatchGetAssetPropertyAggregatesInput: Swift.Equatable {
     public var entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry]?
     /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.
     ///
-    /// * The size of the result set is less than 1 MB.
+    /// * The size of the result set is equal to 1 MB.
     ///
-    /// * The number of data points in the result set is less than the value of maxResults. The maximum value of maxResults is 4000.
+    /// * The number of data points in the result set is equal to the value of maxResults. The maximum value of maxResults is 4000.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
@@ -3790,9 +3790,9 @@ public struct BatchGetAssetPropertyValueHistoryInput: Swift.Equatable {
     public var entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry]?
     /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.
     ///
-    /// * The size of the result set is less than 1 MB.
+    /// * The size of the result set is equal to 4 MB.
     ///
-    /// * The number of data points in the result set is less than the value of maxResults. The maximum value of maxResults is 4000.
+    /// * The number of data points in the result set is equal to the value of maxResults. The maximum value of maxResults is 20000.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
@@ -11380,7 +11380,11 @@ public struct GetAssetPropertyAggregatesInput: Swift.Equatable {
     /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
     /// This member is required.
     public var endDate: ClientRuntime.Date?
-    /// The maximum number of results to return for each paginated request. Default: 100
+    /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.
+    ///
+    /// * The size of the result set is equal to 1 MB.
+    ///
+    /// * The number of data points in the result set is equal to the value of maxResults. The maximum value of maxResults is 250.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
@@ -11584,7 +11588,11 @@ public struct GetAssetPropertyValueHistoryInput: Swift.Equatable {
     public var assetId: Swift.String?
     /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
     public var endDate: ClientRuntime.Date?
-    /// The maximum number of results to return for each paginated request. Default: 100
+    /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.
+    ///
+    /// * The size of the result set is equal to 4 MB.
+    ///
+    /// * The number of data points in the result set is equal to the value of maxResults. The maximum value of maxResults is 20000.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?

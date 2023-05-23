@@ -5,6 +5,8 @@ import ClientRuntime
 
 /// Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. You can connect programmatically to an Amazon Web Services service by using an endpoint. For a list of Amazon Connect endpoints, see [Amazon Connect Endpoints](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
 public protocol ConnectClientProtocol {
+    /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
+    func activateEvaluationForm(input: ActivateEvaluationFormInput) async throws -> ActivateEvaluationFormOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     func associateApprovedOrigin(input: AssociateApprovedOriginInput) async throws -> AssociateApprovedOriginOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
@@ -33,6 +35,8 @@ public protocol ConnectClientProtocol {
     func createContactFlow(input: CreateContactFlowInput) async throws -> CreateContactFlowOutputResponse
     /// Creates a flow module for the specified Amazon Connect instance.
     func createContactFlowModule(input: CreateContactFlowModuleInput) async throws -> CreateContactFlowModuleOutputResponse
+    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
+    func createEvaluationForm(input: CreateEvaluationFormInput) async throws -> CreateEvaluationFormOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
     func createHoursOfOperation(input: CreateHoursOfOperationInput) async throws -> CreateHoursOfOperationOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
@@ -41,6 +45,8 @@ public protocol ConnectClientProtocol {
     func createIntegrationAssociation(input: CreateIntegrationAssociationInput) async throws -> CreateIntegrationAssociationOutputResponse
     /// Adds a new participant into an on-going chat contact. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html).
     func createParticipant(input: CreateParticipantInput) async throws -> CreateParticipantOutputResponse
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see [Create prompts](https://docs.aws.amazon.com/connect/latest/adminguide/prompts.html) in the Amazon Connect Administrator's Guide.
+    func createPrompt(input: CreatePromptInput) async throws -> CreatePromptOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutputResponse
     /// Creates a quick connect for the specified Amazon Connect instance.
@@ -63,16 +69,28 @@ public protocol ConnectClientProtocol {
     func createUserHierarchyGroup(input: CreateUserHierarchyGroupInput) async throws -> CreateUserHierarchyGroupOutputResponse
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     func createVocabulary(input: CreateVocabularyInput) async throws -> CreateVocabularyOutputResponse
+    /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
+    func deactivateEvaluationForm(input: DeactivateEvaluationFormInput) async throws -> DeactivateEvaluationFormOutputResponse
+    /// Deletes a contact evaluation in the specified Amazon Connect instance.
+    func deleteContactEvaluation(input: DeleteContactEvaluationInput) async throws -> DeleteContactEvaluationOutputResponse
     /// Deletes a flow for the specified Amazon Connect instance.
     func deleteContactFlow(input: DeleteContactFlowInput) async throws -> DeleteContactFlowOutputResponse
     /// Deletes the specified flow module.
     func deleteContactFlowModule(input: DeleteContactFlowModuleInput) async throws -> DeleteContactFlowModuleOutputResponse
+    /// Deletes an evaluation form in the specified Amazon Connect instance.
+    ///
+    /// * If the version property is provided, only the specified version of the evaluation form is deleted.
+    ///
+    /// * If no version is provided, then the full form (all versions) is deleted.
+    func deleteEvaluationForm(input: DeleteEvaluationFormInput) async throws -> DeleteEvaluationFormOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
     func deleteHoursOfOperation(input: DeleteHoursOfOperationInput) async throws -> DeleteHoursOfOperationOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutputResponse
     /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
     func deleteIntegrationAssociation(input: DeleteIntegrationAssociationInput) async throws -> DeleteIntegrationAssociationOutputResponse
+    /// Deletes a prompt.
+    func deletePrompt(input: DeletePromptInput) async throws -> DeletePromptOutputResponse
     /// Deletes a quick connect.
     func deleteQuickConnect(input: DeleteQuickConnectInput) async throws -> DeleteQuickConnectOutputResponse
     /// Deletes a rule for the specified Amazon Connect instance.
@@ -95,10 +113,14 @@ public protocol ConnectClientProtocol {
     func describeAgentStatus(input: DescribeAgentStatusInput) async throws -> DescribeAgentStatusOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Contact information remains available in Amazon Connect for 24 months, and then it is deleted. Only data from November 12, 2021, and later is returned by this API.
     func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
+    /// Describes a contact evaluation in the specified Amazon Connect instance.
+    func describeContactEvaluation(input: DescribeContactEvaluationInput) async throws -> DescribeContactEvaluationOutputResponse
     /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     func describeContactFlow(input: DescribeContactFlowInput) async throws -> DescribeContactFlowOutputResponse
     /// Describes the specified flow module.
     func describeContactFlowModule(input: DescribeContactFlowModuleInput) async throws -> DescribeContactFlowModuleOutputResponse
+    /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
+    func describeEvaluationForm(input: DescribeEvaluationFormInput) async throws -> DescribeEvaluationFormOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
     func describeHoursOfOperation(input: DescribeHoursOfOperationInput) async throws -> DescribeHoursOfOperationOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
@@ -109,6 +131,8 @@ public protocol ConnectClientProtocol {
     func describeInstanceStorageConfig(input: DescribeInstanceStorageConfigInput) async throws -> DescribeInstanceStorageConfigOutputResponse
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group. If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     func describePhoneNumber(input: DescribePhoneNumberInput) async throws -> DescribePhoneNumberOutputResponse
+    /// Describes the prompt.
+    func describePrompt(input: DescribePromptInput) async throws -> DescribePromptOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
     func describeQueue(input: DescribeQueueInput) async throws -> DescribeQueueOutputResponse
     /// Describes the quick connect.
@@ -159,8 +183,10 @@ public protocol ConnectClientProtocol {
     func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutputResponse
     /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
     func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutputResponse
-    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 14 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. This API is not available in the Amazon Web Services GovCloud (US) Regions.
     func getMetricDataV2(input: GetMetricDataV2Input) async throws -> GetMetricDataV2OutputResponse
+    /// Gets the prompt file.
+    func getPromptFile(input: GetPromptFileInput) async throws -> GetPromptFileOutputResponse
     /// Gets details about a specific task template in the specified Amazon Connect instance.
     func getTaskTemplate(input: GetTaskTemplateInput) async throws -> GetTaskTemplateOutputResponse
     /// Retrieves the current traffic distribution for a given traffic distribution group.
@@ -171,6 +197,8 @@ public protocol ConnectClientProtocol {
     func listApprovedOrigins(input: ListApprovedOriginsInput) async throws -> ListApprovedOriginsOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
     func listBots(input: ListBotsInput) async throws -> ListBotsOutputResponse
+    /// Lists contact evaluations in the specified Amazon Connect instance.
+    func listContactEvaluations(input: ListContactEvaluationsInput) async throws -> ListContactEvaluationsOutputResponse
     /// Provides information about the flow modules for the specified Amazon Connect instance.
     func listContactFlowModules(input: ListContactFlowModulesInput) async throws -> ListContactFlowModulesOutputResponse
     /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). For more information about flows, see [Flows](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html) in the Amazon Connect Administrator Guide.
@@ -179,6 +207,10 @@ public protocol ConnectClientProtocol {
     func listContactReferences(input: ListContactReferencesInput) async throws -> ListContactReferencesOutputResponse
     /// Lists the default vocabularies for the specified Amazon Connect instance.
     func listDefaultVocabularies(input: ListDefaultVocabulariesInput) async throws -> ListDefaultVocabulariesOutputResponse
+    /// Lists evaluation forms in the specified Amazon Connect instance.
+    func listEvaluationForms(input: ListEvaluationFormsInput) async throws -> ListEvaluationFormsOutputResponse
+    /// Lists versions of an evaluation form in the specified Amazon Connect instance.
+    func listEvaluationFormVersions(input: ListEvaluationFormVersionsInput) async throws -> ListEvaluationFormVersionsOutputResponse
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see [Set the Hours of Operation for a Queue](https://docs.aws.amazon.com/connect/latest/adminguide/set-hours-operation.html) in the Amazon Connect Administrator Guide.
     func listHoursOfOperations(input: ListHoursOfOperationsInput) async throws -> ListHoursOfOperationsOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
@@ -260,6 +292,8 @@ public protocol ConnectClientProtocol {
     ///
     /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support. For more information about chat, see [Chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat.html) in the Amazon Connect Administrator Guide.
     func startChatContact(input: StartChatContactInput) async throws -> StartChatContactOutputResponse
+    /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started. Evaluations created through the public API do not contain answer values suggested from automation.
+    func startContactEvaluation(input: StartContactEvaluationInput) async throws -> StartContactEvaluationOutputResponse
     /// Starts recording the contact:
     ///
     /// * If the API is called before the agent joins the call, recording starts when the agent joins the call.
@@ -287,6 +321,8 @@ public protocol ConnectClientProtocol {
     func stopContactRecording(input: StopContactRecordingInput) async throws -> StopContactRecordingOutputResponse
     /// Ends message streaming on a specified contact. To restart message streaming on that contact, call the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html) API.
     func stopContactStreaming(input: StopContactStreamingInput) async throws -> StopContactStreamingOutputResponse
+    /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
+    func submitContactEvaluation(input: SubmitContactEvaluationInput) async throws -> SubmitContactEvaluationOutputResponse
     /// When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording. The period of time that the recording is suspended is filled with silence in the final recording. Only voice recordings are supported at this time.
     func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutputResponse
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, contact flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
@@ -311,6 +347,8 @@ public protocol ConnectClientProtocol {
     func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
     func updateContactAttributes(input: UpdateContactAttributesInput) async throws -> UpdateContactAttributesOutputResponse
+    /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
+    func updateContactEvaluation(input: UpdateContactEvaluationInput) async throws -> UpdateContactEvaluationOutputResponse
     /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     func updateContactFlowContent(input: UpdateContactFlowContentInput) async throws -> UpdateContactFlowContentOutputResponse
     /// Updates metadata about specified flow.
@@ -323,6 +361,8 @@ public protocol ConnectClientProtocol {
     func updateContactFlowName(input: UpdateContactFlowNameInput) async throws -> UpdateContactFlowNameOutputResponse
     /// Updates the scheduled time of a task contact that is already scheduled.
     func updateContactSchedule(input: UpdateContactScheduleInput) async throws -> UpdateContactScheduleOutputResponse
+    /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
+    func updateEvaluationForm(input: UpdateEvaluationFormInput) async throws -> UpdateEvaluationFormOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
     func updateHoursOfOperation(input: UpdateHoursOfOperationInput) async throws -> UpdateHoursOfOperationOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
@@ -342,8 +382,10 @@ public protocol ConnectClientProtocol {
     ///
     /// For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
     func updateParticipantRoleConfig(input: UpdateParticipantRoleConfigInput) async throws -> UpdateParticipantRoleConfigOutputResponse
-    /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation.
+    /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region. After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation.
     func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutputResponse
+    /// Updates a prompt.
+    func updatePrompt(input: UpdatePromptInput) async throws -> UpdatePromptOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
     func updateQueueHoursOfOperation(input: UpdateQueueHoursOfOperationInput) async throws -> UpdateQueueHoursOfOperationOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the maximum number of contacts allowed in a queue before it is considered full.

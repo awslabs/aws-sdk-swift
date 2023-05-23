@@ -2,6 +2,231 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AddStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case clientToken = "ClientToken"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case systemType = "SystemType"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentArns = agentArns {
+            var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let cloudWatchLogGroupArn = self.cloudWatchLogGroupArn {
+            try encodeContainer.encode(cloudWatchLogGroupArn, forKey: .cloudWatchLogGroupArn)
+        }
+        if let credentials = self.credentials {
+            try encodeContainer.encode(credentials, forKey: .credentials)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serverConfiguration = self.serverConfiguration {
+            try encodeContainer.encode(serverConfiguration, forKey: .serverConfiguration)
+        }
+        if let systemType = self.systemType {
+            try encodeContainer.encode(systemType.rawValue, forKey: .systemType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
+            }
+        }
+    }
+}
+
+extension AddStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AddStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface.
+    /// This member is required.
+    public var agentArns: [Swift.String]?
+    /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
+    public var cloudWatchLogGroupArn: Swift.String?
+    /// Specifies the user name and password for accessing your on-premises storage system's management interface.
+    /// This member is required.
+    public var credentials: DataSyncClientTypes.Credentials?
+    /// Specifies a familiar name for your on-premises storage system.
+    public var name: Swift.String?
+    /// Specifies the server name and network port required to connect with the management interface of your on-premises storage system.
+    /// This member is required.
+    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    /// Specifies the type of on-premises storage system that you want DataSync Discovery to collect information about. DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
+    /// This member is required.
+    public var systemType: DataSyncClientTypes.DiscoverySystemType?
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your on-premises storage system.
+    public var tags: [DataSyncClientTypes.TagListEntry]?
+
+    public init (
+        agentArns: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        cloudWatchLogGroupArn: Swift.String? = nil,
+        credentials: DataSyncClientTypes.Credentials? = nil,
+        name: Swift.String? = nil,
+        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
+        systemType: DataSyncClientTypes.DiscoverySystemType? = nil,
+        tags: [DataSyncClientTypes.TagListEntry]? = nil
+    )
+    {
+        self.agentArns = agentArns
+        self.clientToken = clientToken
+        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+        self.credentials = credentials
+        self.name = name
+        self.serverConfiguration = serverConfiguration
+        self.systemType = systemType
+        self.tags = tags
+    }
+}
+
+struct AddStorageSystemInputBody: Swift.Equatable {
+    let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    let systemType: DataSyncClientTypes.DiscoverySystemType?
+    let agentArns: [Swift.String]?
+    let cloudWatchLogGroupArn: Swift.String?
+    let tags: [DataSyncClientTypes.TagListEntry]?
+    let name: Swift.String?
+    let clientToken: Swift.String?
+    let credentials: DataSyncClientTypes.Credentials?
+}
+
+extension AddStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case clientToken = "ClientToken"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case systemType = "SystemType"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryServerConfiguration.self, forKey: .serverConfiguration)
+        serverConfiguration = serverConfigurationDecoded
+        let systemTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoverySystemType.self, forKey: .systemType)
+        systemType = systemTypeDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let cloudWatchLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupArn)
+        cloudWatchLogGroupArn = cloudWatchLogGroupArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TagListEntry?].self, forKey: .tags)
+        var tagsDecoded0:[DataSyncClientTypes.TagListEntry]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DataSyncClientTypes.TagListEntry]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let credentialsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+    }
+}
+
+extension AddStorageSystemOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AddStorageSystemOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AddStorageSystemOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: AddStorageSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.storageSystemArn = output.storageSystemArn
+        } else {
+            self.storageSystemArn = nil
+        }
+    }
+}
+
+public struct AddStorageSystemOutputResponse: Swift.Equatable {
+    /// The ARN of the on-premises storage system that you can use with DataSync Discovery.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init (
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct AddStorageSystemOutputResponseBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+}
+
+extension AddStorageSystemOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+    }
+}
+
 extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArn = "AgentArn"
@@ -202,6 +427,61 @@ extension CancelTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CancelTaskExecutionOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension DataSyncClientTypes.Capacity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logicalUsed = "LogicalUsed"
+        case provisioned = "Provisioned"
+        case used = "Used"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logicalUsed = self.logicalUsed {
+            try encodeContainer.encode(logicalUsed, forKey: .logicalUsed)
+        }
+        if let provisioned = self.provisioned {
+            try encodeContainer.encode(provisioned, forKey: .provisioned)
+        }
+        if let used = self.used {
+            try encodeContainer.encode(used, forKey: .used)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .used)
+        used = usedDecoded
+        let provisionedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .provisioned)
+        provisioned = provisionedDecoded
+        let logicalUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .logicalUsed)
+        logicalUsed = logicalUsedDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The storage capacity of an on-premises storage system resource (for example, a volume).
+    public struct Capacity: Swift.Equatable {
+        /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
+        public var logicalUsed: Swift.Int?
+        /// The total amount of space available in a storage system resource.
+        public var provisioned: Swift.Int?
+        /// The amount of space that's being used in a storage system resource.
+        public var used: Swift.Int?
+
+        public init (
+            logicalUsed: Swift.Int? = nil,
+            provisioned: Swift.Int? = nil,
+            used: Swift.Int? = nil
+        )
+        {
+            self.logicalUsed = logicalUsed
+            self.provisioned = provisioned
+            self.used = used
+        }
+    }
+
 }
 
 extension CreateAgentInput: Swift.Encodable {
@@ -2785,6 +3065,58 @@ extension CreateTaskOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DataSyncClientTypes.Credentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case password = "Password"
+        case username = "Username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let password = self.password {
+            try encodeContainer.encode(password, forKey: .password)
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+        let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
+        password = passwordDecoded
+    }
+}
+
+extension DataSyncClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Credentials(password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
+extension DataSyncClientTypes {
+    /// The credentials that provide DataSync Discovery read access to your on-premises storage system's management interface. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html). For more information, see [Accessing your on-premises storage system](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html).
+    public struct Credentials: Swift.Equatable {
+        /// Specifies the password for your storage system's management interface.
+        /// This member is required.
+        public var password: Swift.String?
+        /// Specifies the user name for your storage system's management interface.
+        /// This member is required.
+        public var username: Swift.String?
+
+        public init (
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.username = username
+        }
+    }
+
+}
+
 extension DeleteAgentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArn = "AgentArn"
@@ -3205,6 +3537,168 @@ extension DescribeAgentOutputResponseBody: Swift.Decodable {
         endpointType = endpointTypeDecoded
         let privateLinkConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.PrivateLinkConfig.self, forKey: .privateLinkConfig)
         privateLinkConfig = privateLinkConfigDecoded
+    }
+}
+
+extension DescribeDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+    }
+}
+
+extension DescribeDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDiscoveryJobInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+
+    public init (
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct DescribeDiscoveryJobInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+}
+
+extension DescribeDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+    }
+}
+
+extension DescribeDiscoveryJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeDiscoveryJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeDiscoveryJobOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeDiscoveryJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.collectionDurationMinutes = output.collectionDurationMinutes
+            self.discoveryJobArn = output.discoveryJobArn
+            self.jobEndTime = output.jobEndTime
+            self.jobStartTime = output.jobStartTime
+            self.status = output.status
+            self.storageSystemArn = output.storageSystemArn
+        } else {
+            self.collectionDurationMinutes = nil
+            self.discoveryJobArn = nil
+            self.jobEndTime = nil
+            self.jobStartTime = nil
+            self.status = nil
+            self.storageSystemArn = nil
+        }
+    }
+}
+
+public struct DescribeDiscoveryJobOutputResponse: Swift.Equatable {
+    /// The number of minutes that the discovery job runs.
+    public var collectionDurationMinutes: Swift.Int?
+    /// The ARN of the discovery job.
+    public var discoveryJobArn: Swift.String?
+    /// The time when the discovery job ended.
+    public var jobEndTime: ClientRuntime.Date?
+    /// The time when the discovery job started.
+    public var jobStartTime: ClientRuntime.Date?
+    /// Indicates the status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
+    public var status: DataSyncClientTypes.DiscoveryJobStatus?
+    /// The ARN of the on-premises storage system you're running the discovery job on.
+    public var storageSystemArn: Swift.String?
+
+    public init (
+        collectionDurationMinutes: Swift.Int? = nil,
+        discoveryJobArn: Swift.String? = nil,
+        jobEndTime: ClientRuntime.Date? = nil,
+        jobStartTime: ClientRuntime.Date? = nil,
+        status: DataSyncClientTypes.DiscoveryJobStatus? = nil,
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.collectionDurationMinutes = collectionDurationMinutes
+        self.discoveryJobArn = discoveryJobArn
+        self.jobEndTime = jobEndTime
+        self.jobStartTime = jobStartTime
+        self.status = status
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct DescribeDiscoveryJobOutputResponseBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let discoveryJobArn: Swift.String?
+    let collectionDurationMinutes: Swift.Int?
+    let status: DataSyncClientTypes.DiscoveryJobStatus?
+    let jobStartTime: ClientRuntime.Date?
+    let jobEndTime: ClientRuntime.Date?
+}
+
+extension DescribeDiscoveryJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case discoveryJobArn = "DiscoveryJobArn"
+        case jobEndTime = "JobEndTime"
+        case jobStartTime = "JobStartTime"
+        case status = "Status"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let collectionDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .collectionDurationMinutes)
+        collectionDurationMinutes = collectionDurationMinutesDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let jobStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .jobStartTime)
+        jobStartTime = jobStartTimeDecoded
+        let jobEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .jobEndTime)
+        jobEndTime = jobEndTimeDecoded
     }
 }
 
@@ -4989,6 +5483,639 @@ extension DescribeLocationSmbOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension DescribeStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init (
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct DescribeStorageSystemInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+}
+
+extension DescribeStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+    }
+}
+
+extension DescribeStorageSystemOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeStorageSystemOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeStorageSystemOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeStorageSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.agentArns = output.agentArns
+            self.cloudWatchLogGroupArn = output.cloudWatchLogGroupArn
+            self.connectivityStatus = output.connectivityStatus
+            self.creationTime = output.creationTime
+            self.errorMessage = output.errorMessage
+            self.name = output.name
+            self.secretsManagerArn = output.secretsManagerArn
+            self.serverConfiguration = output.serverConfiguration
+            self.storageSystemArn = output.storageSystemArn
+            self.systemType = output.systemType
+        } else {
+            self.agentArns = nil
+            self.cloudWatchLogGroupArn = nil
+            self.connectivityStatus = nil
+            self.creationTime = nil
+            self.errorMessage = nil
+            self.name = nil
+            self.secretsManagerArn = nil
+            self.serverConfiguration = nil
+            self.storageSystemArn = nil
+            self.systemType = nil
+        }
+    }
+}
+
+public struct DescribeStorageSystemOutputResponse: Swift.Equatable {
+    /// The ARN of the DataSync agent that connects to and reads from your on-premises storage system.
+    public var agentArns: [Swift.String]?
+    /// The ARN of the Amazon CloudWatch log group that's used to monitor and log discovery job events.
+    public var cloudWatchLogGroupArn: Swift.String?
+    /// Indicates whether your DataSync agent can connect to your on-premises storage system.
+    public var connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus?
+    /// The time when you added the on-premises storage system to DataSync Discovery.
+    public var creationTime: ClientRuntime.Date?
+    /// Describes the connectivity error that the DataSync agent is encountering with your on-premises storage system.
+    public var errorMessage: Swift.String?
+    /// The name that you gave your on-premises storage system when adding it to DataSync Discovery.
+    public var name: Swift.String?
+    /// The ARN of the secret that stores your on-premises storage system's credentials. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html#discovery-add-storage).
+    public var secretsManagerArn: Swift.String?
+    /// The server name and network port required to connect with your on-premises storage system's management interface.
+    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    /// The ARN of the on-premises storage system that the discovery job looked at.
+    public var storageSystemArn: Swift.String?
+    /// The type of on-premises storage system. DataSync Discovery currently only supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
+    public var systemType: DataSyncClientTypes.DiscoverySystemType?
+
+    public init (
+        agentArns: [Swift.String]? = nil,
+        cloudWatchLogGroupArn: Swift.String? = nil,
+        connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        errorMessage: Swift.String? = nil,
+        name: Swift.String? = nil,
+        secretsManagerArn: Swift.String? = nil,
+        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
+        storageSystemArn: Swift.String? = nil,
+        systemType: DataSyncClientTypes.DiscoverySystemType? = nil
+    )
+    {
+        self.agentArns = agentArns
+        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+        self.connectivityStatus = connectivityStatus
+        self.creationTime = creationTime
+        self.errorMessage = errorMessage
+        self.name = name
+        self.secretsManagerArn = secretsManagerArn
+        self.serverConfiguration = serverConfiguration
+        self.storageSystemArn = storageSystemArn
+        self.systemType = systemType
+    }
+}
+
+struct DescribeStorageSystemOutputResponseBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    let systemType: DataSyncClientTypes.DiscoverySystemType?
+    let agentArns: [Swift.String]?
+    let name: Swift.String?
+    let errorMessage: Swift.String?
+    let connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus?
+    let cloudWatchLogGroupArn: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let secretsManagerArn: Swift.String?
+}
+
+extension DescribeStorageSystemOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case connectivityStatus = "ConnectivityStatus"
+        case creationTime = "CreationTime"
+        case errorMessage = "ErrorMessage"
+        case name = "Name"
+        case secretsManagerArn = "SecretsManagerArn"
+        case serverConfiguration = "ServerConfiguration"
+        case storageSystemArn = "StorageSystemArn"
+        case systemType = "SystemType"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let serverConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryServerConfiguration.self, forKey: .serverConfiguration)
+        serverConfiguration = serverConfigurationDecoded
+        let systemTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoverySystemType.self, forKey: .systemType)
+        systemType = systemTypeDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let connectivityStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.StorageSystemConnectivityStatus.self, forKey: .connectivityStatus)
+        connectivityStatus = connectivityStatusDecoded
+        let cloudWatchLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupArn)
+        cloudWatchLogGroupArn = cloudWatchLogGroupArnDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let secretsManagerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerArn)
+        secretsManagerArn = secretsManagerArnDecoded
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStorageSystemResourceMetricsInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+    /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
+    public var endTime: ClientRuntime.Date?
+    /// Specifies how many results that you want in the response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// Specifies the universally unique identifier (UUID) of the storage system resource that you want information about.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// Specifies the kind of storage system resource that you want information about.
+    /// This member is required.
+    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+    /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
+    public var startTime: ClientRuntime.Date?
+
+    public init (
+        discoveryJobArn: Swift.String? = nil,
+        endTime: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+        self.startTime = startTime
+    }
+}
+
+struct DescribeStorageSystemResourceMetricsInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let resourceType: DataSyncClientTypes.DiscoveryResourceType?
+    let resourceId: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourceMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeStorageSystemResourceMetricsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStorageSystemResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeStorageSystemResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metrics = output.metrics
+            self.nextToken = output.nextToken
+        } else {
+            self.metrics = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeStorageSystemResourceMetricsOutputResponse: Swift.Equatable {
+    /// The details that your discovery job collected about your storage system resource.
+    public var metrics: [DataSyncClientTypes.ResourceMetrics]?
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+
+    public init (
+        metrics: [DataSyncClientTypes.ResourceMetrics]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.metrics = metrics
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeStorageSystemResourceMetricsOutputResponseBody: Swift.Equatable {
+    let metrics: [DataSyncClientTypes.ResourceMetrics]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourceMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metrics = "Metrics"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.ResourceMetrics?].self, forKey: .metrics)
+        var metricsDecoded0:[DataSyncClientTypes.ResourceMetrics]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [DataSyncClientTypes.ResourceMetrics]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeStorageSystemResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let filter = filter {
+            var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
+            for (dictKey0, resourceFilters0) in filter {
+                var resourceFilters0Container = filterContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ptolemystring1 in resourceFilters0 {
+                    try resourceFilters0Container.encode(ptolemystring1)
+                }
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for resourceid0 in resourceIds {
+                try resourceIdsContainer.encode(resourceid0)
+            }
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+}
+
+extension DescribeStorageSystemResourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStorageSystemResourcesInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+    /// Filters the storage system resources that you want returned. For example, this might be volumes associated with a specific storage virtual machine (SVM).
+    public var filter: [Swift.String:[Swift.String]]?
+    /// Specifies the maximum number of storage system resources that you want to list in a response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// Specifies the universally unique identifiers (UUIDs) of the storage system resources that you want information about. You can't use this parameter in combination with the Filter parameter.
+    public var resourceIds: [Swift.String]?
+    /// Specifies what kind of storage system resources that you want information about.
+    /// This member is required.
+    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+
+    public init (
+        discoveryJobArn: Swift.String? = nil,
+        filter: [Swift.String:[Swift.String]]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil,
+        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceIds = resourceIds
+        self.resourceType = resourceType
+    }
+}
+
+struct DescribeStorageSystemResourcesInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let resourceType: DataSyncClientTypes.DiscoveryResourceType?
+    let resourceIds: [Swift.String]?
+    let filter: [Swift.String:[Swift.String]]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Swift.String]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Swift.String]()
+            for string0 in resourceIdsContainer {
+                if let string0 = string0 {
+                    resourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let filterContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .filter)
+        var filterDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let filterContainer = filterContainer {
+            filterDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, filtermembers0) in filterContainer {
+                var filtermembers0Decoded0: [Swift.String]? = nil
+                if let filtermembers0 = filtermembers0 {
+                    filtermembers0Decoded0 = [Swift.String]()
+                    for string1 in filtermembers0 {
+                        if let string1 = string1 {
+                            filtermembers0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                filterDecoded0?[key0] = filtermembers0Decoded0
+            }
+        }
+        filter = filterDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeStorageSystemResourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeStorageSystemResourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeStorageSystemResourcesOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeStorageSystemResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: DescribeStorageSystemResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.resourceDetails = output.resourceDetails
+        } else {
+            self.nextToken = nil
+            self.resourceDetails = nil
+        }
+    }
+}
+
+public struct DescribeStorageSystemResourcesOutputResponse: Swift.Equatable {
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// The information collected about your storage system's resources. A response can also include Amazon Web Services storage service recommendations. For more information, see [storage resource information](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-findings.html) collected by and [recommendations](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html) provided by DataSync Discovery.
+    public var resourceDetails: DataSyncClientTypes.ResourceDetails?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        resourceDetails: DataSyncClientTypes.ResourceDetails? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceDetails = resourceDetails
+    }
+}
+
+struct DescribeStorageSystemResourcesOutputResponseBody: Swift.Equatable {
+    let resourceDetails: DataSyncClientTypes.ResourceDetails?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourcesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case resourceDetails = "ResourceDetails"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceDetailsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ResourceDetails.self, forKey: .resourceDetails)
+        resourceDetails = resourceDetailsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension DescribeTaskExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case taskExecutionArn = "TaskExecutionArn"
@@ -5541,6 +6668,237 @@ extension DescribeTaskOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DataSyncClientTypes.DiscoveryJobListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryJobStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The details about a specific DataSync discovery job.
+    public struct DiscoveryJobListEntry: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a discovery job.
+        public var discoveryJobArn: Swift.String?
+        /// The status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
+        public var status: DataSyncClientTypes.DiscoveryJobStatus?
+
+        public init (
+            discoveryJobArn: Swift.String? = nil,
+            status: DataSyncClientTypes.DiscoveryJobStatus? = nil
+        )
+        {
+            self.discoveryJobArn = discoveryJobArn
+            self.status = status
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoveryJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case completedWithIssues
+        case failed
+        case running
+        case stopped
+        case terminated
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryJobStatus] {
+            return [
+                .completed,
+                .completedWithIssues,
+                .failed,
+                .running,
+                .stopped,
+                .terminated,
+                .warning,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case .terminated: return "TERMINATED"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryJobStatus(rawValue: rawValue) ?? DiscoveryJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoveryResourceFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case svm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryResourceFilter] {
+            return [
+                .svm,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .svm: return "SVM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryResourceFilter(rawValue: rawValue) ?? DiscoveryResourceFilter.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoveryResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cluster
+        case svm
+        case volume
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryResourceType] {
+            return [
+                .cluster,
+                .svm,
+                .volume,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cluster: return "CLUSTER"
+            case .svm: return "SVM"
+            case .volume: return "VOLUME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryResourceType(rawValue: rawValue) ?? DiscoveryResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes.DiscoveryServerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverHostname = "ServerHostname"
+        case serverPort = "ServerPort"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serverHostname = self.serverHostname {
+            try encodeContainer.encode(serverHostname, forKey: .serverHostname)
+        }
+        if let serverPort = self.serverPort {
+            try encodeContainer.encode(serverPort, forKey: .serverPort)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverHostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverHostname)
+        serverHostname = serverHostnameDecoded
+        let serverPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serverPort)
+        serverPort = serverPortDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The network settings that DataSync Discovery uses to connect with your on-premises storage system's management interface.
+    public struct DiscoveryServerConfiguration: Swift.Equatable {
+        /// The domain name or IP address of your storage system's management interface.
+        /// This member is required.
+        public var serverHostname: Swift.String?
+        /// The network port for accessing the storage system's management interface.
+        public var serverPort: Swift.Int?
+
+        public init (
+            serverHostname: Swift.String? = nil,
+            serverPort: Swift.Int? = nil
+        )
+        {
+            self.serverHostname = serverHostname
+            self.serverPort = serverPort
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoverySystemType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case netappontap
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoverySystemType] {
+            return [
+                .netappontap,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .netappontap: return "NetAppONTAP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoverySystemType(rawValue: rawValue) ?? DiscoverySystemType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataSyncClientTypes.Ec2Config: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityGroupArns = "SecurityGroupArns"
@@ -5911,6 +7269,126 @@ extension DataSyncClientTypes {
 
 }
 
+extension GenerateRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for resourceid0 in resourceIds {
+                try resourceIdsContainer.encode(resourceid0)
+            }
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+}
+
+extension GenerateRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GenerateRecommendationsInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+    /// Specifies the universally unique identifiers (UUIDs) of the resources in your storage system that you want recommendations on.
+    /// This member is required.
+    public var resourceIds: [Swift.String]?
+    /// Specifies the type of resource in your storage system that you want recommendations on.
+    /// This member is required.
+    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+
+    public init (
+        discoveryJobArn: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil,
+        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+        self.resourceIds = resourceIds
+        self.resourceType = resourceType
+    }
+}
+
+struct GenerateRecommendationsInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let resourceIds: [Swift.String]?
+    let resourceType: DataSyncClientTypes.DiscoveryResourceType?
+}
+
+extension GenerateRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Swift.String]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Swift.String]()
+            for string0 in resourceIdsContainer {
+                if let string0 = string0 {
+                    resourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension GenerateRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GenerateRecommendationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GenerateRecommendationsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GenerateRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct GenerateRecommendationsOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DataSyncClientTypes {
     public enum Gid: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case both
@@ -6104,6 +7582,71 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.IOPS: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case other = "Other"
+        case read = "Read"
+        case total = "Total"
+        case write = "Write"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let other = self.other {
+            try encodeContainer.encode(other, forKey: .other)
+        }
+        if let read = self.read {
+            try encodeContainer.encode(read, forKey: .read)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+        if let write = self.write {
+            try encodeContainer.encode(write, forKey: .write)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .read)
+        read = readDecoded
+        let writeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .write)
+        write = writeDecoded
+        let otherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .other)
+        other = otherDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .total)
+        total = totalDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+    public struct IOPS: Swift.Equatable {
+        /// Peak IOPS unrelated to read and write operations.
+        public var other: Swift.Double?
+        /// Peak IOPS related to read operations.
+        public var read: Swift.Double?
+        /// Peak total IOPS on your on-premises storage system resource.
+        public var total: Swift.Double?
+        /// Peak IOPS related to write operations.
+        public var write: Swift.Double?
+
+        public init (
+            other: Swift.Double? = nil,
+            read: Swift.Double? = nil,
+            total: Swift.Double? = nil,
+            write: Swift.Double? = nil
+        )
+        {
+            self.other = other
+            self.read = read
+            self.total = total
+            self.write = write
+        }
+    }
+
+}
+
 extension InternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let data = try httpResponse.body.toData(),
@@ -6231,6 +7774,61 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         let datasyncErrorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasyncErrorCode)
         datasyncErrorCode = datasyncErrorCodeDecoded
     }
+}
+
+extension DataSyncClientTypes.Latency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case other = "Other"
+        case read = "Read"
+        case write = "Write"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let other = self.other {
+            try encodeContainer.encode(other, forKey: .other)
+        }
+        if let read = self.read {
+            try encodeContainer.encode(read, forKey: .read)
+        }
+        if let write = self.write {
+            try encodeContainer.encode(write, forKey: .write)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .read)
+        read = readDecoded
+        let writeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .write)
+        write = writeDecoded
+        let otherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .other)
+        other = otherDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+    public struct Latency: Swift.Equatable {
+        /// Peak latency for operations unrelated to read and write operations.
+        public var other: Swift.Double?
+        /// Peak latency for read operations.
+        public var read: Swift.Double?
+        /// Peak latency for write operations.
+        public var write: Swift.Double?
+
+        public init (
+            other: Swift.Double? = nil,
+            read: Swift.Double? = nil,
+            write: Swift.Double? = nil
+        )
+        {
+            self.other = other
+            self.read = read
+            self.write = write
+        }
+    }
+
 }
 
 extension ListAgentsInput: Swift.Encodable {
@@ -6372,6 +7970,160 @@ extension ListAgentsOutputResponseBody: Swift.Decodable {
             }
         }
         agents = agentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDiscoveryJobsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension ListDiscoveryJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDiscoveryJobsInput: Swift.Equatable {
+    /// Specifies how many results you want in the response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
+    public var storageSystemArn: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct ListDiscoveryJobsInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListDiscoveryJobsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDiscoveryJobsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDiscoveryJobsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListDiscoveryJobsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDiscoveryJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListDiscoveryJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.discoveryJobs = output.discoveryJobs
+            self.nextToken = output.nextToken
+        } else {
+            self.discoveryJobs = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDiscoveryJobsOutputResponse: Swift.Equatable {
+    /// The discovery jobs that you've run.
+    public var discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+
+    public init (
+        discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.discoveryJobs = discoveryJobs
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDiscoveryJobsOutputResponseBody: Swift.Equatable {
+    let discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListDiscoveryJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobs = "DiscoveryJobs"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.DiscoveryJobListEntry?].self, forKey: .discoveryJobs)
+        var discoveryJobsDecoded0:[DataSyncClientTypes.DiscoveryJobListEntry]? = nil
+        if let discoveryJobsContainer = discoveryJobsContainer {
+            discoveryJobsDecoded0 = [DataSyncClientTypes.DiscoveryJobListEntry]()
+            for structure0 in discoveryJobsContainer {
+                if let structure0 = structure0 {
+                    discoveryJobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        discoveryJobs = discoveryJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -6540,6 +8292,148 @@ extension ListLocationsOutputResponseBody: Swift.Decodable {
             }
         }
         locations = locationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListStorageSystemsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListStorageSystemsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListStorageSystemsInput: Swift.Equatable {
+    /// Specifies how many results you want in the response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListStorageSystemsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListStorageSystemsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListStorageSystemsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListStorageSystemsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListStorageSystemsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListStorageSystemsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: ListStorageSystemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.storageSystems = output.storageSystems
+        } else {
+            self.nextToken = nil
+            self.storageSystems = nil
+        }
+    }
+}
+
+public struct ListStorageSystemsOutputResponse: Swift.Equatable {
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Names ARNs) of the on-premises storage systems that you're using with DataSync Discovery.
+    public var storageSystems: [DataSyncClientTypes.StorageSystemListEntry]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        storageSystems: [DataSyncClientTypes.StorageSystemListEntry]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.storageSystems = storageSystems
+    }
+}
+
+struct ListStorageSystemsOutputResponseBody: Swift.Equatable {
+    let storageSystems: [DataSyncClientTypes.StorageSystemListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListStorageSystemsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case storageSystems = "StorageSystems"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.StorageSystemListEntry?].self, forKey: .storageSystems)
+        var storageSystemsDecoded0:[DataSyncClientTypes.StorageSystemListEntry]? = nil
+        if let storageSystemsContainer = storageSystemsContainer {
+            storageSystemsDecoded0 = [DataSyncClientTypes.StorageSystemListEntry]()
+            for structure0 in storageSystemsContainer {
+                if let structure0 = structure0 {
+                    storageSystemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        storageSystems = storageSystemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -7211,6 +9105,141 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.MaxP95Performance: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iopsOther = "IopsOther"
+        case iopsRead = "IopsRead"
+        case iopsTotal = "IopsTotal"
+        case iopsWrite = "IopsWrite"
+        case latencyOther = "LatencyOther"
+        case latencyRead = "LatencyRead"
+        case latencyWrite = "LatencyWrite"
+        case throughputOther = "ThroughputOther"
+        case throughputRead = "ThroughputRead"
+        case throughputTotal = "ThroughputTotal"
+        case throughputWrite = "ThroughputWrite"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iopsOther = self.iopsOther {
+            try encodeContainer.encode(iopsOther, forKey: .iopsOther)
+        }
+        if let iopsRead = self.iopsRead {
+            try encodeContainer.encode(iopsRead, forKey: .iopsRead)
+        }
+        if let iopsTotal = self.iopsTotal {
+            try encodeContainer.encode(iopsTotal, forKey: .iopsTotal)
+        }
+        if let iopsWrite = self.iopsWrite {
+            try encodeContainer.encode(iopsWrite, forKey: .iopsWrite)
+        }
+        if let latencyOther = self.latencyOther {
+            try encodeContainer.encode(latencyOther, forKey: .latencyOther)
+        }
+        if let latencyRead = self.latencyRead {
+            try encodeContainer.encode(latencyRead, forKey: .latencyRead)
+        }
+        if let latencyWrite = self.latencyWrite {
+            try encodeContainer.encode(latencyWrite, forKey: .latencyWrite)
+        }
+        if let throughputOther = self.throughputOther {
+            try encodeContainer.encode(throughputOther, forKey: .throughputOther)
+        }
+        if let throughputRead = self.throughputRead {
+            try encodeContainer.encode(throughputRead, forKey: .throughputRead)
+        }
+        if let throughputTotal = self.throughputTotal {
+            try encodeContainer.encode(throughputTotal, forKey: .throughputTotal)
+        }
+        if let throughputWrite = self.throughputWrite {
+            try encodeContainer.encode(throughputWrite, forKey: .throughputWrite)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iopsReadDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsRead)
+        iopsRead = iopsReadDecoded
+        let iopsWriteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsWrite)
+        iopsWrite = iopsWriteDecoded
+        let iopsOtherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsOther)
+        iopsOther = iopsOtherDecoded
+        let iopsTotalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsTotal)
+        iopsTotal = iopsTotalDecoded
+        let throughputReadDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputRead)
+        throughputRead = throughputReadDecoded
+        let throughputWriteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputWrite)
+        throughputWrite = throughputWriteDecoded
+        let throughputOtherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputOther)
+        throughputOther = throughputOtherDecoded
+        let throughputTotalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputTotal)
+        throughputTotal = throughputTotalDecoded
+        let latencyReadDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latencyRead)
+        latencyRead = latencyReadDecoded
+        let latencyWriteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latencyWrite)
+        latencyWrite = latencyWriteDecoded
+        let latencyOtherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latencyOther)
+        latencyOther = latencyOtherDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The performance data that DataSync Discovery collects about an on-premises storage system resource.
+    public struct MaxP95Performance: Swift.Equatable {
+        /// Peak IOPS unrelated to read and write operations.
+        public var iopsOther: Swift.Double?
+        /// Peak IOPS related to read operations.
+        public var iopsRead: Swift.Double?
+        /// Peak total IOPS on your on-premises storage system resource.
+        public var iopsTotal: Swift.Double?
+        /// Peak IOPS related to write operations.
+        public var iopsWrite: Swift.Double?
+        /// Peak latency for operations unrelated to read and write operations.
+        public var latencyOther: Swift.Double?
+        /// Peak latency for read operations.
+        public var latencyRead: Swift.Double?
+        /// Peak latency for write operations.
+        public var latencyWrite: Swift.Double?
+        /// Peak throughput unrelated to read and write operations.
+        public var throughputOther: Swift.Double?
+        /// Peak throughput related to read operations.
+        public var throughputRead: Swift.Double?
+        /// Peak total throughput on your on-premises storage system resource.
+        public var throughputTotal: Swift.Double?
+        /// Peak throughput related to write operations.
+        public var throughputWrite: Swift.Double?
+
+        public init (
+            iopsOther: Swift.Double? = nil,
+            iopsRead: Swift.Double? = nil,
+            iopsTotal: Swift.Double? = nil,
+            iopsWrite: Swift.Double? = nil,
+            latencyOther: Swift.Double? = nil,
+            latencyRead: Swift.Double? = nil,
+            latencyWrite: Swift.Double? = nil,
+            throughputOther: Swift.Double? = nil,
+            throughputRead: Swift.Double? = nil,
+            throughputTotal: Swift.Double? = nil,
+            throughputWrite: Swift.Double? = nil
+        )
+        {
+            self.iopsOther = iopsOther
+            self.iopsRead = iopsRead
+            self.iopsTotal = iopsTotal
+            self.iopsWrite = iopsWrite
+            self.latencyOther = latencyOther
+            self.latencyRead = latencyRead
+            self.latencyWrite = latencyWrite
+            self.throughputOther = throughputOther
+            self.throughputRead = throughputRead
+            self.throughputTotal = throughputTotal
+            self.throughputWrite = throughputWrite
+        }
+    }
+
+}
+
 extension DataSyncClientTypes {
     public enum Mtime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
@@ -7241,6 +9270,499 @@ extension DataSyncClientTypes {
             self = Mtime(rawValue: rawValue) ?? Mtime.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cifsShareCount = "CifsShareCount"
+        case clusterBlockStorageLogicalUsed = "ClusterBlockStorageLogicalUsed"
+        case clusterBlockStorageSize = "ClusterBlockStorageSize"
+        case clusterBlockStorageUsed = "ClusterBlockStorageUsed"
+        case clusterName = "ClusterName"
+        case maxP95Performance = "MaxP95Performance"
+        case nfsExportedVolumes = "NfsExportedVolumes"
+        case recommendationStatus = "RecommendationStatus"
+        case recommendations = "Recommendations"
+        case resourceId = "ResourceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cifsShareCount = self.cifsShareCount {
+            try encodeContainer.encode(cifsShareCount, forKey: .cifsShareCount)
+        }
+        if let clusterBlockStorageLogicalUsed = self.clusterBlockStorageLogicalUsed {
+            try encodeContainer.encode(clusterBlockStorageLogicalUsed, forKey: .clusterBlockStorageLogicalUsed)
+        }
+        if let clusterBlockStorageSize = self.clusterBlockStorageSize {
+            try encodeContainer.encode(clusterBlockStorageSize, forKey: .clusterBlockStorageSize)
+        }
+        if let clusterBlockStorageUsed = self.clusterBlockStorageUsed {
+            try encodeContainer.encode(clusterBlockStorageUsed, forKey: .clusterBlockStorageUsed)
+        }
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let maxP95Performance = self.maxP95Performance {
+            try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
+        }
+        if let nfsExportedVolumes = self.nfsExportedVolumes {
+            try encodeContainer.encode(nfsExportedVolumes, forKey: .nfsExportedVolumes)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cifsShareCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cifsShareCount)
+        cifsShareCount = cifsShareCountDecoded
+        let nfsExportedVolumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nfsExportedVolumes)
+        nfsExportedVolumes = nfsExportedVolumesDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let maxP95PerformanceDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.MaxP95Performance.self, forKey: .maxP95Performance)
+        maxP95Performance = maxP95PerformanceDecoded
+        let clusterBlockStorageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterBlockStorageSize)
+        clusterBlockStorageSize = clusterBlockStorageSizeDecoded
+        let clusterBlockStorageUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterBlockStorageUsed)
+        clusterBlockStorageUsed = clusterBlockStorageUsedDecoded
+        let clusterBlockStorageLogicalUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterBlockStorageLogicalUsed)
+        clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsedDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DataSyncClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DataSyncClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The information that DataSync Discovery collects about an on-premises storage system cluster.
+    public struct NetAppONTAPCluster: Swift.Equatable {
+        /// The number of CIFS shares in the cluster.
+        public var cifsShareCount: Swift.Int?
+        /// The storage space that's being used in the cluster without accounting for compression or deduplication.
+        public var clusterBlockStorageLogicalUsed: Swift.Int?
+        /// The total storage space that's available in the cluster.
+        public var clusterBlockStorageSize: Swift.Int?
+        /// The storage space that's being used in a cluster.
+        public var clusterBlockStorageUsed: Swift.Int?
+        /// The name of the cluster.
+        public var clusterName: Swift.String?
+        /// The performance data that DataSync Discovery collects about the cluster.
+        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
+        /// The number of NFS volumes in the cluster.
+        public var nfsExportedVolumes: Swift.Int?
+        /// Indicates whether DataSync Discovery recommendations for the cluster are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
+        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
+        /// The Amazon Web Services storage services that DataSync Discovery recommends for the cluster. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+        public var recommendations: [DataSyncClientTypes.Recommendation]?
+        /// The universally unique identifier (UUID) of the cluster.
+        public var resourceId: Swift.String?
+
+        public init (
+            cifsShareCount: Swift.Int? = nil,
+            clusterBlockStorageLogicalUsed: Swift.Int? = nil,
+            clusterBlockStorageSize: Swift.Int? = nil,
+            clusterBlockStorageUsed: Swift.Int? = nil,
+            clusterName: Swift.String? = nil,
+            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
+            nfsExportedVolumes: Swift.Int? = nil,
+            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
+            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
+            resourceId: Swift.String? = nil
+        )
+        {
+            self.cifsShareCount = cifsShareCount
+            self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
+            self.clusterBlockStorageSize = clusterBlockStorageSize
+            self.clusterBlockStorageUsed = clusterBlockStorageUsed
+            self.clusterName = clusterName
+            self.maxP95Performance = maxP95Performance
+            self.nfsExportedVolumes = nfsExportedVolumes
+            self.recommendationStatus = recommendationStatus
+            self.recommendations = recommendations
+            self.resourceId = resourceId
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.NetAppONTAPSVM: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cifsShareCount = "CifsShareCount"
+        case clusterUuid = "ClusterUuid"
+        case enabledProtocols = "EnabledProtocols"
+        case maxP95Performance = "MaxP95Performance"
+        case nfsExportedVolumes = "NfsExportedVolumes"
+        case recommendationStatus = "RecommendationStatus"
+        case recommendations = "Recommendations"
+        case resourceId = "ResourceId"
+        case svmName = "SvmName"
+        case totalCapacityProvisioned = "TotalCapacityProvisioned"
+        case totalCapacityUsed = "TotalCapacityUsed"
+        case totalLogicalCapacityUsed = "TotalLogicalCapacityUsed"
+        case totalSnapshotCapacityUsed = "TotalSnapshotCapacityUsed"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cifsShareCount = self.cifsShareCount {
+            try encodeContainer.encode(cifsShareCount, forKey: .cifsShareCount)
+        }
+        if let clusterUuid = self.clusterUuid {
+            try encodeContainer.encode(clusterUuid, forKey: .clusterUuid)
+        }
+        if let enabledProtocols = enabledProtocols {
+            var enabledProtocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enabledProtocols)
+            for ptolemystring0 in enabledProtocols {
+                try enabledProtocolsContainer.encode(ptolemystring0)
+            }
+        }
+        if let maxP95Performance = self.maxP95Performance {
+            try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
+        }
+        if let nfsExportedVolumes = self.nfsExportedVolumes {
+            try encodeContainer.encode(nfsExportedVolumes, forKey: .nfsExportedVolumes)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let svmName = self.svmName {
+            try encodeContainer.encode(svmName, forKey: .svmName)
+        }
+        if let totalCapacityProvisioned = self.totalCapacityProvisioned {
+            try encodeContainer.encode(totalCapacityProvisioned, forKey: .totalCapacityProvisioned)
+        }
+        if let totalCapacityUsed = self.totalCapacityUsed {
+            try encodeContainer.encode(totalCapacityUsed, forKey: .totalCapacityUsed)
+        }
+        if let totalLogicalCapacityUsed = self.totalLogicalCapacityUsed {
+            try encodeContainer.encode(totalLogicalCapacityUsed, forKey: .totalLogicalCapacityUsed)
+        }
+        if let totalSnapshotCapacityUsed = self.totalSnapshotCapacityUsed {
+            try encodeContainer.encode(totalSnapshotCapacityUsed, forKey: .totalSnapshotCapacityUsed)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterUuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterUuid)
+        clusterUuid = clusterUuidDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let svmNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .svmName)
+        svmName = svmNameDecoded
+        let cifsShareCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cifsShareCount)
+        cifsShareCount = cifsShareCountDecoded
+        let enabledProtocolsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .enabledProtocols)
+        var enabledProtocolsDecoded0:[Swift.String]? = nil
+        if let enabledProtocolsContainer = enabledProtocolsContainer {
+            enabledProtocolsDecoded0 = [Swift.String]()
+            for string0 in enabledProtocolsContainer {
+                if let string0 = string0 {
+                    enabledProtocolsDecoded0?.append(string0)
+                }
+            }
+        }
+        enabledProtocols = enabledProtocolsDecoded0
+        let totalCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCapacityUsed)
+        totalCapacityUsed = totalCapacityUsedDecoded
+        let totalCapacityProvisionedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCapacityProvisioned)
+        totalCapacityProvisioned = totalCapacityProvisionedDecoded
+        let totalLogicalCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalLogicalCapacityUsed)
+        totalLogicalCapacityUsed = totalLogicalCapacityUsedDecoded
+        let maxP95PerformanceDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.MaxP95Performance.self, forKey: .maxP95Performance)
+        maxP95Performance = maxP95PerformanceDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DataSyncClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DataSyncClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let nfsExportedVolumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nfsExportedVolumes)
+        nfsExportedVolumes = nfsExportedVolumesDecoded
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
+        let totalSnapshotCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSnapshotCapacityUsed)
+        totalSnapshotCapacityUsed = totalSnapshotCapacityUsedDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The information that DataSync Discovery collects about a storage virtual machine (SVM) in your on-premises storage system.
+    public struct NetAppONTAPSVM: Swift.Equatable {
+        /// The number of CIFS shares in the SVM.
+        public var cifsShareCount: Swift.Int?
+        /// The universally unique identifier (UUID) of the cluster associated with the SVM.
+        public var clusterUuid: Swift.String?
+        /// The data transfer protocols (such as NFS) configured for the SVM.
+        public var enabledProtocols: [Swift.String]?
+        /// The performance data that DataSync Discovery collects about the SVM.
+        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
+        /// The number of NFS volumes in the SVM.
+        public var nfsExportedVolumes: Swift.Int?
+        /// Indicates whether DataSync Discovery recommendations for the SVM are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
+        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
+        /// The Amazon Web Services storage services that DataSync Discovery recommends for the SVM. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+        public var recommendations: [DataSyncClientTypes.Recommendation]?
+        /// The UUID of the SVM.
+        public var resourceId: Swift.String?
+        /// The name of the SVM
+        public var svmName: Swift.String?
+        /// The total storage space that's available in the SVM.
+        public var totalCapacityProvisioned: Swift.Int?
+        /// The storage space that's being used in the SVM.
+        public var totalCapacityUsed: Swift.Int?
+        /// The storage space that's being used in the SVM without accounting for compression or deduplication.
+        public var totalLogicalCapacityUsed: Swift.Int?
+        /// The amount of storage in the SVM that's being used for snapshots.
+        public var totalSnapshotCapacityUsed: Swift.Int?
+
+        public init (
+            cifsShareCount: Swift.Int? = nil,
+            clusterUuid: Swift.String? = nil,
+            enabledProtocols: [Swift.String]? = nil,
+            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
+            nfsExportedVolumes: Swift.Int? = nil,
+            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
+            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
+            resourceId: Swift.String? = nil,
+            svmName: Swift.String? = nil,
+            totalCapacityProvisioned: Swift.Int? = nil,
+            totalCapacityUsed: Swift.Int? = nil,
+            totalLogicalCapacityUsed: Swift.Int? = nil,
+            totalSnapshotCapacityUsed: Swift.Int? = nil
+        )
+        {
+            self.cifsShareCount = cifsShareCount
+            self.clusterUuid = clusterUuid
+            self.enabledProtocols = enabledProtocols
+            self.maxP95Performance = maxP95Performance
+            self.nfsExportedVolumes = nfsExportedVolumes
+            self.recommendationStatus = recommendationStatus
+            self.recommendations = recommendations
+            self.resourceId = resourceId
+            self.svmName = svmName
+            self.totalCapacityProvisioned = totalCapacityProvisioned
+            self.totalCapacityUsed = totalCapacityUsed
+            self.totalLogicalCapacityUsed = totalLogicalCapacityUsed
+            self.totalSnapshotCapacityUsed = totalSnapshotCapacityUsed
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.NetAppONTAPVolume: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityProvisioned = "CapacityProvisioned"
+        case capacityUsed = "CapacityUsed"
+        case cifsShareCount = "CifsShareCount"
+        case logicalCapacityUsed = "LogicalCapacityUsed"
+        case maxP95Performance = "MaxP95Performance"
+        case nfsExported = "NfsExported"
+        case recommendationStatus = "RecommendationStatus"
+        case recommendations = "Recommendations"
+        case resourceId = "ResourceId"
+        case securityStyle = "SecurityStyle"
+        case snapshotCapacityUsed = "SnapshotCapacityUsed"
+        case svmName = "SvmName"
+        case svmUuid = "SvmUuid"
+        case volumeName = "VolumeName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityProvisioned = self.capacityProvisioned {
+            try encodeContainer.encode(capacityProvisioned, forKey: .capacityProvisioned)
+        }
+        if let capacityUsed = self.capacityUsed {
+            try encodeContainer.encode(capacityUsed, forKey: .capacityUsed)
+        }
+        if let cifsShareCount = self.cifsShareCount {
+            try encodeContainer.encode(cifsShareCount, forKey: .cifsShareCount)
+        }
+        if let logicalCapacityUsed = self.logicalCapacityUsed {
+            try encodeContainer.encode(logicalCapacityUsed, forKey: .logicalCapacityUsed)
+        }
+        if let maxP95Performance = self.maxP95Performance {
+            try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
+        }
+        if nfsExported != false {
+            try encodeContainer.encode(nfsExported, forKey: .nfsExported)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let securityStyle = self.securityStyle {
+            try encodeContainer.encode(securityStyle, forKey: .securityStyle)
+        }
+        if let snapshotCapacityUsed = self.snapshotCapacityUsed {
+            try encodeContainer.encode(snapshotCapacityUsed, forKey: .snapshotCapacityUsed)
+        }
+        if let svmName = self.svmName {
+            try encodeContainer.encode(svmName, forKey: .svmName)
+        }
+        if let svmUuid = self.svmUuid {
+            try encodeContainer.encode(svmUuid, forKey: .svmUuid)
+        }
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let cifsShareCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cifsShareCount)
+        cifsShareCount = cifsShareCountDecoded
+        let securityStyleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityStyle)
+        securityStyle = securityStyleDecoded
+        let svmUuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .svmUuid)
+        svmUuid = svmUuidDecoded
+        let svmNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .svmName)
+        svmName = svmNameDecoded
+        let capacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacityUsed)
+        capacityUsed = capacityUsedDecoded
+        let capacityProvisionedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacityProvisioned)
+        capacityProvisioned = capacityProvisionedDecoded
+        let logicalCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .logicalCapacityUsed)
+        logicalCapacityUsed = logicalCapacityUsedDecoded
+        let nfsExportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .nfsExported) ?? false
+        nfsExported = nfsExportedDecoded
+        let snapshotCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotCapacityUsed)
+        snapshotCapacityUsed = snapshotCapacityUsedDecoded
+        let maxP95PerformanceDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.MaxP95Performance.self, forKey: .maxP95Performance)
+        maxP95Performance = maxP95PerformanceDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DataSyncClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DataSyncClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The information that DataSync Discovery collects about a volume in your on-premises storage system.
+    public struct NetAppONTAPVolume: Swift.Equatable {
+        /// The total storage space that's available in the volume.
+        public var capacityProvisioned: Swift.Int?
+        /// The storage space that's being used in the volume.
+        public var capacityUsed: Swift.Int?
+        /// The number of CIFS shares in the volume.
+        public var cifsShareCount: Swift.Int?
+        /// The storage space that's being used in the volume without accounting for compression or deduplication.
+        public var logicalCapacityUsed: Swift.Int?
+        /// The performance data that DataSync Discovery collects about the volume.
+        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
+        /// The number of NFS volumes in the volume.
+        public var nfsExported: Swift.Bool
+        /// Indicates whether DataSync Discovery recommendations for the volume are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
+        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
+        /// The Amazon Web Services storage services that DataSync Discovery recommends for the volume. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+        public var recommendations: [DataSyncClientTypes.Recommendation]?
+        /// The universally unique identifier (UUID) of the volume.
+        public var resourceId: Swift.String?
+        /// The volume's security style (such as Unix or NTFS).
+        public var securityStyle: Swift.String?
+        /// The amount of storage in the volume that's being used for snapshots.
+        public var snapshotCapacityUsed: Swift.Int?
+        /// The name of the SVM associated with the volume.
+        public var svmName: Swift.String?
+        /// The UUID of the storage virtual machine (SVM) associated with the volume.
+        public var svmUuid: Swift.String?
+        /// The name of the volume.
+        public var volumeName: Swift.String?
+
+        public init (
+            capacityProvisioned: Swift.Int? = nil,
+            capacityUsed: Swift.Int? = nil,
+            cifsShareCount: Swift.Int? = nil,
+            logicalCapacityUsed: Swift.Int? = nil,
+            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
+            nfsExported: Swift.Bool = false,
+            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
+            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
+            resourceId: Swift.String? = nil,
+            securityStyle: Swift.String? = nil,
+            snapshotCapacityUsed: Swift.Int? = nil,
+            svmName: Swift.String? = nil,
+            svmUuid: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        )
+        {
+            self.capacityProvisioned = capacityProvisioned
+            self.capacityUsed = capacityUsed
+            self.cifsShareCount = cifsShareCount
+            self.logicalCapacityUsed = logicalCapacityUsed
+            self.maxP95Performance = maxP95Performance
+            self.nfsExported = nfsExported
+            self.recommendationStatus = recommendationStatus
+            self.recommendations = recommendations
+            self.resourceId = resourceId
+            self.securityStyle = securityStyle
+            self.snapshotCapacityUsed = snapshotCapacityUsed
+            self.svmName = svmName
+            self.svmUuid = svmUuid
+            self.volumeName = volumeName
+        }
+    }
+
 }
 
 extension DataSyncClientTypes.NfsMountOptions: Swift.Codable {
@@ -7718,6 +10240,61 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.P95Metrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iops = "IOPS"
+        case latency = "Latency"
+        case throughput = "Throughput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iops = self.iops {
+            try encodeContainer.encode(iops, forKey: .iops)
+        }
+        if let latency = self.latency {
+            try encodeContainer.encode(latency, forKey: .latency)
+        }
+        if let throughput = self.throughput {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iopsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.IOPS.self, forKey: .iops)
+        iops = iopsDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Throughput.self, forKey: .throughput)
+        throughput = throughputDecoded
+        let latencyDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Latency.self, forKey: .latency)
+        latency = latencyDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The types of performance data that DataSync Discovery collects about an on-premises storage system resource.
+    public struct P95Metrics: Swift.Equatable {
+        /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+        public var iops: DataSyncClientTypes.IOPS?
+        /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+        public var latency: DataSyncClientTypes.Latency?
+        /// The throughput peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+        public var throughput: DataSyncClientTypes.Throughput?
+
+        public init (
+            iops: DataSyncClientTypes.IOPS? = nil,
+            latency: DataSyncClientTypes.Latency? = nil,
+            throughput: DataSyncClientTypes.Throughput? = nil
+        )
+        {
+            self.iops = iops
+            self.latency = latency
+            self.throughput = throughput
+        }
+    }
+
+}
+
 extension DataSyncClientTypes {
     public enum PhaseStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case error
@@ -7983,6 +10560,359 @@ extension DataSyncClientTypes {
 
 }
 
+extension DataSyncClientTypes.Recommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlyStorageCost = "EstimatedMonthlyStorageCost"
+        case storageConfiguration = "StorageConfiguration"
+        case storageType = "StorageType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlyStorageCost = self.estimatedMonthlyStorageCost {
+            try encodeContainer.encode(estimatedMonthlyStorageCost, forKey: .estimatedMonthlyStorageCost)
+        }
+        if let storageConfiguration = storageConfiguration {
+            var storageConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .storageConfiguration)
+            for (dictKey0, recommendationsConfigMap0) in storageConfiguration {
+                try storageConfigurationContainer.encode(recommendationsConfigMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType, forKey: .storageType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let storageConfigurationContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .storageConfiguration)
+        var storageConfigurationDecoded0: [Swift.String:Swift.String]? = nil
+        if let storageConfigurationContainer = storageConfigurationContainer {
+            storageConfigurationDecoded0 = [Swift.String:Swift.String]()
+            for (key0, ptolemystring0) in storageConfigurationContainer {
+                if let ptolemystring0 = ptolemystring0 {
+                    storageConfigurationDecoded0?[key0] = ptolemystring0
+                }
+            }
+        }
+        storageConfiguration = storageConfigurationDecoded0
+        let estimatedMonthlyStorageCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedMonthlyStorageCost)
+        estimatedMonthlyStorageCost = estimatedMonthlyStorageCostDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The details about an Amazon Web Services storage service that DataSync Discovery recommends for a resource in your on-premises storage system. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+    public struct Recommendation: Swift.Equatable {
+        /// The estimated monthly cost of the recommended Amazon Web Services storage service.
+        public var estimatedMonthlyStorageCost: Swift.String?
+        /// Information about how you can set up a recommended Amazon Web Services storage service.
+        public var storageConfiguration: [Swift.String:Swift.String]?
+        /// A recommended Amazon Web Services storage service that you can migrate data to based on information that DataSync Discovery collects about your on-premises storage system.
+        public var storageType: Swift.String?
+
+        public init (
+            estimatedMonthlyStorageCost: Swift.String? = nil,
+            storageConfiguration: [Swift.String:Swift.String]? = nil,
+            storageType: Swift.String? = nil
+        )
+        {
+            self.estimatedMonthlyStorageCost = estimatedMonthlyStorageCost
+            self.storageConfiguration = storageConfiguration
+            self.storageType = storageType
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum RecommendationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecommendationStatus(rawValue: rawValue) ?? RecommendationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RemoveStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension RemoveStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RemoveStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init (
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct RemoveStorageSystemInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+}
+
+extension RemoveStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+    }
+}
+
+extension RemoveStorageSystemOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RemoveStorageSystemOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum RemoveStorageSystemOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct RemoveStorageSystemOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DataSyncClientTypes.ResourceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case netAppONTAPClusters = "NetAppONTAPClusters"
+        case netAppONTAPSVMs = "NetAppONTAPSVMs"
+        case netAppONTAPVolumes = "NetAppONTAPVolumes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let netAppONTAPClusters = netAppONTAPClusters {
+            var netAppONTAPClustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netAppONTAPClusters)
+            for netappontapcluster0 in netAppONTAPClusters {
+                try netAppONTAPClustersContainer.encode(netappontapcluster0)
+            }
+        }
+        if let netAppONTAPSVMs = netAppONTAPSVMs {
+            var netAppONTAPSVMsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netAppONTAPSVMs)
+            for netappontapsvm0 in netAppONTAPSVMs {
+                try netAppONTAPSVMsContainer.encode(netappontapsvm0)
+            }
+        }
+        if let netAppONTAPVolumes = netAppONTAPVolumes {
+            var netAppONTAPVolumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netAppONTAPVolumes)
+            for netappontapvolume0 in netAppONTAPVolumes {
+                try netAppONTAPVolumesContainer.encode(netappontapvolume0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let netAppONTAPSVMsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.NetAppONTAPSVM?].self, forKey: .netAppONTAPSVMs)
+        var netAppONTAPSVMsDecoded0:[DataSyncClientTypes.NetAppONTAPSVM]? = nil
+        if let netAppONTAPSVMsContainer = netAppONTAPSVMsContainer {
+            netAppONTAPSVMsDecoded0 = [DataSyncClientTypes.NetAppONTAPSVM]()
+            for structure0 in netAppONTAPSVMsContainer {
+                if let structure0 = structure0 {
+                    netAppONTAPSVMsDecoded0?.append(structure0)
+                }
+            }
+        }
+        netAppONTAPSVMs = netAppONTAPSVMsDecoded0
+        let netAppONTAPVolumesContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.NetAppONTAPVolume?].self, forKey: .netAppONTAPVolumes)
+        var netAppONTAPVolumesDecoded0:[DataSyncClientTypes.NetAppONTAPVolume]? = nil
+        if let netAppONTAPVolumesContainer = netAppONTAPVolumesContainer {
+            netAppONTAPVolumesDecoded0 = [DataSyncClientTypes.NetAppONTAPVolume]()
+            for structure0 in netAppONTAPVolumesContainer {
+                if let structure0 = structure0 {
+                    netAppONTAPVolumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        netAppONTAPVolumes = netAppONTAPVolumesDecoded0
+        let netAppONTAPClustersContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.NetAppONTAPCluster?].self, forKey: .netAppONTAPClusters)
+        var netAppONTAPClustersDecoded0:[DataSyncClientTypes.NetAppONTAPCluster]? = nil
+        if let netAppONTAPClustersContainer = netAppONTAPClustersContainer {
+            netAppONTAPClustersDecoded0 = [DataSyncClientTypes.NetAppONTAPCluster]()
+            for structure0 in netAppONTAPClustersContainer {
+                if let structure0 = structure0 {
+                    netAppONTAPClustersDecoded0?.append(structure0)
+                }
+            }
+        }
+        netAppONTAPClusters = netAppONTAPClustersDecoded0
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Information provided by DataSync Discovery about the resources in your on-premises storage system.
+    public struct ResourceDetails: Swift.Equatable {
+        /// The information that DataSync Discovery collects about the cluster in your on-premises storage system.
+        public var netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]?
+        /// The information that DataSync Discovery collects about storage virtual machines (SVMs) in your on-premises storage system.
+        public var netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]?
+        /// The information that DataSync Discovery collects about volumes in your on-premises storage system.
+        public var netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]?
+
+        public init (
+            netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]? = nil,
+            netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]? = nil,
+            netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]? = nil
+        )
+        {
+            self.netAppONTAPClusters = netAppONTAPClusters
+            self.netAppONTAPSVMs = netAppONTAPSVMs
+            self.netAppONTAPVolumes = netAppONTAPVolumes
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.ResourceMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacity = "Capacity"
+        case p95Metrics = "P95Metrics"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case timestamp = "Timestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacity = self.capacity {
+            try encodeContainer.encode(capacity, forKey: .capacity)
+        }
+        if let p95Metrics = self.p95Metrics {
+            try encodeContainer.encode(p95Metrics, forKey: .p95Metrics)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let p95MetricsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.P95Metrics.self, forKey: .p95Metrics)
+        p95Metrics = p95MetricsDecoded
+        let capacityDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Capacity.self, forKey: .capacity)
+        capacity = capacityDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Information, including performance data and capacity usage, provided by DataSync Discovery about a resource in your on-premises storage system.
+    public struct ResourceMetrics: Swift.Equatable {
+        /// The storage capacity of the on-premises storage system resource.
+        public var capacity: DataSyncClientTypes.Capacity?
+        /// The types of performance data that DataSync Discovery collects about the on-premises storage system resource.
+        public var p95Metrics: DataSyncClientTypes.P95Metrics?
+        /// The universally unique identifier (UUID) of the on-premises storage system resource.
+        public var resourceId: Swift.String?
+        /// The type of on-premises storage system resource.
+        public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+        /// The time when DataSync Discovery collected this information from the resource.
+        public var timestamp: ClientRuntime.Date?
+
+        public init (
+            capacity: DataSyncClientTypes.Capacity? = nil,
+            p95Metrics: DataSyncClientTypes.P95Metrics? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
+            timestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.capacity = capacity
+            self.p95Metrics = p95Metrics
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.timestamp = timestamp
+        }
+    }
+
+}
+
 extension DataSyncClientTypes.S3Config: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketAccessRoleArn = "BucketAccessRoleArn"
@@ -8093,7 +11023,7 @@ extension DataSyncClientTypes {
     public struct SmbMountOptions: Swift.Equatable {
         /// By default, DataSync automatically chooses an SMB protocol version based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version:
         ///
-        /// * AUTOMATIC (default): DataSync and the SMB file server negotiate a protocol version that they mutually support. (DataSync supports SMB versions 1.0 and later.) This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.
+        /// * AUTOMATIC (default): DataSync and the SMB file server negotiate the highest version of SMB that they mutually support between 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.
         ///
         /// * SMB3: Restricts the protocol negotiation to only SMB version 3.0.2.
         ///
@@ -8187,6 +11117,168 @@ extension DataSyncClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = SmbVersion(rawValue: rawValue) ?? SmbVersion.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension StartDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case storageSystemArn = "StorageSystemArn"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let collectionDurationMinutes = self.collectionDurationMinutes {
+            try encodeContainer.encode(collectionDurationMinutes, forKey: .collectionDurationMinutes)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
+            }
+        }
+    }
+}
+
+extension StartDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartDiscoveryJobInput: Swift.Equatable {
+    /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Specifies in minutes how long you want the discovery job to run. For more accurate recommendations, we recommend a duration of at least 14 days. Longer durations allow time to collect a sufficient number of data points and provide a realistic representation of storage performance and utilization.
+    /// This member is required.
+    public var collectionDurationMinutes: Swift.Int?
+    /// Specifies the Amazon Resource Name (ARN) of the on-premises storage system that you want to run the discovery job on.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources.
+    public var tags: [DataSyncClientTypes.TagListEntry]?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        collectionDurationMinutes: Swift.Int? = nil,
+        storageSystemArn: Swift.String? = nil,
+        tags: [DataSyncClientTypes.TagListEntry]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.collectionDurationMinutes = collectionDurationMinutes
+        self.storageSystemArn = storageSystemArn
+        self.tags = tags
+    }
+}
+
+struct StartDiscoveryJobInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let collectionDurationMinutes: Swift.Int?
+    let clientToken: Swift.String?
+    let tags: [DataSyncClientTypes.TagListEntry]?
+}
+
+extension StartDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case storageSystemArn = "StorageSystemArn"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let collectionDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .collectionDurationMinutes)
+        collectionDurationMinutes = collectionDurationMinutesDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TagListEntry?].self, forKey: .tags)
+        var tagsDecoded0:[DataSyncClientTypes.TagListEntry]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DataSyncClientTypes.TagListEntry]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension StartDiscoveryJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartDiscoveryJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartDiscoveryJobOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let data = try httpResponse.body.toData(),
+            let responseDecoder = decoder {
+            let output: StartDiscoveryJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.discoveryJobArn = output.discoveryJobArn
+        } else {
+            self.discoveryJobArn = nil
+        }
+    }
+}
+
+public struct StartDiscoveryJobOutputResponse: Swift.Equatable {
+    /// The ARN of the discovery job that you started.
+    public var discoveryJobArn: Swift.String?
+
+    public init (
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct StartDiscoveryJobOutputResponseBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+}
+
+extension StartDiscoveryJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
     }
 }
 
@@ -8386,6 +11478,168 @@ extension StartTaskExecutionOutputResponseBody: Swift.Decodable {
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
     }
+}
+
+extension StopDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+    }
+}
+
+extension StopDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StopDiscoveryJobInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+
+    public init (
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct StopDiscoveryJobInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+}
+
+extension StopDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+    }
+}
+
+extension StopDiscoveryJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopDiscoveryJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StopDiscoveryJobOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct StopDiscoveryJobOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DataSyncClientTypes {
+    public enum StorageSystemConnectivityStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fail
+        case pass
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageSystemConnectivityStatus] {
+            return [
+                .fail,
+                .pass,
+                .unknown,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageSystemConnectivityStatus(rawValue: rawValue) ?? StorageSystemConnectivityStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes.StorageSystemListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Information that identifies an on-premises storage system that you're using with DataSync Discovery.
+    public struct StorageSystemListEntry: Swift.Equatable {
+        /// The name of an on-premises storage system that you added to DataSync Discovery.
+        public var name: Swift.String?
+        /// The Amazon Resource Names (ARN) of an on-premises storage system that you added to DataSync Discovery.
+        public var storageSystemArn: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            storageSystemArn: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.storageSystemArn = storageSystemArn
+        }
+    }
+
 }
 
 extension DataSyncClientTypes.TagListEntry: Swift.Codable {
@@ -9015,6 +12269,71 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.Throughput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case other = "Other"
+        case read = "Read"
+        case total = "Total"
+        case write = "Write"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let other = self.other {
+            try encodeContainer.encode(other, forKey: .other)
+        }
+        if let read = self.read {
+            try encodeContainer.encode(read, forKey: .read)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+        if let write = self.write {
+            try encodeContainer.encode(write, forKey: .write)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .read)
+        read = readDecoded
+        let writeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .write)
+        write = writeDecoded
+        let otherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .other)
+        other = otherDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .total)
+        total = totalDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The throughput peaks for an on-premises storage system volume. Each data point represents the 95th percentile peak value during a 1-hour interval.
+    public struct Throughput: Swift.Equatable {
+        /// Peak throughput unrelated to read and write operations.
+        public var other: Swift.Double?
+        /// Peak throughput related to read operations.
+        public var read: Swift.Double?
+        /// Peak total throughput on your on-premises storage system resource.
+        public var total: Swift.Double?
+        /// Peak throughput related to write operations.
+        public var write: Swift.Double?
+
+        public init (
+            other: Swift.Double? = nil,
+            read: Swift.Double? = nil,
+            total: Swift.Double? = nil,
+            write: Swift.Double? = nil
+        )
+        {
+            self.other = other
+            self.read = read
+            self.total = total
+            self.write = write
+        }
+    }
+
+}
+
 extension DataSyncClientTypes {
     public enum TransferMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
@@ -9284,6 +12603,101 @@ extension UpdateAgentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateAgentOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension UpdateDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionDurationMinutes = self.collectionDurationMinutes {
+            try encodeContainer.encode(collectionDurationMinutes, forKey: .collectionDurationMinutes)
+        }
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+    }
+}
+
+extension UpdateDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateDiscoveryJobInput: Swift.Equatable {
+    /// Specifies in minutes how long that you want the discovery job to run. (You can't set this parameter to less than the number of minutes that the job has already run for.)
+    /// This member is required.
+    public var collectionDurationMinutes: Swift.Int?
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to update.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+
+    public init (
+        collectionDurationMinutes: Swift.Int? = nil,
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.collectionDurationMinutes = collectionDurationMinutes
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct UpdateDiscoveryJobInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let collectionDurationMinutes: Swift.Int?
+}
+
+extension UpdateDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let collectionDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .collectionDurationMinutes)
+        collectionDurationMinutes = collectionDurationMinutesDecoded
+    }
+}
+
+extension UpdateDiscoveryJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateDiscoveryJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateDiscoveryJobOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateDiscoveryJobOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -10017,6 +13431,160 @@ public struct UpdateLocationSmbOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentArns = agentArns {
+            var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
+            }
+        }
+        if let cloudWatchLogGroupArn = self.cloudWatchLogGroupArn {
+            try encodeContainer.encode(cloudWatchLogGroupArn, forKey: .cloudWatchLogGroupArn)
+        }
+        if let credentials = self.credentials {
+            try encodeContainer.encode(credentials, forKey: .credentials)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serverConfiguration = self.serverConfiguration {
+            try encodeContainer.encode(serverConfiguration, forKey: .serverConfiguration)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension UpdateStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system.
+    public var agentArns: [Swift.String]?
+    /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
+    public var cloudWatchLogGroupArn: Swift.String?
+    /// Specifies the user name and password for accessing your on-premises storage system's management interface.
+    public var credentials: DataSyncClientTypes.Credentials?
+    /// Specifies a familiar name for your on-premises storage system.
+    public var name: Swift.String?
+    /// Specifies the server name and network port required to connect with your on-premises storage system's management interface.
+    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    /// Specifies the ARN of the on-premises storage system that you want reconfigure.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init (
+        agentArns: [Swift.String]? = nil,
+        cloudWatchLogGroupArn: Swift.String? = nil,
+        credentials: DataSyncClientTypes.Credentials? = nil,
+        name: Swift.String? = nil,
+        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.agentArns = agentArns
+        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+        self.credentials = credentials
+        self.name = name
+        self.serverConfiguration = serverConfiguration
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct UpdateStorageSystemInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    let agentArns: [Swift.String]?
+    let name: Swift.String?
+    let cloudWatchLogGroupArn: Swift.String?
+    let credentials: DataSyncClientTypes.Credentials?
+}
+
+extension UpdateStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let serverConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryServerConfiguration.self, forKey: .serverConfiguration)
+        serverConfiguration = serverConfigurationDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let cloudWatchLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupArn)
+        cloudWatchLogGroupArn = cloudWatchLogGroupArnDecoded
+        let credentialsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+    }
+}
+
+extension UpdateStorageSystemOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateStorageSystemOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateStorageSystemOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateStorageSystemOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateTaskExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case options = "Options"
@@ -10044,7 +13612,7 @@ public struct UpdateTaskExecutionInput: Swift.Equatable {
     /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
     /// This member is required.
     public var options: DataSyncClientTypes.Options?
-    /// The Amazon Resource Name (ARN) of the specific task execution that is being updated.
+    /// Specifies the Amazon Resource Name (ARN) of the task execution that you're updating.
     /// This member is required.
     public var taskExecutionArn: Swift.String?
 
