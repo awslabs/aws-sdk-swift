@@ -43,10 +43,8 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                       // If the stream is not seekable, we need to cache the stream in memory
                       // so we can compute the hash and still be able to send the stream to the service.
                       // This is not ideal, but it is the best we can do.
-                      let cachingStream = CachingStream(base: stream)
-                      streamBytes = try cachingStream.readToEnd()
-                      try cachingStream.seek(toOffset: currentPosition)
-                      input.withBody(.stream(cachingStream))
+                      streamBytes = try stream.readToEnd()
+                      input.withBody(.data(streamBytes))
                   }
                   guard let streamBytes = streamBytes, !streamBytes.isEmpty else {
                       return try await next.handle(context: context, input: input)
