@@ -1,0 +1,58 @@
+name: Model Integration
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  model-integration:
+    runs-on: ubuntu-latest
+    container: swift:5.8-jammy
+    env:
+      AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
+    steps:
+      - name: Dump env
+        run: env | sort
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v3
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+      - name: Install OpenSSL
+        run: apt-get -q install -y libssl-dev
+      - name: Tools Versions
+        run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        run: |
+          # Update models
+          cd codegen/sdk-codegen/scripts
+          sh updatemodels.sh
+          cd ../../..
+
+          # Delete previous generated code
+          rm -rf Sources/Services/*
+          rm -rf Tests/Services/*
+
+          # Generate models
+          ./gradlew -p codegen/sdk-codegen build
+          ./gradlew -p codegen/sdk-codegen stageSdks
+          ./scripts/mergeModels.sh Sources/Services
+
+          # Regenerate Package.swift
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI generate-package-manifest ../
+          cd ..
+
+          # Build and test the SDK
+          swift test
