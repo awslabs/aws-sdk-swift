@@ -2,12 +2,7 @@
 
 set -e
 
-if [[ ! -z "${UPDATE_MODELS_GIT_URL}" ]]; then
-  GIT_URL=${UPDATE_MODELS_GIT_URL}
-else
-  GIT_URL="git@github.com:aws/aws-models.git"
-fi
-
+GIT_URL="${UPDATE_MODELS_GIT_URL:-git@github.com:aws/aws-models.git}"
 OUTPUT_DIR="../aws-models"
 
 if [ ! -d ${OUTPUT_DIR} ]; then
