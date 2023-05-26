@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Dump env
         run: env | sort
+      - name: Install OpenSSL
+        run: apt-get -q update && apt-get -q install -y libssl-dev
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Cache Gradle
