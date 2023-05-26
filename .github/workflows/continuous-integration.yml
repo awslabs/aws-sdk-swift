@@ -164,24 +164,25 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: 1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             1-${{ runner.os }}-gradle-
       - name: Cache Swift
         uses: actions/cache@v3
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
-          key: 2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
+            ~/.cache/org.swift.swiftpm
+          key: 2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
           restore-keys: |
-            2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
+            2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             2-${{ runner.os }}-swift5.8-spm-
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'corretto'
-          java-version: '17'
+          distribution: corretto
+          java-version: 17
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Build and Test ${{ env.PACKAGE_NAME }}
