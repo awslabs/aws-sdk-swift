@@ -45,8 +45,7 @@ jobs:
         run: |
           cd codegen/sdk-codegen/scripts
           ./updatemodels.sh
-      - name: Show model changes
-        run: git diff --stat
+          cd ../../..
       - name: Delete previous generated code
         run: |
           rm -rf Sources/Services/*
@@ -60,6 +59,7 @@ jobs:
       - name: Regenerate Package.swift
         run: |
           cd AWSSDKSwiftCLI
-          swift run AWSSDKSwiftCLI generate-package-manifest ../
+          swift run AWSSDKSwiftCLI generate-package-manifest ..
+          cd ..
       - name: Build and test SDK
         run: swift test
