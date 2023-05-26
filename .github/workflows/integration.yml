@@ -41,8 +41,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'corretto'
-          java-version: '17'
+          distribution: corretto
+          java-version: 17
       - name: Install OpenSSL
         run: apt-get -q update && apt-get -q install -y libssl-dev
       - name: Tools Versions
@@ -58,7 +58,7 @@ jobs:
         run: |
           rm -rf Sources/Services/*
           rm -rf Tests/Services/*
-      - name: Generate models
+      - name: Generate Models
         run: |
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
@@ -69,5 +69,10 @@ jobs:
           cd AWSSDKSwiftCLI
           swift run AWSSDKSwiftCLI generate-package-manifest ..
           cd ..
-      - name: Build and test SDK
-        run: swift test
+          echo "Manifest contents:"
+          cat Package.swift
+      - name: Build and Test SDK
+        run: |
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI test-aws-sdk .. --batches 10
+          cd ..
