@@ -36,7 +36,7 @@ class S3ErrorIntegration : SwiftIntegration {
 
     private val s3MembersParams = SectionWriter { writer, _ ->
         writer.write(
-            "public init(httpResponse: \$N, decoder: \$D, message: \$D, requestID: \$D, requestID2: \$D) throws {",
+            "public init(httpResponse: \$N, decoder: \$D, message: \$D, requestID: \$D, requestID2: \$D) async throws {",
             ClientRuntimeTypes.Http.HttpResponse,
             ClientRuntimeTypes.Serde.ResponseDecoder,
             SwiftTypes.String,
@@ -56,12 +56,12 @@ class S3ErrorIntegration : SwiftIntegration {
     private val httpResponseBinding = SectionWriter { writer, _ ->
         val ctx = writer.getContext("ctx") as ProtocolGenerator.GenerationContext
         val errorShapes = writer.getContext("errorShapes") as List<StructureShape>
-        writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+        writer.write("let restXMLError = try await \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
         writer.openBlock("switch restXMLError.errorCode {", "}") {
             for (errorShape in errorShapes) {
                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
+                writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
             }
             writer.write("default: return \$unknownServiceErrorSymbol:N(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
         }

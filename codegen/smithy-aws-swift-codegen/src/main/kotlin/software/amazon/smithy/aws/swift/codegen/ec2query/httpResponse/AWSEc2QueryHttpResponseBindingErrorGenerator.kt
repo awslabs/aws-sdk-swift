@@ -31,17 +31,17 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
 
             writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public static func makeError(httpResponse: \$N, decoder: \$D) throws -> ServiceError {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> ServiceError {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
                     ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
-                    writer.write("let ec2QueryError = try Ec2QueryError(httpResponse: httpResponse)")
+                    writer.write("let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)")
                     writer.openBlock("switch ec2QueryError.errorCode {", "}") {
                         val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
                         for (errorShape in errorShapes) {
                             var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                             var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                            writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", errorShapeName, errorShapeType)
+                            writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", errorShapeName, errorShapeType)
                         }
                         writer.write("default: return \$N(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", unknownServiceErrorSymbol)
                     }

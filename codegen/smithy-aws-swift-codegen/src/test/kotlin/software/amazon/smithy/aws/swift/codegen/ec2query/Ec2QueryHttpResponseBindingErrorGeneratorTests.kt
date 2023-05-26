@@ -22,11 +22,11 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """
             public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws -> ServiceError {
-                    let ec2QueryError = try Ec2QueryError(httpResponse: httpResponse)
+                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> ServiceError {
+                    let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)
                     switch ec2QueryError.errorCode {
-                        case "ComplexError": return try ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
-                        case "InvalidGreeting": return try InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
+                        case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
+                        case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
                         default: return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
                     }
                 }
@@ -43,8 +43,8 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """
             extension ComplexError {
-                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-                    if let data = try httpResponse.body.toData(),
+                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+                    if let data = try await httpResponse.body.readData(),
                         let responseDecoder = decoder {
                         let output: AWSClientRuntime.Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.errors.error.nested

@@ -37,7 +37,7 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
 
             writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public static func makeError(httpResponse: \$N, decoder: \$D) throws -> ServiceError {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> ServiceError {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
                     ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
@@ -49,12 +49,12 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                         "errorShapes" to errorShapes
                     )
                     writer.declareSection(RestXMLResponseBindingSectionId, context) {
-                        writer.write("let restXMLError = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+                        writer.write("let restXMLError = try await \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
                         writer.openBlock("switch restXMLError.errorCode {", "}") {
                             for (errorShape in errorShapes) {
                                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                                writer.write("case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)", errorShapeName, errorShapeType)
+                                writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)", errorShapeName, errorShapeType)
                             }
                             writer.write("default: return \$unknownServiceErrorSymbol:N(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
                         }

@@ -32,12 +32,12 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
 
             writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public static func makeError(httpResponse: \$N, decoder: \$D) throws -> ServiceError {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> ServiceError {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
                     ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
                     writer.write(
-                        "let restJSONError = try \$N(httpResponse: httpResponse)",
+                        "let restJSONError = try await \$N(httpResponse: httpResponse)",
                         AWSClientRuntimeTypes.RestJSON.RestJSONError
                     )
                     writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
@@ -47,7 +47,7 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                             var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                             var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                             writer.write(
-                                "case \$S: return try \$L(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)",
+                                "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)",
                                 errorShapeName,
                                 errorShapeType
                             )
