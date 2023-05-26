@@ -9,10 +9,7 @@ jobs:
     container: swift:5.8-jammy
     env:
       AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
-      UPDATE_MODELS_GIT_URL: https://${{ secrets.GH_PAT_AWS_MODELS }}@github.com/aws/aws-models.git
     steps:
-      - name: Dump env
-        run: env | sort
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Checkout smithy-swift
@@ -42,6 +39,8 @@ jobs:
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Update models from aws/aws-models repo
+        env:
+          UPDATE_MODELS_GIT_URL: https://${{ secrets.GH_PAT_AWS_MODELS }}@github.com/aws/aws-models.git
         run: |
           cd codegen/sdk-codegen/scripts
           ./updatemodels.sh
