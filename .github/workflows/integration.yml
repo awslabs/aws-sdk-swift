@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     container: swift:5.8-jammy
     env:
-      AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
+      AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
@@ -29,6 +29,15 @@ jobs:
           restore-keys: |
             1-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
             1-${{ runner.os }}-gradle-
+      - name: Cache Swift
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm
+          key: 2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
+          restore-keys: |
+            2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('**/Package.swift') }}
+            2-${{ runner.os }}-swift5.8-spm-
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
