@@ -23,7 +23,7 @@ final class S3StreamTests: S3XCTestCase {
             let actual = String(data: data, encoding: .utf8)
             XCTAssertEqual(actual, expected)
         case .stream(let stream):
-            let actual = String(data: try stream.readToEnd()!, encoding: .utf8)
+            let actual = String(data: try await stream.readToEndAsync()!, encoding: .utf8)
             XCTAssertEqual(actual, expected)
         }
     }
