@@ -9,7 +9,7 @@ jobs:
     container: swift:5.8-jammy
     env:
       AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
-      UPDATE_MODELS_GIT_URL: http://${{ secrets.GH_PAT_AWS_MODELS }}@github.com/aws/aws-models.git
+      UPDATE_MODELS_GIT_URL: https://${{ secrets.GH_PAT_AWS_MODELS }}@github.com/aws/aws-models.git
     steps:
       - name: Dump env
         run: env | sort
