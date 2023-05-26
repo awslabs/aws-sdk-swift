@@ -9,11 +9,10 @@ jobs:
     container: swift:5.8-jammy
     env:
       AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
+      UPDATE_MODELS_GIT_URL: http://${{ secrets.GH_PAT_AWS_MODELS }}@github.com/aws/aws-models.git
     steps:
       - name: Dump env
         run: env | sort
-      - name: Install OpenSSL
-        run: apt-get -q update && apt-get -q install -y libssl-dev
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Cache Gradle
@@ -32,14 +31,14 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
       - name: Install OpenSSL
-        run: apt-get -q install -y libssl-dev
+        run: apt-get -q update && apt-get -q install -y libssl-dev
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Build and Test ${{ env.PACKAGE_NAME }}
         run: |
           # Update models
           cd codegen/sdk-codegen/scripts
-          sh updatemodels.sh
+          ./updatemodels.sh
           cd ../../..
 
           # Delete previous generated code
@@ -49,6 +48,7 @@ jobs:
           # Generate models
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
+          ./gradlew --stop
           ./scripts/mergeModels.sh Sources/Services
 
           # Regenerate Package.swift

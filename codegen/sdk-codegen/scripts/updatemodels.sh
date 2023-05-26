@@ -1,5 +1,13 @@
 #!/bin/bash
 
+set -e
+
+if [[ ! -z "${UPDATE_MODELS_GIT_URL}" ]]; then
+  GIT_URL=${UPDATE_MODELS_GIT_URL}
+else
+  GIT_URL="git@github.com:aws/aws-models.git"
+fi
+
 OUTPUT_DIR="../aws-models"
 
 if [ ! -d ${OUTPUT_DIR} ]; then
@@ -12,8 +20,9 @@ TEMPDIR=`mktemp -d`
 fetchGitHubRepo() {
     mkdir -p ${TEMPDIR}
     pushd ${TEMPDIR}
-    git clone git@github.com:aws/aws-models.git
-    #git clone https://github.com/aws/aws-models.git
+    git clone ${GIT_URL}
+    # git clone git@github.com:aws/aws-models.git
+    # git clone https://github.com/aws/aws-models.git
     popd
 }
 cleanup() {

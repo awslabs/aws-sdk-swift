@@ -4,9 +4,14 @@ set -e
 
 # Log location & version for swiftc, xcodebuild, java
 
-which swiftc
-swiftc --version
-echo
+if command -v swiftc &> /dev/null
+then
+  which swiftc
+  swiftc --version
+  echo
+else
+  echo "swiftc not installed"
+fi
 
 if command -v xcodebuild &> /dev/null
 then
@@ -17,5 +22,11 @@ else
   echo "xcodebuild not installed"
 fi
 
-which java
-java --version
+if command -v java &> /dev/null
+then
+  which java
+  java --version
+  echo
+else
+  echo "java not installed"
+fi
