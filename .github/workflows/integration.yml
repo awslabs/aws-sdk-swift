@@ -15,6 +15,13 @@ jobs:
         run: env | sort
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v3
+        with:
+          repository: awslabs/smithy-swift
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
       - name: Cache Gradle
         uses: actions/cache@v3
         with:
@@ -34,27 +41,25 @@ jobs:
         run: apt-get -q update && apt-get -q install -y libssl-dev
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
+      - name: Update models from aws/aws-models repo
         run: |
-          # Update models
           cd codegen/sdk-codegen/scripts
           ./updatemodels.sh
-          cd ../../..
-
-          # Delete previous generated code
+      - name: Show model changes
+        run: git diff --stat
+      - name: Delete previous generated code
+        run: |
           rm -rf Sources/Services/*
           rm -rf Tests/Services/*
-
-          # Generate models
+      - name: Generate models
+        run: |
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./gradlew --stop
           ./scripts/mergeModels.sh Sources/Services
-
-          # Regenerate Package.swift
+      - name: Regenerate Package.swift
+        run: |
           cd AWSSDKSwiftCLI
           swift run AWSSDKSwiftCLI generate-package-manifest ../
-          cd ..
-
-          # Build and test the SDK
-          swift test
+      - name: Build and test SDK
+        run: swift test
