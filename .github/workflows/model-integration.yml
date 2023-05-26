@@ -12,7 +12,6 @@ name: Model Integration
 # or selected branch if manually triggered.
 
 on:
-  pull_request:
   workflow_dispatch:
   schedule:
     - cron: '0 7 * * *'
