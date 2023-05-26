@@ -14,7 +14,8 @@ name: Model Integration
 on:
   pull_request:
   workflow_dispatch:
-  cron: '0 7 * * *'
+  schedule:
+    - cron: '0 7 * * *'
 
 jobs:
   model-integration:
