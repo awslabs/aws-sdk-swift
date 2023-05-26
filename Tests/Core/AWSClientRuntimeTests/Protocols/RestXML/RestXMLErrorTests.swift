@@ -14,7 +14,7 @@ import XCTest
 class RestXMLErrorTests: HttpResponseTestBase {
     let host = "my-api.us-east-2.amazonaws.com"
 
-    func testInvalidGreetingError() {
+    func testInvalidGreetingError() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 400,
@@ -39,9 +39,9 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-            if case .invalidGreeting(let actual) = greetingWithErrorsOutputError {
+            if let actual = greetingWithErrorsOutputError as? InvalidGreeting {
 
                 let expected = InvalidGreeting(
                     message: "Hi"
@@ -58,7 +58,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
         }
     }
 
-    func testComplexError() {
+    func testComplexError() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 400,
@@ -87,9 +87,9 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-            if case .complexXMLError(let actual) = greetingWithErrorsOutputError {
+            if let actual = greetingWithErrorsOutputError as? ComplexXMLError {
 
                 let expected = ComplexXMLError(
                     header: "Header",
@@ -113,7 +113,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
         }
     }
 
-    func testComplexErrorWithNoErrorWrapping() {
+    func testComplexErrorWithNoErrorWrapping() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 400,
@@ -139,11 +139,11 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsNoErrorWrappingOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsNoErrorWrappingOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-            if case .complexXMLErrorNoErrorWrapping(let actual) = greetingWithErrorsOutputError {
+            if let actual = greetingWithErrorsOutputError as? ComplexXMLErrorNoErrorWrapping {
 
-                let expected = ComplexXMLError(
+                let expected = ComplexXMLErrorNoErrorWrapping(
                     header: "Header",
                     nested: ComplexXMLNestedErrorData(
                         foo: "bar"
@@ -165,7 +165,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
         }
     }
 
-    func testUnhandledAccessDeniedErrors() {
+    func testUnhandledAccessDeniedErrors() async {
         do {
             guard let httpResponse = buildHttpResponse(
                 code: 403,
@@ -188,8 +188,8 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
-            if case .unknown(let actual) = greetingWithErrorsOutputError {
+            let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
+            if let actual = greetingWithErrorsOutputError as? UnknownAWSHttpServiceError {
                 XCTAssertEqual("Access Denied", actual._message)
                 XCTAssertEqual("abcdefg123456", actual._requestID)
             } else {

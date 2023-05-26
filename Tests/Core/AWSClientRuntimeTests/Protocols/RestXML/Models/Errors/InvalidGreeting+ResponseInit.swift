@@ -11,9 +11,9 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension InvalidGreeting: AWSHttpServiceError {
-    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
+    public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) async throws {
 
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: InvalidGreetingBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
