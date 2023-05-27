@@ -82,15 +82,14 @@ class EndpointResolverMiddlewareTests {
                         input.withProtocol(protocolType)
                     }
             
-                    var updatedContext = context
                     if let signingRegion = signingRegion {
-                        updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
+                        context.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
                     }
                     if let signingName = signingName {
-                        updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)
+                        context.attributes.set(key: HttpContext.signingName, value: signingName)
                     }
                     if let signingAlgorithm = signingAlgorithm {
-                        updatedContext.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
+                        context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
                     }
             
                     if let headers = endpoint.headers {
@@ -103,7 +102,7 @@ class EndpointResolverMiddlewareTests {
                         .withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))
                         .withHeader(name: "Host", value: host)
             
-                    return try await next.handle(context: updatedContext, input: input)
+                    return try await next.handle(context: context, input: input)
                 }
             
                 public typealias MInput = ClientRuntime.SdkHttpRequestBuilder
