@@ -46,11 +46,11 @@ class S3ErrorIntegration : SwiftIntegration {
     }
 
     private val s3MembersAssignment = SectionWriter { writer, _ ->
-        writer.write("self._requestID2 = requestID2")
+        writer.write("self.requestID2 = requestID2")
     }
 
     private val s3Members = SectionWriter { writer, _ ->
-        writer.write("public var _requestID2: \$T", SwiftTypes.String)
+        writer.write("public var requestID2: \$T", SwiftTypes.String)
     }
 
     private val httpResponseBinding = SectionWriter { writer, _ ->
@@ -68,6 +68,6 @@ class S3ErrorIntegration : SwiftIntegration {
     }
 
     override fun serviceErrorProtocolSymbol(): Symbol? {
-        return AWSClientRuntimeTypes.RestXML.S3.S3HttpServiceError
+        return AWSClientRuntimeTypes.RestXML.S3.AWSS3ServiceError
     }
 }

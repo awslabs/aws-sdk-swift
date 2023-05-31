@@ -60,7 +60,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
                         else -> "nil"
                     }
                 }
-                writer.write("self.$memberName = $value")
+                writer.write("self.properties.$memberName = $value")
             }
             writer.dedent()
             writer.write("}")
@@ -77,7 +77,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
     fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
         writer.write("let output: ${outputShapeName}Body = try responseDecoder.decode(responseBody: data)")
         bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("self.$it = output.$it")
+            writer.write("self.properties.$it = output.$it")
         }
     }
 
@@ -85,7 +85,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
         writer.addImport(ErrorResponseContainer)
         writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", ErrorResponseContainer)
         bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("self.$it = output.error.$it")
+            writer.write("self.properties.$it = output.error.$it")
         }
     }
 }

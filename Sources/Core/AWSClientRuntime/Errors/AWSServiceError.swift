@@ -5,6 +5,6 @@
 
 import ClientRuntime
 
-public protocol S3HttpServiceError: AWSHttpServiceError {
-    var _requestID2: String? { get set }
+public protocol AWSServiceError: ServiceError {
+    var requestID: String? { get }
 }

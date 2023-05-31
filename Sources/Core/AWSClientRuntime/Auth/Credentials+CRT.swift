@@ -16,11 +16,11 @@ public extension Credentials {
     /// Throws if it fails to get the access key or secret from the underlying `CRTCredentials`.
     init(crtCredentials: CRTCredentials) throws {
         guard let accessKey = crtCredentials.getAccessKey() else {
-            throw UnknownClientError("Failed to get access key.")
+            throw ClientError.authError("Failed to get access key.")
         }
 
         guard let secret = crtCredentials.getSecret() else {
-            throw UnknownClientError("Failed to get secret.")
+            throw ClientError.authError("Failed to get secret.")
         }
 
         self.init(

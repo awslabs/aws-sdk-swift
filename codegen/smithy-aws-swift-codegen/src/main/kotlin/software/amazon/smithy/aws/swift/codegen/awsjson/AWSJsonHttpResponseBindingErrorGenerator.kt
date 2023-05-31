@@ -12,6 +12,7 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
@@ -32,15 +33,16 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
 
             writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> ServiceError {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
-                    ClientRuntimeTypes.Serde.ResponseDecoder
+                    ClientRuntimeTypes.Serde.ResponseDecoder,
+                    SwiftTypes.Error
                 ) {
                     writer.write(
                         "let restJSONError = try await \$N(httpResponse: httpResponse)",
                         AWSClientRuntimeTypes.RestJSON.RestJSONError
                     )
-                    writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")
+                    writer.write("let requestID = httpResponse.requestId")
                     writer.openBlock("switch restJSONError.errorType {", "}") {
                         val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
                         for (errorShape in errorShapes) {
@@ -52,7 +54,7 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                                 errorShapeType
                             )
                         }
-                        writer.write("default: return \$N(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID)", unknownServiceErrorSymbol)
+                        writer.write("default: return try await \$N.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID)", unknownServiceErrorSymbol)
                     }
                 }
             }

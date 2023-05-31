@@ -83,7 +83,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                                 writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                                 writer.write(
                                     "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\")",
-                                    AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
+                                    AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                                 )
                             }
                             writer.write("}")
@@ -98,7 +98,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                         writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                         writer.write(
                             "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\")",
-                            AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
+                            AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                         )
                     }
                     writer.write("case .unknown(messageType: let messageType):")

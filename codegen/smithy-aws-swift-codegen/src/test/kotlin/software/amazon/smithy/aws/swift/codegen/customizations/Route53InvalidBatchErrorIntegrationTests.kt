@@ -62,7 +62,7 @@ class Route53InvalidBatchErrorIntegrationTests {
         val expectedContents =
             """
             public enum ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> ServiceError {
+                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     if let customBatchError = CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
                         let invalidChangeBatchError = InvalidChangeBatch(
                             customError: customBatchError,
@@ -75,7 +75,7 @@ class Route53InvalidBatchErrorIntegrationTests {
                     let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
                     switch restXMLError.errorCode {
                         case "InvalidChangeBatch": return try await InvalidChangeBatch(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-                        default: return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
+                        default: return try await AWSClientRuntime.UnknownAWSHttpServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
                     }
                 }
             }

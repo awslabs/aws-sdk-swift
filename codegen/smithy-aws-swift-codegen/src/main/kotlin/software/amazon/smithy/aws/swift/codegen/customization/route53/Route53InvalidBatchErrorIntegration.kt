@@ -81,7 +81,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
         writer.openBlock("extension InvalidChangeBatch {", "}") {
             writer.openBlock("init(customError: CustomInvalidBatchError, headers: Headers?, statusCode: HttpStatusCode?) {", "}") {
                 writer.write("self.init(messages: customError.messages)")
-                writer.write("self._requestID = customError.requestId")
+                writer.write("self.requestID = customError.requestId")
                 writer.write("self._headers = headers")
                 writer.write("self._statusCode = statusCode")
             }

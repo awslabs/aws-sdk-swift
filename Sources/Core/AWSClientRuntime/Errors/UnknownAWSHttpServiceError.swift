@@ -6,24 +6,18 @@
 import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
-public struct UnknownAWSHttpServiceError: AWSHttpServiceError {
+public struct UnknownAWSHTTPServiceError: AWSServiceError, HTTPError {
     /// The error type for this error, or `nil` if the type is not known.
-    public var _errorType: String?
+    public var typeName: String?
 
-    public var _isThrottling: Bool = false
+    public var message: String?
 
-    public var _statusCode: HttpStatusCode?
+    public var requestID: String?
 
-    public var _headers: Headers?
-
-    public var _message: String?
-
-    public var _requestID: String?
-
-    public var _retryable: Bool = false
+    public var httpResponse: HttpResponse
 }
 
-extension UnknownAWSHttpServiceError {
+extension UnknownAWSHTTPServiceError {
 
     /// Creates an `UnknownAWSHttpServiceError` from a `HttpResponse` and associated parameters.
     /// - Parameters:
@@ -35,12 +29,28 @@ extension UnknownAWSHttpServiceError {
         httpResponse: HttpResponse,
         message: String? = nil,
         requestID: String? = nil,
-        errorType: String? = nil
+        typeName: String? = nil
     ) {
-        self._errorType = errorType
-        self._statusCode = httpResponse.statusCode
-        self._headers = httpResponse.headers
-        self._requestID = requestID ?? httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        self._message = message
+        self.typeName = typeName
+        self.message = message
+        self.requestID = requestID ?? httpResponse.requestId
+        self.httpResponse = httpResponse
+    }
+}
+
+extension UnknownAWSHTTPServiceError {
+
+    public static func makeError(
+        httpResponse: HttpResponse,
+        message: String? = nil,
+        requestID: String? = nil,
+        typeName: String? = nil
+    ) async throws -> Error {
+        UnknownAWSHTTPServiceError(
+            httpResponse: httpResponse,
+            message: message,
+            requestID: requestID,
+            typeName: typeName
+        )
     }
 }

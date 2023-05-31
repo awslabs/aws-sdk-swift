@@ -22,7 +22,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """
             public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> ServiceError {
+                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)
                     switch ec2QueryError.errorCode {
                         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)

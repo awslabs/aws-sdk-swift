@@ -11,6 +11,7 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
@@ -31,9 +32,10 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
 
             writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
                 writer.openBlock(
-                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> ServiceError {", "}",
+                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
-                    ClientRuntimeTypes.Serde.ResponseDecoder
+                    ClientRuntimeTypes.Serde.ResponseDecoder,
+                    SwiftTypes.Error
                 ) {
                     writer.write("let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)")
                     writer.openBlock("switch ec2QueryError.errorCode {", "}") {
