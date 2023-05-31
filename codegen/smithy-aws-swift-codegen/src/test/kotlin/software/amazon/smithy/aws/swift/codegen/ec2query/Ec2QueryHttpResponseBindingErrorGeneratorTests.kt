@@ -27,7 +27,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
                     switch ec2QueryError.errorCode {
                         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
                         case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
-                        default: return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
+                        default: return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
                     }
                 }
             }
@@ -44,19 +44,17 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             """
             extension ComplexError {
                 public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-                    if let data = try await httpResponse.body.readData(),
-                        let responseDecoder = decoder {
+                    if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
                         let output: AWSClientRuntime.Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: data)
-                        self.nested = output.errors.error.nested
-                        self.topLevel = output.errors.error.topLevel
+                        self.properties.nested = output.errors.error.nested
+                        self.properties.topLevel = output.errors.error.topLevel
                     } else {
-                        self.nested = nil
-                        self.topLevel = nil
+                        self.properties.nested = nil
+                        self.properties.topLevel = nil
                     }
-                    self._headers = httpResponse.headers
-                    self._statusCode = httpResponse.statusCode
-                    self._requestID = requestID
-                    self._message = message
+                    self.httpResponse = httpResponse
+                    self.requestID = requestID
+                    self.message = message
                 }
             }
             """.trimIndent()
@@ -70,24 +68,29 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Error {
-                public var _errorType: String? { "ComplexError" }
-                public var _headers: ClientRuntime.Headers?
-                public var _statusCode: ClientRuntime.HttpStatusCode?
-                public var _message: Swift.String?
-                public var _requestID: Swift.String?
-                public var _retryable: Swift.Bool = false
-                public var _isThrottling: Swift.Bool = false
-                public var nested: EC2ProtocolClientTypes.ComplexNestedErrorData?
-                public var topLevel: Swift.String?
+            public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError {
+            
+                public struct Properties {
+                    public var nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil
+                    public var topLevel: Swift.String? = nil
+                }
+            
+                public var properties = Properties()
+                public static var typeName: Swift.String { "ComplexError" }
+                public static var fault: ErrorFault { .client }
+                public static var isRetryable: Swift.Bool { false }
+                public static var isThrottling: Swift.Bool { false }
+                public var httpResponse = HttpResponse()
+                public var message: Swift.String?
+                public var requestID: Swift.String?
             
                 public init(
                     nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
                     topLevel: Swift.String? = nil
                 )
                 {
-                    self.nested = nested
-                    self.topLevel = topLevel
+                    self.properties.nested = nested
+                    self.properties.topLevel = topLevel
                 }
             }
             """.trimIndent()

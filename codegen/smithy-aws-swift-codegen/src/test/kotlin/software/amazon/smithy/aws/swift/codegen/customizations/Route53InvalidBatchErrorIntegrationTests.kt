@@ -17,37 +17,46 @@ class Route53InvalidBatchErrorIntegrationTests {
         val expectedContents =
             """
             struct CustomInvalidBatchError: Decodable {
+            
                 struct Message: Decodable {
                     let message: String
                     enum CodingKeys: String, CodingKey {
                         case message = "Message"
                     }
                 }
-                let requestId: String
+            
+                let requestID: String?
+                let message: String?
                 let messages: [String]?
+            
                 enum CodingKeys: String, CodingKey {
+                    case message = "Message"
                     case messages = "Messages"
-                    case requestId = "RequestId"
+                    case requestID = "RequestId"
                 }
+            
                 init(from decoder: Decoder) throws {
                     let container = try decoder.container(keyedBy: CodingKeys.self)
-                    self.requestId = try container.decode(String.self, forKey: .requestId)
+                    self.requestID = try container.decode(String.self, forKey: .requestID)
+                    self.message = try container.decodeIfPresent(String.self, forKey: .message)
                     let messages = try container.decodeIfPresent([Message].self, forKey: .messages)
                     self.messages = messages?.map(\.message)
                 }
-                static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) async -> CustomInvalidBatchError? {
+            
+                static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) async throws -> CustomInvalidBatchError? {
                     guard let data = try await httpResponse.body.readData() else {
                         return nil
                     }
                     return try? XMLDecoder().decode(CustomInvalidBatchError.self, from: data)
                 }
             }
+        
             extension InvalidChangeBatch {
-                init(customError: CustomInvalidBatchError, headers: Headers?, statusCode: HttpStatusCode?) {
+                init(customError: CustomInvalidBatchError, httpResponse: ClientRuntime.HttpResponse) {
                     self.init(messages: customError.messages)
-                    self._requestID = customError.requestId
-                    self._headers = headers
-                    self._statusCode = statusCode
+                    self.message = customError.message
+                    self.requestID = customError.requestID
+                    self.httpResponse = httpResponse
                 }
             }
             """.trimIndent()
@@ -63,19 +72,16 @@ class Route53InvalidBatchErrorIntegrationTests {
             """
             public enum ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
                 public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-                    if let customBatchError = CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
-                        let invalidChangeBatchError = InvalidChangeBatch(
+                    if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
+                        return InvalidChangeBatch(
                             customError: customBatchError,
-                            headers: httpResponse.headers,
-                            statusCode: httpResponse.statusCode
+                            httpResponse: httpResponse
                         )
-                        self = .invalidChangeBatch(invalidChangeBatchError)
-                        return
                     }
                     let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
                     switch restXMLError.errorCode {
                         case "InvalidChangeBatch": return try await InvalidChangeBatch(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-                        default: return try await AWSClientRuntime.UnknownAWSHttpServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
+                        default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
                     }
                 }
             }

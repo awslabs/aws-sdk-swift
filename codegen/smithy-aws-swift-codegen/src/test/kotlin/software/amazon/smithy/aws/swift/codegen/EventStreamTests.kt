@@ -175,14 +175,14 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
                     return try decoder.decode(responseBody: message.payload) as SomeError
                 default:
                     let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
-                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                    return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
                 }
             }
             let error = try makeError(message, params)
             throw error
         case .error(let params):
             let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
-            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+            throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
         case .unknown(messageType: let messageType):
             throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }

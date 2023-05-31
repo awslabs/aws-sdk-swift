@@ -28,7 +28,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     switch restXMLError.errorCode {
                         case "ComplexXMLError": return try await ComplexXMLError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
                         case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-                        default: return try await AWSClientRuntime.UnknownAWSHttpServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
+                        default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)
                     }
                 }
             }
@@ -45,23 +45,22 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             extension ComplexXMLError {
                 public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
-                        self.header = headerHeaderValue
+                        self.properties.header = headerHeaderValue
                     } else {
-                        self.header = nil
+                        self.properties.header = nil
                     }
                     if let data = try await httpResponse.body.readData(),
                         let responseDecoder = decoder {
                         let output: AWSClientRuntime.ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
-                        self.nested = output.error.nested
-                        self.topLevel = output.error.topLevel
+                        self.properties.nested = output.error.nested
+                        self.properties.topLevel = output.error.topLevel
                     } else {
-                        self.nested = nil
-                        self.topLevel = nil
+                        self.properties.nested = nil
+                        self.properties.topLevel = nil
                     }
-                    self._headers = httpResponse.headers
-                    self._statusCode = httpResponse.statusCode
-                    self._requestID = requestID
-                    self._message = message
+                    self.httpResponse = httpResponse
+                    self.requestID = requestID
+                    self.message = message
                 }
             }
             """.trimIndent()
@@ -74,17 +73,22 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Error {
-                public var _errorType: String? { "ComplexXMLError" }
-                public var _headers: ClientRuntime.Headers?
-                public var _statusCode: ClientRuntime.HttpStatusCode?
-                public var _message: Swift.String?
-                public var _requestID: Swift.String?
-                public var _retryable: Swift.Bool = false
-                public var _isThrottling: Swift.Bool = false
-                public var header: Swift.String?
-                public var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData?
-                public var topLevel: Swift.String?
+            public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError {
+            
+                public struct Properties {
+                    public var header: Swift.String? = nil
+                    public var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil
+                    public var topLevel: Swift.String? = nil
+                }
+            
+                public var properties = Properties()
+                public static var typeName: Swift.String { "ComplexXMLError" }
+                public static var fault: ErrorFault { .client }
+                public static var isRetryable: Swift.Bool { false }
+                public static var isThrottling: Swift.Bool { false }
+                public var httpResponse = HttpResponse()
+                public var message: Swift.String?
+                public var requestID: Swift.String?
             
                 public init(
                     header: Swift.String? = nil,
@@ -92,9 +96,9 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     topLevel: Swift.String? = nil
                 )
                 {
-                    self.header = header
-                    self.nested = nested
-                    self.topLevel = topLevel
+                    self.properties.header = header
+                    self.properties.nested = nested
+                    self.properties.topLevel = topLevel
                 }
             }
             """.trimIndent()
@@ -110,23 +114,22 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             extension ComplexXMLErrorNoErrorWrapping {
                 public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
                     if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
-                        self.header = headerHeaderValue
+                        self.properties.header = headerHeaderValue
                     } else {
-                        self.header = nil
+                        self.properties.header = nil
                     }
                     if let data = try await httpResponse.body.readData(),
                         let responseDecoder = decoder {
                         let output: ComplexXMLErrorNoErrorWrappingBody = try responseDecoder.decode(responseBody: data)
-                        self.nested = output.nested
-                        self.topLevel = output.topLevel
+                        self.properties.nested = output.nested
+                        self.properties.topLevel = output.topLevel
                     } else {
-                        self.nested = nil
-                        self.topLevel = nil
+                        self.properties.nested = nil
+                        self.properties.topLevel = nil
                     }
-                    self._headers = httpResponse.headers
-                    self._statusCode = httpResponse.statusCode
-                    self._requestID = requestID
-                    self._message = message
+                    self.httpResponse = httpResponse
+                    self.requestID = requestID
+                    self.message = message
                 }
             }
             """.trimIndent()
