@@ -14,6 +14,7 @@ import software.amazon.smithy.model.shapes.DoubleShape
 import software.amazon.smithy.model.shapes.FloatShape
 import software.amazon.smithy.model.shapes.IntegerShape
 import software.amazon.smithy.model.shapes.LongShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShortShape
 import software.amazon.smithy.model.traits.HttpQueryTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -26,7 +27,7 @@ import software.amazon.smithy.swift.codegen.model.isBoxed
 class AWSXMLHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
     val responseBindings: List<HttpBindingDescriptor>,
-    val outputShapeName: String,
+    val outputShape: Shape,
     val writer: SwiftWriter
 ) : HttpResponseBindingRenderable {
     override fun render() {
@@ -41,6 +42,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
             writer.write("if let data = try await httpResponse.body.readData(),")
             writer.indent()
             writer.write("let responseDecoder = decoder {")
+            val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
             if (serviceDisablesWrappingOfErrorProperties()) {
                 renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
             } else {

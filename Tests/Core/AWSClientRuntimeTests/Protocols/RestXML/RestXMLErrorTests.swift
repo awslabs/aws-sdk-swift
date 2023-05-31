@@ -46,9 +46,9 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 let expected = InvalidGreeting(
                     message: "Hi"
                 )
-                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.message, actual.message)
-                XCTAssertEqual("foo-id", actual._requestID)
+                XCTAssertEqual("foo-id", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -98,12 +98,12 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     ),
                     topLevel: "Top level"
                 )
-                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
-                XCTAssertEqual("Hi", actual._message)
-                XCTAssertEqual("foo-id", actual._requestID)
+                XCTAssertEqual("Hi", actual.message)
+                XCTAssertEqual("foo-id", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -150,12 +150,12 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     ),
                     topLevel: "Top level"
                 )
-                XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
-                XCTAssertEqual("Hi", actual._message)
-                XCTAssertEqual("foo-id", actual._requestID)
+                XCTAssertEqual("Hi", actual.message)
+                XCTAssertEqual("foo-id", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }
@@ -189,9 +189,9 @@ class RestXMLErrorTests: HttpResponseTestBase {
 
             let decoder = XMLDecoder()
             let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
-            if let actual = greetingWithErrorsOutputError as? UnknownAWSHttpServiceError {
-                XCTAssertEqual("Access Denied", actual._message)
-                XCTAssertEqual("abcdefg123456", actual._requestID)
+            if let actual = greetingWithErrorsOutputError as? UnknownAWSHTTPServiceError {
+                XCTAssertEqual("Access Denied", actual.message)
+                XCTAssertEqual("abcdefg123456", actual.requestID)
             } else {
                 XCTFail("The deserialized error type does not match expected type")
             }

@@ -13,18 +13,21 @@ import software.amazon.smithy.model.shapes.DoubleShape
 import software.amazon.smithy.model.shapes.FloatShape
 import software.amazon.smithy.model.shapes.IntegerShape
 import software.amazon.smithy.model.shapes.LongShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShortShape
+import software.amazon.smithy.model.traits.ErrorTrait
 import software.amazon.smithy.model.traits.HttpQueryTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
+import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.model.isBoxed
 
 class AWSEc2QueryHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
     val responseBindings: List<HttpBindingDescriptor>,
-    val outputShapeName: String,
+    val outputShape: Shape,
     val writer: SwiftWriter
 ) : HttpResponseBindingRenderable {
     override fun render() {
@@ -36,14 +39,14 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if let data = try await httpResponse.body.readData(),")
+            writer.write("if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {")
             writer.indent()
-            writer.write("let responseDecoder = decoder {")
-            renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
+            renderWithoutErrorResponseContainer(outputShape, bodyMembersWithoutQueryTrait)
 
             writer.dedent()
             writer.write("} else {")
             writer.indent()
+            val path = "properties.".takeIf { outputShape.hasTrait<ErrorTrait>() } ?: ""
             bodyMembers.sortedBy { it.memberName }.forEach {
                 val memberName = ctx.symbolProvider.toMemberName(it.member)
                 val type = ctx.model.expectShape(it.member.target)
@@ -55,18 +58,19 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
                         else -> "nil"
                     }
                 }
-                writer.write("self.$memberName = $value")
+                writer.write("self.$path$memberName = $value")
             }
             writer.dedent()
             writer.write("}")
         }
     }
 
-    fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
+    fun renderWithoutErrorResponseContainer(outputShape: Shape, bodyMembersWithoutQueryTrait: Set<String>) {
+        val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
         writer.addImport(AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
         writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
         bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("self.$it = output.errors.error.$it")
+            writer.write("self.properties.$it = output.errors.error.$it")
         }
     }
 }

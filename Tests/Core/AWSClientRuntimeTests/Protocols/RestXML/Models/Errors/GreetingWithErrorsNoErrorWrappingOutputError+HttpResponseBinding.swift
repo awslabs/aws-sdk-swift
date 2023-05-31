@@ -10,12 +10,12 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension GreetingWithErrorsNoErrorWrappingOutputError: HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> ServiceError {
+public enum GreetingWithErrorsNoErrorWrappingOutputError: HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
         let errorDetails = try await RestXMLError(httpResponse: httpResponse)
         switch errorDetails.errorCode {
         case "ComplexXMLErrorNoErrorWrapping": return try await ComplexXMLErrorNoErrorWrapping(httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-        default: return UnknownAWSHttpServiceError(httpResponse: httpResponse, message: errorDetails.message)
+        default: return UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: errorDetails.message)
         }
     }
 }

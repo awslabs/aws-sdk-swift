@@ -47,18 +47,17 @@ class ErrorTypeMatcherTests: XCTestCase {
 // Error types used in tests above
 
 private struct ServiceErrorThatMatches: ServiceError {
-    var _errorType: String? { "MyError" }
-    var _retryable: Bool { false }
-    var _isThrottling: Bool { false }
+    var typeName: String? { "MyError" }
+    var message: String? { "ServiceErrorThatMatches" }
 }
 
 private struct ServiceErrorThatDoesntMatch: ServiceError {
-    var _errorType: String? { "OtherError" }
-    var _retryable: Bool { false }
-    var _isThrottling: Bool { false }
+    var typeName: String? { "OtherError" }
+    var message: String? { "ServiceErrorThatDoesntMatch" }
 }
 
 private struct NotAServiceError: Error {  // An error but not a ServiceError
-    var _errorType: String? { "MyError" }
+    var typeName: String? { "MyError" }
+    var message: String? { "NotAServiceError" }
 }
 
