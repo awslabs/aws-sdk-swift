@@ -14,7 +14,7 @@ public enum GreetingWithErrorsNoErrorWrappingOutputError: HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
         let errorDetails = try await RestXMLError(httpResponse: httpResponse)
         switch errorDetails.errorCode {
-        case "ComplexXMLErrorNoErrorWrapping": return try await ComplexXMLErrorNoErrorWrapping(httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+        case "ComplexXMLErrorNoErrorWrapping": return try await ComplexXMLErrorNoErrorWrapping(httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId) as! Error
         default: return UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: errorDetails.message)
         }
     }

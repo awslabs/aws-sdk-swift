@@ -8,7 +8,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public struct ComplexXMLErrorNoErrorWrapping: AWSServiceError, HTTPError {
+public struct ComplexXMLErrorNoErrorWrapping: AWSServiceError, HTTPError, Error {
     public var typeName: String?
     public var message: String?
     public var httpResponse = HttpResponse()

@@ -10,7 +10,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public struct InvalidGreeting: AWSServiceError, HTTPError {
+public struct InvalidGreeting: AWSServiceError, HTTPError, Error {
     public var typeName: String?
     public var httpResponse = HttpResponse()
     public var requestID: String?

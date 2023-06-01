@@ -58,7 +58,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
     }
 }
 
-public struct ComplexError: AWSServiceError, HTTPError {
+public struct ComplexError: AWSServiceError, HTTPError, Error {
     public var typeName: String?
     public var httpResponse = HttpResponse()
     public var message: String?

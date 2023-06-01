@@ -9,7 +9,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public struct ComplexXMLError: AWSServiceError, HTTPError {
+public struct ComplexXMLError: AWSServiceError, HTTPError, Error {
     public var typeName: String?
     public var message: String?
     public var requestID: String?
