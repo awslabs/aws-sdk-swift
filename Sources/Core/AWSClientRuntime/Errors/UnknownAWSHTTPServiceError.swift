@@ -6,7 +6,7 @@
 import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
-public struct UnknownAWSHTTPServiceError: AWSServiceError, HTTPError {
+public struct UnknownAWSHTTPServiceError: AWSServiceError, HTTPError, Error {
     /// The error type for this error, or `nil` if the type is not known.
     public var typeName: String?
 
