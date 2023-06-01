@@ -46,12 +46,12 @@ class ErrorTypeMatcherTests: XCTestCase {
 
 // Error types used in tests above
 
-private struct ServiceErrorThatMatches: ServiceError {
+private struct ServiceErrorThatMatches: ServiceError, Error {
     var typeName: String? { "MyError" }
     var message: String? { "ServiceErrorThatMatches" }
 }
 
-private struct ServiceErrorThatDoesntMatch: ServiceError {
+private struct ServiceErrorThatDoesntMatch: ServiceError, Error {
     var typeName: String? { "OtherError" }
     var message: String? { "ServiceErrorThatDoesntMatch" }
 }
