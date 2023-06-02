@@ -6,13 +6,15 @@
 //
 
 import class ClientRuntime.HttpResponse
+import protocol ClientRuntime.ServiceError
+import protocol ClientRuntime.HTTPError
 
 /// A protocol for a type that can be matched to an HTTP error response that does not match a modeled error.
 ///
 /// When an error HTTP response is received and cannot be matched to a known / modeled error type, the SDK
 /// should look at all of its `UnknownAWSHTTPErrorCandidate`s to see if one matches.  If so, an instance of
 /// that candidate should be created and returned.
-protocol UnknownAWSHTTPErrorCandidate: Error {
+protocol UnknownAWSHTTPErrorCandidate: ServiceError, HTTPError, Error {
 
     /// The error code for the error.
     ///
@@ -25,9 +27,6 @@ protocol UnknownAWSHTTPErrorCandidate: Error {
 // These extensions provide for conformance with the `ServiceError` and
 // `AWSServiceError` types.
 extension UnknownAWSHTTPErrorCandidate {
-
-    /// The error code for this error.
-    public var errorCode: String? { Self.errorCode }
 
     /// The type name for this error.
     public var typeName: String? { Self.errorCode }

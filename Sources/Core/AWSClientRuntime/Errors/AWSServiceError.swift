@@ -18,10 +18,10 @@ public protocol AWSServiceError: ServiceError {
     var requestID: String? { get }
 }
 
-extension ModeledError {
+extension AWSServiceError {
 
     /// Provides the modeled error's type name as a instance property.
     ///
     /// Provided to allow for conformance with `AWSServiceError`.
-    public var errorCode: String? { Self.typeName }
+    public var errorCode: String? { typeName }
 }

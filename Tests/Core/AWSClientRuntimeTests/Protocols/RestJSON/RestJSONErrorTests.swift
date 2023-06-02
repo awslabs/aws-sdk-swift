@@ -119,7 +119,7 @@ public enum GreetingWithErrorsError: HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch errorDetails.errorType {
         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-        default: return UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: errorDetails.errorMessage)
+        default: return UnknownAWSHTTPServiceError(message: errorDetails.errorMessage, httpResponse: httpResponse)
         }
     }
 }
