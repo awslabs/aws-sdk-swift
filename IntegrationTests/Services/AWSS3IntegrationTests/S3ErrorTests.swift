@@ -18,7 +18,21 @@ class S3ErrorTests: S3XCTestCase {
             _ = try await client.getObject(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as NoSuchKey {
+            XCTAssertEqual(error.httpResponse.statusCode, .notFound)
             XCTAssertEqual(error.message, "The specified key does not exist.")
+        } catch {
+            XCTFail("Unexpected error thrown: \(error)")
+        }
+    }
+
+    func test_noSuchBucket_throwsNoSuchBucketWhenUnknownBucketIsUsed() async throws {
+        do {
+            let input = ListObjectsV2Input(bucket: bucketName + "x")
+            _ = try await client.listObjectsV2(input: input)
+            XCTFail("Request should not have succeeded")
+        } catch let error as NoSuchBucket {
+            XCTAssertEqual(error.httpResponse.statusCode, .notFound)
+            XCTAssertEqual(error.message, "The specified bucket does not exist")
         } catch {
             XCTFail("Unexpected error thrown: \(error)")
         }
@@ -29,7 +43,7 @@ class S3ErrorTests: S3XCTestCase {
             let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
             _ = try await client.getObject(input: input)
             XCTFail("Request should not have succeeded")
-        } catch let error as AWSS3ServiceError {
+        } catch let error as NoSuchKey {
             let requestID = try XCTUnwrap(error.requestID)
             let requestID2 = try XCTUnwrap(error.requestID2)
             XCTAssertFalse(requestID.isEmpty)
@@ -39,7 +53,7 @@ class S3ErrorTests: S3XCTestCase {
         }
     }
 
-    func test_invalidObjectState_hasReadableProperties() async throws {
+    func test_InvalidObjectState_hasReadableProperties() async throws {
         do {
             let key = UUID().uuidString + ".txt"
             let putInput = PutObjectInput(bucket: bucketName, key: key, storageClass: .glacier)
@@ -51,6 +65,22 @@ class S3ErrorTests: S3XCTestCase {
             XCTAssertEqual(error.properties.accessTier, nil)
             XCTAssertEqual(error.properties.storageClass, .glacier)
             XCTAssertEqual(error.message, "The operation is not valid for the object\'s storage class")
+        } catch {
+            XCTFail("Unexpected error thrown: \(error)")
+        }
+    }
+
+    func test_InvalidAccessKeyID_isThrownWhenAppropriate() async throws {
+        do {
+            let credentials = Credentials(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY")
+            let credentialsProvider = try StaticCredentialsProvider(credentials)
+            let config = try S3Client.S3ClientConfiguration(region: region, credentialsProvider: credentialsProvider)
+            let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
+            _ = try await S3Client(config: config).getObject(input: input)
+            XCTFail("Request should not have succeeded")
+        } catch let error as InvalidAccessKeyId {
+            XCTAssertEqual(error.httpResponse.statusCode, .forbidden)
+            XCTAssertEqual(error.message, "The AWS Access Key Id you provided does not exist in our records.")
         } catch {
             XCTFail("Unexpected error thrown: \(error)")
         }

@@ -82,7 +82,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                             writer.indent {
                                 writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                                 writer.write(
-                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\")",
+                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
                                     AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                                 )
                             }
@@ -97,7 +97,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                         // this is a service exception still, just un-modeled
                         writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                         writer.write(
-                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\")",
+                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
                             AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                         )
                     }

@@ -27,7 +27,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
                     switch ec2QueryError.errorCode {
                         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
                         case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
-                        default: return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
+                        default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId, typeName: ec2QueryError.errorCode)
                     }
                 }
             }

@@ -45,7 +45,7 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                             var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                             writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", errorShapeName, errorShapeType)
                         }
-                        writer.write("default: return \$N(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId)", unknownServiceErrorSymbol)
+                        writer.write("default: return try await \$N.makeError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId, typeName: ec2QueryError.errorCode)", unknownServiceErrorSymbol)
                     }
                 }
             }

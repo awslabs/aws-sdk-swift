@@ -58,7 +58,7 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                                 writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)", errorShapeName, errorShapeType)
                             }
-                            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
+                            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)")
                         }
                     }
                 }

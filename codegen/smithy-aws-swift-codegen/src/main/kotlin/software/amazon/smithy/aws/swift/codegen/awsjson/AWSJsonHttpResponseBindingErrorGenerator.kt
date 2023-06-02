@@ -54,7 +54,7 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                                 errorShapeType
                             )
                         }
-                        writer.write("default: return try await \$N.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID)", unknownServiceErrorSymbol)
+                        writer.write("default: return try await \$N.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)", unknownServiceErrorSymbol)
                     }
                 }
             }

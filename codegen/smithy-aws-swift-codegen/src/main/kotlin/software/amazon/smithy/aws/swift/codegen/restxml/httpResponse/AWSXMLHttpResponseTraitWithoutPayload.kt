@@ -39,9 +39,8 @@ class AWSXMLHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if let data = try await httpResponse.body.readData(),")
+            writer.write("if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {")
             writer.indent()
-            writer.write("let responseDecoder = decoder {")
             val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
             if (serviceDisablesWrappingOfErrorProperties()) {
                 renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)

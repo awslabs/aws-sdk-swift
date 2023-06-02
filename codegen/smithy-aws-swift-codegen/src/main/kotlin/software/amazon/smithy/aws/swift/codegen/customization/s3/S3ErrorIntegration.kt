@@ -50,7 +50,7 @@ class S3ErrorIntegration : SwiftIntegration {
     }
 
     private val s3Members = SectionWriter { writer, _ ->
-        writer.write("public var requestID2: \$T", SwiftTypes.String)
+        writer.write("public internal(set) var requestID2: \$T", SwiftTypes.String)
     }
 
     private val httpResponseBinding = SectionWriter { writer, _ ->
@@ -63,7 +63,7 @@ class S3ErrorIntegration : SwiftIntegration {
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                 writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
             }
-            writer.write("default: return \$unknownServiceErrorSymbol:N(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId)")
+            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)")
         }
     }
 
