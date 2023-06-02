@@ -49,8 +49,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     } else {
                         self.properties.header = nil
                     }
-                    if let data = try await httpResponse.body.readData(),
-                        let responseDecoder = decoder {
+                    if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
                         let output: AWSClientRuntime.ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.properties.nested = output.error.nested
                         self.properties.topLevel = output.error.topLevel
@@ -76,19 +75,19 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
             
                 public struct Properties {
-                    public var header: Swift.String? = nil
-                    public var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil
-                    public var topLevel: Swift.String? = nil
+                    public internal(set) var header: Swift.String? = nil
+                    public internal(set) var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil
+                    public internal(set) var topLevel: Swift.String? = nil
                 }
             
-                public var properties = Properties()
+                public internal(set) var properties = Properties()
                 public static var typeName: Swift.String { "ComplexXMLError" }
                 public static var fault: ErrorFault { .client }
                 public static var isRetryable: Swift.Bool { false }
                 public static var isThrottling: Swift.Bool { false }
-                public var httpResponse = HttpResponse()
-                public var message: Swift.String?
-                public var requestID: Swift.String?
+                public internal(set) var httpResponse = HttpResponse()
+                public internal(set) var message: Swift.String?
+                public internal(set) var requestID: Swift.String?
             
                 public init(
                     header: Swift.String? = nil,
@@ -118,8 +117,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     } else {
                         self.properties.header = nil
                     }
-                    if let data = try await httpResponse.body.readData(),
-                        let responseDecoder = decoder {
+                    if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
                         let output: ComplexXMLErrorNoErrorWrappingBody = try responseDecoder.decode(responseBody: data)
                         self.properties.nested = output.nested
                         self.properties.topLevel = output.topLevel

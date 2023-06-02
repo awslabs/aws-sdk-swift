@@ -71,18 +71,18 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
             
                 public struct Properties {
-                    public var nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil
-                    public var topLevel: Swift.String? = nil
+                    public internal(set) var nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil
+                    public internal(set) var topLevel: Swift.String? = nil
                 }
             
-                public var properties = Properties()
+                public internal(set) var properties = Properties()
                 public static var typeName: Swift.String { "ComplexError" }
                 public static var fault: ErrorFault { .client }
                 public static var isRetryable: Swift.Bool { false }
                 public static var isThrottling: Swift.Bool { false }
-                public var httpResponse = HttpResponse()
-                public var message: Swift.String?
-                public var requestID: Swift.String?
+                public internal(set) var httpResponse = HttpResponse()
+                public internal(set) var message: Swift.String?
+                public internal(set) var requestID: Swift.String?
             
                 public init(
                     nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
