@@ -478,7 +478,7 @@ extension OpsWorksClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"

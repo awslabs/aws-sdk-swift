@@ -38,7 +38,7 @@ extension OpenSearchServerlessClientTypes.AccessPolicyDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -75,7 +75,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of access policy.
         public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-        public init (
+        public init(
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -109,7 +109,7 @@ extension OpenSearchServerlessClientTypes.AccessPolicyStats: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataPolicyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dataPolicyCount)
         dataPolicyCount = dataPolicyCountDecoded
@@ -122,7 +122,7 @@ extension OpenSearchServerlessClientTypes {
         /// The number of data access policies in the current account.
         public var dataPolicyCount: Swift.Int?
 
-        public init (
+        public init(
             dataPolicyCount: Swift.Int? = nil
         )
         {
@@ -164,7 +164,7 @@ extension OpenSearchServerlessClientTypes.AccessPolicySummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -197,7 +197,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of access policy. Currently the only available type is data.
         public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-        public init (
+        public init(
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -259,7 +259,7 @@ extension OpenSearchServerlessClientTypes.AccountSettingsDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityLimitsDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.CapacityLimits.self, forKey: .capacityLimits)
         capacityLimits = capacityLimitsDecoded
@@ -272,7 +272,7 @@ extension OpenSearchServerlessClientTypes {
         /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
         public var capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 
-        public init (
+        public init(
             capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits? = nil
         )
         {
@@ -317,7 +317,7 @@ public struct BatchGetCollectionInput: Swift.Equatable {
     /// A list of collection names. You can't provide names and IDs in the same request.
     public var names: [Swift.String]?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil,
         names: [Swift.String]? = nil
     )
@@ -338,7 +338,7 @@ extension BatchGetCollectionInputBody: Swift.Decodable {
         case names
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -365,33 +365,21 @@ extension BatchGetCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetCollectionOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionDetails = output.collectionDetails
@@ -409,7 +397,7 @@ public struct BatchGetCollectionOutputResponse: Swift.Equatable {
     /// Error information for the request.
     public var collectionErrorDetails: [OpenSearchServerlessClientTypes.CollectionErrorDetail]?
 
-    public init (
+    public init(
         collectionDetails: [OpenSearchServerlessClientTypes.CollectionDetail]? = nil,
         collectionErrorDetails: [OpenSearchServerlessClientTypes.CollectionErrorDetail]? = nil
     )
@@ -430,7 +418,7 @@ extension BatchGetCollectionOutputResponseBody: Swift.Decodable {
         case collectionErrorDetails
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let collectionDetailsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.CollectionDetail?].self, forKey: .collectionDetails)
         var collectionDetailsDecoded0:[OpenSearchServerlessClientTypes.CollectionDetail]? = nil
@@ -484,7 +472,7 @@ public struct BatchGetVpcEndpointInput: Swift.Equatable {
     /// This member is required.
     public var ids: [Swift.String]?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil
     )
     {
@@ -501,7 +489,7 @@ extension BatchGetVpcEndpointInputBody: Swift.Decodable {
         case ids
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -517,33 +505,21 @@ extension BatchGetVpcEndpointInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetVpcEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetVpcEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetVpcEndpointOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcEndpointDetails = output.vpcEndpointDetails
@@ -561,7 +537,7 @@ public struct BatchGetVpcEndpointOutputResponse: Swift.Equatable {
     /// Error information for a failed request.
     public var vpcEndpointErrorDetails: [OpenSearchServerlessClientTypes.VpcEndpointErrorDetail]?
 
-    public init (
+    public init(
         vpcEndpointDetails: [OpenSearchServerlessClientTypes.VpcEndpointDetail]? = nil,
         vpcEndpointErrorDetails: [OpenSearchServerlessClientTypes.VpcEndpointErrorDetail]? = nil
     )
@@ -582,7 +558,7 @@ extension BatchGetVpcEndpointOutputResponseBody: Swift.Decodable {
         case vpcEndpointErrorDetails
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcEndpointDetailsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.VpcEndpointDetail?].self, forKey: .vpcEndpointDetails)
         var vpcEndpointDetailsDecoded0:[OpenSearchServerlessClientTypes.VpcEndpointDetail]? = nil
@@ -625,7 +601,7 @@ extension OpenSearchServerlessClientTypes.CapacityLimits: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxIndexingCapacityInOCUDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxIndexingCapacityInOCU)
         maxIndexingCapacityInOCU = maxIndexingCapacityInOCUDecoded
@@ -642,7 +618,7 @@ extension OpenSearchServerlessClientTypes {
         /// The maximum search capacity for collections.
         public var maxSearchCapacityInOCU: Swift.Int?
 
-        public init (
+        public init(
             maxIndexingCapacityInOCU: Swift.Int? = nil,
             maxSearchCapacityInOCU: Swift.Int? = nil
         )
@@ -706,7 +682,7 @@ extension OpenSearchServerlessClientTypes.CollectionDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -759,7 +735,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of collection.
         public var type: OpenSearchServerlessClientTypes.CollectionType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             collectionEndpoint: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
@@ -813,7 +789,7 @@ extension OpenSearchServerlessClientTypes.CollectionErrorDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -838,7 +814,7 @@ extension OpenSearchServerlessClientTypes {
         /// If the request contains collection names, the response includes the names provided in the request.
         public var name: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -870,7 +846,7 @@ extension OpenSearchServerlessClientTypes.CollectionFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -887,7 +863,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status of the collection.
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
         )
@@ -965,7 +941,7 @@ extension OpenSearchServerlessClientTypes.CollectionSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -990,7 +966,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status of the collection.
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -1041,37 +1017,41 @@ extension OpenSearchServerlessClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1084,7 +1064,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1141,7 +1121,7 @@ public struct CreateAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1174,7 +1154,7 @@ extension CreateAccessPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -1189,37 +1169,23 @@ extension CreateAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyDetail = output.accessPolicyDetail
@@ -1233,7 +1199,7 @@ public struct CreateAccessPolicyOutputResponse: Swift.Equatable {
     /// Details about the created access policy.
     public var accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 
-    public init (
+    public init(
         accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail? = nil
     )
     {
@@ -1250,7 +1216,7 @@ extension CreateAccessPolicyOutputResponseBody: Swift.Decodable {
         case accessPolicyDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyDetail.self, forKey: .accessPolicyDetail)
         accessPolicyDetail = accessPolicyDetailDecoded
@@ -1301,7 +1267,7 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1346,7 +1312,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of collection.
         public var type: OpenSearchServerlessClientTypes.CollectionType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
@@ -1423,7 +1389,7 @@ public struct CreateCollectionInput: Swift.Equatable {
     /// The type of collection.
     public var type: OpenSearchServerlessClientTypes.CollectionType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1456,7 +1422,7 @@ extension CreateCollectionInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1480,39 +1446,24 @@ extension CreateCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OcuLimitExceededException" : self = .ocuLimitExceededException(try OcuLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OcuLimitExceededException": return try await OcuLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateCollectionOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case ocuLimitExceededException(OcuLimitExceededException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createCollectionDetail = output.createCollectionDetail
@@ -1526,7 +1477,7 @@ public struct CreateCollectionOutputResponse: Swift.Equatable {
     /// Details about the collection.
     public var createCollectionDetail: OpenSearchServerlessClientTypes.CreateCollectionDetail?
 
-    public init (
+    public init(
         createCollectionDetail: OpenSearchServerlessClientTypes.CreateCollectionDetail? = nil
     )
     {
@@ -1543,7 +1494,7 @@ extension CreateCollectionOutputResponseBody: Swift.Decodable {
         case createCollectionDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createCollectionDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.CreateCollectionDetail.self, forKey: .createCollectionDetail)
         createCollectionDetail = createCollectionDetailDecoded
@@ -1599,7 +1550,7 @@ public struct CreateSecurityConfigInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityConfigType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1632,7 +1583,7 @@ extension CreateSecurityConfigInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityConfigType.self, forKey: .type)
         type = typeDecoded
@@ -1647,37 +1598,23 @@ extension CreateSecurityConfigInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSecurityConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSecurityConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSecurityConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSecurityConfigOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSecurityConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityConfigDetail = output.securityConfigDetail
@@ -1691,7 +1628,7 @@ public struct CreateSecurityConfigOutputResponse: Swift.Equatable {
     /// Details about the created security configuration.
     public var securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 
-    public init (
+    public init(
         securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail? = nil
     )
     {
@@ -1708,7 +1645,7 @@ extension CreateSecurityConfigOutputResponseBody: Swift.Decodable {
         case securityConfigDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityConfigDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityConfigDetail.self, forKey: .securityConfigDetail)
         securityConfigDetail = securityConfigDetailDecoded
@@ -1765,7 +1702,7 @@ public struct CreateSecurityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1798,7 +1735,7 @@ extension CreateSecurityPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -1813,37 +1750,23 @@ extension CreateSecurityPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSecurityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSecurityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSecurityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSecurityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSecurityPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityPolicyDetail = output.securityPolicyDetail
@@ -1857,7 +1780,7 @@ public struct CreateSecurityPolicyOutputResponse: Swift.Equatable {
     /// Details about the created security policy.
     public var securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 
-    public init (
+    public init(
         securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail? = nil
     )
     {
@@ -1874,7 +1797,7 @@ extension CreateSecurityPolicyOutputResponseBody: Swift.Decodable {
         case securityPolicyDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityPolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyDetail.self, forKey: .securityPolicyDetail)
         securityPolicyDetail = securityPolicyDetailDecoded
@@ -1901,7 +1824,7 @@ extension OpenSearchServerlessClientTypes.CreateVpcEndpointDetail: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1922,7 +1845,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status in the endpoint creation process.
         public var status: OpenSearchServerlessClientTypes.VpcEndpointStatus?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
@@ -1992,7 +1915,7 @@ public struct CreateVpcEndpointInput: Swift.Equatable {
     /// This member is required.
     public var vpcId: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
@@ -2025,7 +1948,7 @@ extension CreateVpcEndpointInputBody: Swift.Decodable {
         case vpcId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2058,37 +1981,23 @@ extension CreateVpcEndpointInputBody: Swift.Decodable {
     }
 }
 
-extension CreateVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateVpcEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateVpcEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateVpcEndpointOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createVpcEndpointDetail = output.createVpcEndpointDetail
@@ -2102,7 +2011,7 @@ public struct CreateVpcEndpointOutputResponse: Swift.Equatable {
     /// Details about the created interface VPC endpoint.
     public var createVpcEndpointDetail: OpenSearchServerlessClientTypes.CreateVpcEndpointDetail?
 
-    public init (
+    public init(
         createVpcEndpointDetail: OpenSearchServerlessClientTypes.CreateVpcEndpointDetail? = nil
     )
     {
@@ -2119,7 +2028,7 @@ extension CreateVpcEndpointOutputResponseBody: Swift.Decodable {
         case createVpcEndpointDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createVpcEndpointDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.CreateVpcEndpointDetail.self, forKey: .createVpcEndpointDetail)
         createVpcEndpointDetail = createVpcEndpointDetailDecoded
@@ -2163,7 +2072,7 @@ public struct DeleteAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
@@ -2188,7 +2097,7 @@ extension DeleteAccessPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -2199,42 +2108,28 @@ extension DeleteAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAccessPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension OpenSearchServerlessClientTypes.DeleteCollectionDetail: Swift.Codable {
@@ -2257,7 +2152,7 @@ extension OpenSearchServerlessClientTypes.DeleteCollectionDetail: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2278,7 +2173,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status of the collection.
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
@@ -2322,7 +2217,7 @@ public struct DeleteCollectionInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
     )
@@ -2343,7 +2238,7 @@ extension DeleteCollectionInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2352,37 +2247,23 @@ extension DeleteCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteCollectionOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleteCollectionDetail = output.deleteCollectionDetail
@@ -2396,7 +2277,7 @@ public struct DeleteCollectionOutputResponse: Swift.Equatable {
     /// Details of the deleted collection.
     public var deleteCollectionDetail: OpenSearchServerlessClientTypes.DeleteCollectionDetail?
 
-    public init (
+    public init(
         deleteCollectionDetail: OpenSearchServerlessClientTypes.DeleteCollectionDetail? = nil
     )
     {
@@ -2413,7 +2294,7 @@ extension DeleteCollectionOutputResponseBody: Swift.Decodable {
         case deleteCollectionDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deleteCollectionDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.DeleteCollectionDetail.self, forKey: .deleteCollectionDetail)
         deleteCollectionDetail = deleteCollectionDetailDecoded
@@ -2450,7 +2331,7 @@ public struct DeleteSecurityConfigInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
     )
@@ -2471,7 +2352,7 @@ extension DeleteSecurityConfigInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2480,42 +2361,28 @@ extension DeleteSecurityConfigInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteSecurityConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSecurityConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSecurityConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSecurityConfigOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteSecurityConfigOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteSecurityPolicyInput: Swift.Encodable {
@@ -2555,7 +2422,7 @@ public struct DeleteSecurityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
@@ -2580,7 +2447,7 @@ extension DeleteSecurityPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -2591,42 +2458,28 @@ extension DeleteSecurityPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteSecurityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSecurityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSecurityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSecurityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteSecurityPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail: Swift.Codable {
@@ -2649,7 +2502,7 @@ extension OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2670,7 +2523,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status of the endpoint deletion process.
         public var status: OpenSearchServerlessClientTypes.VpcEndpointStatus?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
@@ -2714,7 +2567,7 @@ public struct DeleteVpcEndpointInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
     )
@@ -2735,7 +2588,7 @@ extension DeleteVpcEndpointInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2744,37 +2597,23 @@ extension DeleteVpcEndpointInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVpcEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVpcEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVpcEndpointOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleteVpcEndpointDetail = output.deleteVpcEndpointDetail
@@ -2788,7 +2627,7 @@ public struct DeleteVpcEndpointOutputResponse: Swift.Equatable {
     /// Details about the deleted endpoint.
     public var deleteVpcEndpointDetail: OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail?
 
-    public init (
+    public init(
         deleteVpcEndpointDetail: OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail? = nil
     )
     {
@@ -2805,7 +2644,7 @@ extension DeleteVpcEndpointOutputResponseBody: Swift.Decodable {
         case deleteVpcEndpointDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deleteVpcEndpointDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail.self, forKey: .deleteVpcEndpointDetail)
         deleteVpcEndpointDetail = deleteVpcEndpointDetailDecoded
@@ -2843,7 +2682,7 @@ public struct GetAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-    public init (
+    public init(
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
     )
@@ -2864,7 +2703,7 @@ extension GetAccessPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -2873,35 +2712,22 @@ extension GetAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension GetAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyDetail = output.accessPolicyDetail
@@ -2915,7 +2741,7 @@ public struct GetAccessPolicyOutputResponse: Swift.Equatable {
     /// Details about the requested access policy.
     public var accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 
-    public init (
+    public init(
         accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail? = nil
     )
     {
@@ -2932,7 +2758,7 @@ extension GetAccessPolicyOutputResponseBody: Swift.Decodable {
         case accessPolicyDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyDetail.self, forKey: .accessPolicyDetail)
         accessPolicyDetail = accessPolicyDetailDecoded
@@ -2955,7 +2781,7 @@ extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
 
 public struct GetAccountSettingsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetAccountSettingsInputBody: Swift.Equatable {
@@ -2963,37 +2789,25 @@ struct GetAccountSettingsInputBody: Swift.Equatable {
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetAccountSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAccountSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAccountSettingsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSettingsDetail = output.accountSettingsDetail
@@ -3007,7 +2821,7 @@ public struct GetAccountSettingsOutputResponse: Swift.Equatable {
     /// OpenSearch Serverless-related details for the current account.
     public var accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail?
 
-    public init (
+    public init(
         accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail? = nil
     )
     {
@@ -3024,7 +2838,7 @@ extension GetAccountSettingsOutputResponseBody: Swift.Decodable {
         case accountSettingsDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountSettingsDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccountSettingsDetail.self, forKey: .accountSettingsDetail)
         accountSettingsDetail = accountSettingsDetailDecoded
@@ -3047,7 +2861,7 @@ extension GetPoliciesStatsInput: ClientRuntime.URLPathProvider {
 
 public struct GetPoliciesStatsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetPoliciesStatsInputBody: Swift.Equatable {
@@ -3055,35 +2869,24 @@ struct GetPoliciesStatsInputBody: Swift.Equatable {
 
 extension GetPoliciesStatsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetPoliciesStatsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetPoliciesStatsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetPoliciesStatsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetPoliciesStatsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetPoliciesStatsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetPoliciesStatsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyStats = output.accessPolicyStats
@@ -3109,7 +2912,7 @@ public struct GetPoliciesStatsOutputResponse: Swift.Equatable {
     /// The total number of OpenSearch Serverless security policies and configurations in your account.
     public var totalPolicyCount: Swift.Int?
 
-    public init (
+    public init(
         accessPolicyStats: OpenSearchServerlessClientTypes.AccessPolicyStats? = nil,
         securityConfigStats: OpenSearchServerlessClientTypes.SecurityConfigStats? = nil,
         securityPolicyStats: OpenSearchServerlessClientTypes.SecurityPolicyStats? = nil,
@@ -3138,7 +2941,7 @@ extension GetPoliciesStatsOutputResponseBody: Swift.Decodable {
         case totalPolicyCount = "TotalPolicyCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPolicyStatsDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyStats.self, forKey: .accessPolicyStats)
         accessPolicyStats = accessPolicyStatsDecoded
@@ -3175,7 +2978,7 @@ public struct GetSecurityConfigInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -3192,42 +2995,29 @@ extension GetSecurityConfigInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension GetSecurityConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSecurityConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSecurityConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSecurityConfigOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSecurityConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityConfigDetail = output.securityConfigDetail
@@ -3241,7 +3031,7 @@ public struct GetSecurityConfigOutputResponse: Swift.Equatable {
     /// Details of the requested security configuration.
     public var securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 
-    public init (
+    public init(
         securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail? = nil
     )
     {
@@ -3258,7 +3048,7 @@ extension GetSecurityConfigOutputResponseBody: Swift.Decodable {
         case securityConfigDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityConfigDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityConfigDetail.self, forKey: .securityConfigDetail)
         securityConfigDetail = securityConfigDetailDecoded
@@ -3296,7 +3086,7 @@ public struct GetSecurityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-    public init (
+    public init(
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
     )
@@ -3317,7 +3107,7 @@ extension GetSecurityPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -3326,35 +3116,22 @@ extension GetSecurityPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension GetSecurityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSecurityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSecurityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSecurityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSecurityPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityPolicyDetail = output.securityPolicyDetail
@@ -3368,7 +3145,7 @@ public struct GetSecurityPolicyOutputResponse: Swift.Equatable {
     /// Details about the requested security policy.
     public var securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 
-    public init (
+    public init(
         securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail? = nil
     )
     {
@@ -3385,7 +3162,7 @@ extension GetSecurityPolicyOutputResponseBody: Swift.Decodable {
         case securityPolicyDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityPolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyDetail.self, forKey: .securityPolicyDetail)
         securityPolicyDetail = securityPolicyDetailDecoded
@@ -3393,37 +3170,41 @@ extension GetSecurityPolicyOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Thrown when an error internal to the service occurs while processing a request.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3436,7 +3217,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3488,7 +3269,7 @@ public struct ListAccessPoliciesInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resource: [Swift.String]? = nil,
@@ -3517,7 +3298,7 @@ extension ListAccessPoliciesInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -3539,33 +3320,21 @@ extension ListAccessPoliciesInputBody: Swift.Decodable {
     }
 }
 
-extension ListAccessPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAccessPoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAccessPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAccessPoliciesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAccessPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAccessPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicySummaries = output.accessPolicySummaries
@@ -3583,7 +3352,7 @@ public struct ListAccessPoliciesOutputResponse: Swift.Equatable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accessPolicySummaries: [OpenSearchServerlessClientTypes.AccessPolicySummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3604,7 +3373,7 @@ extension ListAccessPoliciesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPolicySummariesContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.AccessPolicySummary?].self, forKey: .accessPolicySummaries)
         var accessPolicySummariesDecoded0:[OpenSearchServerlessClientTypes.AccessPolicySummary]? = nil
@@ -3657,7 +3426,7 @@ public struct ListCollectionsInput: Swift.Equatable {
     /// If your initial ListCollections operation returns a nextToken, you can include the returned nextToken in subsequent ListCollections operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         collectionFilters: OpenSearchServerlessClientTypes.CollectionFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3682,7 +3451,7 @@ extension ListCollectionsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let collectionFiltersDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.CollectionFilters.self, forKey: .collectionFilters)
         collectionFilters = collectionFiltersDecoded
@@ -3693,33 +3462,21 @@ extension ListCollectionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListCollectionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCollectionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCollectionsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionSummaries = output.collectionSummaries
@@ -3737,7 +3494,7 @@ public struct ListCollectionsOutputResponse: Swift.Equatable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         collectionSummaries: [OpenSearchServerlessClientTypes.CollectionSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3758,7 +3515,7 @@ extension ListCollectionsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let collectionSummariesContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.CollectionSummary?].self, forKey: .collectionSummaries)
         var collectionSummariesDecoded0:[OpenSearchServerlessClientTypes.CollectionSummary]? = nil
@@ -3812,7 +3569,7 @@ public struct ListSecurityConfigsInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityConfigType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityConfigType? = nil
@@ -3837,7 +3594,7 @@ extension ListSecurityConfigsInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityConfigType.self, forKey: .type)
         type = typeDecoded
@@ -3848,33 +3605,21 @@ extension ListSecurityConfigsInputBody: Swift.Decodable {
     }
 }
 
-extension ListSecurityConfigsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSecurityConfigsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSecurityConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSecurityConfigsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSecurityConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSecurityConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -3892,7 +3637,7 @@ public struct ListSecurityConfigsOutputResponse: Swift.Equatable {
     /// Details about the security configurations in your account.
     public var securityConfigSummaries: [OpenSearchServerlessClientTypes.SecurityConfigSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         securityConfigSummaries: [OpenSearchServerlessClientTypes.SecurityConfigSummary]? = nil
     )
@@ -3913,7 +3658,7 @@ extension ListSecurityConfigsOutputResponseBody: Swift.Decodable {
         case securityConfigSummaries
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityConfigSummariesContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.SecurityConfigSummary?].self, forKey: .securityConfigSummaries)
         var securityConfigSummariesDecoded0:[OpenSearchServerlessClientTypes.SecurityConfigSummary]? = nil
@@ -3976,7 +3721,7 @@ public struct ListSecurityPoliciesInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resource: [Swift.String]? = nil,
@@ -4005,7 +3750,7 @@ extension ListSecurityPoliciesInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -4027,33 +3772,21 @@ extension ListSecurityPoliciesInputBody: Swift.Decodable {
     }
 }
 
-extension ListSecurityPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSecurityPoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSecurityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSecurityPoliciesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSecurityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSecurityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -4071,7 +3804,7 @@ public struct ListSecurityPoliciesOutputResponse: Swift.Equatable {
     /// Details about the security policies in your account.
     public var securityPolicySummaries: [OpenSearchServerlessClientTypes.SecurityPolicySummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         securityPolicySummaries: [OpenSearchServerlessClientTypes.SecurityPolicySummary]? = nil
     )
@@ -4092,7 +3825,7 @@ extension ListSecurityPoliciesOutputResponseBody: Swift.Decodable {
         case securityPolicySummaries
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityPolicySummariesContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.SecurityPolicySummary?].self, forKey: .securityPolicySummaries)
         var securityPolicySummariesDecoded0:[OpenSearchServerlessClientTypes.SecurityPolicySummary]? = nil
@@ -4134,7 +3867,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -4151,42 +3884,29 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -4200,7 +3920,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags associated with the resource.
     public var tags: [OpenSearchServerlessClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil
     )
     {
@@ -4217,7 +3937,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[OpenSearchServerlessClientTypes.Tag]? = nil
@@ -4268,7 +3988,7 @@ public struct ListVpcEndpointsInput: Swift.Equatable {
     /// Filter the results according to the current status of the VPC endpoint. Possible statuses are CREATING, DELETING, UPDATING, ACTIVE, and FAILED.
     public var vpcEndpointFilters: OpenSearchServerlessClientTypes.VpcEndpointFilters?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vpcEndpointFilters: OpenSearchServerlessClientTypes.VpcEndpointFilters? = nil
@@ -4293,7 +4013,7 @@ extension ListVpcEndpointsInputBody: Swift.Decodable {
         case vpcEndpointFilters
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcEndpointFiltersDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.VpcEndpointFilters.self, forKey: .vpcEndpointFilters)
         vpcEndpointFilters = vpcEndpointFiltersDecoded
@@ -4304,33 +4024,21 @@ extension ListVpcEndpointsInputBody: Swift.Decodable {
     }
 }
 
-extension ListVpcEndpointsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVpcEndpointsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVpcEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListVpcEndpointsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListVpcEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVpcEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -4348,7 +4056,7 @@ public struct ListVpcEndpointsOutputResponse: Swift.Equatable {
     /// Details about each VPC endpoint, including the name and current status.
     public var vpcEndpointSummaries: [OpenSearchServerlessClientTypes.VpcEndpointSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         vpcEndpointSummaries: [OpenSearchServerlessClientTypes.VpcEndpointSummary]? = nil
     )
@@ -4369,7 +4077,7 @@ extension ListVpcEndpointsOutputResponseBody: Swift.Decodable {
         case vpcEndpointSummaries
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcEndpointSummariesContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.VpcEndpointSummary?].self, forKey: .vpcEndpointSummaries)
         var vpcEndpointSummariesDecoded0:[OpenSearchServerlessClientTypes.VpcEndpointSummary]? = nil
@@ -4388,39 +4096,43 @@ extension ListVpcEndpointsOutputResponseBody: Swift.Decodable {
 }
 
 extension OcuLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OcuLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// OCU Limit Exceeded for service limits
-public struct OcuLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Description of the error.
-    /// This member is required.
-    public var message: Swift.String?
+public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OcuLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4433,7 +4145,7 @@ extension OcuLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4441,37 +4153,41 @@ extension OcuLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Thrown when accessing or deleting a resource that does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4484,7 +4200,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4515,7 +4231,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
         metadata = metadataDecoded
@@ -4541,7 +4257,7 @@ extension OpenSearchServerlessClientTypes {
         /// A user attribute for this SAML integration.
         public var userAttribute: Swift.String?
 
-        public init (
+        public init(
             groupAttribute: Swift.String? = nil,
             metadata: Swift.String? = nil,
             sessionTimeout: Swift.Int? = nil,
@@ -4593,7 +4309,7 @@ extension OpenSearchServerlessClientTypes.SecurityConfigDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4630,7 +4346,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of security configuration.
         public var type: OpenSearchServerlessClientTypes.SecurityConfigType?
 
-        public init (
+        public init(
             configVersion: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
@@ -4664,7 +4380,7 @@ extension OpenSearchServerlessClientTypes.SecurityConfigStats: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let samlConfigCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .samlConfigCount)
         samlConfigCount = samlConfigCountDecoded
@@ -4677,7 +4393,7 @@ extension OpenSearchServerlessClientTypes {
         /// The number of security configurations in the current account.
         public var samlConfigCount: Swift.Int?
 
-        public init (
+        public init(
             samlConfigCount: Swift.Int? = nil
         )
         {
@@ -4719,7 +4435,7 @@ extension OpenSearchServerlessClientTypes.SecurityConfigSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4752,7 +4468,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of security configuration.
         public var type: OpenSearchServerlessClientTypes.SecurityConfigType?
 
-        public init (
+        public init(
             configVersion: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
@@ -4838,7 +4554,7 @@ extension OpenSearchServerlessClientTypes.SecurityPolicyDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -4875,7 +4591,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of security policy.
         public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-        public init (
+        public init(
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -4913,7 +4629,7 @@ extension OpenSearchServerlessClientTypes.SecurityPolicyStats: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let encryptionPolicyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .encryptionPolicyCount)
         encryptionPolicyCount = encryptionPolicyCountDecoded
@@ -4930,7 +4646,7 @@ extension OpenSearchServerlessClientTypes {
         /// The number of network policies in the current account.
         public var networkPolicyCount: Swift.Int?
 
-        public init (
+        public init(
             encryptionPolicyCount: Swift.Int? = nil,
             networkPolicyCount: Swift.Int? = nil
         )
@@ -4974,7 +4690,7 @@ extension OpenSearchServerlessClientTypes.SecurityPolicySummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -5007,7 +4723,7 @@ extension OpenSearchServerlessClientTypes {
         /// The type of security policy.
         public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-        public init (
+        public init(
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -5062,52 +4778,56 @@ extension OpenSearchServerlessClientTypes {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.quotaCode = output.quotaCode
-            self.resourceId = output.resourceId
-            self.resourceType = output.resourceType
-            self.serviceCode = output.serviceCode
+            self.properties.message = output.message
+            self.properties.quotaCode = output.quotaCode
+            self.properties.resourceId = output.resourceId
+            self.properties.resourceType = output.resourceType
+            self.properties.serviceCode = output.serviceCode
         } else {
-            self.message = nil
-            self.quotaCode = nil
-            self.resourceId = nil
-            self.resourceType = nil
-            self.serviceCode = nil
+            self.properties.message = nil
+            self.properties.quotaCode = nil
+            self.properties.resourceId = nil
+            self.properties.resourceType = nil
+            self.properties.serviceCode = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Thrown when you attempt to create more resources than the service allows based on service quotas.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Description of the error.
-    /// This member is required.
-    public var message: Swift.String?
-    /// Service Quotas requirement to identify originating quota.
-    public var quotaCode: Swift.String?
-    /// Identifier of the resource affected.
-    public var resourceId: Swift.String?
-    /// Type of the resource affected.
-    public var resourceType: Swift.String?
-    /// Service Quotas requirement to identify originating service.
-    /// This member is required.
-    public var serviceCode: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Service Quotas requirement to identify originating quota.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// Identifier of the resource affected.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// Type of the resource affected.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// Service Quotas requirement to identify originating service.
+        /// This member is required.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         resourceId: Swift.String? = nil,
@@ -5115,11 +4835,11 @@ public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceErro
         serviceCode: Swift.String? = nil
     )
     {
-        self.message = message
-        self.quotaCode = quotaCode
-        self.resourceId = resourceId
-        self.resourceType = resourceType
-        self.serviceCode = serviceCode
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
     }
 }
 
@@ -5140,7 +4860,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case serviceCode
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5171,7 +4891,7 @@ extension OpenSearchServerlessClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -5190,7 +4910,7 @@ extension OpenSearchServerlessClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -5236,7 +4956,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [OpenSearchServerlessClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil
     )
@@ -5257,7 +4977,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -5275,44 +4995,29 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UntagResourceInput: Swift.Encodable {
@@ -5349,7 +5054,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -5370,7 +5075,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -5388,42 +5093,28 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateAccessPolicyInput: Swift.Encodable {
@@ -5482,7 +5173,7 @@ public struct UpdateAccessPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -5519,7 +5210,7 @@ extension UpdateAccessPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -5536,37 +5227,23 @@ extension UpdateAccessPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAccessPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAccessPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAccessPolicyOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyDetail = output.accessPolicyDetail
@@ -5580,7 +5257,7 @@ public struct UpdateAccessPolicyOutputResponse: Swift.Equatable {
     /// Details about the updated access policy.
     public var accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 
-    public init (
+    public init(
         accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail? = nil
     )
     {
@@ -5597,7 +5274,7 @@ extension UpdateAccessPolicyOutputResponseBody: Swift.Decodable {
         case accessPolicyDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccessPolicyDetail.self, forKey: .accessPolicyDetail)
         accessPolicyDetail = accessPolicyDetailDecoded
@@ -5627,7 +5304,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     public var capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 
-    public init (
+    public init(
         capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits? = nil
     )
     {
@@ -5644,40 +5321,28 @@ extension UpdateAccountSettingsInputBody: Swift.Decodable {
         case capacityLimits
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityLimitsDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.CapacityLimits.self, forKey: .capacityLimits)
         capacityLimits = capacityLimitsDecoded
     }
 }
 
-extension UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAccountSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAccountSettingsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSettingsDetail = output.accountSettingsDetail
@@ -5691,7 +5356,7 @@ public struct UpdateAccountSettingsOutputResponse: Swift.Equatable {
     /// OpenSearch Serverless-related settings for the current Amazon Web Services account.
     public var accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail?
 
-    public init (
+    public init(
         accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail? = nil
     )
     {
@@ -5708,7 +5373,7 @@ extension UpdateAccountSettingsOutputResponseBody: Swift.Decodable {
         case accountSettingsDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountSettingsDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.AccountSettingsDetail.self, forKey: .accountSettingsDetail)
         accountSettingsDetail = accountSettingsDetailDecoded
@@ -5755,7 +5420,7 @@ extension OpenSearchServerlessClientTypes.UpdateCollectionDetail: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5796,7 +5461,7 @@ extension OpenSearchServerlessClientTypes {
         /// The collection type.
         public var type: OpenSearchServerlessClientTypes.CollectionType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
@@ -5856,7 +5521,7 @@ public struct UpdateCollectionInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil
@@ -5881,7 +5546,7 @@ extension UpdateCollectionInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5892,35 +5557,22 @@ extension UpdateCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateCollectionOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updateCollectionDetail = output.updateCollectionDetail
@@ -5934,7 +5586,7 @@ public struct UpdateCollectionOutputResponse: Swift.Equatable {
     /// Details about the updated collection.
     public var updateCollectionDetail: OpenSearchServerlessClientTypes.UpdateCollectionDetail?
 
-    public init (
+    public init(
         updateCollectionDetail: OpenSearchServerlessClientTypes.UpdateCollectionDetail? = nil
     )
     {
@@ -5951,7 +5603,7 @@ extension UpdateCollectionOutputResponseBody: Swift.Decodable {
         case updateCollectionDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateCollectionDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.UpdateCollectionDetail.self, forKey: .updateCollectionDetail)
         updateCollectionDetail = updateCollectionDetailDecoded
@@ -6007,7 +5659,7 @@ public struct UpdateSecurityConfigInput: Swift.Equatable {
     /// SAML options in in the form of a key-value map.
     public var samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         configVersion: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -6040,7 +5692,7 @@ extension UpdateSecurityConfigInputBody: Swift.Decodable {
         case samlOptions
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6055,37 +5707,23 @@ extension UpdateSecurityConfigInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSecurityConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSecurityConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSecurityConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSecurityConfigOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSecurityConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityConfigDetail = output.securityConfigDetail
@@ -6099,7 +5737,7 @@ public struct UpdateSecurityConfigOutputResponse: Swift.Equatable {
     /// Details about the updated security configuration.
     public var securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 
-    public init (
+    public init(
         securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail? = nil
     )
     {
@@ -6116,7 +5754,7 @@ extension UpdateSecurityConfigOutputResponseBody: Swift.Decodable {
         case securityConfigDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityConfigDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityConfigDetail.self, forKey: .securityConfigDetail)
         securityConfigDetail = securityConfigDetailDecoded
@@ -6179,7 +5817,7 @@ public struct UpdateSecurityPolicyInput: Swift.Equatable {
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.SecurityPolicyType?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -6216,7 +5854,7 @@ extension UpdateSecurityPolicyInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyType.self, forKey: .type)
         type = typeDecoded
@@ -6233,39 +5871,24 @@ extension UpdateSecurityPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSecurityPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSecurityPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSecurityPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSecurityPolicyOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSecurityPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityPolicyDetail = output.securityPolicyDetail
@@ -6279,7 +5902,7 @@ public struct UpdateSecurityPolicyOutputResponse: Swift.Equatable {
     /// Details about the updated security policy.
     public var securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 
-    public init (
+    public init(
         securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail? = nil
     )
     {
@@ -6296,7 +5919,7 @@ extension UpdateSecurityPolicyOutputResponseBody: Swift.Decodable {
         case securityPolicyDetail
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let securityPolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityPolicyDetail.self, forKey: .securityPolicyDetail)
         securityPolicyDetail = securityPolicyDetailDecoded
@@ -6341,7 +5964,7 @@ extension OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6392,7 +6015,7 @@ extension OpenSearchServerlessClientTypes {
         /// The ID of the subnets from which you access OpenSearch Serverless.
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
@@ -6478,7 +6101,7 @@ public struct UpdateVpcEndpointInput: Swift.Equatable {
     /// The unique identifiers of the subnets to remove from the endpoint.
     public var removeSubnetIds: [Swift.String]?
 
-    public init (
+    public init(
         addSecurityGroupIds: [Swift.String]? = nil,
         addSubnetIds: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
@@ -6515,7 +6138,7 @@ extension UpdateVpcEndpointInputBody: Swift.Decodable {
         case removeSubnetIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6568,35 +6191,22 @@ extension UpdateVpcEndpointInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateVpcEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateVpcEndpointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateVpcEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateVpcEndpointOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updateVpcEndpointDetail = output.updateVpcEndpointDetail
@@ -6610,7 +6220,7 @@ public struct UpdateVpcEndpointOutputResponse: Swift.Equatable {
     /// Details about the updated VPC endpoint.
     public var updateVpcEndpointDetail: OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail?
 
-    public init (
+    public init(
         updateVpcEndpointDetail: OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail? = nil
     )
     {
@@ -6627,7 +6237,7 @@ extension UpdateVpcEndpointOutputResponseBody: Swift.Decodable {
         case updateVpcEndpointDetail = "UpdateVpcEndpointDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateVpcEndpointDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail.self, forKey: .updateVpcEndpointDetail)
         updateVpcEndpointDetail = updateVpcEndpointDetailDecoded
@@ -6635,37 +6245,41 @@ extension UpdateVpcEndpointOutputResponseBody: Swift.Decodable {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Thrown when the HTTP request contains invalid input or is missing required input.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6678,7 +6292,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6727,7 +6341,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6782,7 +6396,7 @@ extension OpenSearchServerlessClientTypes {
         /// The ID of the VPC from which you access OpenSearch Serverless.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             createdDate: Swift.Int? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -6824,7 +6438,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointErrorDetail: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6845,7 +6459,7 @@ extension OpenSearchServerlessClientTypes {
         /// The unique identifier of the VPC endpoint.
         public var id: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
@@ -6871,7 +6485,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.VpcEndpointStatus.self, forKey: .status)
         status = statusDecoded
@@ -6884,7 +6498,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status of the endpoint.
         public var status: OpenSearchServerlessClientTypes.VpcEndpointStatus?
 
-        public init (
+        public init(
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
         )
         {
@@ -6956,7 +6570,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6977,7 +6591,7 @@ extension OpenSearchServerlessClientTypes {
         /// The current status of the endpoint.
         public var status: OpenSearchServerlessClientTypes.VpcEndpointStatus?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil

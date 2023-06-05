@@ -14,7 +14,7 @@ extension GlacierClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
@@ -46,7 +46,7 @@ extension GlacierClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)

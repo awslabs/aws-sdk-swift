@@ -18,7 +18,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let intervalInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intervalInSeconds)
         intervalInSeconds = intervalInSecondsDecoded
@@ -35,7 +35,7 @@ extension FirehoseClientTypes {
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public var sizeInMBs: Swift.Int?
 
-        public init (
+        public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
         )
@@ -95,7 +95,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -147,7 +147,7 @@ extension FirehoseClientTypes {
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             collectionEndpoint: Swift.String? = nil,
@@ -223,7 +223,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -272,7 +272,7 @@ extension FirehoseClientTypes {
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             collectionEndpoint: Swift.String? = nil,
@@ -340,7 +340,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -381,7 +381,7 @@ extension FirehoseClientTypes {
         /// Describes an update for a destination in Amazon S3.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             collectionEndpoint: Swift.String? = nil,
@@ -417,7 +417,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -430,7 +430,7 @@ extension FirehoseClientTypes {
         /// After an initial failure to deliver to the Serverless offering for Amazon OpenSearch Service, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -488,7 +488,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceBufferingHints: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let intervalInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intervalInSeconds)
         intervalInSeconds = intervalInSecondsDecoded
@@ -505,7 +505,7 @@ extension FirehoseClientTypes {
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public var sizeInMBs: Swift.Int?
 
-        public init (
+        public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
         )
@@ -577,7 +577,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration: S
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -641,7 +641,7 @@ extension FirehoseClientTypes {
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
@@ -735,7 +735,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -796,7 +796,7 @@ extension FirehoseClientTypes {
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
@@ -882,7 +882,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -935,7 +935,7 @@ extension FirehoseClientTypes {
         /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
         public var typeName: Swift.String?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
@@ -1018,7 +1018,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceRetryOptions: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -1031,7 +1031,7 @@ extension FirehoseClientTypes {
         /// After an initial failure to deliver to Amazon OpenSearch Service, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -1089,7 +1089,7 @@ extension FirehoseClientTypes.BufferingHints: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sizeInMBsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInMBs)
         sizeInMBs = sizeInMBsDecoded
@@ -1106,7 +1106,7 @@ extension FirehoseClientTypes {
         /// Buffer incoming data to the specified size, in MiBs, before delivering it to the destination. The default value is 5. This parameter is optional but if you specify a value for it, you must also specify a value for IntervalInSeconds, and vice versa. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MiB/sec, the value should be 10 MiB or higher.
         public var sizeInMBs: Swift.Int?
 
-        public init (
+        public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
         )
@@ -1138,7 +1138,7 @@ extension FirehoseClientTypes.CloudWatchLoggingOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -1159,7 +1159,7 @@ extension FirehoseClientTypes {
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
         public var logStreamName: Swift.String?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil,
             logGroupName: Swift.String? = nil,
             logStreamName: Swift.String? = nil
@@ -1215,38 +1215,42 @@ extension FirehoseClientTypes {
 }
 
 extension ConcurrentModificationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Another modification has already happened. Fetch VersionId again and use it to update the destination.
-public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A message that provides information about the error.
-    public var message: Swift.String?
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1259,7 +1263,7 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1318,7 +1322,7 @@ extension FirehoseClientTypes.CopyCommand: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataTableName)
         dataTableName = dataTableNameDecoded
@@ -1340,7 +1344,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var dataTableName: Swift.String?
 
-        public init (
+        public init(
             copyOptions: Swift.String? = nil,
             dataTableColumns: Swift.String? = nil,
             dataTableName: Swift.String? = nil
@@ -1458,7 +1462,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
     /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
     public var tags: [FirehoseClientTypes.Tag]?
 
-    public init (
+    public init(
         amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration? = nil,
         amazonopensearchserviceDestinationConfiguration: FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration? = nil,
         deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput? = nil,
@@ -1523,7 +1527,7 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -1563,37 +1567,23 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDeliveryStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDeliveryStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSResourceException" : self = .invalidKMSResourceException(try InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKMSResourceException": return try await InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDeliveryStreamOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidKMSResourceException(InvalidKMSResourceException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDeliveryStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDeliveryStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryStreamARN = output.deliveryStreamARN
@@ -1607,7 +1597,7 @@ public struct CreateDeliveryStreamOutputResponse: Swift.Equatable {
     /// The ARN of the delivery stream.
     public var deliveryStreamARN: Swift.String?
 
-    public init (
+    public init(
         deliveryStreamARN: Swift.String? = nil
     )
     {
@@ -1624,7 +1614,7 @@ extension CreateDeliveryStreamOutputResponseBody: Swift.Decodable {
         case deliveryStreamARN = "DeliveryStreamARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamARN)
         deliveryStreamARN = deliveryStreamARNDecoded
@@ -1655,7 +1645,7 @@ extension FirehoseClientTypes.DataFormatConversionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let schemaConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SchemaConfiguration.self, forKey: .schemaConfiguration)
         schemaConfiguration = schemaConfigurationDecoded
@@ -1680,7 +1670,7 @@ extension FirehoseClientTypes {
         /// Specifies the Amazon Web Services Glue Data Catalog table that contains the column information. This parameter is required if Enabled is set to true.
         public var schemaConfiguration: FirehoseClientTypes.SchemaConfiguration?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil,
             inputFormatConfiguration: FirehoseClientTypes.InputFormatConfiguration? = nil,
             outputFormatConfiguration: FirehoseClientTypes.OutputFormatConfiguration? = nil,
@@ -1726,7 +1716,7 @@ public struct DeleteDeliveryStreamInput: Swift.Equatable {
     /// This member is required.
     public var deliveryStreamName: Swift.String?
 
-    public init (
+    public init(
         allowForceDelete: Swift.Bool? = nil,
         deliveryStreamName: Swift.String? = nil
     )
@@ -1747,7 +1737,7 @@ extension DeleteDeliveryStreamInputBody: Swift.Decodable {
         case deliveryStreamName = "DeliveryStreamName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -1756,38 +1746,26 @@ extension DeleteDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteDeliveryStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDeliveryStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDeliveryStreamOutputError: Swift.Error, Swift.Equatable {
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDeliveryStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteDeliveryStreamOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension FirehoseClientTypes.DeliveryStreamDescription: Swift.Codable {
@@ -1849,7 +1827,7 @@ extension FirehoseClientTypes.DeliveryStreamDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -1926,7 +1904,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var versionId: Swift.String?
 
-        public init (
+        public init(
             createTimestamp: ClientRuntime.Date? = nil,
             deliveryStreamARN: Swift.String? = nil,
             deliveryStreamEncryptionConfiguration: FirehoseClientTypes.DeliveryStreamEncryptionConfiguration? = nil,
@@ -1982,7 +1960,7 @@ extension FirehoseClientTypes.DeliveryStreamEncryptionConfiguration: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyARN)
         keyARN = keyARNDecoded
@@ -2007,7 +1985,7 @@ extension FirehoseClientTypes {
         /// This is the server-side encryption (SSE) status for the delivery stream. For a full description of the different values of this status, see [StartDeliveryStreamEncryption] and [StopDeliveryStreamEncryption]. If this status is ENABLING_FAILED or DISABLING_FAILED, it is the status of the most recent attempt to enable or disable SSE, respectively.
         public var status: FirehoseClientTypes.DeliveryStreamEncryptionStatus?
 
-        public init (
+        public init(
             failureDescription: FirehoseClientTypes.FailureDescription? = nil,
             keyARN: Swift.String? = nil,
             keyType: FirehoseClientTypes.KeyType? = nil,
@@ -2039,7 +2017,7 @@ extension FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyARN)
         keyARN = keyARNDecoded
@@ -2057,7 +2035,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var keyType: FirehoseClientTypes.KeyType?
 
-        public init (
+        public init(
             keyARN: Swift.String? = nil,
             keyType: FirehoseClientTypes.KeyType? = nil
         )
@@ -2293,7 +2271,7 @@ public struct DescribeDeliveryStreamInput: Swift.Equatable {
     /// The limit on the number of destinations to return. You can have one destination per delivery stream.
     public var limit: Swift.Int?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil,
         exclusiveStartDestinationId: Swift.String? = nil,
         limit: Swift.Int? = nil
@@ -2318,7 +2296,7 @@ extension DescribeDeliveryStreamInputBody: Swift.Decodable {
         case limit = "Limit"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -2329,31 +2307,20 @@ extension DescribeDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDeliveryStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDeliveryStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDeliveryStreamOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDeliveryStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDeliveryStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryStreamDescription = output.deliveryStreamDescription
@@ -2368,7 +2335,7 @@ public struct DescribeDeliveryStreamOutputResponse: Swift.Equatable {
     /// This member is required.
     public var deliveryStreamDescription: FirehoseClientTypes.DeliveryStreamDescription?
 
-    public init (
+    public init(
         deliveryStreamDescription: FirehoseClientTypes.DeliveryStreamDescription? = nil
     )
     {
@@ -2385,7 +2352,7 @@ extension DescribeDeliveryStreamOutputResponseBody: Swift.Decodable {
         case deliveryStreamDescription = "DeliveryStreamDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DeliveryStreamDescription.self, forKey: .deliveryStreamDescription)
         deliveryStreamDescription = deliveryStreamDescriptionDecoded
@@ -2408,7 +2375,7 @@ extension FirehoseClientTypes.Deserializer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let openXJsonSerDeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.OpenXJsonSerDe.self, forKey: .openXJsonSerDe)
         openXJsonSerDe = openXJsonSerDeDecoded
@@ -2425,7 +2392,7 @@ extension FirehoseClientTypes {
         /// The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the native Hive / HCatalog JsonSerDe.
         public var openXJsonSerDe: FirehoseClientTypes.OpenXJsonSerDe?
 
-        public init (
+        public init(
             hiveJsonSerDe: FirehoseClientTypes.HiveJsonSerDe? = nil,
             openXJsonSerDe: FirehoseClientTypes.OpenXJsonSerDe? = nil
         )
@@ -2481,7 +2448,7 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationId)
         destinationId = destinationIdDecoded
@@ -2527,7 +2494,7 @@ extension FirehoseClientTypes {
         /// The destination in Splunk.
         public var splunkDestinationDescription: FirehoseClientTypes.SplunkDestinationDescription?
 
-        public init (
+        public init(
             amazonOpenSearchServerlessDestinationDescription: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription? = nil,
             amazonopensearchserviceDestinationDescription: FirehoseClientTypes.AmazonopensearchserviceDestinationDescription? = nil,
             destinationId: Swift.String? = nil,
@@ -2569,7 +2536,7 @@ extension FirehoseClientTypes.DynamicPartitioningConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.RetryOptions.self, forKey: .retryOptions)
         retryOptions = retryOptionsDecoded
@@ -2586,7 +2553,7 @@ extension FirehoseClientTypes {
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to an Amazon S3 prefix.
         public var retryOptions: FirehoseClientTypes.RetryOptions?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil,
             retryOptions: FirehoseClientTypes.RetryOptions? = nil
         )
@@ -2614,7 +2581,7 @@ extension FirehoseClientTypes.ElasticsearchBufferingHints: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let intervalInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intervalInSeconds)
         intervalInSeconds = intervalInSecondsDecoded
@@ -2631,7 +2598,7 @@ extension FirehoseClientTypes {
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public var sizeInMBs: Swift.Int?
 
-        public init (
+        public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
         )
@@ -2703,7 +2670,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationConfiguration: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -2767,7 +2734,7 @@ extension FirehoseClientTypes {
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
@@ -2861,7 +2828,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationDescription: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -2922,7 +2889,7 @@ extension FirehoseClientTypes {
         /// The details of the VPC of the Amazon ES destination.
         public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
@@ -3008,7 +2975,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -3061,7 +3028,7 @@ extension FirehoseClientTypes {
         /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
         public var typeName: Swift.String?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
@@ -3144,7 +3111,7 @@ extension FirehoseClientTypes.ElasticsearchRetryOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -3157,7 +3124,7 @@ extension FirehoseClientTypes {
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -3215,7 +3182,7 @@ extension FirehoseClientTypes.EncryptionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let noEncryptionConfigDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.NoEncryptionConfig.self, forKey: .noEncryptionConfig)
         noEncryptionConfig = noEncryptionConfigDecoded
@@ -3232,7 +3199,7 @@ extension FirehoseClientTypes {
         /// Specifically override existing encryption information to ensure that no encryption is used.
         public var noEncryptionConfig: FirehoseClientTypes.NoEncryptionConfig?
 
-        public init (
+        public init(
             kmsEncryptionConfig: FirehoseClientTypes.KMSEncryptionConfig? = nil,
             noEncryptionConfig: FirehoseClientTypes.NoEncryptionConfig? = nil
         )
@@ -3304,7 +3271,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationConfiguration: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -3367,7 +3334,7 @@ extension FirehoseClientTypes {
         /// The Amazon S3 backup mode. After you create a delivery stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
         public var s3BackupMode: FirehoseClientTypes.S3BackupMode?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             bufferingHints: FirehoseClientTypes.BufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
@@ -3461,7 +3428,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -3527,7 +3494,7 @@ extension FirehoseClientTypes {
         /// The Amazon S3 backup mode.
         public var s3BackupMode: FirehoseClientTypes.S3BackupMode?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             bufferingHints: FirehoseClientTypes.BufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
@@ -3621,7 +3588,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -3682,7 +3649,7 @@ extension FirehoseClientTypes {
         /// The Amazon S3 destination for backup.
         public var s3BackupUpdate: FirehoseClientTypes.S3DestinationUpdate?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             bufferingHints: FirehoseClientTypes.BufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
@@ -3732,7 +3699,7 @@ extension FirehoseClientTypes.FailureDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DeliveryStreamFailureType.self, forKey: .type)
         type = typeDecoded
@@ -3751,7 +3718,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var type: FirehoseClientTypes.DeliveryStreamFailureType?
 
-        public init (
+        public init(
             details: Swift.String? = nil,
             type: FirehoseClientTypes.DeliveryStreamFailureType? = nil
         )
@@ -3810,7 +3777,7 @@ extension FirehoseClientTypes.HiveJsonSerDe: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timestampFormatsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .timestampFormats)
         var timestampFormatsDecoded0:[Swift.String]? = nil
@@ -3832,7 +3799,7 @@ extension FirehoseClientTypes {
         /// Indicates how you want Kinesis Data Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see [Class DateTimeFormat](https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html). You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
         public var timestampFormats: [Swift.String]?
 
-        public init (
+        public init(
             timestampFormats: [Swift.String]? = nil
         )
         {
@@ -3858,7 +3825,7 @@ extension FirehoseClientTypes.HttpEndpointBufferingHints: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sizeInMBsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInMBs)
         sizeInMBs = sizeInMBsDecoded
@@ -3875,7 +3842,7 @@ extension FirehoseClientTypes {
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public var sizeInMBs: Swift.Int?
 
-        public init (
+        public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
         )
@@ -3903,7 +3870,7 @@ extension FirehoseClientTypes.HttpEndpointCommonAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
         attributeName = attributeNameDecoded
@@ -3927,7 +3894,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var attributeValue: Swift.String?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil
         )
@@ -3959,7 +3926,7 @@ extension FirehoseClientTypes.HttpEndpointConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
@@ -3986,7 +3953,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var url: Swift.String?
 
-        public init (
+        public init(
             accessKey: Swift.String? = nil,
             name: Swift.String? = nil,
             url: Swift.String? = nil
@@ -4016,7 +3983,7 @@ extension FirehoseClientTypes.HttpEndpointDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
@@ -4038,7 +4005,7 @@ extension FirehoseClientTypes {
         /// The URL of the HTTP endpoint selected as the destination.
         public var url: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             url: Swift.String? = nil
         )
@@ -4094,7 +4061,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationConfiguration: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.HttpEndpointConfiguration.self, forKey: .endpointConfiguration)
         endpointConfiguration = endpointConfigurationDecoded
@@ -4141,7 +4108,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             endpointConfiguration: FirehoseClientTypes.HttpEndpointConfiguration? = nil,
@@ -4211,7 +4178,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationDescription: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.HttpEndpointDescription.self, forKey: .endpointConfiguration)
         endpointConfiguration = endpointConfigurationDecoded
@@ -4256,7 +4223,7 @@ extension FirehoseClientTypes {
         /// Describes a destination in Amazon S3.
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             endpointConfiguration: FirehoseClientTypes.HttpEndpointDescription? = nil,
@@ -4326,7 +4293,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.HttpEndpointConfiguration.self, forKey: .endpointConfiguration)
         endpointConfiguration = endpointConfigurationDecoded
@@ -4371,7 +4338,7 @@ extension FirehoseClientTypes {
         /// Describes an update for a destination in Amazon S3.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
 
-        public init (
+        public init(
             bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             endpointConfiguration: FirehoseClientTypes.HttpEndpointConfiguration? = nil,
@@ -4416,7 +4383,7 @@ extension FirehoseClientTypes.HttpEndpointRequestConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentEncodingDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ContentEncoding.self, forKey: .contentEncoding)
         contentEncoding = contentEncodingDecoded
@@ -4442,7 +4409,7 @@ extension FirehoseClientTypes {
         /// Kinesis Data Firehose uses the content encoding to compress the body of a request before sending the request to the destination. For more information, see [Content-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) in MDN Web Docs, the official Mozilla documentation.
         public var contentEncoding: FirehoseClientTypes.ContentEncoding?
 
-        public init (
+        public init(
             commonAttributes: [FirehoseClientTypes.HttpEndpointCommonAttribute]? = nil,
             contentEncoding: FirehoseClientTypes.ContentEncoding? = nil
         )
@@ -4466,7 +4433,7 @@ extension FirehoseClientTypes.HttpEndpointRetryOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -4479,7 +4446,7 @@ extension FirehoseClientTypes {
         /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to the custom destination via HTTPS endpoint fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from the specified destination after each attempt.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -4533,7 +4500,7 @@ extension FirehoseClientTypes.InputFormatConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deserializerDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.Deserializer.self, forKey: .deserializer)
         deserializer = deserializerDecoded
@@ -4546,7 +4513,7 @@ extension FirehoseClientTypes {
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public var deserializer: FirehoseClientTypes.Deserializer?
 
-        public init (
+        public init(
             deserializer: FirehoseClientTypes.Deserializer? = nil
         )
         {
@@ -4557,38 +4524,42 @@ extension FirehoseClientTypes {
 }
 
 extension InvalidArgumentException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified input parameter has a value that is not valid.
-public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A message that provides information about the error.
-    public var message: Swift.String?
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidArgumentException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4601,7 +4572,7 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4609,42 +4580,46 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
 }
 
 extension InvalidKMSResourceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidKMSResourceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
-public struct InvalidKMSResourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
+public struct InvalidKMSResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidKMSResourceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -4659,7 +4634,7 @@ extension InvalidKMSResourceExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
@@ -4680,7 +4655,7 @@ extension FirehoseClientTypes.KMSEncryptionConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let awskmsKeyARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awskmsKeyARN)
         awskmsKeyARN = awskmsKeyARNDecoded
@@ -4694,7 +4669,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var awskmsKeyARN: Swift.String?
 
-        public init (
+        public init(
             awskmsKeyARN: Swift.String? = nil
         )
         {
@@ -4752,7 +4727,7 @@ extension FirehoseClientTypes.KinesisStreamSourceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kinesisStreamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kinesisStreamARN)
         kinesisStreamARN = kinesisStreamARNDecoded
@@ -4771,7 +4746,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             kinesisStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -4803,7 +4778,7 @@ extension FirehoseClientTypes.KinesisStreamSourceDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kinesisStreamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kinesisStreamARN)
         kinesisStreamARN = kinesisStreamARNDecoded
@@ -4824,7 +4799,7 @@ extension FirehoseClientTypes {
         /// The ARN of the role used by the source Kinesis data stream. For more information, see [Amazon Web Services Identity and Access Management (IAM) ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             deliveryStartTimestamp: ClientRuntime.Date? = nil,
             kinesisStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
@@ -4839,38 +4814,42 @@ extension FirehoseClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have already reached the limit for a requested resource.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A message that provides information about the error.
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4883,7 +4862,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4932,7 +4911,7 @@ public struct ListDeliveryStreamsInput: Swift.Equatable {
     /// The maximum number of delivery streams to list. The default value is 10.
     public var limit: Swift.Int?
 
-    public init (
+    public init(
         deliveryStreamType: FirehoseClientTypes.DeliveryStreamType? = nil,
         exclusiveStartDeliveryStreamName: Swift.String? = nil,
         limit: Swift.Int? = nil
@@ -4957,7 +4936,7 @@ extension ListDeliveryStreamsInputBody: Swift.Decodable {
         case limit = "Limit"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
@@ -4968,29 +4947,19 @@ extension ListDeliveryStreamsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDeliveryStreamsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeliveryStreamsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeliveryStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeliveryStreamsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeliveryStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeliveryStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryStreamNames = output.deliveryStreamNames
@@ -5010,7 +4979,7 @@ public struct ListDeliveryStreamsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var hasMoreDeliveryStreams: Swift.Bool?
 
-    public init (
+    public init(
         deliveryStreamNames: [Swift.String]? = nil,
         hasMoreDeliveryStreams: Swift.Bool? = nil
     )
@@ -5031,7 +5000,7 @@ extension ListDeliveryStreamsOutputResponseBody: Swift.Decodable {
         case hasMoreDeliveryStreams = "HasMoreDeliveryStreams"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deliveryStreamNames)
         var deliveryStreamNamesDecoded0:[Swift.String]? = nil
@@ -5085,7 +5054,7 @@ public struct ListTagsForDeliveryStreamInput: Swift.Equatable {
     /// The number of tags to return. If this number is less than the total number of tags associated with the delivery stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
     public var limit: Swift.Int?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil,
         exclusiveStartTagKey: Swift.String? = nil,
         limit: Swift.Int? = nil
@@ -5110,7 +5079,7 @@ extension ListTagsForDeliveryStreamInputBody: Swift.Decodable {
         case limit = "Limit"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -5121,35 +5090,22 @@ extension ListTagsForDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForDeliveryStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForDeliveryStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForDeliveryStreamOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForDeliveryStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForDeliveryStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreTags = output.hasMoreTags
@@ -5169,7 +5125,7 @@ public struct ListTagsForDeliveryStreamOutputResponse: Swift.Equatable {
     /// This member is required.
     public var tags: [FirehoseClientTypes.Tag]?
 
-    public init (
+    public init(
         hasMoreTags: Swift.Bool? = nil,
         tags: [FirehoseClientTypes.Tag]? = nil
     )
@@ -5190,7 +5146,7 @@ extension ListTagsForDeliveryStreamOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([FirehoseClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[FirehoseClientTypes.Tag]? = nil
@@ -5260,7 +5216,7 @@ extension FirehoseClientTypes.OpenXJsonSerDe: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let convertDotsInJsonKeysToUnderscoresDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .convertDotsInJsonKeysToUnderscores)
         convertDotsInJsonKeysToUnderscores = convertDotsInJsonKeysToUnderscoresDecoded
@@ -5290,7 +5246,7 @@ extension FirehoseClientTypes {
         /// When set to true, specifies that the names of the keys include dots and that you want Kinesis Data Firehose to replace them with underscores. This is useful because Apache Hive does not allow dots in column names. For example, if the JSON contains a key whose name is "a.b", you can define the column name to be "a_b" when using this option. The default is false.
         public var convertDotsInJsonKeysToUnderscores: Swift.Bool?
 
-        public init (
+        public init(
             caseInsensitive: Swift.Bool? = nil,
             columnToJsonKeyMappings: [Swift.String:Swift.String]? = nil,
             convertDotsInJsonKeysToUnderscores: Swift.Bool? = nil
@@ -5422,7 +5378,7 @@ extension FirehoseClientTypes.OrcSerDe: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stripeSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .stripeSizeBytes)
         stripeSizeBytes = stripeSizeBytesDecoded
@@ -5480,7 +5436,7 @@ extension FirehoseClientTypes {
         /// The number of bytes in each stripe. The default is 64 MiB and the minimum is 8 MiB.
         public var stripeSizeBytes: Swift.Int?
 
-        public init (
+        public init(
             blockSizeBytes: Swift.Int? = nil,
             bloomFilterColumns: [Swift.String]? = nil,
             bloomFilterFalsePositiveProbability: Swift.Double? = nil,
@@ -5520,7 +5476,7 @@ extension FirehoseClientTypes.OutputFormatConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serializerDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.Serializer.self, forKey: .serializer)
         serializer = serializerDecoded
@@ -5533,7 +5489,7 @@ extension FirehoseClientTypes {
         /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
         public var serializer: FirehoseClientTypes.Serializer?
 
-        public init (
+        public init(
             serializer: FirehoseClientTypes.Serializer? = nil
         )
         {
@@ -5610,7 +5566,7 @@ extension FirehoseClientTypes.ParquetSerDe: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blockSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .blockSizeBytes)
         blockSizeBytes = blockSizeBytesDecoded
@@ -5643,7 +5599,7 @@ extension FirehoseClientTypes {
         /// Indicates the version of row format to output. The possible values are V1 and V2. The default is V1.
         public var writerVersion: FirehoseClientTypes.ParquetWriterVersion?
 
-        public init (
+        public init(
             blockSizeBytes: Swift.Int? = nil,
             compression: FirehoseClientTypes.ParquetCompression? = nil,
             enableDictionaryCompression: Swift.Bool? = nil,
@@ -5714,7 +5670,7 @@ extension FirehoseClientTypes.ProcessingConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -5740,7 +5696,7 @@ extension FirehoseClientTypes {
         /// The data processors.
         public var processors: [FirehoseClientTypes.Processor]?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil,
             processors: [FirehoseClientTypes.Processor]? = nil
         )
@@ -5771,7 +5727,7 @@ extension FirehoseClientTypes.Processor: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessorType.self, forKey: .type)
         type = typeDecoded
@@ -5798,7 +5754,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var type: FirehoseClientTypes.ProcessorType?
 
-        public init (
+        public init(
             parameters: [FirehoseClientTypes.ProcessorParameter]? = nil,
             type: FirehoseClientTypes.ProcessorType? = nil
         )
@@ -5826,7 +5782,7 @@ extension FirehoseClientTypes.ProcessorParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterNameDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessorParameterName.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
@@ -5845,7 +5801,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var parameterValue: Swift.String?
 
-        public init (
+        public init(
             parameterName: FirehoseClientTypes.ProcessorParameterName? = nil,
             parameterValue: Swift.String? = nil
         )
@@ -5982,7 +5938,7 @@ public struct PutRecordBatchInput: Swift.Equatable {
     /// This member is required.
     public var records: [FirehoseClientTypes.Record]?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil,
         records: [FirehoseClientTypes.Record]? = nil
     )
@@ -6003,7 +5959,7 @@ extension PutRecordBatchInputBody: Swift.Decodable {
         case records = "Records"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -6021,37 +5977,23 @@ extension PutRecordBatchInputBody: Swift.Decodable {
     }
 }
 
-extension PutRecordBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutRecordBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSResourceException" : self = .invalidKMSResourceException(try InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutRecordBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKMSResourceException": return try await InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutRecordBatchOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidKMSResourceException(InvalidKMSResourceException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutRecordBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutRecordBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.encrypted = output.encrypted
@@ -6075,7 +6017,7 @@ public struct PutRecordBatchOutputResponse: Swift.Equatable {
     /// This member is required.
     public var requestResponses: [FirehoseClientTypes.PutRecordBatchResponseEntry]?
 
-    public init (
+    public init(
         encrypted: Swift.Bool? = nil,
         failedPutCount: Swift.Int? = nil,
         requestResponses: [FirehoseClientTypes.PutRecordBatchResponseEntry]? = nil
@@ -6100,7 +6042,7 @@ extension PutRecordBatchOutputResponseBody: Swift.Decodable {
         case requestResponses = "RequestResponses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedPutCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedPutCount)
         failedPutCount = failedPutCountDecoded
@@ -6140,7 +6082,7 @@ extension FirehoseClientTypes.PutRecordBatchResponseEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordId)
         recordId = recordIdDecoded
@@ -6161,7 +6103,7 @@ extension FirehoseClientTypes {
         /// The ID of the record.
         public var recordId: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             recordId: Swift.String? = nil
@@ -6206,7 +6148,7 @@ public struct PutRecordInput: Swift.Equatable {
     /// This member is required.
     public var record: FirehoseClientTypes.Record?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil,
         record: FirehoseClientTypes.Record? = nil
     )
@@ -6227,7 +6169,7 @@ extension PutRecordInputBody: Swift.Decodable {
         case record = "Record"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -6236,37 +6178,23 @@ extension PutRecordInputBody: Swift.Decodable {
     }
 }
 
-extension PutRecordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutRecordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSResourceException" : self = .invalidKMSResourceException(try InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKMSResourceException": return try await InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutRecordOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidKMSResourceException(InvalidKMSResourceException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutRecordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.encrypted = output.encrypted
@@ -6285,7 +6213,7 @@ public struct PutRecordOutputResponse: Swift.Equatable {
     /// This member is required.
     public var recordId: Swift.String?
 
-    public init (
+    public init(
         encrypted: Swift.Bool? = nil,
         recordId: Swift.String? = nil
     )
@@ -6306,7 +6234,7 @@ extension PutRecordOutputResponseBody: Swift.Decodable {
         case recordId = "RecordId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordId)
         recordId = recordIdDecoded
@@ -6327,7 +6255,7 @@ extension FirehoseClientTypes.Record: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .data)
         data = dataDecoded
@@ -6341,7 +6269,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var data: ClientRuntime.Data?
 
-        public init (
+        public init(
             data: ClientRuntime.Data? = nil
         )
         {
@@ -6403,7 +6331,7 @@ extension FirehoseClientTypes.RedshiftDestinationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -6467,7 +6395,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var username: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterJDBCURL: Swift.String? = nil,
             copyCommand: FirehoseClientTypes.CopyCommand? = nil,
@@ -6545,7 +6473,7 @@ extension FirehoseClientTypes.RedshiftDestinationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -6604,7 +6532,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var username: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterJDBCURL: Swift.String? = nil,
             copyCommand: FirehoseClientTypes.CopyCommand? = nil,
@@ -6684,7 +6612,7 @@ extension FirehoseClientTypes.RedshiftDestinationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -6742,7 +6670,7 @@ extension FirehoseClientTypes {
         /// The name of the user.
         public var username: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterJDBCURL: Swift.String? = nil,
             copyCommand: FirehoseClientTypes.CopyCommand? = nil,
@@ -6784,7 +6712,7 @@ extension FirehoseClientTypes.RedshiftRetryOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -6797,7 +6725,7 @@ extension FirehoseClientTypes {
         /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -6840,38 +6768,42 @@ extension FirehoseClientTypes {
 }
 
 extension ResourceInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource is already in use and not available for this operation.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A message that provides information about the error.
-    public var message: Swift.String?
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6884,7 +6816,7 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6892,38 +6824,42 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource could not be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A message that provides information about the error.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6936,7 +6872,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6955,7 +6891,7 @@ extension FirehoseClientTypes.RetryOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -6968,7 +6904,7 @@ extension FirehoseClientTypes {
         /// The period of time during which Kinesis Data Firehose retries to deliver data to the specified Amazon S3 prefix.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -7050,7 +6986,7 @@ extension FirehoseClientTypes.S3DestinationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -7093,7 +7029,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             bufferingHints: FirehoseClientTypes.BufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
@@ -7157,7 +7093,7 @@ extension FirehoseClientTypes.S3DestinationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -7203,7 +7139,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             bufferingHints: FirehoseClientTypes.BufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
@@ -7267,7 +7203,7 @@ extension FirehoseClientTypes.S3DestinationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -7308,7 +7244,7 @@ extension FirehoseClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             bufferingHints: FirehoseClientTypes.BufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
@@ -7364,7 +7300,7 @@ extension FirehoseClientTypes.SchemaConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
@@ -7397,7 +7333,7 @@ extension FirehoseClientTypes {
         /// Specifies the table version for the output data schema. If you don't specify this version ID, or if you set it to LATEST, Kinesis Data Firehose uses the most recent version. This means that any updates to the table are automatically picked up.
         public var versionId: Swift.String?
 
-        public init (
+        public init(
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -7433,7 +7369,7 @@ extension FirehoseClientTypes.Serializer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parquetSerDeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ParquetSerDe.self, forKey: .parquetSerDe)
         parquetSerDe = parquetSerDeDecoded
@@ -7450,7 +7386,7 @@ extension FirehoseClientTypes {
         /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see [Apache Parquet](https://parquet.apache.org/documentation/latest/).
         public var parquetSerDe: FirehoseClientTypes.ParquetSerDe?
 
-        public init (
+        public init(
             orcSerDe: FirehoseClientTypes.OrcSerDe? = nil,
             parquetSerDe: FirehoseClientTypes.ParquetSerDe? = nil
         )
@@ -7463,38 +7399,42 @@ extension FirehoseClientTypes {
 }
 
 extension ServiceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// A message that provides information about the error.
-    public var message: Swift.String?
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7507,7 +7447,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7526,7 +7466,7 @@ extension FirehoseClientTypes.SourceDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kinesisStreamSourceDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.KinesisStreamSourceDescription.self, forKey: .kinesisStreamSourceDescription)
         kinesisStreamSourceDescription = kinesisStreamSourceDescriptionDecoded
@@ -7539,7 +7479,7 @@ extension FirehoseClientTypes {
         /// The [KinesisStreamSourceDescription] value for the source Kinesis data stream.
         public var kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription?
 
-        public init (
+        public init(
             kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription? = nil
         )
         {
@@ -7593,7 +7533,7 @@ extension FirehoseClientTypes.SplunkDestinationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hecEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hecEndpoint)
         hecEndpoint = hecEndpointDecoded
@@ -7642,7 +7582,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
 
-        public init (
+        public init(
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             hecAcknowledgmentTimeoutInSeconds: Swift.Int? = nil,
             hecEndpoint: Swift.String? = nil,
@@ -7712,7 +7652,7 @@ extension FirehoseClientTypes.SplunkDestinationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hecEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hecEndpoint)
         hecEndpoint = hecEndpointDecoded
@@ -7757,7 +7697,7 @@ extension FirehoseClientTypes {
         /// The Amazon S3 destination.>
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
 
-        public init (
+        public init(
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             hecAcknowledgmentTimeoutInSeconds: Swift.Int? = nil,
             hecEndpoint: Swift.String? = nil,
@@ -7827,7 +7767,7 @@ extension FirehoseClientTypes.SplunkDestinationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hecEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hecEndpoint)
         hecEndpoint = hecEndpointDecoded
@@ -7872,7 +7812,7 @@ extension FirehoseClientTypes {
         /// Your update to the configuration of the backup Amazon S3 location.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
 
-        public init (
+        public init(
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             hecAcknowledgmentTimeoutInSeconds: Swift.Int? = nil,
             hecEndpoint: Swift.String? = nil,
@@ -7910,7 +7850,7 @@ extension FirehoseClientTypes.SplunkRetryOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -7923,7 +7863,7 @@ extension FirehoseClientTypes {
         /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
         public var durationInSeconds: Swift.Int?
 
-        public init (
+        public init(
             durationInSeconds: Swift.Int? = nil
         )
         {
@@ -7995,7 +7935,7 @@ public struct StartDeliveryStreamEncryptionInput: Swift.Equatable {
     /// This member is required.
     public var deliveryStreamName: Swift.String?
 
-    public init (
+    public init(
         deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput? = nil,
         deliveryStreamName: Swift.String? = nil
     )
@@ -8016,7 +7956,7 @@ extension StartDeliveryStreamEncryptionInputBody: Swift.Decodable {
         case deliveryStreamName = "DeliveryStreamName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -8025,44 +7965,29 @@ extension StartDeliveryStreamEncryptionInputBody: Swift.Decodable {
     }
 }
 
-extension StartDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartDeliveryStreamEncryptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKMSResourceException" : self = .invalidKMSResourceException(try InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKMSResourceException": return try await InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartDeliveryStreamEncryptionOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidKMSResourceException(InvalidKMSResourceException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartDeliveryStreamEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StartDeliveryStreamEncryptionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StopDeliveryStreamEncryptionInput: Swift.Encodable {
@@ -8089,7 +8014,7 @@ public struct StopDeliveryStreamEncryptionInput: Swift.Equatable {
     /// This member is required.
     public var deliveryStreamName: Swift.String?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil
     )
     {
@@ -8106,49 +8031,35 @@ extension StopDeliveryStreamEncryptionInputBody: Swift.Decodable {
         case deliveryStreamName = "DeliveryStreamName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
     }
 }
 
-extension StopDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopDeliveryStreamEncryptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopDeliveryStreamEncryptionOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopDeliveryStreamEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopDeliveryStreamEncryptionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension FirehoseClientTypes.Tag: Swift.Codable {
@@ -8167,7 +8078,7 @@ extension FirehoseClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -8185,7 +8096,7 @@ extension FirehoseClientTypes {
         /// An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -8231,7 +8142,7 @@ public struct TagDeliveryStreamInput: Swift.Equatable {
     /// This member is required.
     public var tags: [FirehoseClientTypes.Tag]?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil,
         tags: [FirehoseClientTypes.Tag]? = nil
     )
@@ -8252,7 +8163,7 @@ extension TagDeliveryStreamInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -8270,42 +8181,28 @@ extension TagDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-extension TagDeliveryStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagDeliveryStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagDeliveryStreamOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagDeliveryStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagDeliveryStreamOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UntagDeliveryStreamInput: Swift.Encodable {
@@ -8342,7 +8239,7 @@ public struct UntagDeliveryStreamInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         deliveryStreamName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -8363,7 +8260,7 @@ extension UntagDeliveryStreamInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -8381,42 +8278,28 @@ extension UntagDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-extension UntagDeliveryStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagDeliveryStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagDeliveryStreamOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagDeliveryStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagDeliveryStreamOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateDestinationInput: Swift.Encodable {
@@ -8506,7 +8389,7 @@ public struct UpdateDestinationInput: Swift.Equatable {
     /// Describes an update for a destination in Splunk.
     public var splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate?
 
-    public init (
+    public init(
         amazonOpenSearchServerlessDestinationUpdate: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate? = nil,
         amazonopensearchserviceDestinationUpdate: FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate? = nil,
         currentDeliveryStreamVersionId: Swift.String? = nil,
@@ -8563,7 +8446,7 @@ extension UpdateDestinationInputBody: Swift.Decodable {
         case splunkDestinationUpdate = "SplunkDestinationUpdate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deliveryStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryStreamName)
         deliveryStreamName = deliveryStreamNameDecoded
@@ -8590,42 +8473,28 @@ extension UpdateDestinationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDestinationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateDestinationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension FirehoseClientTypes.VpcConfiguration: Swift.Codable {
@@ -8654,7 +8523,7 @@ extension FirehoseClientTypes.VpcConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
         var subnetIdsDecoded0:[Swift.String]? = nil
@@ -8715,7 +8584,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             roleARN: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
@@ -8759,7 +8628,7 @@ extension FirehoseClientTypes.VpcConfigurationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
         var subnetIdsDecoded0:[Swift.String]? = nil
@@ -8825,7 +8694,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             roleARN: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,

@@ -14,7 +14,7 @@ extension AccessDeniedException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -22,38 +22,42 @@ extension AccessDeniedException: Swift.Codable {
 }
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -66,7 +70,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -96,7 +100,7 @@ extension LexRuntimeV2ClientTypes.ActiveContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -129,7 +133,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var timeToLive: LexRuntimeV2ClientTypes.ActiveContextTimeToLive?
 
-        public init (
+        public init(
             contextAttributes: [Swift.String:Swift.String]? = nil,
             name: Swift.String? = nil,
             timeToLive: LexRuntimeV2ClientTypes.ActiveContextTimeToLive? = nil
@@ -159,7 +163,7 @@ extension LexRuntimeV2ClientTypes.ActiveContextTimeToLive: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeToLiveInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeToLiveInSeconds)
         timeToLiveInSeconds = timeToLiveInSecondsDecoded
@@ -178,7 +182,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var turnsToLive: Swift.Int?
 
-        public init (
+        public init(
             timeToLiveInSeconds: Swift.Int? = nil,
             turnsToLive: Swift.Int? = nil
         )
@@ -214,7 +218,7 @@ extension LexRuntimeV2ClientTypes.AudioInputEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioChunkDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .audioChunk)
         audioChunk = audioChunkDecoded
@@ -240,7 +244,7 @@ extension LexRuntimeV2ClientTypes {
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public var eventId: Swift.String?
 
-        public init (
+        public init(
             audioChunk: ClientRuntime.Data? = nil,
             clientTimestampMillis: Swift.Int = 0,
             contentType: Swift.String? = nil,
@@ -276,7 +280,7 @@ extension LexRuntimeV2ClientTypes.AudioResponseEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioChunkDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .audioChunk)
         audioChunk = audioChunkDecoded
@@ -297,7 +301,7 @@ extension LexRuntimeV2ClientTypes {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
 
-        public init (
+        public init(
             audioChunk: ClientRuntime.Data? = nil,
             contentType: Swift.String? = nil,
             eventId: Swift.String? = nil
@@ -323,7 +327,7 @@ extension BadGatewayException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -331,38 +335,42 @@ extension BadGatewayException: Swift.Codable {
 }
 
 extension BadGatewayException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadGatewayExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// This member is required.
-    public var message: Swift.String?
+public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadGatewayException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -375,7 +383,7 @@ extension BadGatewayExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -398,7 +406,7 @@ extension LexRuntimeV2ClientTypes.Button: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
@@ -417,7 +425,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             text: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -441,7 +449,7 @@ extension LexRuntimeV2ClientTypes.ConfidenceScore: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score) ?? 0.0
         score = scoreDecoded
@@ -454,7 +462,7 @@ extension LexRuntimeV2ClientTypes {
         /// A score that indicates how confident Amazon Lex V2 is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public var score: Swift.Double
 
-        public init (
+        public init(
             score: Swift.Double = 0.0
         )
         {
@@ -506,7 +514,7 @@ extension LexRuntimeV2ClientTypes.ConfigurationEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestAttributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .requestAttributes)
         var requestAttributesDecoded0: [Swift.String:Swift.String]? = nil
@@ -580,7 +588,7 @@ extension LexRuntimeV2ClientTypes {
         /// A list of messages to send to the user. If you set the welcomeMessage field, you must also set the [DialogAction](https://docs.aws.amazon.com/lexv2/latest/dg/API_runtime_DialogAction.html) structure's [type](https://docs.aws.amazon.com/lexv2/latest/dg/API_runtime_DialogAction.html#lexv2-Type-runtime_DialogAction-type) field.
         public var welcomeMessages: [LexRuntimeV2ClientTypes.Message]?
 
-        public init (
+        public init(
             clientTimestampMillis: Swift.Int = 0,
             disablePlayback: Swift.Bool = false,
             eventId: Swift.String? = nil,
@@ -649,7 +657,7 @@ extension ConflictException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -657,38 +665,42 @@ extension ConflictException: Swift.Codable {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -701,7 +713,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -760,7 +772,7 @@ extension LexRuntimeV2ClientTypes.DTMFInputEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputCharacterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputCharacter)
         inputCharacter = inputCharacterDecoded
@@ -787,7 +799,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var inputCharacter: Swift.String?
 
-        public init (
+        public init(
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil,
             inputCharacter: Swift.String? = nil
@@ -833,7 +845,7 @@ public struct DeleteSessionInput: Swift.Equatable {
     /// This member is required.
     public var sessionId: Swift.String?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
@@ -852,45 +864,29 @@ struct DeleteSessionInputBody: Swift.Equatable {
 
 extension DeleteSessionInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteSessionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSessionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSessionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
@@ -916,7 +912,7 @@ public struct DeleteSessionOutputResponse: Swift.Equatable {
     /// The identifier of the deleted session.
     public var sessionId: Swift.String?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
@@ -945,7 +941,7 @@ extension DeleteSessionOutputResponseBody: Swift.Decodable {
         case sessionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
         botId = botIdDecoded
@@ -970,7 +966,7 @@ extension DependencyFailedException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -978,38 +974,42 @@ extension DependencyFailedException: Swift.Codable {
 }
 
 extension DependencyFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DependencyFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct DependencyFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DependencyFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1022,7 +1022,7 @@ extension DependencyFailedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1053,7 +1053,7 @@ extension LexRuntimeV2ClientTypes.DialogAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.DialogActionType.self, forKey: .type)
         type = typeDecoded
@@ -1096,7 +1096,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var type: LexRuntimeV2ClientTypes.DialogActionType?
 
-        public init (
+        public init(
             slotElicitationStyle: LexRuntimeV2ClientTypes.StyleType? = nil,
             slotToElicit: Swift.String? = nil,
             subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot? = nil,
@@ -1172,7 +1172,7 @@ extension LexRuntimeV2ClientTypes.DisconnectionEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
         eventId = eventIdDecoded
@@ -1189,7 +1189,7 @@ extension LexRuntimeV2ClientTypes {
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public var eventId: Swift.String?
 
-        public init (
+        public init(
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil
         )
@@ -1217,7 +1217,7 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1235,7 +1235,7 @@ extension LexRuntimeV2ClientTypes {
         /// The field is not supported.
         public var subSlotToElicit: Box<LexRuntimeV2ClientTypes.ElicitSubSlot>?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             subSlotToElicit: Box<LexRuntimeV2ClientTypes.ElicitSubSlot>? = nil
         )
@@ -1279,7 +1279,7 @@ public struct GetSessionInput: Swift.Equatable {
     /// This member is required.
     public var sessionId: Swift.String?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
@@ -1298,43 +1298,28 @@ struct GetSessionInputBody: Swift.Equatable {
 
 extension GetSessionInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetSessionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSessionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSessionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
@@ -1360,7 +1345,7 @@ public struct GetSessionOutputResponse: Swift.Equatable {
     /// Represents the current state of the dialog between the user and the bot. You can use this to determine the progress of the conversation and what the next action might be.
     public var sessionState: LexRuntimeV2ClientTypes.SessionState?
 
-    public init (
+    public init(
         interpretations: [LexRuntimeV2ClientTypes.Interpretation]? = nil,
         messages: [LexRuntimeV2ClientTypes.Message]? = nil,
         sessionId: Swift.String? = nil,
@@ -1389,7 +1374,7 @@ extension GetSessionOutputResponseBody: Swift.Decodable {
         case sessionState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
         sessionId = sessionIdDecoded
@@ -1432,7 +1417,7 @@ extension LexRuntimeV2ClientTypes.HeartbeatEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
         eventId = eventIdDecoded
@@ -1445,7 +1430,7 @@ extension LexRuntimeV2ClientTypes {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
 
-        public init (
+        public init(
             eventId: Swift.String? = nil
         )
         {
@@ -1482,7 +1467,7 @@ extension LexRuntimeV2ClientTypes.ImageResponseCard: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
         title = titleDecoded
@@ -1517,7 +1502,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var title: Swift.String?
 
-        public init (
+        public init(
             buttons: [LexRuntimeV2ClientTypes.Button]? = nil,
             imageUrl: Swift.String? = nil,
             subtitle: Swift.String? = nil,
@@ -1595,7 +1580,7 @@ extension LexRuntimeV2ClientTypes.Intent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1630,7 +1615,7 @@ extension LexRuntimeV2ClientTypes {
         /// Contains fulfillment information for the intent.
         public var state: LexRuntimeV2ClientTypes.IntentState?
 
-        public init (
+        public init(
             confirmationState: LexRuntimeV2ClientTypes.ConfirmationState? = nil,
             name: Swift.String? = nil,
             slots: [Swift.String:LexRuntimeV2ClientTypes.Slot]? = nil,
@@ -1688,7 +1673,7 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputModeDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.InputMode.self, forKey: .inputMode)
         inputMode = inputModeDecoded
@@ -1743,7 +1728,7 @@ extension LexRuntimeV2ClientTypes {
         /// The state of the user's session with Amazon Lex V2.
         public var sessionState: LexRuntimeV2ClientTypes.SessionState?
 
-        public init (
+        public init(
             eventId: Swift.String? = nil,
             inputMode: LexRuntimeV2ClientTypes.InputMode? = nil,
             interpretations: [LexRuntimeV2ClientTypes.Interpretation]? = nil,
@@ -1821,7 +1806,7 @@ extension InternalServerException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1829,38 +1814,42 @@ extension InternalServerException: Swift.Codable {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// This member is required.
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1873,7 +1862,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1900,7 +1889,7 @@ extension LexRuntimeV2ClientTypes.Interpretation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nluConfidenceDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.ConfidenceScore.self, forKey: .nluConfidence)
         nluConfidence = nluConfidenceDecoded
@@ -1921,7 +1910,7 @@ extension LexRuntimeV2ClientTypes {
         /// The sentiment expressed in an utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
         public var sentimentResponse: LexRuntimeV2ClientTypes.SentimentResponse?
 
-        public init (
+        public init(
             intent: LexRuntimeV2ClientTypes.Intent? = nil,
             nluConfidence: LexRuntimeV2ClientTypes.ConfidenceScore? = nil,
             sentimentResponse: LexRuntimeV2ClientTypes.SentimentResponse? = nil
@@ -1955,7 +1944,7 @@ extension LexRuntimeV2ClientTypes.Message: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
         content = contentDecoded
@@ -1982,7 +1971,7 @@ extension LexRuntimeV2ClientTypes {
         /// A card that is shown to the user by a messaging platform. You define the contents of the card, the card is displayed by the platform. When you use a response card, the response from the user is constrained to the text associated with a button on the card.
         public var imageResponseCard: LexRuntimeV2ClientTypes.ImageResponseCard?
 
-        public init (
+        public init(
             content: Swift.String? = nil,
             contentType: LexRuntimeV2ClientTypes.MessageContentType? = nil,
             imageResponseCard: LexRuntimeV2ClientTypes.ImageResponseCard? = nil
@@ -2050,7 +2039,7 @@ extension LexRuntimeV2ClientTypes.PlaybackCompletionEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
         eventId = eventIdDecoded
@@ -2067,7 +2056,7 @@ extension LexRuntimeV2ClientTypes {
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public var eventId: Swift.String?
 
-        public init (
+        public init(
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil
         )
@@ -2099,7 +2088,7 @@ extension LexRuntimeV2ClientTypes.PlaybackInterruptionEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventReasonDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.PlaybackInterruptionReason.self, forKey: .eventReason)
         eventReason = eventReasonDecoded
@@ -2120,7 +2109,7 @@ extension LexRuntimeV2ClientTypes {
         /// Indicates the type of user input that Amazon Lex V2 detected.
         public var eventReason: LexRuntimeV2ClientTypes.PlaybackInterruptionReason?
 
-        public init (
+        public init(
             causedByEventId: Swift.String? = nil,
             eventId: Swift.String? = nil,
             eventReason: LexRuntimeV2ClientTypes.PlaybackInterruptionReason? = nil
@@ -2249,7 +2238,7 @@ public struct PutSessionInput: Swift.Equatable {
     /// This member is required.
     public var sessionState: LexRuntimeV2ClientTypes.SessionState?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
@@ -2284,7 +2273,7 @@ extension PutSessionInputBody: Swift.Decodable {
         case sessionState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messagesContainer = try containerValues.decodeIfPresent([LexRuntimeV2ClientTypes.Message?].self, forKey: .messages)
         var messagesDecoded0:[LexRuntimeV2ClientTypes.Message]? = nil
@@ -2313,44 +2302,26 @@ extension PutSessionInputBody: Swift.Decodable {
     }
 }
 
-extension PutSessionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutSessionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DependencyFailedException" : self = .dependencyFailedException(try DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutSessionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case badGatewayException(BadGatewayException)
-    case conflictException(ConflictException)
-    case dependencyFailedException(DependencyFailedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -2401,7 +2372,7 @@ public struct PutSessionOutputResponse: Swift.Equatable {
     /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action may be.
     public var sessionState: Swift.String?
 
-    public init (
+    public init(
         audioStream: ClientRuntime.ByteStream? = nil,
         contentType: Swift.String? = nil,
         messages: Swift.String? = nil,
@@ -2428,7 +2399,7 @@ extension PutSessionOutputResponseBody: Swift.Decodable {
         case audioStream
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .audioStream)
         audioStream = audioStreamDecoded
@@ -2503,7 +2474,7 @@ public struct RecognizeTextInput: Swift.Equatable {
     /// This member is required.
     public var text: Swift.String?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
@@ -2536,7 +2507,7 @@ extension RecognizeTextInputBody: Swift.Decodable {
         case text
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
@@ -2556,45 +2527,27 @@ extension RecognizeTextInputBody: Swift.Decodable {
     }
 }
 
-extension RecognizeTextOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RecognizeTextOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DependencyFailedException" : self = .dependencyFailedException(try DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RecognizeTextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RecognizeTextOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case badGatewayException(BadGatewayException)
-    case conflictException(ConflictException)
-    case dependencyFailedException(DependencyFailedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RecognizeTextOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RecognizeTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
@@ -2628,7 +2581,7 @@ public struct RecognizeTextOutputResponse: Swift.Equatable {
     /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action may be.
     public var sessionState: LexRuntimeV2ClientTypes.SessionState?
 
-    public init (
+    public init(
         interpretations: [LexRuntimeV2ClientTypes.Interpretation]? = nil,
         messages: [LexRuntimeV2ClientTypes.Message]? = nil,
         recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember? = nil,
@@ -2665,7 +2618,7 @@ extension RecognizeTextOutputResponseBody: Swift.Decodable {
         case sessionState
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messagesContainer = try containerValues.decodeIfPresent([LexRuntimeV2ClientTypes.Message?].self, forKey: .messages)
         var messagesDecoded0:[LexRuntimeV2ClientTypes.Message]? = nil
@@ -2854,7 +2807,7 @@ public struct RecognizeUtteranceInput: Swift.Equatable {
     /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex V2 should use in the conversation with the user. The sessionState field must be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
     public var sessionState: Swift.String?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         inputStream: ClientRuntime.ByteStream? = nil,
@@ -2887,51 +2840,33 @@ extension RecognizeUtteranceInputBody: Swift.Decodable {
         case inputStream
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .inputStream)
         inputStream = inputStreamDecoded
     }
 }
 
-extension RecognizeUtteranceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RecognizeUtteranceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadGatewayException" : self = .badGatewayException(try BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DependencyFailedException" : self = .dependencyFailedException(try DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RecognizeUtteranceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailedException": return try await DependencyFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RecognizeUtteranceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case badGatewayException(BadGatewayException)
-    case conflictException(ConflictException)
-    case dependencyFailedException(DependencyFailedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RecognizeUtteranceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -3010,7 +2945,7 @@ public struct RecognizeUtteranceOutputResponse: Swift.Equatable {
     /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action might be. The sessionState field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
     public var sessionState: Swift.String?
 
-    public init (
+    public init(
         audioStream: ClientRuntime.ByteStream? = nil,
         contentType: Swift.String? = nil,
         inputMode: Swift.String? = nil,
@@ -3045,7 +2980,7 @@ extension RecognizeUtteranceOutputResponseBody: Swift.Decodable {
         case audioStream
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .audioStream)
         audioStream = audioStreamDecoded
@@ -3068,7 +3003,7 @@ extension LexRuntimeV2ClientTypes.RecognizedBotMember: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
         botId = botIdDecoded
@@ -3086,7 +3021,7 @@ extension LexRuntimeV2ClientTypes {
         /// The name of the bot member that processes the request.
         public var botName: Swift.String?
 
-        public init (
+        public init(
             botId: Swift.String? = nil,
             botName: Swift.String? = nil
         )
@@ -3110,7 +3045,7 @@ extension ResourceNotFoundException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3118,38 +3053,42 @@ extension ResourceNotFoundException: Swift.Codable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3162,7 +3101,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3191,7 +3130,7 @@ extension LexRuntimeV2ClientTypes.RuntimeHintDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let runtimeHintValuesContainer = try containerValues.decodeIfPresent([LexRuntimeV2ClientTypes.RuntimeHintValue?].self, forKey: .runtimeHintValues)
         var runtimeHintValuesDecoded0:[LexRuntimeV2ClientTypes.RuntimeHintValue]? = nil
@@ -3226,7 +3165,7 @@ extension LexRuntimeV2ClientTypes {
         /// A map of constituent sub slot names inside a composite slot in the intent and the phrases that should be added for each sub slot. Inside each composite slot hints, this structure provides a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots. The intent name, composite slot name and the constituent sub slot names must exist.
         public var subSlotHints: [Swift.String:LexRuntimeV2ClientTypes.RuntimeHintDetails]?
 
-        public init (
+        public init(
             runtimeHintValues: [LexRuntimeV2ClientTypes.RuntimeHintValue]? = nil,
             subSlotHints: [Swift.String:LexRuntimeV2ClientTypes.RuntimeHintDetails]? = nil
         )
@@ -3250,7 +3189,7 @@ extension LexRuntimeV2ClientTypes.RuntimeHintValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let phraseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phrase)
         phrase = phraseDecoded
@@ -3264,7 +3203,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var phrase: Swift.String?
 
-        public init (
+        public init(
             phrase: Swift.String? = nil
         )
         {
@@ -3292,7 +3231,7 @@ extension LexRuntimeV2ClientTypes.RuntimeHints: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let slotHintsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: LexRuntimeV2ClientTypes.RuntimeHintDetails?]?].self, forKey: .slotHints)
         var slotHintsDecoded0: [Swift.String:[Swift.String:LexRuntimeV2ClientTypes.RuntimeHintDetails]]? = nil
@@ -3321,7 +3260,7 @@ extension LexRuntimeV2ClientTypes {
         /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see [Using hints to improve accuracy](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html). The intent name and slot name must exist.
         public var slotHints: [Swift.String:[Swift.String:LexRuntimeV2ClientTypes.RuntimeHintDetails]]?
 
-        public init (
+        public init(
             slotHints: [Swift.String:[Swift.String:LexRuntimeV2ClientTypes.RuntimeHintDetails]]? = nil
         )
         {
@@ -3347,7 +3286,7 @@ extension LexRuntimeV2ClientTypes.SentimentResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sentimentDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.SentimentType.self, forKey: .sentiment)
         sentiment = sentimentDecoded
@@ -3364,7 +3303,7 @@ extension LexRuntimeV2ClientTypes {
         /// The individual sentiment responses for the utterance.
         public var sentimentScore: LexRuntimeV2ClientTypes.SentimentScore?
 
-        public init (
+        public init(
             sentiment: LexRuntimeV2ClientTypes.SentimentType? = nil,
             sentimentScore: LexRuntimeV2ClientTypes.SentimentScore? = nil
         )
@@ -3400,7 +3339,7 @@ extension LexRuntimeV2ClientTypes.SentimentScore: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let positiveDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .positive) ?? 0.0
         positive = positiveDecoded
@@ -3425,7 +3364,7 @@ extension LexRuntimeV2ClientTypes {
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the POSITIVE sentiment.
         public var positive: Swift.Double
 
-        public init (
+        public init(
             mixed: Swift.Double = 0.0,
             negative: Swift.Double = 0.0,
             neutral: Swift.Double = 0.0,
@@ -3517,7 +3456,7 @@ extension LexRuntimeV2ClientTypes.SessionState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dialogActionDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.DialogAction.self, forKey: .dialogAction)
         dialogAction = dialogActionDecoded
@@ -3568,7 +3507,7 @@ extension LexRuntimeV2ClientTypes {
         /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex V2 and a client application.
         public var sessionAttributes: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             activeContexts: [LexRuntimeV2ClientTypes.ActiveContext]? = nil,
             dialogAction: LexRuntimeV2ClientTypes.DialogAction? = nil,
             intent: LexRuntimeV2ClientTypes.Intent? = nil,
@@ -3653,7 +3592,7 @@ extension LexRuntimeV2ClientTypes.Slot: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.Value.self, forKey: .value)
         value = valueDecoded
@@ -3696,7 +3635,7 @@ extension LexRuntimeV2ClientTypes {
         /// A list of one or more values that the user provided for the slot. For example, if a for a slot that elicits pizza toppings, the values might be "pepperoni" and "pineapple."
         public var values: [LexRuntimeV2ClientTypes.Slot]?
 
-        public init (
+        public init(
             shape: LexRuntimeV2ClientTypes.Shape? = nil,
             subSlots: [Swift.String:LexRuntimeV2ClientTypes.Slot]? = nil,
             value: LexRuntimeV2ClientTypes.Value? = nil,
@@ -3745,7 +3684,7 @@ public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
                 }
             }
         } catch let err {
-            throw SdkError<StartConversationOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -3802,7 +3741,7 @@ public struct StartConversationInput: Swift.Equatable {
     /// This member is required.
     public var sessionId: Swift.String?
 
-    public init (
+    public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         conversationMode: LexRuntimeV2ClientTypes.ConversationMode? = nil,
@@ -3820,36 +3759,22 @@ public struct StartConversationInput: Swift.Equatable {
     }
 }
 
-extension StartConversationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartConversationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartConversationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartConversationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartConversationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
             let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
@@ -3864,7 +3789,7 @@ public struct StartConversationOutputResponse: Swift.Equatable {
     /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
     public var responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>?
 
-    public init (
+    public init(
         responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>? = nil
     )
     {
@@ -3902,7 +3827,7 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRun
             headers.append(.init(name: ":content-type", value: .string("application/json")))
             payload = try encoder.encode(value)
         case .sdkUnknown(_):
-            throw ClientRuntime.ClientError.serializationFailed("cannot serialize the unknown event type!")
+            throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
         }
         return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
     }
@@ -3975,14 +3900,14 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream: ClientRu
                     return try decoder.decode(responseBody: message.payload) as BadGatewayException
                 default:
                     let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
-                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                    return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                 }
             }
             let error = try makeError(message, params)
             throw error
         case .error(let params):
             let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
-            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+            throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
         case .unknown(messageType: let messageType):
             throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
@@ -4064,7 +3989,7 @@ extension LexRuntimeV2ClientTypes.TextInputEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
@@ -4091,7 +4016,7 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var text: Swift.String?
 
-        public init (
+        public init(
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil,
             text: Swift.String? = nil
@@ -4124,7 +4049,7 @@ extension LexRuntimeV2ClientTypes.TextResponseEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messagesContainer = try containerValues.decodeIfPresent([LexRuntimeV2ClientTypes.Message?].self, forKey: .messages)
         var messagesDecoded0:[LexRuntimeV2ClientTypes.Message]? = nil
@@ -4150,7 +4075,7 @@ extension LexRuntimeV2ClientTypes {
         /// A list of messages to send to the user. Messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
         public var messages: [LexRuntimeV2ClientTypes.Message]?
 
-        public init (
+        public init(
             eventId: Swift.String? = nil,
             messages: [LexRuntimeV2ClientTypes.Message]? = nil
         )
@@ -4174,7 +4099,7 @@ extension ThrottlingException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4182,38 +4107,42 @@ extension ThrottlingException: Swift.Codable {
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4226,7 +4155,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4249,7 +4178,7 @@ extension LexRuntimeV2ClientTypes.TranscriptEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transcriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transcript)
         transcript = transcriptDecoded
@@ -4266,7 +4195,7 @@ extension LexRuntimeV2ClientTypes {
         /// The transcript of the voice audio from the user.
         public var transcript: Swift.String?
 
-        public init (
+        public init(
             eventId: Swift.String? = nil,
             transcript: Swift.String? = nil
         )
@@ -4290,7 +4219,7 @@ extension ValidationException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4298,38 +4227,42 @@ extension ValidationException: Swift.Codable {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 ///
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4342,7 +4275,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4372,7 +4305,7 @@ extension LexRuntimeV2ClientTypes.Value: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originalValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originalValue)
         originalValue = originalValueDecoded
@@ -4403,7 +4336,7 @@ extension LexRuntimeV2ClientTypes {
         /// A list of additional values that have been recognized for the slot.
         public var resolvedValues: [Swift.String]?
 
-        public init (
+        public init(
             interpretedValue: Swift.String? = nil,
             originalValue: Swift.String? = nil,
             resolvedValues: [Swift.String]? = nil

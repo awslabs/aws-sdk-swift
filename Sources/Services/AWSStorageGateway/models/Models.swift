@@ -89,7 +89,7 @@ public struct ActivateGatewayInput: Swift.Equatable {
     /// The value that indicates the type of tape drive to use for tape gateway. This field is optional. Valid Values: IBM-ULT3580-TD5
     public var tapeDriveType: Swift.String?
 
-    public init (
+    public init(
         activationKey: Swift.String? = nil,
         gatewayName: Swift.String? = nil,
         gatewayRegion: Swift.String? = nil,
@@ -134,7 +134,7 @@ extension ActivateGatewayInputBody: Swift.Decodable {
         case tapeDriveType = "TapeDriveType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activationKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activationKey)
         activationKey = activationKeyDecoded
@@ -164,33 +164,21 @@ extension ActivateGatewayInputBody: Swift.Decodable {
     }
 }
 
-extension ActivateGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ActivateGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ActivateGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ActivateGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ActivateGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ActivateGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -205,7 +193,7 @@ public struct ActivateGatewayOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -222,7 +210,7 @@ extension ActivateGatewayOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -310,7 +298,7 @@ public struct AddCacheInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -331,7 +319,7 @@ extension AddCacheInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -349,33 +337,21 @@ extension AddCacheInputBody: Swift.Decodable {
     }
 }
 
-extension AddCacheOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddCacheOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddCacheOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -389,7 +365,7 @@ public struct AddCacheOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -406,7 +382,7 @@ extension AddCacheOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -448,7 +424,7 @@ public struct AddTagsToResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [StorageGatewayClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil
     )
@@ -469,7 +445,7 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -487,33 +463,21 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsToResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddTagsToResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
@@ -528,7 +492,7 @@ public struct AddTagsToResourceOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -545,7 +509,7 @@ extension AddTagsToResourceOutputResponseBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -586,7 +550,7 @@ public struct AddUploadBufferInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -607,7 +571,7 @@ extension AddUploadBufferInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -625,33 +589,21 @@ extension AddUploadBufferInputBody: Swift.Decodable {
     }
 }
 
-extension AddUploadBufferOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddUploadBufferOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddUploadBufferOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddUploadBufferOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddUploadBufferOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -665,7 +617,7 @@ public struct AddUploadBufferOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -682,7 +634,7 @@ extension AddUploadBufferOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -726,7 +678,7 @@ public struct AddWorkingStorageInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -747,7 +699,7 @@ extension AddWorkingStorageInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -765,33 +717,21 @@ extension AddWorkingStorageInputBody: Swift.Decodable {
     }
 }
 
-extension AddWorkingStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddWorkingStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddWorkingStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddWorkingStorageOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddWorkingStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -806,7 +746,7 @@ public struct AddWorkingStorageOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -823,7 +763,7 @@ extension AddWorkingStorageOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -867,7 +807,7 @@ public struct AssignTapePoolInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         bypassGovernanceRetention: Swift.Bool = false,
         poolId: Swift.String? = nil,
         tapeARN: Swift.String? = nil
@@ -892,7 +832,7 @@ extension AssignTapePoolInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -903,33 +843,21 @@ extension AssignTapePoolInputBody: Swift.Decodable {
     }
 }
 
-extension AssignTapePoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssignTapePoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssignTapePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssignTapePoolOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssignTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssignTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -943,7 +871,7 @@ public struct AssignTapePoolOutputResponse: Swift.Equatable {
     /// The unique Amazon Resource Names (ARN) of the virtual tape that was added to the tape pool.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -960,7 +888,7 @@ extension AssignTapePoolOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -1051,7 +979,7 @@ public struct AssociateFileSystemInput: Swift.Equatable {
     /// This member is required.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         auditDestinationARN: Swift.String? = nil,
         cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
         clientToken: Swift.String? = nil,
@@ -1100,7 +1028,7 @@ extension AssociateFileSystemInputBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
         userName = userNameDecoded
@@ -1132,33 +1060,21 @@ extension AssociateFileSystemInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateFileSystemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateFileSystemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateFileSystemOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
@@ -1172,7 +1088,7 @@ public struct AssociateFileSystemOutputResponse: Swift.Equatable {
     /// The ARN of the newly created file system association.
     public var fileSystemAssociationARN: Swift.String?
 
-    public init (
+    public init(
         fileSystemAssociationARN: Swift.String? = nil
     )
     {
@@ -1189,7 +1105,7 @@ extension AssociateFileSystemOutputResponseBody: Swift.Decodable {
         case fileSystemAssociationARN = "FileSystemAssociationARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
@@ -1247,7 +1163,7 @@ public struct AttachVolumeInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         diskId: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         networkInterfaceId: Swift.String? = nil,
@@ -1280,7 +1196,7 @@ extension AttachVolumeInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -1295,33 +1211,21 @@ extension AttachVolumeInputBody: Swift.Decodable {
     }
 }
 
-extension AttachVolumeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AttachVolumeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AttachVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AttachVolumeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AttachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AttachVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
@@ -1340,7 +1244,7 @@ public struct AttachVolumeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the volume that was attached to the gateway.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         targetARN: Swift.String? = nil,
         volumeARN: Swift.String? = nil
     )
@@ -1361,7 +1265,7 @@ extension AttachVolumeOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -1389,7 +1293,7 @@ extension StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automaticTapeCreationRulesContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.AutomaticTapeCreationRule?].self, forKey: .automaticTapeCreationRules)
         var automaticTapeCreationRulesDecoded0:[StorageGatewayClientTypes.AutomaticTapeCreationRule]? = nil
@@ -1415,7 +1319,7 @@ extension StorageGatewayClientTypes {
         /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
         public var gatewayARN: Swift.String?
 
-        public init (
+        public init(
             automaticTapeCreationRules: [StorageGatewayClientTypes.AutomaticTapeCreationRule]? = nil,
             gatewayARN: Swift.String? = nil
         )
@@ -1455,7 +1359,7 @@ extension StorageGatewayClientTypes.AutomaticTapeCreationRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeBarcodePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeBarcodePrefix)
         tapeBarcodePrefix = tapeBarcodePrefixDecoded
@@ -1488,7 +1392,7 @@ extension StorageGatewayClientTypes {
         /// Set to true to indicate that tapes are to be archived as write-once-read-many (WORM). Set to false when WORM is not enabled for tapes.
         public var worm: Swift.Bool
 
-        public init (
+        public init(
             minimumNumTapes: Swift.Int? = nil,
             poolId: Swift.String? = nil,
             tapeBarcodePrefix: Swift.String? = nil,
@@ -1580,7 +1484,7 @@ extension StorageGatewayClientTypes.BandwidthRateLimitInterval: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startHourOfDayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startHourOfDay)
         startHourOfDay = startHourOfDayDecoded
@@ -1631,7 +1535,7 @@ extension StorageGatewayClientTypes {
         /// This member is required.
         public var startMinuteOfHour: Swift.Int?
 
-        public init (
+        public init(
             averageDownloadRateLimitInBitsPerSec: Swift.Int? = nil,
             averageUploadRateLimitInBitsPerSec: Swift.Int? = nil,
             daysOfWeek: [Swift.Int]? = nil,
@@ -1665,7 +1569,7 @@ extension StorageGatewayClientTypes.CacheAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheStaleTimeoutInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cacheStaleTimeoutInSeconds)
         cacheStaleTimeoutInSeconds = cacheStaleTimeoutInSecondsDecoded
@@ -1678,7 +1582,7 @@ extension StorageGatewayClientTypes {
         /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days)
         public var cacheStaleTimeoutInSeconds: Swift.Int?
 
-        public init (
+        public init(
             cacheStaleTimeoutInSeconds: Swift.Int? = nil
         )
         {
@@ -1748,7 +1652,7 @@ extension StorageGatewayClientTypes.CachediSCSIVolume: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -1809,7 +1713,7 @@ extension StorageGatewayClientTypes {
         /// An [VolumeiSCSIAttributes] object that represents a collection of iSCSI attributes for one stored volume.
         public var volumeiSCSIAttributes: StorageGatewayClientTypes.VolumeiSCSIAttributes?
 
-        public init (
+        public init(
             createdDate: ClientRuntime.Date? = nil,
             kmsKey: Swift.String? = nil,
             sourceSnapshotId: Swift.String? = nil,
@@ -1875,7 +1779,7 @@ public struct CancelArchivalInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -1896,7 +1800,7 @@ extension CancelArchivalInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -1905,33 +1809,21 @@ extension CancelArchivalInputBody: Swift.Decodable {
     }
 }
 
-extension CancelArchivalOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelArchivalOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelArchivalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelArchivalOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelArchivalOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CancelArchivalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -1946,7 +1838,7 @@ public struct CancelArchivalOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -1963,7 +1855,7 @@ extension CancelArchivalOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -2002,7 +1894,7 @@ public struct CancelRetrievalInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -2023,7 +1915,7 @@ extension CancelRetrievalInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -2032,33 +1924,21 @@ extension CancelRetrievalInputBody: Swift.Decodable {
     }
 }
 
-extension CancelRetrievalOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelRetrievalOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelRetrievalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelRetrievalOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelRetrievalOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CancelRetrievalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -2073,7 +1953,7 @@ public struct CancelRetrievalOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -2090,7 +1970,7 @@ extension CancelRetrievalOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -2153,7 +2033,7 @@ extension StorageGatewayClientTypes.ChapInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -2183,7 +2063,7 @@ extension StorageGatewayClientTypes {
         /// The Amazon Resource Name (ARN) of the volume. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public var targetARN: Swift.String?
 
-        public init (
+        public init(
             initiatorName: Swift.String? = nil,
             secretToAuthenticateInitiator: Swift.String? = nil,
             secretToAuthenticateTarget: Swift.String? = nil,
@@ -2284,7 +2164,7 @@ public struct CreateCachediSCSIVolumeInput: Swift.Equatable {
     /// This member is required.
     public var volumeSizeInBytes: Swift.Int
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         kmsEncrypted: Swift.Bool? = nil,
@@ -2337,7 +2217,7 @@ extension CreateCachediSCSIVolumeInputBody: Swift.Decodable {
         case volumeSizeInBytes = "VolumeSizeInBytes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -2371,33 +2251,21 @@ extension CreateCachediSCSIVolumeInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCachediSCSIVolumeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateCachediSCSIVolumeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCachediSCSIVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateCachediSCSIVolumeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCachediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCachediSCSIVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
@@ -2415,7 +2283,7 @@ public struct CreateCachediSCSIVolumeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the configured volume.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         targetARN: Swift.String? = nil,
         volumeARN: Swift.String? = nil
     )
@@ -2436,7 +2304,7 @@ extension CreateCachediSCSIVolumeOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -2605,7 +2473,7 @@ public struct CreateNFSFileShareInput: Swift.Equatable {
     /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3. This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
     public var vpcEndpointDNSName: Swift.String?
 
-    public init (
+    public init(
         auditDestinationARN: Swift.String? = nil,
         bucketRegion: Swift.String? = nil,
         cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
@@ -2702,7 +2570,7 @@ extension CreateNFSFileShareInputBody: Swift.Decodable {
         case vpcEndpointDNSName = "VPCEndpointDNSName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -2767,33 +2635,21 @@ extension CreateNFSFileShareInputBody: Swift.Decodable {
     }
 }
 
-extension CreateNFSFileShareOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateNFSFileShareOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateNFSFileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateNFSFileShareOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateNFSFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -2808,7 +2664,7 @@ public struct CreateNFSFileShareOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the newly created file share.
     public var fileShareARN: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil
     )
     {
@@ -2825,7 +2681,7 @@ extension CreateNFSFileShareOutputResponseBody: Swift.Decodable {
         case fileShareARN = "FileShareARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -3022,7 +2878,7 @@ public struct CreateSMBFileShareInput: Swift.Equatable {
     /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3. This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
     public var vpcEndpointDNSName: Swift.String?
 
-    public init (
+    public init(
         accessBasedEnumeration: Swift.Bool? = nil,
         adminUserList: [Swift.String]? = nil,
         auditDestinationARN: Swift.String? = nil,
@@ -3139,7 +2995,7 @@ extension CreateSMBFileShareInputBody: Swift.Decodable {
         case validUserList = "ValidUserList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -3232,33 +3088,21 @@ extension CreateSMBFileShareInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSMBFileShareOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSMBFileShareOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSMBFileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSMBFileShareOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSMBFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -3273,7 +3117,7 @@ public struct CreateSMBFileShareOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the newly created file share.
     public var fileShareARN: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil
     )
     {
@@ -3290,7 +3134,7 @@ extension CreateSMBFileShareOutputResponseBody: Swift.Decodable {
         case fileShareARN = "FileShareARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -3337,7 +3181,7 @@ public struct CreateSnapshotFromVolumeRecoveryPointInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         snapshotDescription: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         volumeARN: Swift.String? = nil
@@ -3362,7 +3206,7 @@ extension CreateSnapshotFromVolumeRecoveryPointInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -3382,35 +3226,22 @@ extension CreateSnapshotFromVolumeRecoveryPointInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSnapshotFromVolumeRecoveryPointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSnapshotFromVolumeRecoveryPointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableError" : self = .serviceUnavailableError(try ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSnapshotFromVolumeRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSnapshotFromVolumeRecoveryPointOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case serviceUnavailableError(ServiceUnavailableError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSnapshotFromVolumeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSnapshotFromVolumeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotId = output.snapshotId
@@ -3432,7 +3263,7 @@ public struct CreateSnapshotFromVolumeRecoveryPointOutputResponse: Swift.Equatab
     /// The time the volume was created from the recovery point.
     public var volumeRecoveryPointTime: Swift.String?
 
-    public init (
+    public init(
         snapshotId: Swift.String? = nil,
         volumeARN: Swift.String? = nil,
         volumeRecoveryPointTime: Swift.String? = nil
@@ -3457,7 +3288,7 @@ extension CreateSnapshotFromVolumeRecoveryPointOutputResponseBody: Swift.Decodab
         case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
@@ -3513,7 +3344,7 @@ public struct CreateSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         snapshotDescription: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         volumeARN: Swift.String? = nil
@@ -3538,7 +3369,7 @@ extension CreateSnapshotInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -3558,35 +3389,22 @@ extension CreateSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableError" : self = .serviceUnavailableError(try ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case serviceUnavailableError(ServiceUnavailableError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotId = output.snapshotId
@@ -3605,7 +3423,7 @@ public struct CreateSnapshotOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the volume of which the snapshot was taken.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         snapshotId: Swift.String? = nil,
         volumeARN: Swift.String? = nil
     )
@@ -3626,7 +3444,7 @@ extension CreateSnapshotOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -3725,7 +3543,7 @@ public struct CreateStorediSCSIVolumeInput: Swift.Equatable {
     /// This member is required.
     public var targetName: Swift.String?
 
-    public init (
+    public init(
         diskId: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         kmsEncrypted: Swift.Bool? = nil,
@@ -3774,7 +3592,7 @@ extension CreateStorediSCSIVolumeInputBody: Swift.Decodable {
         case targetName = "TargetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -3806,33 +3624,21 @@ extension CreateStorediSCSIVolumeInputBody: Swift.Decodable {
     }
 }
 
-extension CreateStorediSCSIVolumeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateStorediSCSIVolumeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateStorediSCSIVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateStorediSCSIVolumeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateStorediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateStorediSCSIVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
@@ -3855,7 +3661,7 @@ public struct CreateStorediSCSIVolumeOutputResponse: Swift.Equatable {
     /// The size of the volume in bytes.
     public var volumeSizeInBytes: Swift.Int
 
-    public init (
+    public init(
         targetARN: Swift.String? = nil,
         volumeARN: Swift.String? = nil,
         volumeSizeInBytes: Swift.Int = 0
@@ -3880,7 +3686,7 @@ extension CreateStorediSCSIVolumeOutputResponseBody: Swift.Decodable {
         case volumeSizeInBytes = "VolumeSizeInBytes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -3943,7 +3749,7 @@ public struct CreateTapePoolInput: Swift.Equatable {
     /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-value pair. Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
     public var tags: [StorageGatewayClientTypes.Tag]?
 
-    public init (
+    public init(
         poolName: Swift.String? = nil,
         retentionLockTimeInDays: Swift.Int? = nil,
         retentionLockType: StorageGatewayClientTypes.RetentionLockType? = nil,
@@ -3976,7 +3782,7 @@ extension CreateTapePoolInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolName)
         poolName = poolNameDecoded
@@ -4000,33 +3806,21 @@ extension CreateTapePoolInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTapePoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTapePoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTapePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTapePoolOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.poolARN = output.poolARN
@@ -4040,7 +3834,7 @@ public struct CreateTapePoolOutputResponse: Swift.Equatable {
     /// The unique Amazon Resource Name (ARN) that represents the custom tape pool. Use the [ListTapePools] operation to return a list of tape pools for your account and Amazon Web Services Region.
     public var poolARN: Swift.String?
 
-    public init (
+    public init(
         poolARN: Swift.String? = nil
     )
     {
@@ -4057,7 +3851,7 @@ extension CreateTapePoolOutputResponseBody: Swift.Decodable {
         case poolARN = "PoolARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolARN)
         poolARN = poolARNDecoded
@@ -4136,7 +3930,7 @@ public struct CreateTapeWithBarcodeInput: Swift.Equatable {
     /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
     public var worm: Swift.Bool
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         kmsEncrypted: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
@@ -4181,7 +3975,7 @@ extension CreateTapeWithBarcodeInputBody: Swift.Decodable {
         case worm = "Worm"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -4211,33 +4005,21 @@ extension CreateTapeWithBarcodeInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTapeWithBarcodeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTapeWithBarcodeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTapeWithBarcodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTapeWithBarcodeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTapeWithBarcodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTapeWithBarcodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -4252,7 +4034,7 @@ public struct CreateTapeWithBarcodeOutputResponse: Swift.Equatable {
     /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -4269,7 +4051,7 @@ extension CreateTapeWithBarcodeOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -4362,7 +4144,7 @@ public struct CreateTapesInput: Swift.Equatable {
     /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
     public var worm: Swift.Bool
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         kmsEncrypted: Swift.Bool? = nil,
@@ -4415,7 +4197,7 @@ extension CreateTapesInputBody: Swift.Decodable {
         case worm = "Worm"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -4449,33 +4231,21 @@ extension CreateTapesInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTapesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTapesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTapesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTapesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTapesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARNs = output.tapeARNs
@@ -4490,7 +4260,7 @@ public struct CreateTapesOutputResponse: Swift.Equatable {
     /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
     public var tapeARNs: [Swift.String]?
 
-    public init (
+    public init(
         tapeARNs: [Swift.String]? = nil
     )
     {
@@ -4507,7 +4277,7 @@ extension CreateTapesOutputResponseBody: Swift.Decodable {
         case tapeARNs = "TapeARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tapeARNs)
         var tapeARNsDecoded0:[Swift.String]? = nil
@@ -4547,7 +4317,7 @@ public struct DeleteAutomaticTapeCreationPolicyInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -4564,40 +4334,28 @@ extension DeleteAutomaticTapeCreationPolicyInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DeleteAutomaticTapeCreationPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAutomaticTapeCreationPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAutomaticTapeCreationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAutomaticTapeCreationPolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteAutomaticTapeCreationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -4611,7 +4369,7 @@ public struct DeleteAutomaticTapeCreationPolicyOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -4628,7 +4386,7 @@ extension DeleteAutomaticTapeCreationPolicyOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -4669,7 +4427,7 @@ public struct DeleteBandwidthRateLimitInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         bandwidthType: Swift.String? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -4690,7 +4448,7 @@ extension DeleteBandwidthRateLimitInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -4699,33 +4457,21 @@ extension DeleteBandwidthRateLimitInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteBandwidthRateLimitOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBandwidthRateLimitOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBandwidthRateLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -4740,7 +4486,7 @@ public struct DeleteBandwidthRateLimitOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -4757,7 +4503,7 @@ extension DeleteBandwidthRateLimitOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -4800,7 +4546,7 @@ public struct DeleteChapCredentialsInput: Swift.Equatable {
     /// This member is required.
     public var targetARN: Swift.String?
 
-    public init (
+    public init(
         initiatorName: Swift.String? = nil,
         targetARN: Swift.String? = nil
     )
@@ -4821,7 +4567,7 @@ extension DeleteChapCredentialsInputBody: Swift.Decodable {
         case targetARN = "TargetARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -4830,33 +4576,21 @@ extension DeleteChapCredentialsInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteChapCredentialsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteChapCredentialsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteChapCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteChapCredentialsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiatorName = output.initiatorName
@@ -4875,7 +4609,7 @@ public struct DeleteChapCredentialsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the target.
     public var targetARN: Swift.String?
 
-    public init (
+    public init(
         initiatorName: Swift.String? = nil,
         targetARN: Swift.String? = nil
     )
@@ -4896,7 +4630,7 @@ extension DeleteChapCredentialsOutputResponseBody: Swift.Decodable {
         case targetARN = "TargetARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -4936,7 +4670,7 @@ public struct DeleteFileShareInput: Swift.Equatable {
     /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
     public var forceDelete: Swift.Bool
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil,
         forceDelete: Swift.Bool = false
     )
@@ -4957,7 +4691,7 @@ extension DeleteFileShareInputBody: Swift.Decodable {
         case forceDelete = "ForceDelete"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -4966,33 +4700,21 @@ extension DeleteFileShareInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteFileShareOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteFileShareOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteFileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteFileShareOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -5007,7 +4729,7 @@ public struct DeleteFileShareOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the deleted file share.
     public var fileShareARN: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil
     )
     {
@@ -5024,7 +4746,7 @@ extension DeleteFileShareOutputResponseBody: Swift.Decodable {
         case fileShareARN = "FileShareARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -5056,7 +4778,7 @@ public struct DeleteGatewayInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -5073,40 +4795,28 @@ extension DeleteGatewayInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DeleteGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -5121,7 +4831,7 @@ public struct DeleteGatewayOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -5138,7 +4848,7 @@ extension DeleteGatewayOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -5169,7 +4879,7 @@ public struct DeleteSnapshotScheduleInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -5186,40 +4896,28 @@ extension DeleteSnapshotScheduleInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
     }
 }
 
-extension DeleteSnapshotScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSnapshotScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
@@ -5233,7 +4931,7 @@ public struct DeleteSnapshotScheduleOutputResponse: Swift.Equatable {
     /// The volume which snapshot schedule was deleted.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -5250,7 +4948,7 @@ extension DeleteSnapshotScheduleOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -5288,7 +4986,7 @@ public struct DeleteTapeArchiveInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         bypassGovernanceRetention: Swift.Bool = false,
         tapeARN: Swift.String? = nil
     )
@@ -5309,7 +5007,7 @@ extension DeleteTapeArchiveInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -5318,33 +5016,21 @@ extension DeleteTapeArchiveInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteTapeArchiveOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTapeArchiveOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTapeArchiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTapeArchiveOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteTapeArchiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -5359,7 +5045,7 @@ public struct DeleteTapeArchiveOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -5376,7 +5062,7 @@ extension DeleteTapeArchiveOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -5421,7 +5107,7 @@ public struct DeleteTapeInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         bypassGovernanceRetention: Swift.Bool = false,
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
@@ -5446,7 +5132,7 @@ extension DeleteTapeInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -5457,33 +5143,21 @@ extension DeleteTapeInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteTapeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTapeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTapeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTapeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTapeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteTapeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -5498,7 +5172,7 @@ public struct DeleteTapeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the deleted virtual tape.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -5515,7 +5189,7 @@ extension DeleteTapeOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -5546,7 +5220,7 @@ public struct DeleteTapePoolInput: Swift.Equatable {
     /// This member is required.
     public var poolARN: Swift.String?
 
-    public init (
+    public init(
         poolARN: Swift.String? = nil
     )
     {
@@ -5563,40 +5237,28 @@ extension DeleteTapePoolInputBody: Swift.Decodable {
         case poolARN = "PoolARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolARN)
         poolARN = poolARNDecoded
     }
 }
 
-extension DeleteTapePoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTapePoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTapePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTapePoolOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.poolARN = output.poolARN
@@ -5610,7 +5272,7 @@ public struct DeleteTapePoolOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the custom tape pool being deleted.
     public var poolARN: Swift.String?
 
-    public init (
+    public init(
         poolARN: Swift.String? = nil
     )
     {
@@ -5627,7 +5289,7 @@ extension DeleteTapePoolOutputResponseBody: Swift.Decodable {
         case poolARN = "PoolARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolARN)
         poolARN = poolARNDecoded
@@ -5659,7 +5321,7 @@ public struct DeleteVolumeInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -5676,40 +5338,28 @@ extension DeleteVolumeInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
     }
 }
 
-extension DeleteVolumeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVolumeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVolumeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
@@ -5724,7 +5374,7 @@ public struct DeleteVolumeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -5741,7 +5391,7 @@ extension DeleteVolumeOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -5772,7 +5422,7 @@ public struct DescribeAvailabilityMonitorTestInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -5789,40 +5439,28 @@ extension DescribeAvailabilityMonitorTestInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeAvailabilityMonitorTestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAvailabilityMonitorTestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAvailabilityMonitorTestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAvailabilityMonitorTestOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAvailabilityMonitorTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -5844,7 +5482,7 @@ public struct DescribeAvailabilityMonitorTestOutputResponse: Swift.Equatable {
     /// The status of the high availability monitoring test. If a test hasn't been performed, the value of this field is null.
     public var status: StorageGatewayClientTypes.AvailabilityMonitorTestStatus?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
         status: StorageGatewayClientTypes.AvailabilityMonitorTestStatus? = nil
@@ -5869,7 +5507,7 @@ extension DescribeAvailabilityMonitorTestOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -5905,7 +5543,7 @@ public struct DescribeBandwidthRateLimitInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -5922,40 +5560,28 @@ extension DescribeBandwidthRateLimitInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeBandwidthRateLimitOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeBandwidthRateLimitOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeBandwidthRateLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.averageDownloadRateLimitInBitsPerSec = output.averageDownloadRateLimitInBitsPerSec
@@ -5978,7 +5604,7 @@ public struct DescribeBandwidthRateLimitOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         averageDownloadRateLimitInBitsPerSec: Swift.Int? = nil,
         averageUploadRateLimitInBitsPerSec: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil
@@ -6003,7 +5629,7 @@ extension DescribeBandwidthRateLimitOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -6038,7 +5664,7 @@ public struct DescribeBandwidthRateLimitScheduleInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -6055,40 +5681,28 @@ extension DescribeBandwidthRateLimitScheduleInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeBandwidthRateLimitScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeBandwidthRateLimitScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeBandwidthRateLimitScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bandwidthRateLimitIntervals = output.bandwidthRateLimitIntervals
@@ -6106,7 +5720,7 @@ public struct DescribeBandwidthRateLimitScheduleOutputResponse: Swift.Equatable 
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         bandwidthRateLimitIntervals: [StorageGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -6127,7 +5741,7 @@ extension DescribeBandwidthRateLimitScheduleOutputResponseBody: Swift.Decodable 
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -6169,7 +5783,7 @@ public struct DescribeCacheInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -6186,40 +5800,28 @@ extension DescribeCacheInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeCacheOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCacheOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCacheOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheAllocatedInBytes = output.cacheAllocatedInBytes
@@ -6257,7 +5859,7 @@ public struct DescribeCacheOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         cacheAllocatedInBytes: Swift.Int = 0,
         cacheDirtyPercentage: Swift.Double = 0.0,
         cacheHitPercentage: Swift.Double = 0.0,
@@ -6298,7 +5900,7 @@ extension DescribeCacheOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -6353,7 +5955,7 @@ public struct DescribeCachediSCSIVolumesInput: Swift.Equatable {
     /// This member is required.
     public var volumeARNs: [Swift.String]?
 
-    public init (
+    public init(
         volumeARNs: [Swift.String]? = nil
     )
     {
@@ -6370,7 +5972,7 @@ extension DescribeCachediSCSIVolumesInputBody: Swift.Decodable {
         case volumeARNs = "VolumeARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .volumeARNs)
         var volumeARNsDecoded0:[Swift.String]? = nil
@@ -6386,33 +5988,21 @@ extension DescribeCachediSCSIVolumesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCachediSCSIVolumesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCachediSCSIVolumesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCachediSCSIVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCachediSCSIVolumesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCachediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCachediSCSIVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cachediSCSIVolumes = output.cachediSCSIVolumes
@@ -6427,7 +6017,7 @@ public struct DescribeCachediSCSIVolumesOutputResponse: Swift.Equatable {
     /// An array of objects where each object contains metadata about one cached volume.
     public var cachediSCSIVolumes: [StorageGatewayClientTypes.CachediSCSIVolume]?
 
-    public init (
+    public init(
         cachediSCSIVolumes: [StorageGatewayClientTypes.CachediSCSIVolume]? = nil
     )
     {
@@ -6444,7 +6034,7 @@ extension DescribeCachediSCSIVolumesOutputResponseBody: Swift.Decodable {
         case cachediSCSIVolumes = "CachediSCSIVolumes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cachediSCSIVolumesContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.CachediSCSIVolume?].self, forKey: .cachediSCSIVolumes)
         var cachediSCSIVolumesDecoded0:[StorageGatewayClientTypes.CachediSCSIVolume]? = nil
@@ -6485,7 +6075,7 @@ public struct DescribeChapCredentialsInput: Swift.Equatable {
     /// This member is required.
     public var targetARN: Swift.String?
 
-    public init (
+    public init(
         targetARN: Swift.String? = nil
     )
     {
@@ -6502,40 +6092,28 @@ extension DescribeChapCredentialsInputBody: Swift.Decodable {
         case targetARN = "TargetARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
     }
 }
 
-extension DescribeChapCredentialsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeChapCredentialsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeChapCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeChapCredentialsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.chapCredentials = output.chapCredentials
@@ -6558,7 +6136,7 @@ public struct DescribeChapCredentialsOutputResponse: Swift.Equatable {
     /// * TargetARN: The Amazon Resource Name (ARN) of the storage volume.
     public var chapCredentials: [StorageGatewayClientTypes.ChapInfo]?
 
-    public init (
+    public init(
         chapCredentials: [StorageGatewayClientTypes.ChapInfo]? = nil
     )
     {
@@ -6575,7 +6153,7 @@ extension DescribeChapCredentialsOutputResponseBody: Swift.Decodable {
         case chapCredentials = "ChapCredentials"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let chapCredentialsContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.ChapInfo?].self, forKey: .chapCredentials)
         var chapCredentialsDecoded0:[StorageGatewayClientTypes.ChapInfo]? = nil
@@ -6618,7 +6196,7 @@ public struct DescribeFileSystemAssociationsInput: Swift.Equatable {
     /// This member is required.
     public var fileSystemAssociationARNList: [Swift.String]?
 
-    public init (
+    public init(
         fileSystemAssociationARNList: [Swift.String]? = nil
     )
     {
@@ -6635,7 +6213,7 @@ extension DescribeFileSystemAssociationsInputBody: Swift.Decodable {
         case fileSystemAssociationARNList = "FileSystemAssociationARNList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fileSystemAssociationARNList)
         var fileSystemAssociationARNListDecoded0:[Swift.String]? = nil
@@ -6651,33 +6229,21 @@ extension DescribeFileSystemAssociationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeFileSystemAssociationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFileSystemAssociationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFileSystemAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFileSystemAssociationsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFileSystemAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationInfoList = output.fileSystemAssociationInfoList
@@ -6691,7 +6257,7 @@ public struct DescribeFileSystemAssociationsOutputResponse: Swift.Equatable {
     /// An array containing the FileSystemAssociationInfo data type of each file system association to be described.
     public var fileSystemAssociationInfoList: [StorageGatewayClientTypes.FileSystemAssociationInfo]?
 
-    public init (
+    public init(
         fileSystemAssociationInfoList: [StorageGatewayClientTypes.FileSystemAssociationInfo]? = nil
     )
     {
@@ -6708,7 +6274,7 @@ extension DescribeFileSystemAssociationsOutputResponseBody: Swift.Decodable {
         case fileSystemAssociationInfoList = "FileSystemAssociationInfoList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationInfoListContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.FileSystemAssociationInfo?].self, forKey: .fileSystemAssociationInfoList)
         var fileSystemAssociationInfoListDecoded0:[StorageGatewayClientTypes.FileSystemAssociationInfo]? = nil
@@ -6749,7 +6315,7 @@ public struct DescribeGatewayInformationInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -6766,40 +6332,28 @@ extension DescribeGatewayInformationInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeGatewayInformationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeGatewayInformationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeGatewayInformationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeGatewayInformationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeGatewayInformationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogGroupARN = output.cloudWatchLogGroupARN
@@ -6894,7 +6448,7 @@ public struct DescribeGatewayInformationOutputResponse: Swift.Equatable {
     /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway.
     public var vpcEndpoint: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogGroupARN: Swift.String? = nil,
         deprecationDate: Swift.String? = nil,
         ec2InstanceId: Swift.String? = nil,
@@ -6991,7 +6545,7 @@ extension DescribeGatewayInformationOutputResponseBody: Swift.Decodable {
         case vpcEndpoint = "VPCEndpoint"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -7090,7 +6644,7 @@ public struct DescribeMaintenanceStartTimeInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -7107,40 +6661,28 @@ extension DescribeMaintenanceStartTimeInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeMaintenanceStartTimeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeMaintenanceStartTimeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeMaintenanceStartTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dayOfMonth = output.dayOfMonth
@@ -7185,7 +6727,7 @@ public struct DescribeMaintenanceStartTimeOutputResponse: Swift.Equatable {
     /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
     public var timezone: Swift.String?
 
-    public init (
+    public init(
         dayOfMonth: Swift.Int? = nil,
         dayOfWeek: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil,
@@ -7222,7 +6764,7 @@ extension DescribeMaintenanceStartTimeOutputResponseBody: Swift.Decodable {
         case timezone = "Timezone"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -7267,7 +6809,7 @@ public struct DescribeNFSFileSharesInput: Swift.Equatable {
     /// This member is required.
     public var fileShareARNList: [Swift.String]?
 
-    public init (
+    public init(
         fileShareARNList: [Swift.String]? = nil
     )
     {
@@ -7284,7 +6826,7 @@ extension DescribeNFSFileSharesInputBody: Swift.Decodable {
         case fileShareARNList = "FileShareARNList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fileShareARNList)
         var fileShareARNListDecoded0:[Swift.String]? = nil
@@ -7300,33 +6842,21 @@ extension DescribeNFSFileSharesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeNFSFileSharesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeNFSFileSharesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeNFSFileSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeNFSFileSharesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeNFSFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeNFSFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nfsFileShareInfoList = output.nfsFileShareInfoList
@@ -7341,7 +6871,7 @@ public struct DescribeNFSFileSharesOutputResponse: Swift.Equatable {
     /// An array containing a description for each requested file share.
     public var nfsFileShareInfoList: [StorageGatewayClientTypes.NFSFileShareInfo]?
 
-    public init (
+    public init(
         nfsFileShareInfoList: [StorageGatewayClientTypes.NFSFileShareInfo]? = nil
     )
     {
@@ -7358,7 +6888,7 @@ extension DescribeNFSFileSharesOutputResponseBody: Swift.Decodable {
         case nfsFileShareInfoList = "NFSFileShareInfoList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nfsFileShareInfoListContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.NFSFileShareInfo?].self, forKey: .nfsFileShareInfoList)
         var nfsFileShareInfoListDecoded0:[StorageGatewayClientTypes.NFSFileShareInfo]? = nil
@@ -7402,7 +6932,7 @@ public struct DescribeSMBFileSharesInput: Swift.Equatable {
     /// This member is required.
     public var fileShareARNList: [Swift.String]?
 
-    public init (
+    public init(
         fileShareARNList: [Swift.String]? = nil
     )
     {
@@ -7419,7 +6949,7 @@ extension DescribeSMBFileSharesInputBody: Swift.Decodable {
         case fileShareARNList = "FileShareARNList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fileShareARNList)
         var fileShareARNListDecoded0:[Swift.String]? = nil
@@ -7435,33 +6965,21 @@ extension DescribeSMBFileSharesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeSMBFileSharesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSMBFileSharesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSMBFileSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSMBFileSharesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSMBFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSMBFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.smbFileShareInfoList = output.smbFileShareInfoList
@@ -7476,7 +6994,7 @@ public struct DescribeSMBFileSharesOutputResponse: Swift.Equatable {
     /// An array containing a description for each requested file share.
     public var smbFileShareInfoList: [StorageGatewayClientTypes.SMBFileShareInfo]?
 
-    public init (
+    public init(
         smbFileShareInfoList: [StorageGatewayClientTypes.SMBFileShareInfo]? = nil
     )
     {
@@ -7493,7 +7011,7 @@ extension DescribeSMBFileSharesOutputResponseBody: Swift.Decodable {
         case smbFileShareInfoList = "SMBFileShareInfoList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let smbFileShareInfoListContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.SMBFileShareInfo?].self, forKey: .smbFileShareInfoList)
         var smbFileShareInfoListDecoded0:[StorageGatewayClientTypes.SMBFileShareInfo]? = nil
@@ -7533,7 +7051,7 @@ public struct DescribeSMBSettingsInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -7550,40 +7068,28 @@ extension DescribeSMBSettingsInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeSMBSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSMBSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSMBSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSMBSettingsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSMBSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSMBSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryStatus = output.activeDirectoryStatus
@@ -7641,7 +7147,7 @@ public struct DescribeSMBSettingsOutputResponse: Swift.Equatable {
     /// * MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
     public var smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy?
 
-    public init (
+    public init(
         activeDirectoryStatus: StorageGatewayClientTypes.ActiveDirectoryStatus? = nil,
         domainName: Swift.String? = nil,
         fileSharesVisible: Swift.Bool? = nil,
@@ -7682,7 +7188,7 @@ extension DescribeSMBSettingsOutputResponseBody: Swift.Decodable {
         case smbSecurityStrategy = "SMBSecurityStrategy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -7726,7 +7232,7 @@ public struct DescribeSnapshotScheduleInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -7743,40 +7249,28 @@ extension DescribeSnapshotScheduleInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
     }
 }
 
-extension DescribeSnapshotScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSnapshotScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
@@ -7810,7 +7304,7 @@ public struct DescribeSnapshotScheduleOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the volume that was specified in the request.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         recurrenceInHours: Swift.Int? = nil,
         startAt: Swift.Int? = nil,
@@ -7847,7 +7341,7 @@ extension DescribeSnapshotScheduleOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -7901,7 +7395,7 @@ public struct DescribeStorediSCSIVolumesInput: Swift.Equatable {
     /// This member is required.
     public var volumeARNs: [Swift.String]?
 
-    public init (
+    public init(
         volumeARNs: [Swift.String]? = nil
     )
     {
@@ -7918,7 +7412,7 @@ extension DescribeStorediSCSIVolumesInputBody: Swift.Decodable {
         case volumeARNs = "VolumeARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .volumeARNs)
         var volumeARNsDecoded0:[Swift.String]? = nil
@@ -7934,33 +7428,21 @@ extension DescribeStorediSCSIVolumesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStorediSCSIVolumesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeStorediSCSIVolumesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStorediSCSIVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeStorediSCSIVolumesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStorediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStorediSCSIVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storediSCSIVolumes = output.storediSCSIVolumes
@@ -8006,7 +7488,7 @@ public struct DescribeStorediSCSIVolumesOutputResponse: Swift.Equatable {
     /// * VolumeType: One of the enumeration values describing the type of the volume. Currently, only STORED volumes are supported.
     public var storediSCSIVolumes: [StorageGatewayClientTypes.StorediSCSIVolume]?
 
-    public init (
+    public init(
         storediSCSIVolumes: [StorageGatewayClientTypes.StorediSCSIVolume]? = nil
     )
     {
@@ -8023,7 +7505,7 @@ extension DescribeStorediSCSIVolumesOutputResponseBody: Swift.Decodable {
         case storediSCSIVolumes = "StorediSCSIVolumes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storediSCSIVolumesContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.StorediSCSIVolume?].self, forKey: .storediSCSIVolumes)
         var storediSCSIVolumesDecoded0:[StorageGatewayClientTypes.StorediSCSIVolume]? = nil
@@ -8078,7 +7560,7 @@ public struct DescribeTapeArchivesInput: Swift.Equatable {
     /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
     public var tapeARNs: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         tapeARNs: [Swift.String]? = nil
@@ -8103,7 +7585,7 @@ extension DescribeTapeArchivesInputBody: Swift.Decodable {
         case tapeARNs = "TapeARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tapeARNs)
         var tapeARNsDecoded0:[Swift.String]? = nil
@@ -8123,33 +7605,21 @@ extension DescribeTapeArchivesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTapeArchivesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTapeArchivesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTapeArchivesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTapeArchivesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTapeArchivesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTapeArchivesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -8168,7 +7638,7 @@ public struct DescribeTapeArchivesOutputResponse: Swift.Equatable {
     /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name (ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description, and tape barcode.
     public var tapeArchives: [StorageGatewayClientTypes.TapeArchive]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         tapeArchives: [StorageGatewayClientTypes.TapeArchive]? = nil
     )
@@ -8189,7 +7659,7 @@ extension DescribeTapeArchivesOutputResponseBody: Swift.Decodable {
         case tapeArchives = "TapeArchives"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeArchivesContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.TapeArchive?].self, forKey: .tapeArchives)
         var tapeArchivesDecoded0:[StorageGatewayClientTypes.TapeArchive]? = nil
@@ -8244,7 +7714,7 @@ public struct DescribeTapeRecoveryPointsInput: Swift.Equatable {
     /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
@@ -8269,7 +7739,7 @@ extension DescribeTapeRecoveryPointsInputBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -8280,33 +7750,21 @@ extension DescribeTapeRecoveryPointsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTapeRecoveryPointsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTapeRecoveryPointsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTapeRecoveryPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTapeRecoveryPointsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTapeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTapeRecoveryPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -8329,7 +7787,7 @@ public struct DescribeTapeRecoveryPointsOutputResponse: Swift.Equatable {
     /// An array of TapeRecoveryPointInfos that are available for the specified gateway.
     public var tapeRecoveryPointInfos: [StorageGatewayClientTypes.TapeRecoveryPointInfo]?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         marker: Swift.String? = nil,
         tapeRecoveryPointInfos: [StorageGatewayClientTypes.TapeRecoveryPointInfo]? = nil
@@ -8354,7 +7812,7 @@ extension DescribeTapeRecoveryPointsOutputResponseBody: Swift.Decodable {
         case tapeRecoveryPointInfos = "TapeRecoveryPointInfos"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -8420,7 +7878,7 @@ public struct DescribeTapesInput: Swift.Equatable {
     /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
     public var tapeARNs: [Swift.String]?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
@@ -8449,7 +7907,7 @@ extension DescribeTapesInputBody: Swift.Decodable {
         case tapeARNs = "TapeARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -8471,33 +7929,21 @@ extension DescribeTapesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTapesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTapesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTapesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTapesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTapesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -8516,7 +7962,7 @@ public struct DescribeTapesOutputResponse: Swift.Equatable {
     /// An array of virtual tape descriptions.
     public var tapes: [StorageGatewayClientTypes.Tape]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         tapes: [StorageGatewayClientTypes.Tape]? = nil
     )
@@ -8537,7 +7983,7 @@ extension DescribeTapesOutputResponseBody: Swift.Decodable {
         case tapes = "Tapes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapesContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.Tape?].self, forKey: .tapes)
         var tapesDecoded0:[StorageGatewayClientTypes.Tape]? = nil
@@ -8579,7 +8025,7 @@ public struct DescribeUploadBufferInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -8596,40 +8042,28 @@ extension DescribeUploadBufferInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeUploadBufferOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeUploadBufferOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeUploadBufferOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeUploadBufferOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeUploadBufferOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.diskIds = output.diskIds
@@ -8655,7 +8089,7 @@ public struct DescribeUploadBufferOutputResponse: Swift.Equatable {
     /// The total number of bytes being used in the gateway's upload buffer.
     public var uploadBufferUsedInBytes: Swift.Int
 
-    public init (
+    public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil,
         uploadBufferAllocatedInBytes: Swift.Int = 0,
@@ -8684,7 +8118,7 @@ extension DescribeUploadBufferOutputResponseBody: Swift.Decodable {
         case uploadBufferUsedInBytes = "UploadBufferUsedInBytes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -8752,7 +8186,7 @@ public struct DescribeVTLDevicesInput: Swift.Equatable {
     /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device. All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway.
     public var vtlDeviceARNs: [Swift.String]?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
@@ -8781,7 +8215,7 @@ extension DescribeVTLDevicesInputBody: Swift.Decodable {
         case vtlDeviceARNs = "VTLDeviceARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -8803,33 +8237,21 @@ extension DescribeVTLDevicesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeVTLDevicesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeVTLDevicesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeVTLDevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeVTLDevicesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeVTLDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeVTLDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -8852,7 +8274,7 @@ public struct DescribeVTLDevicesOutputResponse: Swift.Equatable {
     /// An array of VTL device objects composed of the Amazon Resource Name (ARN) of the VTL devices.
     public var vtlDevices: [StorageGatewayClientTypes.VTLDevice]?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         marker: Swift.String? = nil,
         vtlDevices: [StorageGatewayClientTypes.VTLDevice]? = nil
@@ -8877,7 +8299,7 @@ extension DescribeVTLDevicesOutputResponseBody: Swift.Decodable {
         case vtlDevices = "VTLDevices"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -8922,7 +8344,7 @@ public struct DescribeWorkingStorageInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -8939,40 +8361,28 @@ extension DescribeWorkingStorageInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DescribeWorkingStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeWorkingStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWorkingStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeWorkingStorageOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWorkingStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.diskIds = output.diskIds
@@ -8999,7 +8409,7 @@ public struct DescribeWorkingStorageOutputResponse: Swift.Equatable {
     /// The total working storage in bytes in use by the gateway. If no working storage is configured for the gateway, this field returns 0.
     public var workingStorageUsedInBytes: Swift.Int
 
-    public init (
+    public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil,
         workingStorageAllocatedInBytes: Swift.Int = 0,
@@ -9028,7 +8438,7 @@ extension DescribeWorkingStorageOutputResponseBody: Swift.Decodable {
         case workingStorageUsedInBytes = "WorkingStorageUsedInBytes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -9081,7 +8491,7 @@ public struct DetachVolumeInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         forceDetach: Swift.Bool? = nil,
         volumeARN: Swift.String? = nil
     )
@@ -9102,7 +8512,7 @@ extension DetachVolumeInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -9111,33 +8521,21 @@ extension DetachVolumeInputBody: Swift.Decodable {
     }
 }
 
-extension DetachVolumeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DetachVolumeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetachVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DetachVolumeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetachVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
@@ -9152,7 +8550,7 @@ public struct DetachVolumeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the volume that was detached.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -9169,7 +8567,7 @@ extension DetachVolumeOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -9200,7 +8598,7 @@ extension StorageGatewayClientTypes.DeviceiSCSIAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -9225,7 +8623,7 @@ extension StorageGatewayClientTypes {
         /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
         public var targetARN: Swift.String?
 
-        public init (
+        public init(
             chapEnabled: Swift.Bool = false,
             networkInterfaceId: Swift.String? = nil,
             networkInterfacePort: Swift.Int = 0,
@@ -9266,7 +8664,7 @@ public struct DisableGatewayInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -9283,40 +8681,28 @@ extension DisableGatewayInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension DisableGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisableGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisableGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisableGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -9331,7 +8717,7 @@ public struct DisableGatewayOutputResponse: Swift.Equatable {
     /// The unique Amazon Resource Name (ARN) of the disabled gateway.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -9348,7 +8734,7 @@ extension DisableGatewayOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -9385,7 +8771,7 @@ public struct DisassociateFileSystemInput: Swift.Equatable {
     /// If this value is set to true, the operation disassociates an Amazon FSx file system immediately. It ends all data uploads to the file system, and the file system association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx file system does not disassociate until all data is uploaded.
     public var forceDelete: Swift.Bool
 
-    public init (
+    public init(
         fileSystemAssociationARN: Swift.String? = nil,
         forceDelete: Swift.Bool = false
     )
@@ -9406,7 +8792,7 @@ extension DisassociateFileSystemInputBody: Swift.Decodable {
         case forceDelete = "ForceDelete"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
@@ -9415,33 +8801,21 @@ extension DisassociateFileSystemInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateFileSystemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateFileSystemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateFileSystemOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
@@ -9455,7 +8829,7 @@ public struct DisassociateFileSystemOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the deleted file system association.
     public var fileSystemAssociationARN: Swift.String?
 
-    public init (
+    public init(
         fileSystemAssociationARN: Swift.String? = nil
     )
     {
@@ -9472,7 +8846,7 @@ extension DisassociateFileSystemOutputResponseBody: Swift.Decodable {
         case fileSystemAssociationARN = "FileSystemAssociationARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
@@ -9522,7 +8896,7 @@ extension StorageGatewayClientTypes.Disk: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let diskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .diskId)
         diskId = diskIdDecoded
@@ -9572,7 +8946,7 @@ extension StorageGatewayClientTypes {
         /// A value that represents the status of a local disk.
         public var diskStatus: Swift.String?
 
-        public init (
+        public init(
             diskAllocationResource: Swift.String? = nil,
             diskAllocationType: Swift.String? = nil,
             diskAttributeList: [Swift.String]? = nil,
@@ -9611,7 +8985,7 @@ extension StorageGatewayClientTypes.EndpointNetworkConfiguration: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ipAddresses)
         var ipAddressesDecoded0:[Swift.String]? = nil
@@ -9633,7 +9007,7 @@ extension StorageGatewayClientTypes {
         /// A list of gateway IP addresses on which the associated Amazon FSx file system is available. If multiple file systems are associated with this gateway, this field is required.
         public var ipAddresses: [Swift.String]?
 
-        public init (
+        public init(
             ipAddresses: [Swift.String]? = nil
         )
         {
@@ -9883,7 +9257,7 @@ extension StorageGatewayClientTypes.FileShareInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareTypeDecoded = try containerValues.decodeIfPresent(StorageGatewayClientTypes.FileShareType.self, forKey: .fileShareType)
         fileShareType = fileShareTypeDecoded
@@ -9912,7 +9286,7 @@ extension StorageGatewayClientTypes {
         /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
         public var gatewayARN: Swift.String?
 
-        public init (
+        public init(
             fileShareARN: Swift.String? = nil,
             fileShareId: Swift.String? = nil,
             fileShareStatus: Swift.String? = nil,
@@ -10013,7 +9387,7 @@ extension StorageGatewayClientTypes.FileSystemAssociationInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
@@ -10076,7 +9450,7 @@ extension StorageGatewayClientTypes {
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair.
         public var tags: [StorageGatewayClientTypes.Tag]?
 
-        public init (
+        public init(
             auditDestinationARN: Swift.String? = nil,
             cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
             endpointNetworkConfiguration: StorageGatewayClientTypes.EndpointNetworkConfiguration? = nil,
@@ -10114,7 +9488,7 @@ extension StorageGatewayClientTypes.FileSystemAssociationStatusDetail: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
         errorCode = errorCodeDecoded
@@ -10127,7 +9501,7 @@ extension StorageGatewayClientTypes {
         /// The error code for a given file system association status.
         public var errorCode: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil
         )
         {
@@ -10161,7 +9535,7 @@ extension StorageGatewayClientTypes.FileSystemAssociationSummary: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationId)
         fileSystemAssociationId = fileSystemAssociationIdDecoded
@@ -10186,7 +9560,7 @@ extension StorageGatewayClientTypes {
         /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
         public var gatewayARN: Swift.String?
 
-        public init (
+        public init(
             fileSystemAssociationARN: Swift.String? = nil,
             fileSystemAssociationId: Swift.String? = nil,
             fileSystemAssociationStatus: Swift.String? = nil,
@@ -10281,7 +9655,7 @@ extension StorageGatewayClientTypes.GatewayInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayId)
         gatewayId = gatewayIdDecoded
@@ -10326,7 +9700,7 @@ extension StorageGatewayClientTypes {
         /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
         public var hostEnvironmentId: Swift.String?
 
-        public init (
+        public init(
             ec2InstanceId: Swift.String? = nil,
             ec2InstanceRegion: Swift.String? = nil,
             gatewayARN: Swift.String? = nil,
@@ -10397,44 +9771,48 @@ extension StorageGatewayClientTypes {
 }
 
 extension InternalServerError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
-            self.error = output.error
-            self.message = output.message
+            self.properties.error = output.error
+            self.properties.message = output.message
         } else {
-            self.error = nil
-            self.message = nil
+            self.properties.error = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal server error has occurred during the request. For more information, see the error and message fields.
-public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// A [StorageGatewayError] that provides more information about the cause of the error.
-    public var error: StorageGatewayClientTypes.StorageGatewayError?
-    /// A human-readable message describing the error that occurred.
-    public var message: Swift.String?
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A [StorageGatewayError] that provides more information about the cause of the error.
+        public internal(set) var error: StorageGatewayClientTypes.StorageGatewayError? = nil
+        /// A human-readable message describing the error that occurred.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         error: StorageGatewayClientTypes.StorageGatewayError? = nil,
         message: Swift.String? = nil
     )
     {
-        self.error = error
-        self.message = message
+        self.properties.error = error
+        self.properties.message = message
     }
 }
 
@@ -10449,7 +9827,7 @@ extension InternalServerErrorBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10459,44 +9837,48 @@ extension InternalServerErrorBody: Swift.Decodable {
 }
 
 extension InvalidGatewayRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidGatewayRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.error = output.error
-            self.message = output.message
+            self.properties.error = output.error
+            self.properties.message = output.message
         } else {
-            self.error = nil
-            self.message = nil
+            self.properties.error = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-public struct InvalidGatewayRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A [StorageGatewayError] that provides more detail about the cause of the error.
-    public var error: StorageGatewayClientTypes.StorageGatewayError?
-    /// A human-readable message describing the error that occurred.
-    public var message: Swift.String?
+public struct InvalidGatewayRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A [StorageGatewayError] that provides more detail about the cause of the error.
+        public internal(set) var error: StorageGatewayClientTypes.StorageGatewayError? = nil
+        /// A human-readable message describing the error that occurred.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidGatewayRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         error: StorageGatewayClientTypes.StorageGatewayError? = nil,
         message: Swift.String? = nil
     )
     {
-        self.error = error
-        self.message = message
+        self.properties.error = error
+        self.properties.message = message
     }
 }
 
@@ -10511,7 +9893,7 @@ extension InvalidGatewayRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10592,7 +9974,7 @@ public struct JoinDomainInput: Swift.Equatable {
     /// This member is required.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         domainControllers: [Swift.String]? = nil,
         domainName: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
@@ -10633,7 +10015,7 @@ extension JoinDomainInputBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -10661,33 +10043,21 @@ extension JoinDomainInputBody: Swift.Decodable {
     }
 }
 
-extension JoinDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension JoinDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum JoinDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum JoinDomainOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension JoinDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: JoinDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryStatus = output.activeDirectoryStatus
@@ -10720,7 +10090,7 @@ public struct JoinDomainOutputResponse: Swift.Equatable {
     /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         activeDirectoryStatus: StorageGatewayClientTypes.ActiveDirectoryStatus? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -10741,7 +10111,7 @@ extension JoinDomainOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -10773,7 +10143,7 @@ public struct ListAutomaticTapeCreationPoliciesInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -10790,40 +10160,28 @@ extension ListAutomaticTapeCreationPoliciesInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension ListAutomaticTapeCreationPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAutomaticTapeCreationPoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAutomaticTapeCreationPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAutomaticTapeCreationPoliciesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAutomaticTapeCreationPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAutomaticTapeCreationPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.automaticTapeCreationPolicyInfos = output.automaticTapeCreationPolicyInfos
@@ -10837,7 +10195,7 @@ public struct ListAutomaticTapeCreationPoliciesOutputResponse: Swift.Equatable {
     /// Gets a listing of information about the gateway's automatic tape creation policies, including the automatic tape creation rules and the gateway that is using the policies.
     public var automaticTapeCreationPolicyInfos: [StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo]?
 
-    public init (
+    public init(
         automaticTapeCreationPolicyInfos: [StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo]? = nil
     )
     {
@@ -10854,7 +10212,7 @@ extension ListAutomaticTapeCreationPoliciesOutputResponseBody: Swift.Decodable {
         case automaticTapeCreationPolicyInfos = "AutomaticTapeCreationPolicyInfos"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automaticTapeCreationPolicyInfosContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo?].self, forKey: .automaticTapeCreationPolicyInfos)
         var automaticTapeCreationPolicyInfosDecoded0:[StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo]? = nil
@@ -10906,7 +10264,7 @@ public struct ListFileSharesInput: Swift.Equatable {
     /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
@@ -10931,7 +10289,7 @@ extension ListFileSharesInputBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -10942,33 +10300,21 @@ extension ListFileSharesInputBody: Swift.Decodable {
     }
 }
 
-extension ListFileSharesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFileSharesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFileSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFileSharesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareInfoList = output.fileShareInfoList
@@ -10991,7 +10337,7 @@ public struct ListFileSharesOutputResponse: Swift.Equatable {
     /// If a value is present, there are more file shares to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file shares.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         fileShareInfoList: [StorageGatewayClientTypes.FileShareInfo]? = nil,
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil
@@ -11016,7 +10362,7 @@ extension ListFileSharesOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11071,7 +10417,7 @@ public struct ListFileSystemAssociationsInput: Swift.Equatable {
     /// Opaque pagination token returned from a previous ListFileSystemAssociations operation. If present, Marker specifies where to continue the list from after a previous call to ListFileSystemAssociations. Optional.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
@@ -11096,7 +10442,7 @@ extension ListFileSystemAssociationsInputBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -11107,33 +10453,21 @@ extension ListFileSystemAssociationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFileSystemAssociationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFileSystemAssociationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFileSystemAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFileSystemAssociationsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFileSystemAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationSummaryList = output.fileSystemAssociationSummaryList
@@ -11155,7 +10489,7 @@ public struct ListFileSystemAssociationsOutputResponse: Swift.Equatable {
     /// If a value is present, there are more file system associations to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file system associations.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         fileSystemAssociationSummaryList: [StorageGatewayClientTypes.FileSystemAssociationSummary]? = nil,
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil
@@ -11180,7 +10514,7 @@ extension ListFileSystemAssociationsOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11234,7 +10568,7 @@ public struct ListGatewaysInput: Swift.Equatable {
     /// An opaque string that indicates the position at which to begin the returned list of gateways.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
     )
@@ -11255,7 +10589,7 @@ extension ListGatewaysInputBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11264,33 +10598,21 @@ extension ListGatewaysInputBody: Swift.Decodable {
     }
 }
 
-extension ListGatewaysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListGatewaysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListGatewaysOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gateways = output.gateways
@@ -11308,7 +10630,7 @@ public struct ListGatewaysOutputResponse: Swift.Equatable {
     /// Use the marker in your next request to fetch the next set of gateways in the list. If there are no more gateways to list, this field does not appear in the response.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         gateways: [StorageGatewayClientTypes.GatewayInfo]? = nil,
         marker: Swift.String? = nil
     )
@@ -11329,7 +10651,7 @@ extension ListGatewaysOutputResponseBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewaysContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.GatewayInfo?].self, forKey: .gateways)
         var gatewaysDecoded0:[StorageGatewayClientTypes.GatewayInfo]? = nil
@@ -11372,7 +10694,7 @@ public struct ListLocalDisksInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -11389,40 +10711,28 @@ extension ListLocalDisksInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension ListLocalDisksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLocalDisksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLocalDisksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLocalDisksOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLocalDisksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLocalDisksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.disks = output.disks
@@ -11442,7 +10752,7 @@ public struct ListLocalDisksOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         disks: [StorageGatewayClientTypes.Disk]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -11463,7 +10773,7 @@ extension ListLocalDisksOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -11518,7 +10828,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
@@ -11543,7 +10853,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -11554,33 +10864,21 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11603,7 +10901,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// An array that contains the tags for the specified resource.
     public var tags: [StorageGatewayClientTypes.Tag]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         resourceARN: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil
@@ -11628,7 +10926,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -11686,7 +10984,7 @@ public struct ListTapePoolsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of each of the custom tape pools you want to list. If you don't specify a custom tape pool ARN, the response lists all custom tape pools.
     public var poolARNs: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         poolARNs: [Swift.String]? = nil
@@ -11711,7 +11009,7 @@ extension ListTapePoolsInputBody: Swift.Decodable {
         case poolARNs = "PoolARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolARNsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .poolARNs)
         var poolARNsDecoded0:[Swift.String]? = nil
@@ -11731,33 +11029,21 @@ extension ListTapePoolsInputBody: Swift.Decodable {
     }
 }
 
-extension ListTapePoolsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTapePoolsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTapePoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTapePoolsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTapePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTapePoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11775,7 +11061,7 @@ public struct ListTapePoolsOutputResponse: Swift.Equatable {
     /// An array of PoolInfo objects, where each object describes a single custom tape pool. If there are no custom tape pools, the PoolInfos is an empty array.
     public var poolInfos: [StorageGatewayClientTypes.PoolInfo]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         poolInfos: [StorageGatewayClientTypes.PoolInfo]? = nil
     )
@@ -11796,7 +11082,7 @@ extension ListTapePoolsOutputResponseBody: Swift.Decodable {
         case poolInfos = "PoolInfos"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolInfosContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.PoolInfo?].self, forKey: .poolInfos)
         var poolInfosDecoded0:[StorageGatewayClientTypes.PoolInfo]? = nil
@@ -11859,7 +11145,7 @@ public struct ListTapesInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of each of the tapes you want to list. If you don't specify a tape ARN, the response lists all tapes in both your VTL and VTS.
     public var tapeARNs: [Swift.String]?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         tapeARNs: [Swift.String]? = nil
@@ -11884,7 +11170,7 @@ extension ListTapesInputBody: Swift.Decodable {
         case tapeARNs = "TapeARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tapeARNs)
         var tapeARNsDecoded0:[Swift.String]? = nil
@@ -11904,33 +11190,21 @@ extension ListTapesInputBody: Swift.Decodable {
     }
 }
 
-extension ListTapesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTapesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTapesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTapesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTapesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
@@ -11953,7 +11227,7 @@ public struct ListTapesOutputResponse: Swift.Equatable {
     /// An array of [TapeInfo] objects, where each object describes a single tape. If there are no tapes in the tape library or VTS, then the TapeInfos is an empty array.
     public var tapeInfos: [StorageGatewayClientTypes.TapeInfo]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         tapeInfos: [StorageGatewayClientTypes.TapeInfo]? = nil
     )
@@ -11974,7 +11248,7 @@ extension ListTapesOutputResponseBody: Swift.Decodable {
         case tapeInfos = "TapeInfos"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeInfosContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.TapeInfo?].self, forKey: .tapeInfos)
         var tapeInfosDecoded0:[StorageGatewayClientTypes.TapeInfo]? = nil
@@ -12017,7 +11291,7 @@ public struct ListVolumeInitiatorsInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -12034,40 +11308,28 @@ extension ListVolumeInitiatorsInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
     }
 }
 
-extension ListVolumeInitiatorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVolumeInitiatorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVolumeInitiatorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListVolumeInitiatorsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListVolumeInitiatorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVolumeInitiatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiators = output.initiators
@@ -12082,7 +11344,7 @@ public struct ListVolumeInitiatorsOutputResponse: Swift.Equatable {
     /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
     public var initiators: [Swift.String]?
 
-    public init (
+    public init(
         initiators: [Swift.String]? = nil
     )
     {
@@ -12099,7 +11361,7 @@ extension ListVolumeInitiatorsOutputResponseBody: Swift.Decodable {
         case initiators = "Initiators"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initiatorsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .initiators)
         var initiatorsDecoded0:[Swift.String]? = nil
@@ -12139,7 +11401,7 @@ public struct ListVolumeRecoveryPointsInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -12156,40 +11418,28 @@ extension ListVolumeRecoveryPointsInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension ListVolumeRecoveryPointsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVolumeRecoveryPointsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVolumeRecoveryPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListVolumeRecoveryPointsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListVolumeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVolumeRecoveryPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -12207,7 +11457,7 @@ public struct ListVolumeRecoveryPointsOutputResponse: Swift.Equatable {
     /// An array of [VolumeRecoveryPointInfo] objects.
     public var volumeRecoveryPointInfos: [StorageGatewayClientTypes.VolumeRecoveryPointInfo]?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         volumeRecoveryPointInfos: [StorageGatewayClientTypes.VolumeRecoveryPointInfo]? = nil
     )
@@ -12228,7 +11478,7 @@ extension ListVolumeRecoveryPointsOutputResponseBody: Swift.Decodable {
         case volumeRecoveryPointInfos = "VolumeRecoveryPointInfos"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -12286,7 +11536,7 @@ public struct ListVolumesInput: Swift.Equatable {
     /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
@@ -12311,7 +11561,7 @@ extension ListVolumesInputBody: Swift.Decodable {
         case marker = "Marker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -12322,33 +11572,21 @@ extension ListVolumesInputBody: Swift.Decodable {
     }
 }
 
-extension ListVolumesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVolumesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListVolumesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -12375,7 +11613,7 @@ public struct ListVolumesOutputResponse: Swift.Equatable {
     /// An array of [VolumeInfo] objects, where each object describes an iSCSI volume. If no volumes are defined for the gateway, then VolumeInfos is an empty array "[]".
     public var volumeInfos: [StorageGatewayClientTypes.VolumeInfo]?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         marker: Swift.String? = nil,
         volumeInfos: [StorageGatewayClientTypes.VolumeInfo]? = nil
@@ -12400,7 +11638,7 @@ extension ListVolumesOutputResponseBody: Swift.Decodable {
         case volumeInfos = "VolumeInfos"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -12444,7 +11682,7 @@ extension StorageGatewayClientTypes.NFSFileShareDefaults: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileMode)
         fileMode = fileModeDecoded
@@ -12469,7 +11707,7 @@ extension StorageGatewayClientTypes {
         /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody.
         public var ownerId: Swift.Int?
 
-        public init (
+        public init(
             directoryMode: Swift.String? = nil,
             fileMode: Swift.String? = nil,
             groupId: Swift.Int? = nil,
@@ -12595,7 +11833,7 @@ extension StorageGatewayClientTypes.NFSFileShareInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nfsFileShareDefaultsDecoded = try containerValues.decodeIfPresent(StorageGatewayClientTypes.NFSFileShareDefaults.self, forKey: .nfsFileShareDefaults)
         nfsFileShareDefaults = nfsFileShareDefaultsDecoded
@@ -12724,7 +11962,7 @@ extension StorageGatewayClientTypes {
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3. This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public var vpcEndpointDNSName: Swift.String?
 
-        public init (
+        public init(
             auditDestinationARN: Swift.String? = nil,
             bucketRegion: Swift.String? = nil,
             cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
@@ -12800,7 +12038,7 @@ extension StorageGatewayClientTypes.NetworkInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipv4AddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv4Address)
         ipv4Address = ipv4AddressDecoded
@@ -12821,7 +12059,7 @@ extension StorageGatewayClientTypes {
         /// The Media Access Control (MAC) address of the interface. This is currently unsupported and will not be returned in output.
         public var macAddress: Swift.String?
 
-        public init (
+        public init(
             ipv4Address: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             macAddress: Swift.String? = nil
@@ -12859,7 +12097,7 @@ public struct NotifyWhenUploadedInput: Swift.Equatable {
     /// This member is required.
     public var fileShareARN: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil
     )
     {
@@ -12876,40 +12114,28 @@ extension NotifyWhenUploadedInputBody: Swift.Decodable {
         case fileShareARN = "FileShareARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
     }
 }
 
-extension NotifyWhenUploadedOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension NotifyWhenUploadedOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum NotifyWhenUploadedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum NotifyWhenUploadedOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension NotifyWhenUploadedOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotifyWhenUploadedOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -12927,7 +12153,7 @@ public struct NotifyWhenUploadedOutputResponse: Swift.Equatable {
     /// The randomly generated ID of the notification that was sent. This ID is in UUID format.
     public var notificationId: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil,
         notificationId: Swift.String? = nil
     )
@@ -12948,7 +12174,7 @@ extension NotifyWhenUploadedOutputResponseBody: Swift.Decodable {
         case notificationId = "NotificationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -13037,7 +12263,7 @@ extension StorageGatewayClientTypes.PoolInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let poolARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolARN)
         poolARN = poolARNDecoded
@@ -13070,7 +12296,7 @@ extension StorageGatewayClientTypes {
         /// The storage class that is associated with the custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public var storageClass: StorageGatewayClientTypes.TapeStorageClass?
 
-        public init (
+        public init(
             poolARN: Swift.String? = nil,
             poolName: Swift.String? = nil,
             poolStatus: StorageGatewayClientTypes.PoolStatus? = nil,
@@ -13162,7 +12388,7 @@ public struct RefreshCacheInput: Swift.Equatable {
     /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true, each folder that is listed in FolderList is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true. Valid Values: true | false
     public var recursive: Swift.Bool?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil,
         folderList: [Swift.String]? = nil,
         recursive: Swift.Bool? = nil
@@ -13187,7 +12413,7 @@ extension RefreshCacheInputBody: Swift.Decodable {
         case recursive = "Recursive"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -13207,33 +12433,21 @@ extension RefreshCacheInputBody: Swift.Decodable {
     }
 }
 
-extension RefreshCacheOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RefreshCacheOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RefreshCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RefreshCacheOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RefreshCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RefreshCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -13252,7 +12466,7 @@ public struct RefreshCacheOutputResponse: Swift.Equatable {
     /// The randomly generated ID of the notification that was sent. This ID is in UUID format.
     public var notificationId: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil,
         notificationId: Swift.String? = nil
     )
@@ -13273,7 +12487,7 @@ extension RefreshCacheOutputResponseBody: Swift.Decodable {
         case notificationId = "NotificationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -13317,7 +12531,7 @@ public struct RemoveTagsFromResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -13338,7 +12552,7 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -13356,33 +12570,21 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveTagsFromResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
@@ -13397,7 +12599,7 @@ public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -13414,7 +12616,7 @@ extension RemoveTagsFromResourceOutputResponseBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -13445,7 +12647,7 @@ public struct ResetCacheInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -13462,40 +12664,28 @@ extension ResetCacheInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension ResetCacheOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ResetCacheOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResetCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ResetCacheOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResetCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResetCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -13509,7 +12699,7 @@ public struct ResetCacheOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -13526,7 +12716,7 @@ extension ResetCacheOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -13600,7 +12790,7 @@ public struct RetrieveTapeArchiveInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -13621,7 +12811,7 @@ extension RetrieveTapeArchiveInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -13630,33 +12820,21 @@ extension RetrieveTapeArchiveInputBody: Swift.Decodable {
     }
 }
 
-extension RetrieveTapeArchiveOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RetrieveTapeArchiveOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RetrieveTapeArchiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RetrieveTapeArchiveOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RetrieveTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetrieveTapeArchiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -13671,7 +12849,7 @@ public struct RetrieveTapeArchiveOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -13688,7 +12866,7 @@ extension RetrieveTapeArchiveOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -13727,7 +12905,7 @@ public struct RetrieveTapeRecoveryPointInput: Swift.Equatable {
     /// This member is required.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -13748,7 +12926,7 @@ extension RetrieveTapeRecoveryPointInputBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -13757,33 +12935,21 @@ extension RetrieveTapeRecoveryPointInputBody: Swift.Decodable {
     }
 }
 
-extension RetrieveTapeRecoveryPointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RetrieveTapeRecoveryPointOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RetrieveTapeRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RetrieveTapeRecoveryPointOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RetrieveTapeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetrieveTapeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
@@ -13798,7 +12964,7 @@ public struct RetrieveTapeRecoveryPointOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
     public var tapeARN: Swift.String?
 
-    public init (
+    public init(
         tapeARN: Swift.String? = nil
     )
     {
@@ -13815,7 +12981,7 @@ extension RetrieveTapeRecoveryPointOutputResponseBody: Swift.Decodable {
         case tapeARN = "TapeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -13958,7 +13124,7 @@ extension StorageGatewayClientTypes.SMBFileShareInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -14119,7 +13285,7 @@ extension StorageGatewayClientTypes {
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3. This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public var vpcEndpointDNSName: Swift.String?
 
-        public init (
+        public init(
             accessBasedEnumeration: Swift.Bool? = nil,
             adminUserList: [Swift.String]? = nil,
             auditDestinationARN: Swift.String? = nil,
@@ -14200,7 +13366,7 @@ extension StorageGatewayClientTypes.SMBLocalGroups: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayAdminsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .gatewayAdmins)
         var gatewayAdminsDecoded0:[Swift.String]? = nil
@@ -14222,7 +13388,7 @@ extension StorageGatewayClientTypes {
         /// A list of Active Directory users and groups that have local Gateway Admin permissions. Acceptable formats include: DOMAIN\User1, user1, DOMAIN\group1, and group1. Gateway Admins can use the Shared Folders Microsoft Management Console snap-in to force-close files that are open and locked.
         public var gatewayAdmins: [Swift.String]?
 
-        public init (
+        public init(
             gatewayAdmins: [Swift.String]? = nil
         )
         {
@@ -14268,44 +13434,48 @@ extension StorageGatewayClientTypes {
 }
 
 extension ServiceUnavailableError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableErrorBody = try responseDecoder.decode(responseBody: data)
-            self.error = output.error
-            self.message = output.message
+            self.properties.error = output.error
+            self.properties.message = output.message
         } else {
-            self.error = nil
-            self.message = nil
+            self.properties.error = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
-public struct ServiceUnavailableError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// A [StorageGatewayError] that provides more information about the cause of the error.
-    public var error: StorageGatewayClientTypes.StorageGatewayError?
-    /// A human-readable message describing the error that occurred.
-    public var message: Swift.String?
+public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A [StorageGatewayError] that provides more information about the cause of the error.
+        public internal(set) var error: StorageGatewayClientTypes.StorageGatewayError? = nil
+        /// A human-readable message describing the error that occurred.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         error: StorageGatewayClientTypes.StorageGatewayError? = nil,
         message: Swift.String? = nil
     )
     {
-        self.error = error
-        self.message = message
+        self.properties.error = error
+        self.properties.message = message
     }
 }
 
@@ -14320,7 +13490,7 @@ extension ServiceUnavailableErrorBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14366,7 +13536,7 @@ public struct SetLocalConsolePasswordInput: Swift.Equatable {
     /// This member is required.
     public var localConsolePassword: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         localConsolePassword: Swift.String? = nil
     )
@@ -14387,7 +13557,7 @@ extension SetLocalConsolePasswordInputBody: Swift.Decodable {
         case localConsolePassword = "LocalConsolePassword"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14396,33 +13566,21 @@ extension SetLocalConsolePasswordInputBody: Swift.Decodable {
     }
 }
 
-extension SetLocalConsolePasswordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetLocalConsolePasswordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetLocalConsolePasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetLocalConsolePasswordOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetLocalConsolePasswordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SetLocalConsolePasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -14436,7 +13594,7 @@ public struct SetLocalConsolePasswordOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14453,7 +13611,7 @@ extension SetLocalConsolePasswordOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14497,7 +13655,7 @@ public struct SetSMBGuestPasswordInput: Swift.Equatable {
     /// This member is required.
     public var password: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         password: Swift.String? = nil
     )
@@ -14518,7 +13676,7 @@ extension SetSMBGuestPasswordInputBody: Swift.Decodable {
         case password = "Password"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14527,33 +13685,21 @@ extension SetSMBGuestPasswordInputBody: Swift.Decodable {
     }
 }
 
-extension SetSMBGuestPasswordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetSMBGuestPasswordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetSMBGuestPasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetSMBGuestPasswordOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetSMBGuestPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SetSMBGuestPasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -14567,7 +13713,7 @@ public struct SetSMBGuestPasswordOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14584,7 +13730,7 @@ extension SetSMBGuestPasswordOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14616,7 +13762,7 @@ public struct ShutdownGatewayInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14633,40 +13779,28 @@ extension ShutdownGatewayInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension ShutdownGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ShutdownGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ShutdownGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ShutdownGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ShutdownGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ShutdownGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -14681,7 +13815,7 @@ public struct ShutdownGatewayOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14698,7 +13832,7 @@ extension ShutdownGatewayOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14729,7 +13863,7 @@ public struct StartAvailabilityMonitorTestInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14746,40 +13880,28 @@ extension StartAvailabilityMonitorTestInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension StartAvailabilityMonitorTestOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartAvailabilityMonitorTestOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartAvailabilityMonitorTestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartAvailabilityMonitorTestOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartAvailabilityMonitorTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -14793,7 +13915,7 @@ public struct StartAvailabilityMonitorTestOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14810,7 +13932,7 @@ extension StartAvailabilityMonitorTestOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14842,7 +13964,7 @@ public struct StartGatewayInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14859,40 +13981,28 @@ extension StartGatewayInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension StartGatewayOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartGatewayOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -14907,7 +14017,7 @@ public struct StartGatewayOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -14924,7 +14034,7 @@ extension StartGatewayOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -14950,7 +14060,7 @@ extension StorageGatewayClientTypes.StorageGatewayError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorCodeDecoded = try containerValues.decodeIfPresent(StorageGatewayClientTypes.ErrorCode.self, forKey: .errorCode)
         errorCode = errorCodeDecoded
@@ -14976,7 +14086,7 @@ extension StorageGatewayClientTypes {
         /// Human-readable text that provides detail about the error that occurred.
         public var errorDetails: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             errorCode: StorageGatewayClientTypes.ErrorCode? = nil,
             errorDetails: [Swift.String:Swift.String]? = nil
         )
@@ -15056,7 +14166,7 @@ extension StorageGatewayClientTypes.StorediSCSIVolume: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -15125,7 +14235,7 @@ extension StorageGatewayClientTypes {
         /// An [VolumeiSCSIAttributes] object that represents a collection of iSCSI attributes for one stored volume.
         public var volumeiSCSIAttributes: StorageGatewayClientTypes.VolumeiSCSIAttributes?
 
-        public init (
+        public init(
             createdDate: ClientRuntime.Date? = nil,
             kmsKey: Swift.String? = nil,
             preservedExistingData: Swift.Bool = false,
@@ -15179,7 +14289,7 @@ extension StorageGatewayClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -15198,7 +14308,7 @@ extension StorageGatewayClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -15270,7 +14380,7 @@ extension StorageGatewayClientTypes.Tape: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -15331,7 +14441,7 @@ extension StorageGatewayClientTypes {
         /// If the tape is archived as write-once-read-many (WORM), this value is true.
         public var worm: Swift.Bool
 
-        public init (
+        public init(
             kmsKey: Swift.String? = nil,
             poolEntryDate: ClientRuntime.Date? = nil,
             poolId: Swift.String? = nil,
@@ -15425,7 +14535,7 @@ extension StorageGatewayClientTypes.TapeArchive: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -15486,7 +14596,7 @@ extension StorageGatewayClientTypes {
         /// Set to true if the archived tape is stored as write-once-read-many (WORM).
         public var worm: Swift.Bool
 
-        public init (
+        public init(
             completionTime: ClientRuntime.Date? = nil,
             kmsKey: Swift.String? = nil,
             poolEntryDate: ClientRuntime.Date? = nil,
@@ -15560,7 +14670,7 @@ extension StorageGatewayClientTypes.TapeInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -15601,7 +14711,7 @@ extension StorageGatewayClientTypes {
         /// The status of the tape.
         public var tapeStatus: Swift.String?
 
-        public init (
+        public init(
             gatewayARN: Swift.String? = nil,
             poolEntryDate: ClientRuntime.Date? = nil,
             poolId: Swift.String? = nil,
@@ -15649,7 +14759,7 @@ extension StorageGatewayClientTypes.TapeRecoveryPointInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
@@ -15674,7 +14784,7 @@ extension StorageGatewayClientTypes {
         /// The status of the virtual tapes.
         public var tapeStatus: Swift.String?
 
-        public init (
+        public init(
             tapeARN: Swift.String? = nil,
             tapeRecoveryPointTime: ClientRuntime.Date? = nil,
             tapeSizeInBytes: Swift.Int? = nil,
@@ -15756,7 +14866,7 @@ public struct UpdateAutomaticTapeCreationPolicyInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         automaticTapeCreationRules: [StorageGatewayClientTypes.AutomaticTapeCreationRule]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -15777,7 +14887,7 @@ extension UpdateAutomaticTapeCreationPolicyInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automaticTapeCreationRulesContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.AutomaticTapeCreationRule?].self, forKey: .automaticTapeCreationRules)
         var automaticTapeCreationRulesDecoded0:[StorageGatewayClientTypes.AutomaticTapeCreationRule]? = nil
@@ -15795,33 +14905,21 @@ extension UpdateAutomaticTapeCreationPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAutomaticTapeCreationPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAutomaticTapeCreationPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAutomaticTapeCreationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAutomaticTapeCreationPolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAutomaticTapeCreationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -15835,7 +14933,7 @@ public struct UpdateAutomaticTapeCreationPolicyOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -15852,7 +14950,7 @@ extension UpdateAutomaticTapeCreationPolicyOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -15900,7 +14998,7 @@ public struct UpdateBandwidthRateLimitInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         averageDownloadRateLimitInBitsPerSec: Swift.Int? = nil,
         averageUploadRateLimitInBitsPerSec: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil
@@ -15925,7 +15023,7 @@ extension UpdateBandwidthRateLimitInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -15936,33 +15034,21 @@ extension UpdateBandwidthRateLimitInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateBandwidthRateLimitOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBandwidthRateLimitOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBandwidthRateLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBandwidthRateLimitOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -15977,7 +15063,7 @@ public struct UpdateBandwidthRateLimitOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -15994,7 +15080,7 @@ extension UpdateBandwidthRateLimitOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16035,7 +15121,7 @@ public struct UpdateBandwidthRateLimitScheduleInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         bandwidthRateLimitIntervals: [StorageGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -16056,7 +15142,7 @@ extension UpdateBandwidthRateLimitScheduleInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16074,33 +15160,21 @@ extension UpdateBandwidthRateLimitScheduleInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateBandwidthRateLimitScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateBandwidthRateLimitScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateBandwidthRateLimitScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -16114,7 +15188,7 @@ public struct UpdateBandwidthRateLimitScheduleOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -16131,7 +15205,7 @@ extension UpdateBandwidthRateLimitScheduleOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16196,7 +15270,7 @@ public struct UpdateChapCredentialsInput: Swift.Equatable {
     /// This member is required.
     public var targetARN: Swift.String?
 
-    public init (
+    public init(
         initiatorName: Swift.String? = nil,
         secretToAuthenticateInitiator: Swift.String? = nil,
         secretToAuthenticateTarget: Swift.String? = nil,
@@ -16225,7 +15299,7 @@ extension UpdateChapCredentialsInputBody: Swift.Decodable {
         case targetARN = "TargetARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -16238,33 +15312,21 @@ extension UpdateChapCredentialsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateChapCredentialsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateChapCredentialsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateChapCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateChapCredentialsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiatorName = output.initiatorName
@@ -16283,7 +15345,7 @@ public struct UpdateChapCredentialsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
     public var targetARN: Swift.String?
 
-    public init (
+    public init(
         initiatorName: Swift.String? = nil,
         targetARN: Swift.String? = nil
     )
@@ -16304,7 +15366,7 @@ extension UpdateChapCredentialsOutputResponseBody: Swift.Decodable {
         case targetARN = "TargetARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -16366,7 +15428,7 @@ public struct UpdateFileSystemAssociationInput: Swift.Equatable {
     /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group.
     public var userName: Swift.String?
 
-    public init (
+    public init(
         auditDestinationARN: Swift.String? = nil,
         cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
         fileSystemAssociationARN: Swift.String? = nil,
@@ -16399,7 +15461,7 @@ extension UpdateFileSystemAssociationInputBody: Swift.Decodable {
         case userName = "UserName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
@@ -16414,33 +15476,21 @@ extension UpdateFileSystemAssociationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateFileSystemAssociationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateFileSystemAssociationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateFileSystemAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateFileSystemAssociationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateFileSystemAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateFileSystemAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
@@ -16454,7 +15504,7 @@ public struct UpdateFileSystemAssociationOutputResponse: Swift.Equatable {
     /// The ARN of the updated file system association.
     public var fileSystemAssociationARN: Swift.String?
 
-    public init (
+    public init(
         fileSystemAssociationARN: Swift.String? = nil
     )
     {
@@ -16471,7 +15521,7 @@ extension UpdateFileSystemAssociationOutputResponseBody: Swift.Decodable {
         case fileSystemAssociationARN = "FileSystemAssociationARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
@@ -16526,7 +15576,7 @@ public struct UpdateGatewayInformationInput: Swift.Equatable {
     /// A value that indicates the time zone of the gateway.
     public var gatewayTimezone: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogGroupARN: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         gatewayCapacity: StorageGatewayClientTypes.GatewayCapacity? = nil,
@@ -16559,7 +15609,7 @@ extension UpdateGatewayInformationInputBody: Swift.Decodable {
         case gatewayTimezone = "GatewayTimezone"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16574,33 +15624,21 @@ extension UpdateGatewayInformationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGatewayInformationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateGatewayInformationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateGatewayInformationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateGatewayInformationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateGatewayInformationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -16619,7 +15657,7 @@ public struct UpdateGatewayInformationOutputResponse: Swift.Equatable {
     /// The name you configured for your gateway.
     public var gatewayName: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         gatewayName: Swift.String? = nil
     )
@@ -16640,7 +15678,7 @@ extension UpdateGatewayInformationOutputResponseBody: Swift.Decodable {
         case gatewayName = "GatewayName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16674,7 +15712,7 @@ public struct UpdateGatewaySoftwareNowInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -16691,40 +15729,28 @@ extension UpdateGatewaySoftwareNowInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
     }
 }
 
-extension UpdateGatewaySoftwareNowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateGatewaySoftwareNowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateGatewaySoftwareNowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateGatewaySoftwareNowOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateGatewaySoftwareNowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateGatewaySoftwareNowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -16739,7 +15765,7 @@ public struct UpdateGatewaySoftwareNowOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -16756,7 +15782,7 @@ extension UpdateGatewaySoftwareNowOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16822,7 +15848,7 @@ public struct UpdateMaintenanceStartTimeInput: Swift.Equatable {
     /// This member is required.
     public var minuteOfHour: Swift.Int?
 
-    public init (
+    public init(
         dayOfMonth: Swift.Int? = nil,
         dayOfWeek: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil,
@@ -16855,7 +15881,7 @@ extension UpdateMaintenanceStartTimeInputBody: Swift.Decodable {
         case minuteOfHour = "MinuteOfHour"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -16870,33 +15896,21 @@ extension UpdateMaintenanceStartTimeInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateMaintenanceStartTimeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateMaintenanceStartTimeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateMaintenanceStartTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -16911,7 +15925,7 @@ public struct UpdateMaintenanceStartTimeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -16928,7 +15942,7 @@ extension UpdateMaintenanceStartTimeOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -17053,7 +16067,7 @@ public struct UpdateNFSFileShareInput: Swift.Equatable {
     /// * AllSquash: Everyone is mapped to anonymous user.
     public var squash: Swift.String?
 
-    public init (
+    public init(
         auditDestinationARN: Swift.String? = nil,
         cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
         clientList: [Swift.String]? = nil,
@@ -17126,7 +16140,7 @@ extension UpdateNFSFileShareInputBody: Swift.Decodable {
         case squash = "Squash"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -17170,33 +16184,21 @@ extension UpdateNFSFileShareInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateNFSFileShareOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateNFSFileShareOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateNFSFileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateNFSFileShareOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateNFSFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -17211,7 +16213,7 @@ public struct UpdateNFSFileShareOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the updated file share.
     public var fileShareARN: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil
     )
     {
@@ -17228,7 +16230,7 @@ extension UpdateNFSFileShareOutputResponseBody: Swift.Decodable {
         case fileShareARN = "FileShareARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -17377,7 +16379,7 @@ public struct UpdateSMBFileShareInput: Swift.Equatable {
     /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
     public var validUserList: [Swift.String]?
 
-    public init (
+    public init(
         accessBasedEnumeration: Swift.Bool? = nil,
         adminUserList: [Swift.String]? = nil,
         auditDestinationARN: Swift.String? = nil,
@@ -17466,7 +16468,7 @@ extension UpdateSMBFileShareInputBody: Swift.Decodable {
         case validUserList = "ValidUserList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -17536,33 +16538,21 @@ extension UpdateSMBFileShareInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSMBFileShareOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSMBFileShareOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSMBFileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSMBFileShareOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSMBFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
@@ -17577,7 +16567,7 @@ public struct UpdateSMBFileShareOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the updated SMB file share.
     public var fileShareARN: Swift.String?
 
-    public init (
+    public init(
         fileShareARN: Swift.String? = nil
     )
     {
@@ -17594,7 +16584,7 @@ extension UpdateSMBFileShareOutputResponseBody: Swift.Decodable {
         case fileShareARN = "FileShareARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
@@ -17632,7 +16622,7 @@ public struct UpdateSMBFileShareVisibilityInput: Swift.Equatable {
     /// This member is required.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         fileSharesVisible: Swift.Bool? = nil,
         gatewayARN: Swift.String? = nil
     )
@@ -17653,7 +16643,7 @@ extension UpdateSMBFileShareVisibilityInputBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -17662,33 +16652,21 @@ extension UpdateSMBFileShareVisibilityInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSMBFileShareVisibilityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSMBFileShareVisibilityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSMBFileShareVisibilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSMBFileShareVisibilityOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSMBFileShareVisibilityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSMBFileShareVisibilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -17702,7 +16680,7 @@ public struct UpdateSMBFileShareVisibilityOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -17719,7 +16697,7 @@ extension UpdateSMBFileShareVisibilityOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -17757,7 +16735,7 @@ public struct UpdateSMBLocalGroupsInput: Swift.Equatable {
     /// This member is required.
     public var smbLocalGroups: StorageGatewayClientTypes.SMBLocalGroups?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         smbLocalGroups: StorageGatewayClientTypes.SMBLocalGroups? = nil
     )
@@ -17778,7 +16756,7 @@ extension UpdateSMBLocalGroupsInputBody: Swift.Decodable {
         case smbLocalGroups = "SMBLocalGroups"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -17787,33 +16765,21 @@ extension UpdateSMBLocalGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSMBLocalGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSMBLocalGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSMBLocalGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSMBLocalGroupsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSMBLocalGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSMBLocalGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -17827,7 +16793,7 @@ public struct UpdateSMBLocalGroupsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -17844,7 +16810,7 @@ extension UpdateSMBLocalGroupsOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -17882,7 +16848,7 @@ public struct UpdateSMBSecurityStrategyInput: Swift.Equatable {
     /// This member is required.
     public var smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil,
         smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy? = nil
     )
@@ -17903,7 +16869,7 @@ extension UpdateSMBSecurityStrategyInputBody: Swift.Decodable {
         case smbSecurityStrategy = "SMBSecurityStrategy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -17912,33 +16878,21 @@ extension UpdateSMBSecurityStrategyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSMBSecurityStrategyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSMBSecurityStrategyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSMBSecurityStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSMBSecurityStrategyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSMBSecurityStrategyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSMBSecurityStrategyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
@@ -17952,7 +16906,7 @@ public struct UpdateSMBSecurityStrategyOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayARN: Swift.String?
 
-    public init (
+    public init(
         gatewayARN: Swift.String? = nil
     )
     {
@@ -17969,7 +16923,7 @@ extension UpdateSMBSecurityStrategyOutputResponseBody: Swift.Decodable {
         case gatewayARN = "GatewayARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
@@ -18038,7 +16992,7 @@ public struct UpdateSnapshotScheduleInput: Swift.Equatable {
     /// This member is required.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         recurrenceInHours: Swift.Int? = nil,
         startAt: Swift.Int? = nil,
@@ -18071,7 +17025,7 @@ extension UpdateSnapshotScheduleInputBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -18095,33 +17049,21 @@ extension UpdateSnapshotScheduleInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSnapshotScheduleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSnapshotScheduleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSnapshotScheduleOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
@@ -18136,7 +17078,7 @@ public struct UpdateSnapshotScheduleOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the volume. Use the [ListVolumes] operation to return a list of gateway volumes.
     public var volumeARN: Swift.String?
 
-    public init (
+    public init(
         volumeARN: Swift.String? = nil
     )
     {
@@ -18153,7 +17095,7 @@ extension UpdateSnapshotScheduleOutputResponseBody: Swift.Decodable {
         case volumeARN = "VolumeARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -18191,7 +17133,7 @@ public struct UpdateVTLDeviceTypeInput: Swift.Equatable {
     /// This member is required.
     public var vtlDeviceARN: Swift.String?
 
-    public init (
+    public init(
         deviceType: Swift.String? = nil,
         vtlDeviceARN: Swift.String? = nil
     )
@@ -18212,7 +17154,7 @@ extension UpdateVTLDeviceTypeInputBody: Swift.Decodable {
         case vtlDeviceARN = "VTLDeviceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vtlDeviceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vtlDeviceARN)
         vtlDeviceARN = vtlDeviceARNDecoded
@@ -18221,33 +17163,21 @@ extension UpdateVTLDeviceTypeInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateVTLDeviceTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateVTLDeviceTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGatewayRequestException" : self = .invalidGatewayRequestException(try InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateVTLDeviceTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGatewayRequestException": return try await InvalidGatewayRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateVTLDeviceTypeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidGatewayRequestException(InvalidGatewayRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateVTLDeviceTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateVTLDeviceTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vtlDeviceARN = output.vtlDeviceARN
@@ -18262,7 +17192,7 @@ public struct UpdateVTLDeviceTypeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the medium changer you have selected.
     public var vtlDeviceARN: Swift.String?
 
-    public init (
+    public init(
         vtlDeviceARN: Swift.String? = nil
     )
     {
@@ -18279,7 +17209,7 @@ extension UpdateVTLDeviceTypeOutputResponseBody: Swift.Decodable {
         case vtlDeviceARN = "VTLDeviceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vtlDeviceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vtlDeviceARN)
         vtlDeviceARN = vtlDeviceARNDecoded
@@ -18314,7 +17244,7 @@ extension StorageGatewayClientTypes.VTLDevice: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vtlDeviceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vtlDeviceARN)
         vtlDeviceARN = vtlDeviceARNDecoded
@@ -18343,7 +17273,7 @@ extension StorageGatewayClientTypes {
         /// Specifies the vendor of the device that the VTL device object emulates.
         public var vtlDeviceVendor: Swift.String?
 
-        public init (
+        public init(
             deviceiSCSIAttributes: StorageGatewayClientTypes.DeviceiSCSIAttributes? = nil,
             vtlDeviceARN: Swift.String? = nil,
             vtlDeviceProductIdentifier: Swift.String? = nil,
@@ -18397,7 +17327,7 @@ extension StorageGatewayClientTypes.VolumeInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -18434,7 +17364,7 @@ extension StorageGatewayClientTypes {
         /// One of the VolumeType enumeration values describing the type of the volume.
         public var volumeType: Swift.String?
 
-        public init (
+        public init(
             gatewayARN: Swift.String? = nil,
             gatewayId: Swift.String? = nil,
             volumeARN: Swift.String? = nil,
@@ -18480,7 +17410,7 @@ extension StorageGatewayClientTypes.VolumeRecoveryPointInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeARN)
         volumeARN = volumeARNDecoded
@@ -18505,7 +17435,7 @@ extension StorageGatewayClientTypes {
         /// The size of the data stored on the volume in bytes. This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public var volumeUsageInBytes: Swift.Int
 
-        public init (
+        public init(
             volumeARN: Swift.String? = nil,
             volumeRecoveryPointTime: Swift.String? = nil,
             volumeSizeInBytes: Swift.Int = 0,
@@ -18549,7 +17479,7 @@ extension StorageGatewayClientTypes.VolumeiSCSIAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetARN)
         targetARN = targetARNDecoded
@@ -18578,7 +17508,7 @@ extension StorageGatewayClientTypes {
         /// The Amazon Resource Name (ARN) of the volume target.
         public var targetARN: Swift.String?
 
-        public init (
+        public init(
             chapEnabled: Swift.Bool = false,
             lunNumber: Swift.Int? = nil,
             networkInterfaceId: Swift.String? = nil,

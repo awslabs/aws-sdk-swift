@@ -22,7 +22,7 @@ extension ResourceGroupsClientTypes.AccountSettings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupLifecycleEventsDesiredStatusDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus.self, forKey: .groupLifecycleEventsDesiredStatus)
         groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatusDecoded
@@ -43,7 +43,7 @@ extension ResourceGroupsClientTypes {
         /// The text of any error message occurs during an attempt to turn group lifecycle events on or off.
         public var groupLifecycleEventsStatusMessage: Swift.String?
 
-        public init (
+        public init(
             groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus? = nil,
             groupLifecycleEventsStatus: ResourceGroupsClientTypes.GroupLifecycleEventsStatus? = nil,
             groupLifecycleEventsStatusMessage: Swift.String? = nil
@@ -58,37 +58,41 @@ extension ResourceGroupsClientTypes {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request includes one or more parameters that violate validation rules.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -101,7 +105,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -162,7 +166,7 @@ public struct CreateGroupInput: Swift.Equatable {
     /// The tags to add to the group. A tag is key-value pair string.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -195,7 +199,7 @@ extension CreateGroupInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -228,39 +232,24 @@ extension CreateGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateGroupOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
@@ -286,7 +275,7 @@ public struct CreateGroupOutputResponse: Swift.Equatable {
     /// The tags associated with the group.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         group: ResourceGroupsClientTypes.Group? = nil,
         groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
@@ -315,7 +304,7 @@ extension CreateGroupOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.Group.self, forKey: .group)
         group = groupDecoded
@@ -367,7 +356,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     @available(*, deprecated, message: "This field is deprecated, use Group instead.")
     public var groupName: Swift.String?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
     )
@@ -388,7 +377,7 @@ extension DeleteGroupInputBody: Swift.Decodable {
         case groupName = "GroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -397,41 +386,25 @@ extension DeleteGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteGroupOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
@@ -445,7 +418,7 @@ public struct DeleteGroupOutputResponse: Swift.Equatable {
     /// A full description of the deleted resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
-    public init (
+    public init(
         group: ResourceGroupsClientTypes.Group? = nil
     )
     {
@@ -462,7 +435,7 @@ extension DeleteGroupOutputResponseBody: Swift.Decodable {
         case group = "Group"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.Group.self, forKey: .group)
         group = groupDecoded
@@ -489,7 +462,7 @@ extension ResourceGroupsClientTypes.FailedResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -510,7 +483,7 @@ extension ResourceGroupsClientTypes {
         /// The ARN of the resource that failed to be added or removed.
         public var resourceArn: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             resourceArn: Swift.String? = nil
@@ -525,37 +498,41 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ForbiddenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The caller isn't authorized to make the request. Check permissions.
-public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ForbiddenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -568,7 +545,7 @@ extension ForbiddenExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -583,7 +560,7 @@ extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
 
 public struct GetAccountSettingsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetAccountSettingsInputBody: Swift.Equatable {
@@ -591,43 +568,28 @@ struct GetAccountSettingsInputBody: Swift.Equatable {
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetAccountSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAccountSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAccountSettingsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSettings = output.accountSettings
@@ -641,7 +603,7 @@ public struct GetAccountSettingsOutputResponse: Swift.Equatable {
     /// The current settings for the optional features in Resource Groups.
     public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
 
-    public init (
+    public init(
         accountSettings: ResourceGroupsClientTypes.AccountSettings? = nil
     )
     {
@@ -658,7 +620,7 @@ extension GetAccountSettingsOutputResponseBody: Swift.Decodable {
         case accountSettings = "AccountSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountSettingsDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.AccountSettings.self, forKey: .accountSettings)
         accountSettings = accountSettingsDecoded
@@ -688,7 +650,7 @@ public struct GetGroupConfigurationInput: Swift.Equatable {
     /// The name or the ARN of the resource group for which you want to retrive the service configuration.
     public var group: Swift.String?
 
-    public init (
+    public init(
         group: Swift.String? = nil
     )
     {
@@ -705,48 +667,32 @@ extension GetGroupConfigurationInputBody: Swift.Decodable {
         case group = "Group"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
         group = groupDecoded
     }
 }
 
-extension GetGroupConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetGroupConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetGroupConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetGroupConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetGroupConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetGroupConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupConfiguration = output.groupConfiguration
@@ -760,7 +706,7 @@ public struct GetGroupConfigurationOutputResponse: Swift.Equatable {
     /// A structure that describes the service configuration attached with the specified group. For details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
     public var groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration?
 
-    public init (
+    public init(
         groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration? = nil
     )
     {
@@ -777,7 +723,7 @@ extension GetGroupConfigurationOutputResponseBody: Swift.Decodable {
         case groupConfiguration = "GroupConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupConfigurationDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupConfiguration.self, forKey: .groupConfiguration)
         groupConfiguration = groupConfigurationDecoded
@@ -814,7 +760,7 @@ public struct GetGroupInput: Swift.Equatable {
     @available(*, deprecated, message: "This field is deprecated, use Group instead.")
     public var groupName: Swift.String?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
     )
@@ -835,7 +781,7 @@ extension GetGroupInputBody: Swift.Decodable {
         case groupName = "GroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -844,41 +790,25 @@ extension GetGroupInputBody: Swift.Decodable {
     }
 }
 
-extension GetGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetGroupOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
@@ -892,7 +822,7 @@ public struct GetGroupOutputResponse: Swift.Equatable {
     /// A structure that contains the metadata details for the specified resource group. Use [GetGroupQuery] and [GetGroupConfiguration] to get those additional details of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
-    public init (
+    public init(
         group: ResourceGroupsClientTypes.Group? = nil
     )
     {
@@ -909,7 +839,7 @@ extension GetGroupOutputResponseBody: Swift.Decodable {
         case group = "Group"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.Group.self, forKey: .group)
         group = groupDecoded
@@ -946,7 +876,7 @@ public struct GetGroupQueryInput: Swift.Equatable {
     @available(*, deprecated, message: "This field is deprecated, use Group instead.")
     public var groupName: Swift.String?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
     )
@@ -967,7 +897,7 @@ extension GetGroupQueryInputBody: Swift.Decodable {
         case groupName = "GroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -976,41 +906,25 @@ extension GetGroupQueryInputBody: Swift.Decodable {
     }
 }
 
-extension GetGroupQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetGroupQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetGroupQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetGroupQueryOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetGroupQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetGroupQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupQuery = output.groupQuery
@@ -1024,7 +938,7 @@ public struct GetGroupQueryOutputResponse: Swift.Equatable {
     /// The resource query associated with the specified group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
     public var groupQuery: ResourceGroupsClientTypes.GroupQuery?
 
-    public init (
+    public init(
         groupQuery: ResourceGroupsClientTypes.GroupQuery? = nil
     )
     {
@@ -1041,7 +955,7 @@ extension GetGroupQueryOutputResponseBody: Swift.Decodable {
         case groupQuery = "GroupQuery"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupQueryDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupQuery.self, forKey: .groupQuery)
         groupQuery = groupQueryDecoded
@@ -1062,7 +976,7 @@ public struct GetTagsInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -1075,45 +989,29 @@ struct GetTagsInputBody: Swift.Equatable {
 
 extension GetTagsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTagsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -1131,7 +1029,7 @@ public struct GetTagsOutputResponse: Swift.Equatable {
     /// The tags associated with the specified resource group.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1152,7 +1050,7 @@ extension GetTagsOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1190,7 +1088,7 @@ extension ResourceGroupsClientTypes.Group: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupArn)
         groupArn = groupArnDecoded
@@ -1217,7 +1115,7 @@ extension ResourceGroupsClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             groupArn: Swift.String? = nil,
             name: Swift.String? = nil
@@ -1261,7 +1159,7 @@ extension ResourceGroupsClientTypes.GroupConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationContainer = try containerValues.decodeIfPresent([ResourceGroupsClientTypes.GroupConfigurationItem?].self, forKey: .configuration)
         var configurationDecoded0:[ResourceGroupsClientTypes.GroupConfigurationItem]? = nil
@@ -1304,7 +1202,7 @@ extension ResourceGroupsClientTypes {
         /// The current status of an attempt to update the group configuration.
         public var status: ResourceGroupsClientTypes.GroupConfigurationStatus?
 
-        public init (
+        public init(
             configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]? = nil,
             failureReason: Swift.String? = nil,
             proposedConfiguration: [ResourceGroupsClientTypes.GroupConfigurationItem]? = nil,
@@ -1339,7 +1237,7 @@ extension ResourceGroupsClientTypes.GroupConfigurationItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -1366,7 +1264,7 @@ extension ResourceGroupsClientTypes {
         /// This member is required.
         public var type: Swift.String?
 
-        public init (
+        public init(
             parameters: [ResourceGroupsClientTypes.GroupConfigurationParameter]? = nil,
             type: Swift.String? = nil
         )
@@ -1397,7 +1295,7 @@ extension ResourceGroupsClientTypes.GroupConfigurationParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1424,7 +1322,7 @@ extension ResourceGroupsClientTypes {
         /// The value or values to be used for the specified parameter. For the list of values you can use with each parameter, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -1490,7 +1388,7 @@ extension ResourceGroupsClientTypes.GroupFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupFilterName.self, forKey: .name)
         name = nameDecoded
@@ -1518,7 +1416,7 @@ extension ResourceGroupsClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: ResourceGroupsClientTypes.GroupFilterName? = nil,
             values: [Swift.String]? = nil
         )
@@ -1578,7 +1476,7 @@ extension ResourceGroupsClientTypes.GroupIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -1595,7 +1493,7 @@ extension ResourceGroupsClientTypes {
         /// The name of the resource group.
         public var groupName: Swift.String?
 
-        public init (
+        public init(
             groupArn: Swift.String? = nil,
             groupName: Swift.String? = nil
         )
@@ -1693,7 +1591,7 @@ extension ResourceGroupsClientTypes.GroupQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -1712,7 +1610,7 @@ extension ResourceGroupsClientTypes {
         /// This member is required.
         public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
 
-        public init (
+        public init(
             groupName: Swift.String? = nil,
             resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil
         )
@@ -1758,7 +1656,7 @@ public struct GroupResourcesInput: Swift.Equatable {
     /// This member is required.
     public var resourceArns: [Swift.String]?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
     )
@@ -1779,7 +1677,7 @@ extension GroupResourcesInputBody: Swift.Decodable {
         case resourceArns = "ResourceArns"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
         group = groupDecoded
@@ -1797,41 +1695,25 @@ extension GroupResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension GroupResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GroupResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GroupResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GroupResourcesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GroupResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GroupResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -1853,7 +1735,7 @@ public struct GroupResourcesOutputResponse: Swift.Equatable {
     /// A list of ARNs of the resources that this operation successfully added to the group.
     public var succeeded: [Swift.String]?
 
-    public init (
+    public init(
         failed: [ResourceGroupsClientTypes.FailedResource]? = nil,
         pending: [ResourceGroupsClientTypes.PendingResource]? = nil,
         succeeded: [Swift.String]? = nil
@@ -1878,7 +1760,7 @@ extension GroupResourcesOutputResponseBody: Swift.Decodable {
         case succeeded = "Succeeded"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let succeededContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .succeeded)
         var succeededDecoded0:[Swift.String]? = nil
@@ -1917,37 +1799,41 @@ extension GroupResourcesOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalServerErrorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal error occurred while processing the request. Try again later.
-public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerErrorException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1960,7 +1846,7 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2023,7 +1909,7 @@ public struct ListGroupResourcesInput: Swift.Equatable {
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ResourceGroupsClientTypes.ResourceFilter]? = nil,
         group: Swift.String? = nil,
         groupName: Swift.String? = nil,
@@ -2056,7 +1942,7 @@ extension ListGroupResourcesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -2096,7 +1982,7 @@ extension ResourceGroupsClientTypes.ListGroupResourcesItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.ResourceIdentifier.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -2113,7 +1999,7 @@ extension ResourceGroupsClientTypes {
         /// A structure that contains the status of this resource's membership in the group. This field is present in the response only if the group is of type AWS::EC2::HostManagement.
         public var status: ResourceGroupsClientTypes.ResourceStatus?
 
-        public init (
+        public init(
             identifier: ResourceGroupsClientTypes.ResourceIdentifier? = nil,
             status: ResourceGroupsClientTypes.ResourceStatus? = nil
         )
@@ -2125,43 +2011,26 @@ extension ResourceGroupsClientTypes {
 
 }
 
-extension ListGroupResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListGroupResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListGroupResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListGroupResourcesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unauthorizedException(UnauthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListGroupResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListGroupResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -2188,7 +2057,7 @@ public struct ListGroupResourcesOutputResponse: Swift.Equatable {
     /// An array of resources from which you can determine each resource's identity, type, and group membership status.
     public var resources: [ResourceGroupsClientTypes.ListGroupResourcesItem]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queryErrors: [ResourceGroupsClientTypes.QueryError]? = nil,
         resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]? = nil,
@@ -2217,7 +2086,7 @@ extension ListGroupResourcesOutputResponseBody: Swift.Decodable {
         case resources = "Resources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourcesContainer = try containerValues.decodeIfPresent([ResourceGroupsClientTypes.ListGroupResourcesItem?].self, forKey: .resources)
         var resourcesDecoded0:[ResourceGroupsClientTypes.ListGroupResourcesItem]? = nil
@@ -2312,7 +2181,7 @@ public struct ListGroupsInput: Swift.Equatable {
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ResourceGroupsClientTypes.GroupFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -2333,7 +2202,7 @@ extension ListGroupsInputBody: Swift.Decodable {
         case filters = "Filters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersContainer = try containerValues.decodeIfPresent([ResourceGroupsClientTypes.GroupFilter?].self, forKey: .filters)
         var filtersDecoded0:[ResourceGroupsClientTypes.GroupFilter]? = nil
@@ -2349,39 +2218,24 @@ extension ListGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListGroupsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupIdentifiers = output.groupIdentifiers
@@ -2404,7 +2258,7 @@ public struct ListGroupsOutputResponse: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         groupIdentifiers: [ResourceGroupsClientTypes.GroupIdentifier]? = nil,
         groups: [ResourceGroupsClientTypes.Group]? = nil,
         nextToken: Swift.String? = nil
@@ -2429,7 +2283,7 @@ extension ListGroupsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdentifiersContainer = try containerValues.decodeIfPresent([ResourceGroupsClientTypes.GroupIdentifier?].self, forKey: .groupIdentifiers)
         var groupIdentifiersDecoded0:[ResourceGroupsClientTypes.GroupIdentifier]? = nil
@@ -2459,37 +2313,41 @@ extension ListGroupsOutputResponseBody: Swift.Decodable {
 }
 
 extension MethodNotAllowedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MethodNotAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request uses an HTTP method that isn't allowed for the specified resource.
-public struct MethodNotAllowedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MethodNotAllowedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2502,7 +2360,7 @@ extension MethodNotAllowedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2510,37 +2368,41 @@ extension MethodNotAllowedExceptionBody: Swift.Decodable {
 }
 
 extension NotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more of the specified resources don't exist.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2553,7 +2415,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2572,7 +2434,7 @@ extension ResourceGroupsClientTypes.PendingResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -2585,7 +2447,7 @@ extension ResourceGroupsClientTypes {
         /// The Amazon resource name (ARN) of the resource that's in a pending state.
         public var resourceArn: Swift.String?
 
-        public init (
+        public init(
             resourceArn: Swift.String? = nil
         )
         {
@@ -2627,7 +2489,7 @@ public struct PutGroupConfigurationInput: Swift.Equatable {
     /// The name or ARN of the resource group with the configuration that you want to update.
     public var group: Swift.String?
 
-    public init (
+    public init(
         configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]? = nil,
         group: Swift.String? = nil
     )
@@ -2648,7 +2510,7 @@ extension PutGroupConfigurationInputBody: Swift.Decodable {
         case group = "Group"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
         group = groupDecoded
@@ -2666,46 +2528,30 @@ extension PutGroupConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension PutGroupConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutGroupConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutGroupConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutGroupConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutGroupConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutGroupConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ResourceGroupsClientTypes.QueryError: Swift.Codable {
@@ -2724,7 +2570,7 @@ extension ResourceGroupsClientTypes.QueryError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorCodeDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.QueryErrorCode.self, forKey: .errorCode)
         errorCode = errorCodeDecoded
@@ -2741,7 +2587,7 @@ extension ResourceGroupsClientTypes {
         /// A message that explains the ErrorCode value. Messages might state that the specified CloudFront stack does not exist (or no longer exists). For CLOUDFORMATION_STACK_INACTIVE, the message typically states that the CloudFront stack has a status that is not (or no longer) active, such as CREATE_FAILED.
         public var message: Swift.String?
 
-        public init (
+        public init(
             errorCode: ResourceGroupsClientTypes.QueryErrorCode? = nil,
             message: Swift.String? = nil
         )
@@ -2839,7 +2685,7 @@ extension ResourceGroupsClientTypes.ResourceFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.ResourceFilterName.self, forKey: .name)
         name = nameDecoded
@@ -2867,7 +2713,7 @@ extension ResourceGroupsClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: ResourceGroupsClientTypes.ResourceFilterName? = nil,
             values: [Swift.String]? = nil
         )
@@ -2924,7 +2770,7 @@ extension ResourceGroupsClientTypes.ResourceIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -2941,7 +2787,7 @@ extension ResourceGroupsClientTypes {
         /// The resource type of a resource, such as AWS::EC2::Instance.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
@@ -2969,7 +2815,7 @@ extension ResourceGroupsClientTypes.ResourceQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.QueryType.self, forKey: .type)
         type = typeDecoded
@@ -3019,7 +2865,7 @@ extension ResourceGroupsClientTypes {
         /// This member is required.
         public var type: ResourceGroupsClientTypes.QueryType?
 
-        public init (
+        public init(
             query: Swift.String? = nil,
             type: ResourceGroupsClientTypes.QueryType? = nil
         )
@@ -3043,7 +2889,7 @@ extension ResourceGroupsClientTypes.ResourceStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.ResourceStatusValue.self, forKey: .name)
         name = nameDecoded
@@ -3056,7 +2902,7 @@ extension ResourceGroupsClientTypes {
         /// The current status.
         public var name: ResourceGroupsClientTypes.ResourceStatusValue?
 
-        public init (
+        public init(
             name: ResourceGroupsClientTypes.ResourceStatusValue? = nil
         )
         {
@@ -3131,7 +2977,7 @@ public struct SearchResourcesInput: Swift.Equatable {
     /// This member is required.
     public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil
@@ -3156,7 +3002,7 @@ extension SearchResourcesInputBody: Swift.Decodable {
         case resourceQuery = "ResourceQuery"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceQueryDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.ResourceQuery.self, forKey: .resourceQuery)
         resourceQuery = resourceQueryDecoded
@@ -3167,41 +3013,25 @@ extension SearchResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension SearchResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SearchResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SearchResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SearchResourcesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unauthorizedException(UnauthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SearchResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SearchResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -3227,7 +3057,7 @@ public struct SearchResourcesOutputResponse: Swift.Equatable {
     /// The ARNs and resource types of resources that are members of the group that you specified.
     public var resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queryErrors: [ResourceGroupsClientTypes.QueryError]? = nil,
         resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]? = nil
@@ -3252,7 +3082,7 @@ extension SearchResourcesOutputResponseBody: Swift.Decodable {
         case resourceIdentifiers = "ResourceIdentifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdentifiersContainer = try containerValues.decodeIfPresent([ResourceGroupsClientTypes.ResourceIdentifier?].self, forKey: .resourceIdentifiers)
         var resourceIdentifiersDecoded0:[ResourceGroupsClientTypes.ResourceIdentifier]? = nil
@@ -3314,7 +3144,7 @@ public struct TagInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -3333,7 +3163,7 @@ extension TagInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -3349,41 +3179,25 @@ extension TagInputBody: Swift.Decodable {
     }
 }
 
-extension TagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -3401,7 +3215,7 @@ public struct TagOutputResponse: Swift.Equatable {
     /// The tags that have been added to the specified resource group.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -3422,7 +3236,7 @@ extension TagOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3441,37 +3255,41 @@ extension TagOutputResponseBody: Swift.Decodable {
 }
 
 extension TooManyRequestsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You've exceeded throttling limits by making too many requests in a period of time.
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3484,7 +3302,7 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3492,37 +3310,41 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
 }
 
 extension UnauthorizedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was rejected because it doesn't have valid credentials for the target resource.
-public struct UnauthorizedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3535,7 +3357,7 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3576,7 +3398,7 @@ public struct UngroupResourcesInput: Swift.Equatable {
     /// This member is required.
     public var resourceArns: [Swift.String]?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
     )
@@ -3597,7 +3419,7 @@ extension UngroupResourcesInputBody: Swift.Decodable {
         case resourceArns = "ResourceArns"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
         group = groupDecoded
@@ -3615,41 +3437,25 @@ extension UngroupResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension UngroupResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UngroupResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UngroupResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UngroupResourcesOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UngroupResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UngroupResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -3671,7 +3477,7 @@ public struct UngroupResourcesOutputResponse: Swift.Equatable {
     /// A list of resources that were successfully removed from the group by this operation.
     public var succeeded: [Swift.String]?
 
-    public init (
+    public init(
         failed: [ResourceGroupsClientTypes.FailedResource]? = nil,
         pending: [ResourceGroupsClientTypes.PendingResource]? = nil,
         succeeded: [Swift.String]? = nil
@@ -3696,7 +3502,7 @@ extension UngroupResourcesOutputResponseBody: Swift.Decodable {
         case succeeded = "Succeeded"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let succeededContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .succeeded)
         var succeededDecoded0:[Swift.String]? = nil
@@ -3767,7 +3573,7 @@ public struct UntagInput: Swift.Equatable {
     /// This member is required.
     public var keys: [Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         keys: [Swift.String]? = nil
     )
@@ -3786,7 +3592,7 @@ extension UntagInputBody: Swift.Decodable {
         case keys = "Keys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keys)
         var keysDecoded0:[Swift.String]? = nil
@@ -3802,41 +3608,25 @@ extension UntagInputBody: Swift.Decodable {
     }
 }
 
-extension UntagOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UntagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -3854,7 +3644,7 @@ public struct UntagOutputResponse: Swift.Equatable {
     /// The keys of the tags that were removed.
     public var keys: [Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         keys: [Swift.String]? = nil
     )
@@ -3875,7 +3665,7 @@ extension UntagOutputResponseBody: Swift.Decodable {
         case keys = "Keys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3916,7 +3706,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     /// Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html) on or off.
     public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
 
-    public init (
+    public init(
         groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus? = nil
     )
     {
@@ -3933,46 +3723,31 @@ extension UpdateAccountSettingsInputBody: Swift.Decodable {
         case groupLifecycleEventsDesiredStatus = "GroupLifecycleEventsDesiredStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupLifecycleEventsDesiredStatusDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus.self, forKey: .groupLifecycleEventsDesiredStatus)
         groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatusDecoded
     }
 }
 
-extension UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAccountSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAccountSettingsOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSettings = output.accountSettings
@@ -3986,7 +3761,7 @@ public struct UpdateAccountSettingsOutputResponse: Swift.Equatable {
     /// A structure that displays the status of the optional features in the account.
     public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
 
-    public init (
+    public init(
         accountSettings: ResourceGroupsClientTypes.AccountSettings? = nil
     )
     {
@@ -4003,7 +3778,7 @@ extension UpdateAccountSettingsOutputResponseBody: Swift.Decodable {
         case accountSettings = "AccountSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountSettingsDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.AccountSettings.self, forKey: .accountSettings)
         accountSettings = accountSettingsDecoded
@@ -4046,7 +3821,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     @available(*, deprecated, message: "This field is deprecated, use Group instead.")
     public var groupName: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
@@ -4071,7 +3846,7 @@ extension UpdateGroupInputBody: Swift.Decodable {
         case groupName = "GroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -4082,41 +3857,25 @@ extension UpdateGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateGroupOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
@@ -4130,7 +3889,7 @@ public struct UpdateGroupOutputResponse: Swift.Equatable {
     /// The update description of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
-    public init (
+    public init(
         group: ResourceGroupsClientTypes.Group? = nil
     )
     {
@@ -4147,7 +3906,7 @@ extension UpdateGroupOutputResponseBody: Swift.Decodable {
         case group = "Group"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.Group.self, forKey: .group)
         group = groupDecoded
@@ -4191,7 +3950,7 @@ public struct UpdateGroupQueryInput: Swift.Equatable {
     /// This member is required.
     public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil
@@ -4216,7 +3975,7 @@ extension UpdateGroupQueryInputBody: Swift.Decodable {
         case resourceQuery = "ResourceQuery"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -4227,41 +3986,25 @@ extension UpdateGroupQueryInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGroupQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateGroupQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateGroupQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateGroupQueryOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case forbiddenException(ForbiddenException)
-    case internalServerErrorException(InternalServerErrorException)
-    case methodNotAllowedException(MethodNotAllowedException)
-    case notFoundException(NotFoundException)
-    case tooManyRequestsException(TooManyRequestsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateGroupQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateGroupQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupQuery = output.groupQuery
@@ -4275,7 +4018,7 @@ public struct UpdateGroupQueryOutputResponse: Swift.Equatable {
     /// The updated resource query associated with the resource group after the update.
     public var groupQuery: ResourceGroupsClientTypes.GroupQuery?
 
-    public init (
+    public init(
         groupQuery: ResourceGroupsClientTypes.GroupQuery? = nil
     )
     {
@@ -4292,7 +4035,7 @@ extension UpdateGroupQueryOutputResponseBody: Swift.Decodable {
         case groupQuery = "GroupQuery"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupQueryDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupQuery.self, forKey: .groupQuery)
         groupQuery = groupQueryDecoded

@@ -42,7 +42,7 @@ public struct ActivatePipelineInput: Swift.Equatable {
     /// The date and time to resume the pipeline. By default, the pipeline resumes from the last completed execution.
     public var startTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineId: Swift.String? = nil,
         startTimestamp: ClientRuntime.Date? = nil
@@ -67,7 +67,7 @@ extension ActivatePipelineInputBody: Swift.Decodable {
         case startTimestamp
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -87,43 +87,29 @@ extension ActivatePipelineInputBody: Swift.Decodable {
     }
 }
 
-extension ActivatePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ActivatePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ActivatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ActivatePipelineOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ActivatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Contains the output of ActivatePipeline.
 public struct ActivatePipelineOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AddTagsInput: Swift.Encodable {
@@ -161,7 +147,7 @@ public struct AddTagsInput: Swift.Equatable {
     /// This member is required.
     public var tags: [DataPipelineClientTypes.Tag]?
 
-    public init (
+    public init(
         pipelineId: Swift.String? = nil,
         tags: [DataPipelineClientTypes.Tag]? = nil
     )
@@ -182,7 +168,7 @@ extension AddTagsInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -200,43 +186,29 @@ extension AddTagsInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Contains the output of AddTags.
 public struct AddTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreatePipelineInput: Swift.Encodable {
@@ -286,7 +258,7 @@ public struct CreatePipelineInput: Swift.Equatable {
     /// This member is required.
     public var uniqueId: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [DataPipelineClientTypes.Tag]? = nil,
@@ -315,7 +287,7 @@ extension CreatePipelineInputBody: Swift.Decodable {
         case uniqueId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -337,33 +309,21 @@ extension CreatePipelineInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreatePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreatePipelineOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pipelineId = output.pipelineId
@@ -379,7 +339,7 @@ public struct CreatePipelineOutputResponse: Swift.Equatable {
     /// This member is required.
     public var pipelineId: Swift.String?
 
-    public init (
+    public init(
         pipelineId: Swift.String? = nil
     )
     {
@@ -396,7 +356,7 @@ extension CreatePipelineOutputResponseBody: Swift.Decodable {
         case pipelineId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -434,7 +394,7 @@ public struct DeactivatePipelineInput: Swift.Equatable {
     /// This member is required.
     public var pipelineId: Swift.String?
 
-    public init (
+    public init(
         cancelActive: Swift.Bool? = nil,
         pipelineId: Swift.String? = nil
     )
@@ -455,7 +415,7 @@ extension DeactivatePipelineInputBody: Swift.Decodable {
         case pipelineId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -464,43 +424,29 @@ extension DeactivatePipelineInputBody: Swift.Decodable {
     }
 }
 
-extension DeactivatePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeactivatePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeactivatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeactivatePipelineOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeactivatePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Contains the output of DeactivatePipeline.
 public struct DeactivatePipelineOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeletePipelineInput: Swift.Encodable {
@@ -528,7 +474,7 @@ public struct DeletePipelineInput: Swift.Equatable {
     /// This member is required.
     public var pipelineId: Swift.String?
 
-    public init (
+    public init(
         pipelineId: Swift.String? = nil
     )
     {
@@ -545,47 +491,34 @@ extension DeletePipelineInputBody: Swift.Decodable {
         case pipelineId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
     }
 }
 
-extension DeletePipelineOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeletePipelineOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeletePipelineOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeletePipelineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeletePipelineOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeObjectsInput: Swift.Encodable {
@@ -635,7 +568,7 @@ public struct DescribeObjectsInput: Swift.Equatable {
     /// This member is required.
     public var pipelineId: Swift.String?
 
-    public init (
+    public init(
         evaluateExpressions: Swift.Bool = false,
         marker: Swift.String? = nil,
         objectIds: [Swift.String]? = nil,
@@ -664,7 +597,7 @@ extension DescribeObjectsInputBody: Swift.Decodable {
         case pipelineId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -686,37 +619,23 @@ extension DescribeObjectsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeObjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeObjectsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeObjectsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreResults = output.hasMoreResults
@@ -740,7 +659,7 @@ public struct DescribeObjectsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
 
-    public init (
+    public init(
         hasMoreResults: Swift.Bool = false,
         marker: Swift.String? = nil,
         pipelineObjects: [DataPipelineClientTypes.PipelineObject]? = nil
@@ -765,7 +684,7 @@ extension DescribeObjectsOutputResponseBody: Swift.Decodable {
         case pipelineObjects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineObjectsContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.PipelineObject?].self, forKey: .pipelineObjects)
         var pipelineObjectsDecoded0:[DataPipelineClientTypes.PipelineObject]? = nil
@@ -813,7 +732,7 @@ public struct DescribePipelinesInput: Swift.Equatable {
     /// This member is required.
     public var pipelineIds: [Swift.String]?
 
-    public init (
+    public init(
         pipelineIds: [Swift.String]? = nil
     )
     {
@@ -830,7 +749,7 @@ extension DescribePipelinesInputBody: Swift.Decodable {
         case pipelineIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .pipelineIds)
         var pipelineIdsDecoded0:[Swift.String]? = nil
@@ -846,37 +765,23 @@ extension DescribePipelinesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribePipelinesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribePipelinesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribePipelinesOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pipelineDescriptionList = output.pipelineDescriptionList
@@ -892,7 +797,7 @@ public struct DescribePipelinesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var pipelineDescriptionList: [DataPipelineClientTypes.PipelineDescription]?
 
-    public init (
+    public init(
         pipelineDescriptionList: [DataPipelineClientTypes.PipelineDescription]? = nil
     )
     {
@@ -909,7 +814,7 @@ extension DescribePipelinesOutputResponseBody: Swift.Decodable {
         case pipelineDescriptionList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDescriptionListContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.PipelineDescription?].self, forKey: .pipelineDescriptionList)
         var pipelineDescriptionListDecoded0:[DataPipelineClientTypes.PipelineDescription]? = nil
@@ -964,7 +869,7 @@ public struct EvaluateExpressionInput: Swift.Equatable {
     /// This member is required.
     public var pipelineId: Swift.String?
 
-    public init (
+    public init(
         expression: Swift.String? = nil,
         objectId: Swift.String? = nil,
         pipelineId: Swift.String? = nil
@@ -989,7 +894,7 @@ extension EvaluateExpressionInputBody: Swift.Decodable {
         case pipelineId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -1000,39 +905,24 @@ extension EvaluateExpressionInputBody: Swift.Decodable {
     }
 }
 
-extension EvaluateExpressionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension EvaluateExpressionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EvaluateExpressionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TaskNotFoundException": return try await TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum EvaluateExpressionOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case taskNotFoundException(TaskNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EvaluateExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EvaluateExpressionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evaluatedExpression = output.evaluatedExpression
@@ -1048,7 +938,7 @@ public struct EvaluateExpressionOutputResponse: Swift.Equatable {
     /// This member is required.
     public var evaluatedExpression: Swift.String?
 
-    public init (
+    public init(
         evaluatedExpression: Swift.String? = nil
     )
     {
@@ -1065,7 +955,7 @@ extension EvaluateExpressionOutputResponseBody: Swift.Decodable {
         case evaluatedExpression
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluatedExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluatedExpression)
         evaluatedExpression = evaluatedExpressionDecoded
@@ -1092,7 +982,7 @@ extension DataPipelineClientTypes.Field: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -1114,7 +1004,7 @@ extension DataPipelineClientTypes {
         /// The field value, expressed as a String.
         public var stringValue: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             refValue: Swift.String? = nil,
             stringValue: Swift.String? = nil
@@ -1159,7 +1049,7 @@ public struct GetPipelineDefinitionInput: Swift.Equatable {
     /// The version of the pipeline definition to retrieve. Set this parameter to latest (default) to use the last definition saved to the pipeline or active to use the last definition that was activated.
     public var version: Swift.String?
 
-    public init (
+    public init(
         pipelineId: Swift.String? = nil,
         version: Swift.String? = nil
     )
@@ -1180,7 +1070,7 @@ extension GetPipelineDefinitionInputBody: Swift.Decodable {
         case version
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -1189,37 +1079,23 @@ extension GetPipelineDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension GetPipelineDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetPipelineDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetPipelineDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetPipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetPipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetPipelineDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.parameterObjects = output.parameterObjects
@@ -1242,7 +1118,7 @@ public struct GetPipelineDefinitionOutputResponse: Swift.Equatable {
     /// The objects defined in the pipeline.
     public var pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
 
-    public init (
+    public init(
         parameterObjects: [DataPipelineClientTypes.ParameterObject]? = nil,
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineObjects: [DataPipelineClientTypes.PipelineObject]? = nil
@@ -1267,7 +1143,7 @@ extension GetPipelineDefinitionOutputResponseBody: Swift.Decodable {
         case pipelineObjects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineObjectsContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.PipelineObject?].self, forKey: .pipelineObjects)
         var pipelineObjectsDecoded0:[DataPipelineClientTypes.PipelineObject]? = nil
@@ -1321,7 +1197,7 @@ extension DataPipelineClientTypes.InstanceIdentity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .document)
         document = documentDecoded
@@ -1338,7 +1214,7 @@ extension DataPipelineClientTypes {
         /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
         public var signature: Swift.String?
 
-        public init (
+        public init(
             document: Swift.String? = nil,
             signature: Swift.String? = nil
         )
@@ -1351,38 +1227,42 @@ extension DataPipelineClientTypes {
 }
 
 extension InternalServiceError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServiceErrorBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal service error occurred.
-public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// Description of the error message.
-    public var message: Swift.String?
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1395,7 +1275,7 @@ extension InternalServiceErrorBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1403,38 +1283,42 @@ extension InternalServiceErrorBody: Swift.Decodable {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Description of the error message.
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1447,7 +1331,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1478,7 +1362,7 @@ public struct ListPipelinesInput: Swift.Equatable {
     /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         marker: Swift.String? = nil
     )
     {
@@ -1495,40 +1379,28 @@ extension ListPipelinesInputBody: Swift.Decodable {
         case marker
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
     }
 }
 
-extension ListPipelinesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListPipelinesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListPipelinesOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPipelinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreResults = output.hasMoreResults
@@ -1552,7 +1424,7 @@ public struct ListPipelinesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var pipelineIdList: [DataPipelineClientTypes.PipelineIdName]?
 
-    public init (
+    public init(
         hasMoreResults: Swift.Bool = false,
         marker: Swift.String? = nil,
         pipelineIdList: [DataPipelineClientTypes.PipelineIdName]? = nil
@@ -1577,7 +1449,7 @@ extension ListPipelinesOutputResponseBody: Swift.Decodable {
         case pipelineIdList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdListContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.PipelineIdName?].self, forKey: .pipelineIdList)
         var pipelineIdListDecoded0:[DataPipelineClientTypes.PipelineIdName]? = nil
@@ -1616,7 +1488,7 @@ extension DataPipelineClientTypes.Operator: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(DataPipelineClientTypes.OperatorType.self, forKey: .type)
         type = typeDecoded
@@ -1676,7 +1548,7 @@ extension DataPipelineClientTypes {
         /// The value that the actual field value will be compared with.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             type: DataPipelineClientTypes.OperatorType? = nil,
             values: [Swift.String]? = nil
         )
@@ -1745,7 +1617,7 @@ extension DataPipelineClientTypes.ParameterAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -1764,7 +1636,7 @@ extension DataPipelineClientTypes {
         /// This member is required.
         public var stringValue: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             stringValue: Swift.String? = nil
         )
@@ -1795,7 +1667,7 @@ extension DataPipelineClientTypes.ParameterObject: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1823,7 +1695,7 @@ extension DataPipelineClientTypes {
         /// This member is required.
         public var id: Swift.String?
 
-        public init (
+        public init(
             attributes: [DataPipelineClientTypes.ParameterAttribute]? = nil,
             id: Swift.String? = nil
         )
@@ -1851,7 +1723,7 @@ extension DataPipelineClientTypes.ParameterValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1870,7 +1742,7 @@ extension DataPipelineClientTypes {
         /// This member is required.
         public var stringValue: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             stringValue: Swift.String? = nil
         )
@@ -1883,38 +1755,42 @@ extension DataPipelineClientTypes {
 }
 
 extension PipelineDeletedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PipelineDeletedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified pipeline has been deleted.
-public struct PipelineDeletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Description of the error message.
-    public var message: Swift.String?
+public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PipelineDeletedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1927,7 +1803,7 @@ extension PipelineDeletedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1968,7 +1844,7 @@ extension DataPipelineClientTypes.PipelineDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -2018,7 +1894,7 @@ extension DataPipelineClientTypes {
         /// A list of tags to associated with a pipeline. Tags let you control access to pipelines. For more information, see [Controlling User Access to Pipelines](http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html) in the AWS Data Pipeline Developer Guide.
         public var tags: [DataPipelineClientTypes.Tag]?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             fields: [DataPipelineClientTypes.Field]? = nil,
             name: Swift.String? = nil,
@@ -2052,7 +1928,7 @@ extension DataPipelineClientTypes.PipelineIdName: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2069,7 +1945,7 @@ extension DataPipelineClientTypes {
         /// The name of the pipeline.
         public var name: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -2082,38 +1958,42 @@ extension DataPipelineClientTypes {
 }
 
 extension PipelineNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PipelineNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-public struct PipelineNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Description of the error message.
-    public var message: Swift.String?
+public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PipelineNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2126,7 +2006,7 @@ extension PipelineNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2156,7 +2036,7 @@ extension DataPipelineClientTypes.PipelineObject: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2189,7 +2069,7 @@ extension DataPipelineClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             fields: [DataPipelineClientTypes.Field]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
@@ -2240,7 +2120,7 @@ public struct PollForTaskInput: Swift.Equatable {
     /// This member is required.
     public var workerGroup: Swift.String?
 
-    public init (
+    public init(
         hostname: Swift.String? = nil,
         instanceIdentity: DataPipelineClientTypes.InstanceIdentity? = nil,
         workerGroup: Swift.String? = nil
@@ -2265,7 +2145,7 @@ extension PollForTaskInputBody: Swift.Decodable {
         case workerGroup
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workerGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workerGroup)
         workerGroup = workerGroupDecoded
@@ -2276,35 +2156,22 @@ extension PollForTaskInputBody: Swift.Decodable {
     }
 }
 
-extension PollForTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PollForTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PollForTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TaskNotFoundException": return try await TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PollForTaskOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case taskNotFoundException(TaskNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PollForTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PollForTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.taskObject = output.taskObject
@@ -2319,7 +2186,7 @@ public struct PollForTaskOutputResponse: Swift.Equatable {
     /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to [ReportTaskProgress] and [SetTaskStatus].
     public var taskObject: DataPipelineClientTypes.TaskObject?
 
-    public init (
+    public init(
         taskObject: DataPipelineClientTypes.TaskObject? = nil
     )
     {
@@ -2336,7 +2203,7 @@ extension PollForTaskOutputResponseBody: Swift.Decodable {
         case taskObject
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskObjectDecoded = try containerValues.decodeIfPresent(DataPipelineClientTypes.TaskObject.self, forKey: .taskObject)
         taskObject = taskObjectDecoded
@@ -2396,7 +2263,7 @@ public struct PutPipelineDefinitionInput: Swift.Equatable {
     /// This member is required.
     public var pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
 
-    public init (
+    public init(
         parameterObjects: [DataPipelineClientTypes.ParameterObject]? = nil,
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineId: Swift.String? = nil,
@@ -2425,7 +2292,7 @@ extension PutPipelineDefinitionInputBody: Swift.Decodable {
         case pipelineObjects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -2465,37 +2332,23 @@ extension PutPipelineDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension PutPipelineDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutPipelineDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutPipelineDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutPipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutPipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutPipelineDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errored = output.errored
@@ -2519,7 +2372,7 @@ public struct PutPipelineDefinitionOutputResponse: Swift.Equatable {
     /// The validation warnings that are associated with the objects defined in pipelineObjects.
     public var validationWarnings: [DataPipelineClientTypes.ValidationWarning]?
 
-    public init (
+    public init(
         errored: Swift.Bool = false,
         validationErrors: [DataPipelineClientTypes.ValidationError]? = nil,
         validationWarnings: [DataPipelineClientTypes.ValidationWarning]? = nil
@@ -2544,7 +2397,7 @@ extension PutPipelineDefinitionOutputResponseBody: Swift.Decodable {
         case validationWarnings
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let validationErrorsContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.ValidationError?].self, forKey: .validationErrors)
         var validationErrorsDecoded0:[DataPipelineClientTypes.ValidationError]? = nil
@@ -2588,7 +2441,7 @@ extension DataPipelineClientTypes.Query: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let selectorsContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.Selector?].self, forKey: .selectors)
         var selectorsDecoded0:[DataPipelineClientTypes.Selector]? = nil
@@ -2610,7 +2463,7 @@ extension DataPipelineClientTypes {
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
         public var selectors: [DataPipelineClientTypes.Selector]?
 
-        public init (
+        public init(
             selectors: [DataPipelineClientTypes.Selector]? = nil
         )
         {
@@ -2670,7 +2523,7 @@ public struct QueryObjectsInput: Swift.Equatable {
     /// This member is required.
     public var sphere: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         pipelineId: Swift.String? = nil,
@@ -2703,7 +2556,7 @@ extension QueryObjectsInputBody: Swift.Decodable {
         case sphere
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -2718,37 +2571,23 @@ extension QueryObjectsInputBody: Swift.Decodable {
     }
 }
 
-extension QueryObjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension QueryObjectsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum QueryObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum QueryObjectsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension QueryObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: QueryObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreResults = output.hasMoreResults
@@ -2771,7 +2610,7 @@ public struct QueryObjectsOutputResponse: Swift.Equatable {
     /// The starting point for the next page of results. To view the next page of results, call QueryObjects again with this marker value. If the value is null, there are no more results.
     public var marker: Swift.String?
 
-    public init (
+    public init(
         hasMoreResults: Swift.Bool = false,
         ids: [Swift.String]? = nil,
         marker: Swift.String? = nil
@@ -2796,7 +2635,7 @@ extension QueryObjectsOutputResponseBody: Swift.Decodable {
         case marker
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -2851,7 +2690,7 @@ public struct RemoveTagsInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         pipelineId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -2872,7 +2711,7 @@ extension RemoveTagsInputBody: Swift.Decodable {
         case tagKeys
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -2890,43 +2729,29 @@ extension RemoveTagsInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Contains the output of RemoveTags.
 public struct RemoveTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ReportTaskProgressInput: Swift.Encodable {
@@ -2963,7 +2788,7 @@ public struct ReportTaskProgressInput: Swift.Equatable {
     /// This member is required.
     public var taskId: Swift.String?
 
-    public init (
+    public init(
         fields: [DataPipelineClientTypes.Field]? = nil,
         taskId: Swift.String? = nil
     )
@@ -2984,7 +2809,7 @@ extension ReportTaskProgressInputBody: Swift.Decodable {
         case taskId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
         taskId = taskIdDecoded
@@ -3002,39 +2827,24 @@ extension ReportTaskProgressInputBody: Swift.Decodable {
     }
 }
 
-extension ReportTaskProgressOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ReportTaskProgressOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ReportTaskProgressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TaskNotFoundException": return try await TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ReportTaskProgressOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case taskNotFoundException(TaskNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ReportTaskProgressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ReportTaskProgressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.canceled = output.canceled
@@ -3050,7 +2860,7 @@ public struct ReportTaskProgressOutputResponse: Swift.Equatable {
     /// This member is required.
     public var canceled: Swift.Bool
 
-    public init (
+    public init(
         canceled: Swift.Bool = false
     )
     {
@@ -3067,7 +2877,7 @@ extension ReportTaskProgressOutputResponseBody: Swift.Decodable {
         case canceled
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let canceledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .canceled) ?? false
         canceled = canceledDecoded
@@ -3111,7 +2921,7 @@ public struct ReportTaskRunnerHeartbeatInput: Swift.Equatable {
     /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
     public var workerGroup: Swift.String?
 
-    public init (
+    public init(
         hostname: Swift.String? = nil,
         taskrunnerId: Swift.String? = nil,
         workerGroup: Swift.String? = nil
@@ -3136,7 +2946,7 @@ extension ReportTaskRunnerHeartbeatInputBody: Swift.Decodable {
         case workerGroup
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskrunnerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskrunnerId)
         taskrunnerId = taskrunnerIdDecoded
@@ -3147,33 +2957,21 @@ extension ReportTaskRunnerHeartbeatInputBody: Swift.Decodable {
     }
 }
 
-extension ReportTaskRunnerHeartbeatOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ReportTaskRunnerHeartbeatOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ReportTaskRunnerHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ReportTaskRunnerHeartbeatOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ReportTaskRunnerHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ReportTaskRunnerHeartbeatOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.terminate = output.terminate
@@ -3189,7 +2987,7 @@ public struct ReportTaskRunnerHeartbeatOutputResponse: Swift.Equatable {
     /// This member is required.
     public var terminate: Swift.Bool
 
-    public init (
+    public init(
         terminate: Swift.Bool = false
     )
     {
@@ -3206,7 +3004,7 @@ extension ReportTaskRunnerHeartbeatOutputResponseBody: Swift.Decodable {
         case terminate
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let terminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminate) ?? false
         terminate = terminateDecoded
@@ -3229,7 +3027,7 @@ extension DataPipelineClientTypes.Selector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldName)
         fieldName = fieldNameDecoded
@@ -3246,7 +3044,7 @@ extension DataPipelineClientTypes {
         /// Contains a logical operation for comparing the value of a field with a specified value.
         public var `operator`: DataPipelineClientTypes.Operator?
 
-        public init (
+        public init(
             fieldName: Swift.String? = nil,
             `operator`: DataPipelineClientTypes.Operator? = nil
         )
@@ -3300,7 +3098,7 @@ public struct SetStatusInput: Swift.Equatable {
     /// This member is required.
     public var status: Swift.String?
 
-    public init (
+    public init(
         objectIds: [Swift.String]? = nil,
         pipelineId: Swift.String? = nil,
         status: Swift.String? = nil
@@ -3325,7 +3123,7 @@ extension SetStatusInputBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -3345,42 +3143,28 @@ extension SetStatusInputBody: Swift.Decodable {
     }
 }
 
-extension SetStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetStatusOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetStatusOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SetTaskStatusInput: Swift.Encodable {
@@ -3433,7 +3217,7 @@ public struct SetTaskStatusInput: Swift.Equatable {
     /// This member is required.
     public var taskStatus: DataPipelineClientTypes.TaskStatus?
 
-    public init (
+    public init(
         errorId: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
         errorStackTrace: Swift.String? = nil,
@@ -3466,7 +3250,7 @@ extension SetTaskStatusInputBody: Swift.Decodable {
         case taskStatus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
         taskId = taskIdDecoded
@@ -3481,45 +3265,30 @@ extension SetTaskStatusInputBody: Swift.Decodable {
     }
 }
 
-extension SetTaskStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SetTaskStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetTaskStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TaskNotFoundException": return try await TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SetTaskStatusOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case taskNotFoundException(TaskNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetTaskStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Contains the output of SetTaskStatus.
 public struct SetTaskStatusOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DataPipelineClientTypes.Tag: Swift.Codable {
@@ -3538,7 +3307,7 @@ extension DataPipelineClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -3557,7 +3326,7 @@ extension DataPipelineClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -3570,38 +3339,42 @@ extension DataPipelineClientTypes {
 }
 
 extension TaskNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TaskNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified task was not found.
-public struct TaskNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Description of the error message.
-    public var message: Swift.String?
+public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Description of the error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TaskNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3614,7 +3387,7 @@ extension TaskNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3648,7 +3421,7 @@ extension DataPipelineClientTypes.TaskObject: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
         taskId = taskIdDecoded
@@ -3682,7 +3455,7 @@ extension DataPipelineClientTypes {
         /// An internal identifier for the task. This ID is passed to the [SetTaskStatus] and [ReportTaskProgress] actions.
         public var taskId: Swift.String?
 
-        public init (
+        public init(
             attemptId: Swift.String? = nil,
             objects: [Swift.String:DataPipelineClientTypes.PipelineObject]? = nil,
             pipelineId: Swift.String? = nil,
@@ -3786,7 +3559,7 @@ public struct ValidatePipelineDefinitionInput: Swift.Equatable {
     /// This member is required.
     public var pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
 
-    public init (
+    public init(
         parameterObjects: [DataPipelineClientTypes.ParameterObject]? = nil,
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineId: Swift.String? = nil,
@@ -3815,7 +3588,7 @@ extension ValidatePipelineDefinitionInputBody: Swift.Decodable {
         case pipelineObjects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
         pipelineId = pipelineIdDecoded
@@ -3855,37 +3628,23 @@ extension ValidatePipelineDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension ValidatePipelineDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ValidatePipelineDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ValidatePipelineDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineDeletedException": return try await PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ValidatePipelineDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidRequestException(InvalidRequestException)
-    case pipelineDeletedException(PipelineDeletedException)
-    case pipelineNotFoundException(PipelineNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ValidatePipelineDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidatePipelineDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errored = output.errored
@@ -3909,7 +3668,7 @@ public struct ValidatePipelineDefinitionOutputResponse: Swift.Equatable {
     /// Any validation warnings that were found.
     public var validationWarnings: [DataPipelineClientTypes.ValidationWarning]?
 
-    public init (
+    public init(
         errored: Swift.Bool = false,
         validationErrors: [DataPipelineClientTypes.ValidationError]? = nil,
         validationWarnings: [DataPipelineClientTypes.ValidationWarning]? = nil
@@ -3934,7 +3693,7 @@ extension ValidatePipelineDefinitionOutputResponseBody: Swift.Decodable {
         case validationWarnings
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let validationErrorsContainer = try containerValues.decodeIfPresent([DataPipelineClientTypes.ValidationError?].self, forKey: .validationErrors)
         var validationErrorsDecoded0:[DataPipelineClientTypes.ValidationError]? = nil
@@ -3982,7 +3741,7 @@ extension DataPipelineClientTypes.ValidationError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4008,7 +3767,7 @@ extension DataPipelineClientTypes {
         /// The identifier of the object that contains the validation error.
         public var id: Swift.String?
 
-        public init (
+        public init(
             errors: [Swift.String]? = nil,
             id: Swift.String? = nil
         )
@@ -4039,7 +3798,7 @@ extension DataPipelineClientTypes.ValidationWarning: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4065,7 +3824,7 @@ extension DataPipelineClientTypes {
         /// A description of the validation warning.
         public var warnings: [Swift.String]?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             warnings: [Swift.String]? = nil
         )

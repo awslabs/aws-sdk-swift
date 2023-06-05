@@ -81,7 +81,7 @@ extension CostExplorerClientTypes.Anomaly: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyId)
         anomalyId = anomalyIdDecoded
@@ -139,7 +139,7 @@ extension CostExplorerClientTypes {
         /// The list of identified root causes for the anomaly.
         public var rootCauses: [CostExplorerClientTypes.RootCause]?
 
-        public init (
+        public init(
             anomalyEndDate: Swift.String? = nil,
             anomalyId: Swift.String? = nil,
             anomalyScore: CostExplorerClientTypes.AnomalyScore? = nil,
@@ -181,7 +181,7 @@ extension CostExplorerClientTypes.AnomalyDateInterval: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startDate)
         startDate = startDateDecoded
@@ -199,7 +199,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var startDate: Swift.String?
 
-        public init (
+        public init(
             endDate: Swift.String? = nil,
             startDate: Swift.String? = nil
         )
@@ -290,7 +290,7 @@ extension CostExplorerClientTypes.AnomalyMonitor: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitorArn)
         monitorArn = monitorArnDecoded
@@ -387,7 +387,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var monitorType: CostExplorerClientTypes.MonitorType?
 
-        public init (
+        public init(
             creationDate: Swift.String? = nil,
             dimensionalValueCount: Swift.Int = 0,
             lastEvaluatedDate: Swift.String? = nil,
@@ -429,7 +429,7 @@ extension CostExplorerClientTypes.AnomalyScore: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxScore) ?? 0.0
         maxScore = maxScoreDecoded
@@ -448,7 +448,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var maxScore: Swift.Double
 
-        public init (
+        public init(
             currentScore: Swift.Double = 0.0,
             maxScore: Swift.Double = 0.0
         )
@@ -506,7 +506,7 @@ extension CostExplorerClientTypes.AnomalySubscription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionArn)
         subscriptionArn = subscriptionArnDecoded
@@ -578,7 +578,7 @@ extension CostExplorerClientTypes {
         /// * OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
         public var thresholdExpression: CostExplorerClientTypes.Expression?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             frequency: CostExplorerClientTypes.AnomalySubscriptionFrequency? = nil,
             monitorArnList: [Swift.String]? = nil,
@@ -638,37 +638,41 @@ extension CostExplorerClientTypes {
 }
 
 extension BillExpirationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BillExpirationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested report expired. Update the date interval and try again.
-public struct BillExpirationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillExpirationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -681,7 +685,7 @@ extension BillExpirationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -743,7 +747,7 @@ extension CostExplorerClientTypes.CostAllocationTag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagKey)
         tagKey = tagKeyDecoded
@@ -767,7 +771,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var type: CostExplorerClientTypes.CostAllocationTagType?
 
-        public init (
+        public init(
             status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
             tagKey: Swift.String? = nil,
             type: CostExplorerClientTypes.CostAllocationTagType? = nil
@@ -829,7 +833,7 @@ extension CostExplorerClientTypes.CostAllocationTagStatusEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagKey)
         tagKey = tagKeyDecoded
@@ -848,7 +852,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var tagKey: Swift.String?
 
-        public init (
+        public init(
             status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
             tagKey: Swift.String? = nil
         )
@@ -945,7 +949,7 @@ extension CostExplorerClientTypes.CostCategory: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -1022,7 +1026,7 @@ extension CostExplorerClientTypes {
         /// The split charge rules that are used to allocate your charges between your Cost Category values.
         public var splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]?
 
-        public init (
+        public init(
             costCategoryArn: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             effectiveEnd: Swift.String? = nil,
@@ -1064,7 +1068,7 @@ extension CostExplorerClientTypes.CostCategoryInheritedValueDimension: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionNameDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostCategoryInheritedValueDimensionName.self, forKey: .dimensionName)
         dimensionName = dimensionNameDecoded
@@ -1081,7 +1085,7 @@ extension CostExplorerClientTypes {
         /// The name of the dimension that's used to group costs. If you specify LINKED_ACCOUNT_NAME, the cost category value is based on account name. If you specify TAG, the cost category value is based on the value of the specified tag key.
         public var dimensionName: CostExplorerClientTypes.CostCategoryInheritedValueDimensionName?
 
-        public init (
+        public init(
             dimensionKey: Swift.String? = nil,
             dimensionName: CostExplorerClientTypes.CostCategoryInheritedValueDimensionName? = nil
         )
@@ -1141,7 +1145,7 @@ extension CostExplorerClientTypes.CostCategoryProcessingStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let componentDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostCategoryStatusComponent.self, forKey: .component)
         component = componentDecoded
@@ -1158,7 +1162,7 @@ extension CostExplorerClientTypes {
         /// The process status for a specific cost category.
         public var status: CostExplorerClientTypes.CostCategoryStatus?
 
-        public init (
+        public init(
             component: CostExplorerClientTypes.CostCategoryStatusComponent? = nil,
             status: CostExplorerClientTypes.CostCategoryStatus? = nil
         )
@@ -1216,7 +1220,7 @@ extension CostExplorerClientTypes.CostCategoryReference: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -1275,7 +1279,7 @@ extension CostExplorerClientTypes {
         /// A list of unique cost category values in a specific cost category.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             costCategoryArn: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             effectiveEnd: Swift.String? = nil,
@@ -1323,7 +1327,7 @@ extension CostExplorerClientTypes.CostCategoryRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -1348,7 +1352,7 @@ extension CostExplorerClientTypes {
         /// The default value for the cost category.
         public var value: Swift.String?
 
-        public init (
+        public init(
             inheritedValue: CostExplorerClientTypes.CostCategoryInheritedValueDimension? = nil,
             rule: CostExplorerClientTypes.Expression? = nil,
             type: CostExplorerClientTypes.CostCategoryRuleType? = nil,
@@ -1491,7 +1495,7 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
         source = sourceDecoded
@@ -1537,7 +1541,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var targets: [Swift.String]?
 
-        public init (
+        public init(
             method: CostExplorerClientTypes.CostCategorySplitChargeMethod? = nil,
             parameters: [CostExplorerClientTypes.CostCategorySplitChargeRuleParameter]? = nil,
             source: Swift.String? = nil,
@@ -1572,7 +1576,7 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRuleParameter: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostCategorySplitChargeRuleParameterType.self, forKey: .type)
         type = typeDecoded
@@ -1600,7 +1604,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             type: CostExplorerClientTypes.CostCategorySplitChargeRuleParameterType? = nil,
             values: [Swift.String]? = nil
         )
@@ -1728,7 +1732,7 @@ extension CostExplorerClientTypes.CostCategoryValues: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -1767,7 +1771,7 @@ extension CostExplorerClientTypes {
         /// The specific value of the Cost Category.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
@@ -1801,7 +1805,7 @@ extension CostExplorerClientTypes.Coverage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coverageHoursDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CoverageHours.self, forKey: .coverageHours)
         coverageHours = coverageHoursDecoded
@@ -1822,7 +1826,7 @@ extension CostExplorerClientTypes {
         /// The amount of instance usage that the reservation covered, in normalized units.
         public var coverageNormalizedUnits: CostExplorerClientTypes.CoverageNormalizedUnits?
 
-        public init (
+        public init(
             coverageCost: CostExplorerClientTypes.CoverageCost? = nil,
             coverageHours: CostExplorerClientTypes.CoverageHours? = nil,
             coverageNormalizedUnits: CostExplorerClientTypes.CoverageNormalizedUnits? = nil
@@ -1859,7 +1863,7 @@ extension CostExplorerClientTypes.CoverageByTime: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -1889,7 +1893,7 @@ extension CostExplorerClientTypes {
         /// The total reservation coverage, in hours.
         public var total: CostExplorerClientTypes.Coverage?
 
-        public init (
+        public init(
             groups: [CostExplorerClientTypes.ReservationCoverageGroup]? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
             total: CostExplorerClientTypes.Coverage? = nil
@@ -1915,7 +1919,7 @@ extension CostExplorerClientTypes.CoverageCost: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onDemandCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onDemandCost)
         onDemandCost = onDemandCostDecoded
@@ -1928,7 +1932,7 @@ extension CostExplorerClientTypes {
         /// How much an On-Demand Instance costs.
         public var onDemandCost: Swift.String?
 
-        public init (
+        public init(
             onDemandCost: Swift.String? = nil
         )
         {
@@ -1962,7 +1966,7 @@ extension CostExplorerClientTypes.CoverageHours: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onDemandHoursDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onDemandHours)
         onDemandHours = onDemandHoursDecoded
@@ -1987,7 +1991,7 @@ extension CostExplorerClientTypes {
         /// The total instance usage, in hours.
         public var totalRunningHours: Swift.String?
 
-        public init (
+        public init(
             coverageHoursPercentage: Swift.String? = nil,
             onDemandHours: Swift.String? = nil,
             reservedHours: Swift.String? = nil,
@@ -2027,7 +2031,7 @@ extension CostExplorerClientTypes.CoverageNormalizedUnits: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onDemandNormalizedUnitsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onDemandNormalizedUnits)
         onDemandNormalizedUnits = onDemandNormalizedUnitsDecoded
@@ -2052,7 +2056,7 @@ extension CostExplorerClientTypes {
         /// The total number of normalized units that you used.
         public var totalRunningNormalizedUnits: Swift.String?
 
-        public init (
+        public init(
             coverageNormalizedUnitsPercentage: Swift.String? = nil,
             onDemandNormalizedUnits: Swift.String? = nil,
             reservedNormalizedUnits: Swift.String? = nil,
@@ -2115,7 +2119,7 @@ public struct CreateAnomalyMonitorInput: Swift.Equatable {
     /// * Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
     public var resourceTags: [CostExplorerClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         anomalyMonitor: CostExplorerClientTypes.AnomalyMonitor? = nil,
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
     )
@@ -2136,7 +2140,7 @@ extension CreateAnomalyMonitorInputBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalyMonitorDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.AnomalyMonitor.self, forKey: .anomalyMonitor)
         anomalyMonitor = anomalyMonitorDecoded
@@ -2154,31 +2158,20 @@ extension CreateAnomalyMonitorInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAnomalyMonitorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAnomalyMonitorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAnomalyMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAnomalyMonitorOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAnomalyMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
@@ -2193,7 +2186,7 @@ public struct CreateAnomalyMonitorOutputResponse: Swift.Equatable {
     /// This member is required.
     public var monitorArn: Swift.String?
 
-    public init (
+    public init(
         monitorArn: Swift.String? = nil
     )
     {
@@ -2210,7 +2203,7 @@ extension CreateAnomalyMonitorOutputResponseBody: Swift.Decodable {
         case monitorArn = "MonitorArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitorArn)
         monitorArn = monitorArnDecoded
@@ -2264,7 +2257,7 @@ public struct CreateAnomalySubscriptionInput: Swift.Equatable {
     /// * Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
     public var resourceTags: [CostExplorerClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         anomalySubscription: CostExplorerClientTypes.AnomalySubscription? = nil,
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
     )
@@ -2285,7 +2278,7 @@ extension CreateAnomalySubscriptionInputBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalySubscriptionDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.AnomalySubscription.self, forKey: .anomalySubscription)
         anomalySubscription = anomalySubscriptionDecoded
@@ -2303,33 +2296,21 @@ extension CreateAnomalySubscriptionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAnomalySubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAnomalySubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAnomalySubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownMonitorException": return try await UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAnomalySubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknownMonitorException(UnknownMonitorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAnomalySubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriptionArn = output.subscriptionArn
@@ -2344,7 +2325,7 @@ public struct CreateAnomalySubscriptionOutputResponse: Swift.Equatable {
     /// This member is required.
     public var subscriptionArn: Swift.String?
 
-    public init (
+    public init(
         subscriptionArn: Swift.String? = nil
     )
     {
@@ -2361,7 +2342,7 @@ extension CreateAnomalySubscriptionOutputResponseBody: Swift.Decodable {
         case subscriptionArn = "SubscriptionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionArn)
         subscriptionArn = subscriptionArnDecoded
@@ -2453,7 +2434,7 @@ public struct CreateCostCategoryDefinitionInput: Swift.Equatable {
     /// The split charge rules used to allocate your charges between your Cost Category values.
     public var splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]?
 
-    public init (
+    public init(
         defaultValue: Swift.String? = nil,
         effectiveStart: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2494,7 +2475,7 @@ extension CreateCostCategoryDefinitionInputBody: Swift.Decodable {
         case splitChargeRules = "SplitChargeRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2540,33 +2521,21 @@ extension CreateCostCategoryDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateCostCategoryDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
@@ -2584,7 +2553,7 @@ public struct CreateCostCategoryDefinitionOutputResponse: Swift.Equatable {
     /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
     public var effectiveStart: Swift.String?
 
-    public init (
+    public init(
         costCategoryArn: Swift.String? = nil,
         effectiveStart: Swift.String? = nil
     )
@@ -2605,7 +2574,7 @@ extension CreateCostCategoryDefinitionOutputResponseBody: Swift.Decodable {
         case effectiveStart = "EffectiveStart"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -2669,7 +2638,7 @@ extension CostExplorerClientTypes.CurrentInstance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -2731,7 +2700,7 @@ extension CostExplorerClientTypes {
         /// The total number of hours that the instance ran during the lookback period.
         public var totalRunningHoursInLookbackPeriod: Swift.String?
 
-        public init (
+        public init(
             currencyCode: Swift.String? = nil,
             instanceName: Swift.String? = nil,
             monthlyCost: Swift.String? = nil,
@@ -2762,37 +2731,41 @@ extension CostExplorerClientTypes {
 }
 
 extension DataUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DataUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested data is unavailable.
-public struct DataUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DataUnavailableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2805,7 +2778,7 @@ extension DataUnavailableExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2828,7 +2801,7 @@ extension CostExplorerClientTypes.DateInterval: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .start)
         start = startDecoded
@@ -2847,7 +2820,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var start: Swift.String?
 
-        public init (
+        public init(
             end: Swift.String? = nil,
             start: Swift.String? = nil
         )
@@ -2883,7 +2856,7 @@ public struct DeleteAnomalyMonitorInput: Swift.Equatable {
     /// This member is required.
     public var monitorArn: Swift.String?
 
-    public init (
+    public init(
         monitorArn: Swift.String? = nil
     )
     {
@@ -2900,45 +2873,33 @@ extension DeleteAnomalyMonitorInputBody: Swift.Decodable {
         case monitorArn = "MonitorArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitorArn)
         monitorArn = monitorArnDecoded
     }
 }
 
-extension DeleteAnomalyMonitorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAnomalyMonitorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAnomalyMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownMonitorException": return try await UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAnomalyMonitorOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknownMonitorException(UnknownMonitorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAnomalyMonitorOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteAnomalySubscriptionInput: Swift.Encodable {
@@ -2965,7 +2926,7 @@ public struct DeleteAnomalySubscriptionInput: Swift.Equatable {
     /// This member is required.
     public var subscriptionArn: Swift.String?
 
-    public init (
+    public init(
         subscriptionArn: Swift.String? = nil
     )
     {
@@ -2982,45 +2943,33 @@ extension DeleteAnomalySubscriptionInputBody: Swift.Decodable {
         case subscriptionArn = "SubscriptionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionArn)
         subscriptionArn = subscriptionArnDecoded
     }
 }
 
-extension DeleteAnomalySubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAnomalySubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownSubscriptionException" : self = .unknownSubscriptionException(try UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAnomalySubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownSubscriptionException": return try await UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAnomalySubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknownSubscriptionException(UnknownSubscriptionException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAnomalySubscriptionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteCostCategoryDefinitionInput: Swift.Encodable {
@@ -3047,7 +2996,7 @@ public struct DeleteCostCategoryDefinitionInput: Swift.Equatable {
     /// This member is required.
     public var costCategoryArn: Swift.String?
 
-    public init (
+    public init(
         costCategoryArn: Swift.String? = nil
     )
     {
@@ -3064,40 +3013,28 @@ extension DeleteCostCategoryDefinitionInputBody: Swift.Decodable {
         case costCategoryArn = "CostCategoryArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
     }
 }
 
-extension DeleteCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteCostCategoryDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
@@ -3115,7 +3052,7 @@ public struct DeleteCostCategoryDefinitionOutputResponse: Swift.Equatable {
     /// The effective end date of the Cost Category as a result of deleting it. No costs after this date is categorized by the deleted Cost Category.
     public var effectiveEnd: Swift.String?
 
-    public init (
+    public init(
         costCategoryArn: Swift.String? = nil,
         effectiveEnd: Swift.String? = nil
     )
@@ -3136,7 +3073,7 @@ extension DeleteCostCategoryDefinitionOutputResponseBody: Swift.Decodable {
         case effectiveEnd = "EffectiveEnd"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -3175,7 +3112,7 @@ public struct DescribeCostCategoryDefinitionInput: Swift.Equatable {
     /// The date when the Cost Category was effective.
     public var effectiveOn: Swift.String?
 
-    public init (
+    public init(
         costCategoryArn: Swift.String? = nil,
         effectiveOn: Swift.String? = nil
     )
@@ -3196,7 +3133,7 @@ extension DescribeCostCategoryDefinitionInputBody: Swift.Decodable {
         case effectiveOn = "EffectiveOn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -3205,33 +3142,21 @@ extension DescribeCostCategoryDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCostCategoryDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategory = output.costCategory
@@ -3245,7 +3170,7 @@ public struct DescribeCostCategoryDefinitionOutputResponse: Swift.Equatable {
     /// The structure of Cost Categories. This includes detailed metadata and the set of rules for the CostCategory object.
     public var costCategory: CostExplorerClientTypes.CostCategory?
 
-    public init (
+    public init(
         costCategory: CostExplorerClientTypes.CostCategory? = nil
     )
     {
@@ -3262,7 +3187,7 @@ extension DescribeCostCategoryDefinitionOutputResponseBody: Swift.Decodable {
         case costCategory = "CostCategory"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostCategory.self, forKey: .costCategory)
         costCategory = costCategoryDecoded
@@ -3423,7 +3348,7 @@ extension CostExplorerClientTypes.DimensionValues: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.Dimension.self, forKey: .key)
         key = keyDecoded
@@ -3462,7 +3387,7 @@ extension CostExplorerClientTypes {
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             key: CostExplorerClientTypes.Dimension? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
@@ -3495,7 +3420,7 @@ extension CostExplorerClientTypes.DimensionValuesWithAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -3521,7 +3446,7 @@ extension CostExplorerClientTypes {
         /// The value of a dimension with a specific attribute.
         public var value: Swift.String?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             value: Swift.String? = nil
         )
@@ -3557,7 +3482,7 @@ extension CostExplorerClientTypes.DiskResourceUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let diskReadOpsPerSecondDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .diskReadOpsPerSecond)
         diskReadOpsPerSecond = diskReadOpsPerSecondDecoded
@@ -3582,7 +3507,7 @@ extension CostExplorerClientTypes {
         /// The maximum number of write operations per second.
         public var diskWriteOpsPerSecond: Swift.String?
 
-        public init (
+        public init(
             diskReadBytesPerSecond: Swift.String? = nil,
             diskReadOpsPerSecond: Swift.String? = nil,
             diskWriteBytesPerSecond: Swift.String? = nil,
@@ -3622,7 +3547,7 @@ extension CostExplorerClientTypes.EBSResourceUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ebsReadOpsPerSecondDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ebsReadOpsPerSecond)
         ebsReadOpsPerSecond = ebsReadOpsPerSecondDecoded
@@ -3647,7 +3572,7 @@ extension CostExplorerClientTypes {
         /// The maximum number of write operations per second.
         public var ebsWriteOpsPerSecond: Swift.String?
 
-        public init (
+        public init(
             ebsReadBytesPerSecond: Swift.String? = nil,
             ebsReadOpsPerSecond: Swift.String? = nil,
             ebsWriteBytesPerSecond: Swift.String? = nil,
@@ -3703,7 +3628,7 @@ extension CostExplorerClientTypes.EC2InstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let familyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .family)
         family = familyDecoded
@@ -3744,7 +3669,7 @@ extension CostExplorerClientTypes {
         /// Determines whether the recommended reservation is dedicated or shared.
         public var tenancy: Swift.String?
 
-        public init (
+        public init(
             availabilityZone: Swift.String? = nil,
             currentGeneration: Swift.Bool = false,
             family: Swift.String? = nil,
@@ -3812,7 +3737,7 @@ extension CostExplorerClientTypes.EC2ResourceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hourlyOnDemandRateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hourlyOnDemandRate)
         hourlyOnDemandRate = hourlyOnDemandRateDecoded
@@ -3857,7 +3782,7 @@ extension CostExplorerClientTypes {
         /// The number of VCPU cores in the Amazon Web Services instance type.
         public var vcpu: Swift.String?
 
-        public init (
+        public init(
             hourlyOnDemandRate: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             memory: Swift.String? = nil,
@@ -3915,7 +3840,7 @@ extension CostExplorerClientTypes.EC2ResourceUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxCpuUtilizationPercentageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maxCpuUtilizationPercentage)
         maxCpuUtilizationPercentage = maxCpuUtilizationPercentageDecoded
@@ -3948,7 +3873,7 @@ extension CostExplorerClientTypes {
         /// The network field that contains a list of network metrics that are associated with the current instance.
         public var networkResourceUtilization: CostExplorerClientTypes.NetworkResourceUtilization?
 
-        public init (
+        public init(
             diskResourceUtilization: CostExplorerClientTypes.DiskResourceUtilization? = nil,
             ebsResourceUtilization: CostExplorerClientTypes.EBSResourceUtilization? = nil,
             maxCpuUtilizationPercentage: Swift.String? = nil,
@@ -3980,7 +3905,7 @@ extension CostExplorerClientTypes.EC2Specification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let offeringClassDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.OfferingClass.self, forKey: .offeringClass)
         offeringClass = offeringClassDecoded
@@ -3993,7 +3918,7 @@ extension CostExplorerClientTypes {
         /// Indicates whether you want a recommendation for standard or convertible reservations.
         public var offeringClass: CostExplorerClientTypes.OfferingClass?
 
-        public init (
+        public init(
             offeringClass: CostExplorerClientTypes.OfferingClass? = nil
         )
         {
@@ -4031,7 +3956,7 @@ extension CostExplorerClientTypes.ESInstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceClass)
         instanceClass = instanceClassDecoded
@@ -4060,7 +3985,7 @@ extension CostExplorerClientTypes {
         /// Determines whether the recommended reservation is size flexible.
         public var sizeFlexEligible: Swift.Bool
 
-        public init (
+        public init(
             currentGeneration: Swift.Bool = false,
             instanceClass: Swift.String? = nil,
             instanceSize: Swift.String? = nil,
@@ -4110,7 +4035,7 @@ extension CostExplorerClientTypes.ElastiCacheInstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let familyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .family)
         family = familyDecoded
@@ -4143,7 +4068,7 @@ extension CostExplorerClientTypes {
         /// Determines whether the recommended reservation is size flexible.
         public var sizeFlexEligible: Swift.Bool
 
-        public init (
+        public init(
             currentGeneration: Swift.Bool = false,
             family: Swift.String? = nil,
             nodeType: Swift.String? = nil,
@@ -4201,7 +4126,7 @@ extension CostExplorerClientTypes.Expression: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let orContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.Expression?].self, forKey: .or)
         var orDecoded0:[CostExplorerClientTypes.Expression]? = nil
@@ -4302,7 +4227,7 @@ extension CostExplorerClientTypes {
         /// The specific Tag to use for Expression.
         public var tags: CostExplorerClientTypes.TagValues?
 
-        public init (
+        public init(
             and: [CostExplorerClientTypes.Expression]? = nil,
             costCategories: CostExplorerClientTypes.CostCategoryValues? = nil,
             dimensions: CostExplorerClientTypes.DimensionValues? = nil,
@@ -4420,7 +4345,7 @@ extension CostExplorerClientTypes.ForecastResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -4445,7 +4370,7 @@ extension CostExplorerClientTypes {
         /// The period of time that the forecast covers.
         public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-        public init (
+        public init(
             meanValue: Swift.String? = nil,
             predictionIntervalLowerBound: Swift.String? = nil,
             predictionIntervalUpperBound: Swift.String? = nil,
@@ -4462,37 +4387,41 @@ extension CostExplorerClientTypes {
 }
 
 extension GenerationExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GenerationExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A request to generate a recommendation is already in progress.
-public struct GenerationExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GenerationExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4505,7 +4434,7 @@ extension GenerationExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4575,7 +4504,7 @@ extension CostExplorerClientTypes.GenerationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
@@ -4604,7 +4533,7 @@ extension CostExplorerClientTypes {
         /// Indicates the ID for this specific recommendation.
         public var recommendationId: Swift.String?
 
-        public init (
+        public init(
             estimatedCompletionTime: Swift.String? = nil,
             generationCompletionTime: Swift.String? = nil,
             generationStartedTime: Swift.String? = nil,
@@ -4676,7 +4605,7 @@ public struct GetAnomaliesInput: Swift.Equatable {
     /// Filters anomaly results by the total impact field on the anomaly object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200.
     public var totalImpact: CostExplorerClientTypes.TotalImpactFilter?
 
-    public init (
+    public init(
         dateInterval: CostExplorerClientTypes.AnomalyDateInterval? = nil,
         feedback: CostExplorerClientTypes.AnomalyFeedbackType? = nil,
         maxResults: Swift.Int? = nil,
@@ -4713,7 +4642,7 @@ extension GetAnomaliesInputBody: Swift.Decodable {
         case totalImpact = "TotalImpact"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitorArn)
         monitorArn = monitorArnDecoded
@@ -4730,33 +4659,21 @@ extension GetAnomaliesInputBody: Swift.Decodable {
     }
 }
 
-extension GetAnomaliesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAnomaliesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAnomaliesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAnomaliesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAnomaliesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAnomaliesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalies = output.anomalies
@@ -4775,7 +4692,7 @@ public struct GetAnomaliesOutputResponse: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         anomalies: [CostExplorerClientTypes.Anomaly]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -4796,7 +4713,7 @@ extension GetAnomaliesOutputResponseBody: Swift.Decodable {
         case nextPageToken = "NextPageToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomaliesContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.Anomaly?].self, forKey: .anomalies)
         var anomaliesDecoded0:[CostExplorerClientTypes.Anomaly]? = nil
@@ -4852,7 +4769,7 @@ public struct GetAnomalyMonitorsInput: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         monitorArnList: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil
@@ -4877,7 +4794,7 @@ extension GetAnomalyMonitorsInputBody: Swift.Decodable {
         case nextPageToken = "NextPageToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .monitorArnList)
         var monitorArnListDecoded0:[Swift.String]? = nil
@@ -4897,35 +4814,22 @@ extension GetAnomalyMonitorsInputBody: Swift.Decodable {
     }
 }
 
-extension GetAnomalyMonitorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAnomalyMonitorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAnomalyMonitorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownMonitorException": return try await UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAnomalyMonitorsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknownMonitorException(UnknownMonitorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAnomalyMonitorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAnomalyMonitorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyMonitors = output.anomalyMonitors
@@ -4944,7 +4848,7 @@ public struct GetAnomalyMonitorsOutputResponse: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         anomalyMonitors: [CostExplorerClientTypes.AnomalyMonitor]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -4965,7 +4869,7 @@ extension GetAnomalyMonitorsOutputResponseBody: Swift.Decodable {
         case nextPageToken = "NextPageToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalyMonitorsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.AnomalyMonitor?].self, forKey: .anomalyMonitors)
         var anomalyMonitorsDecoded0:[CostExplorerClientTypes.AnomalyMonitor]? = nil
@@ -5027,7 +4931,7 @@ public struct GetAnomalySubscriptionsInput: Swift.Equatable {
     /// A list of cost anomaly subscription ARNs.
     public var subscriptionArnList: [Swift.String]?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         monitorArn: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
@@ -5056,7 +4960,7 @@ extension GetAnomalySubscriptionsInputBody: Swift.Decodable {
         case subscriptionArnList = "SubscriptionArnList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subscriptionArnList)
         var subscriptionArnListDecoded0:[Swift.String]? = nil
@@ -5078,35 +4982,22 @@ extension GetAnomalySubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-extension GetAnomalySubscriptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetAnomalySubscriptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownSubscriptionException" : self = .unknownSubscriptionException(try UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetAnomalySubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownSubscriptionException": return try await UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetAnomalySubscriptionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknownSubscriptionException(UnknownSubscriptionException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetAnomalySubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAnomalySubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalySubscriptions = output.anomalySubscriptions
@@ -5125,7 +5016,7 @@ public struct GetAnomalySubscriptionsOutputResponse: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         anomalySubscriptions: [CostExplorerClientTypes.AnomalySubscription]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -5146,7 +5037,7 @@ extension GetAnomalySubscriptionsOutputResponseBody: Swift.Decodable {
         case nextPageToken = "NextPageToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalySubscriptionsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.AnomalySubscription?].self, forKey: .anomalySubscriptions)
         var anomalySubscriptionsDecoded0:[CostExplorerClientTypes.AnomalySubscription]? = nil
@@ -5226,7 +5117,7 @@ public struct GetCostAndUsageInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -5263,7 +5154,7 @@ extension GetCostAndUsageInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -5298,39 +5189,24 @@ extension GetCostAndUsageInputBody: Swift.Decodable {
     }
 }
 
-extension GetCostAndUsageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetCostAndUsageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BillExpirationException" : self = .billExpirationException(try BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetCostAndUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BillExpirationException": return try await BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestChangedException": return try await RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetCostAndUsageOutputError: Swift.Error, Swift.Equatable {
-    case billExpirationException(BillExpirationException)
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case requestChangedException(RequestChangedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetCostAndUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetCostAndUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValueAttributes = output.dimensionValueAttributes
@@ -5356,7 +5232,7 @@ public struct GetCostAndUsageOutputResponse: Swift.Equatable {
     /// The time period that's covered by the results in the response.
     public var resultsByTime: [CostExplorerClientTypes.ResultByTime]?
 
-    public init (
+    public init(
         dimensionValueAttributes: [CostExplorerClientTypes.DimensionValuesWithAttributes]? = nil,
         groupDefinitions: [CostExplorerClientTypes.GroupDefinition]? = nil,
         nextPageToken: Swift.String? = nil,
@@ -5385,7 +5261,7 @@ extension GetCostAndUsageOutputResponseBody: Swift.Decodable {
         case resultsByTime = "ResultsByTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -5487,7 +5363,7 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -5524,7 +5400,7 @@ extension GetCostAndUsageWithResourcesInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -5559,39 +5435,24 @@ extension GetCostAndUsageWithResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension GetCostAndUsageWithResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetCostAndUsageWithResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BillExpirationException" : self = .billExpirationException(try BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetCostAndUsageWithResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BillExpirationException": return try await BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestChangedException": return try await RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetCostAndUsageWithResourcesOutputError: Swift.Error, Swift.Equatable {
-    case billExpirationException(BillExpirationException)
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case requestChangedException(RequestChangedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetCostAndUsageWithResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetCostAndUsageWithResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValueAttributes = output.dimensionValueAttributes
@@ -5617,7 +5478,7 @@ public struct GetCostAndUsageWithResourcesOutputResponse: Swift.Equatable {
     /// The time period that's covered by the results in the response.
     public var resultsByTime: [CostExplorerClientTypes.ResultByTime]?
 
-    public init (
+    public init(
         dimensionValueAttributes: [CostExplorerClientTypes.DimensionValuesWithAttributes]? = nil,
         groupDefinitions: [CostExplorerClientTypes.GroupDefinition]? = nil,
         nextPageToken: Swift.String? = nil,
@@ -5646,7 +5507,7 @@ extension GetCostAndUsageWithResourcesOutputResponseBody: Swift.Decodable {
         case resultsByTime = "ResultsByTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -5816,7 +5677,7 @@ public struct GetCostCategoriesInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         costCategoryName: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int = 0,
@@ -5857,7 +5718,7 @@ extension GetCostCategoriesInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let searchStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchString)
         searchString = searchStringDecoded
@@ -5885,39 +5746,24 @@ extension GetCostCategoriesInputBody: Swift.Decodable {
     }
 }
 
-extension GetCostCategoriesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetCostCategoriesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BillExpirationException" : self = .billExpirationException(try BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetCostCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BillExpirationException": return try await BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestChangedException": return try await RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetCostCategoriesOutputError: Swift.Error, Swift.Equatable {
-    case billExpirationException(BillExpirationException)
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case requestChangedException(RequestChangedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetCostCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetCostCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryNames = output.costCategoryNames
@@ -5949,7 +5795,7 @@ public struct GetCostCategoriesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var totalSize: Swift.Int?
 
-    public init (
+    public init(
         costCategoryNames: [Swift.String]? = nil,
         costCategoryValues: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil,
@@ -5982,7 +5828,7 @@ extension GetCostCategoriesOutputResponseBody: Swift.Decodable {
         case totalSize = "TotalSize"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -6121,7 +5967,7 @@ public struct GetCostForecastInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         metric: CostExplorerClientTypes.Metric? = nil,
@@ -6154,7 +6000,7 @@ extension GetCostForecastInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -6169,33 +6015,21 @@ extension GetCostForecastInputBody: Swift.Decodable {
     }
 }
 
-extension GetCostForecastOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetCostForecastOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetCostForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetCostForecastOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetCostForecastOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetCostForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastResultsByTime = output.forecastResultsByTime
@@ -6213,7 +6047,7 @@ public struct GetCostForecastOutputResponse: Swift.Equatable {
     /// How much you are forecasted to spend over the forecast period, in USD.
     public var total: CostExplorerClientTypes.MetricValue?
 
-    public init (
+    public init(
         forecastResultsByTime: [CostExplorerClientTypes.ForecastResult]? = nil,
         total: CostExplorerClientTypes.MetricValue? = nil
     )
@@ -6234,7 +6068,7 @@ extension GetCostForecastOutputResponseBody: Swift.Decodable {
         case total = "Total"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.MetricValue.self, forKey: .total)
         total = totalDecoded
@@ -6475,7 +6309,7 @@ public struct GetDimensionValuesInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         context: CostExplorerClientTypes.Context? = nil,
         dimension: CostExplorerClientTypes.Dimension? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
@@ -6520,7 +6354,7 @@ extension GetDimensionValuesInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let searchStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchString)
         searchString = searchStringDecoded
@@ -6550,39 +6384,24 @@ extension GetDimensionValuesInputBody: Swift.Decodable {
     }
 }
 
-extension GetDimensionValuesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDimensionValuesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BillExpirationException" : self = .billExpirationException(try BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDimensionValuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BillExpirationException": return try await BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestChangedException": return try await RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDimensionValuesOutputError: Swift.Error, Swift.Equatable {
-    case billExpirationException(BillExpirationException)
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case requestChangedException(RequestChangedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDimensionValuesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDimensionValuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValues = output.dimensionValues
@@ -6677,7 +6496,7 @@ public struct GetDimensionValuesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var totalSize: Swift.Int?
 
-    public init (
+    public init(
         dimensionValues: [CostExplorerClientTypes.DimensionValuesWithAttributes]? = nil,
         nextPageToken: Swift.String? = nil,
         returnSize: Swift.Int? = nil,
@@ -6706,7 +6525,7 @@ extension GetDimensionValuesOutputResponseBody: Swift.Decodable {
         case totalSize = "TotalSize"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionValuesContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.DimensionValuesWithAttributes?].self, forKey: .dimensionValues)
         var dimensionValuesDecoded0:[CostExplorerClientTypes.DimensionValuesWithAttributes]? = nil
@@ -6873,7 +6692,7 @@ public struct GetReservationCoverageInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -6918,7 +6737,7 @@ extension GetReservationCoverageInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -6957,35 +6776,22 @@ extension GetReservationCoverageInputBody: Swift.Decodable {
     }
 }
 
-extension GetReservationCoverageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetReservationCoverageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetReservationCoverageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetReservationCoverageOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetReservationCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetReservationCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coveragesByTime = output.coveragesByTime
@@ -7008,7 +6814,7 @@ public struct GetReservationCoverageOutputResponse: Swift.Equatable {
     /// The total amount of instance usage that a reservation covered.
     public var total: CostExplorerClientTypes.Coverage?
 
-    public init (
+    public init(
         coveragesByTime: [CostExplorerClientTypes.CoverageByTime]? = nil,
         nextPageToken: Swift.String? = nil,
         total: CostExplorerClientTypes.Coverage? = nil
@@ -7033,7 +6839,7 @@ extension GetReservationCoverageOutputResponseBody: Swift.Decodable {
         case total = "Total"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coveragesByTimeContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.CoverageByTime?].self, forKey: .coveragesByTime)
         var coveragesByTimeDecoded0:[CostExplorerClientTypes.CoverageByTime]? = nil
@@ -7181,7 +6987,7 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Equatable {
     /// The reservation term that you want recommendations for.
     public var termInYears: CostExplorerClientTypes.TermInYears?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         accountScope: CostExplorerClientTypes.AccountScope? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
@@ -7234,7 +7040,7 @@ extension GetReservationPurchaseRecommendationInputBody: Swift.Decodable {
         case termInYears = "TermInYears"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -7259,35 +7065,22 @@ extension GetReservationPurchaseRecommendationInputBody: Swift.Decodable {
     }
 }
 
-extension GetReservationPurchaseRecommendationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetReservationPurchaseRecommendationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetReservationPurchaseRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetReservationPurchaseRecommendationOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetReservationPurchaseRecommendationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetReservationPurchaseRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
@@ -7309,7 +7102,7 @@ public struct GetReservationPurchaseRecommendationOutputResponse: Swift.Equatabl
     /// Recommendations for reservations to purchase.
     public var recommendations: [CostExplorerClientTypes.ReservationPurchaseRecommendation]?
 
-    public init (
+    public init(
         metadata: CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata? = nil,
         nextPageToken: Swift.String? = nil,
         recommendations: [CostExplorerClientTypes.ReservationPurchaseRecommendation]? = nil
@@ -7334,7 +7127,7 @@ extension GetReservationPurchaseRecommendationOutputResponseBody: Swift.Decodabl
         case recommendations = "Recommendations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metadataDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
@@ -7479,7 +7272,7 @@ public struct GetReservationUtilizationInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -7520,7 +7313,7 @@ extension GetReservationUtilizationInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -7548,35 +7341,22 @@ extension GetReservationUtilizationInputBody: Swift.Decodable {
     }
 }
 
-extension GetReservationUtilizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetReservationUtilizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetReservationUtilizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetReservationUtilizationOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetReservationUtilizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetReservationUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
@@ -7599,7 +7379,7 @@ public struct GetReservationUtilizationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var utilizationsByTime: [CostExplorerClientTypes.UtilizationByTime]?
 
-    public init (
+    public init(
         nextPageToken: Swift.String? = nil,
         total: CostExplorerClientTypes.ReservationAggregates? = nil,
         utilizationsByTime: [CostExplorerClientTypes.UtilizationByTime]? = nil
@@ -7624,7 +7404,7 @@ extension GetReservationUtilizationOutputResponseBody: Swift.Decodable {
         case utilizationsByTime = "UtilizationsByTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let utilizationsByTimeContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.UtilizationByTime?].self, forKey: .utilizationsByTime)
         var utilizationsByTimeDecoded0:[CostExplorerClientTypes.UtilizationByTime]? = nil
@@ -7742,7 +7522,7 @@ public struct GetRightsizingRecommendationInput: Swift.Equatable {
     /// This member is required.
     public var service: Swift.String?
 
-    public init (
+    public init(
         configuration: CostExplorerClientTypes.RightsizingRecommendationConfiguration? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         nextPageToken: Swift.String? = nil,
@@ -7775,7 +7555,7 @@ extension GetRightsizingRecommendationInputBody: Swift.Decodable {
         case service = "Service"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.Expression.self, forKey: .filter)
         filter = filterDecoded
@@ -7790,33 +7570,21 @@ extension GetRightsizingRecommendationInputBody: Swift.Decodable {
     }
 }
 
-extension GetRightsizingRecommendationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRightsizingRecommendationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRightsizingRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRightsizingRecommendationOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRightsizingRecommendationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRightsizingRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
@@ -7846,7 +7614,7 @@ public struct GetRightsizingRecommendationOutputResponse: Swift.Equatable {
     /// Summary of this recommendation set.
     public var summary: CostExplorerClientTypes.RightsizingRecommendationSummary?
 
-    public init (
+    public init(
         configuration: CostExplorerClientTypes.RightsizingRecommendationConfiguration? = nil,
         metadata: CostExplorerClientTypes.RightsizingRecommendationMetadata? = nil,
         nextPageToken: Swift.String? = nil,
@@ -7879,7 +7647,7 @@ extension GetRightsizingRecommendationOutputResponseBody: Swift.Decodable {
         case summary = "Summary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metadataDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.RightsizingRecommendationMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
@@ -8003,7 +7771,7 @@ public struct GetSavingsPlansCoverageInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -8048,7 +7816,7 @@ extension GetSavingsPlansCoverageInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -8087,35 +7855,22 @@ extension GetSavingsPlansCoverageInputBody: Swift.Decodable {
     }
 }
 
-extension GetSavingsPlansCoverageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSavingsPlansCoverageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSavingsPlansCoverageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSavingsPlansCoverageOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSavingsPlansCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSavingsPlansCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8134,7 +7889,7 @@ public struct GetSavingsPlansCoverageOutputResponse: Swift.Equatable {
     /// This member is required.
     public var savingsPlansCoverages: [CostExplorerClientTypes.SavingsPlansCoverage]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         savingsPlansCoverages: [CostExplorerClientTypes.SavingsPlansCoverage]? = nil
     )
@@ -8155,7 +7910,7 @@ extension GetSavingsPlansCoverageOutputResponseBody: Swift.Decodable {
         case savingsPlansCoverages = "SavingsPlansCoverages"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlansCoveragesContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.SavingsPlansCoverage?].self, forKey: .savingsPlansCoverages)
         var savingsPlansCoveragesDecoded0:[CostExplorerClientTypes.SavingsPlansCoverage]? = nil
@@ -8242,7 +7997,7 @@ public struct GetSavingsPlansPurchaseRecommendationInput: Swift.Equatable {
     /// This member is required.
     public var termInYears: CostExplorerClientTypes.TermInYears?
 
-    public init (
+    public init(
         accountScope: CostExplorerClientTypes.AccountScope? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
@@ -8287,7 +8042,7 @@ extension GetSavingsPlansPurchaseRecommendationInputBody: Swift.Decodable {
         case termInYears = "TermInYears"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlansTypeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.SupportedSavingsPlansType.self, forKey: .savingsPlansType)
         savingsPlansType = savingsPlansTypeDecoded
@@ -8308,33 +8063,21 @@ extension GetSavingsPlansPurchaseRecommendationInputBody: Swift.Decodable {
     }
 }
 
-extension GetSavingsPlansPurchaseRecommendationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSavingsPlansPurchaseRecommendationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSavingsPlansPurchaseRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSavingsPlansPurchaseRecommendationOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSavingsPlansPurchaseRecommendationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSavingsPlansPurchaseRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
@@ -8356,7 +8099,7 @@ public struct GetSavingsPlansPurchaseRecommendationOutputResponse: Swift.Equatab
     /// Contains your request parameters, Savings Plan Recommendations Summary, and Details.
     public var savingsPlansPurchaseRecommendation: CostExplorerClientTypes.SavingsPlansPurchaseRecommendation?
 
-    public init (
+    public init(
         metadata: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata? = nil,
         nextPageToken: Swift.String? = nil,
         savingsPlansPurchaseRecommendation: CostExplorerClientTypes.SavingsPlansPurchaseRecommendation? = nil
@@ -8381,7 +8124,7 @@ extension GetSavingsPlansPurchaseRecommendationOutputResponseBody: Swift.Decodab
         case savingsPlansPurchaseRecommendation = "SavingsPlansPurchaseRecommendation"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metadataDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
@@ -8479,7 +8222,7 @@ public struct GetSavingsPlansUtilizationDetailsInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         dataType: [CostExplorerClientTypes.SavingsPlansDataType]? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int? = nil,
@@ -8516,7 +8259,7 @@ extension GetSavingsPlansUtilizationDetailsInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -8542,35 +8285,22 @@ extension GetSavingsPlansUtilizationDetailsInputBody: Swift.Decodable {
     }
 }
 
-extension GetSavingsPlansUtilizationDetailsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSavingsPlansUtilizationDetailsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSavingsPlansUtilizationDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSavingsPlansUtilizationDetailsOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSavingsPlansUtilizationDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSavingsPlansUtilizationDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8598,7 +8328,7 @@ public struct GetSavingsPlansUtilizationDetailsOutputResponse: Swift.Equatable {
     /// The total Savings Plans utilization, regardless of time period.
     public var total: CostExplorerClientTypes.SavingsPlansUtilizationAggregates?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         savingsPlansUtilizationDetails: [CostExplorerClientTypes.SavingsPlansUtilizationDetail]? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil,
@@ -8627,7 +8357,7 @@ extension GetSavingsPlansUtilizationDetailsOutputResponseBody: Swift.Decodable {
         case total = "Total"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlansUtilizationDetailsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.SavingsPlansUtilizationDetail?].self, forKey: .savingsPlansUtilizationDetails)
         var savingsPlansUtilizationDetailsDecoded0:[CostExplorerClientTypes.SavingsPlansUtilizationDetail]? = nil
@@ -8719,7 +8449,7 @@ public struct GetSavingsPlansUtilizationInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         sortBy: CostExplorerClientTypes.SortDefinition? = nil,
@@ -8748,7 +8478,7 @@ extension GetSavingsPlansUtilizationInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -8761,33 +8491,21 @@ extension GetSavingsPlansUtilizationInputBody: Swift.Decodable {
     }
 }
 
-extension GetSavingsPlansUtilizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSavingsPlansUtilizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSavingsPlansUtilizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSavingsPlansUtilizationOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSavingsPlansUtilizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSavingsPlansUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.savingsPlansUtilizationsByTime = output.savingsPlansUtilizationsByTime
@@ -8806,7 +8524,7 @@ public struct GetSavingsPlansUtilizationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var total: CostExplorerClientTypes.SavingsPlansUtilizationAggregates?
 
-    public init (
+    public init(
         savingsPlansUtilizationsByTime: [CostExplorerClientTypes.SavingsPlansUtilizationByTime]? = nil,
         total: CostExplorerClientTypes.SavingsPlansUtilizationAggregates? = nil
     )
@@ -8827,7 +8545,7 @@ extension GetSavingsPlansUtilizationOutputResponseBody: Swift.Decodable {
         case total = "Total"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlansUtilizationsByTimeContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.SavingsPlansUtilizationByTime?].self, forKey: .savingsPlansUtilizationsByTime)
         var savingsPlansUtilizationsByTimeDecoded0:[CostExplorerClientTypes.SavingsPlansUtilizationByTime]? = nil
@@ -8975,7 +8693,7 @@ public struct GetTagsInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int = 0,
         nextPageToken: Swift.String? = nil,
@@ -9016,7 +8734,7 @@ extension GetTagsInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let searchStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchString)
         searchString = searchStringDecoded
@@ -9044,39 +8762,24 @@ extension GetTagsInputBody: Swift.Decodable {
     }
 }
 
-extension GetTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BillExpirationException" : self = .billExpirationException(try BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BillExpirationException": return try await BillExpirationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestChangedException": return try await RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTagsOutputError: Swift.Error, Swift.Equatable {
-    case billExpirationException(BillExpirationException)
-    case dataUnavailableException(DataUnavailableException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case requestChangedException(RequestChangedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
@@ -9105,7 +8808,7 @@ public struct GetTagsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var totalSize: Swift.Int?
 
-    public init (
+    public init(
         nextPageToken: Swift.String? = nil,
         returnSize: Swift.Int? = nil,
         tags: [Swift.String]? = nil,
@@ -9134,7 +8837,7 @@ extension GetTagsOutputResponseBody: Swift.Decodable {
         case totalSize = "TotalSize"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -9256,7 +8959,7 @@ public struct GetUsageForecastInput: Swift.Equatable {
     /// This member is required.
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-    public init (
+    public init(
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         metric: CostExplorerClientTypes.Metric? = nil,
@@ -9289,7 +8992,7 @@ extension GetUsageForecastInputBody: Swift.Decodable {
         case timePeriod = "TimePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -9304,35 +9007,22 @@ extension GetUsageForecastInputBody: Swift.Decodable {
     }
 }
 
-extension GetUsageForecastOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetUsageForecastOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnresolvableUsageUnitException" : self = .unresolvableUsageUnitException(try UnresolvableUsageUnitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetUsageForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnresolvableUsageUnitException": return try await UnresolvableUsageUnitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetUsageForecastOutputError: Swift.Error, Swift.Equatable {
-    case dataUnavailableException(DataUnavailableException)
-    case limitExceededException(LimitExceededException)
-    case unresolvableUsageUnitException(UnresolvableUsageUnitException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetUsageForecastOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetUsageForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastResultsByTime = output.forecastResultsByTime
@@ -9350,7 +9040,7 @@ public struct GetUsageForecastOutputResponse: Swift.Equatable {
     /// How much you're forecasted to use over the forecast period.
     public var total: CostExplorerClientTypes.MetricValue?
 
-    public init (
+    public init(
         forecastResultsByTime: [CostExplorerClientTypes.ForecastResult]? = nil,
         total: CostExplorerClientTypes.MetricValue? = nil
     )
@@ -9371,7 +9061,7 @@ extension GetUsageForecastOutputResponseBody: Swift.Decodable {
         case total = "Total"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.MetricValue.self, forKey: .total)
         total = totalDecoded
@@ -9446,7 +9136,7 @@ extension CostExplorerClientTypes.Group: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keys)
         var keysDecoded0:[Swift.String]? = nil
@@ -9481,7 +9171,7 @@ extension CostExplorerClientTypes {
         /// The metrics that are included in this group.
         public var metrics: [Swift.String:CostExplorerClientTypes.MetricValue]?
 
-        public init (
+        public init(
             keys: [Swift.String]? = nil,
             metrics: [Swift.String:CostExplorerClientTypes.MetricValue]? = nil
         )
@@ -9509,7 +9199,7 @@ extension CostExplorerClientTypes.GroupDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.GroupDefinitionType.self, forKey: .type)
         type = typeDecoded
@@ -9526,7 +9216,7 @@ extension CostExplorerClientTypes {
         /// The string that represents the type of group.
         public var type: CostExplorerClientTypes.GroupDefinitionType?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             type: CostExplorerClientTypes.GroupDefinitionType? = nil
         )
@@ -9601,7 +9291,7 @@ extension CostExplorerClientTypes.Impact: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxImpactDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxImpact) ?? 0.0
         maxImpact = maxImpactDecoded
@@ -9631,7 +9321,7 @@ extension CostExplorerClientTypes {
         /// The cumulative percentage difference between the total actual spend and total expected spend. It is calculated as (TotalImpact / TotalExpectedSpend) * 100. When TotalExpectedSpend is zero, this field is omitted. Expected spend can be zero in situations such as when you start to use a service for the first time.
         public var totalImpactPercentage: Swift.Double?
 
-        public init (
+        public init(
             maxImpact: Swift.Double = 0.0,
             totalActualSpend: Swift.Double? = nil,
             totalExpectedSpend: Swift.Double? = nil,
@@ -9677,7 +9367,7 @@ extension CostExplorerClientTypes.InstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2InstanceDetailsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.EC2InstanceDetails.self, forKey: .ec2InstanceDetails)
         ec2InstanceDetails = ec2InstanceDetailsDecoded
@@ -9706,7 +9396,7 @@ extension CostExplorerClientTypes {
         /// The Amazon Redshift instances that Amazon Web Services recommends that you purchase.
         public var redshiftInstanceDetails: CostExplorerClientTypes.RedshiftInstanceDetails?
 
-        public init (
+        public init(
             ec2InstanceDetails: CostExplorerClientTypes.EC2InstanceDetails? = nil,
             elastiCacheInstanceDetails: CostExplorerClientTypes.ElastiCacheInstanceDetails? = nil,
             esInstanceDetails: CostExplorerClientTypes.ESInstanceDetails? = nil,
@@ -9725,37 +9415,41 @@ extension CostExplorerClientTypes {
 }
 
 extension InvalidNextTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The pagination token is invalid. Try again without a pagination token.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9768,7 +9462,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9776,37 +9470,41 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You made too many calls in a short period of time. Try again later.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9819,7 +9517,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9876,7 +9574,7 @@ public struct ListCostAllocationTagsInput: Swift.Equatable {
     /// The type of CostAllocationTag object that are returned for this request. The AWSGenerated type tags are tags that Amazon Web Services defines and applies to support Amazon Web Services resources for cost allocation purposes. The UserDefined type tags are tags that you define, create, and apply to resources.
     public var type: CostExplorerClientTypes.CostAllocationTagType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
@@ -9909,7 +9607,7 @@ extension ListCostAllocationTagsInputBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostAllocationTagStatus.self, forKey: .status)
         status = statusDecoded
@@ -9933,33 +9631,21 @@ extension ListCostAllocationTagsInputBody: Swift.Decodable {
     }
 }
 
-extension ListCostAllocationTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCostAllocationTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCostAllocationTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCostAllocationTagsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCostAllocationTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCostAllocationTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costAllocationTags = output.costAllocationTags
@@ -9977,7 +9663,7 @@ public struct ListCostAllocationTagsOutputResponse: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         costAllocationTags: [CostExplorerClientTypes.CostAllocationTag]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9998,7 +9684,7 @@ extension ListCostAllocationTagsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costAllocationTagsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.CostAllocationTag?].self, forKey: .costAllocationTags)
         var costAllocationTagsDecoded0:[CostExplorerClientTypes.CostAllocationTag]? = nil
@@ -10051,7 +9737,7 @@ public struct ListCostCategoryDefinitionsInput: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         effectiveOn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10076,7 +9762,7 @@ extension ListCostCategoryDefinitionsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let effectiveOnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .effectiveOn)
         effectiveOn = effectiveOnDecoded
@@ -10087,31 +9773,20 @@ extension ListCostCategoryDefinitionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListCostCategoryDefinitionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCostCategoryDefinitionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCostCategoryDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCostCategoryDefinitionsOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCostCategoryDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCostCategoryDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryReferences = output.costCategoryReferences
@@ -10129,7 +9804,7 @@ public struct ListCostCategoryDefinitionsOutputResponse: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         costCategoryReferences: [CostExplorerClientTypes.CostCategoryReference]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10150,7 +9825,7 @@ extension ListCostCategoryDefinitionsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryReferencesContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.CostCategoryReference?].self, forKey: .costCategoryReferences)
         var costCategoryReferencesDecoded0:[CostExplorerClientTypes.CostCategoryReference]? = nil
@@ -10212,7 +9887,7 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Equat
     /// The IDs for each specific recommendation.
     public var recommendationIds: [Swift.String]?
 
-    public init (
+    public init(
         generationStatus: CostExplorerClientTypes.GenerationStatus? = nil,
         nextPageToken: Swift.String? = nil,
         pageSize: Swift.Int = 0,
@@ -10241,7 +9916,7 @@ extension ListSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Decod
         case recommendationIds = "RecommendationIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let generationStatusDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.GenerationStatus.self, forKey: .generationStatus)
         generationStatus = generationStatusDecoded
@@ -10263,33 +9938,21 @@ extension ListSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Decod
     }
 }
 
-extension ListSavingsPlansPurchaseRecommendationGenerationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSavingsPlansPurchaseRecommendationGenerationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSavingsPlansPurchaseRecommendationGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSavingsPlansPurchaseRecommendationGenerationOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSavingsPlansPurchaseRecommendationGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.generationSummaryList = output.generationSummaryList
@@ -10307,7 +9970,7 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationOutputResponse: Sw
     /// The token to retrieve the next set of results.
     public var nextPageToken: Swift.String?
 
-    public init (
+    public init(
         generationSummaryList: [CostExplorerClientTypes.GenerationSummary]? = nil,
         nextPageToken: Swift.String? = nil
     )
@@ -10328,7 +9991,7 @@ extension ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody: Sw
         case nextPageToken = "NextPageToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let generationSummaryListContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.GenerationSummary?].self, forKey: .generationSummaryList)
         var generationSummaryListDecoded0:[CostExplorerClientTypes.GenerationSummary]? = nil
@@ -10370,7 +10033,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -10387,40 +10050,28 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTags = output.resourceTags
@@ -10434,7 +10085,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of tag key value pairs that are associated with the resource.
     public var resourceTags: [CostExplorerClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
     )
     {
@@ -10451,7 +10102,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTagsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.ResourceTag?].self, forKey: .resourceTags)
         var resourceTagsDecoded0:[CostExplorerClientTypes.ResourceTag]? = nil
@@ -10615,7 +10266,7 @@ extension CostExplorerClientTypes.MetricValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .amount)
         amount = amountDecoded
@@ -10632,7 +10283,7 @@ extension CostExplorerClientTypes {
         /// The unit that the metric is given in.
         public var unit: Swift.String?
 
-        public init (
+        public init(
             amount: Swift.String? = nil,
             unit: Swift.String? = nil
         )
@@ -10659,7 +10310,7 @@ extension CostExplorerClientTypes.ModifyRecommendationDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetInstancesContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.TargetInstance?].self, forKey: .targetInstances)
         var targetInstancesDecoded0:[CostExplorerClientTypes.TargetInstance]? = nil
@@ -10681,7 +10332,7 @@ extension CostExplorerClientTypes {
         /// Determines whether this instance type is the Amazon Web Services default recommendation.
         public var targetInstances: [CostExplorerClientTypes.TargetInstance]?
 
-        public init (
+        public init(
             targetInstances: [CostExplorerClientTypes.TargetInstance]? = nil
         )
         {
@@ -10776,7 +10427,7 @@ extension CostExplorerClientTypes.NetworkResourceUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let networkInBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkInBytesPerSecond)
         networkInBytesPerSecond = networkInBytesPerSecondDecoded
@@ -10801,7 +10452,7 @@ extension CostExplorerClientTypes {
         /// The network outbound packets that are measured in packets per second.
         public var networkPacketsOutPerSecond: Swift.String?
 
-        public init (
+        public init(
             networkInBytesPerSecond: Swift.String? = nil,
             networkOutBytesPerSecond: Swift.String? = nil,
             networkPacketsInPerSecond: Swift.String? = nil,
@@ -11009,7 +10660,7 @@ public struct ProvideAnomalyFeedbackInput: Swift.Equatable {
     /// This member is required.
     public var feedback: CostExplorerClientTypes.AnomalyFeedbackType?
 
-    public init (
+    public init(
         anomalyId: Swift.String? = nil,
         feedback: CostExplorerClientTypes.AnomalyFeedbackType? = nil
     )
@@ -11030,7 +10681,7 @@ extension ProvideAnomalyFeedbackInputBody: Swift.Decodable {
         case feedback = "Feedback"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyId)
         anomalyId = anomalyIdDecoded
@@ -11039,31 +10690,20 @@ extension ProvideAnomalyFeedbackInputBody: Swift.Decodable {
     }
 }
 
-extension ProvideAnomalyFeedbackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ProvideAnomalyFeedbackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ProvideAnomalyFeedbackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ProvideAnomalyFeedbackOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ProvideAnomalyFeedbackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ProvideAnomalyFeedbackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyId = output.anomalyId
@@ -11078,7 +10718,7 @@ public struct ProvideAnomalyFeedbackOutputResponse: Swift.Equatable {
     /// This member is required.
     public var anomalyId: Swift.String?
 
-    public init (
+    public init(
         anomalyId: Swift.String? = nil
     )
     {
@@ -11095,7 +10735,7 @@ extension ProvideAnomalyFeedbackOutputResponseBody: Swift.Decodable {
         case anomalyId = "AnomalyId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyId)
         anomalyId = anomalyIdDecoded
@@ -11146,7 +10786,7 @@ extension CostExplorerClientTypes.RDSInstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let familyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .family)
         family = familyDecoded
@@ -11191,7 +10831,7 @@ extension CostExplorerClientTypes {
         /// Determines whether the recommended reservation is size flexible.
         public var sizeFlexEligible: Swift.Bool
 
-        public init (
+        public init(
             currentGeneration: Swift.Bool = false,
             databaseEdition: Swift.String? = nil,
             databaseEngine: Swift.String? = nil,
@@ -11277,7 +10917,7 @@ extension CostExplorerClientTypes.RedshiftInstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let familyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .family)
         family = familyDecoded
@@ -11306,7 +10946,7 @@ extension CostExplorerClientTypes {
         /// Determines whether the recommended reservation is size flexible.
         public var sizeFlexEligible: Swift.Bool
 
-        public init (
+        public init(
             currentGeneration: Swift.Bool = false,
             family: Swift.String? = nil,
             nodeType: Swift.String? = nil,
@@ -11325,37 +10965,41 @@ extension CostExplorerClientTypes {
 }
 
 extension RequestChangedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RequestChangedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-public struct RequestChangedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RequestChangedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11368,7 +11012,7 @@ extension RequestChangedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11451,7 +11095,7 @@ extension CostExplorerClientTypes.ReservationAggregates: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let utilizationPercentageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .utilizationPercentage)
         utilizationPercentage = utilizationPercentageDecoded
@@ -11528,7 +11172,7 @@ extension CostExplorerClientTypes {
         /// The percentage of Amazon EC2 reservation time that you used. It's converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
         public var utilizationPercentageInUnits: Swift.String?
 
-        public init (
+        public init(
             amortizedRecurringFee: Swift.String? = nil,
             amortizedUpfrontFee: Swift.String? = nil,
             netRISavings: Swift.String? = nil,
@@ -11589,7 +11233,7 @@ extension CostExplorerClientTypes.ReservationCoverageGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:Swift.String]? = nil
@@ -11615,7 +11259,7 @@ extension CostExplorerClientTypes {
         /// How much instance usage this group of reservations covered.
         public var coverage: CostExplorerClientTypes.Coverage?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             coverage: CostExplorerClientTypes.Coverage? = nil
         )
@@ -11666,7 +11310,7 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendation: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountScopeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.AccountScope.self, forKey: .accountScope)
         accountScope = accountScopeDecoded
@@ -11712,7 +11356,7 @@ extension CostExplorerClientTypes {
         /// The term of the reservation that you want recommendations for, in years.
         public var termInYears: CostExplorerClientTypes.TermInYears?
 
-        public init (
+        public init(
             accountScope: CostExplorerClientTypes.AccountScope? = nil,
             lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
             paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
@@ -11818,7 +11462,7 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendationDetail: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -11903,7 +11547,7 @@ extension CostExplorerClientTypes {
         /// How much purchasing this instance costs you upfront.
         public var upfrontCost: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             averageNormalizedUnitsUsedPerHour: Swift.String? = nil,
             averageNumberOfInstancesUsedPerHour: Swift.String? = nil,
@@ -11965,7 +11609,7 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
@@ -11982,7 +11626,7 @@ extension CostExplorerClientTypes {
         /// The ID for this specific recommendation.
         public var recommendationId: Swift.String?
 
-        public init (
+        public init(
             generationTimestamp: Swift.String? = nil,
             recommendationId: Swift.String? = nil
         )
@@ -12014,7 +11658,7 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendationSummary: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalEstimatedMonthlySavingsAmountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalEstimatedMonthlySavingsAmount)
         totalEstimatedMonthlySavingsAmount = totalEstimatedMonthlySavingsAmountDecoded
@@ -12035,7 +11679,7 @@ extension CostExplorerClientTypes {
         /// The total amount that Amazon Web Services estimates that this recommendation could save you in a month, as a percentage of your costs.
         public var totalEstimatedMonthlySavingsPercentage: Swift.String?
 
-        public init (
+        public init(
             currencyCode: Swift.String? = nil,
             totalEstimatedMonthlySavingsAmount: Swift.String? = nil,
             totalEstimatedMonthlySavingsPercentage: Swift.String? = nil
@@ -12076,7 +11720,7 @@ extension CostExplorerClientTypes.ReservationUtilizationGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -12110,7 +11754,7 @@ extension CostExplorerClientTypes {
         /// The value of a specific reservation attribute.
         public var value: Swift.String?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             key: Swift.String? = nil,
             utilization: CostExplorerClientTypes.ReservationAggregates? = nil,
@@ -12138,7 +11782,7 @@ extension CostExplorerClientTypes.ResourceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2ResourceDetailsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.EC2ResourceDetails.self, forKey: .ec2ResourceDetails)
         ec2ResourceDetails = ec2ResourceDetailsDecoded
@@ -12151,7 +11795,7 @@ extension CostExplorerClientTypes {
         /// Details for the Amazon EC2 resource.
         public var ec2ResourceDetails: CostExplorerClientTypes.EC2ResourceDetails?
 
-        public init (
+        public init(
             ec2ResourceDetails: CostExplorerClientTypes.EC2ResourceDetails? = nil
         )
         {
@@ -12162,42 +11806,46 @@ extension CostExplorerClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceName = output.resourceName
+            self.properties.message = output.message
+            self.properties.resourceName = output.resourceName
         } else {
-            self.message = nil
-            self.resourceName = nil
+            self.properties.message = nil
+            self.properties.resourceName = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified ARN in the request doesn't exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
-    public var resourceName: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var resourceName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceName = resourceName
+        self.properties.message = message
+        self.properties.resourceName = resourceName
     }
 }
 
@@ -12212,7 +11860,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case resourceName = "ResourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12237,7 +11885,7 @@ extension CostExplorerClientTypes.ResourceTag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -12256,7 +11904,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -12280,7 +11928,7 @@ extension CostExplorerClientTypes.ResourceUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2ResourceUtilizationDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.EC2ResourceUtilization.self, forKey: .ec2ResourceUtilization)
         ec2ResourceUtilization = ec2ResourceUtilizationDecoded
@@ -12293,7 +11941,7 @@ extension CostExplorerClientTypes {
         /// The utilization of current Amazon EC2 instance.
         public var ec2ResourceUtilization: CostExplorerClientTypes.EC2ResourceUtilization?
 
-        public init (
+        public init(
             ec2ResourceUtilization: CostExplorerClientTypes.EC2ResourceUtilization? = nil
         )
         {
@@ -12333,7 +11981,7 @@ extension CostExplorerClientTypes.ResultByTime: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -12376,7 +12024,7 @@ extension CostExplorerClientTypes {
         /// The total amount of cost or usage accrued during the time period.
         public var total: [Swift.String:CostExplorerClientTypes.MetricValue]?
 
-        public init (
+        public init(
             estimated: Swift.Bool = false,
             groups: [CostExplorerClientTypes.Group]? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
@@ -12427,7 +12075,7 @@ extension CostExplorerClientTypes.RightsizingRecommendation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -12469,7 +12117,7 @@ extension CostExplorerClientTypes {
         /// The details for termination recommendations.
         public var terminateRecommendationDetail: CostExplorerClientTypes.TerminateRecommendationDetail?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             currentInstance: CostExplorerClientTypes.CurrentInstance? = nil,
             findingReasonCodes: [CostExplorerClientTypes.FindingReasonCode]? = nil,
@@ -12505,7 +12153,7 @@ extension CostExplorerClientTypes.RightsizingRecommendationConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationTargetDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.RecommendationTarget.self, forKey: .recommendationTarget)
         recommendationTarget = recommendationTargetDecoded
@@ -12524,7 +12172,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var recommendationTarget: CostExplorerClientTypes.RecommendationTarget?
 
-        public init (
+        public init(
             benefitsConsidered: Swift.Bool = false,
             recommendationTarget: CostExplorerClientTypes.RecommendationTarget? = nil
         )
@@ -12560,7 +12208,7 @@ extension CostExplorerClientTypes.RightsizingRecommendationMetadata: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
@@ -12585,7 +12233,7 @@ extension CostExplorerClientTypes {
         /// The ID for this specific recommendation.
         public var recommendationId: Swift.String?
 
-        public init (
+        public init(
             additionalMetadata: Swift.String? = nil,
             generationTimestamp: Swift.String? = nil,
             lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
@@ -12625,7 +12273,7 @@ extension CostExplorerClientTypes.RightsizingRecommendationSummary: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalRecommendationCountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalRecommendationCount)
         totalRecommendationCount = totalRecommendationCountDecoded
@@ -12650,7 +12298,7 @@ extension CostExplorerClientTypes {
         /// The total number of instance recommendations.
         public var totalRecommendationCount: Swift.String?
 
-        public init (
+        public init(
             estimatedTotalMonthlySavingsAmount: Swift.String? = nil,
             savingsCurrencyCode: Swift.String? = nil,
             savingsPercentage: Swift.String? = nil,
@@ -12726,7 +12374,7 @@ extension CostExplorerClientTypes.RootCause: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .service)
         service = serviceDecoded
@@ -12755,7 +12403,7 @@ extension CostExplorerClientTypes {
         /// The UsageType value that's associated with the cost anomaly.
         public var usageType: Swift.String?
 
-        public init (
+        public init(
             linkedAccount: Swift.String? = nil,
             linkedAccountName: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -12793,7 +12441,7 @@ extension CostExplorerClientTypes.SavingsPlansAmortizedCommitment: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amortizedRecurringCommitmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .amortizedRecurringCommitment)
         amortizedRecurringCommitment = amortizedRecurringCommitmentDecoded
@@ -12814,7 +12462,7 @@ extension CostExplorerClientTypes {
         /// The total amortized amount of your Savings Plans commitment, regardless of your Savings Plans purchase method.
         public var totalAmortizedCommitment: Swift.String?
 
-        public init (
+        public init(
             amortizedRecurringCommitment: Swift.String? = nil,
             amortizedUpfrontCommitment: Swift.String? = nil,
             totalAmortizedCommitment: Swift.String? = nil
@@ -12851,7 +12499,7 @@ extension CostExplorerClientTypes.SavingsPlansCoverage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:Swift.String]? = nil
@@ -12881,7 +12529,7 @@ extension CostExplorerClientTypes {
         /// The time period of the request.
         public var timePeriod: CostExplorerClientTypes.DateInterval?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             coverage: CostExplorerClientTypes.SavingsPlansCoverageData? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil
@@ -12919,7 +12567,7 @@ extension CostExplorerClientTypes.SavingsPlansCoverageData: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let spendCoveredBySavingsPlansDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spendCoveredBySavingsPlans)
         spendCoveredBySavingsPlans = spendCoveredBySavingsPlansDecoded
@@ -12944,7 +12592,7 @@ extension CostExplorerClientTypes {
         /// The total cost of your Amazon Web Services usage, regardless of your purchase option.
         public var totalCost: Swift.String?
 
-        public init (
+        public init(
             coveragePercentage: Swift.String? = nil,
             onDemandCost: Swift.String? = nil,
             spendCoveredBySavingsPlans: Swift.String? = nil,
@@ -13018,7 +12666,7 @@ extension CostExplorerClientTypes.SavingsPlansDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
         region = regionDecoded
@@ -13039,7 +12687,7 @@ extension CostExplorerClientTypes {
         /// A collection of Amazon Web Services resources in a geographic area. Each Amazon Web Services Region is isolated and independent of the other Regions.
         public var region: Swift.String?
 
-        public init (
+        public init(
             instanceFamily: Swift.String? = nil,
             offeringId: Swift.String? = nil,
             region: Swift.String? = nil
@@ -13092,7 +12740,7 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendation: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountScopeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.AccountScope.self, forKey: .accountScope)
         accountScope = accountScopeDecoded
@@ -13138,7 +12786,7 @@ extension CostExplorerClientTypes {
         /// The Savings Plans recommendation term in years. It's used to generate the recommendation.
         public var termInYears: CostExplorerClientTypes.TermInYears?
 
-        public init (
+        public init(
             accountScope: CostExplorerClientTypes.AccountScope? = nil,
             lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
             paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
@@ -13232,7 +12880,7 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlansDetailsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.SavingsPlansDetails.self, forKey: .savingsPlansDetails)
         savingsPlansDetails = savingsPlansDetailsDecoded
@@ -13305,7 +12953,7 @@ extension CostExplorerClientTypes {
         /// The upfront cost of the recommended Savings Plans, based on the selected payment option.
         public var upfrontCost: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             currencyCode: Swift.String? = nil,
             currentAverageHourlyOnDemandSpend: Swift.String? = nil,
@@ -13365,7 +13013,7 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
@@ -13386,7 +13034,7 @@ extension CostExplorerClientTypes {
         /// The unique identifier for the recommendation set.
         public var recommendationId: Swift.String?
 
-        public init (
+        public init(
             additionalMetadata: Swift.String? = nil,
             generationTimestamp: Swift.String? = nil,
             recommendationId: Swift.String? = nil
@@ -13452,7 +13100,7 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let estimatedROIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedROI)
         estimatedROI = estimatedROIDecoded
@@ -13505,7 +13153,7 @@ extension CostExplorerClientTypes {
         /// The aggregate number of Savings Plans recommendations that exist for your account.
         public var totalRecommendationCount: Swift.String?
 
-        public init (
+        public init(
             currencyCode: Swift.String? = nil,
             currentOnDemandSpend: Swift.String? = nil,
             dailyCommitmentToPurchase: Swift.String? = nil,
@@ -13551,7 +13199,7 @@ extension CostExplorerClientTypes.SavingsPlansSavings: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let netSavingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .netSavings)
         netSavings = netSavingsDecoded
@@ -13568,7 +13216,7 @@ extension CostExplorerClientTypes {
         /// How much the amount that the usage would have cost if it was accrued at the On-Demand rate.
         public var onDemandCostEquivalent: Swift.String?
 
-        public init (
+        public init(
             netSavings: Swift.String? = nil,
             onDemandCostEquivalent: Swift.String? = nil
         )
@@ -13604,7 +13252,7 @@ extension CostExplorerClientTypes.SavingsPlansUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalCommitmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalCommitment)
         totalCommitment = totalCommitmentDecoded
@@ -13629,7 +13277,7 @@ extension CostExplorerClientTypes {
         /// The amount of UsedCommitment divided by the TotalCommitment for your Savings Plans.
         public var utilizationPercentage: Swift.String?
 
-        public init (
+        public init(
             totalCommitment: Swift.String? = nil,
             unusedCommitment: Swift.String? = nil,
             usedCommitment: Swift.String? = nil,
@@ -13665,7 +13313,7 @@ extension CostExplorerClientTypes.SavingsPlansUtilizationAggregates: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let utilizationDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.SavingsPlansUtilization.self, forKey: .utilization)
         utilization = utilizationDecoded
@@ -13687,7 +13335,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var utilization: CostExplorerClientTypes.SavingsPlansUtilization?
 
-        public init (
+        public init(
             amortizedCommitment: CostExplorerClientTypes.SavingsPlansAmortizedCommitment? = nil,
             savings: CostExplorerClientTypes.SavingsPlansSavings? = nil,
             utilization: CostExplorerClientTypes.SavingsPlansUtilization? = nil
@@ -13725,7 +13373,7 @@ extension CostExplorerClientTypes.SavingsPlansUtilizationByTime: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -13752,7 +13400,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var utilization: CostExplorerClientTypes.SavingsPlansUtilization?
 
-        public init (
+        public init(
             amortizedCommitment: CostExplorerClientTypes.SavingsPlansAmortizedCommitment? = nil,
             savings: CostExplorerClientTypes.SavingsPlansSavings? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
@@ -13799,7 +13447,7 @@ extension CostExplorerClientTypes.SavingsPlansUtilizationDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let savingsPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanArn)
         savingsPlanArn = savingsPlanArnDecoded
@@ -13837,7 +13485,7 @@ extension CostExplorerClientTypes {
         /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
         public var utilization: CostExplorerClientTypes.SavingsPlansUtilization?
 
-        public init (
+        public init(
             amortizedCommitment: CostExplorerClientTypes.SavingsPlansAmortizedCommitment? = nil,
             attributes: [Swift.String:Swift.String]? = nil,
             savings: CostExplorerClientTypes.SavingsPlansSavings? = nil,
@@ -13856,37 +13504,41 @@ extension CostExplorerClientTypes {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13899,7 +13551,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13918,7 +13570,7 @@ extension CostExplorerClientTypes.ServiceSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2SpecificationDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.EC2Specification.self, forKey: .ec2Specification)
         ec2Specification = ec2SpecificationDecoded
@@ -13931,7 +13583,7 @@ extension CostExplorerClientTypes {
         /// The Amazon EC2 hardware specifications that you want Amazon Web Services to provide recommendations for.
         public var ec2Specification: CostExplorerClientTypes.EC2Specification?
 
-        public init (
+        public init(
             ec2Specification: CostExplorerClientTypes.EC2Specification? = nil
         )
         {
@@ -13957,7 +13609,7 @@ extension CostExplorerClientTypes.SortDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -13975,7 +13627,7 @@ extension CostExplorerClientTypes {
         /// The order that's used to sort the data.
         public var sortOrder: CostExplorerClientTypes.SortOrder?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             sortOrder: CostExplorerClientTypes.SortOrder? = nil
         )
@@ -14035,7 +13687,7 @@ extension StartSavingsPlansPurchaseRecommendationGenerationInput: ClientRuntime.
 
 public struct StartSavingsPlansPurchaseRecommendationGenerationInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct StartSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Equatable {
@@ -14043,39 +13695,26 @@ struct StartSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Equatab
 
 extension StartSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension StartSavingsPlansPurchaseRecommendationGenerationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartSavingsPlansPurchaseRecommendationGenerationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GenerationExistsException" : self = .generationExistsException(try GenerationExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartSavingsPlansPurchaseRecommendationGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GenerationExistsException": return try await GenerationExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartSavingsPlansPurchaseRecommendationGenerationOutputError: Swift.Error, Swift.Equatable {
-    case generationExistsException(GenerationExistsException)
-    case limitExceededException(LimitExceededException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartSavingsPlansPurchaseRecommendationGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.estimatedCompletionTime = output.estimatedCompletionTime
@@ -14097,7 +13736,7 @@ public struct StartSavingsPlansPurchaseRecommendationGenerationOutputResponse: S
     /// The ID for this specific recommendation.
     public var recommendationId: Swift.String?
 
-    public init (
+    public init(
         estimatedCompletionTime: Swift.String? = nil,
         generationStartedTime: Swift.String? = nil,
         recommendationId: Swift.String? = nil
@@ -14122,7 +13761,7 @@ extension StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody: S
         case recommendationId = "RecommendationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
@@ -14153,7 +13792,7 @@ extension CostExplorerClientTypes.Subscriber: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -14174,7 +13813,7 @@ extension CostExplorerClientTypes {
         /// The notification delivery channel.
         public var type: CostExplorerClientTypes.SubscriberType?
 
-        public init (
+        public init(
             address: Swift.String? = nil,
             status: CostExplorerClientTypes.SubscriberStatus? = nil,
             type: CostExplorerClientTypes.SubscriberType? = nil
@@ -14335,7 +13974,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceTags: [CostExplorerClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
     )
@@ -14356,7 +13995,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -14374,40 +14013,27 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CostExplorerClientTypes.TagValues: Swift.Codable {
@@ -14436,7 +14062,7 @@ extension CostExplorerClientTypes.TagValues: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -14475,7 +14101,7 @@ extension CostExplorerClientTypes {
         /// The specific value of the tag.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
@@ -14528,7 +14154,7 @@ extension CostExplorerClientTypes.TargetInstance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let estimatedMonthlyCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedMonthlyCost)
         estimatedMonthlyCost = estimatedMonthlyCostDecoded
@@ -14574,7 +14200,7 @@ extension CostExplorerClientTypes {
         /// Details on the target instance type.
         public var resourceDetails: CostExplorerClientTypes.ResourceDetails?
 
-        public init (
+        public init(
             currencyCode: Swift.String? = nil,
             defaultTargetInstance: Swift.Bool = false,
             estimatedMonthlyCost: Swift.String? = nil,
@@ -14644,7 +14270,7 @@ extension CostExplorerClientTypes.TerminateRecommendationDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedMonthlySavings)
         estimatedMonthlySavings = estimatedMonthlySavingsDecoded
@@ -14661,7 +14287,7 @@ extension CostExplorerClientTypes {
         /// The estimated savings that result from modification, on a monthly basis.
         public var estimatedMonthlySavings: Swift.String?
 
-        public init (
+        public init(
             currencyCode: Swift.String? = nil,
             estimatedMonthlySavings: Swift.String? = nil
         )
@@ -14674,42 +14300,46 @@ extension CostExplorerClientTypes {
 }
 
 extension TooManyTagsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceName = output.resourceName
+            self.properties.message = output.message
+            self.properties.resourceName = output.resourceName
         } else {
-            self.message = nil
-            self.resourceName = nil
+            self.properties.message = nil
+            self.properties.resourceName = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
-    public var resourceName: Swift.String?
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var resourceName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceName = resourceName
+        self.properties.message = message
+        self.properties.resourceName = resourceName
     }
 }
 
@@ -14724,7 +14354,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
         case resourceName = "ResourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14753,7 +14383,7 @@ extension CostExplorerClientTypes.TotalImpactFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numericOperatorDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.NumericOperator.self, forKey: .numericOperator)
         numericOperator = numericOperatorDecoded
@@ -14776,7 +14406,7 @@ extension CostExplorerClientTypes {
         /// This member is required.
         public var startValue: Swift.Double
 
-        public init (
+        public init(
             endValue: Swift.Double = 0.0,
             numericOperator: CostExplorerClientTypes.NumericOperator? = nil,
             startValue: Swift.Double = 0.0
@@ -14791,37 +14421,41 @@ extension CostExplorerClientTypes {
 }
 
 extension UnknownMonitorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnknownMonitorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The cost anomaly monitor does not exist for the account.
-public struct UnknownMonitorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnknownMonitorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnknownMonitorException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14834,7 +14468,7 @@ extension UnknownMonitorExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14842,37 +14476,41 @@ extension UnknownMonitorExceptionBody: Swift.Decodable {
 }
 
 extension UnknownSubscriptionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnknownSubscriptionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The cost anomaly subscription does not exist for the account.
-public struct UnknownSubscriptionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnknownSubscriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnknownSubscriptionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14885,7 +14523,7 @@ extension UnknownSubscriptionExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14893,37 +14531,41 @@ extension UnknownSubscriptionExceptionBody: Swift.Decodable {
 }
 
 extension UnresolvableUsageUnitException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnresolvableUsageUnitExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
-public struct UnresolvableUsageUnitException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnresolvableUsageUnitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnresolvableUsageUnitException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14936,7 +14578,7 @@ extension UnresolvableUsageUnitExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14977,7 +14619,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceTagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         resourceTagKeys: [Swift.String]? = nil
     )
@@ -14998,7 +14640,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case resourceTagKeys = "ResourceTagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -15016,38 +14658,26 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateAnomalyMonitorInput: Swift.Encodable {
@@ -15080,7 +14710,7 @@ public struct UpdateAnomalyMonitorInput: Swift.Equatable {
     /// The new name for the cost anomaly monitor.
     public var monitorName: Swift.String?
 
-    public init (
+    public init(
         monitorArn: Swift.String? = nil,
         monitorName: Swift.String? = nil
     )
@@ -15101,7 +14731,7 @@ extension UpdateAnomalyMonitorInputBody: Swift.Decodable {
         case monitorName = "MonitorName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitorArn)
         monitorArn = monitorArnDecoded
@@ -15110,33 +14740,21 @@ extension UpdateAnomalyMonitorInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAnomalyMonitorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAnomalyMonitorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAnomalyMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownMonitorException": return try await UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAnomalyMonitorOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknownMonitorException(UnknownMonitorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAnomalyMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
@@ -15151,7 +14769,7 @@ public struct UpdateAnomalyMonitorOutputResponse: Swift.Equatable {
     /// This member is required.
     public var monitorArn: Swift.String?
 
-    public init (
+    public init(
         monitorArn: Swift.String? = nil
     )
     {
@@ -15168,7 +14786,7 @@ extension UpdateAnomalyMonitorOutputResponseBody: Swift.Decodable {
         case monitorArn = "MonitorArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitorArn)
         monitorArn = monitorArnDecoded
@@ -15250,7 +14868,7 @@ public struct UpdateAnomalySubscriptionInput: Swift.Equatable {
     /// * OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
     public var thresholdExpression: CostExplorerClientTypes.Expression?
 
-    public init (
+    public init(
         frequency: CostExplorerClientTypes.AnomalySubscriptionFrequency? = nil,
         monitorArnList: [Swift.String]? = nil,
         subscribers: [CostExplorerClientTypes.Subscriber]? = nil,
@@ -15291,7 +14909,7 @@ extension UpdateAnomalySubscriptionInputBody: Swift.Decodable {
         case thresholdExpression = "ThresholdExpression"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionArn)
         subscriptionArn = subscriptionArnDecoded
@@ -15328,35 +14946,22 @@ extension UpdateAnomalySubscriptionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAnomalySubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAnomalySubscriptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnknownSubscriptionException" : self = .unknownSubscriptionException(try UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAnomalySubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownMonitorException": return try await UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnknownSubscriptionException": return try await UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAnomalySubscriptionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknownMonitorException(UnknownMonitorException)
-    case unknownSubscriptionException(UnknownSubscriptionException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateAnomalySubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriptionArn = output.subscriptionArn
@@ -15371,7 +14976,7 @@ public struct UpdateAnomalySubscriptionOutputResponse: Swift.Equatable {
     /// This member is required.
     public var subscriptionArn: Swift.String?
 
-    public init (
+    public init(
         subscriptionArn: Swift.String? = nil
     )
     {
@@ -15388,7 +14993,7 @@ extension UpdateAnomalySubscriptionOutputResponseBody: Swift.Decodable {
         case subscriptionArn = "SubscriptionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionArn)
         subscriptionArn = subscriptionArnDecoded
@@ -15415,7 +15020,7 @@ extension CostExplorerClientTypes.UpdateCostAllocationTagsStatusError: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagKey)
         tagKey = tagKeyDecoded
@@ -15436,7 +15041,7 @@ extension CostExplorerClientTypes {
         /// The key for the cost allocation tag.
         public var tagKey: Swift.String?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             tagKey: Swift.String? = nil
@@ -15477,7 +15082,7 @@ public struct UpdateCostAllocationTagsStatusInput: Swift.Equatable {
     /// This member is required.
     public var costAllocationTagsStatus: [CostExplorerClientTypes.CostAllocationTagStatusEntry]?
 
-    public init (
+    public init(
         costAllocationTagsStatus: [CostExplorerClientTypes.CostAllocationTagStatusEntry]? = nil
     )
     {
@@ -15494,7 +15099,7 @@ extension UpdateCostAllocationTagsStatusInputBody: Swift.Decodable {
         case costAllocationTagsStatus = "CostAllocationTagsStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costAllocationTagsStatusContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.CostAllocationTagStatusEntry?].self, forKey: .costAllocationTagsStatus)
         var costAllocationTagsStatusDecoded0:[CostExplorerClientTypes.CostAllocationTagStatusEntry]? = nil
@@ -15510,31 +15115,20 @@ extension UpdateCostAllocationTagsStatusInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateCostAllocationTagsStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateCostAllocationTagsStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateCostAllocationTagsStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateCostAllocationTagsStatusOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateCostAllocationTagsStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateCostAllocationTagsStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
@@ -15548,7 +15142,7 @@ public struct UpdateCostAllocationTagsStatusOutputResponse: Swift.Equatable {
     /// A list of UpdateCostAllocationTagsStatusError objects with error details about each cost allocation tag that can't be updated. If there's no failure, an empty array returns.
     public var errors: [CostExplorerClientTypes.UpdateCostAllocationTagsStatusError]?
 
-    public init (
+    public init(
         errors: [CostExplorerClientTypes.UpdateCostAllocationTagsStatusError]? = nil
     )
     {
@@ -15565,7 +15159,7 @@ extension UpdateCostAllocationTagsStatusOutputResponseBody: Swift.Decodable {
         case errors = "Errors"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.UpdateCostAllocationTagsStatusError?].self, forKey: .errors)
         var errorsDecoded0:[CostExplorerClientTypes.UpdateCostAllocationTagsStatusError]? = nil
@@ -15643,7 +15237,7 @@ public struct UpdateCostCategoryDefinitionInput: Swift.Equatable {
     /// The split charge rules used to allocate your charges between your Cost Category values.
     public var splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]?
 
-    public init (
+    public init(
         costCategoryArn: Swift.String? = nil,
         defaultValue: Swift.String? = nil,
         effectiveStart: Swift.String? = nil,
@@ -15680,7 +15274,7 @@ extension UpdateCostCategoryDefinitionInputBody: Swift.Decodable {
         case splitChargeRules = "SplitChargeRules"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -15715,35 +15309,22 @@ extension UpdateCostCategoryDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateCostCategoryDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateCostCategoryDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateCostCategoryDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
@@ -15761,7 +15342,7 @@ public struct UpdateCostCategoryDefinitionOutputResponse: Swift.Equatable {
     /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
     public var effectiveStart: Swift.String?
 
-    public init (
+    public init(
         costCategoryArn: Swift.String? = nil,
         effectiveStart: Swift.String? = nil
     )
@@ -15782,7 +15363,7 @@ extension UpdateCostCategoryDefinitionOutputResponseBody: Swift.Decodable {
         case effectiveStart = "EffectiveStart"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let costCategoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .costCategoryArn)
         costCategoryArn = costCategoryArnDecoded
@@ -15814,7 +15395,7 @@ extension CostExplorerClientTypes.UtilizationByTime: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timePeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
@@ -15844,7 +15425,7 @@ extension CostExplorerClientTypes {
         /// The total number of reservation hours that were used.
         public var total: CostExplorerClientTypes.ReservationAggregates?
 
-        public init (
+        public init(
             groups: [CostExplorerClientTypes.ReservationUtilizationGroup]? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
             total: CostExplorerClientTypes.ReservationAggregates? = nil

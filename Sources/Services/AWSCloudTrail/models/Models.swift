@@ -3,38 +3,42 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccountHasOngoingImportException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccountHasOngoingImportExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when you start a new import and a previous import is still in progress.
-public struct AccountHasOngoingImportException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountHasOngoingImport" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -47,7 +51,7 @@ extension AccountHasOngoingImportExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -55,38 +59,42 @@ extension AccountHasOngoingImportExceptionBody: Swift.Decodable {
 }
 
 extension AccountNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccountNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified account is not found or not part of an organization.
-public struct AccountNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -99,7 +107,7 @@ extension AccountNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -107,38 +115,42 @@ extension AccountNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension AccountNotRegisteredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccountNotRegisteredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified account is not registered as the CloudTrail delegated administrator.
-public struct AccountNotRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountNotRegistered" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -151,7 +163,7 @@ extension AccountNotRegisteredExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -159,38 +171,42 @@ extension AccountNotRegisteredExceptionBody: Swift.Decodable {
 }
 
 extension AccountRegisteredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccountRegisteredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the account is already registered as the CloudTrail delegated administrator.
-public struct AccountRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountRegistered" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -203,7 +219,7 @@ extension AccountRegisteredExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -245,7 +261,7 @@ public struct AddTagsInput: Swift.Equatable {
     /// This member is required.
     public var tagsList: [CloudTrailClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil
     )
@@ -266,7 +282,7 @@ extension AddTagsInputBody: Swift.Decodable {
         case tagsList = "TagsList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -284,67 +300,41 @@ extension AddTagsInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagsLimitExceeded" : self = .tagsLimitExceededException(try TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
-    case channelARNInvalidException(ChannelARNInvalidException)
-    case channelNotFoundException(ChannelNotFoundException)
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case conflictException(ConflictException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidTagParameterException(InvalidTagParameterException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case tagsLimitExceededException(TagsLimitExceededException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the objects or data if successful. Otherwise, returns an error.
 public struct AddTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudTrailClientTypes.AdvancedEventSelector: Swift.Codable {
@@ -366,7 +356,7 @@ extension CloudTrailClientTypes.AdvancedEventSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -408,7 +398,7 @@ extension CloudTrailClientTypes {
         /// An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets".
         public var name: Swift.String?
 
-        public init (
+        public init(
             fieldSelectors: [CloudTrailClientTypes.AdvancedFieldSelector]? = nil,
             name: Swift.String? = nil
         )
@@ -474,7 +464,7 @@ extension CloudTrailClientTypes.AdvancedFieldSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .field)
         field = fieldDecoded
@@ -712,7 +702,7 @@ extension CloudTrailClientTypes {
         /// An operator that includes events that match the first few characters of the event record field specified as the value of Field.
         public var startsWith: [Swift.String]?
 
-        public init (
+        public init(
             endsWith: [Swift.String]? = nil,
             equals: [Swift.String]? = nil,
             field: Swift.String? = nil,
@@ -765,7 +755,7 @@ public struct CancelQueryInput: Swift.Equatable {
     /// This member is required.
     public var queryId: Swift.String?
 
-    public init (
+    public init(
         eventDataStore: Swift.String? = nil,
         queryId: Swift.String? = nil
     )
@@ -786,7 +776,7 @@ extension CancelQueryInputBody: Swift.Decodable {
         case queryId = "QueryId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
@@ -795,49 +785,29 @@ extension CancelQueryInputBody: Swift.Decodable {
     }
 }
 
-extension CancelQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveQuery" : self = .inactiveQueryException(try InactiveQueryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "QueryIdNotFound" : self = .queryIdNotFoundException(try QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveQuery": return try await InactiveQueryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelQueryOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case inactiveQueryException(InactiveQueryException)
-    case invalidParameterException(InvalidParameterException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case queryIdNotFoundException(QueryIdNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CancelQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queryId = output.queryId
@@ -857,7 +827,7 @@ public struct CancelQueryOutputResponse: Swift.Equatable {
     /// This member is required.
     public var queryStatus: CloudTrailClientTypes.QueryStatus?
 
-    public init (
+    public init(
         queryId: Swift.String? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil
     )
@@ -878,7 +848,7 @@ extension CancelQueryOutputResponseBody: Swift.Decodable {
         case queryStatus = "QueryStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -888,38 +858,42 @@ extension CancelQueryOutputResponseBody: Swift.Decodable {
 }
 
 extension CannotDelegateManagementAccountException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CannotDelegateManagementAccountExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the management account of an organization is registered as the CloudTrail delegated administrator.
-public struct CannotDelegateManagementAccountException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CannotDelegateManagementAccount" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -932,7 +906,7 @@ extension CannotDelegateManagementAccountExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -955,7 +929,7 @@ extension CloudTrailClientTypes.Channel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
         channelArn = channelArnDecoded
@@ -972,7 +946,7 @@ extension CloudTrailClientTypes {
         /// The name of the CloudTrail channel. For service-linked channels, the name is aws-service-channel/service-name/custom-suffix where service-name represents the name of the Amazon Web Services service that created the channel and custom-suffix represents the suffix created by the Amazon Web Services service.
         public var name: Swift.String?
 
-        public init (
+        public init(
             channelArn: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -985,38 +959,42 @@ extension CloudTrailClientTypes {
 }
 
 extension ChannelARNInvalidException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ChannelARNInvalidExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified value of ChannelARN is not valid.
-public struct ChannelARNInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ChannelARNInvalid" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1029,7 +1007,7 @@ extension ChannelARNInvalidExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1037,38 +1015,42 @@ extension ChannelARNInvalidExceptionBody: Swift.Decodable {
 }
 
 extension ChannelAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ChannelAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided channel already exists.
-public struct ChannelAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ChannelAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1081,7 +1063,7 @@ extension ChannelAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1089,38 +1071,42 @@ extension ChannelAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension ChannelExistsForEDSException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ChannelExistsForEDSExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified event data store cannot yet be deleted because it is in use by a channel.
-public struct ChannelExistsForEDSException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ChannelExistsForEDS" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1133,7 +1119,7 @@ extension ChannelExistsForEDSExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1141,38 +1127,42 @@ extension ChannelExistsForEDSExceptionBody: Swift.Decodable {
 }
 
 extension ChannelMaxLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ChannelMaxLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the maximum number of channels limit is exceeded.
-public struct ChannelMaxLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ChannelMaxLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1185,7 +1175,7 @@ extension ChannelMaxLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1193,38 +1183,42 @@ extension ChannelMaxLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension ChannelNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ChannelNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when CloudTrail cannot find the specified channel.
-public struct ChannelNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ChannelNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1237,7 +1231,7 @@ extension ChannelNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1245,38 +1239,42 @@ extension ChannelNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension CloudTrailARNInvalidException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloudTrailARNInvalidExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail This exception is also thrown when you call AddTags or RemoveTags on a trail, event data store, or channel with a resource ARN that is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
-public struct CloudTrailARNInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudTrailARNInvalid" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1289,7 +1287,7 @@ extension CloudTrailARNInvalidExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1297,38 +1295,42 @@ extension CloudTrailARNInvalidExceptionBody: Swift.Decodable {
 }
 
 extension CloudTrailAccessNotEnabledException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloudTrailAccessNotEnabledExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [Enabling Trusted Access with Other Amazon Web Services Services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html).
-public struct CloudTrailAccessNotEnabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudTrailAccessNotEnabled" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1341,7 +1343,7 @@ extension CloudTrailAccessNotEnabledExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1349,38 +1351,42 @@ extension CloudTrailAccessNotEnabledExceptionBody: Swift.Decodable {
 }
 
 extension CloudTrailInvalidClientTokenIdException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloudTrailInvalidClientTokenIdExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended Amazon Web Services account.
-public struct CloudTrailInvalidClientTokenIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudTrailInvalidClientTokenId" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1393,7 +1399,7 @@ extension CloudTrailInvalidClientTokenIdExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1401,38 +1407,42 @@ extension CloudTrailInvalidClientTokenIdExceptionBody: Swift.Decodable {
 }
 
 extension CloudWatchLogsDeliveryUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CloudWatchLogsDeliveryUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Cannot set a CloudWatch Logs delivery for this region.
-public struct CloudWatchLogsDeliveryUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudWatchLogsDeliveryUnavailable" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1445,7 +1455,7 @@ extension CloudWatchLogsDeliveryUnavailableExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1453,38 +1463,42 @@ extension CloudWatchLogsDeliveryUnavailableExceptionBody: Swift.Decodable {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1497,7 +1511,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1554,7 +1568,7 @@ public struct CreateChannelInput: Swift.Equatable {
     /// A list of tags.
     public var tags: [CloudTrailClientTypes.Tag]?
 
-    public init (
+    public init(
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         name: Swift.String? = nil,
         source: Swift.String? = nil,
@@ -1583,7 +1597,7 @@ extension CreateChannelInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1614,53 +1628,31 @@ extension CreateChannelInputBody: Swift.Decodable {
     }
 }
 
-extension CreateChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelAlreadyExists" : self = .channelAlreadyExistsException(try ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelMaxLimitExceeded" : self = .channelMaxLimitExceededException(try ChannelMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventDataStoreCategory" : self = .invalidEventDataStoreCategoryException(try InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSource" : self = .invalidSourceException(try InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagsLimitExceeded" : self = .tagsLimitExceededException(try TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelAlreadyExists": return try await ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelMaxLimitExceeded": return try await ChannelMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSource": return try await InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
-    case channelAlreadyExistsException(ChannelAlreadyExistsException)
-    case channelMaxLimitExceededException(ChannelMaxLimitExceededException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidEventDataStoreCategoryException(InvalidEventDataStoreCategoryException)
-    case invalidParameterException(InvalidParameterException)
-    case invalidSourceException(InvalidSourceException)
-    case invalidTagParameterException(InvalidTagParameterException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case tagsLimitExceededException(TagsLimitExceededException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
@@ -1690,7 +1682,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
     /// A list of tags.
     public var tags: [CloudTrailClientTypes.Tag]?
 
-    public init (
+    public init(
         channelArn: Swift.String? = nil,
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         name: Swift.String? = nil,
@@ -1723,7 +1715,7 @@ extension CreateChannelOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
         channelArn = channelArnDecoded
@@ -1836,7 +1828,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you cannot delete the event data store until termination protection is disabled.
     public var terminationProtectionEnabled: Swift.Bool?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
@@ -1881,7 +1873,7 @@ extension CreateEventDataStoreInputBody: Swift.Decodable {
         case terminationProtectionEnabled = "TerminationProtectionEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1920,65 +1912,37 @@ extension CreateEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
-extension CreateEventDataStoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateEventDataStoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreAlreadyExists" : self = .eventDataStoreAlreadyExistsException(try EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreMaxLimitExceeded" : self = .eventDataStoreMaxLimitExceededException(try EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKmsKeyId" : self = .invalidKmsKeyIdException(try InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsException" : self = .kmsException(try KmsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsKeyNotFound" : self = .kmsKeyNotFoundException(try KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateEventDataStoreOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case conflictException(ConflictException)
-    case eventDataStoreAlreadyExistsException(EventDataStoreAlreadyExistsException)
-    case eventDataStoreMaxLimitExceededException(EventDataStoreMaxLimitExceededException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case invalidEventSelectorsException(InvalidEventSelectorsException)
-    case invalidKmsKeyIdException(InvalidKmsKeyIdException)
-    case invalidParameterException(InvalidParameterException)
-    case invalidTagParameterException(InvalidTagParameterException)
-    case kmsException(KmsException)
-    case kmsKeyNotFoundException(KmsKeyNotFoundException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
@@ -2036,7 +2000,7 @@ public struct CreateEventDataStoreOutputResponse: Swift.Equatable {
     /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
@@ -2097,7 +2061,7 @@ extension CreateEventDataStoreOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
         eventDataStoreArn = eventDataStoreArnDecoded
@@ -2257,7 +2221,7 @@ public struct CreateTrailInput: Swift.Equatable {
     /// A list of tags.
     public var tagsList: [CloudTrailClientTypes.Tag]?
 
-    public init (
+    public init(
         cloudWatchLogsLogGroupArn: Swift.String? = nil,
         cloudWatchLogsRoleArn: Swift.String? = nil,
         enableLogFileValidation: Swift.Bool? = nil,
@@ -2318,7 +2282,7 @@ extension CreateTrailInputBody: Swift.Decodable {
         case tagsList = "TagsList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2356,91 +2320,50 @@ extension CreateTrailInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTrailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTrailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailInvalidClientTokenId" : self = .cloudTrailInvalidClientTokenIdException(try CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudWatchLogsDeliveryUnavailable" : self = .cloudWatchLogsDeliveryUnavailableException(try CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientS3BucketPolicy" : self = .insufficientS3BucketPolicyException(try InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientSnsTopicPolicy" : self = .insufficientSnsTopicPolicyException(try InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCloudWatchLogsLogGroupArn" : self = .invalidCloudWatchLogsLogGroupArnException(try InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCloudWatchLogsRoleArn" : self = .invalidCloudWatchLogsRoleArnException(try InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKmsKeyId" : self = .invalidKmsKeyIdException(try InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombinationError" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3BucketName" : self = .invalidS3BucketNameException(try InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3Prefix" : self = .invalidS3PrefixException(try InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSnsTopicName" : self = .invalidSnsTopicNameException(try InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsException" : self = .kmsException(try KmsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsKeyDisabled" : self = .kmsKeyDisabledException(try KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsKeyNotFound" : self = .kmsKeyNotFoundException(try KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaximumNumberOfTrailsExceeded" : self = .maximumNumberOfTrailsExceededException(try MaximumNumberOfTrailsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagsLimitExceeded" : self = .tagsLimitExceededException(try TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailAlreadyExists" : self = .trailAlreadyExistsException(try TrailAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotProvided" : self = .trailNotProvidedException(try TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailInvalidClientTokenId": return try await CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudWatchLogsDeliveryUnavailable": return try await CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientSnsTopicPolicy": return try await InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsLogGroupArn": return try await InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyDisabled": return try await KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumNumberOfTrailsExceeded": return try await MaximumNumberOfTrailsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailAlreadyExists": return try await TrailAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotProvided": return try await TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTrailOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case cloudTrailInvalidClientTokenIdException(CloudTrailInvalidClientTokenIdException)
-    case cloudWatchLogsDeliveryUnavailableException(CloudWatchLogsDeliveryUnavailableException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case insufficientS3BucketPolicyException(InsufficientS3BucketPolicyException)
-    case insufficientSnsTopicPolicyException(InsufficientSnsTopicPolicyException)
-    case invalidCloudWatchLogsLogGroupArnException(InvalidCloudWatchLogsLogGroupArnException)
-    case invalidCloudWatchLogsRoleArnException(InvalidCloudWatchLogsRoleArnException)
-    case invalidKmsKeyIdException(InvalidKmsKeyIdException)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidS3BucketNameException(InvalidS3BucketNameException)
-    case invalidS3PrefixException(InvalidS3PrefixException)
-    case invalidSnsTopicNameException(InvalidSnsTopicNameException)
-    case invalidTagParameterException(InvalidTagParameterException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case kmsException(KmsException)
-    case kmsKeyDisabledException(KmsKeyDisabledException)
-    case kmsKeyNotFoundException(KmsKeyNotFoundException)
-    case maximumNumberOfTrailsExceededException(MaximumNumberOfTrailsExceededException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case s3BucketDoesNotExistException(S3BucketDoesNotExistException)
-    case tagsLimitExceededException(TagsLimitExceededException)
-    case trailAlreadyExistsException(TrailAlreadyExistsException)
-    case trailNotProvidedException(TrailNotProvidedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTrailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogsLogGroupArn = output.cloudWatchLogsLogGroupArn
@@ -2504,7 +2427,7 @@ public struct CreateTrailOutputResponse: Swift.Equatable {
     /// Specifies the ARN of the trail that was created. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     public var trailARN: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogsLogGroupArn: Swift.String? = nil,
         cloudWatchLogsRoleArn: Swift.String? = nil,
         includeGlobalServiceEvents: Swift.Bool? = nil,
@@ -2569,7 +2492,7 @@ extension CreateTrailOutputResponseBody: Swift.Decodable {
         case trailARN = "TrailARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2619,7 +2542,7 @@ extension CloudTrailClientTypes.DataResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -2711,7 +2634,7 @@ extension CloudTrailClientTypes {
         /// * To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             type: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -2724,38 +2647,42 @@ extension CloudTrailClientTypes {
 }
 
 extension DelegatedAdminAccountLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DelegatedAdminAccountLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the maximum number of CloudTrail delegated administrators is reached.
-public struct DelegatedAdminAccountLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DelegatedAdminAccountLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2768,7 +2695,7 @@ extension DelegatedAdminAccountLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2799,7 +2726,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     /// This member is required.
     public var channel: Swift.String?
 
-    public init (
+    public init(
         channel: Swift.String? = nil
     )
     {
@@ -2816,49 +2743,35 @@ extension DeleteChannelInputBody: Swift.Decodable {
         case channel = "Channel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
         channel = channelDecoded
     }
 }
 
-extension DeleteChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
-    case channelARNInvalidException(ChannelARNInvalidException)
-    case channelNotFoundException(ChannelNotFoundException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteChannelOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEventDataStoreInput: Swift.Encodable {
@@ -2885,7 +2798,7 @@ public struct DeleteEventDataStoreInput: Swift.Equatable {
     /// This member is required.
     public var eventDataStore: Swift.String?
 
-    public init (
+    public init(
         eventDataStore: Swift.String? = nil
     )
     {
@@ -2902,65 +2815,43 @@ extension DeleteEventDataStoreInputBody: Swift.Decodable {
         case eventDataStore = "EventDataStore"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
     }
 }
 
-extension DeleteEventDataStoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEventDataStoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelExistsForEDS" : self = .channelExistsForEDSException(try ChannelExistsForEDSException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreHasOngoingImport" : self = .eventDataStoreHasOngoingImportException(try EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreTerminationProtectedException" : self = .eventDataStoreTerminationProtectedException(try EventDataStoreTerminationProtectedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelExistsForEDS": return try await ChannelExistsForEDSException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreTerminationProtectedException": return try await EventDataStoreTerminationProtectedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEventDataStoreOutputError: Swift.Error, Swift.Equatable {
-    case channelExistsForEDSException(ChannelExistsForEDSException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreHasOngoingImportException(EventDataStoreHasOngoingImportException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case eventDataStoreTerminationProtectedException(EventDataStoreTerminationProtectedException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidParameterException(InvalidParameterException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteEventDataStoreOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteResourcePolicyInput: Swift.Encodable {
@@ -2987,7 +2878,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -3004,53 +2895,37 @@ extension DeleteResourcePolicyInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteResourcePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceARNNotValid" : self = .resourceARNNotValidException(try ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourcePolicyNotFound" : self = .resourcePolicyNotFoundException(try ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotFound": return try await ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedException(OperationNotPermittedException)
-    case resourceARNNotValidException(ResourceARNNotValidException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourcePolicyNotFoundException(ResourcePolicyNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteTrailInput: Swift.Encodable {
@@ -3078,7 +2953,7 @@ public struct DeleteTrailInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -3095,62 +2970,42 @@ extension DeleteTrailInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension DeleteTrailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTrailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTrailOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidHomeRegionException(InvalidHomeRegionException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTrailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
 public struct DeleteTrailOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudTrailClientTypes {
@@ -3231,7 +3086,7 @@ public struct DeregisterOrganizationDelegatedAdminInput: Swift.Equatable {
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
 
-    public init (
+    public init(
         delegatedAdminAccountId: Swift.String? = nil
     )
     {
@@ -3248,64 +3103,43 @@ extension DeregisterOrganizationDelegatedAdminInputBody: Swift.Decodable {
         case delegatedAdminAccountId = "DelegatedAdminAccountId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delegatedAdminAccountId)
         delegatedAdminAccountId = delegatedAdminAccountIdDecoded
     }
 }
 
-extension DeregisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeregisterOrganizationDelegatedAdminOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountNotFound" : self = .accountNotFoundException(try AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AccountNotRegistered" : self = .accountNotRegisteredException(try AccountNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationManagementAccount" : self = .notOrganizationManagementAccountException(try NotOrganizationManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountNotFound": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccountNotRegistered": return try await AccountNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationManagementAccount": return try await NotOrganizationManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeregisterOrganizationDelegatedAdminOutputError: Swift.Error, Swift.Equatable {
-    case accountNotFoundException(AccountNotFoundException)
-    case accountNotRegisteredException(AccountNotRegisteredException)
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidParameterException(InvalidParameterException)
-    case notOrganizationManagementAccountException(NotOrganizationManagementAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterOrganizationDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
 public struct DeregisterOrganizationDelegatedAdminOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeQueryInput: Swift.Encodable {
@@ -3339,7 +3173,7 @@ public struct DescribeQueryInput: Swift.Equatable {
     /// This member is required.
     public var queryId: Swift.String?
 
-    public init (
+    public init(
         eventDataStore: Swift.String? = nil,
         queryId: Swift.String? = nil
     )
@@ -3360,7 +3194,7 @@ extension DescribeQueryInputBody: Swift.Decodable {
         case queryId = "QueryId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
@@ -3369,45 +3203,27 @@ extension DescribeQueryInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "QueryIdNotFound" : self = .queryIdNotFoundException(try QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeQueryOutputError: Swift.Error, Swift.Equatable {
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidParameterException(InvalidParameterException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case queryIdNotFoundException(QueryIdNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deliveryS3Uri = output.deliveryS3Uri
@@ -3445,7 +3261,7 @@ public struct DescribeQueryOutputResponse: Swift.Equatable {
     /// The SQL code of a query.
     public var queryString: Swift.String?
 
-    public init (
+    public init(
         deliveryS3Uri: Swift.String? = nil,
         deliveryStatus: CloudTrailClientTypes.DeliveryStatus? = nil,
         errorMessage: Swift.String? = nil,
@@ -3486,7 +3302,7 @@ extension DescribeQueryOutputResponseBody: Swift.Decodable {
         case queryString = "QueryString"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -3545,7 +3361,7 @@ public struct DescribeTrailsInput: Swift.Equatable {
     /// If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region and current account. To return information about a trail in another region, you must specify its trail ARN.
     public var trailNameList: [Swift.String]?
 
-    public init (
+    public init(
         includeShadowTrails: Swift.Bool? = nil,
         trailNameList: [Swift.String]? = nil
     )
@@ -3566,7 +3382,7 @@ extension DescribeTrailsInputBody: Swift.Decodable {
         case trailNameList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailNameListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .trailNameList)
         var trailNameListDecoded0:[Swift.String]? = nil
@@ -3584,37 +3400,23 @@ extension DescribeTrailsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTrailsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTrailsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTrailsOutputError: Swift.Error, Swift.Equatable {
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTrailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trailList = output.trailList
@@ -3629,7 +3431,7 @@ public struct DescribeTrailsOutputResponse: Swift.Equatable {
     /// The list of trail objects. Trail objects with string values are only returned if values for the objects exist in a trail's configuration. For example, SNSTopicName and SNSTopicARN are only returned in results if a trail is configured to send SNS notifications. Similarly, KMSKeyId only appears in results if a trail's log files are encrypted with KMS customer managed keys.
     public var trailList: [CloudTrailClientTypes.Trail]?
 
-    public init (
+    public init(
         trailList: [CloudTrailClientTypes.Trail]? = nil
     )
     {
@@ -3646,7 +3448,7 @@ extension DescribeTrailsOutputResponseBody: Swift.Decodable {
         case trailList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailListContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Trail?].self, forKey: .trailList)
         var trailListDecoded0:[CloudTrailClientTypes.Trail]? = nil
@@ -3678,7 +3480,7 @@ extension CloudTrailClientTypes.Destination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.DestinationType.self, forKey: .type)
         type = typeDecoded
@@ -3697,7 +3499,7 @@ extension CloudTrailClientTypes {
         /// This member is required.
         public var type: CloudTrailClientTypes.DestinationType?
 
-        public init (
+        public init(
             location: Swift.String? = nil,
             type: CloudTrailClientTypes.DestinationType? = nil
         )
@@ -3788,7 +3590,7 @@ extension CloudTrailClientTypes.Event: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
         eventId = eventIdDecoded
@@ -3842,7 +3644,7 @@ extension CloudTrailClientTypes {
         /// A user name or role name of the requester that called the API in the event returned.
         public var username: Swift.String?
 
-        public init (
+        public init(
             accessKeyId: Swift.String? = nil,
             cloudTrailEvent: Swift.String? = nil,
             eventId: Swift.String? = nil,
@@ -3948,7 +3750,7 @@ extension CloudTrailClientTypes.EventDataStore: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
         eventDataStoreArn = eventDataStoreArnDecoded
@@ -4014,7 +3816,7 @@ extension CloudTrailClientTypes {
         @available(*, deprecated, message: "UpdatedTimestamp is no longer returned by ListEventDataStores")
         public var updatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             eventDataStoreArn: Swift.String? = nil,
@@ -4043,38 +3845,42 @@ extension CloudTrailClientTypes {
 }
 
 extension EventDataStoreARNInvalidException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EventDataStoreARNInvalidExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified event data store ARN is not valid or does not map to an event data store in your account.
-public struct EventDataStoreARNInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreARNInvalid" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4087,7 +3893,7 @@ extension EventDataStoreARNInvalidExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4095,38 +3901,42 @@ extension EventDataStoreARNInvalidExceptionBody: Swift.Decodable {
 }
 
 extension EventDataStoreAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EventDataStoreAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An event data store with that name already exists.
-public struct EventDataStoreAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4139,7 +3949,7 @@ extension EventDataStoreAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4147,38 +3957,42 @@ extension EventDataStoreAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension EventDataStoreHasOngoingImportException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EventDataStoreHasOngoingImportExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when you try to update or delete an event data store that currently has an import in progress.
-public struct EventDataStoreHasOngoingImportException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreHasOngoingImport" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4191,7 +4005,7 @@ extension EventDataStoreHasOngoingImportExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4199,38 +4013,42 @@ extension EventDataStoreHasOngoingImportExceptionBody: Swift.Decodable {
 }
 
 extension EventDataStoreMaxLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EventDataStoreMaxLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your account has used the maximum number of event data stores.
-public struct EventDataStoreMaxLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreMaxLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4243,7 +4061,7 @@ extension EventDataStoreMaxLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4251,38 +4069,42 @@ extension EventDataStoreMaxLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension EventDataStoreNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EventDataStoreNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified event data store was not found.
-public struct EventDataStoreNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4295,7 +4117,7 @@ extension EventDataStoreNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4338,38 +4160,42 @@ extension CloudTrailClientTypes {
 }
 
 extension EventDataStoreTerminationProtectedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EventDataStoreTerminationProtectedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The event data store cannot be deleted because termination protection is enabled for it.
-public struct EventDataStoreTerminationProtectedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct EventDataStoreTerminationProtectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreTerminationProtectedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4382,7 +4208,7 @@ extension EventDataStoreTerminationProtectedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4419,7 +4245,7 @@ extension CloudTrailClientTypes.EventSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let readWriteTypeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.ReadWriteType.self, forKey: .readWriteType)
         readWriteType = readWriteTypeDecoded
@@ -4462,7 +4288,7 @@ extension CloudTrailClientTypes {
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation. By default, the value is All.
         public var readWriteType: CloudTrailClientTypes.ReadWriteType?
 
-        public init (
+        public init(
             dataResources: [CloudTrailClientTypes.DataResource]? = nil,
             excludeManagementEventSources: [Swift.String]? = nil,
             includeManagementEvents: Swift.Bool? = nil,
@@ -4502,7 +4328,7 @@ public struct GetChannelInput: Swift.Equatable {
     /// This member is required.
     public var channel: Swift.String?
 
-    public init (
+    public init(
         channel: Swift.String? = nil
     )
     {
@@ -4519,44 +4345,30 @@ extension GetChannelInputBody: Swift.Decodable {
         case channel = "Channel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
         channel = channelDecoded
     }
 }
 
-extension GetChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetChannelOutputError: Swift.Error, Swift.Equatable {
-    case channelARNInvalidException(ChannelARNInvalidException)
-    case channelNotFoundException(ChannelNotFoundException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
@@ -4590,7 +4402,7 @@ public struct GetChannelOutputResponse: Swift.Equatable {
     /// Provides information about the advanced event selectors configured for the channel, and whether the channel applies to all regions or a single region.
     public var sourceConfig: CloudTrailClientTypes.SourceConfig?
 
-    public init (
+    public init(
         channelArn: Swift.String? = nil,
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         ingestionStatus: CloudTrailClientTypes.IngestionStatus? = nil,
@@ -4627,7 +4439,7 @@ extension GetChannelOutputResponseBody: Swift.Decodable {
         case sourceConfig = "SourceConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
         channelArn = channelArnDecoded
@@ -4677,7 +4489,7 @@ public struct GetEventDataStoreInput: Swift.Equatable {
     /// This member is required.
     public var eventDataStore: Swift.String?
 
-    public init (
+    public init(
         eventDataStore: Swift.String? = nil
     )
     {
@@ -4694,48 +4506,32 @@ extension GetEventDataStoreInputBody: Swift.Decodable {
         case eventDataStore = "EventDataStore"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
     }
 }
 
-extension GetEventDataStoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEventDataStoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEventDataStoreOutputError: Swift.Error, Swift.Equatable {
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case invalidParameterException(InvalidParameterException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
@@ -4789,7 +4585,7 @@ public struct GetEventDataStoreOutputResponse: Swift.Equatable {
     /// Shows the time that an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
@@ -4846,7 +4642,7 @@ extension GetEventDataStoreOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
         eventDataStoreArn = eventDataStoreArnDecoded
@@ -4919,7 +4715,7 @@ public struct GetEventSelectorsInput: Swift.Equatable {
     /// This member is required.
     public var trailName: Swift.String?
 
-    public init (
+    public init(
         trailName: Swift.String? = nil
     )
     {
@@ -4936,48 +4732,32 @@ extension GetEventSelectorsInputBody: Swift.Decodable {
         case trailName = "TrailName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailName)
         trailName = trailNameDecoded
     }
 }
 
-extension GetEventSelectorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEventSelectorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEventSelectorsOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEventSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
@@ -4999,7 +4779,7 @@ public struct GetEventSelectorsOutputResponse: Swift.Equatable {
     /// The specified trail ARN that has the event selectors.
     public var trailARN: Swift.String?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventSelectors: [CloudTrailClientTypes.EventSelector]? = nil,
         trailARN: Swift.String? = nil
@@ -5024,7 +4804,7 @@ extension GetEventSelectorsOutputResponseBody: Swift.Decodable {
         case trailARN = "TrailARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
         trailARN = trailARNDecoded
@@ -5077,7 +4857,7 @@ public struct GetImportInput: Swift.Equatable {
     /// This member is required.
     public var importId: Swift.String?
 
-    public init (
+    public init(
         importId: Swift.String? = nil
     )
     {
@@ -5094,44 +4874,30 @@ extension GetImportInputBody: Swift.Decodable {
         case importId = "ImportId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
     }
 }
 
-extension GetImportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetImportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ImportNotFound" : self = .importNotFoundException(try ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetImportOutputError: Swift.Error, Swift.Equatable {
-    case importNotFoundException(ImportNotFoundException)
-    case invalidParameterException(InvalidParameterException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetImportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
@@ -5177,7 +4943,7 @@ public struct GetImportOutputResponse: Swift.Equatable {
     /// The timestamp of when the import was updated.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         createdTimestamp: ClientRuntime.Date? = nil,
         destinations: [Swift.String]? = nil,
         endEventTime: ClientRuntime.Date? = nil,
@@ -5226,7 +4992,7 @@ extension GetImportOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
@@ -5295,7 +5061,7 @@ public struct GetInsightSelectorsInput: Swift.Equatable {
     /// This member is required.
     public var trailName: Swift.String?
 
-    public init (
+    public init(
         trailName: Swift.String? = nil
     )
     {
@@ -5312,50 +5078,33 @@ extension GetInsightSelectorsInputBody: Swift.Decodable {
         case trailName = "TrailName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailName)
         trailName = trailNameDecoded
     }
 }
 
-extension GetInsightSelectorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetInsightSelectorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsightNotEnabled" : self = .insightNotEnabledException(try InsightNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsightNotEnabled": return try await InsightNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetInsightSelectorsOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case insightNotEnabledException(InsightNotEnabledException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetInsightSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.insightSelectors = output.insightSelectors
@@ -5373,7 +5122,7 @@ public struct GetInsightSelectorsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
     public var trailARN: Swift.String?
 
-    public init (
+    public init(
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         trailARN: Swift.String? = nil
     )
@@ -5394,7 +5143,7 @@ extension GetInsightSelectorsOutputResponseBody: Swift.Decodable {
         case trailARN = "TrailARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
         trailARN = trailARNDecoded
@@ -5455,7 +5204,7 @@ public struct GetQueryResultsInput: Swift.Equatable {
     /// This member is required.
     public var queryId: Swift.String?
 
-    public init (
+    public init(
         eventDataStore: Swift.String? = nil,
         maxQueryResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -5484,7 +5233,7 @@ extension GetQueryResultsInputBody: Swift.Decodable {
         case queryId = "QueryId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
@@ -5497,51 +5246,30 @@ extension GetQueryResultsInputBody: Swift.Decodable {
     }
 }
 
-extension GetQueryResultsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetQueryResultsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidMaxResults" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "QueryIdNotFound" : self = .queryIdNotFoundException(try QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetQueryResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetQueryResultsOutputError: Swift.Error, Swift.Equatable {
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case invalidMaxResultsException(InvalidMaxResultsException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterException(InvalidParameterException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case queryIdNotFoundException(QueryIdNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetQueryResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorMessage = output.errorMessage
@@ -5571,7 +5299,7 @@ public struct GetQueryResultsOutputResponse: Swift.Equatable {
     /// The status of the query. Values include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     public var queryStatus: CloudTrailClientTypes.QueryStatus?
 
-    public init (
+    public init(
         errorMessage: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         queryResultRows: [[[Swift.String:Swift.String]]]? = nil,
@@ -5604,7 +5332,7 @@ extension GetQueryResultsOutputResponseBody: Swift.Decodable {
         case queryStatus = "QueryStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.QueryStatus.self, forKey: .queryStatus)
         queryStatus = queryStatusDecoded
@@ -5670,7 +5398,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -5687,48 +5415,32 @@ extension GetResourcePolicyInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension GetResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourcePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceARNNotValid" : self = .resourceARNNotValidException(try ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourcePolicyNotFound" : self = .resourcePolicyNotFoundException(try ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotFound": return try await ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedException(OperationNotPermittedException)
-    case resourceARNNotValidException(ResourceARNNotValidException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourcePolicyNotFoundException(ResourcePolicyNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
@@ -5746,7 +5458,7 @@ public struct GetResourcePolicyOutputResponse: Swift.Equatable {
     /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
     public var resourcePolicy: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
@@ -5767,7 +5479,7 @@ extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
         case resourcePolicy = "ResourcePolicy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -5800,7 +5512,7 @@ public struct GetTrailInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -5817,46 +5529,31 @@ extension GetTrailInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension GetTrailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTrailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTrailOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTrailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTrailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trail = output.trail
@@ -5870,7 +5567,7 @@ public struct GetTrailOutputResponse: Swift.Equatable {
     /// The settings for a trail.
     public var trail: CloudTrailClientTypes.Trail?
 
-    public init (
+    public init(
         trail: CloudTrailClientTypes.Trail? = nil
     )
     {
@@ -5887,7 +5584,7 @@ extension GetTrailOutputResponseBody: Swift.Decodable {
         case trail = "Trail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.Trail.self, forKey: .trail)
         trail = trailDecoded
@@ -5919,7 +5616,7 @@ public struct GetTrailStatusInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -5936,46 +5633,31 @@ extension GetTrailStatusInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension GetTrailStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTrailStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTrailStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTrailStatusOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTrailStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTrailStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isLogging = output.isLogging
@@ -6054,7 +5736,7 @@ public struct GetTrailStatusOutputResponse: Swift.Equatable {
     /// This field is no longer in use.
     public var timeLoggingStopped: Swift.String?
 
-    public init (
+    public init(
         isLogging: Swift.Bool? = nil,
         latestCloudWatchLogsDeliveryError: Swift.String? = nil,
         latestCloudWatchLogsDeliveryTime: ClientRuntime.Date? = nil,
@@ -6135,7 +5817,7 @@ extension GetTrailStatusOutputResponseBody: Swift.Decodable {
         case timeLoggingStopped = "TimeLoggingStopped"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isLoggingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLogging)
         isLogging = isLoggingDecoded
@@ -6202,7 +5884,7 @@ extension CloudTrailClientTypes.ImportFailureListItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
@@ -6231,7 +5913,7 @@ extension CloudTrailClientTypes {
         /// The status of the import.
         public var status: CloudTrailClientTypes.ImportFailureStatus?
 
-        public init (
+        public init(
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
@@ -6285,38 +5967,42 @@ extension CloudTrailClientTypes {
 }
 
 extension ImportNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified import was not found.
-public struct ImportNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ImportNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6329,7 +6015,7 @@ extension ImportNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6348,7 +6034,7 @@ extension CloudTrailClientTypes.ImportSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3Decoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.S3ImportSource.self, forKey: .s3)
         s3 = s3Decoded
@@ -6362,7 +6048,7 @@ extension CloudTrailClientTypes {
         /// This member is required.
         public var s3: CloudTrailClientTypes.S3ImportSource?
 
-        public init (
+        public init(
             s3: CloudTrailClientTypes.S3ImportSource? = nil
         )
         {
@@ -6400,7 +6086,7 @@ extension CloudTrailClientTypes.ImportStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let prefixesFoundDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .prefixesFound)
         prefixesFound = prefixesFoundDecoded
@@ -6429,7 +6115,7 @@ extension CloudTrailClientTypes {
         /// The number of S3 prefixes found for the import.
         public var prefixesFound: Swift.Int?
 
-        public init (
+        public init(
             eventsCompleted: Swift.Int? = nil,
             failedEntries: Swift.Int? = nil,
             filesCompleted: Swift.Int? = nil,
@@ -6519,7 +6205,7 @@ extension CloudTrailClientTypes.ImportsListItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
@@ -6557,7 +6243,7 @@ extension CloudTrailClientTypes {
         /// The timestamp of the import's last update.
         public var updatedTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdTimestamp: ClientRuntime.Date? = nil,
             destinations: [Swift.String]? = nil,
             importId: Swift.String? = nil,
@@ -6576,38 +6262,42 @@ extension CloudTrailClientTypes {
 }
 
 extension InactiveEventDataStoreException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InactiveEventDataStoreExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The event data store is inactive.
-public struct InactiveEventDataStoreException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InactiveEventDataStore" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6620,7 +6310,7 @@ extension InactiveEventDataStoreExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6628,38 +6318,42 @@ extension InactiveEventDataStoreExceptionBody: Swift.Decodable {
 }
 
 extension InactiveQueryException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InactiveQueryExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified query cannot be canceled because it is in the FINISHED, FAILED, TIMED_OUT, or CANCELLED state.
-public struct InactiveQueryException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InactiveQuery" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6672,7 +6366,7 @@ extension InactiveQueryExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6707,7 +6401,7 @@ extension CloudTrailClientTypes.IngestionStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let latestIngestionSuccessTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestIngestionSuccessTime)
         latestIngestionSuccessTime = latestIngestionSuccessTimeDecoded
@@ -6736,7 +6430,7 @@ extension CloudTrailClientTypes {
         /// The time stamp of the most recent successful ingestion of events for the channel.
         public var latestIngestionSuccessTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             latestIngestionAttemptEventID: Swift.String? = nil,
             latestIngestionAttemptTime: ClientRuntime.Date? = nil,
             latestIngestionErrorCode: Swift.String? = nil,
@@ -6755,38 +6449,42 @@ extension CloudTrailClientTypes {
 }
 
 extension InsightNotEnabledException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsightNotEnabledExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
-public struct InsightNotEnabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsightNotEnabled" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6799,7 +6497,7 @@ extension InsightNotEnabledExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6818,7 +6516,7 @@ extension CloudTrailClientTypes.InsightSelector: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let insightTypeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.InsightType.self, forKey: .insightType)
         insightType = insightTypeDecoded
@@ -6831,7 +6529,7 @@ extension CloudTrailClientTypes {
         /// The type of Insights events to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public var insightType: CloudTrailClientTypes.InsightType?
 
-        public init (
+        public init(
             insightType: CloudTrailClientTypes.InsightType? = nil
         )
         {
@@ -6874,38 +6572,42 @@ extension CloudTrailClientTypes {
 }
 
 extension InsufficientDependencyServiceAccessPermissionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientDependencyServiceAccessPermissionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-public struct InsufficientDependencyServiceAccessPermissionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InsufficientDependencyServiceAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientDependencyServiceAccessPermission" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6918,7 +6620,7 @@ extension InsufficientDependencyServiceAccessPermissionExceptionBody: Swift.Deco
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6926,38 +6628,42 @@ extension InsufficientDependencyServiceAccessPermissionExceptionBody: Swift.Deco
 }
 
 extension InsufficientEncryptionPolicyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientEncryptionPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
-public struct InsufficientEncryptionPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientEncryptionPolicy" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6970,7 +6676,7 @@ extension InsufficientEncryptionPolicyExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6978,38 +6684,42 @@ extension InsufficientEncryptionPolicyExceptionBody: Swift.Decodable {
 }
 
 extension InsufficientS3BucketPolicyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientS3BucketPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the policy on the S3 bucket is not sufficient.
-public struct InsufficientS3BucketPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientS3BucketPolicy" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7022,7 +6732,7 @@ extension InsufficientS3BucketPolicyExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7030,38 +6740,42 @@ extension InsufficientS3BucketPolicyExceptionBody: Swift.Decodable {
 }
 
 extension InsufficientSnsTopicPolicyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InsufficientSnsTopicPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the policy on the Amazon SNS topic is not sufficient.
-public struct InsufficientSnsTopicPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientSnsTopicPolicy" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7074,7 +6788,7 @@ extension InsufficientSnsTopicPolicyExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7082,38 +6796,42 @@ extension InsufficientSnsTopicPolicyExceptionBody: Swift.Decodable {
 }
 
 extension InvalidCloudWatchLogsLogGroupArnException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidCloudWatchLogsLogGroupArnExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided CloudWatch Logs log group is not valid.
-public struct InvalidCloudWatchLogsLogGroupArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCloudWatchLogsLogGroupArn" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7126,7 +6844,7 @@ extension InvalidCloudWatchLogsLogGroupArnExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7134,38 +6852,42 @@ extension InvalidCloudWatchLogsLogGroupArnExceptionBody: Swift.Decodable {
 }
 
 extension InvalidCloudWatchLogsRoleArnException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidCloudWatchLogsRoleArnExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided role is not valid.
-public struct InvalidCloudWatchLogsRoleArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCloudWatchLogsRoleArn" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7178,7 +6900,7 @@ extension InvalidCloudWatchLogsRoleArnExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7186,38 +6908,42 @@ extension InvalidCloudWatchLogsRoleArnExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDateRangeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDateRangeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A date range for the query was specified that is not valid. Be sure that the start time is chronologically before the end time. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidDateRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDateRange" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7230,7 +6956,7 @@ extension InvalidDateRangeExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7238,38 +6964,42 @@ extension InvalidDateRangeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEventCategoryException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEventCategoryExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Occurs if an event category that is not valid is specified as a value of EventCategory.
-public struct InvalidEventCategoryException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventCategory" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7282,7 +7012,7 @@ extension InvalidEventCategoryExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7290,38 +7020,42 @@ extension InvalidEventCategoryExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEventDataStoreCategoryException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEventDataStoreCategoryExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when event categories of specified event data stores are not valid.
-public struct InvalidEventDataStoreCategoryException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventDataStoreCategory" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7334,7 +7068,7 @@ extension InvalidEventDataStoreCategoryExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7342,38 +7076,42 @@ extension InvalidEventDataStoreCategoryExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEventDataStoreStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEventDataStoreStatusExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The event data store is not in a status that supports the operation.
-public struct InvalidEventDataStoreStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventDataStoreStatus" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7386,7 +7124,7 @@ extension InvalidEventDataStoreStatusExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7394,18 +7132,17 @@ extension InvalidEventDataStoreStatusExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEventSelectorsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEventSelectorsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -7418,22 +7155,27 @@ extension InvalidEventSelectorsException {
 /// * Specify up to 500 values for all conditions in all advanced event selectors for a trail.
 ///
 /// * Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is not valid.
-public struct InvalidEventSelectorsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventSelectors" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7446,7 +7188,7 @@ extension InvalidEventSelectorsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7454,38 +7196,42 @@ extension InvalidEventSelectorsExceptionBody: Swift.Decodable {
 }
 
 extension InvalidHomeRegionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidHomeRegionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when an operation is called on a trail from a region other than the region in which the trail was created.
-public struct InvalidHomeRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidHomeRegion" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7498,7 +7244,7 @@ extension InvalidHomeRegionExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7506,38 +7252,42 @@ extension InvalidHomeRegionExceptionBody: Swift.Decodable {
 }
 
 extension InvalidImportSourceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidImportSourceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided source S3 bucket is not valid for import.
-public struct InvalidImportSourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidImportSource" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7550,7 +7300,7 @@ extension InvalidImportSourceExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7558,38 +7308,42 @@ extension InvalidImportSourceExceptionBody: Swift.Decodable {
 }
 
 extension InvalidInsightSelectorsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInsightSelectorsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The formatting or syntax of the InsightSelectors JSON statement in your PutInsightSelectors or GetInsightSelectors request is not valid, or the specified insight type in the InsightSelectors statement is not a valid insight type.
-public struct InvalidInsightSelectorsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInsightSelectors" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7602,7 +7356,7 @@ extension InvalidInsightSelectorsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7610,38 +7364,42 @@ extension InvalidInsightSelectorsExceptionBody: Swift.Decodable {
 }
 
 extension InvalidKmsKeyIdException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidKmsKeyIdExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the KMS key ARN is not valid.
-public struct InvalidKmsKeyIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidKmsKeyId" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7654,7 +7412,7 @@ extension InvalidKmsKeyIdExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7662,38 +7420,42 @@ extension InvalidKmsKeyIdExceptionBody: Swift.Decodable {
 }
 
 extension InvalidLookupAttributesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidLookupAttributesExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Occurs when a lookup attribute is specified that is not valid.
-public struct InvalidLookupAttributesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLookupAttributes" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7706,7 +7468,7 @@ extension InvalidLookupAttributesExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7714,38 +7476,42 @@ extension InvalidLookupAttributesExceptionBody: Swift.Decodable {
 }
 
 extension InvalidMaxResultsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidMaxResultsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown if the limit specified is not valid.
-public struct InvalidMaxResultsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidMaxResults" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7758,7 +7524,7 @@ extension InvalidMaxResultsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7766,38 +7532,42 @@ extension InvalidMaxResultsExceptionBody: Swift.Decodable {
 }
 
 extension InvalidNextTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextToken" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7810,7 +7580,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7818,38 +7588,42 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidParameterCombinationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the combination of parameters provided is not valid.
-public struct InvalidParameterCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterCombinationError" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7862,7 +7636,7 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7870,38 +7644,42 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidParameterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request includes a parameter that is not valid.
-public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameter" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7914,7 +7692,7 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7922,38 +7700,42 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 }
 
 extension InvalidQueryStatementException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidQueryStatementExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidQueryStatementException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidQueryStatement" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7966,7 +7748,7 @@ extension InvalidQueryStatementExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7974,38 +7756,42 @@ extension InvalidQueryStatementExceptionBody: Swift.Decodable {
 }
 
 extension InvalidQueryStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidQueryStatusExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The query status is not valid for the operation.
-public struct InvalidQueryStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidQueryStatus" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8018,7 +7804,7 @@ extension InvalidQueryStatusExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8026,38 +7812,42 @@ extension InvalidQueryStatusExceptionBody: Swift.Decodable {
 }
 
 extension InvalidS3BucketNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidS3BucketNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided S3 bucket name is not valid.
-public struct InvalidS3BucketNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidS3BucketName" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8070,7 +7860,7 @@ extension InvalidS3BucketNameExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8078,38 +7868,42 @@ extension InvalidS3BucketNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidS3PrefixException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidS3PrefixExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided S3 prefix is not valid.
-public struct InvalidS3PrefixException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidS3Prefix" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8122,7 +7916,7 @@ extension InvalidS3PrefixExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8130,38 +7924,42 @@ extension InvalidS3PrefixExceptionBody: Swift.Decodable {
 }
 
 extension InvalidSnsTopicNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidSnsTopicNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided SNS topic name is not valid.
-public struct InvalidSnsTopicNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSnsTopicName" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8174,7 +7972,7 @@ extension InvalidSnsTopicNameExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8182,38 +7980,42 @@ extension InvalidSnsTopicNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidSourceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidSourceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified value of Source is not valid.
-public struct InvalidSourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSource" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8226,7 +8028,7 @@ extension InvalidSourceExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8234,38 +8036,42 @@ extension InvalidSourceExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTagParameterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTagParameterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified tag key or values are not valid. It can also occur if there are duplicate tags or too many tags on the resource.
-public struct InvalidTagParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTagParameter" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8278,7 +8084,7 @@ extension InvalidTagParameterExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8286,38 +8092,42 @@ extension InvalidTagParameterExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTimeRangeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTimeRangeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Occurs if the timestamp values are not valid. Either the start time occurs after the end time, or the time range is outside the range of possible values.
-public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTimeRange" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8330,7 +8140,7 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8338,38 +8148,42 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Reserved for future use.
-public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidToken" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8382,7 +8196,7 @@ extension InvalidTokenExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8390,18 +8204,17 @@ extension InvalidTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTrailNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTrailNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -8416,22 +8229,27 @@ extension InvalidTrailNameException {
 /// * Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
 ///
 /// * Not be in IP address format (for example, 192.168.5.4)
-public struct InvalidTrailNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTrailName" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8444,7 +8262,7 @@ extension InvalidTrailNameExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8452,38 +8270,42 @@ extension InvalidTrailNameExceptionBody: Swift.Decodable {
 }
 
 extension KmsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: KmsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when there is an issue with the specified KMS key and the trail or event data store can't be updated.
-public struct KmsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8496,7 +8318,7 @@ extension KmsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8504,39 +8326,43 @@ extension KmsExceptionBody: Swift.Decodable {
 }
 
 extension KmsKeyDisabledException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: KmsKeyDisabledExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is no longer in use.
 @available(*, deprecated)
-public struct KmsKeyDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsKeyDisabled" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8549,7 +8375,7 @@ extension KmsKeyDisabledExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8557,38 +8383,42 @@ extension KmsKeyDisabledExceptionBody: Swift.Decodable {
 }
 
 extension KmsKeyNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: KmsKeyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same region.
-public struct KmsKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsKeyNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8601,7 +8431,7 @@ extension KmsKeyNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8637,7 +8467,7 @@ public struct ListChannelsInput: Swift.Equatable {
     /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8658,7 +8488,7 @@ extension ListChannelsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -8667,35 +8497,22 @@ extension ListChannelsInputBody: Swift.Decodable {
     }
 }
 
-extension ListChannelsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListChannelsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListChannelsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
@@ -8713,7 +8530,7 @@ public struct ListChannelsOutputResponse: Swift.Equatable {
     /// The token to use to get the next page of results after a previous API call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         channels: [CloudTrailClientTypes.Channel]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8734,7 +8551,7 @@ extension ListChannelsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Channel?].self, forKey: .channels)
         var channelsDecoded0:[CloudTrailClientTypes.Channel]? = nil
@@ -8781,7 +8598,7 @@ public struct ListEventDataStoresInput: Swift.Equatable {
     /// A token you can use to get the next page of event data store results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8802,7 +8619,7 @@ extension ListEventDataStoresInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8811,39 +8628,24 @@ extension ListEventDataStoresInputBody: Swift.Decodable {
     }
 }
 
-extension ListEventDataStoresOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEventDataStoresOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidMaxResults" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEventDataStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListEventDataStoresOutputError: Swift.Error, Swift.Equatable {
-    case invalidMaxResultsException(InvalidMaxResultsException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListEventDataStoresOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEventDataStoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventDataStores = output.eventDataStores
@@ -8861,7 +8663,7 @@ public struct ListEventDataStoresOutputResponse: Swift.Equatable {
     /// A token you can use to get the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         eventDataStores: [CloudTrailClientTypes.EventDataStore]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8882,7 +8684,7 @@ extension ListEventDataStoresOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoresContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.EventDataStore?].self, forKey: .eventDataStores)
         var eventDataStoresDecoded0:[CloudTrailClientTypes.EventDataStore]? = nil
@@ -8936,7 +8738,7 @@ public struct ListImportFailuresInput: Swift.Equatable {
     /// A token you can use to get the next page of import failures.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         importId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -8961,7 +8763,7 @@ extension ListImportFailuresInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
@@ -8972,35 +8774,22 @@ extension ListImportFailuresInputBody: Swift.Decodable {
     }
 }
 
-extension ListImportFailuresOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListImportFailuresOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListImportFailuresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListImportFailuresOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListImportFailuresOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListImportFailuresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
@@ -9018,7 +8807,7 @@ public struct ListImportFailuresOutputResponse: Swift.Equatable {
     /// A token you can use to get the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         failures: [CloudTrailClientTypes.ImportFailureListItem]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9039,7 +8828,7 @@ extension ListImportFailuresOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failuresContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.ImportFailureListItem?].self, forKey: .failures)
         var failuresDecoded0:[CloudTrailClientTypes.ImportFailureListItem]? = nil
@@ -9098,7 +8887,7 @@ public struct ListImportsInput: Swift.Equatable {
     /// A token you can use to get the next page of import results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         destination: Swift.String? = nil,
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
         maxResults: Swift.Int? = nil,
@@ -9127,7 +8916,7 @@ extension ListImportsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -9140,39 +8929,24 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListImportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListImportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterException(InvalidParameterException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imports = output.imports
@@ -9190,7 +8964,7 @@ public struct ListImportsOutputResponse: Swift.Equatable {
     /// A token you can use to get the next page of import results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         imports: [CloudTrailClientTypes.ImportsListItem]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9211,7 +8985,7 @@ extension ListImportsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.ImportsListItem?].self, forKey: .imports)
         var importsDecoded0:[CloudTrailClientTypes.ImportsListItem]? = nil
@@ -9265,7 +9039,7 @@ public struct ListPublicKeysInput: Swift.Equatable {
     /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         endTime: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil
@@ -9290,7 +9064,7 @@ extension ListPublicKeysInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -9301,37 +9075,23 @@ extension ListPublicKeysInputBody: Swift.Decodable {
     }
 }
 
-extension ListPublicKeysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListPublicKeysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidTimeRange" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidToken" : self = .invalidTokenException(try InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidTimeRange": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidToken": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListPublicKeysOutputError: Swift.Error, Swift.Equatable {
-    case invalidTimeRangeException(InvalidTimeRangeException)
-    case invalidTokenException(InvalidTokenException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPublicKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9350,7 +9110,7 @@ public struct ListPublicKeysOutputResponse: Swift.Equatable {
     /// Contains an array of PublicKey objects. The returned public keys may have validity time ranges that overlap.
     public var publicKeyList: [CloudTrailClientTypes.PublicKey]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         publicKeyList: [CloudTrailClientTypes.PublicKey]? = nil
     )
@@ -9371,7 +9131,7 @@ extension ListPublicKeysOutputResponseBody: Swift.Decodable {
         case publicKeyList = "PublicKeyList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicKeyListContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.PublicKey?].self, forKey: .publicKeyList)
         var publicKeyListDecoded0:[CloudTrailClientTypes.PublicKey]? = nil
@@ -9443,7 +9203,7 @@ public struct ListQueriesInput: Swift.Equatable {
     /// Use with EndTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         endTime: ClientRuntime.Date? = nil,
         eventDataStore: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -9480,7 +9240,7 @@ extension ListQueriesInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
@@ -9497,51 +9257,30 @@ extension ListQueriesInputBody: Swift.Decodable {
     }
 }
 
-extension ListQueriesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListQueriesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDateRange" : self = .invalidDateRangeException(try InvalidDateRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidMaxResults" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidQueryStatus" : self = .invalidQueryStatusException(try InvalidQueryStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDateRange": return try await InvalidDateRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidQueryStatus": return try await InvalidQueryStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListQueriesOutputError: Swift.Error, Swift.Equatable {
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidDateRangeException(InvalidDateRangeException)
-    case invalidMaxResultsException(InvalidMaxResultsException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidParameterException(InvalidParameterException)
-    case invalidQueryStatusException(InvalidQueryStatusException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9559,7 +9298,7 @@ public struct ListQueriesOutputResponse: Swift.Equatable {
     /// Lists matching query results, and shows query ID, status, and creation time of each query.
     public var queries: [CloudTrailClientTypes.Query]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queries: [CloudTrailClientTypes.Query]? = nil
     )
@@ -9580,7 +9319,7 @@ extension ListQueriesOutputResponseBody: Swift.Decodable {
         case queries = "Queries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queriesContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Query?].self, forKey: .queries)
         var queriesDecoded0:[CloudTrailClientTypes.Query]? = nil
@@ -9632,7 +9371,7 @@ public struct ListTagsInput: Swift.Equatable {
     /// This member is required.
     public var resourceIdList: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceIdList: [Swift.String]? = nil
     )
@@ -9653,7 +9392,7 @@ extension ListTagsInputBody: Swift.Decodable {
         case resourceIdList = "ResourceIdList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIdList)
         var resourceIdListDecoded0:[Swift.String]? = nil
@@ -9671,53 +9410,31 @@ extension ListTagsInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidToken" : self = .invalidTokenException(try InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidToken": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsOutputError: Swift.Error, Swift.Equatable {
-    case channelARNInvalidException(ChannelARNInvalidException)
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidTokenException(InvalidTokenException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9736,7 +9453,7 @@ public struct ListTagsOutputResponse: Swift.Equatable {
     /// A list of resource tags.
     public var resourceTagList: [CloudTrailClientTypes.ResourceTag]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceTagList: [CloudTrailClientTypes.ResourceTag]? = nil
     )
@@ -9757,7 +9474,7 @@ extension ListTagsOutputResponseBody: Swift.Decodable {
         case resourceTagList = "ResourceTagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTagListContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.ResourceTag?].self, forKey: .resourceTagList)
         var resourceTagListDecoded0:[CloudTrailClientTypes.ResourceTag]? = nil
@@ -9798,7 +9515,7 @@ public struct ListTrailsInput: Swift.Equatable {
     /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -9815,40 +9532,28 @@ extension ListTrailsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListTrailsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTrailsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTrailsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTrailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9866,7 +9571,7 @@ public struct ListTrailsOutputResponse: Swift.Equatable {
     /// Returns the name, ARN, and home region of trails in the current account.
     public var trails: [CloudTrailClientTypes.TrailInfo]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         trails: [CloudTrailClientTypes.TrailInfo]? = nil
     )
@@ -9887,7 +9592,7 @@ extension ListTrailsOutputResponseBody: Swift.Decodable {
         case trails = "Trails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.TrailInfo?].self, forKey: .trails)
         var trailsDecoded0:[CloudTrailClientTypes.TrailInfo]? = nil
@@ -9921,7 +9626,7 @@ extension CloudTrailClientTypes.LookupAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeKeyDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.LookupAttributeKey.self, forKey: .attributeKey)
         attributeKey = attributeKeyDecoded
@@ -9940,7 +9645,7 @@ extension CloudTrailClientTypes {
         /// This member is required.
         public var attributeValue: Swift.String?
 
-        public init (
+        public init(
             attributeKey: CloudTrailClientTypes.LookupAttributeKey? = nil,
             attributeValue: Swift.String? = nil
         )
@@ -10059,7 +9764,7 @@ public struct LookupEventsInput: Swift.Equatable {
     /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         endTime: ClientRuntime.Date? = nil,
         eventCategory: CloudTrailClientTypes.EventCategory? = nil,
         lookupAttributes: [CloudTrailClientTypes.LookupAttribute]? = nil,
@@ -10096,7 +9801,7 @@ extension LookupEventsInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lookupAttributesContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.LookupAttribute?].self, forKey: .lookupAttributes)
         var lookupAttributesDecoded0:[CloudTrailClientTypes.LookupAttribute]? = nil
@@ -10122,43 +9827,26 @@ extension LookupEventsInputBody: Swift.Decodable {
     }
 }
 
-extension LookupEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension LookupEventsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidEventCategory" : self = .invalidEventCategoryException(try InvalidEventCategoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLookupAttributes" : self = .invalidLookupAttributesException(try InvalidLookupAttributesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidMaxResults" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTimeRange" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum LookupEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidEventCategory": return try await InvalidEventCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLookupAttributes": return try await InvalidLookupAttributesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTimeRange": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum LookupEventsOutputError: Swift.Error, Swift.Equatable {
-    case invalidEventCategoryException(InvalidEventCategoryException)
-    case invalidLookupAttributesException(InvalidLookupAttributesException)
-    case invalidMaxResultsException(InvalidMaxResultsException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidTimeRangeException(InvalidTimeRangeException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension LookupEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LookupEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
@@ -10177,7 +9865,7 @@ public struct LookupEventsOutputResponse: Swift.Equatable {
     /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         events: [CloudTrailClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10198,7 +9886,7 @@ extension LookupEventsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Event?].self, forKey: .events)
         var eventsDecoded0:[CloudTrailClientTypes.Event]? = nil
@@ -10217,38 +9905,42 @@ extension LookupEventsOutputResponseBody: Swift.Decodable {
 }
 
 extension MaxConcurrentQueriesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaxConcurrentQueriesExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You are already running the maximum number of concurrent queries. Wait a minute for some queries to finish, and then run the query again.
-public struct MaxConcurrentQueriesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxConcurrentQueries" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10261,7 +9953,7 @@ extension MaxConcurrentQueriesExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10269,38 +9961,42 @@ extension MaxConcurrentQueriesExceptionBody: Swift.Decodable {
 }
 
 extension MaximumNumberOfTrailsExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MaximumNumberOfTrailsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the maximum number of trails is reached.
-public struct MaximumNumberOfTrailsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaximumNumberOfTrailsExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10313,7 +10009,7 @@ extension MaximumNumberOfTrailsExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10321,38 +10017,42 @@ extension MaximumNumberOfTrailsExceededExceptionBody: Swift.Decodable {
 }
 
 extension NoManagementAccountSLRExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NoManagementAccountSLRExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the management account does not have a service-linked role.
-public struct NoManagementAccountSLRExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoManagementAccountSLRExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10365,7 +10065,7 @@ extension NoManagementAccountSLRExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10373,38 +10073,42 @@ extension NoManagementAccountSLRExistsExceptionBody: Swift.Decodable {
 }
 
 extension NotOrganizationManagementAccountException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotOrganizationManagementAccountExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the account making the request is not the organization's management account.
-public struct NotOrganizationManagementAccountException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotOrganizationManagementAccount" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10417,7 +10121,7 @@ extension NotOrganizationManagementAccountExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10425,38 +10129,42 @@ extension NotOrganizationManagementAccountExceptionBody: Swift.Decodable {
 }
 
 extension NotOrganizationMasterAccountException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotOrganizationMasterAccountExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
-public struct NotOrganizationMasterAccountException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotOrganizationMasterAccount" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10469,7 +10177,7 @@ extension NotOrganizationMasterAccountExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10477,38 +10185,42 @@ extension NotOrganizationMasterAccountExceptionBody: Swift.Decodable {
 }
 
 extension OperationNotPermittedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationNotPermittedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the requested operation is not permitted.
-public struct OperationNotPermittedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotPermitted" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10521,7 +10233,7 @@ extension OperationNotPermittedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10529,38 +10241,42 @@ extension OperationNotPermittedExceptionBody: Swift.Decodable {
 }
 
 extension OrganizationNotInAllFeaturesModeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OrganizationNotInAllFeaturesModeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
-public struct OrganizationNotInAllFeaturesModeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationNotInAllFeaturesMode" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10573,7 +10289,7 @@ extension OrganizationNotInAllFeaturesModeExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10581,38 +10297,42 @@ extension OrganizationNotInAllFeaturesModeExceptionBody: Swift.Decodable {
 }
 
 extension OrganizationsNotInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OrganizationsNotInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
-public struct OrganizationsNotInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationsNotInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10625,7 +10345,7 @@ extension OrganizationsNotInUseExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10656,7 +10376,7 @@ extension CloudTrailClientTypes.PublicKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .value)
         value = valueDecoded
@@ -10681,7 +10401,7 @@ extension CloudTrailClientTypes {
         /// The DER encoded public key value in PKCS#1 format.
         public var value: ClientRuntime.Data?
 
-        public init (
+        public init(
             fingerprint: Swift.String? = nil,
             validityEndTime: ClientRuntime.Date? = nil,
             validityStartTime: ClientRuntime.Date? = nil,
@@ -10752,7 +10472,7 @@ public struct PutEventSelectorsInput: Swift.Equatable {
     /// This member is required.
     public var trailName: Swift.String?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventSelectors: [CloudTrailClientTypes.EventSelector]? = nil,
         trailName: Swift.String? = nil
@@ -10777,7 +10497,7 @@ extension PutEventSelectorsInputBody: Swift.Decodable {
         case trailName = "TrailName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailName)
         trailName = trailNameDecoded
@@ -10806,51 +10526,30 @@ extension PutEventSelectorsInputBody: Swift.Decodable {
     }
 }
 
-extension PutEventSelectorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutEventSelectorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutEventSelectorsOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidEventSelectorsException(InvalidEventSelectorsException)
-    case invalidHomeRegionException(InvalidHomeRegionException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutEventSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
@@ -10872,7 +10571,7 @@ public struct PutEventSelectorsOutputResponse: Swift.Equatable {
     /// Specifies the ARN of the trail that was updated with event selectors. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     public var trailARN: Swift.String?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventSelectors: [CloudTrailClientTypes.EventSelector]? = nil,
         trailARN: Swift.String? = nil
@@ -10897,7 +10596,7 @@ extension PutEventSelectorsOutputResponseBody: Swift.Decodable {
         case trailARN = "TrailARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
         trailARN = trailARNDecoded
@@ -10960,7 +10659,7 @@ public struct PutInsightSelectorsInput: Swift.Equatable {
     /// This member is required.
     public var trailName: Swift.String?
 
-    public init (
+    public init(
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         trailName: Swift.String? = nil
     )
@@ -10981,7 +10680,7 @@ extension PutInsightSelectorsInputBody: Swift.Decodable {
         case trailName = "TrailName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailName)
         trailName = trailNameDecoded
@@ -10999,55 +10698,32 @@ extension PutInsightSelectorsInputBody: Swift.Decodable {
     }
 }
 
-extension PutInsightSelectorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutInsightSelectorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientS3BucketPolicy" : self = .insufficientS3BucketPolicyException(try InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInsightSelectors" : self = .invalidInsightSelectorsException(try InvalidInsightSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsException" : self = .kmsException(try KmsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInsightSelectors": return try await InvalidInsightSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutInsightSelectorsOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case insufficientS3BucketPolicyException(InsufficientS3BucketPolicyException)
-    case invalidHomeRegionException(InvalidHomeRegionException)
-    case invalidInsightSelectorsException(InvalidInsightSelectorsException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case kmsException(KmsException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case s3BucketDoesNotExistException(S3BucketDoesNotExistException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutInsightSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.insightSelectors = output.insightSelectors
@@ -11065,7 +10741,7 @@ public struct PutInsightSelectorsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
     public var trailARN: Swift.String?
 
-    public init (
+    public init(
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         trailARN: Swift.String? = nil
     )
@@ -11086,7 +10762,7 @@ extension PutInsightSelectorsOutputResponseBody: Swift.Decodable {
         case trailARN = "TrailARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
         trailARN = trailARNDecoded
@@ -11141,7 +10817,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourcePolicy: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
@@ -11162,7 +10838,7 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
         case resourcePolicy = "ResourcePolicy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -11171,41 +10847,25 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutResourcePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceARNNotValid" : self = .resourceARNNotValidException(try ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourcePolicyNotValid" : self = .resourcePolicyNotValidException(try ResourcePolicyNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotValid": return try await ResourcePolicyNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
-    case operationNotPermittedException(OperationNotPermittedException)
-    case resourceARNNotValidException(ResourceARNNotValidException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourcePolicyNotValidException(ResourcePolicyNotValidException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
@@ -11223,7 +10883,7 @@ public struct PutResourcePolicyOutputResponse: Swift.Equatable {
     /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
     public var resourcePolicy: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
@@ -11244,7 +10904,7 @@ extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
         case resourcePolicy = "ResourcePolicy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -11273,7 +10933,7 @@ extension CloudTrailClientTypes.Query: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -11294,7 +10954,7 @@ extension CloudTrailClientTypes {
         /// The status of the query. This can be QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
         public var queryStatus: CloudTrailClientTypes.QueryStatus?
 
-        public init (
+        public init(
             creationTime: ClientRuntime.Date? = nil,
             queryId: Swift.String? = nil,
             queryStatus: CloudTrailClientTypes.QueryStatus? = nil
@@ -11309,38 +10969,42 @@ extension CloudTrailClientTypes {
 }
 
 extension QueryIdNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: QueryIdNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The query ID does not exist or does not map to a query.
-public struct QueryIdNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "QueryIdNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11353,7 +11017,7 @@ extension QueryIdNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11380,7 +11044,7 @@ extension CloudTrailClientTypes.QueryStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultsCount)
         resultsCount = resultsCountDecoded
@@ -11401,7 +11065,7 @@ extension CloudTrailClientTypes {
         /// The total number of results returned by a query.
         public var totalResultsCount: Swift.Int?
 
-        public init (
+        public init(
             bytesScanned: Swift.Int? = nil,
             resultsCount: Swift.Int? = nil,
             totalResultsCount: Swift.Int? = nil
@@ -11443,7 +11107,7 @@ extension CloudTrailClientTypes.QueryStatisticsForDescribeQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventsMatchedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .eventsMatched)
         eventsMatched = eventsMatchedDecoded
@@ -11472,7 +11136,7 @@ extension CloudTrailClientTypes {
         /// The query's run time, in milliseconds.
         public var executionTimeInMillis: Swift.Int?
 
-        public init (
+        public init(
             bytesScanned: Swift.Int? = nil,
             creationTime: ClientRuntime.Date? = nil,
             eventsMatched: Swift.Int? = nil,
@@ -11594,7 +11258,7 @@ public struct RegisterOrganizationDelegatedAdminInput: Swift.Equatable {
     /// This member is required.
     public var memberAccountId: Swift.String?
 
-    public init (
+    public init(
         memberAccountId: Swift.String? = nil
     )
     {
@@ -11611,68 +11275,45 @@ extension RegisterOrganizationDelegatedAdminInputBody: Swift.Decodable {
         case memberAccountId = "MemberAccountId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let memberAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .memberAccountId)
         memberAccountId = memberAccountIdDecoded
     }
 }
 
-extension RegisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterOrganizationDelegatedAdminOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountNotFound" : self = .accountNotFoundException(try AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AccountRegistered" : self = .accountRegisteredException(try AccountRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CannotDelegateManagementAccount" : self = .cannotDelegateManagementAccountException(try CannotDelegateManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DelegatedAdminAccountLimitExceeded" : self = .delegatedAdminAccountLimitExceededException(try DelegatedAdminAccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationManagementAccount" : self = .notOrganizationManagementAccountException(try NotOrganizationManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountNotFound": return try await AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccountRegistered": return try await AccountRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CannotDelegateManagementAccount": return try await CannotDelegateManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DelegatedAdminAccountLimitExceeded": return try await DelegatedAdminAccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationManagementAccount": return try await NotOrganizationManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterOrganizationDelegatedAdminOutputError: Swift.Error, Swift.Equatable {
-    case accountNotFoundException(AccountNotFoundException)
-    case accountRegisteredException(AccountRegisteredException)
-    case cannotDelegateManagementAccountException(CannotDelegateManagementAccountException)
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case conflictException(ConflictException)
-    case delegatedAdminAccountLimitExceededException(DelegatedAdminAccountLimitExceededException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidParameterException(InvalidParameterException)
-    case notOrganizationManagementAccountException(NotOrganizationManagementAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterOrganizationDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
 public struct RegisterOrganizationDelegatedAdminOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RemoveTagsInput: Swift.Encodable {
@@ -11710,7 +11351,7 @@ public struct RemoveTagsInput: Swift.Equatable {
     /// This member is required.
     public var tagsList: [CloudTrailClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceId: Swift.String? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil
     )
@@ -11731,7 +11372,7 @@ extension RemoveTagsInputBody: Swift.Decodable {
         case tagsList = "TagsList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -11749,63 +11390,39 @@ extension RemoveTagsInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
-    case channelARNInvalidException(ChannelARNInvalidException)
-    case channelNotFoundException(ChannelNotFoundException)
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidTagParameterException(InvalidTagParameterException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
 public struct RemoveTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudTrailClientTypes.Resource: Swift.Codable {
@@ -11824,7 +11441,7 @@ extension CloudTrailClientTypes.Resource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -11841,7 +11458,7 @@ extension CloudTrailClientTypes {
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for Amazon RDS, and AccessKey for IAM. To learn more about how to look up and filter events by the resource types supported for a service, see [Filtering CloudTrail Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-console.html#filtering-cloudtrail-events).
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
@@ -11854,38 +11471,42 @@ extension CloudTrailClientTypes {
 }
 
 extension ResourceARNNotValidException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceARNNotValidExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
-public struct ResourceARNNotValidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceARNNotValid" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11898,7 +11519,7 @@ extension ResourceARNNotValidExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11906,38 +11527,42 @@ extension ResourceARNNotValidExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified resource is not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11950,7 +11575,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11958,38 +11583,42 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension ResourcePolicyNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourcePolicyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified resource policy is not found.
-public struct ResourcePolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourcePolicyNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12002,7 +11631,7 @@ extension ResourcePolicyNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12010,18 +11639,17 @@ extension ResourcePolicyNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension ResourcePolicyNotValidException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourcePolicyNotValidExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -12032,22 +11660,27 @@ extension ResourcePolicyNotValidException {
 /// * Contains at least one statement. The policy can have a maximum of 20 statements.
 ///
 /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
-public struct ResourcePolicyNotValidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourcePolicyNotValid" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12060,7 +11693,7 @@ extension ResourcePolicyNotValidExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12086,7 +11719,7 @@ extension CloudTrailClientTypes.ResourceTag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -12112,7 +11745,7 @@ extension CloudTrailClientTypes {
         /// A list of tags.
         public var tagsList: [CloudTrailClientTypes.Tag]?
 
-        public init (
+        public init(
             resourceId: Swift.String? = nil,
             tagsList: [CloudTrailClientTypes.Tag]? = nil
         )
@@ -12125,38 +11758,42 @@ extension CloudTrailClientTypes {
 }
 
 extension ResourceTypeNotSupportedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceTypeNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified resource type is not supported by CloudTrail.
-public struct ResourceTypeNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceTypeNotSupported" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12169,7 +11806,7 @@ extension ResourceTypeNotSupportedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12200,7 +11837,7 @@ public struct RestoreEventDataStoreInput: Swift.Equatable {
     /// This member is required.
     public var eventDataStore: Swift.String?
 
-    public init (
+    public init(
         eventDataStore: Swift.String? = nil
     )
     {
@@ -12217,62 +11854,39 @@ extension RestoreEventDataStoreInputBody: Swift.Decodable {
         case eventDataStore = "EventDataStore"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
     }
 }
 
-extension RestoreEventDataStoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RestoreEventDataStoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreMaxLimitExceeded" : self = .eventDataStoreMaxLimitExceededException(try EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventDataStoreStatus" : self = .invalidEventDataStoreStatusException(try InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestoreEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RestoreEventDataStoreOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreMaxLimitExceededException(EventDataStoreMaxLimitExceededException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidEventDataStoreStatusException(InvalidEventDataStoreStatusException)
-    case invalidParameterException(InvalidParameterException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestoreEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RestoreEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
@@ -12326,7 +11940,7 @@ public struct RestoreEventDataStoreOutputResponse: Swift.Equatable {
     /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
@@ -12383,7 +11997,7 @@ extension RestoreEventDataStoreOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
         eventDataStoreArn = eventDataStoreArnDecoded
@@ -12420,38 +12034,42 @@ extension RestoreEventDataStoreOutputResponseBody: Swift.Decodable {
 }
 
 extension S3BucketDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: S3BucketDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified S3 bucket does not exist.
-public struct S3BucketDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3BucketDoesNotExist" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12464,7 +12082,7 @@ extension S3BucketDoesNotExistExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12491,7 +12109,7 @@ extension CloudTrailClientTypes.S3ImportSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3LocationUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3LocationUri)
         s3LocationUri = s3LocationUriDecoded
@@ -12515,7 +12133,7 @@ extension CloudTrailClientTypes {
         /// This member is required.
         public var s3LocationUri: Swift.String?
 
-        public init (
+        public init(
             s3BucketAccessRoleArn: Swift.String? = nil,
             s3BucketRegion: Swift.String? = nil,
             s3LocationUri: Swift.String? = nil
@@ -12548,7 +12166,7 @@ extension CloudTrailClientTypes.SourceConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applyToAllRegionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyToAllRegions)
         applyToAllRegions = applyToAllRegionsDecoded
@@ -12574,7 +12192,7 @@ extension CloudTrailClientTypes {
         /// Specifies whether the channel applies to a single region or to all regions.
         public var applyToAllRegions: Swift.Bool?
 
-        public init (
+        public init(
             advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
             applyToAllRegions: Swift.Bool? = nil
         )
@@ -12636,7 +12254,7 @@ public struct StartImportInput: Swift.Equatable {
     /// Use with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
     public var startEventTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         destinations: [Swift.String]? = nil,
         endEventTime: ClientRuntime.Date? = nil,
         importId: Swift.String? = nil,
@@ -12669,7 +12287,7 @@ extension StartImportInputBody: Swift.Decodable {
         case startEventTime = "StartEventTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destinations)
         var destinationsDecoded0:[Swift.String]? = nil
@@ -12693,53 +12311,31 @@ extension StartImportInputBody: Swift.Decodable {
     }
 }
 
-extension StartImportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartImportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountHasOngoingImport" : self = .accountHasOngoingImportException(try AccountHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ImportNotFound" : self = .importNotFoundException(try ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventDataStoreCategory" : self = .invalidEventDataStoreCategoryException(try InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventDataStoreStatus" : self = .invalidEventDataStoreStatusException(try InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidImportSource" : self = .invalidImportSourceException(try InvalidImportSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountHasOngoingImport": return try await AccountHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidImportSource": return try await InvalidImportSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartImportOutputError: Swift.Error, Swift.Equatable {
-    case accountHasOngoingImportException(AccountHasOngoingImportException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case importNotFoundException(ImportNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case invalidEventDataStoreCategoryException(InvalidEventDataStoreCategoryException)
-    case invalidEventDataStoreStatusException(InvalidEventDataStoreStatusException)
-    case invalidImportSourceException(InvalidImportSourceException)
-    case invalidParameterException(InvalidParameterException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
@@ -12781,7 +12377,7 @@ public struct StartImportOutputResponse: Swift.Equatable {
     /// The timestamp of the import's last update, if applicable.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         createdTimestamp: ClientRuntime.Date? = nil,
         destinations: [Swift.String]? = nil,
         endEventTime: ClientRuntime.Date? = nil,
@@ -12826,7 +12422,7 @@ extension StartImportOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
@@ -12881,7 +12477,7 @@ public struct StartLoggingInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -12898,62 +12494,42 @@ extension StartLoggingInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension StartLoggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartLoggingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartLoggingOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidHomeRegionException(InvalidHomeRegionException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
 public struct StartLoggingOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StartQueryInput: Swift.Encodable {
@@ -12986,7 +12562,7 @@ public struct StartQueryInput: Swift.Equatable {
     /// This member is required.
     public var queryStatement: Swift.String?
 
-    public init (
+    public init(
         deliveryS3Uri: Swift.String? = nil,
         queryStatement: Swift.String? = nil
     )
@@ -13007,7 +12583,7 @@ extension StartQueryInputBody: Swift.Decodable {
         case queryStatement = "QueryStatement"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryStatementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryStatement)
         queryStatement = queryStatementDecoded
@@ -13016,57 +12592,33 @@ extension StartQueryInputBody: Swift.Decodable {
     }
 }
 
-extension StartQueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartQueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientS3BucketPolicy" : self = .insufficientS3BucketPolicyException(try InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidQueryStatement" : self = .invalidQueryStatementException(try InvalidQueryStatementException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3BucketName" : self = .invalidS3BucketNameException(try InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3Prefix" : self = .invalidS3PrefixException(try InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MaxConcurrentQueries" : self = .maxConcurrentQueriesException(try MaxConcurrentQueriesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidQueryStatement": return try await InvalidQueryStatementException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaxConcurrentQueries": return try await MaxConcurrentQueriesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartQueryOutputError: Swift.Error, Swift.Equatable {
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case insufficientS3BucketPolicyException(InsufficientS3BucketPolicyException)
-    case invalidParameterException(InvalidParameterException)
-    case invalidQueryStatementException(InvalidQueryStatementException)
-    case invalidS3BucketNameException(InvalidS3BucketNameException)
-    case invalidS3PrefixException(InvalidS3PrefixException)
-    case maxConcurrentQueriesException(MaxConcurrentQueriesException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case s3BucketDoesNotExistException(S3BucketDoesNotExistException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queryId = output.queryId
@@ -13080,7 +12632,7 @@ public struct StartQueryOutputResponse: Swift.Equatable {
     /// The ID of the started query.
     public var queryId: Swift.String?
 
-    public init (
+    public init(
         queryId: Swift.String? = nil
     )
     {
@@ -13097,7 +12649,7 @@ extension StartQueryOutputResponseBody: Swift.Decodable {
         case queryId = "QueryId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -13128,7 +12680,7 @@ public struct StopImportInput: Swift.Equatable {
     /// This member is required.
     public var importId: Swift.String?
 
-    public init (
+    public init(
         importId: Swift.String? = nil
     )
     {
@@ -13145,44 +12697,30 @@ extension StopImportInputBody: Swift.Decodable {
         case importId = "ImportId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
     }
 }
 
-extension StopImportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopImportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ImportNotFound" : self = .importNotFoundException(try ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopImportOutputError: Swift.Error, Swift.Equatable {
-    case importNotFoundException(ImportNotFoundException)
-    case invalidParameterException(InvalidParameterException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopImportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
@@ -13228,7 +12766,7 @@ public struct StopImportOutputResponse: Swift.Equatable {
     /// The timestamp of the import's last update.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         createdTimestamp: ClientRuntime.Date? = nil,
         destinations: [Swift.String]? = nil,
         endEventTime: ClientRuntime.Date? = nil,
@@ -13277,7 +12815,7 @@ extension StopImportOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importId)
         importId = importIdDecoded
@@ -13334,7 +12872,7 @@ public struct StopLoggingInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -13351,62 +12889,42 @@ extension StopLoggingInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension StopLoggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopLoggingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopLoggingOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case invalidHomeRegionException(InvalidHomeRegionException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case trailNotFoundException(TrailNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
 public struct StopLoggingOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudTrailClientTypes.Tag: Swift.Codable {
@@ -13425,7 +12943,7 @@ extension CloudTrailClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -13443,7 +12961,7 @@ extension CloudTrailClientTypes {
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -13456,38 +12974,42 @@ extension CloudTrailClientTypes {
 }
 
 extension TagsLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TagsLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
-public struct TagsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TagsLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13500,7 +13022,7 @@ extension TagsLimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13579,7 +13101,7 @@ extension CloudTrailClientTypes.Trail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13653,7 +13175,7 @@ extension CloudTrailClientTypes {
         /// Specifies the ARN of the trail. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public var trailARN: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             cloudWatchLogsRoleArn: Swift.String? = nil,
             hasCustomEventSelectors: Swift.Bool? = nil,
@@ -13694,38 +13216,42 @@ extension CloudTrailClientTypes {
 }
 
 extension TrailAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TrailAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the specified trail already exists.
-public struct TrailAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrailAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13738,7 +13264,7 @@ extension TrailAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13765,7 +13291,7 @@ extension CloudTrailClientTypes.TrailInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
         trailARN = trailARNDecoded
@@ -13786,7 +13312,7 @@ extension CloudTrailClientTypes {
         /// The ARN of a trail.
         public var trailARN: Swift.String?
 
-        public init (
+        public init(
             homeRegion: Swift.String? = nil,
             name: Swift.String? = nil,
             trailARN: Swift.String? = nil
@@ -13801,38 +13327,42 @@ extension CloudTrailClientTypes {
 }
 
 extension TrailNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TrailNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the trail with the given name is not found.
-public struct TrailNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrailNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13845,7 +13375,7 @@ extension TrailNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13853,38 +13383,42 @@ extension TrailNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension TrailNotProvidedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TrailNotProvidedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is no longer in use.
-public struct TrailNotProvidedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrailNotProvided" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13897,7 +13431,7 @@ extension TrailNotProvidedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13905,38 +13439,42 @@ extension TrailNotProvidedExceptionBody: Swift.Decodable {
 }
 
 extension UnsupportedOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the requested operation is not supported.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Brief description of the exception returned by the request.
-    public var message: Swift.String?
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperation" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13949,7 +13487,7 @@ extension UnsupportedOperationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13995,7 +13533,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     /// Changes the name of the channel.
     public var name: Swift.String?
 
-    public init (
+    public init(
         channel: Swift.String? = nil,
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         name: Swift.String? = nil
@@ -14020,7 +13558,7 @@ extension UpdateChannelInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
         channel = channelDecoded
@@ -14040,49 +13578,29 @@ extension UpdateChannelInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateChannelOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateChannelOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChannelAlreadyExists" : self = .channelAlreadyExistsException(try ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventDataStoreCategory" : self = .invalidEventDataStoreCategoryException(try InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelAlreadyExists": return try await ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
-    case channelAlreadyExistsException(ChannelAlreadyExistsException)
-    case channelARNInvalidException(ChannelARNInvalidException)
-    case channelNotFoundException(ChannelNotFoundException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case invalidEventDataStoreCategoryException(InvalidEventDataStoreCategoryException)
-    case invalidParameterException(InvalidParameterException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
@@ -14108,7 +13626,7 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
     /// The event source of the channel that was updated.
     public var source: Swift.String?
 
-    public init (
+    public init(
         channelArn: Swift.String? = nil,
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         name: Swift.String? = nil,
@@ -14137,7 +13655,7 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
         case source = "Source"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
         channelArn = channelArnDecoded
@@ -14236,7 +13754,7 @@ public struct UpdateEventDataStoreInput: Swift.Equatable {
     /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
     public var terminationProtectionEnabled: Swift.Bool?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventDataStore: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -14281,7 +13799,7 @@ extension UpdateEventDataStoreInputBody: Swift.Decodable {
         case terminationProtectionEnabled = "TerminationProtectionEnabled"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
         eventDataStore = eventDataStoreDecoded
@@ -14311,65 +13829,37 @@ extension UpdateEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateEventDataStoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateEventDataStoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreHasOngoingImport" : self = .eventDataStoreHasOngoingImportException(try EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKmsKeyId" : self = .invalidKmsKeyIdException(try InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsException" : self = .kmsException(try KmsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsKeyNotFound" : self = .kmsKeyNotFoundException(try KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateEventDataStoreOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
-    case eventDataStoreHasOngoingImportException(EventDataStoreHasOngoingImportException)
-    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
-    case inactiveEventDataStoreException(InactiveEventDataStoreException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case invalidEventSelectorsException(InvalidEventSelectorsException)
-    case invalidKmsKeyIdException(InvalidKmsKeyIdException)
-    case invalidParameterException(InvalidParameterException)
-    case kmsException(KmsException)
-    case kmsKeyNotFoundException(KmsKeyNotFoundException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
@@ -14423,7 +13913,7 @@ public struct UpdateEventDataStoreOutputResponse: Swift.Equatable {
     /// The timestamp that shows when the event data store was last updated. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
     public var updatedTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
@@ -14480,7 +13970,7 @@ extension UpdateEventDataStoreOutputResponseBody: Swift.Decodable {
         case updatedTimestamp = "UpdatedTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
         eventDataStoreArn = eventDataStoreArnDecoded
@@ -14622,7 +14112,7 @@ public struct UpdateTrailInput: Swift.Equatable {
     /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogsLogGroupArn: Swift.String? = nil,
         cloudWatchLogsRoleArn: Swift.String? = nil,
         enableLogFileValidation: Swift.Bool? = nil,
@@ -14679,7 +14169,7 @@ extension UpdateTrailInputBody: Swift.Decodable {
         case snsTopicName = "SnsTopicName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14706,93 +14196,51 @@ extension UpdateTrailInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTrailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTrailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudTrailInvalidClientTokenId" : self = .cloudTrailInvalidClientTokenIdException(try CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "CloudWatchLogsDeliveryUnavailable" : self = .cloudWatchLogsDeliveryUnavailableException(try CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientS3BucketPolicy" : self = .insufficientS3BucketPolicyException(try InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientSnsTopicPolicy" : self = .insufficientSnsTopicPolicyException(try InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCloudWatchLogsLogGroupArn" : self = .invalidCloudWatchLogsLogGroupArnException(try InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidCloudWatchLogsRoleArn" : self = .invalidCloudWatchLogsRoleArnException(try InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKmsKeyId" : self = .invalidKmsKeyIdException(try InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterCombinationError" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3BucketName" : self = .invalidS3BucketNameException(try InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidS3Prefix" : self = .invalidS3PrefixException(try InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSnsTopicName" : self = .invalidSnsTopicNameException(try InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsException" : self = .kmsException(try KmsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsKeyDisabled" : self = .kmsKeyDisabledException(try KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "KmsKeyNotFound" : self = .kmsKeyNotFoundException(try KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrailNotProvided" : self = .trailNotProvidedException(try TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailInvalidClientTokenId": return try await CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudWatchLogsDeliveryUnavailable": return try await CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientSnsTopicPolicy": return try await InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsLogGroupArn": return try await InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyDisabled": return try await KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotProvided": return try await TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTrailOutputError: Swift.Error, Swift.Equatable {
-    case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
-    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
-    case cloudTrailInvalidClientTokenIdException(CloudTrailInvalidClientTokenIdException)
-    case cloudWatchLogsDeliveryUnavailableException(CloudWatchLogsDeliveryUnavailableException)
-    case conflictException(ConflictException)
-    case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
-    case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
-    case insufficientS3BucketPolicyException(InsufficientS3BucketPolicyException)
-    case insufficientSnsTopicPolicyException(InsufficientSnsTopicPolicyException)
-    case invalidCloudWatchLogsLogGroupArnException(InvalidCloudWatchLogsLogGroupArnException)
-    case invalidCloudWatchLogsRoleArnException(InvalidCloudWatchLogsRoleArnException)
-    case invalidEventSelectorsException(InvalidEventSelectorsException)
-    case invalidHomeRegionException(InvalidHomeRegionException)
-    case invalidKmsKeyIdException(InvalidKmsKeyIdException)
-    case invalidParameterCombinationException(InvalidParameterCombinationException)
-    case invalidParameterException(InvalidParameterException)
-    case invalidS3BucketNameException(InvalidS3BucketNameException)
-    case invalidS3PrefixException(InvalidS3PrefixException)
-    case invalidSnsTopicNameException(InvalidSnsTopicNameException)
-    case invalidTrailNameException(InvalidTrailNameException)
-    case kmsException(KmsException)
-    case kmsKeyDisabledException(KmsKeyDisabledException)
-    case kmsKeyNotFoundException(KmsKeyNotFoundException)
-    case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
-    case notOrganizationMasterAccountException(NotOrganizationMasterAccountException)
-    case operationNotPermittedException(OperationNotPermittedException)
-    case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
-    case organizationsNotInUseException(OrganizationsNotInUseException)
-    case s3BucketDoesNotExistException(S3BucketDoesNotExistException)
-    case trailNotFoundException(TrailNotFoundException)
-    case trailNotProvidedException(TrailNotProvidedException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateTrailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogsLogGroupArn = output.cloudWatchLogsLogGroupArn
@@ -14856,7 +14304,7 @@ public struct UpdateTrailOutputResponse: Swift.Equatable {
     /// Specifies the ARN of the trail that was updated. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     public var trailARN: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogsLogGroupArn: Swift.String? = nil,
         cloudWatchLogsRoleArn: Swift.String? = nil,
         includeGlobalServiceEvents: Swift.Bool? = nil,
@@ -14921,7 +14369,7 @@ extension UpdateTrailOutputResponseBody: Swift.Decodable {
         case trailARN = "TrailARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded

@@ -28,7 +28,7 @@ extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let noncompliantKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .noncompliantKeys)
         var noncompliantKeysDecoded0:[Swift.String]? = nil
@@ -67,7 +67,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         /// These tag keys on the resource are noncompliant with the effective tag policy.
         public var noncompliantKeys: [Swift.String]?
 
-        public init (
+        public init(
             complianceStatus: Swift.Bool? = nil,
             keysWithNoncompliantValues: [Swift.String]? = nil,
             noncompliantKeys: [Swift.String]? = nil
@@ -82,37 +82,41 @@ extension ResourceGroupsTaggingAPIClientTypes {
 }
 
 extension ConcurrentModificationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The target of the operation is currently being modified by a different request. Try again later.
-public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -125,7 +129,7 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -133,18 +137,17 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
 }
 
 extension ConstraintViolationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConstraintViolationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -155,21 +158,26 @@ extension ConstraintViolationException {
 /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
 ///
 /// * You must have a tag policy attached to the organization root, an OU, or an account.
-public struct ConstraintViolationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConstraintViolationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -182,7 +190,7 @@ extension ConstraintViolationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -205,7 +213,7 @@ extension DescribeReportCreationInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeReportCreationInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeReportCreationInputBody: Swift.Equatable {
@@ -213,41 +221,27 @@ struct DescribeReportCreationInputBody: Swift.Equatable {
 
 extension DescribeReportCreationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeReportCreationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeReportCreationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConstraintViolationException" : self = .constraintViolationException(try ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeReportCreationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeReportCreationOutputError: Swift.Error, Swift.Equatable {
-    case constraintViolationException(ConstraintViolationException)
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeReportCreationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeReportCreationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorMessage = output.errorMessage
@@ -281,7 +275,7 @@ public struct DescribeReportCreationOutputResponse: Swift.Equatable {
     /// * NO REPORT - No report was generated in the last 90 days.
     public var status: Swift.String?
 
-    public init (
+    public init(
         errorMessage: Swift.String? = nil,
         s3Location: Swift.String? = nil,
         startDate: Swift.String? = nil,
@@ -310,7 +304,7 @@ extension DescribeReportCreationOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -375,7 +369,7 @@ extension ResourceGroupsTaggingAPIClientTypes.FailureInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode) ?? 0
         statusCode = statusCodeDecoded
@@ -403,7 +397,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         /// The HTTP status code of the common error.
         public var statusCode: Swift.Int
 
-        public init (
+        public init(
             errorCode: ResourceGroupsTaggingAPIClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             statusCode: Swift.Int = 0
@@ -500,7 +494,7 @@ public struct GetComplianceSummaryInput: Swift.Equatable {
     /// Specifies target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources with the specified target IDs.
     public var targetIdFilters: [Swift.String]?
 
-    public init (
+    public init(
         groupBy: [ResourceGroupsTaggingAPIClientTypes.GroupByAttribute]? = nil,
         maxResults: Swift.Int? = nil,
         paginationToken: Swift.String? = nil,
@@ -541,7 +535,7 @@ extension GetComplianceSummaryInputBody: Swift.Decodable {
         case targetIdFilters = "TargetIdFilters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetIdFiltersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targetIdFilters)
         var targetIdFiltersDecoded0:[Swift.String]? = nil
@@ -605,37 +599,23 @@ extension GetComplianceSummaryInputBody: Swift.Decodable {
     }
 }
 
-extension GetComplianceSummaryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetComplianceSummaryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConstraintViolationException" : self = .constraintViolationException(try ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetComplianceSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetComplianceSummaryOutputError: Swift.Error, Swift.Equatable {
-    case constraintViolationException(ConstraintViolationException)
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetComplianceSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetComplianceSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
@@ -653,7 +633,7 @@ public struct GetComplianceSummaryOutputResponse: Swift.Equatable {
     /// A table that shows counts of noncompliant resources.
     public var summaryList: [ResourceGroupsTaggingAPIClientTypes.Summary]?
 
-    public init (
+    public init(
         paginationToken: Swift.String? = nil,
         summaryList: [ResourceGroupsTaggingAPIClientTypes.Summary]? = nil
     )
@@ -674,7 +654,7 @@ extension GetComplianceSummaryOutputResponseBody: Swift.Decodable {
         case summaryList = "SummaryList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryListContainer = try containerValues.decodeIfPresent([ResourceGroupsTaggingAPIClientTypes.Summary?].self, forKey: .summaryList)
         var summaryListDecoded0:[ResourceGroupsTaggingAPIClientTypes.Summary]? = nil
@@ -782,7 +762,7 @@ public struct GetResourcesInput: Swift.Equatable {
     /// Amazon Web Services recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair). GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
     public var tagsPerPage: Swift.Int?
 
-    public init (
+    public init(
         excludeCompliantResources: Swift.Bool? = nil,
         includeComplianceDetails: Swift.Bool? = nil,
         paginationToken: Swift.String? = nil,
@@ -827,7 +807,7 @@ extension GetResourcesInputBody: Swift.Decodable {
         case tagsPerPage = "TagsPerPage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
@@ -875,37 +855,23 @@ extension GetResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension GetResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PaginationTokenExpiredException" : self = .paginationTokenExpiredException(try PaginationTokenExpiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PaginationTokenExpiredException": return try await PaginationTokenExpiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourcesOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case paginationTokenExpiredException(PaginationTokenExpiredException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
@@ -923,7 +889,7 @@ public struct GetResourcesOutputResponse: Swift.Equatable {
     /// A list of resource ARNs and the tags (keys and values) associated with each.
     public var resourceTagMappingList: [ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]?
 
-    public init (
+    public init(
         paginationToken: Swift.String? = nil,
         resourceTagMappingList: [ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]? = nil
     )
@@ -944,7 +910,7 @@ extension GetResourcesOutputResponseBody: Swift.Decodable {
         case resourceTagMappingList = "ResourceTagMappingList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
@@ -985,7 +951,7 @@ public struct GetTagKeysInput: Swift.Equatable {
     /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
     public var paginationToken: Swift.String?
 
-    public init (
+    public init(
         paginationToken: Swift.String? = nil
     )
     {
@@ -1002,44 +968,30 @@ extension GetTagKeysInputBody: Swift.Decodable {
         case paginationToken = "PaginationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
     }
 }
 
-extension GetTagKeysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTagKeysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PaginationTokenExpiredException" : self = .paginationTokenExpiredException(try PaginationTokenExpiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTagKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PaginationTokenExpiredException": return try await PaginationTokenExpiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTagKeysOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case paginationTokenExpiredException(PaginationTokenExpiredException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTagKeysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTagKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
@@ -1057,7 +1009,7 @@ public struct GetTagKeysOutputResponse: Swift.Equatable {
     /// A list of all tag keys in the Amazon Web Services account.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         paginationToken: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -1078,7 +1030,7 @@ extension GetTagKeysOutputResponseBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
@@ -1126,7 +1078,7 @@ public struct GetTagValuesInput: Swift.Equatable {
     /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
     public var paginationToken: Swift.String?
 
-    public init (
+    public init(
         key: Swift.String? = nil,
         paginationToken: Swift.String? = nil
     )
@@ -1147,7 +1099,7 @@ extension GetTagValuesInputBody: Swift.Decodable {
         case paginationToken = "PaginationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
@@ -1156,37 +1108,23 @@ extension GetTagValuesInputBody: Swift.Decodable {
     }
 }
 
-extension GetTagValuesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTagValuesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PaginationTokenExpiredException" : self = .paginationTokenExpiredException(try PaginationTokenExpiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTagValuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PaginationTokenExpiredException": return try await PaginationTokenExpiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTagValuesOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case paginationTokenExpiredException(PaginationTokenExpiredException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTagValuesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTagValuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.paginationToken = output.paginationToken
@@ -1204,7 +1142,7 @@ public struct GetTagValuesOutputResponse: Swift.Equatable {
     /// A list of all tag values for the specified key currently used in the specified Amazon Web Services Region for the calling account.
     public var tagValues: [Swift.String]?
 
-    public init (
+    public init(
         paginationToken: Swift.String? = nil,
         tagValues: [Swift.String]? = nil
     )
@@ -1225,7 +1163,7 @@ extension GetTagValuesOutputResponseBody: Swift.Decodable {
         case tagValues = "TagValues"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
@@ -1279,37 +1217,41 @@ extension ResourceGroupsTaggingAPIClientTypes {
 }
 
 extension InternalServiceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServiceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1322,7 +1264,7 @@ extension InternalServiceExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1330,18 +1272,17 @@ extension InternalServiceExceptionBody: Swift.Decodable {
 }
 
 extension InvalidParameterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -1356,21 +1297,26 @@ extension InvalidParameterException {
 /// * The target ID is invalid, unsupported, or doesn't exist.
 ///
 /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-public struct InvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1383,7 +1329,7 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1391,37 +1337,41 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 }
 
 extension PaginationTokenExpiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PaginationTokenExpiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
-public struct PaginationTokenExpiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct PaginationTokenExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PaginationTokenExpiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1434,7 +1384,7 @@ extension PaginationTokenExpiredExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1464,7 +1414,7 @@ extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -1494,7 +1444,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         /// The tags that have been applied to one or more Amazon Web Services resources.
         public var tags: [ResourceGroupsTaggingAPIClientTypes.Tag]?
 
-        public init (
+        public init(
             complianceDetails: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails? = nil,
             resourceARN: Swift.String? = nil,
             tags: [ResourceGroupsTaggingAPIClientTypes.Tag]? = nil
@@ -1532,7 +1482,7 @@ public struct StartReportCreationInput: Swift.Equatable {
     /// This member is required.
     public var s3Bucket: Swift.String?
 
-    public init (
+    public init(
         s3Bucket: Swift.String? = nil
     )
     {
@@ -1549,51 +1499,36 @@ extension StartReportCreationInputBody: Swift.Decodable {
         case s3Bucket = "S3Bucket"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
         s3Bucket = s3BucketDecoded
     }
 }
 
-extension StartReportCreationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartReportCreationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConstraintViolationException" : self = .constraintViolationException(try ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartReportCreationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartReportCreationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case constraintViolationException(ConstraintViolationException)
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartReportCreationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StartReportCreationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ResourceGroupsTaggingAPIClientTypes.Summary: Swift.Codable {
@@ -1628,7 +1563,7 @@ extension ResourceGroupsTaggingAPIClientTypes.Summary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastUpdatedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdated)
         lastUpdated = lastUpdatedDecoded
@@ -1661,7 +1596,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         /// Whether the target is an account, an OU, or the organization root.
         public var targetIdType: ResourceGroupsTaggingAPIClientTypes.TargetIdType?
 
-        public init (
+        public init(
             lastUpdated: Swift.String? = nil,
             nonCompliantResources: Swift.Int = 0,
             region: Swift.String? = nil,
@@ -1697,7 +1632,7 @@ extension ResourceGroupsTaggingAPIClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -1716,7 +1651,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -1747,7 +1682,7 @@ extension ResourceGroupsTaggingAPIClientTypes.TagFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -1773,7 +1708,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -1822,7 +1757,7 @@ public struct TagResourcesInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceARNList: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1843,7 +1778,7 @@ extension TagResourcesInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceARNList)
         var resourceARNListDecoded0:[Swift.String]? = nil
@@ -1870,35 +1805,22 @@ extension TagResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourcesOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TagResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedResourcesMap = output.failedResourcesMap
@@ -1912,7 +1834,7 @@ public struct TagResourcesOutputResponse: Swift.Equatable {
     /// A map containing a key-value pair for each failed item that couldn't be tagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
     public var failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]?
 
-    public init (
+    public init(
         failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]? = nil
     )
     {
@@ -1929,7 +1851,7 @@ extension TagResourcesOutputResponseBody: Swift.Decodable {
         case failedResourcesMap = "FailedResourcesMap"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedResourcesMapContainer = try containerValues.decodeIfPresent([Swift.String: ResourceGroupsTaggingAPIClientTypes.FailureInfo?].self, forKey: .failedResourcesMap)
         var failedResourcesMapDecoded0: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]? = nil
@@ -1981,37 +1903,41 @@ extension ResourceGroupsTaggingAPIClientTypes {
 }
 
 extension ThrottledException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottledExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was denied to limit the frequency of submitted requests.
-public struct ThrottledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottledException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2024,7 +1950,7 @@ extension ThrottledExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2068,7 +1994,7 @@ public struct UntagResourcesInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARNList: [Swift.String]? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -2089,7 +2015,7 @@ extension UntagResourcesInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceARNList)
         var resourceARNListDecoded0:[Swift.String]? = nil
@@ -2116,35 +2042,22 @@ extension UntagResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottledException" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledException": return try await ThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourcesOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case invalidParameterException(InvalidParameterException)
-    case throttledException(ThrottledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UntagResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedResourcesMap = output.failedResourcesMap
@@ -2158,7 +2071,7 @@ public struct UntagResourcesOutputResponse: Swift.Equatable {
     /// A map containing a key-value pair for each failed item that couldn't be untagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
     public var failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]?
 
-    public init (
+    public init(
         failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]? = nil
     )
     {
@@ -2175,7 +2088,7 @@ extension UntagResourcesOutputResponseBody: Swift.Decodable {
         case failedResourcesMap = "FailedResourcesMap"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedResourcesMapContainer = try containerValues.decodeIfPresent([Swift.String: ResourceGroupsTaggingAPIClientTypes.FailureInfo?].self, forKey: .failedResourcesMap)
         var failedResourcesMapDecoded0: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]? = nil

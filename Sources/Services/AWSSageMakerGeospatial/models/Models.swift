@@ -3,38 +3,42 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -47,7 +51,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -264,7 +268,7 @@ extension SageMakerGeospatialClientTypes.AreaOfInterest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let areaofinterestgeometryDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.AreaOfInterestGeometry.self, forKey: .areaofinterestgeometry)
         if let areaofinterestgeometry = areaofinterestgeometryDecoded {
@@ -304,7 +308,7 @@ extension SageMakerGeospatialClientTypes.AreaOfInterestGeometry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let polygongeometryDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.PolygonGeometryInput.self, forKey: .polygongeometry)
         if let polygongeometry = polygongeometryDecoded {
@@ -344,7 +348,7 @@ extension SageMakerGeospatialClientTypes.AssetValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hrefDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .href)
         href = hrefDecoded
@@ -357,7 +361,7 @@ extension SageMakerGeospatialClientTypes {
         /// Link to the asset object.
         public var href: Swift.String?
 
-        public init (
+        public init(
             href: Swift.String? = nil
         )
         {
@@ -386,7 +390,7 @@ extension SageMakerGeospatialClientTypes.BandMathConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedIndicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .predefinedIndices)
         var predefinedIndicesDecoded0:[Swift.String]? = nil
@@ -412,7 +416,7 @@ extension SageMakerGeospatialClientTypes {
         /// One or many of the supported predefined indices to compute. Allowed values: NDVI, EVI2, MSAVI, NDWI, NDMI, NDSI, and WDRVI.
         public var predefinedIndices: [Swift.String]?
 
-        public init (
+        public init(
             customIndices: SageMakerGeospatialClientTypes.CustomIndicesInput? = nil,
             predefinedIndices: [Swift.String]? = nil
         )
@@ -431,7 +435,7 @@ extension SageMakerGeospatialClientTypes.CloudMaskingConfigInput: Swift.Codable 
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -439,7 +443,7 @@ extension SageMakerGeospatialClientTypes {
     /// Input structure for CloudMasking operation type.
     public struct CloudMaskingConfigInput: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -467,7 +471,7 @@ extension SageMakerGeospatialClientTypes.CloudRemovalConfigInput: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let algorithmNameDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.AlgorithmNameCloudRemoval.self, forKey: .algorithmName)
         algorithmName = algorithmNameDecoded
@@ -497,7 +501,7 @@ extension SageMakerGeospatialClientTypes {
         /// TargetBands to be returned in the output of CloudRemoval operation.
         public var targetBands: [Swift.String]?
 
-        public init (
+        public init(
             algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameCloudRemoval? = nil,
             interpolationValue: Swift.String? = nil,
             targetBands: [Swift.String]? = nil
@@ -550,44 +554,48 @@ extension SageMakerGeospatialClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    /// Identifier of the resource affected.
-    public var resourceId: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Identifier of the resource affected.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -602,7 +610,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -626,7 +634,7 @@ extension SageMakerGeospatialClientTypes.CustomIndicesInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationsContainer = try containerValues.decodeIfPresent([SageMakerGeospatialClientTypes.Operation?].self, forKey: .operations)
         var operationsDecoded0:[SageMakerGeospatialClientTypes.Operation]? = nil
@@ -648,7 +656,7 @@ extension SageMakerGeospatialClientTypes {
         /// A list of BandMath indices to compute.
         public var operations: [SageMakerGeospatialClientTypes.Operation]?
 
-        public init (
+        public init(
             operations: [SageMakerGeospatialClientTypes.Operation]? = nil
         )
         {
@@ -710,7 +718,7 @@ public struct DeleteEarthObservationJobInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -723,50 +731,34 @@ struct DeleteEarthObservationJobInputBody: Swift.Equatable {
 
 extension DeleteEarthObservationJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteEarthObservationJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteEarthObservationJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteEarthObservationJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteEarthObservationJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
@@ -783,7 +775,7 @@ public struct DeleteVectorEnrichmentJobInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -796,50 +788,34 @@ struct DeleteVectorEnrichmentJobInputBody: Swift.Equatable {
 
 extension DeleteVectorEnrichmentJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteVectorEnrichmentJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteVectorEnrichmentJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteVectorEnrichmentJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails: Swift.Codable {
@@ -858,7 +834,7 @@ extension SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.EarthObservationJobErrorType.self, forKey: .type)
         type = typeDecoded
@@ -875,7 +851,7 @@ extension SageMakerGeospatialClientTypes {
         /// The type of error in an Earth Observation job.
         public var type: SageMakerGeospatialClientTypes.EarthObservationJobErrorType?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             type: SageMakerGeospatialClientTypes.EarthObservationJobErrorType? = nil
         )
@@ -1033,7 +1009,7 @@ extension SageMakerGeospatialClientTypes.EoCloudCoverInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lowerBoundDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .lowerBound)
         lowerBound = lowerBoundDecoded
@@ -1052,7 +1028,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var upperBound: Swift.Float?
 
-        public init (
+        public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
         )
@@ -1114,7 +1090,7 @@ public struct ExportEarthObservationJobInput: Swift.Equatable {
     /// This member is required.
     public var outputConfig: SageMakerGeospatialClientTypes.OutputConfigInput?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1147,7 +1123,7 @@ extension ExportEarthObservationJobInputBody: Swift.Decodable {
         case outputConfig = "OutputConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1162,43 +1138,26 @@ extension ExportEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
-extension ExportEarthObservationJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ExportEarthObservationJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExportEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ExportEarthObservationJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExportEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExportEarthObservationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -1237,7 +1196,7 @@ public struct ExportEarthObservationJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var outputConfig: SageMakerGeospatialClientTypes.OutputConfigInput?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1274,7 +1233,7 @@ extension ExportEarthObservationJobOutputResponseBody: Swift.Decodable {
         case outputConfig = "OutputConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1307,7 +1266,7 @@ extension SageMakerGeospatialClientTypes.ExportErrorDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportResultsDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.ExportErrorDetailsOutput.self, forKey: .exportResults)
         exportResults = exportResultsDecoded
@@ -1324,7 +1283,7 @@ extension SageMakerGeospatialClientTypes {
         /// The structure for returning the export error details while exporting the source images of an Earth Observation job.
         public var exportSourceImages: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput?
 
-        public init (
+        public init(
             exportResults: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput? = nil,
             exportSourceImages: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput? = nil
         )
@@ -1352,7 +1311,7 @@ extension SageMakerGeospatialClientTypes.ExportErrorDetailsOutput: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.ExportErrorType.self, forKey: .type)
         type = typeDecoded
@@ -1369,7 +1328,7 @@ extension SageMakerGeospatialClientTypes {
         /// The type of error in an export EarthObservationJob operation.
         public var type: SageMakerGeospatialClientTypes.ExportErrorType?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             type: SageMakerGeospatialClientTypes.ExportErrorType? = nil
         )
@@ -1431,7 +1390,7 @@ extension SageMakerGeospatialClientTypes.ExportS3DataInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
         s3Uri = s3UriDecoded
@@ -1449,7 +1408,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var s3Uri: Swift.String?
 
-        public init (
+        public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         )
@@ -1505,7 +1464,7 @@ public struct ExportVectorEnrichmentJobInput: Swift.Equatable {
     /// This member is required.
     public var outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1534,7 +1493,7 @@ extension ExportVectorEnrichmentJobInputBody: Swift.Decodable {
         case outputConfig = "OutputConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1559,7 +1518,7 @@ extension SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3DataDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.self, forKey: .s3Data)
         s3Data = s3DataDecoded
@@ -1573,7 +1532,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var s3Data: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data?
 
-        public init (
+        public init(
             s3Data: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data? = nil
         )
         {
@@ -1583,43 +1542,26 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
-extension ExportVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ExportVectorEnrichmentJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExportVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ExportVectorEnrichmentJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExportVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExportVectorEnrichmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -1654,7 +1596,7 @@ public struct ExportVectorEnrichmentJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1687,7 +1629,7 @@ extension ExportVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
         case outputConfig = "OutputConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1726,7 +1668,7 @@ extension SageMakerGeospatialClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1753,7 +1695,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var type: Swift.String?
 
-        public init (
+        public init(
             maximum: Swift.Float? = nil,
             minimum: Swift.Float? = nil,
             name: Swift.String? = nil,
@@ -1788,7 +1730,7 @@ extension SageMakerGeospatialClientTypes.GeoMosaicConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let algorithmNameDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.AlgorithmNameGeoMosaic.self, forKey: .algorithmName)
         algorithmName = algorithmNameDecoded
@@ -1814,7 +1756,7 @@ extension SageMakerGeospatialClientTypes {
         /// The target bands for geomosaic.
         public var targetBands: [Swift.String]?
 
-        public init (
+        public init(
             algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameGeoMosaic? = nil,
             targetBands: [Swift.String]? = nil
         )
@@ -1851,7 +1793,7 @@ extension SageMakerGeospatialClientTypes.Geometry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -1897,7 +1839,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var type: Swift.String?
 
-        public init (
+        public init(
             coordinates: [[[Swift.Double]]]? = nil,
             type: Swift.String? = nil
         )
@@ -1923,7 +1865,7 @@ public struct GetEarthObservationJobInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -1936,43 +1878,28 @@ struct GetEarthObservationJobInputBody: Swift.Equatable {
 
 extension GetEarthObservationJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetEarthObservationJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetEarthObservationJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetEarthObservationJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEarthObservationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -2045,7 +1972,7 @@ public struct GetEarthObservationJobOutputResponse: Swift.Equatable {
     /// Each tag consists of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
@@ -2114,7 +2041,7 @@ extension GetEarthObservationJobOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -2179,7 +2106,7 @@ public struct GetRasterDataCollectionInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -2192,43 +2119,28 @@ struct GetRasterDataCollectionInputBody: Swift.Equatable {
 
 extension GetRasterDataCollectionInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetRasterDataCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRasterDataCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRasterDataCollectionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRasterDataCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -2277,7 +2189,7 @@ public struct GetRasterDataCollectionOutputResponse: Swift.Equatable {
     /// This member is required.
     public var type: SageMakerGeospatialClientTypes.DataCollectionType?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         descriptionPageUrl: Swift.String? = nil,
@@ -2322,7 +2234,7 @@ extension GetRasterDataCollectionOutputResponseBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2376,7 +2288,7 @@ extension GetTileInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let imageAssets = imageAssets else {
                 let message = "Creating a URL Query Item failed. imageAssets is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             imageAssets.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "ImageAssets".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -2392,7 +2304,7 @@ extension GetTileInput: ClientRuntime.QueryItemProvider {
             }
             guard let target = target else {
                 let message = "Creating a URL Query Item failed. target is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let targetQueryItem = ClientRuntime.URLQueryItem(name: "Target".urlPercentEncoding(), value: Swift.String(target.rawValue).urlPercentEncoding())
             items.append(targetQueryItem)
@@ -2414,7 +2326,7 @@ extension GetTileInput: ClientRuntime.QueryItemProvider {
             }
             guard let arn = arn else {
                 let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let arnQueryItem = ClientRuntime.URLQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
             items.append(arnQueryItem)
@@ -2470,7 +2382,7 @@ public struct GetTileInput: Swift.Equatable {
     /// This member is required.
     public var z: Swift.Int?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         imageAssets: [Swift.String]? = nil,
@@ -2505,42 +2417,27 @@ struct GetTileInputBody: Swift.Equatable {
 
 extension GetTileInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetTileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetTileOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetTileOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         switch httpResponse.body {
         case .data(let data):
             self.binaryFile = .data(data)
@@ -2556,7 +2453,7 @@ public struct GetTileOutputResponse: Swift.Equatable {
     /// The output binary file.
     public var binaryFile: ClientRuntime.ByteStream?
 
-    public init (
+    public init(
         binaryFile: ClientRuntime.ByteStream? = nil
     )
     {
@@ -2573,7 +2470,7 @@ extension GetTileOutputResponseBody: Swift.Decodable {
         case binaryFile = "BinaryFile"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let binaryFileDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .binaryFile)
         binaryFile = binaryFileDecoded
@@ -2594,7 +2491,7 @@ public struct GetVectorEnrichmentJobInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -2607,43 +2504,28 @@ struct GetVectorEnrichmentJobInputBody: Swift.Equatable {
 
 extension GetVectorEnrichmentJobInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetVectorEnrichmentJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetVectorEnrichmentJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetVectorEnrichmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -2718,7 +2600,7 @@ public struct GetVectorEnrichmentJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
@@ -2787,7 +2669,7 @@ extension GetVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -2879,7 +2761,7 @@ extension SageMakerGeospatialClientTypes.InputConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let previousEarthObservationJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousEarthObservationJobArn)
         previousEarthObservationJobArn = previousEarthObservationJobArnDecoded
@@ -2896,7 +2778,7 @@ extension SageMakerGeospatialClientTypes {
         /// The structure representing the RasterDataCollection Query consisting of the Area of Interest, RasterDataCollectionArn,TimeRange and Property Filters.
         public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput?
 
-        public init (
+        public init(
             previousEarthObservationJobArn: Swift.String? = nil,
             rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput? = nil
         )
@@ -2924,7 +2806,7 @@ extension SageMakerGeospatialClientTypes.InputConfigOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let previousEarthObservationJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousEarthObservationJobArn)
         previousEarthObservationJobArn = previousEarthObservationJobArnDecoded
@@ -2941,7 +2823,7 @@ extension SageMakerGeospatialClientTypes {
         /// The structure representing the RasterDataCollection Query consisting of the Area of Interest, RasterDataCollectionArn, RasterDataCollectionName, TimeRange, and Property Filters.
         public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput?
 
-        public init (
+        public init(
             previousEarthObservationJobArn: Swift.String? = nil,
             rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput? = nil
         )
@@ -2954,44 +2836,48 @@ extension SageMakerGeospatialClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// This member is required.
-    public var message: Swift.String?
-    ///
-    public var resourceId: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -3006,7 +2892,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3046,7 +2932,7 @@ extension SageMakerGeospatialClientTypes.ItemSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3087,7 +2973,7 @@ extension SageMakerGeospatialClientTypes {
         /// This field contains additional properties of the item.
         public var properties: SageMakerGeospatialClientTypes.Properties?
 
-        public init (
+        public init(
             assets: [Swift.String:SageMakerGeospatialClientTypes.AssetValue]? = nil,
             dateTime: ClientRuntime.Date? = nil,
             geometry: SageMakerGeospatialClientTypes.Geometry? = nil,
@@ -3145,7 +3031,7 @@ extension SageMakerGeospatialClientTypes.JobConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let bandmathconfigDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.BandMathConfigInput.self, forKey: .bandmathconfig)
         if let bandmathconfig = bandmathconfigDecoded {
@@ -3229,7 +3115,7 @@ extension SageMakerGeospatialClientTypes.LandCoverSegmentationConfigInput: Swift
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -3237,7 +3123,7 @@ extension SageMakerGeospatialClientTypes {
     /// The input structure for Land Cover Operation type.
     public struct LandCoverSegmentationConfigInput: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -3258,7 +3144,7 @@ extension SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lowerBoundDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .lowerBound)
         lowerBound = lowerBoundDecoded
@@ -3277,7 +3163,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var upperBound: Swift.Float?
 
-        public init (
+        public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
         )
@@ -3328,7 +3214,7 @@ extension SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3380,7 +3266,7 @@ extension SageMakerGeospatialClientTypes {
         /// Each tag consists of a key and a value.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             durationInSeconds: Swift.Int? = nil,
@@ -3454,7 +3340,7 @@ public struct ListEarthObservationJobsInput: Swift.Equatable {
     /// A filter that retrieves only jobs with a specific status.
     public var statusEquals: SageMakerGeospatialClientTypes.EarthObservationJobStatus?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
@@ -3487,7 +3373,7 @@ extension ListEarthObservationJobsInputBody: Swift.Decodable {
         case statusEquals = "StatusEquals"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusEqualsDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.EarthObservationJobStatus.self, forKey: .statusEquals)
         statusEquals = statusEqualsDecoded
@@ -3502,34 +3388,19 @@ extension ListEarthObservationJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListEarthObservationJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEarthObservationJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEarthObservationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListEarthObservationJobsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListEarthObservationJobsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3538,8 +3409,8 @@ extension ListEarthObservationJobsOutputResponse: Swift.CustomDebugStringConvert
 }
 
 extension ListEarthObservationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEarthObservationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.earthObservationJobSummaries = output.earthObservationJobSummaries
@@ -3558,7 +3429,7 @@ public struct ListEarthObservationJobsOutputResponse: Swift.Equatable {
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         earthObservationJobSummaries: [SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3579,7 +3450,7 @@ extension ListEarthObservationJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let earthObservationJobSummariesContainer = try containerValues.decodeIfPresent([SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig?].self, forKey: .earthObservationJobSummaries)
         var earthObservationJobSummariesDecoded0:[SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig]? = nil
@@ -3631,7 +3502,7 @@ public struct ListRasterDataCollectionsInput: Swift.Equatable {
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3646,38 +3517,23 @@ struct ListRasterDataCollectionsInputBody: Swift.Equatable {
 
 extension ListRasterDataCollectionsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListRasterDataCollectionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListRasterDataCollectionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListRasterDataCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListRasterDataCollectionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListRasterDataCollectionsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3686,8 +3542,8 @@ extension ListRasterDataCollectionsOutputResponse: Swift.CustomDebugStringConver
 }
 
 extension ListRasterDataCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListRasterDataCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -3706,7 +3562,7 @@ public struct ListRasterDataCollectionsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var rasterDataCollectionSummaries: [SageMakerGeospatialClientTypes.RasterDataCollectionMetadata]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         rasterDataCollectionSummaries: [SageMakerGeospatialClientTypes.RasterDataCollectionMetadata]? = nil
     )
@@ -3727,7 +3583,7 @@ extension ListRasterDataCollectionsOutputResponseBody: Swift.Decodable {
         case rasterDataCollectionSummaries = "RasterDataCollectionSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rasterDataCollectionSummariesContainer = try containerValues.decodeIfPresent([SageMakerGeospatialClientTypes.RasterDataCollectionMetadata?].self, forKey: .rasterDataCollectionSummaries)
         var rasterDataCollectionSummariesDecoded0:[SageMakerGeospatialClientTypes.RasterDataCollectionMetadata]? = nil
@@ -3759,7 +3615,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -3772,43 +3628,28 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -3822,7 +3663,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// Each tag consists of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -3839,7 +3680,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -3894,7 +3735,7 @@ extension SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3946,7 +3787,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             durationInSeconds: Swift.Int? = nil,
@@ -4020,7 +3861,7 @@ public struct ListVectorEnrichmentJobsInput: Swift.Equatable {
     /// A filter that retrieves only jobs with a specific status.
     public var statusEquals: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
@@ -4053,7 +3894,7 @@ extension ListVectorEnrichmentJobsInputBody: Swift.Decodable {
         case statusEquals = "StatusEquals"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusEqualsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusEquals)
         statusEquals = statusEqualsDecoded
@@ -4068,34 +3909,19 @@ extension ListVectorEnrichmentJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListVectorEnrichmentJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListVectorEnrichmentJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListVectorEnrichmentJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum ListVectorEnrichmentJobsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension ListVectorEnrichmentJobsOutputResponse: Swift.CustomDebugStringConvertible {
@@ -4104,8 +3930,8 @@ extension ListVectorEnrichmentJobsOutputResponse: Swift.CustomDebugStringConvert
 }
 
 extension ListVectorEnrichmentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListVectorEnrichmentJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -4124,7 +3950,7 @@ public struct ListVectorEnrichmentJobsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var vectorEnrichmentJobSummaries: [SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         vectorEnrichmentJobSummaries: [SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig]? = nil
     )
@@ -4145,7 +3971,7 @@ extension ListVectorEnrichmentJobsOutputResponseBody: Swift.Decodable {
         case vectorEnrichmentJobSummaries = "VectorEnrichmentJobSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vectorEnrichmentJobSummariesContainer = try containerValues.decodeIfPresent([SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig?].self, forKey: .vectorEnrichmentJobSummaries)
         var vectorEnrichmentJobSummariesDecoded0:[SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig]? = nil
@@ -4217,7 +4043,7 @@ extension SageMakerGeospatialClientTypes.MapMatchingConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idAttributeName)
         idAttributeName = idAttributeNameDecoded
@@ -4246,7 +4072,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var yAttributeName: Swift.String?
 
-        public init (
+        public init(
             idAttributeName: Swift.String? = nil,
             timestampAttributeName: Swift.String? = nil,
             xAttributeName: Swift.String? = nil,
@@ -4286,7 +4112,7 @@ extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coordinatesContainer = try containerValues.decodeIfPresent([[[[Swift.Double?]?]?]?].self, forKey: .coordinates)
         var coordinatesDecoded0:[[[[Swift.Double]]]]? = nil
@@ -4336,7 +4162,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var coordinates: [[[[Swift.Double]]]]?
 
-        public init (
+        public init(
             coordinates: [[[[Swift.Double]]]]? = nil
         )
         {
@@ -4366,7 +4192,7 @@ extension SageMakerGeospatialClientTypes.Operation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4389,7 +4215,7 @@ extension SageMakerGeospatialClientTypes {
         /// The type of the operation.
         public var outputType: SageMakerGeospatialClientTypes.OutputType?
 
-        public init (
+        public init(
             equation: Swift.String? = nil,
             name: Swift.String? = nil,
             outputType: SageMakerGeospatialClientTypes.OutputType? = nil
@@ -4419,7 +4245,7 @@ extension SageMakerGeospatialClientTypes.OutputBand: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bandNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bandName)
         bandName = bandNameDecoded
@@ -4438,7 +4264,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var outputDataType: SageMakerGeospatialClientTypes.OutputType?
 
-        public init (
+        public init(
             bandName: Swift.String? = nil,
             outputDataType: SageMakerGeospatialClientTypes.OutputType? = nil
         )
@@ -4462,7 +4288,7 @@ extension SageMakerGeospatialClientTypes.OutputConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3DataDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.ExportS3DataInput.self, forKey: .s3Data)
         s3Data = s3DataDecoded
@@ -4476,7 +4302,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var s3Data: SageMakerGeospatialClientTypes.ExportS3DataInput?
 
-        public init (
+        public init(
             s3Data: SageMakerGeospatialClientTypes.ExportS3DataInput? = nil
         )
         {
@@ -4498,7 +4324,7 @@ extension SageMakerGeospatialClientTypes.OutputResolutionResamplingInput: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userDefinedDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.UserDefined.self, forKey: .userDefined)
         userDefined = userDefinedDecoded
@@ -4512,7 +4338,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var userDefined: SageMakerGeospatialClientTypes.UserDefined?
 
-        public init (
+        public init(
             userDefined: SageMakerGeospatialClientTypes.UserDefined? = nil
         )
         {
@@ -4538,7 +4364,7 @@ extension SageMakerGeospatialClientTypes.OutputResolutionStackInput: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.PredefinedResolution.self, forKey: .predefined)
         predefined = predefinedDecoded
@@ -4555,7 +4381,7 @@ extension SageMakerGeospatialClientTypes {
         /// The structure representing User Output Resolution for a Stacking operation defined as a value and unit.
         public var userDefined: SageMakerGeospatialClientTypes.UserDefined?
 
-        public init (
+        public init(
             predefined: SageMakerGeospatialClientTypes.PredefinedResolution? = nil,
             userDefined: SageMakerGeospatialClientTypes.UserDefined? = nil
         )
@@ -4629,7 +4455,7 @@ extension SageMakerGeospatialClientTypes.PlatformInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -4647,7 +4473,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             comparisonOperator: SageMakerGeospatialClientTypes.ComparisonOperator? = nil,
             value: Swift.String? = nil
         )
@@ -4680,7 +4506,7 @@ extension SageMakerGeospatialClientTypes.PolygonGeometryInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coordinatesContainer = try containerValues.decodeIfPresent([[[Swift.Double?]?]?].self, forKey: .coordinates)
         var coordinatesDecoded0:[[[Swift.Double]]]? = nil
@@ -4721,7 +4547,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var coordinates: [[[Swift.Double]]]?
 
-        public init (
+        public init(
             coordinates: [[[Swift.Double]]]? = nil
         )
         {
@@ -4801,7 +4627,7 @@ extension SageMakerGeospatialClientTypes.Properties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eoCloudCoverDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .eoCloudCover)
         eoCloudCover = eoCloudCoverDecoded
@@ -4834,7 +4660,7 @@ extension SageMakerGeospatialClientTypes {
         /// The sun elevation angle. The angle from the tangent of the scene center point to the sun. Measured from the horizon in degrees (-90-90). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during [nautical twilight](https://www.timeanddate.com/astronomy/different-types-twilight.html).
         public var viewSunElevation: Swift.Float?
 
-        public init (
+        public init(
             eoCloudCover: Swift.Float? = nil,
             landsatCloudCoverLand: Swift.Float? = nil,
             platform: Swift.String? = nil,
@@ -4885,7 +4711,7 @@ extension SageMakerGeospatialClientTypes.Property: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let eocloudcoverDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.EoCloudCoverInput.self, forKey: .eocloudcover)
         if let eocloudcover = eocloudcoverDecoded {
@@ -4953,7 +4779,7 @@ extension SageMakerGeospatialClientTypes.PropertyFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertyDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.Property.self, forKey: .property)
         property = propertyDecoded
@@ -4967,7 +4793,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var property: SageMakerGeospatialClientTypes.Property?
 
-        public init (
+        public init(
             property: SageMakerGeospatialClientTypes.Property? = nil
         )
         {
@@ -4996,7 +4822,7 @@ extension SageMakerGeospatialClientTypes.PropertyFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertiesContainer = try containerValues.decodeIfPresent([SageMakerGeospatialClientTypes.PropertyFilter?].self, forKey: .properties)
         var propertiesDecoded0:[SageMakerGeospatialClientTypes.PropertyFilter]? = nil
@@ -5022,7 +4848,7 @@ extension SageMakerGeospatialClientTypes {
         /// A list of Property Filters.
         public var properties: [SageMakerGeospatialClientTypes.PropertyFilter]?
 
-        public init (
+        public init(
             logicalOperator: SageMakerGeospatialClientTypes.LogicalOperator? = nil,
             properties: [SageMakerGeospatialClientTypes.PropertyFilter]? = nil
         )
@@ -5076,7 +4902,7 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionMetadata: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5136,7 +4962,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var type: SageMakerGeospatialClientTypes.DataCollectionType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             descriptionPageUrl: Swift.String? = nil,
@@ -5182,7 +5008,7 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rasterDataCollectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rasterDataCollectionArn)
         rasterDataCollectionArn = rasterDataCollectionArnDecoded
@@ -5214,7 +5040,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput?
 
-        public init (
+        public init(
             areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest? = nil,
             propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters? = nil,
             rasterDataCollectionArn: Swift.String? = nil,
@@ -5258,7 +5084,7 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rasterDataCollectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rasterDataCollectionArn)
         rasterDataCollectionArn = rasterDataCollectionArnDecoded
@@ -5295,7 +5121,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterOutput?
 
-        public init (
+        public init(
             areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest? = nil,
             propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters? = nil,
             rasterDataCollectionArn: Swift.String? = nil,
@@ -5340,7 +5166,7 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilter
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeRangeFilterDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.TimeRangeFilterInput.self, forKey: .timeRangeFilter)
         timeRangeFilter = timeRangeFilterDecoded
@@ -5380,7 +5206,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput?
 
-        public init (
+        public init(
             areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest? = nil,
             bandFilter: [Swift.String]? = nil,
             propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters? = nil,
@@ -5419,7 +5245,7 @@ extension SageMakerGeospatialClientTypes.ResamplingConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputResolutionDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.OutputResolutionResamplingInput.self, forKey: .outputResolution)
         outputResolution = outputResolutionDecoded
@@ -5450,7 +5276,7 @@ extension SageMakerGeospatialClientTypes {
         /// Bands used in the operation. If no target bands are specified, it uses all bands available in the input.
         public var targetBands: [Swift.String]?
 
-        public init (
+        public init(
             algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameResampling? = nil,
             outputResolution: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput? = nil,
             targetBands: [Swift.String]? = nil
@@ -5465,44 +5291,48 @@ extension SageMakerGeospatialClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request references a resource which does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    /// Identifier of the resource that was not found.
-    public var resourceId: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Identifier of the resource that was not found.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -5517,7 +5347,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5542,7 +5372,7 @@ extension SageMakerGeospatialClientTypes.ReverseGeocodingConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let yAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .yAttributeName)
         yAttributeName = yAttributeNameDecoded
@@ -5561,7 +5391,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var yAttributeName: Swift.String?
 
-        public init (
+        public init(
             xAttributeName: Swift.String? = nil,
             yAttributeName: Swift.String? = nil
         )
@@ -5615,7 +5445,7 @@ public struct SearchRasterDataCollectionInput: Swift.Equatable {
     /// This member is required.
     public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput? = nil
@@ -5640,7 +5470,7 @@ extension SearchRasterDataCollectionInputBody: Swift.Decodable {
         case rasterDataCollectionQuery = "RasterDataCollectionQuery"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -5651,34 +5481,19 @@ extension SearchRasterDataCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension SearchRasterDataCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SearchRasterDataCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SearchRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum SearchRasterDataCollectionOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension SearchRasterDataCollectionOutputResponse: Swift.CustomDebugStringConvertible {
@@ -5687,8 +5502,8 @@ extension SearchRasterDataCollectionOutputResponse: Swift.CustomDebugStringConve
 }
 
 extension SearchRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SearchRasterDataCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.approximateResultCount = output.approximateResultCount
@@ -5711,7 +5526,7 @@ public struct SearchRasterDataCollectionOutputResponse: Swift.Equatable {
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         approximateResultCount: Swift.Int? = nil,
         items: [SageMakerGeospatialClientTypes.ItemSource]? = nil,
         nextToken: Swift.String? = nil
@@ -5736,7 +5551,7 @@ extension SearchRasterDataCollectionOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approximateResultCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateResultCount)
         approximateResultCount = approximateResultCountDecoded
@@ -5757,44 +5572,48 @@ extension SearchRasterDataCollectionOutputResponseBody: Swift.Decodable {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have exceeded the service quota.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    /// Identifier of the resource affected.
-    public var resourceId: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Identifier of the resource affected.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -5809,7 +5628,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5871,7 +5690,7 @@ extension SageMakerGeospatialClientTypes.StackConfigInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputResolutionDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.OutputResolutionStackInput.self, forKey: .outputResolution)
         outputResolution = outputResolutionDecoded
@@ -5897,7 +5716,7 @@ extension SageMakerGeospatialClientTypes {
         /// A list of bands to be stacked in the specified order. When the parameter is not provided, all the available bands in the data collection are stacked in the alphabetical order of their asset names.
         public var targetBands: [Swift.String]?
 
-        public init (
+        public init(
             outputResolution: SageMakerGeospatialClientTypes.OutputResolutionStackInput? = nil,
             targetBands: [Swift.String]? = nil
         )
@@ -5975,7 +5794,7 @@ public struct StartEarthObservationJobInput: Swift.Equatable {
     /// Each tag consists of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         inputConfig: SageMakerGeospatialClientTypes.InputConfigInput? = nil,
@@ -6016,7 +5835,7 @@ extension StartEarthObservationJobInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6044,43 +5863,26 @@ extension StartEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartEarthObservationJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartEarthObservationJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartEarthObservationJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartEarthObservationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -6137,7 +5939,7 @@ public struct StartEarthObservationJobOutputResponse: Swift.Equatable {
     /// Each tag consists of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
@@ -6190,7 +5992,7 @@ extension StartEarthObservationJobOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6290,7 +6092,7 @@ public struct StartVectorEnrichmentJobInput: Swift.Equatable {
     /// Each tag consists of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         inputConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig? = nil,
@@ -6331,7 +6133,7 @@ extension StartVectorEnrichmentJobInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6359,43 +6161,26 @@ extension StartVectorEnrichmentJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartVectorEnrichmentJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartVectorEnrichmentJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartVectorEnrichmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -6458,7 +6243,7 @@ public struct StartVectorEnrichmentJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
@@ -6515,7 +6300,7 @@ extension StartVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6575,7 +6360,7 @@ public struct StopEarthObservationJobInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -6592,53 +6377,37 @@ extension StopEarthObservationJobInputBody: Swift.Decodable {
         case arn = "Arn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
 }
 
-extension StopEarthObservationJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopEarthObservationJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopEarthObservationJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopEarthObservationJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StopVectorEnrichmentJobInput: Swift.Encodable {
@@ -6665,7 +6434,7 @@ public struct StopVectorEnrichmentJobInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -6682,53 +6451,37 @@ extension StopVectorEnrichmentJobInputBody: Swift.Decodable {
         case arn = "Arn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
 }
 
-extension StopVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopVectorEnrichmentJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopVectorEnrichmentJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopVectorEnrichmentJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -6764,7 +6517,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -6783,7 +6536,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -6799,44 +6552,29 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SageMakerGeospatialClientTypes {
@@ -6937,7 +6675,7 @@ extension SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupByDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.GroupBy.self, forKey: .groupBy)
         groupBy = groupByDecoded
@@ -6977,7 +6715,7 @@ extension SageMakerGeospatialClientTypes {
         /// The list of target band names for the temporal statistic to calculate.
         public var targetBands: [Swift.String]?
 
-        public init (
+        public init(
             groupBy: SageMakerGeospatialClientTypes.GroupBy? = nil,
             statistics: [SageMakerGeospatialClientTypes.TemporalStatistics]? = nil,
             targetBands: [Swift.String]? = nil
@@ -6992,44 +6730,48 @@ extension SageMakerGeospatialClientTypes {
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    ///
-    public var resourceId: Swift.String?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -7044,7 +6786,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7069,7 +6811,7 @@ extension SageMakerGeospatialClientTypes.TimeRangeFilterInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -7094,7 +6836,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTime: ClientRuntime.Date? = nil,
             startTime: ClientRuntime.Date? = nil
         )
@@ -7122,7 +6864,7 @@ extension SageMakerGeospatialClientTypes.TimeRangeFilterOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
@@ -7147,7 +6889,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTime: ClientRuntime.Date? = nil,
             startTime: ClientRuntime.Date? = nil
         )
@@ -7195,7 +6937,7 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -7223,7 +6965,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -7238,48 +6980,33 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SageMakerGeospatialClientTypes.UserDefined: Swift.Codable {
@@ -7298,7 +7025,7 @@ extension SageMakerGeospatialClientTypes.UserDefined: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .value)
         value = valueDecoded
@@ -7317,7 +7044,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var value: Swift.Float?
 
-        public init (
+        public init(
             unit: SageMakerGeospatialClientTypes.Unit? = nil,
             value: Swift.Float? = nil
         )
@@ -7330,44 +7057,48 @@ extension SageMakerGeospatialClientTypes {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    ///
-    public var resourceId: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -7382,7 +7113,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case resourceId = "ResourceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7410,7 +7141,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let reversegeocodingconfigDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.ReverseGeocodingConfig.self, forKey: .reversegeocodingconfig)
         if let reversegeocodingconfig = reversegeocodingconfigDecoded {
@@ -7454,7 +7185,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInpu
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let s3dataDecoded = try values.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.self, forKey: .s3data)
         if let s3data = s3dataDecoded {
@@ -7520,7 +7251,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorDetails: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorTypeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorType.self, forKey: .errorType)
         errorType = errorTypeDecoded
@@ -7537,7 +7268,7 @@ extension SageMakerGeospatialClientTypes {
         /// The type of error generated during the Vector Enrichment job.
         public var errorType: SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorType?
 
-        public init (
+        public init(
             errorMessage: Swift.String? = nil,
             errorType: SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorType? = nil
         )
@@ -7599,7 +7330,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorDetails: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorType.self, forKey: .type)
         type = typeDecoded
@@ -7616,7 +7347,7 @@ extension SageMakerGeospatialClientTypes {
         /// The output error details for an Export operation on a Vector Enrichment job.
         public var type: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorType?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             type: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorType? = nil
         )
@@ -7711,7 +7442,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentTypeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobDocumentType.self, forKey: .documentType)
         documentType = documentTypeDecoded
@@ -7730,7 +7461,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var documentType: SageMakerGeospatialClientTypes.VectorEnrichmentJobDocumentType?
 
-        public init (
+        public init(
             dataSourceConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput? = nil,
             documentType: SageMakerGeospatialClientTypes.VectorEnrichmentJobDocumentType? = nil
         )
@@ -7758,7 +7489,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
         s3Uri = s3UriDecoded
@@ -7776,7 +7507,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var s3Uri: Swift.String?
 
-        public init (
+        public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         )
@@ -7886,7 +7617,7 @@ extension SageMakerGeospatialClientTypes.ViewOffNadirInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lowerBoundDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .lowerBound)
         lowerBound = lowerBoundDecoded
@@ -7905,7 +7636,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var upperBound: Swift.Float?
 
-        public init (
+        public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
         )
@@ -7933,7 +7664,7 @@ extension SageMakerGeospatialClientTypes.ViewSunAzimuthInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lowerBoundDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .lowerBound)
         lowerBound = lowerBoundDecoded
@@ -7952,7 +7683,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var upperBound: Swift.Float?
 
-        public init (
+        public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
         )
@@ -7980,7 +7711,7 @@ extension SageMakerGeospatialClientTypes.ViewSunElevationInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lowerBoundDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .lowerBound)
         lowerBound = lowerBoundDecoded
@@ -7999,7 +7730,7 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var upperBound: Swift.Float?
 
-        public init (
+        public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
         )
@@ -8091,7 +7822,7 @@ extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let zoneS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .zoneS3Path)
         zoneS3Path = zoneS3PathDecoded
@@ -8143,7 +7874,7 @@ extension SageMakerGeospatialClientTypes {
         /// For more information about key identifiers, see [Key identifiers (KeyID)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id) in the Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
         public var zoneS3PathKmsKeyId: Swift.String?
 
-        public init (
+        public init(
             statistics: [SageMakerGeospatialClientTypes.ZonalStatistics]? = nil,
             targetBands: [Swift.String]? = nil,
             zoneS3Path: Swift.String? = nil,

@@ -56,7 +56,7 @@ extension CloudFormationClientTypes.AccountGateResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.AccountGateStatus.self, forKey: .status)
         status = statusDecoded
@@ -85,7 +85,7 @@ extension CloudFormationClientTypes {
         /// The reason for the account gate status assigned to this account and Region for the stack set operation.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             status: CloudFormationClientTypes.AccountGateStatus? = nil,
             statusReason: Swift.String? = nil
         )
@@ -148,7 +148,7 @@ extension CloudFormationClientTypes.AccountLimit: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -174,7 +174,7 @@ extension CloudFormationClientTypes {
         /// The value that's associated with the account limit name.
         public var value: Swift.Int?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.Int? = nil
         )
@@ -256,7 +256,7 @@ public struct ActivateTypeInput: Swift.Equatable {
     /// * MINOR: CloudFormation updates the extension to the newest minor version, if one is available.
     public var versionBump: CloudFormationClientTypes.VersionBump?
 
-    public init (
+    public init(
         autoUpdate: Swift.Bool? = nil,
         executionRoleArn: Swift.String? = nil,
         loggingConfig: CloudFormationClientTypes.LoggingConfig? = nil,
@@ -309,7 +309,7 @@ extension ActivateTypeInputBody: Swift.Decodable {
         case versionBump = "VersionBump"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ThirdPartyType.self, forKey: .type)
         type = typeDecoded
@@ -334,32 +334,20 @@ extension ActivateTypeInputBody: Swift.Decodable {
     }
 }
 
-extension ActivateTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ActivateTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ActivateTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ActivateTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ActivateTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ActivateTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -373,7 +361,7 @@ public struct ActivateTypeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the activated extension, in this account and region.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -390,7 +378,7 @@ extension ActivateTypeOutputResponseBody: Swift.Decodable {
         case arn = "Arn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ActivateTypeResult"))
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
@@ -399,37 +387,40 @@ extension ActivateTypeOutputResponseBody: Swift.Decodable {
 }
 
 extension AlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource with the name requested already exists.
-public struct AlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -442,7 +433,7 @@ extension AlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -465,7 +456,7 @@ extension CloudFormationClientTypes.AutoDeployment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -482,7 +473,7 @@ extension CloudFormationClientTypes {
         /// If set to true, stack resources are retained when an account is removed from a target organization or OU. If set to false, stack resources are deleted. Specify only if Enabled is set to True.
         public var retainStacksOnAccountRemoval: Swift.Bool?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil,
             retainStacksOnAccountRemoval: Swift.Bool? = nil
         )
@@ -514,7 +505,7 @@ extension CloudFormationClientTypes.BatchDescribeTypeConfigurationsError: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
         errorCode = errorCodeDecoded
@@ -535,7 +526,7 @@ extension CloudFormationClientTypes {
         /// Identifying information for the configuration of a CloudFormation extension.
         public var typeConfigurationIdentifier: CloudFormationClientTypes.TypeConfigurationIdentifier?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             typeConfigurationIdentifier: CloudFormationClientTypes.TypeConfigurationIdentifier? = nil
@@ -580,7 +571,7 @@ public struct BatchDescribeTypeConfigurationsInput: Swift.Equatable {
     /// This member is required.
     public var typeConfigurationIdentifiers: [CloudFormationClientTypes.TypeConfigurationIdentifier]?
 
-    public init (
+    public init(
         typeConfigurationIdentifiers: [CloudFormationClientTypes.TypeConfigurationIdentifier]? = nil
     )
     {
@@ -597,7 +588,7 @@ extension BatchDescribeTypeConfigurationsInputBody: Swift.Decodable {
         case typeConfigurationIdentifiers = "TypeConfigurationIdentifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.typeConfigurationIdentifiers) {
             struct KeyVal0{struct member{}}
@@ -621,32 +612,20 @@ extension BatchDescribeTypeConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchDescribeTypeConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension BatchDescribeTypeConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeConfigurationNotFoundException" : self = .typeConfigurationNotFoundException(try TypeConfigurationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchDescribeTypeConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeConfigurationNotFoundException": return try await TypeConfigurationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum BatchDescribeTypeConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeConfigurationNotFoundException(TypeConfigurationNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchDescribeTypeConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchDescribeTypeConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
@@ -668,7 +647,7 @@ public struct BatchDescribeTypeConfigurationsOutputResponse: Swift.Equatable {
     /// A list of any of the specified extension configurations that CloudFormation could not process for any reason.
     public var unprocessedTypeConfigurations: [CloudFormationClientTypes.TypeConfigurationIdentifier]?
 
-    public init (
+    public init(
         errors: [CloudFormationClientTypes.BatchDescribeTypeConfigurationsError]? = nil,
         typeConfigurations: [CloudFormationClientTypes.TypeConfigurationDetails]? = nil,
         unprocessedTypeConfigurations: [CloudFormationClientTypes.TypeConfigurationIdentifier]? = nil
@@ -693,7 +672,7 @@ extension BatchDescribeTypeConfigurationsOutputResponseBody: Swift.Decodable {
         case unprocessedTypeConfigurations = "UnprocessedTypeConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("BatchDescribeTypeConfigurationsResult"))
         if containerValues.contains(.errors) {
@@ -757,37 +736,40 @@ extension BatchDescribeTypeConfigurationsOutputResponseBody: Swift.Decodable {
 }
 
 extension CFNRegistryException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CFNRegistryExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred during a CloudFormation registry operation.
-public struct CFNRegistryException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CFNRegistryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CFNRegistryException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -800,7 +782,7 @@ extension CFNRegistryExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -867,7 +849,7 @@ public struct CancelUpdateStackInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -888,7 +870,7 @@ extension CancelUpdateStackInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -897,35 +879,24 @@ extension CancelUpdateStackInputBody: Swift.Decodable {
     }
 }
 
-extension CancelUpdateStackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CancelUpdateStackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelUpdateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CancelUpdateStackOutputError: Swift.Error, Swift.Equatable {
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelUpdateStackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CancelUpdateStackOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudFormationClientTypes {
@@ -1021,7 +992,7 @@ extension CloudFormationClientTypes.Change: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ChangeType.self, forKey: .type)
         type = typeDecoded
@@ -1042,7 +1013,7 @@ extension CloudFormationClientTypes {
         /// The type of entity that CloudFormation changes. Currently, the only entity type is Resource.
         public var type: CloudFormationClientTypes.ChangeType?
 
-        public init (
+        public init(
             hookInvocationCount: Swift.Int? = nil,
             resourceChange: CloudFormationClientTypes.ResourceChange? = nil,
             type: CloudFormationClientTypes.ChangeType? = nil
@@ -1129,7 +1100,7 @@ extension CloudFormationClientTypes.ChangeSetHook: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let invocationPointDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.HookInvocationPoint.self, forKey: .invocationPoint)
         invocationPoint = invocationPointDecoded
@@ -1180,7 +1151,7 @@ extension CloudFormationClientTypes {
         /// The version ID of the type specified.
         public var typeVersionId: Swift.String?
 
-        public init (
+        public init(
             failureMode: CloudFormationClientTypes.HookFailureMode? = nil,
             invocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
             targetDetails: CloudFormationClientTypes.ChangeSetHookTargetDetails? = nil,
@@ -1220,7 +1191,7 @@ extension CloudFormationClientTypes.ChangeSetHookResourceTargetDetails: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logicalResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logicalResourceId)
         logicalResourceId = logicalResourceIdDecoded
@@ -1241,7 +1212,7 @@ extension CloudFormationClientTypes {
         /// The type of CloudFormation resource, such as AWS::S3::Bucket.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             logicalResourceId: Swift.String? = nil,
             resourceAction: CloudFormationClientTypes.ChangeAction? = nil,
             resourceType: Swift.String? = nil
@@ -1271,7 +1242,7 @@ extension CloudFormationClientTypes.ChangeSetHookTargetDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetTypeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.HookTargetType.self, forKey: .targetType)
         targetType = targetTypeDecoded
@@ -1288,7 +1259,7 @@ extension CloudFormationClientTypes {
         /// The name of the type.
         public var targetType: CloudFormationClientTypes.HookTargetType?
 
-        public init (
+        public init(
             resourceTargetDetails: CloudFormationClientTypes.ChangeSetHookResourceTargetDetails? = nil,
             targetType: CloudFormationClientTypes.HookTargetType? = nil
         )
@@ -1336,37 +1307,40 @@ extension CloudFormationClientTypes {
 }
 
 extension ChangeSetNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ChangeSetNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-public struct ChangeSetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ChangeSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ChangeSetNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1379,7 +1353,7 @@ extension ChangeSetNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1492,7 +1466,7 @@ extension CloudFormationClientTypes.ChangeSetSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
         stackId = stackIdDecoded
@@ -1549,7 +1523,7 @@ extension CloudFormationClientTypes {
         /// A description of the change set's status. For example, if your change set is in the FAILED state, CloudFormation shows the error message.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             changeSetId: Swift.String? = nil,
             changeSetName: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
@@ -1733,7 +1707,7 @@ public struct ContinueUpdateRollbackInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         resourcesToSkip: [Swift.String]? = nil,
         roleARN: Swift.String? = nil,
@@ -1762,7 +1736,7 @@ extension ContinueUpdateRollbackInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -1792,36 +1766,25 @@ extension ContinueUpdateRollbackInputBody: Swift.Decodable {
     }
 }
 
-extension ContinueUpdateRollbackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ContinueUpdateRollbackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ContinueUpdateRollbackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ContinueUpdateRollbackOutputError: Swift.Error, Swift.Equatable {
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ContinueUpdateRollbackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// The output for a [ContinueUpdateRollback] operation.
 public struct ContinueUpdateRollbackOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateChangeSetInput: Swift.Encodable {
@@ -2012,7 +1975,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
     /// Whether to reuse the template that's associated with the stack to create the change set.
     public var usePreviousTemplate: Swift.Bool?
 
-    public init (
+    public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         changeSetName: Swift.String? = nil,
         changeSetType: CloudFormationClientTypes.ChangeSetType? = nil,
@@ -2093,7 +2056,7 @@ extension CreateChangeSetInputBody: Swift.Decodable {
         case usePreviousTemplate = "UsePreviousTemplate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -2234,34 +2197,21 @@ extension CreateChangeSetInputBody: Swift.Decodable {
     }
 }
 
-extension CreateChangeSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateChangeSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCapabilitiesException" : self = .insufficientCapabilitiesException(try InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCapabilitiesException": return try await InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateChangeSetOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case insufficientCapabilitiesException(InsufficientCapabilitiesException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -2280,7 +2230,7 @@ public struct CreateChangeSetOutputResponse: Swift.Equatable {
     /// The unique ID of the stack.
     public var stackId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         stackId: Swift.String? = nil
     )
@@ -2301,7 +2251,7 @@ extension CreateChangeSetOutputResponseBody: Swift.Decodable {
         case stackId = "StackId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateChangeSetResult"))
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
@@ -2489,7 +2439,7 @@ public struct CreateStackInput: Swift.Equatable {
     /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
     public var timeoutInMinutes: Swift.Int?
 
-    public init (
+    public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         clientRequestToken: Swift.String? = nil,
         disableRollback: Swift.Bool? = nil,
@@ -2570,7 +2520,7 @@ extension CreateStackInputBody: Swift.Decodable {
         case timeoutInMinutes = "TimeoutInMinutes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -2794,7 +2744,7 @@ public struct CreateStackInstancesInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         accounts: [Swift.String]? = nil,
         callAs: CloudFormationClientTypes.CallAs? = nil,
         deploymentTargets: CloudFormationClientTypes.DeploymentTargets? = nil,
@@ -2839,7 +2789,7 @@ extension CreateStackInstancesInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -2911,40 +2861,24 @@ extension CreateStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension CreateStackInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateStackInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationIdAlreadyExistsException" : self = .operationIdAlreadyExistsException(try OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StaleRequestException" : self = .staleRequestException(try StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationIdAlreadyExistsException": return try await OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StaleRequestException": return try await StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateStackInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case limitExceededException(LimitExceededException)
-    case operationIdAlreadyExistsException(OperationIdAlreadyExistsException)
-    case operationInProgressException(OperationInProgressException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case staleRequestException(StaleRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -2958,7 +2892,7 @@ public struct CreateStackInstancesOutputResponse: Swift.Equatable {
     /// The unique identifier for this stack set operation.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -2975,7 +2909,7 @@ extension CreateStackInstancesOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateStackInstancesResult"))
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
@@ -2983,36 +2917,22 @@ extension CreateStackInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension CreateStackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateStackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCapabilitiesException" : self = .insufficientCapabilitiesException(try InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCapabilitiesException": return try await InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateStackOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsException(AlreadyExistsException)
-    case insufficientCapabilitiesException(InsufficientCapabilitiesException)
-    case limitExceededException(LimitExceededException)
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateStackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
@@ -3027,7 +2947,7 @@ public struct CreateStackOutputResponse: Swift.Equatable {
     /// Unique identifier of the stack.
     public var stackId: Swift.String?
 
-    public init (
+    public init(
         stackId: Swift.String? = nil
     )
     {
@@ -3044,7 +2964,7 @@ extension CreateStackOutputResponseBody: Swift.Decodable {
         case stackId = "StackId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateStackResult"))
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
@@ -3212,7 +3132,7 @@ public struct CreateStackSetInput: Swift.Equatable {
     /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information, see [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateURL: Swift.String?
 
-    public init (
+    public init(
         administrationRoleARN: Swift.String? = nil,
         autoDeployment: CloudFormationClientTypes.AutoDeployment? = nil,
         callAs: CloudFormationClientTypes.CallAs? = nil,
@@ -3285,7 +3205,7 @@ extension CreateStackSetInputBody: Swift.Decodable {
         case templateURL = "TemplateURL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -3371,34 +3291,21 @@ extension CreateStackSetInputBody: Swift.Decodable {
     }
 }
 
-extension CreateStackSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateStackSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CreatedButModifiedException" : self = .createdButModifiedException(try CreatedButModifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NameAlreadyExistsException" : self = .nameAlreadyExistsException(try NameAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CreatedButModifiedException": return try await CreatedButModifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NameAlreadyExistsException": return try await NameAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateStackSetOutputError: Swift.Error, Swift.Equatable {
-    case createdButModifiedException(CreatedButModifiedException)
-    case limitExceededException(LimitExceededException)
-    case nameAlreadyExistsException(NameAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSetId = output.stackSetId
@@ -3412,7 +3319,7 @@ public struct CreateStackSetOutputResponse: Swift.Equatable {
     /// The ID of the stack set that you're creating.
     public var stackSetId: Swift.String?
 
-    public init (
+    public init(
         stackSetId: Swift.String? = nil
     )
     {
@@ -3429,7 +3336,7 @@ extension CreateStackSetOutputResponseBody: Swift.Decodable {
         case stackSetId = "StackSetId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateStackSetResult"))
         let stackSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetId)
@@ -3438,37 +3345,40 @@ extension CreateStackSetOutputResponseBody: Swift.Decodable {
 }
 
 extension CreatedButModifiedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CreatedButModifiedExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource exists, but has been changed.
-public struct CreatedButModifiedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CreatedButModifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CreatedButModifiedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3481,7 +3391,7 @@ extension CreatedButModifiedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3519,7 +3429,7 @@ public struct DeactivateTypeInput: Swift.Equatable {
     /// The type name of the extension, in this account and region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
     public var typeName: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
         typeName: Swift.String? = nil
@@ -3544,7 +3454,7 @@ extension DeactivateTypeInputBody: Swift.Decodable {
         case typeName = "TypeName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
         typeName = typeNameDecoded
@@ -3555,37 +3465,25 @@ extension DeactivateTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DeactivateTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeactivateTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeactivateTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeactivateTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeactivateTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeactivateTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteChangeSetInput: Swift.Encodable {
@@ -3616,7 +3514,7 @@ public struct DeleteChangeSetInput: Swift.Equatable {
     /// If you specified the name of a change set to delete, specify the stack name or Amazon Resource Name (ARN) that's associated with it.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         changeSetName: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -3637,7 +3535,7 @@ extension DeleteChangeSetInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let changeSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetName)
         changeSetName = changeSetNameDecoded
@@ -3646,36 +3544,25 @@ extension DeleteChangeSetInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteChangeSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteChangeSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidChangeSetStatus" : self = .invalidChangeSetStatusException(try InvalidChangeSetStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidChangeSetStatus": return try await InvalidChangeSetStatusException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteChangeSetOutputError: Swift.Error, Swift.Equatable {
-    case invalidChangeSetStatusException(InvalidChangeSetStatusException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// The output for the [DeleteChangeSet] action.
 public struct DeleteChangeSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteStackInput: Swift.Encodable {
@@ -3725,7 +3612,7 @@ public struct DeleteStackInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         retainResources: [Swift.String]? = nil,
         roleARN: Swift.String? = nil,
@@ -3754,7 +3641,7 @@ extension DeleteStackInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -3865,7 +3752,7 @@ public struct DeleteStackInstancesInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         accounts: [Swift.String]? = nil,
         callAs: CloudFormationClientTypes.CallAs? = nil,
         deploymentTargets: CloudFormationClientTypes.DeploymentTargets? = nil,
@@ -3910,7 +3797,7 @@ extension DeleteStackInstancesInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -3965,38 +3852,23 @@ extension DeleteStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteStackInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteStackInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationIdAlreadyExistsException" : self = .operationIdAlreadyExistsException(try OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StaleRequestException" : self = .staleRequestException(try StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationIdAlreadyExistsException": return try await OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StaleRequestException": return try await StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteStackInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case operationIdAlreadyExistsException(OperationIdAlreadyExistsException)
-    case operationInProgressException(OperationInProgressException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case staleRequestException(StaleRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -4010,7 +3882,7 @@ public struct DeleteStackInstancesOutputResponse: Swift.Equatable {
     /// The unique identifier for this stack set operation.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -4027,7 +3899,7 @@ extension DeleteStackInstancesOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteStackInstancesResult"))
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
@@ -4035,35 +3907,24 @@ extension DeleteStackInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension DeleteStackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteStackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteStackOutputError: Swift.Error, Swift.Equatable {
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteStackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteStackOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteStackSetInput: Swift.Encodable {
@@ -4097,7 +3958,7 @@ public struct DeleteStackSetInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         stackSetName: Swift.String? = nil
     )
@@ -4118,7 +3979,7 @@ extension DeleteStackSetInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -4127,37 +3988,25 @@ extension DeleteStackSetInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteStackSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteStackSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotEmptyException" : self = .stackSetNotEmptyException(try StackSetNotEmptyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotEmptyException": return try await StackSetNotEmptyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteStackSetOutputError: Swift.Error, Swift.Equatable {
-    case operationInProgressException(OperationInProgressException)
-    case stackSetNotEmptyException(StackSetNotEmptyException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteStackSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudFormationClientTypes.DeploymentTargets: Swift.Codable {
@@ -4202,7 +4051,7 @@ extension CloudFormationClientTypes.DeploymentTargets: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.accounts) {
             struct KeyVal0{struct member{}}
@@ -4269,7 +4118,7 @@ extension CloudFormationClientTypes {
         /// The organization root ID or organizational unit (OU) IDs to which StackSets deploys.
         public var organizationalUnitIds: [Swift.String]?
 
-        public init (
+        public init(
             accountFilterType: CloudFormationClientTypes.AccountFilterType? = nil,
             accounts: [Swift.String]? = nil,
             accountsUrl: Swift.String? = nil,
@@ -4353,7 +4202,7 @@ public struct DeregisterTypeInput: Swift.Equatable {
     /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
     public var versionId: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil,
@@ -4382,7 +4231,7 @@ extension DeregisterTypeInputBody: Swift.Decodable {
         case versionId = "VersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -4395,37 +4244,25 @@ extension DeregisterTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DeregisterTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeregisterTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeregisterTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeregisterTypeOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeAccountLimitsInput: Swift.Encodable {
@@ -4450,7 +4287,7 @@ public struct DescribeAccountLimitsInput: Swift.Equatable {
     /// A string that identifies the next page of limits that you want to retrieve.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -4467,35 +4304,25 @@ extension DescribeAccountLimitsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAccountLimitsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAccountLimitsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountLimits = output.accountLimits
@@ -4514,7 +4341,7 @@ public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
     /// If the output exceeds 1 MB in size, a string that identifies the next page of limits. If no additional page exists, this value is null.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accountLimits: [CloudFormationClientTypes.AccountLimit]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4535,7 +4362,7 @@ extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAccountLimitsResult"))
         if containerValues.contains(.accountLimits) {
@@ -4599,7 +4426,7 @@ public struct DescribeChangeSetHooksInput: Swift.Equatable {
     /// If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         changeSetName: Swift.String? = nil,
         logicalResourceId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -4628,7 +4455,7 @@ extension DescribeChangeSetHooksInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let changeSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetName)
         changeSetName = changeSetNameDecoded
@@ -4641,30 +4468,19 @@ extension DescribeChangeSetHooksInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeChangeSetHooksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeChangeSetHooksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChangeSetNotFound" : self = .changeSetNotFoundException(try ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeChangeSetHooksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeChangeSetHooksOutputError: Swift.Error, Swift.Equatable {
-    case changeSetNotFoundException(ChangeSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeChangeSetHooksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeChangeSetHooksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeSetId = output.changeSetId
@@ -4702,7 +4518,7 @@ public struct DescribeChangeSetHooksOutputResponse: Swift.Equatable {
     /// Provides the status of the change set hook.
     public var status: CloudFormationClientTypes.ChangeSetHooksStatus?
 
-    public init (
+    public init(
         changeSetId: Swift.String? = nil,
         changeSetName: Swift.String? = nil,
         hooks: [CloudFormationClientTypes.ChangeSetHook]? = nil,
@@ -4743,7 +4559,7 @@ extension DescribeChangeSetHooksOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeChangeSetHooksResult"))
         let changeSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetId)
@@ -4813,7 +4629,7 @@ public struct DescribeChangeSetInput: Swift.Equatable {
     /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         changeSetName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
@@ -4838,7 +4654,7 @@ extension DescribeChangeSetInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let changeSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetName)
         changeSetName = changeSetNameDecoded
@@ -4849,42 +4665,19 @@ extension DescribeChangeSetInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeChangeSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeChangeSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChangeSetNotFound" : self = .changeSetNotFoundException(try ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DescribeChangeSetOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .changeSetNotFoundException: return "ChangeSetNotFound"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeChangeSetOutputError: Swift.Error, Swift.Equatable {
-    case changeSetNotFoundException(ChangeSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capabilities = output.capabilities
@@ -4971,7 +4764,7 @@ public struct DescribeChangeSetOutputResponse: Swift.Equatable {
     /// If you execute the change set, the tags that will be associated with the stack.
     public var tags: [CloudFormationClientTypes.Tag]?
 
-    public init (
+    public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         changeSetId: Swift.String? = nil,
         changeSetName: Swift.String? = nil,
@@ -5060,7 +4853,7 @@ extension DescribeChangeSetOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeChangeSetResult"))
         let changeSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetName)
@@ -5210,7 +5003,7 @@ public struct DescribePublisherInput: Swift.Equatable {
     /// The ID of the extension publisher. If you don't supply a PublisherId, and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account.
     public var publisherId: Swift.String?
 
-    public init (
+    public init(
         publisherId: Swift.String? = nil
     )
     {
@@ -5227,37 +5020,26 @@ extension DescribePublisherInputBody: Swift.Decodable {
         case publisherId = "PublisherId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publisherIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisherId)
         publisherId = publisherIdDecoded
     }
 }
 
-extension DescribePublisherOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribePublisherOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePublisherOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribePublisherOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePublisherOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePublisherOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityProvider = output.identityProvider
@@ -5283,7 +5065,7 @@ public struct DescribePublisherOutputResponse: Swift.Equatable {
     /// Whether the publisher is verified. Currently, all registered publishers are verified.
     public var publisherStatus: CloudFormationClientTypes.PublisherStatus?
 
-    public init (
+    public init(
         identityProvider: CloudFormationClientTypes.IdentityProvider? = nil,
         publisherId: Swift.String? = nil,
         publisherProfile: Swift.String? = nil,
@@ -5312,7 +5094,7 @@ extension DescribePublisherOutputResponseBody: Swift.Decodable {
         case publisherStatus = "PublisherStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribePublisherResult"))
         let publisherIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisherId)
@@ -5348,7 +5130,7 @@ public struct DescribeStackDriftDetectionStatusInput: Swift.Equatable {
     /// This member is required.
     public var stackDriftDetectionId: Swift.String?
 
-    public init (
+    public init(
         stackDriftDetectionId: Swift.String? = nil
     )
     {
@@ -5365,35 +5147,25 @@ extension DescribeStackDriftDetectionStatusInputBody: Swift.Decodable {
         case stackDriftDetectionId = "StackDriftDetectionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackDriftDetectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackDriftDetectionId)
         stackDriftDetectionId = stackDriftDetectionIdDecoded
     }
 }
 
-extension DescribeStackDriftDetectionStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackDriftDetectionStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackDriftDetectionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackDriftDetectionStatusOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackDriftDetectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackDriftDetectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectionStatus = output.detectionStatus
@@ -5449,7 +5221,7 @@ public struct DescribeStackDriftDetectionStatusOutputResponse: Swift.Equatable {
     /// This member is required.
     public var timestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         detectionStatus: CloudFormationClientTypes.StackDriftDetectionStatus? = nil,
         detectionStatusReason: Swift.String? = nil,
         driftedStackResourceCount: Swift.Int? = nil,
@@ -5490,7 +5262,7 @@ extension DescribeStackDriftDetectionStatusOutputResponseBody: Swift.Decodable {
         case timestamp = "Timestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackDriftDetectionStatusResult"))
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
@@ -5544,7 +5316,7 @@ public struct DescribeStackEventsInput: Swift.Equatable {
     /// Default: There is no default value.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -5565,7 +5337,7 @@ extension DescribeStackEventsInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -5574,28 +5346,18 @@ extension DescribeStackEventsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackEventsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackEventsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -5614,7 +5376,7 @@ public struct DescribeStackEventsOutputResponse: Swift.Equatable {
     /// A list of StackEvents structures.
     public var stackEvents: [CloudFormationClientTypes.StackEvent]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackEvents: [CloudFormationClientTypes.StackEvent]? = nil
     )
@@ -5635,7 +5397,7 @@ extension DescribeStackEventsOutputResponseBody: Swift.Decodable {
         case stackEvents = "StackEvents"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackEventsResult"))
         if containerValues.contains(.stackEvents) {
@@ -5705,7 +5467,7 @@ public struct DescribeStackInstanceInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         stackInstanceAccount: Swift.String? = nil,
         stackInstanceRegion: Swift.String? = nil,
@@ -5734,7 +5496,7 @@ extension DescribeStackInstanceInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -5747,32 +5509,20 @@ extension DescribeStackInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "StackInstanceNotFoundException" : self = .stackInstanceNotFoundException(try StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "StackInstanceNotFoundException": return try await StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackInstanceOutputError: Swift.Error, Swift.Equatable {
-    case stackInstanceNotFoundException(StackInstanceNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackInstance = output.stackInstance
@@ -5786,7 +5536,7 @@ public struct DescribeStackInstanceOutputResponse: Swift.Equatable {
     /// The stack instance that matches the specified request parameters.
     public var stackInstance: CloudFormationClientTypes.StackInstance?
 
-    public init (
+    public init(
         stackInstance: CloudFormationClientTypes.StackInstance? = nil
     )
     {
@@ -5803,7 +5553,7 @@ extension DescribeStackInstanceOutputResponseBody: Swift.Decodable {
         case stackInstance = "StackInstance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackInstanceResult"))
         let stackInstanceDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackInstance.self, forKey: .stackInstance)
@@ -5865,7 +5615,7 @@ public struct DescribeStackResourceDriftsInput: Swift.Equatable {
     /// * NOT_CHECKED: CloudFormation doesn't currently return this value.
     public var stackResourceDriftStatusFilters: [CloudFormationClientTypes.StackResourceDriftStatus]?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil,
@@ -5894,7 +5644,7 @@ extension DescribeStackResourceDriftsInputBody: Swift.Decodable {
         case stackResourceDriftStatusFilters = "StackResourceDriftStatusFilters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -5924,28 +5674,18 @@ extension DescribeStackResourceDriftsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackResourceDriftsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackResourceDriftsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackResourceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackResourceDriftsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackResourceDriftsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackResourceDriftsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -5964,7 +5704,7 @@ public struct DescribeStackResourceDriftsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var stackResourceDrifts: [CloudFormationClientTypes.StackResourceDrift]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackResourceDrifts: [CloudFormationClientTypes.StackResourceDrift]? = nil
     )
@@ -5985,7 +5725,7 @@ extension DescribeStackResourceDriftsOutputResponseBody: Swift.Decodable {
         case stackResourceDrifts = "StackResourceDrifts"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackResourceDriftsResult"))
         if containerValues.contains(.stackResourceDrifts) {
@@ -6048,7 +5788,7 @@ public struct DescribeStackResourceInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         logicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -6069,7 +5809,7 @@ extension DescribeStackResourceInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -6078,28 +5818,18 @@ extension DescribeStackResourceInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackResourceOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackResourceDetail = output.stackResourceDetail
@@ -6114,7 +5844,7 @@ public struct DescribeStackResourceOutputResponse: Swift.Equatable {
     /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
     public var stackResourceDetail: CloudFormationClientTypes.StackResourceDetail?
 
-    public init (
+    public init(
         stackResourceDetail: CloudFormationClientTypes.StackResourceDetail? = nil
     )
     {
@@ -6131,7 +5861,7 @@ extension DescribeStackResourceOutputResponseBody: Swift.Decodable {
         case stackResourceDetail = "StackResourceDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackResourceResult"))
         let stackResourceDetailDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackResourceDetail.self, forKey: .stackResourceDetail)
@@ -6178,7 +5908,7 @@ public struct DescribeStackResourcesInput: Swift.Equatable {
     /// Default: There is no default value. Required: Conditional. If you don't specify StackName, you must specify PhysicalResourceId.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         logicalResourceId: Swift.String? = nil,
         physicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil
@@ -6203,7 +5933,7 @@ extension DescribeStackResourcesInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -6214,28 +5944,18 @@ extension DescribeStackResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackResourcesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackResources = output.stackResources
@@ -6250,7 +5970,7 @@ public struct DescribeStackResourcesOutputResponse: Swift.Equatable {
     /// A list of StackResource structures.
     public var stackResources: [CloudFormationClientTypes.StackResource]?
 
-    public init (
+    public init(
         stackResources: [CloudFormationClientTypes.StackResource]? = nil
     )
     {
@@ -6267,7 +5987,7 @@ extension DescribeStackResourcesOutputResponseBody: Swift.Decodable {
         case stackResources = "StackResources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackResourcesResult"))
         if containerValues.contains(.stackResources) {
@@ -6323,7 +6043,7 @@ public struct DescribeStackSetInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         stackSetName: Swift.String? = nil
     )
@@ -6344,7 +6064,7 @@ extension DescribeStackSetInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -6390,7 +6110,7 @@ public struct DescribeStackSetOperationInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         operationId: Swift.String? = nil,
         stackSetName: Swift.String? = nil
@@ -6415,7 +6135,7 @@ extension DescribeStackSetOperationInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -6426,32 +6146,20 @@ extension DescribeStackSetOperationInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackSetOperationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackSetOperationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotFoundException" : self = .operationNotFoundException(try OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackSetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackSetOperationOutputError: Swift.Error, Swift.Equatable {
-    case operationNotFoundException(OperationNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackSetOperationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackSetOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSetOperation = output.stackSetOperation
@@ -6465,7 +6173,7 @@ public struct DescribeStackSetOperationOutputResponse: Swift.Equatable {
     /// The specified stack set operation.
     public var stackSetOperation: CloudFormationClientTypes.StackSetOperation?
 
-    public init (
+    public init(
         stackSetOperation: CloudFormationClientTypes.StackSetOperation? = nil
     )
     {
@@ -6482,7 +6190,7 @@ extension DescribeStackSetOperationOutputResponseBody: Swift.Decodable {
         case stackSetOperation = "StackSetOperation"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackSetOperationResult"))
         let stackSetOperationDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackSetOperation.self, forKey: .stackSetOperation)
@@ -6490,30 +6198,19 @@ extension DescribeStackSetOperationOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension DescribeStackSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStackSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeStackSetOutputError: Swift.Error, Swift.Equatable {
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSet = output.stackSet
@@ -6527,7 +6224,7 @@ public struct DescribeStackSetOutputResponse: Swift.Equatable {
     /// The specified stack set.
     public var stackSet: CloudFormationClientTypes.StackSet?
 
-    public init (
+    public init(
         stackSet: CloudFormationClientTypes.StackSet? = nil
     )
     {
@@ -6544,7 +6241,7 @@ extension DescribeStackSetOutputResponseBody: Swift.Decodable {
         case stackSet = "StackSet"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStackSetResult"))
         let stackSetDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackSet.self, forKey: .stackSet)
@@ -6586,7 +6283,7 @@ public struct DescribeStacksInput: Swift.Equatable {
     /// Default: There is no default value.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -6607,7 +6304,7 @@ extension DescribeStacksInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -6616,39 +6313,18 @@ extension DescribeStacksInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStacksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeStacksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DescribeStacksOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeStacksOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeStacksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6667,7 +6343,7 @@ public struct DescribeStacksOutputResponse: Swift.Equatable {
     /// A list of stack structures.
     public var stacks: [CloudFormationClientTypes.Stack]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stacks: [CloudFormationClientTypes.Stack]? = nil
     )
@@ -6688,7 +6364,7 @@ extension DescribeStacksOutputResponseBody: Swift.Decodable {
         case stacks = "Stacks"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStacksResult"))
         if containerValues.contains(.stacks) {
@@ -6761,7 +6437,7 @@ public struct DescribeTypeInput: Swift.Equatable {
     /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version.
     public var versionId: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         publicVersionNumber: Swift.String? = nil,
         publisherId: Swift.String? = nil,
@@ -6798,7 +6474,7 @@ extension DescribeTypeInputBody: Swift.Decodable {
         case versionId = "VersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistryType.self, forKey: .type)
         type = typeDecoded
@@ -6815,32 +6491,20 @@ extension DescribeTypeInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -6993,7 +6657,7 @@ public struct DescribeTypeOutputResponse: Swift.Equatable {
     /// * PUBLIC: The extension is publicly visible and usable within any Amazon Web Services account.
     public var visibility: CloudFormationClientTypes.Visibility?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         autoUpdate: Swift.Bool? = nil,
         configurationSchema: Swift.String? = nil,
@@ -7114,7 +6778,7 @@ extension DescribeTypeOutputResponseBody: Swift.Decodable {
         case visibility = "Visibility"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTypeResult"))
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
@@ -7213,7 +6877,7 @@ public struct DescribeTypeRegistrationInput: Swift.Equatable {
     /// This member is required.
     public var registrationToken: Swift.String?
 
-    public init (
+    public init(
         registrationToken: Swift.String? = nil
     )
     {
@@ -7230,37 +6894,26 @@ extension DescribeTypeRegistrationInputBody: Swift.Decodable {
         case registrationToken = "RegistrationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let registrationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationToken)
         registrationToken = registrationTokenDecoded
     }
 }
 
-extension DescribeTypeRegistrationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeTypeRegistrationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTypeRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeTypeRegistrationOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTypeRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTypeRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
@@ -7286,7 +6939,7 @@ public struct DescribeTypeRegistrationOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of this specific version of the extension being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
     public var typeVersionArn: Swift.String?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         progressStatus: CloudFormationClientTypes.RegistrationStatus? = nil,
         typeArn: Swift.String? = nil,
@@ -7315,7 +6968,7 @@ extension DescribeTypeRegistrationOutputResponseBody: Swift.Decodable {
         case typeVersionArn = "TypeVersionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTypeRegistrationResult"))
         let progressStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistrationStatus.self, forKey: .progressStatus)
@@ -7365,7 +7018,7 @@ public struct DetectStackDriftInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         logicalResourceIds: [Swift.String]? = nil,
         stackName: Swift.String? = nil
     )
@@ -7386,7 +7039,7 @@ extension DetectStackDriftInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -7412,28 +7065,18 @@ extension DetectStackDriftInputBody: Swift.Decodable {
     }
 }
 
-extension DetectStackDriftOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetectStackDriftOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetectStackDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetectStackDriftOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetectStackDriftOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectStackDriftOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackDriftDetectionId = output.stackDriftDetectionId
@@ -7448,7 +7091,7 @@ public struct DetectStackDriftOutputResponse: Swift.Equatable {
     /// This member is required.
     public var stackDriftDetectionId: Swift.String?
 
-    public init (
+    public init(
         stackDriftDetectionId: Swift.String? = nil
     )
     {
@@ -7465,7 +7108,7 @@ extension DetectStackDriftOutputResponseBody: Swift.Decodable {
         case stackDriftDetectionId = "StackDriftDetectionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DetectStackDriftResult"))
         let stackDriftDetectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackDriftDetectionId)
@@ -7501,7 +7144,7 @@ public struct DetectStackResourceDriftInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         logicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -7522,7 +7165,7 @@ extension DetectStackResourceDriftInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -7531,28 +7174,18 @@ extension DetectStackResourceDriftInputBody: Swift.Decodable {
     }
 }
 
-extension DetectStackResourceDriftOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetectStackResourceDriftOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetectStackResourceDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetectStackResourceDriftOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetectStackResourceDriftOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectStackResourceDriftOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackResourceDrift = output.stackResourceDrift
@@ -7567,7 +7200,7 @@ public struct DetectStackResourceDriftOutputResponse: Swift.Equatable {
     /// This member is required.
     public var stackResourceDrift: CloudFormationClientTypes.StackResourceDrift?
 
-    public init (
+    public init(
         stackResourceDrift: CloudFormationClientTypes.StackResourceDrift? = nil
     )
     {
@@ -7584,7 +7217,7 @@ extension DetectStackResourceDriftOutputResponseBody: Swift.Decodable {
         case stackResourceDrift = "StackResourceDrift"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DetectStackResourceDriftResult"))
         let stackResourceDriftDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackResourceDrift.self, forKey: .stackResourceDrift)
@@ -7633,7 +7266,7 @@ public struct DetectStackSetDriftInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         operationId: Swift.String? = nil,
         operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
@@ -7662,7 +7295,7 @@ extension DetectStackSetDriftInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -7675,34 +7308,21 @@ extension DetectStackSetDriftInputBody: Swift.Decodable {
     }
 }
 
-extension DetectStackSetDriftOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetectStackSetDriftOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetectStackSetDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetectStackSetDriftOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case operationInProgressException(OperationInProgressException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetectStackSetDriftOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectStackSetDriftOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7716,7 +7336,7 @@ public struct DetectStackSetDriftOutputResponse: Swift.Equatable {
     /// The ID of the drift detection stack set operation. You can use this operation ID with [DescribeStackSetOperation] to monitor the progress of the drift detection operation.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7733,7 +7353,7 @@ extension DetectStackSetDriftOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DetectStackSetDriftResult"))
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
@@ -7817,7 +7437,7 @@ public struct EstimateTemplateCostInput: Swift.Equatable {
     /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateURL: Swift.String?
 
-    public init (
+    public init(
         parameters: [CloudFormationClientTypes.Parameter]? = nil,
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil
@@ -7842,7 +7462,7 @@ extension EstimateTemplateCostInputBody: Swift.Decodable {
         case templateURL = "TemplateURL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
         templateBody = templateBodyDecoded
@@ -7870,28 +7490,18 @@ extension EstimateTemplateCostInputBody: Swift.Decodable {
     }
 }
 
-extension EstimateTemplateCostOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension EstimateTemplateCostOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EstimateTemplateCostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum EstimateTemplateCostOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EstimateTemplateCostOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EstimateTemplateCostOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.url = output.url
@@ -7906,7 +7516,7 @@ public struct EstimateTemplateCostOutputResponse: Swift.Equatable {
     /// An Amazon Web Services Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
     public var url: Swift.String?
 
-    public init (
+    public init(
         url: Swift.String? = nil
     )
     {
@@ -7923,7 +7533,7 @@ extension EstimateTemplateCostOutputResponseBody: Swift.Decodable {
         case url = "Url"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("EstimateTemplateCostResult"))
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
@@ -8001,7 +7611,7 @@ public struct ExecuteChangeSetInput: Swift.Equatable {
     /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         changeSetName: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         disableRollback: Swift.Bool? = nil,
@@ -8030,7 +7640,7 @@ extension ExecuteChangeSetInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let changeSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetName)
         changeSetName = changeSetNameDecoded
@@ -8043,42 +7653,28 @@ extension ExecuteChangeSetInputBody: Swift.Decodable {
     }
 }
 
-extension ExecuteChangeSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ExecuteChangeSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChangeSetNotFound" : self = .changeSetNotFoundException(try ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientCapabilitiesException" : self = .insufficientCapabilitiesException(try InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidChangeSetStatus" : self = .invalidChangeSetStatusException(try InvalidChangeSetStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExecuteChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientCapabilitiesException": return try await InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidChangeSetStatus": return try await InvalidChangeSetStatusException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ExecuteChangeSetOutputError: Swift.Error, Swift.Equatable {
-    case changeSetNotFoundException(ChangeSetNotFoundException)
-    case insufficientCapabilitiesException(InsufficientCapabilitiesException)
-    case invalidChangeSetStatusException(InvalidChangeSetStatusException)
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExecuteChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 /// The output for the [ExecuteChangeSet] action.
 public struct ExecuteChangeSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudFormationClientTypes {
@@ -8145,7 +7741,7 @@ extension CloudFormationClientTypes.Export: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportingStackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportingStackId)
         exportingStackId = exportingStackIdDecoded
@@ -8166,7 +7762,7 @@ extension CloudFormationClientTypes {
         /// The value of the exported output, such as a resource physical ID. This value is defined in the Export field in the associated stack's Outputs section.
         public var value: Swift.String?
 
-        public init (
+        public init(
             exportingStackId: Swift.String? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
@@ -8203,7 +7799,7 @@ public struct GetStackPolicyInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         stackName: Swift.String? = nil
     )
     {
@@ -8220,35 +7816,25 @@ extension GetStackPolicyInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
     }
 }
 
-extension GetStackPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GetStackPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetStackPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum GetStackPolicyOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetStackPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetStackPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackPolicyBody = output.stackPolicyBody
@@ -8263,7 +7849,7 @@ public struct GetStackPolicyOutputResponse: Swift.Equatable {
     /// Structure containing the stack policy body. (For more information, go to [ Prevent Updates to Stack Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.)
     public var stackPolicyBody: Swift.String?
 
-    public init (
+    public init(
         stackPolicyBody: Swift.String? = nil
     )
     {
@@ -8280,7 +7866,7 @@ extension GetStackPolicyOutputResponseBody: Swift.Decodable {
         case stackPolicyBody = "StackPolicyBody"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetStackPolicyResult"))
         let stackPolicyBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackPolicyBody)
@@ -8327,7 +7913,7 @@ public struct GetTemplateInput: Swift.Equatable {
     /// For templates that include transforms, the stage of the template that CloudFormation returns. To get the user-submitted template, specify Original. To get the template after CloudFormation has processed all transforms, specify Processed. If the template doesn't include transforms, Original and Processed return the same template. By default, CloudFormation specifies Processed.
     public var templateStage: CloudFormationClientTypes.TemplateStage?
 
-    public init (
+    public init(
         changeSetName: Swift.String? = nil,
         stackName: Swift.String? = nil,
         templateStage: CloudFormationClientTypes.TemplateStage? = nil
@@ -8352,7 +7938,7 @@ extension GetTemplateInputBody: Swift.Decodable {
         case templateStage = "TemplateStage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -8363,30 +7949,19 @@ extension GetTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension GetTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GetTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ChangeSetNotFound" : self = .changeSetNotFoundException(try ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum GetTemplateOutputError: Swift.Error, Swift.Equatable {
-    case changeSetNotFoundException(ChangeSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stagesAvailable = output.stagesAvailable
@@ -8405,7 +7980,7 @@ public struct GetTemplateOutputResponse: Swift.Equatable {
     /// Structure containing the template body. (For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide.) CloudFormation returns the same template that was used when the stack was created.
     public var templateBody: Swift.String?
 
-    public init (
+    public init(
         stagesAvailable: [CloudFormationClientTypes.TemplateStage]? = nil,
         templateBody: Swift.String? = nil
     )
@@ -8426,7 +8001,7 @@ extension GetTemplateOutputResponseBody: Swift.Decodable {
         case templateBody = "TemplateBody"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetTemplateResult"))
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
@@ -8499,7 +8074,7 @@ public struct GetTemplateSummaryInput: Swift.Equatable {
     /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information about templates, see [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var templateURL: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         stackName: Swift.String? = nil,
         stackSetName: Swift.String? = nil,
@@ -8532,7 +8107,7 @@ extension GetTemplateSummaryInputBody: Swift.Decodable {
         case templateURL = "TemplateURL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
         templateBody = templateBodyDecoded
@@ -8547,30 +8122,19 @@ extension GetTemplateSummaryInputBody: Swift.Decodable {
     }
 }
 
-extension GetTemplateSummaryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GetTemplateSummaryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetTemplateSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum GetTemplateSummaryOutputError: Swift.Error, Swift.Equatable {
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetTemplateSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTemplateSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capabilities = output.capabilities
@@ -8617,7 +8181,7 @@ public struct GetTemplateSummaryOutputResponse: Swift.Equatable {
     /// The Amazon Web Services template format version, which identifies the capabilities of the template.
     public var version: Swift.String?
 
-    public init (
+    public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         capabilitiesReason: Swift.String? = nil,
         declaredTransforms: [Swift.String]? = nil,
@@ -8666,7 +8230,7 @@ extension GetTemplateSummaryOutputResponseBody: Swift.Decodable {
         case version = "Version"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetTemplateSummaryResult"))
         if containerValues.contains(.parameters) {
@@ -9095,7 +8659,7 @@ public struct ImportStacksToStackSetInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         operationId: Swift.String? = nil,
         operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
@@ -9136,7 +8700,7 @@ extension ImportStacksToStackSetInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -9189,42 +8753,25 @@ extension ImportStacksToStackSetInputBody: Swift.Decodable {
     }
 }
 
-extension ImportStacksToStackSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ImportStacksToStackSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationIdAlreadyExistsException" : self = .operationIdAlreadyExistsException(try OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackNotFoundException" : self = .stackNotFoundException(try StackNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StaleRequestException" : self = .staleRequestException(try StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportStacksToStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationIdAlreadyExistsException": return try await OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackNotFoundException": return try await StackNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StaleRequestException": return try await StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ImportStacksToStackSetOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case limitExceededException(LimitExceededException)
-    case operationIdAlreadyExistsException(OperationIdAlreadyExistsException)
-    case operationInProgressException(OperationInProgressException)
-    case stackNotFoundException(StackNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case staleRequestException(StaleRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportStacksToStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportStacksToStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -9238,7 +8785,7 @@ public struct ImportStacksToStackSetOutputResponse: Swift.Equatable {
     /// The unique identifier for the stack set operation.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -9255,7 +8802,7 @@ extension ImportStacksToStackSetOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ImportStacksToStackSetResult"))
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
@@ -9264,37 +8811,40 @@ extension ImportStacksToStackSetOutputResponseBody: Swift.Decodable {
 }
 
 extension InsufficientCapabilitiesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientCapabilitiesExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The template contains resources with capabilities that weren't specified in the Capabilities parameter.
-public struct InsufficientCapabilitiesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InsufficientCapabilitiesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientCapabilitiesException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9307,7 +8857,7 @@ extension InsufficientCapabilitiesExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9315,37 +8865,40 @@ extension InsufficientCapabilitiesExceptionBody: Swift.Decodable {
 }
 
 extension InvalidChangeSetStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidChangeSetStatusExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
-public struct InvalidChangeSetStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidChangeSetStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidChangeSetStatus" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9358,7 +8911,7 @@ extension InvalidChangeSetStatusExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9366,37 +8919,40 @@ extension InvalidChangeSetStatusExceptionBody: Swift.Decodable {
 }
 
 extension InvalidOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOperationExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified operation isn't valid.
-public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9409,7 +8965,7 @@ extension InvalidOperationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9417,37 +8973,40 @@ extension InvalidOperationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidStateTransitionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidStateTransitionExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Error reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). CloudFormation doesn't return this error to users.
-public struct InvalidStateTransitionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateTransition" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9460,7 +9019,7 @@ extension InvalidStateTransitionExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9468,37 +9027,40 @@ extension InvalidStateTransitionExceptionBody: Swift.Decodable {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9511,7 +9073,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9546,7 +9108,7 @@ public struct ListChangeSetsInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -9567,7 +9129,7 @@ extension ListChangeSetsInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -9576,28 +9138,18 @@ extension ListChangeSetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListChangeSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListChangeSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListChangeSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListChangeSetsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListChangeSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListChangeSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9616,7 +9168,7 @@ public struct ListChangeSetsOutputResponse: Swift.Equatable {
     /// A list of ChangeSetSummary structures that provides the ID and status of each change set for the specified stack.
     public var summaries: [CloudFormationClientTypes.ChangeSetSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.ChangeSetSummary]? = nil
     )
@@ -9637,7 +9189,7 @@ extension ListChangeSetsOutputResponseBody: Swift.Decodable {
         case summaries = "Summaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListChangeSetsResult"))
         if containerValues.contains(.summaries) {
@@ -9685,7 +9237,7 @@ public struct ListExportsInput: Swift.Equatable {
     /// A string (provided by the [ListExports] response output) that identifies the next page of exported output values that you asked to retrieve.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -9702,35 +9254,25 @@ extension ListExportsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListExportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListExportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListExportsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListExportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exports = output.exports
@@ -9748,7 +9290,7 @@ public struct ListExportsOutputResponse: Swift.Equatable {
     /// If the output exceeds 100 exported output values, a string that identifies the next page of exports. If there is no additional page, this value is null.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         exports: [CloudFormationClientTypes.Export]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9769,7 +9311,7 @@ extension ListExportsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListExportsResult"))
         if containerValues.contains(.exports) {
@@ -9823,7 +9365,7 @@ public struct ListImportsInput: Swift.Equatable {
     /// A string (provided by the [ListImports] response output) that identifies the next page of stacks that are importing the specified exported output value.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         exportName: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9844,7 +9386,7 @@ extension ListImportsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportName)
         exportName = exportNameDecoded
@@ -9853,28 +9395,18 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListImportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListImportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.imports = output.imports
@@ -9892,7 +9424,7 @@ public struct ListImportsOutputResponse: Swift.Equatable {
     /// A string that identifies the next page of exports. If there is no additional page, this value is null.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         imports: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9913,7 +9445,7 @@ extension ListImportsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListImportsResult"))
         if containerValues.contains(.imports) {
@@ -10005,7 +9537,7 @@ public struct ListStackInstancesInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         filters: [CloudFormationClientTypes.StackInstanceFilter]? = nil,
         maxResults: Swift.Int? = nil,
@@ -10046,7 +9578,7 @@ extension ListStackInstancesInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -10082,30 +9614,19 @@ extension ListStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension ListStackInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListStackInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListStackInstancesOutputError: Swift.Error, Swift.Equatable {
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10123,7 +9644,7 @@ public struct ListStackInstancesOutputResponse: Swift.Equatable {
     /// A list of StackInstanceSummary structures that contain information about the specified stack instances.
     public var summaries: [CloudFormationClientTypes.StackInstanceSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackInstanceSummary]? = nil
     )
@@ -10144,7 +9665,7 @@ extension ListStackInstancesOutputResponseBody: Swift.Decodable {
         case summaries = "Summaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListStackInstancesResult"))
         if containerValues.contains(.summaries) {
@@ -10206,7 +9727,7 @@ public struct ListStackResourcesInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
@@ -10227,7 +9748,7 @@ extension ListStackResourcesInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -10236,28 +9757,18 @@ extension ListStackResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension ListStackResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListStackResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStackResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListStackResourcesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStackResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStackResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10276,7 +9787,7 @@ public struct ListStackResourcesOutputResponse: Swift.Equatable {
     /// A list of StackResourceSummary structures.
     public var stackResourceSummaries: [CloudFormationClientTypes.StackResourceSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackResourceSummaries: [CloudFormationClientTypes.StackResourceSummary]? = nil
     )
@@ -10297,7 +9808,7 @@ extension ListStackResourcesOutputResponseBody: Swift.Decodable {
         case stackResourceSummaries = "StackResourceSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListStackResourcesResult"))
         if containerValues.contains(.stackResourceSummaries) {
@@ -10385,7 +9896,7 @@ public struct ListStackSetOperationResultsInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         filters: [CloudFormationClientTypes.OperationResultFilter]? = nil,
         maxResults: Swift.Int? = nil,
@@ -10422,7 +9933,7 @@ extension ListStackSetOperationResultsInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -10456,32 +9967,20 @@ extension ListStackSetOperationResultsInputBody: Swift.Decodable {
     }
 }
 
-extension ListStackSetOperationResultsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListStackSetOperationResultsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationNotFoundException" : self = .operationNotFoundException(try OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStackSetOperationResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListStackSetOperationResultsOutputError: Swift.Error, Swift.Equatable {
-    case operationNotFoundException(OperationNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStackSetOperationResultsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStackSetOperationResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10499,7 +9998,7 @@ public struct ListStackSetOperationResultsOutputResponse: Swift.Equatable {
     /// A list of StackSetOperationResultSummary structures that contain information about the specified operation results, for accounts and Amazon Web Services Regions that are included in the operation.
     public var summaries: [CloudFormationClientTypes.StackSetOperationResultSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetOperationResultSummary]? = nil
     )
@@ -10520,7 +10019,7 @@ extension ListStackSetOperationResultsOutputResponseBody: Swift.Decodable {
         case summaries = "Summaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListStackSetOperationResultsResult"))
         if containerValues.contains(.summaries) {
@@ -10588,7 +10087,7 @@ public struct ListStackSetOperationsInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -10617,7 +10116,7 @@ extension ListStackSetOperationsInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -10630,30 +10129,19 @@ extension ListStackSetOperationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListStackSetOperationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListStackSetOperationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStackSetOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListStackSetOperationsOutputError: Swift.Error, Swift.Equatable {
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStackSetOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStackSetOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10671,7 +10159,7 @@ public struct ListStackSetOperationsOutputResponse: Swift.Equatable {
     /// A list of StackSetOperationSummary structures that contain summary information about operations for the specified stack set.
     public var summaries: [CloudFormationClientTypes.StackSetOperationSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetOperationSummary]? = nil
     )
@@ -10692,7 +10180,7 @@ extension ListStackSetOperationsOutputResponseBody: Swift.Decodable {
         case summaries = "Summaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListStackSetOperationsResult"))
         if containerValues.contains(.summaries) {
@@ -10759,7 +10247,7 @@ public struct ListStackSetsInput: Swift.Equatable {
     /// The status of the stack sets that you want to get summary information about.
     public var status: CloudFormationClientTypes.StackSetStatus?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -10788,7 +10276,7 @@ extension ListStackSetsInputBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10801,28 +10289,18 @@ extension ListStackSetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListStackSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListStackSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStackSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListStackSetsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStackSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStackSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10840,7 +10318,7 @@ public struct ListStackSetsOutputResponse: Swift.Equatable {
     /// A list of StackSetSummary structures that contain information about the user's stack sets.
     public var summaries: [CloudFormationClientTypes.StackSetSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetSummary]? = nil
     )
@@ -10861,7 +10339,7 @@ extension ListStackSetsOutputResponseBody: Swift.Decodable {
         case summaries = "Summaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListStackSetsResult"))
         if containerValues.contains(.summaries) {
@@ -10924,7 +10402,7 @@ public struct ListStacksInput: Swift.Equatable {
     /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the [Stack] data type.
     public var stackStatusFilter: [CloudFormationClientTypes.StackStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackStatusFilter: [CloudFormationClientTypes.StackStatus]? = nil
     )
@@ -10945,7 +10423,7 @@ extension ListStacksInputBody: Swift.Decodable {
         case stackStatusFilter = "StackStatusFilter"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10971,28 +10449,18 @@ extension ListStacksInputBody: Swift.Decodable {
     }
 }
 
-extension ListStacksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListStacksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListStacksOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStacksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -11011,7 +10479,7 @@ public struct ListStacksOutputResponse: Swift.Equatable {
     /// A list of StackSummary structures containing information about the specified stacks.
     public var stackSummaries: [CloudFormationClientTypes.StackSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         stackSummaries: [CloudFormationClientTypes.StackSummary]? = nil
     )
@@ -11032,7 +10500,7 @@ extension ListStacksOutputResponseBody: Swift.Decodable {
         case stackSummaries = "StackSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListStacksResult"))
         if containerValues.contains(.stackSummaries) {
@@ -11105,7 +10573,7 @@ public struct ListTypeRegistrationsInput: Swift.Equatable {
     /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
     public var typeName: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registrationStatusFilter: CloudFormationClientTypes.RegistrationStatus? = nil,
@@ -11142,7 +10610,7 @@ extension ListTypeRegistrationsInputBody: Swift.Decodable {
         case typeName = "TypeName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistryType.self, forKey: .type)
         type = typeDecoded
@@ -11159,30 +10627,19 @@ extension ListTypeRegistrationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListTypeRegistrationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListTypeRegistrationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTypeRegistrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListTypeRegistrationsOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTypeRegistrationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTypeRegistrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -11200,7 +10657,7 @@ public struct ListTypeRegistrationsOutputResponse: Swift.Equatable {
     /// A list of extension registration tokens. Use [DescribeTypeRegistration] to return detailed information about a type registration request.
     public var registrationTokenList: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         registrationTokenList: [Swift.String]? = nil
     )
@@ -11221,7 +10678,7 @@ extension ListTypeRegistrationsOutputResponseBody: Swift.Decodable {
         case registrationTokenList = "RegistrationTokenList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListTypeRegistrationsResult"))
         if containerValues.contains(.registrationTokenList) {
@@ -11306,7 +10763,7 @@ public struct ListTypeVersionsInput: Swift.Equatable {
     /// The name of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
     public var typeName: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         deprecatedStatus: CloudFormationClientTypes.DeprecatedStatus? = nil,
         maxResults: Swift.Int? = nil,
@@ -11347,7 +10804,7 @@ extension ListTypeVersionsInputBody: Swift.Decodable {
         case typeName = "TypeName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistryType.self, forKey: .type)
         type = typeDecoded
@@ -11366,30 +10823,19 @@ extension ListTypeVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListTypeVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListTypeVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTypeVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListTypeVersionsOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTypeVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTypeVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -11407,7 +10853,7 @@ public struct ListTypeVersionsOutputResponse: Swift.Equatable {
     /// A list of TypeVersionSummary structures that contain information about the specified extension's versions.
     public var typeVersionSummaries: [CloudFormationClientTypes.TypeVersionSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         typeVersionSummaries: [CloudFormationClientTypes.TypeVersionSummary]? = nil
     )
@@ -11428,7 +10874,7 @@ extension ListTypeVersionsOutputResponseBody: Swift.Decodable {
         case typeVersionSummaries = "TypeVersionSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListTypeVersionsResult"))
         if containerValues.contains(.typeVersionSummaries) {
@@ -11533,7 +10979,7 @@ public struct ListTypesInput: Swift.Equatable {
     /// The default is PRIVATE.
     public var visibility: CloudFormationClientTypes.Visibility?
 
-    public init (
+    public init(
         deprecatedStatus: CloudFormationClientTypes.DeprecatedStatus? = nil,
         filters: CloudFormationClientTypes.TypeFilters? = nil,
         maxResults: Swift.Int? = nil,
@@ -11574,7 +11020,7 @@ extension ListTypesInputBody: Swift.Decodable {
         case visibility = "Visibility"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let visibilityDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.Visibility.self, forKey: .visibility)
         visibility = visibilityDecoded
@@ -11593,30 +11039,19 @@ extension ListTypesInputBody: Swift.Decodable {
     }
 }
 
-extension ListTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListTypesOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -11634,7 +11069,7 @@ public struct ListTypesOutputResponse: Swift.Equatable {
     /// A list of TypeSummary structures that contain information about the specified extensions.
     public var typeSummaries: [CloudFormationClientTypes.TypeSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         typeSummaries: [CloudFormationClientTypes.TypeSummary]? = nil
     )
@@ -11655,7 +11090,7 @@ extension ListTypesOutputResponseBody: Swift.Decodable {
         case typeSummaries = "TypeSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListTypesResult"))
         if containerValues.contains(.typeSummaries) {
@@ -11698,7 +11133,7 @@ extension CloudFormationClientTypes.LoggingConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logRoleArn)
         logRoleArn = logRoleArnDecoded
@@ -11717,7 +11152,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var logRoleArn: Swift.String?
 
-        public init (
+        public init(
             logGroupName: Swift.String? = nil,
             logRoleArn: Swift.String? = nil
         )
@@ -11741,7 +11176,7 @@ extension CloudFormationClientTypes.ManagedExecution: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
@@ -11754,7 +11189,7 @@ extension CloudFormationClientTypes {
         /// When true, StackSets performs non-conflicting operations concurrently and queues conflicting operations. After conflicting operations finish, StackSets starts queued operations in request order. If there are already running or queued operations, StackSets queues all incoming operations even if they are non-conflicting. You can't modify your stack set's execution configuration while there are running or queued operations for that stack set. When false (default), StackSets performs one operation at a time in request order.
         public var active: Swift.Bool?
 
-        public init (
+        public init(
             active: Swift.Bool? = nil
         )
         {
@@ -11780,7 +11215,7 @@ extension CloudFormationClientTypes.ModuleInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeHierarchyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeHierarchy)
         typeHierarchy = typeHierarchyDecoded
@@ -11797,7 +11232,7 @@ extension CloudFormationClientTypes {
         /// A concatenated list of the module type or types containing the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE. AWS::First::Example::MODULE/AWS::Second::Example::MODULE
         public var typeHierarchy: Swift.String?
 
-        public init (
+        public init(
             logicalIdHierarchy: Swift.String? = nil,
             typeHierarchy: Swift.String? = nil
         )
@@ -11810,37 +11245,40 @@ extension CloudFormationClientTypes {
 }
 
 extension NameAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NameAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified name is already in use.
-public struct NameAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NameAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11853,7 +11291,7 @@ extension NameAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11896,37 +11334,40 @@ extension CloudFormationClientTypes {
 }
 
 extension OperationIdAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationIdAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified operation ID already exists.
-public struct OperationIdAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OperationIdAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationIdAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11939,7 +11380,7 @@ extension OperationIdAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11947,37 +11388,40 @@ extension OperationIdAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension OperationInProgressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationInProgressExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
-public struct OperationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationInProgressException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11990,7 +11434,7 @@ extension OperationInProgressExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11998,37 +11442,40 @@ extension OperationInProgressExceptionBody: Swift.Decodable {
 }
 
 extension OperationNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified ID refers to an operation that doesn't exist.
-public struct OperationNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OperationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12041,7 +11488,7 @@ extension OperationNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12064,7 +11511,7 @@ extension CloudFormationClientTypes.OperationResultFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.OperationResultFilterName.self, forKey: .name)
         name = nameDecoded
@@ -12081,7 +11528,7 @@ extension CloudFormationClientTypes {
         /// The value to filter by.
         public var values: Swift.String?
 
-        public init (
+        public init(
             name: CloudFormationClientTypes.OperationResultFilterName? = nil,
             values: Swift.String? = nil
         )
@@ -12161,37 +11608,40 @@ extension CloudFormationClientTypes {
 }
 
 extension OperationStatusCheckFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationStatusCheckFailedExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Error reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). CloudFormation doesn't return this error to users.
-public struct OperationStatusCheckFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OperationStatusCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalCheckFailed" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12204,7 +11654,7 @@ extension OperationStatusCheckFailedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12235,7 +11685,7 @@ extension CloudFormationClientTypes.Output: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputKey)
         outputKey = outputKeyDecoded
@@ -12260,7 +11710,7 @@ extension CloudFormationClientTypes {
         /// The value associated with the output.
         public var outputValue: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             exportName: Swift.String? = nil,
             outputKey: Swift.String? = nil,
@@ -12300,7 +11750,7 @@ extension CloudFormationClientTypes.Parameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterKey)
         parameterKey = parameterKeyDecoded
@@ -12325,7 +11775,7 @@ extension CloudFormationClientTypes {
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public var usePreviousValue: Swift.Bool?
 
-        public init (
+        public init(
             parameterKey: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
             resolvedValue: Swift.String? = nil,
@@ -12362,7 +11812,7 @@ extension CloudFormationClientTypes.ParameterConstraints: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.allowedValues) {
             struct KeyVal0{struct member{}}
@@ -12392,7 +11842,7 @@ extension CloudFormationClientTypes {
         /// A list of values that are permitted for a parameter.
         public var allowedValues: [Swift.String]?
 
-        public init (
+        public init(
             allowedValues: [Swift.String]? = nil
         )
         {
@@ -12434,7 +11884,7 @@ extension CloudFormationClientTypes.ParameterDeclaration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterKey)
         parameterKey = parameterKeyDecoded
@@ -12467,7 +11917,7 @@ extension CloudFormationClientTypes {
         /// The type of parameter.
         public var parameterType: Swift.String?
 
-        public init (
+        public init(
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil,
             noEcho: Swift.Bool? = nil,
@@ -12535,7 +11985,7 @@ extension CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -12554,7 +12004,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -12590,7 +12040,7 @@ extension CloudFormationClientTypes.PropertyDifference: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertyPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertyPath)
         propertyPath = propertyPathDecoded
@@ -12625,7 +12075,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var propertyPath: Swift.String?
 
-        public init (
+        public init(
             actualValue: Swift.String? = nil,
             differenceType: CloudFormationClientTypes.DifferenceType? = nil,
             expectedValue: Swift.String? = nil,
@@ -12712,7 +12162,7 @@ public struct PublishTypeInput: Swift.Equatable {
     /// The name of the extension. Conditional: You must specify Arn, or TypeName and Type.
     public var typeName: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         publicVersionNumber: Swift.String? = nil,
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
@@ -12741,7 +12191,7 @@ extension PublishTypeInputBody: Swift.Decodable {
         case typeName = "TypeName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ThirdPartyType.self, forKey: .type)
         type = typeDecoded
@@ -12754,32 +12204,20 @@ extension PublishTypeInputBody: Swift.Decodable {
     }
 }
 
-extension PublishTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PublishTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PublishTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PublishTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PublishTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PublishTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.publicTypeArn = output.publicTypeArn
@@ -12793,7 +12231,7 @@ public struct PublishTypeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) assigned to the public extension upon publication.
     public var publicTypeArn: Swift.String?
 
-    public init (
+    public init(
         publicTypeArn: Swift.String? = nil
     )
     {
@@ -12810,7 +12248,7 @@ extension PublishTypeOutputResponseBody: Swift.Decodable {
         case publicTypeArn = "PublicTypeArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PublishTypeResult"))
         let publicTypeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publicTypeArn)
@@ -12903,7 +12341,7 @@ public struct RecordHandlerProgressInput: Swift.Equatable {
     /// Reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html).
     public var statusMessage: Swift.String?
 
-    public init (
+    public init(
         bearerToken: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         currentOperationStatus: CloudFormationClientTypes.OperationStatus? = nil,
@@ -12944,7 +12382,7 @@ extension RecordHandlerProgressInputBody: Swift.Decodable {
         case statusMessage = "StatusMessage"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bearerTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bearerToken)
         bearerToken = bearerTokenDecoded
@@ -12963,37 +12401,25 @@ extension RecordHandlerProgressInputBody: Swift.Decodable {
     }
 }
 
-extension RecordHandlerProgressOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RecordHandlerProgressOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidStateTransition" : self = .invalidStateTransitionException(try InvalidStateTransitionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConditionalCheckFailed" : self = .operationStatusCheckFailedException(try OperationStatusCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RecordHandlerProgressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidStateTransition": return try await InvalidStateTransitionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ConditionalCheckFailed": return try await OperationStatusCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RecordHandlerProgressOutputError: Swift.Error, Swift.Equatable {
-    case invalidStateTransitionException(InvalidStateTransitionException)
-    case operationStatusCheckFailedException(OperationStatusCheckFailedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RecordHandlerProgressOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RecordHandlerProgressOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudFormationClientTypes {
@@ -13054,7 +12480,7 @@ public struct RegisterPublisherInput: Swift.Equatable {
     /// If you are using a Bitbucket or GitHub account for identity verification, the Amazon Resource Name (ARN) for your connection to that account. For more information, see [Registering your account to publish CloudFormation extensions](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-prereqs) in the CloudFormation CLI User Guide.
     public var connectionArn: Swift.String?
 
-    public init (
+    public init(
         acceptTermsAndConditions: Swift.Bool? = nil,
         connectionArn: Swift.String? = nil
     )
@@ -13075,7 +12501,7 @@ extension RegisterPublisherInputBody: Swift.Decodable {
         case connectionArn = "ConnectionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceptTermsAndConditionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .acceptTermsAndConditions)
         acceptTermsAndConditions = acceptTermsAndConditionsDecoded
@@ -13084,30 +12510,19 @@ extension RegisterPublisherInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterPublisherOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RegisterPublisherOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterPublisherOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RegisterPublisherOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterPublisherOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterPublisherOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.publisherId = output.publisherId
@@ -13121,7 +12536,7 @@ public struct RegisterPublisherOutputResponse: Swift.Equatable {
     /// The ID assigned this account by CloudFormation for publishing extensions.
     public var publisherId: Swift.String?
 
-    public init (
+    public init(
         publisherId: Swift.String? = nil
     )
     {
@@ -13138,7 +12553,7 @@ extension RegisterPublisherOutputResponseBody: Swift.Decodable {
         case publisherId = "PublisherId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RegisterPublisherResult"))
         let publisherIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisherId)
@@ -13215,7 +12630,7 @@ public struct RegisterTypeInput: Swift.Equatable {
     /// This member is required.
     public var typeName: Swift.String?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         loggingConfig: CloudFormationClientTypes.LoggingConfig? = nil,
@@ -13252,7 +12667,7 @@ extension RegisterTypeInputBody: Swift.Decodable {
         case typeName = "TypeName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistryType.self, forKey: .type)
         type = typeDecoded
@@ -13269,30 +12684,19 @@ extension RegisterTypeInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RegisterTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RegisterTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.registrationToken = output.registrationToken
@@ -13306,7 +12710,7 @@ public struct RegisterTypeOutputResponse: Swift.Equatable {
     /// The identifier for this registration request. Use this registration token when calling [DescribeTypeRegistration], which returns information about the status and IDs of the extension registration.
     public var registrationToken: Swift.String?
 
-    public init (
+    public init(
         registrationToken: Swift.String? = nil
     )
     {
@@ -13323,7 +12727,7 @@ extension RegisterTypeOutputResponseBody: Swift.Decodable {
         case registrationToken = "RegistrationToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RegisterTypeResult"))
         let registrationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationToken)
@@ -13469,7 +12873,7 @@ extension CloudFormationClientTypes.RequiredActivatedType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeNameAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeNameAlias)
         typeNameAlias = typeNameAliasDecoded
@@ -13511,7 +12915,7 @@ extension CloudFormationClientTypes {
         /// An alias assigned to the public extension, in this account and region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console.
         public var typeNameAlias: Swift.String?
 
-        public init (
+        public init(
             originalTypeName: Swift.String? = nil,
             publisherId: Swift.String? = nil,
             supportedMajorVersions: [Swift.Int]? = nil,
@@ -13668,7 +13072,7 @@ extension CloudFormationClientTypes.ResourceChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ChangeAction.self, forKey: .action)
         action = actionDecoded
@@ -13747,7 +13151,7 @@ extension CloudFormationClientTypes {
         /// For the Modify action, indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public var scope: [CloudFormationClientTypes.ResourceAttribute]?
 
-        public init (
+        public init(
             action: CloudFormationClientTypes.ChangeAction? = nil,
             changeSetId: Swift.String? = nil,
             details: [CloudFormationClientTypes.ResourceChangeDetail]? = nil,
@@ -13797,7 +13201,7 @@ extension CloudFormationClientTypes.ResourceChangeDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ResourceTargetDefinition.self, forKey: .target)
         target = targetDecoded
@@ -13832,7 +13236,7 @@ extension CloudFormationClientTypes {
         /// A ResourceTargetDefinition structure that describes the field that CloudFormation will change and whether the resource will be recreated.
         public var target: CloudFormationClientTypes.ResourceTargetDefinition?
 
-        public init (
+        public init(
             causingEntity: Swift.String? = nil,
             changeSource: CloudFormationClientTypes.ChangeSource? = nil,
             evaluation: CloudFormationClientTypes.EvaluationType? = nil,
@@ -13886,7 +13290,7 @@ extension CloudFormationClientTypes.ResourceIdentifierSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -13941,7 +13345,7 @@ extension CloudFormationClientTypes {
         /// The template resource type of the target resources, such as AWS::S3::Bucket.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             logicalResourceIds: [Swift.String]? = nil,
             resourceIdentifiers: [Swift.String]? = nil,
             resourceType: Swift.String? = nil
@@ -14099,7 +13503,7 @@ extension CloudFormationClientTypes.ResourceTargetDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ResourceAttribute.self, forKey: .attribute)
         attribute = attributeDecoded
@@ -14120,7 +13524,7 @@ extension CloudFormationClientTypes {
         /// If the Attribute value is Properties, indicates whether a change to this property causes the resource to be recreated. The value can be Never, Always, or Conditionally. To determine the conditions for a Conditionally recreation, see the update behavior for that [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
         public var requiresRecreation: CloudFormationClientTypes.RequiresRecreation?
 
-        public init (
+        public init(
             attribute: CloudFormationClientTypes.ResourceAttribute? = nil,
             name: Swift.String? = nil,
             requiresRecreation: CloudFormationClientTypes.RequiresRecreation? = nil
@@ -14163,7 +13567,7 @@ extension CloudFormationClientTypes.ResourceToImport: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -14204,7 +13608,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             logicalResourceId: Swift.String? = nil,
             resourceIdentifier: [Swift.String:Swift.String]? = nil,
             resourceType: Swift.String? = nil
@@ -14243,7 +13647,7 @@ extension CloudFormationClientTypes.RollbackConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.rollbackTriggers) {
             struct KeyVal0{struct member{}}
@@ -14286,7 +13690,7 @@ extension CloudFormationClientTypes {
         /// If a specified trigger is missing, the entire stack operation fails and is rolled back.
         public var rollbackTriggers: [CloudFormationClientTypes.RollbackTrigger]?
 
-        public init (
+        public init(
             monitoringTimeInMinutes: Swift.Int? = nil,
             rollbackTriggers: [CloudFormationClientTypes.RollbackTrigger]? = nil
         )
@@ -14330,7 +13734,7 @@ public struct RollbackStackInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         roleARN: Swift.String? = nil,
         stackName: Swift.String? = nil
@@ -14355,7 +13759,7 @@ extension RollbackStackInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -14366,30 +13770,19 @@ extension RollbackStackInputBody: Swift.Decodable {
     }
 }
 
-extension RollbackStackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RollbackStackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RollbackStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RollbackStackOutputError: Swift.Error, Swift.Equatable {
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RollbackStackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RollbackStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
@@ -14403,7 +13796,7 @@ public struct RollbackStackOutputResponse: Swift.Equatable {
     /// Unique identifier of the stack.
     public var stackId: Swift.String?
 
-    public init (
+    public init(
         stackId: Swift.String? = nil
     )
     {
@@ -14420,7 +13813,7 @@ extension RollbackStackOutputResponseBody: Swift.Decodable {
         case stackId = "StackId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RollbackStackResult"))
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
@@ -14444,7 +13837,7 @@ extension CloudFormationClientTypes.RollbackTrigger: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -14463,7 +13856,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var type: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -14508,7 +13901,7 @@ public struct SetStackPolicyInput: Swift.Equatable {
     /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyURL: Swift.String?
 
-    public init (
+    public init(
         stackName: Swift.String? = nil,
         stackPolicyBody: Swift.String? = nil,
         stackPolicyURL: Swift.String? = nil
@@ -14533,7 +13926,7 @@ extension SetStackPolicyInputBody: Swift.Decodable {
         case stackPolicyURL = "StackPolicyURL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -14544,33 +13937,23 @@ extension SetStackPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension SetStackPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetStackPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetStackPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetStackPolicyOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetStackPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetStackPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SetTypeConfigurationInput: Swift.Encodable {
@@ -14615,7 +13998,7 @@ public struct SetTypeConfigurationInput: Swift.Equatable {
     /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var typeName: Swift.String?
 
-    public init (
+    public init(
         configuration: Swift.String? = nil,
         configurationAlias: Swift.String? = nil,
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
@@ -14648,7 +14031,7 @@ extension SetTypeConfigurationInputBody: Swift.Decodable {
         case typeName = "TypeName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeArn)
         typeArn = typeArnDecoded
@@ -14663,32 +14046,20 @@ extension SetTypeConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension SetTypeConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetTypeConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetTypeConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetTypeConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetTypeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SetTypeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationArn = output.configurationArn
@@ -14702,7 +14073,7 @@ public struct SetTypeConfigurationOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for the configuration data, in this account and region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var configurationArn: Swift.String?
 
-    public init (
+    public init(
         configurationArn: Swift.String? = nil
     )
     {
@@ -14719,7 +14090,7 @@ extension SetTypeConfigurationOutputResponseBody: Swift.Decodable {
         case configurationArn = "ConfigurationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SetTypeConfigurationResult"))
         let configurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationArn)
@@ -14763,7 +14134,7 @@ public struct SetTypeDefaultVersionInput: Swift.Equatable {
     /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
     public var versionId: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil,
@@ -14792,7 +14163,7 @@ extension SetTypeDefaultVersionInputBody: Swift.Decodable {
         case versionId = "VersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -14805,37 +14176,25 @@ extension SetTypeDefaultVersionInputBody: Swift.Decodable {
     }
 }
 
-extension SetTypeDefaultVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetTypeDefaultVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetTypeDefaultVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetTypeDefaultVersionOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetTypeDefaultVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetTypeDefaultVersionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SignalResourceInput: Swift.Encodable {
@@ -14879,7 +14238,7 @@ public struct SignalResourceInput: Swift.Equatable {
     /// This member is required.
     public var uniqueId: Swift.String?
 
-    public init (
+    public init(
         logicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil,
         status: CloudFormationClientTypes.ResourceSignalStatus? = nil,
@@ -14908,7 +14267,7 @@ extension SignalResourceInputBody: Swift.Decodable {
         case uniqueId = "UniqueId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -14921,33 +14280,23 @@ extension SignalResourceInputBody: Swift.Decodable {
     }
 }
 
-extension SignalResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SignalResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SignalResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SignalResourceOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SignalResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SignalResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudFormationClientTypes.Stack: Swift.Codable {
@@ -15091,7 +14440,7 @@ extension CloudFormationClientTypes.Stack: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
         stackId = stackIdDecoded
@@ -15280,7 +14629,7 @@ extension CloudFormationClientTypes {
         /// The amount of time within which stack creation should complete.
         public var timeoutInMinutes: Swift.Int?
 
-        public init (
+        public init(
             capabilities: [CloudFormationClientTypes.Capability]? = nil,
             changeSetId: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
@@ -15383,7 +14732,7 @@ extension CloudFormationClientTypes.StackDriftInformation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackDriftStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackDriftStatus.self, forKey: .stackDriftStatus)
         stackDriftStatus = stackDriftStatusDecoded
@@ -15409,7 +14758,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
 
-        public init (
+        public init(
             lastCheckTimestamp: ClientRuntime.Date? = nil,
             stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil
         )
@@ -15437,7 +14786,7 @@ extension CloudFormationClientTypes.StackDriftInformationSummary: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackDriftStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackDriftStatus.self, forKey: .stackDriftStatus)
         stackDriftStatus = stackDriftStatusDecoded
@@ -15463,7 +14812,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
 
-        public init (
+        public init(
             lastCheckTimestamp: ClientRuntime.Date? = nil,
             stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil
         )
@@ -15585,7 +14934,7 @@ extension CloudFormationClientTypes.StackEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
         stackId = stackIdDecoded
@@ -15666,7 +15015,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var timestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             clientRequestToken: Swift.String? = nil,
             eventId: Swift.String? = nil,
             hookFailureMode: CloudFormationClientTypes.HookFailureMode? = nil,
@@ -15771,7 +15120,7 @@ extension CloudFormationClientTypes.StackInstance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetId)
         stackSetId = stackSetIdDecoded
@@ -15866,7 +15215,7 @@ extension CloudFormationClientTypes {
         /// The explanation for the specific status code that's assigned to this stack instance.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             account: Swift.String? = nil,
             driftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
             lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
@@ -15910,7 +15259,7 @@ extension CloudFormationClientTypes.StackInstanceComprehensiveStatus: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let detailedStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackInstanceDetailedStatus.self, forKey: .detailedStatus)
         detailedStatus = detailedStatusDecoded
@@ -15933,7 +15282,7 @@ extension CloudFormationClientTypes {
         /// * SUCCEEDED: The operation in the specified account and Region completed successfully.
         public var detailedStatus: CloudFormationClientTypes.StackInstanceDetailedStatus?
 
-        public init (
+        public init(
             detailedStatus: CloudFormationClientTypes.StackInstanceDetailedStatus? = nil
         )
         {
@@ -16003,7 +15352,7 @@ extension CloudFormationClientTypes.StackInstanceFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackInstanceFilterName.self, forKey: .name)
         name = nameDecoded
@@ -16020,7 +15369,7 @@ extension CloudFormationClientTypes {
         /// The status to filter by.
         public var values: Swift.String?
 
-        public init (
+        public init(
             name: CloudFormationClientTypes.StackInstanceFilterName? = nil,
             values: Swift.String? = nil
         )
@@ -16065,37 +15414,40 @@ extension CloudFormationClientTypes {
 }
 
 extension StackInstanceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackInstanceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified stack instance doesn't exist.
-public struct StackInstanceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StackInstanceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StackInstanceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16108,7 +15460,7 @@ extension StackInstanceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16202,7 +15554,7 @@ extension CloudFormationClientTypes.StackInstanceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetId)
         stackSetId = stackSetIdDecoded
@@ -16276,7 +15628,7 @@ extension CloudFormationClientTypes {
         /// The explanation for the specific status code assigned to this stack instance.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             account: Swift.String? = nil,
             driftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
             lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
@@ -16307,37 +15659,40 @@ extension CloudFormationClientTypes {
 }
 
 extension StackNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified stack ARN doesn't exist or stack doesn't exist corresponding to the ARN in input.
-public struct StackNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StackNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StackNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16350,7 +15705,7 @@ extension StackNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16409,7 +15764,7 @@ extension CloudFormationClientTypes.StackResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -16466,7 +15821,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var timestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             driftInformation: CloudFormationClientTypes.StackResourceDriftInformation? = nil,
             logicalResourceId: Swift.String? = nil,
@@ -16552,7 +15907,7 @@ extension CloudFormationClientTypes.StackResourceDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -16613,7 +15968,7 @@ extension CloudFormationClientTypes {
         /// The name associated with the stack.
         public var stackName: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             driftInformation: CloudFormationClientTypes.StackResourceDriftInformation? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
@@ -16715,7 +16070,7 @@ extension CloudFormationClientTypes.StackResourceDrift: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
         stackId = stackIdDecoded
@@ -16815,7 +16170,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var timestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             actualProperties: Swift.String? = nil,
             expectedProperties: Swift.String? = nil,
             logicalResourceId: Swift.String? = nil,
@@ -16861,7 +16216,7 @@ extension CloudFormationClientTypes.StackResourceDriftInformation: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackResourceDriftStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackResourceDriftStatus.self, forKey: .stackResourceDriftStatus)
         stackResourceDriftStatus = stackResourceDriftStatusDecoded
@@ -16887,7 +16242,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
 
-        public init (
+        public init(
             lastCheckTimestamp: ClientRuntime.Date? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil
         )
@@ -16915,7 +16270,7 @@ extension CloudFormationClientTypes.StackResourceDriftInformationSummary: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackResourceDriftStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackResourceDriftStatus.self, forKey: .stackResourceDriftStatus)
         stackResourceDriftStatus = stackResourceDriftStatusDecoded
@@ -16941,7 +16296,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
 
-        public init (
+        public init(
             lastCheckTimestamp: ClientRuntime.Date? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil
         )
@@ -17031,7 +16386,7 @@ extension CloudFormationClientTypes.StackResourceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logicalResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logicalResourceId)
         logicalResourceId = logicalResourceIdDecoded
@@ -17076,7 +16431,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var resourceType: Swift.String?
 
-        public init (
+        public init(
             driftInformation: CloudFormationClientTypes.StackResourceDriftInformationSummary? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
             logicalResourceId: Swift.String? = nil,
@@ -17221,7 +16576,7 @@ extension CloudFormationClientTypes.StackSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -17386,7 +16741,7 @@ extension CloudFormationClientTypes {
         /// The structure that contains the body of the template that was used to create or update the stack set.
         public var templateBody: Swift.String?
 
-        public init (
+        public init(
             administrationRoleARN: Swift.String? = nil,
             autoDeployment: CloudFormationClientTypes.AutoDeployment? = nil,
             capabilities: [CloudFormationClientTypes.Capability]? = nil,
@@ -17468,7 +16823,7 @@ extension CloudFormationClientTypes.StackSetDriftDetectionDetails: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let driftStatusDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackSetDriftStatus.self, forKey: .driftStatus)
         driftStatus = driftStatusDecoded
@@ -17533,7 +16888,7 @@ extension CloudFormationClientTypes {
         /// * Stack instances currently being checked for drift.
         public var totalStackInstancesCount: Swift.Int
 
-        public init (
+        public init(
             driftDetectionStatus: CloudFormationClientTypes.StackSetDriftDetectionStatus? = nil,
             driftStatus: CloudFormationClientTypes.StackSetDriftStatus? = nil,
             driftedStackInstancesCount: Swift.Int = 0,
@@ -17634,37 +16989,40 @@ extension CloudFormationClientTypes {
 }
 
 extension StackSetNotEmptyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackSetNotEmptyExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
-public struct StackSetNotEmptyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StackSetNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StackSetNotEmptyException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17677,7 +17035,7 @@ extension StackSetNotEmptyExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17685,37 +17043,40 @@ extension StackSetNotEmptyExceptionBody: Swift.Decodable {
 }
 
 extension StackSetNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StackSetNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified stack set doesn't exist.
-public struct StackSetNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StackSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StackSetNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17728,7 +17089,7 @@ extension StackSetNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17799,7 +17160,7 @@ extension CloudFormationClientTypes.StackSetOperation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -17876,7 +17237,7 @@ extension CloudFormationClientTypes {
         /// The status of the operation in details.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             action: CloudFormationClientTypes.StackSetOperationAction? = nil,
             administrationRoleARN: Swift.String? = nil,
             creationTimestamp: ClientRuntime.Date? = nil,
@@ -17991,7 +17352,7 @@ extension CloudFormationClientTypes.StackSetOperationPreferences: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionConcurrencyTypeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegionConcurrencyType.self, forKey: .regionConcurrencyType)
         regionConcurrencyType = regionConcurrencyTypeDecoded
@@ -18041,7 +17402,7 @@ extension CloudFormationClientTypes {
         /// The order of the Regions in where you want to perform the stack operation.
         public var regionOrder: [Swift.String]?
 
-        public init (
+        public init(
             failureToleranceCount: Swift.Int? = nil,
             failureTolerancePercentage: Swift.Int? = nil,
             maxConcurrentCount: Swift.Int? = nil,
@@ -18134,7 +17495,7 @@ extension CloudFormationClientTypes.StackSetOperationResultSummary: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .account)
         account = accountDecoded
@@ -18177,7 +17538,7 @@ extension CloudFormationClientTypes {
         /// The reason for the assigned result status.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             account: Swift.String? = nil,
             accountGateResult: CloudFormationClientTypes.AccountGateResult? = nil,
             organizationalUnitId: Swift.String? = nil,
@@ -18253,7 +17614,7 @@ extension CloudFormationClientTypes.StackSetOperationStatusDetails: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .failedStackInstancesCount)
         failedStackInstancesCount = failedStackInstancesCountDecoded
@@ -18266,7 +17627,7 @@ extension CloudFormationClientTypes {
         /// The number of stack instances for which the StackSet operation failed.
         public var failedStackInstancesCount: Swift.Int
 
-        public init (
+        public init(
             failedStackInstancesCount: Swift.Int = 0
         )
         {
@@ -18316,7 +17677,7 @@ extension CloudFormationClientTypes.StackSetOperationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -18369,7 +17730,7 @@ extension CloudFormationClientTypes {
         /// The status of the operation in details.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             action: CloudFormationClientTypes.StackSetOperationAction? = nil,
             creationTimestamp: ClientRuntime.Date? = nil,
             endTimestamp: ClientRuntime.Date? = nil,
@@ -18469,7 +17830,7 @@ extension CloudFormationClientTypes.StackSetSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -18526,7 +17887,7 @@ extension CloudFormationClientTypes {
         /// The status of the stack set.
         public var status: CloudFormationClientTypes.StackSetStatus?
 
-        public init (
+        public init(
             autoDeployment: CloudFormationClientTypes.AutoDeployment? = nil,
             description: Swift.String? = nil,
             driftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
@@ -18699,7 +18060,7 @@ extension CloudFormationClientTypes.StackSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
         stackId = stackIdDecoded
@@ -18755,7 +18116,7 @@ extension CloudFormationClientTypes {
         /// The template description of the template used to create the stack.
         public var templateDescription: Swift.String?
 
-        public init (
+        public init(
             creationTime: ClientRuntime.Date? = nil,
             deletionTime: ClientRuntime.Date? = nil,
             driftInformation: CloudFormationClientTypes.StackDriftInformationSummary? = nil,
@@ -18786,37 +18147,40 @@ extension CloudFormationClientTypes {
 }
 
 extension StaleRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<StaleRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Another operation has been performed on this stack set since the specified operation was performed.
-public struct StaleRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct StaleRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StaleRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18829,7 +18193,7 @@ extension StaleRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18873,7 +18237,7 @@ public struct StopStackSetOperationInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         operationId: Swift.String? = nil,
         stackSetName: Swift.String? = nil
@@ -18898,7 +18262,7 @@ extension StopStackSetOperationInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -18909,39 +18273,26 @@ extension StopStackSetOperationInputBody: Swift.Decodable {
     }
 }
 
-extension StopStackSetOperationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension StopStackSetOperationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotFoundException" : self = .operationNotFoundException(try OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopStackSetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum StopStackSetOperationOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case operationNotFoundException(OperationNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopStackSetOperationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopStackSetOperationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CloudFormationClientTypes.Tag: Swift.Codable {
@@ -18960,7 +18311,7 @@ extension CloudFormationClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -18979,7 +18330,7 @@ extension CloudFormationClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -19015,7 +18366,7 @@ extension CloudFormationClientTypes.TemplateParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterKey)
         parameterKey = parameterKeyDecoded
@@ -19040,7 +18391,7 @@ extension CloudFormationClientTypes {
         /// The name associated with the parameter.
         public var parameterKey: Swift.String?
 
-        public init (
+        public init(
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil,
             noEcho: Swift.Bool? = nil,
@@ -19136,7 +18487,7 @@ public struct TestTypeInput: Swift.Equatable {
     /// The version of the extension to test. You can specify the version id with either Arn, or with TypeName and Type. If you don't specify a version, CloudFormation uses the default version of the extension in this account and region for testing.
     public var versionId: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         logDeliveryBucket: Swift.String? = nil,
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
@@ -19169,7 +18520,7 @@ extension TestTypeInputBody: Swift.Decodable {
         case versionId = "VersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -19184,32 +18535,20 @@ extension TestTypeInputBody: Swift.Decodable {
     }
 }
 
-extension TestTypeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension TestTypeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CFNRegistryException" : self = .cFNRegistryException(try CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TypeNotFoundException" : self = .typeNotFoundException(try TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TestTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TypeNotFoundException": return try await TypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum TestTypeOutputError: Swift.Error, Swift.Equatable {
-    case cFNRegistryException(CFNRegistryException)
-    case typeNotFoundException(TypeNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TestTypeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TestTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.typeVersionArn = output.typeVersionArn
@@ -19223,7 +18562,7 @@ public struct TestTypeOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the extension.
     public var typeVersionArn: Swift.String?
 
-    public init (
+    public init(
         typeVersionArn: Swift.String? = nil
     )
     {
@@ -19240,7 +18579,7 @@ extension TestTypeOutputResponseBody: Swift.Decodable {
         case typeVersionArn = "TypeVersionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestTypeResult"))
         let typeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeVersionArn)
@@ -19284,37 +18623,40 @@ extension CloudFormationClientTypes {
 }
 
 extension TokenAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TokenAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A client request token already exists.
-public struct TokenAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TokenAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TokenAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19327,7 +18669,7 @@ extension TokenAlreadyExistsExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19370,7 +18712,7 @@ extension CloudFormationClientTypes.TypeConfigurationDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -19407,7 +18749,7 @@ extension CloudFormationClientTypes {
         /// The name of the extension.
         public var typeName: Swift.String?
 
-        public init (
+        public init(
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
             configuration: Swift.String? = nil,
@@ -19457,7 +18799,7 @@ extension CloudFormationClientTypes.TypeConfigurationIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeArn)
         typeArn = typeArnDecoded
@@ -19486,7 +18828,7 @@ extension CloudFormationClientTypes {
         /// The name of the extension type to which this configuration applies.
         public var typeName: Swift.String?
 
-        public init (
+        public init(
             type: CloudFormationClientTypes.ThirdPartyType? = nil,
             typeArn: Swift.String? = nil,
             typeConfigurationAlias: Swift.String? = nil,
@@ -19505,37 +18847,40 @@ extension CloudFormationClientTypes {
 }
 
 extension TypeConfigurationNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TypeConfigurationNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified extension configuration can't be found.
-public struct TypeConfigurationNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TypeConfigurationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TypeConfigurationNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19548,7 +18893,7 @@ extension TypeConfigurationNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19575,7 +18920,7 @@ extension CloudFormationClientTypes.TypeFilters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let categoryDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.Category.self, forKey: .category)
         category = categoryDecoded
@@ -19611,7 +18956,7 @@ extension CloudFormationClientTypes {
         /// A prefix to use as a filter for results.
         public var typeNamePrefix: Swift.String?
 
-        public init (
+        public init(
             category: CloudFormationClientTypes.Category? = nil,
             publisherId: Swift.String? = nil,
             typeNamePrefix: Swift.String? = nil
@@ -19626,37 +18971,40 @@ extension CloudFormationClientTypes {
 }
 
 extension TypeNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TypeNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified extension doesn't exist in the CloudFormation registry.
-public struct TypeNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TypeNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19669,7 +19017,7 @@ extension TypeNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19736,7 +19084,7 @@ extension CloudFormationClientTypes.TypeSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistryType.self, forKey: .type)
         type = typeDecoded
@@ -19804,7 +19152,7 @@ extension CloudFormationClientTypes {
         /// The name of the extension. If you specified a TypeNameAlias when you [activate this extension](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in your account and region, CloudFormation considers that alias as the type name.
         public var typeName: Swift.String?
 
-        public init (
+        public init(
             defaultVersionId: Swift.String? = nil,
             description: Swift.String? = nil,
             isActivated: Swift.Bool? = nil,
@@ -19916,7 +19264,7 @@ extension CloudFormationClientTypes.TypeVersionSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.RegistryType.self, forKey: .type)
         type = typeDecoded
@@ -19957,7 +19305,7 @@ extension CloudFormationClientTypes {
         /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it's registered.
         public var versionId: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             isDefaultVersion: Swift.Bool? = nil,
@@ -20159,7 +19507,7 @@ public struct UpdateStackInput: Swift.Equatable {
     /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
-    public init (
+    public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         clientRequestToken: Swift.String? = nil,
         disableRollback: Swift.Bool? = nil,
@@ -20240,7 +19588,7 @@ extension UpdateStackInputBody: Swift.Decodable {
         case usePreviousTemplate = "UsePreviousTemplate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
         stackName = stackNameDecoded
@@ -20464,7 +19812,7 @@ public struct UpdateStackInstancesInput: Swift.Equatable {
     /// This member is required.
     public var stackSetName: Swift.String?
 
-    public init (
+    public init(
         accounts: [Swift.String]? = nil,
         callAs: CloudFormationClientTypes.CallAs? = nil,
         deploymentTargets: CloudFormationClientTypes.DeploymentTargets? = nil,
@@ -20509,7 +19857,7 @@ extension UpdateStackInstancesInputBody: Swift.Decodable {
         case stackSetName = "StackSetName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -20581,40 +19929,24 @@ extension UpdateStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateStackInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateStackInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationIdAlreadyExistsException" : self = .operationIdAlreadyExistsException(try OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackInstanceNotFoundException" : self = .stackInstanceNotFoundException(try StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StaleRequestException" : self = .staleRequestException(try StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationIdAlreadyExistsException": return try await OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackInstanceNotFoundException": return try await StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StaleRequestException": return try await StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateStackInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case operationIdAlreadyExistsException(OperationIdAlreadyExistsException)
-    case operationInProgressException(OperationInProgressException)
-    case stackInstanceNotFoundException(StackInstanceNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case staleRequestException(StaleRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateStackInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateStackInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -20628,7 +19960,7 @@ public struct UpdateStackInstancesOutputResponse: Swift.Equatable {
     /// The unique identifier for this stack set operation.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -20645,7 +19977,7 @@ extension UpdateStackInstancesOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateStackInstancesResult"))
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
@@ -20653,32 +19985,20 @@ extension UpdateStackInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension UpdateStackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateStackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientCapabilitiesException" : self = .insufficientCapabilitiesException(try InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TokenAlreadyExistsException" : self = .tokenAlreadyExistsException(try TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientCapabilitiesException": return try await InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateStackOutputError: Swift.Error, Swift.Equatable {
-    case insufficientCapabilitiesException(InsufficientCapabilitiesException)
-    case tokenAlreadyExistsException(TokenAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateStackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
@@ -20693,7 +20013,7 @@ public struct UpdateStackOutputResponse: Swift.Equatable {
     /// Unique identifier of the stack.
     public var stackId: Swift.String?
 
-    public init (
+    public init(
         stackId: Swift.String? = nil
     )
     {
@@ -20710,7 +20030,7 @@ extension UpdateStackOutputResponseBody: Swift.Decodable {
         case stackId = "StackId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateStackResult"))
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
@@ -20922,7 +20242,7 @@ public struct UpdateStackSetInput: Swift.Equatable {
     /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
-    public init (
+    public init(
         accounts: [Swift.String]? = nil,
         administrationRoleARN: Swift.String? = nil,
         autoDeployment: CloudFormationClientTypes.AutoDeployment? = nil,
@@ -21011,7 +20331,7 @@ extension UpdateStackSetInputBody: Swift.Decodable {
         case usePreviousTemplate = "UsePreviousTemplate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stackSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackSetName)
         stackSetName = stackSetNameDecoded
@@ -21139,40 +20459,24 @@ extension UpdateStackSetInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateStackSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateStackSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationIdAlreadyExistsException" : self = .operationIdAlreadyExistsException(try OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressException" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackInstanceNotFoundException" : self = .stackInstanceNotFoundException(try StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StackSetNotFoundException" : self = .stackSetNotFoundException(try StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "StaleRequestException" : self = .staleRequestException(try StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationIdAlreadyExistsException": return try await OperationIdAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackInstanceNotFoundException": return try await StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StaleRequestException": return try await StaleRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateStackSetOutputError: Swift.Error, Swift.Equatable {
-    case invalidOperationException(InvalidOperationException)
-    case operationIdAlreadyExistsException(OperationIdAlreadyExistsException)
-    case operationInProgressException(OperationInProgressException)
-    case stackInstanceNotFoundException(StackInstanceNotFoundException)
-    case stackSetNotFoundException(StackSetNotFoundException)
-    case staleRequestException(StaleRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateStackSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateStackSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -21186,7 +20490,7 @@ public struct UpdateStackSetOutputResponse: Swift.Equatable {
     /// The unique ID for this stack set operation.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -21203,7 +20507,7 @@ extension UpdateStackSetOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateStackSetResult"))
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
@@ -21239,7 +20543,7 @@ public struct UpdateTerminationProtectionInput: Swift.Equatable {
     /// This member is required.
     public var stackName: Swift.String?
 
-    public init (
+    public init(
         enableTerminationProtection: Swift.Bool? = nil,
         stackName: Swift.String? = nil
     )
@@ -21260,7 +20564,7 @@ extension UpdateTerminationProtectionInputBody: Swift.Decodable {
         case stackName = "StackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enableTerminationProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableTerminationProtection)
         enableTerminationProtection = enableTerminationProtectionDecoded
@@ -21269,28 +20573,18 @@ extension UpdateTerminationProtectionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTerminationProtectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateTerminationProtectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTerminationProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateTerminationProtectionOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTerminationProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateTerminationProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
@@ -21304,7 +20598,7 @@ public struct UpdateTerminationProtectionOutputResponse: Swift.Equatable {
     /// The unique ID of the stack.
     public var stackId: Swift.String?
 
-    public init (
+    public init(
         stackId: Swift.String? = nil
     )
     {
@@ -21321,7 +20615,7 @@ extension UpdateTerminationProtectionOutputResponseBody: Swift.Decodable {
         case stackId = "StackId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateTerminationProtectionResult"))
         let stackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackId)
@@ -21356,7 +20650,7 @@ public struct ValidateTemplateInput: Swift.Equatable {
     /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateURL: Swift.String?
 
-    public init (
+    public init(
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil
     )
@@ -21377,7 +20671,7 @@ extension ValidateTemplateInputBody: Swift.Decodable {
         case templateURL = "TemplateURL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
         templateBody = templateBodyDecoded
@@ -21386,28 +20680,18 @@ extension ValidateTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension ValidateTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ValidateTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ValidateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ValidateTemplateOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ValidateTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidateTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capabilities = output.capabilities
@@ -21438,7 +20722,7 @@ public struct ValidateTemplateOutputResponse: Swift.Equatable {
     /// A list of TemplateParameter structures.
     public var parameters: [CloudFormationClientTypes.TemplateParameter]?
 
-    public init (
+    public init(
         capabilities: [CloudFormationClientTypes.Capability]? = nil,
         capabilitiesReason: Swift.String? = nil,
         declaredTransforms: [Swift.String]? = nil,
@@ -21471,7 +20755,7 @@ extension ValidateTemplateOutputResponseBody: Swift.Decodable {
         case parameters = "Parameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ValidateTemplateResult"))
         if containerValues.contains(.parameters) {

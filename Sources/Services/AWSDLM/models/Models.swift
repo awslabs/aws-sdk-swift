@@ -21,7 +21,7 @@ extension DLMClientTypes.Action: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -49,7 +49,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             crossRegionCopy: [DLMClientTypes.CrossRegionCopyAction]? = nil,
             name: Swift.String? = nil
         )
@@ -73,7 +73,7 @@ extension DLMClientTypes.ArchiveRetainRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retentionArchiveTierDecoded = try containerValues.decodeIfPresent(DLMClientTypes.RetentionArchiveTier.self, forKey: .retentionArchiveTier)
         retentionArchiveTier = retentionArchiveTierDecoded
@@ -87,7 +87,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var retentionArchiveTier: DLMClientTypes.RetentionArchiveTier?
 
-        public init (
+        public init(
             retentionArchiveTier: DLMClientTypes.RetentionArchiveTier? = nil
         )
         {
@@ -109,7 +109,7 @@ extension DLMClientTypes.ArchiveRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let retainRuleDecoded = try containerValues.decodeIfPresent(DLMClientTypes.ArchiveRetainRule.self, forKey: .retainRule)
         retainRule = retainRuleDecoded
@@ -123,7 +123,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var retainRule: DLMClientTypes.ArchiveRetainRule?
 
-        public init (
+        public init(
             retainRule: DLMClientTypes.ArchiveRetainRule? = nil
         )
         {
@@ -187,7 +187,7 @@ public struct CreateLifecyclePolicyInput: Swift.Equatable {
     /// The tags to apply to the lifecycle policy during creation.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         policyDetails: DLMClientTypes.PolicyDetails? = nil,
@@ -220,7 +220,7 @@ extension CreateLifecyclePolicyInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
         executionRoleArn = executionRoleArnDecoded
@@ -244,35 +244,22 @@ extension CreateLifecyclePolicyInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLifecyclePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLifecyclePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLifecyclePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyId = output.policyId
@@ -286,7 +273,7 @@ public struct CreateLifecyclePolicyOutputResponse: Swift.Equatable {
     /// The identifier of the lifecycle policy.
     public var policyId: Swift.String?
 
-    public init (
+    public init(
         policyId: Swift.String? = nil
     )
     {
@@ -303,7 +290,7 @@ extension CreateLifecyclePolicyOutputResponseBody: Swift.Decodable {
         case policyId = "PolicyId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
         policyId = policyIdDecoded
@@ -341,7 +328,7 @@ extension DLMClientTypes.CreateRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationDecoded = try containerValues.decodeIfPresent(DLMClientTypes.LocationValues.self, forKey: .location)
         location = locationDecoded
@@ -383,7 +370,7 @@ extension DLMClientTypes {
         /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time. If you do not specify a time, Amazon Data Lifecycle Manager selects a time within the next 24 hours.
         public var times: [Swift.String]?
 
-        public init (
+        public init(
             cronExpression: Swift.String? = nil,
             interval: Swift.Int = 0,
             intervalUnit: DLMClientTypes.IntervalUnitValues? = nil,
@@ -421,7 +408,7 @@ extension DLMClientTypes.CrossRegionCopyAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
         target = targetDecoded
@@ -444,7 +431,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var target: Swift.String?
 
-        public init (
+        public init(
             encryptionConfiguration: DLMClientTypes.EncryptionConfiguration? = nil,
             retainRule: DLMClientTypes.CrossRegionCopyRetainRule? = nil,
             target: Swift.String? = nil
@@ -474,7 +461,7 @@ extension DLMClientTypes.CrossRegionCopyDeprecateRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
         interval = intervalDecoded
@@ -491,7 +478,7 @@ extension DLMClientTypes {
         /// The unit of time in which to measure the Interval. For example, to deprecate a cross-Region AMI copy after 3 months, specify Interval=3 and IntervalUnit=MONTHS.
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             interval: Swift.Int = 0,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
         )
@@ -519,7 +506,7 @@ extension DLMClientTypes.CrossRegionCopyRetainRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
         interval = intervalDecoded
@@ -536,7 +523,7 @@ extension DLMClientTypes {
         /// The unit of time for time-based retention. For example, to retain a cross-Region copy for 3 months, specify Interval=3 and IntervalUnit=MONTHS.
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             interval: Swift.Int = 0,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
         )
@@ -584,7 +571,7 @@ extension DLMClientTypes.CrossRegionCopyRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetRegion)
         targetRegion = targetRegionDecoded
@@ -622,7 +609,7 @@ extension DLMClientTypes {
         /// Avoid using this parameter when creating new policies. Instead, use Target to specify a target Region or a target Outpost for snapshot copies. For policies created before the Target parameter was introduced, this parameter indicates the target Region for snapshot copies.
         public var targetRegion: Swift.String?
 
-        public init (
+        public init(
             cmkArn: Swift.String? = nil,
             copyTags: Swift.Bool? = nil,
             deprecateRule: DLMClientTypes.CrossRegionCopyDeprecateRule? = nil,
@@ -658,7 +645,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyId: Swift.String?
 
-    public init (
+    public init(
         policyId: Swift.String? = nil
     )
     {
@@ -671,44 +658,31 @@ struct DeleteLifecyclePolicyInputBody: Swift.Equatable {
 
 extension DeleteLifecyclePolicyInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteLifecyclePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLifecyclePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLifecyclePolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DLMClientTypes.DeprecateRule: Swift.Codable {
@@ -731,7 +705,7 @@ extension DLMClientTypes.DeprecateRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -752,7 +726,7 @@ extension DLMClientTypes {
         /// The unit of time in which to measure the Interval.
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             interval: Swift.Int = 0,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
@@ -782,7 +756,7 @@ extension DLMClientTypes.EncryptionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
@@ -800,7 +774,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var encrypted: Swift.Bool?
 
-        public init (
+        public init(
             cmkArn: Swift.String? = nil,
             encrypted: Swift.Bool? = nil
         )
@@ -835,7 +809,7 @@ extension DLMClientTypes.EventParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventTypeDecoded = try containerValues.decodeIfPresent(DLMClientTypes.EventTypeValues.self, forKey: .eventType)
         eventType = eventTypeDecoded
@@ -868,7 +842,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var snapshotOwner: [Swift.String]?
 
-        public init (
+        public init(
             descriptionRegex: Swift.String? = nil,
             eventType: DLMClientTypes.EventTypeValues? = nil,
             snapshotOwner: [Swift.String]? = nil
@@ -898,7 +872,7 @@ extension DLMClientTypes.EventSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(DLMClientTypes.EventSourceValues.self, forKey: .type)
         type = typeDecoded
@@ -916,7 +890,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var type: DLMClientTypes.EventSourceValues?
 
-        public init (
+        public init(
             parameters: DLMClientTypes.EventParameters? = nil,
             type: DLMClientTypes.EventSourceValues? = nil
         )
@@ -1013,7 +987,7 @@ extension DLMClientTypes.FastRestoreRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -1048,7 +1022,7 @@ extension DLMClientTypes {
         /// The unit of time for enabling fast snapshot restore.
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             availabilityZones: [Swift.String]? = nil,
             count: Swift.Int = 0,
             interval: Swift.Int = 0,
@@ -1119,7 +1093,7 @@ public struct GetLifecyclePoliciesInput: Swift.Equatable {
     /// The target tag for a policy. Tags are strings in the format key=value.
     public var targetTags: [Swift.String]?
 
-    public init (
+    public init(
         policyIds: [Swift.String]? = nil,
         resourceTypes: [DLMClientTypes.ResourceTypeValues]? = nil,
         state: DLMClientTypes.GettablePolicyStateValues? = nil,
@@ -1140,41 +1114,27 @@ struct GetLifecyclePoliciesInputBody: Swift.Equatable {
 
 extension GetLifecyclePoliciesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetLifecyclePoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLifecyclePoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLifecyclePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLifecyclePoliciesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLifecyclePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLifecyclePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policies = output.policies
@@ -1188,7 +1148,7 @@ public struct GetLifecyclePoliciesOutputResponse: Swift.Equatable {
     /// Summary information about the lifecycle policies.
     public var policies: [DLMClientTypes.LifecyclePolicySummary]?
 
-    public init (
+    public init(
         policies: [DLMClientTypes.LifecyclePolicySummary]? = nil
     )
     {
@@ -1205,7 +1165,7 @@ extension GetLifecyclePoliciesOutputResponseBody: Swift.Decodable {
         case policies = "Policies"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policiesContainer = try containerValues.decodeIfPresent([DLMClientTypes.LifecyclePolicySummary?].self, forKey: .policies)
         var policiesDecoded0:[DLMClientTypes.LifecyclePolicySummary]? = nil
@@ -1235,7 +1195,7 @@ public struct GetLifecyclePolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyId: Swift.String?
 
-    public init (
+    public init(
         policyId: Swift.String? = nil
     )
     {
@@ -1248,39 +1208,26 @@ struct GetLifecyclePolicyInputBody: Swift.Equatable {
 
 extension GetLifecyclePolicyInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetLifecyclePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLifecyclePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLifecyclePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
@@ -1294,7 +1241,7 @@ public struct GetLifecyclePolicyOutputResponse: Swift.Equatable {
     /// Detailed information about the lifecycle policy.
     public var policy: DLMClientTypes.LifecyclePolicy?
 
-    public init (
+    public init(
         policy: DLMClientTypes.LifecyclePolicy? = nil
     )
     {
@@ -1311,7 +1258,7 @@ extension GetLifecyclePolicyOutputResponseBody: Swift.Decodable {
         case policy = "Policy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(DLMClientTypes.LifecyclePolicy.self, forKey: .policy)
         policy = policyDecoded
@@ -1354,42 +1301,46 @@ extension DLMClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
+            self.properties.code = output.code
+            self.properties.message = output.message
         } else {
-            self.code = nil
-            self.message = nil
+            self.properties.code = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service failed in an unexpected way.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var code: Swift.String?
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -1404,7 +1355,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1443,54 +1394,58 @@ extension DLMClientTypes {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.mutuallyExclusiveParameters = output.mutuallyExclusiveParameters
-            self.requiredParameters = output.requiredParameters
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.mutuallyExclusiveParameters = output.mutuallyExclusiveParameters
+            self.properties.requiredParameters = output.requiredParameters
         } else {
-            self.code = nil
-            self.message = nil
-            self.mutuallyExclusiveParameters = nil
-            self.requiredParameters = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.mutuallyExclusiveParameters = nil
+            self.properties.requiredParameters = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Bad request. The request is missing required parameters or has invalid parameters.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
-    /// The request included parameters that cannot be provided together.
-    public var mutuallyExclusiveParameters: [Swift.String]?
-    /// The request omitted one or more required parameters.
-    public var requiredParameters: [Swift.String]?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The request included parameters that cannot be provided together.
+        public internal(set) var mutuallyExclusiveParameters: [Swift.String]? = nil
+        /// The request omitted one or more required parameters.
+        public internal(set) var requiredParameters: [Swift.String]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         mutuallyExclusiveParameters: [Swift.String]? = nil,
         requiredParameters: [Swift.String]? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.mutuallyExclusiveParameters = mutuallyExclusiveParameters
-        self.requiredParameters = requiredParameters
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.mutuallyExclusiveParameters = mutuallyExclusiveParameters
+        self.properties.requiredParameters = requiredParameters
     }
 }
 
@@ -1509,7 +1464,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case requiredParameters = "RequiredParameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1591,7 +1546,7 @@ extension DLMClientTypes.LifecyclePolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
         policyId = policyIdDecoded
@@ -1649,7 +1604,7 @@ extension DLMClientTypes {
         /// The tags.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             dateCreated: ClientRuntime.Date? = nil,
             dateModified: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
@@ -1708,7 +1663,7 @@ extension DLMClientTypes.LifecyclePolicySummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
         policyId = policyIdDecoded
@@ -1746,7 +1701,7 @@ extension DLMClientTypes {
         /// The tags.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyType: DLMClientTypes.PolicyTypeValues? = nil,
@@ -1765,48 +1720,52 @@ extension DLMClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.resourceType = output.resourceType
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.resourceType = output.resourceType
         } else {
-            self.code = nil
-            self.message = nil
-            self.resourceType = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.resourceType = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request failed because a limit was exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
-    /// Value is the type of resource for which a limit was exceeded.
-    public var resourceType: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// Value is the type of resource for which a limit was exceeded.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.resourceType = resourceType
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -1823,7 +1782,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1848,7 +1807,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -1861,39 +1820,26 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -1907,7 +1853,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// Information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1924,7 +1870,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -1995,7 +1941,7 @@ extension DLMClientTypes.Parameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let excludeBootVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excludeBootVolume)
         excludeBootVolume = excludeBootVolumeDecoded
@@ -2025,7 +1971,7 @@ extension DLMClientTypes {
         /// [AMI policies only] Indicates whether targeted instances are rebooted when the lifecycle policy runs. true indicates that targeted instances are not rebooted when the policy runs. false indicates that target instances are rebooted when the policy runs. The default is true (instances are not rebooted).
         public var noReboot: Swift.Bool?
 
-        public init (
+        public init(
             excludeBootVolume: Swift.Bool? = nil,
             excludeDataVolumeTags: [DLMClientTypes.Tag]? = nil,
             noReboot: Swift.Bool? = nil
@@ -2094,7 +2040,7 @@ extension DLMClientTypes.PolicyDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyTypeDecoded = try containerValues.decodeIfPresent(DLMClientTypes.PolicyTypeValues.self, forKey: .policyType)
         policyType = policyTypeDecoded
@@ -2180,7 +2126,7 @@ extension DLMClientTypes {
         /// [Snapshot and AMI policies only] The single tag that identifies targeted resources for this policy.
         public var targetTags: [DLMClientTypes.Tag]?
 
-        public init (
+        public init(
             actions: [DLMClientTypes.Action]? = nil,
             eventSource: DLMClientTypes.EventSource? = nil,
             parameters: DLMClientTypes.Parameters? = nil,
@@ -2272,54 +2218,58 @@ extension DLMClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.code = output.code
-            self.message = output.message
-            self.resourceIds = output.resourceIds
-            self.resourceType = output.resourceType
+            self.properties.code = output.code
+            self.properties.message = output.message
+            self.properties.resourceIds = output.resourceIds
+            self.properties.resourceType = output.resourceType
         } else {
-            self.code = nil
-            self.message = nil
-            self.resourceIds = nil
-            self.resourceType = nil
+            self.properties.code = nil
+            self.properties.message = nil
+            self.properties.resourceIds = nil
+            self.properties.resourceType = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A requested resource was not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var code: Swift.String?
-    public var message: Swift.String?
-    /// Value is a list of resource IDs that were not found.
-    public var resourceIds: [Swift.String]?
-    /// Value is the type of resource that was not found.
-    public var resourceType: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// Value is a list of resource IDs that were not found.
+        public internal(set) var resourceIds: [Swift.String]? = nil
+        /// Value is the type of resource that was not found.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: Swift.String? = nil
     )
     {
-        self.code = code
-        self.message = message
-        self.resourceIds = resourceIds
-        self.resourceType = resourceType
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.resourceIds = resourceIds
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -2338,7 +2288,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case resourceType = "ResourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2412,7 +2362,7 @@ extension DLMClientTypes.RetainRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2437,7 +2387,7 @@ extension DLMClientTypes {
         /// The unit of time for time-based retention. For example, to retain snapshots for 3 months, specify Interval=3 and IntervalUnit=MONTHS. Once the snapshot has been retained for 3 months, it is deleted, or it is moved to the archive tier if you have specified an [ArchiveRule].
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             interval: Swift.Int = 0,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
@@ -2471,7 +2421,7 @@ extension DLMClientTypes.RetentionArchiveTier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2492,7 +2442,7 @@ extension DLMClientTypes {
         /// The unit of time in which to measure the Interval. For example, to retain a snapshots in the archive tier for 6 months, specify Interval=6 and IntervalUnit=MONTHS.
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             interval: Swift.Int = 0,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
@@ -2608,7 +2558,7 @@ extension DLMClientTypes.Schedule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2697,7 +2647,7 @@ extension DLMClientTypes {
         /// [AMI policies and snapshot policies that target instances only] A collection of key/value pairs with values determined dynamically when the policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be in one of the two following formats: $(instance-id) or $(timestamp). Variable tags are only valid for EBS Snapshot Management – Instance policies.
         public var variableTags: [DLMClientTypes.Tag]?
 
-        public init (
+        public init(
             archiveRule: DLMClientTypes.ArchiveRule? = nil,
             copyTags: Swift.Bool = false,
             createRule: DLMClientTypes.CreateRule? = nil,
@@ -2782,7 +2732,7 @@ extension DLMClientTypes.ShareRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetAccountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targetAccounts)
         var targetAccountsDecoded0:[Swift.String]? = nil
@@ -2813,7 +2763,7 @@ extension DLMClientTypes {
         /// The unit of time for the automatic unsharing interval.
         public var unshareIntervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
-        public init (
+        public init(
             targetAccounts: [Swift.String]? = nil,
             unshareInterval: Swift.Int = 0,
             unshareIntervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
@@ -2843,7 +2793,7 @@ extension DLMClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -2862,7 +2812,7 @@ extension DLMClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -2907,7 +2857,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -2926,7 +2876,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -2942,40 +2892,27 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
@@ -2984,7 +2921,7 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -3012,7 +2949,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -3027,44 +2964,31 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLifecyclePolicyInput: Swift.Encodable {
@@ -3114,7 +3038,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Equatable {
     /// The desired activation state of the lifecycle policy after creation.
     public var state: DLMClientTypes.SettablePolicyStateValues?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         policyDetails: DLMClientTypes.PolicyDetails? = nil,
@@ -3145,7 +3069,7 @@ extension UpdateLifecyclePolicyInputBody: Swift.Decodable {
         case state = "State"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
         executionRoleArn = executionRoleArnDecoded
@@ -3158,40 +3082,26 @@ extension UpdateLifecyclePolicyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLifecyclePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLifecyclePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLifecyclePolicyOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLifecyclePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLifecyclePolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }

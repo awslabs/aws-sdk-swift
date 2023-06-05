@@ -3,37 +3,41 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccountLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccountLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
-public struct AccountLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -46,7 +50,7 @@ extension AccountLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -214,7 +218,7 @@ public struct BatchDeleteBuildsInput: Swift.Equatable {
     /// This member is required.
     public var ids: [Swift.String]?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil
     )
     {
@@ -231,7 +235,7 @@ extension BatchDeleteBuildsInputBody: Swift.Decodable {
         case ids
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -247,31 +251,20 @@ extension BatchDeleteBuildsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchDeleteBuildsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchDeleteBuildsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchDeleteBuildsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchDeleteBuildsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchDeleteBuildsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchDeleteBuildsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buildsDeleted = output.buildsDeleted
@@ -289,7 +282,7 @@ public struct BatchDeleteBuildsOutputResponse: Swift.Equatable {
     /// Information about any builds that could not be successfully deleted.
     public var buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]?
 
-    public init (
+    public init(
         buildsDeleted: [Swift.String]? = nil,
         buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]? = nil
     )
@@ -310,7 +303,7 @@ extension BatchDeleteBuildsOutputResponseBody: Swift.Decodable {
         case buildsNotDeleted
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildsDeletedContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .buildsDeleted)
         var buildsDeletedDecoded0:[Swift.String]? = nil
@@ -364,7 +357,7 @@ public struct BatchGetBuildBatchesInput: Swift.Equatable {
     /// This member is required.
     public var ids: [Swift.String]?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil
     )
     {
@@ -381,7 +374,7 @@ extension BatchGetBuildBatchesInputBody: Swift.Decodable {
         case ids
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -397,31 +390,20 @@ extension BatchGetBuildBatchesInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetBuildBatchesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetBuildBatchesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetBuildBatchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetBuildBatchesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetBuildBatchesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetBuildBatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buildBatches = output.buildBatches
@@ -439,7 +421,7 @@ public struct BatchGetBuildBatchesOutputResponse: Swift.Equatable {
     /// An array that contains the identifiers of any batch builds that are not found.
     public var buildBatchesNotFound: [Swift.String]?
 
-    public init (
+    public init(
         buildBatches: [CodeBuildClientTypes.BuildBatch]? = nil,
         buildBatchesNotFound: [Swift.String]? = nil
     )
@@ -460,7 +442,7 @@ extension BatchGetBuildBatchesOutputResponseBody: Swift.Decodable {
         case buildBatchesNotFound
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildBatchesContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.BuildBatch?].self, forKey: .buildBatches)
         var buildBatchesDecoded0:[CodeBuildClientTypes.BuildBatch]? = nil
@@ -514,7 +496,7 @@ public struct BatchGetBuildsInput: Swift.Equatable {
     /// This member is required.
     public var ids: [Swift.String]?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil
     )
     {
@@ -531,7 +513,7 @@ extension BatchGetBuildsInputBody: Swift.Decodable {
         case ids
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -547,31 +529,20 @@ extension BatchGetBuildsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetBuildsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetBuildsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetBuildsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetBuildsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetBuildsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetBuildsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.builds = output.builds
@@ -589,7 +560,7 @@ public struct BatchGetBuildsOutputResponse: Swift.Equatable {
     /// The IDs of builds for which information could not be found.
     public var buildsNotFound: [Swift.String]?
 
-    public init (
+    public init(
         builds: [CodeBuildClientTypes.Build]? = nil,
         buildsNotFound: [Swift.String]? = nil
     )
@@ -610,7 +581,7 @@ extension BatchGetBuildsOutputResponseBody: Swift.Decodable {
         case buildsNotFound
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Build?].self, forKey: .builds)
         var buildsDecoded0:[CodeBuildClientTypes.Build]? = nil
@@ -664,7 +635,7 @@ public struct BatchGetProjectsInput: Swift.Equatable {
     /// This member is required.
     public var names: [Swift.String]?
 
-    public init (
+    public init(
         names: [Swift.String]? = nil
     )
     {
@@ -681,7 +652,7 @@ extension BatchGetProjectsInputBody: Swift.Decodable {
         case names
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .names)
         var namesDecoded0:[Swift.String]? = nil
@@ -697,31 +668,20 @@ extension BatchGetProjectsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetProjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetProjectsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetProjectsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.projects = output.projects
@@ -739,7 +699,7 @@ public struct BatchGetProjectsOutputResponse: Swift.Equatable {
     /// The names of build projects for which information could not be found.
     public var projectsNotFound: [Swift.String]?
 
-    public init (
+    public init(
         projects: [CodeBuildClientTypes.Project]? = nil,
         projectsNotFound: [Swift.String]? = nil
     )
@@ -760,7 +720,7 @@ extension BatchGetProjectsOutputResponseBody: Swift.Decodable {
         case projectsNotFound
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Project?].self, forKey: .projects)
         var projectsDecoded0:[CodeBuildClientTypes.Project]? = nil
@@ -814,7 +774,7 @@ public struct BatchGetReportGroupsInput: Swift.Equatable {
     /// This member is required.
     public var reportGroupArns: [Swift.String]?
 
-    public init (
+    public init(
         reportGroupArns: [Swift.String]? = nil
     )
     {
@@ -831,7 +791,7 @@ extension BatchGetReportGroupsInputBody: Swift.Decodable {
         case reportGroupArns
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGroupArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .reportGroupArns)
         var reportGroupArnsDecoded0:[Swift.String]? = nil
@@ -847,31 +807,20 @@ extension BatchGetReportGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetReportGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetReportGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetReportGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetReportGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetReportGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetReportGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportGroups = output.reportGroups
@@ -889,7 +838,7 @@ public struct BatchGetReportGroupsOutputResponse: Swift.Equatable {
     /// An array of ARNs passed to BatchGetReportGroups that are not associated with a ReportGroup.
     public var reportGroupsNotFound: [Swift.String]?
 
-    public init (
+    public init(
         reportGroups: [CodeBuildClientTypes.ReportGroup]? = nil,
         reportGroupsNotFound: [Swift.String]? = nil
     )
@@ -910,7 +859,7 @@ extension BatchGetReportGroupsOutputResponseBody: Swift.Decodable {
         case reportGroupsNotFound
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGroupsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.ReportGroup?].self, forKey: .reportGroups)
         var reportGroupsDecoded0:[CodeBuildClientTypes.ReportGroup]? = nil
@@ -964,7 +913,7 @@ public struct BatchGetReportsInput: Swift.Equatable {
     /// This member is required.
     public var reportArns: [Swift.String]?
 
-    public init (
+    public init(
         reportArns: [Swift.String]? = nil
     )
     {
@@ -981,7 +930,7 @@ extension BatchGetReportsInputBody: Swift.Decodable {
         case reportArns
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .reportArns)
         var reportArnsDecoded0:[Swift.String]? = nil
@@ -997,31 +946,20 @@ extension BatchGetReportsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetReportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetReportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetReportsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetReportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetReportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reports = output.reports
@@ -1039,7 +977,7 @@ public struct BatchGetReportsOutputResponse: Swift.Equatable {
     /// An array of ARNs passed to BatchGetReportGroups that are not associated with a Report.
     public var reportsNotFound: [Swift.String]?
 
-    public init (
+    public init(
         reports: [CodeBuildClientTypes.Report]? = nil,
         reportsNotFound: [Swift.String]? = nil
     )
@@ -1060,7 +998,7 @@ extension BatchGetReportsOutputResponseBody: Swift.Decodable {
         case reportsNotFound
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Report?].self, forKey: .reports)
         var reportsDecoded0:[CodeBuildClientTypes.Report]? = nil
@@ -1138,7 +1076,7 @@ extension CodeBuildClientTypes.BatchRestrictions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maximumBuildsAllowedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumBuildsAllowed)
         maximumBuildsAllowed = maximumBuildsAllowedDecoded
@@ -1164,7 +1102,7 @@ extension CodeBuildClientTypes {
         /// Specifies the maximum number of builds allowed.
         public var maximumBuildsAllowed: Swift.Int?
 
-        public init (
+        public init(
             computeTypesAllowed: [Swift.String]? = nil,
             maximumBuildsAllowed: Swift.Int? = nil
         )
@@ -1376,7 +1314,7 @@ extension CodeBuildClientTypes.Build: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1608,7 +1546,7 @@ extension CodeBuildClientTypes {
         /// If your CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             artifacts: CodeBuildClientTypes.BuildArtifacts? = nil,
             buildBatchArn: Swift.String? = nil,
@@ -1716,7 +1654,7 @@ extension CodeBuildClientTypes.BuildArtifacts: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
@@ -1760,7 +1698,7 @@ extension CodeBuildClientTypes {
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity. This value is available only if the build project's packaging value is set to ZIP.
         public var sha256sum: Swift.String?
 
-        public init (
+        public init(
             artifactIdentifier: Swift.String? = nil,
             bucketOwnerAccess: CodeBuildClientTypes.BucketOwnerAccess? = nil,
             encryptionDisabled: Swift.Bool? = nil,
@@ -1928,7 +1866,7 @@ extension CodeBuildClientTypes.BuildBatch: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2131,7 +2069,7 @@ extension CodeBuildClientTypes {
         /// Information about the VPC configuration that CodeBuild accesses.
         public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             artifacts: CodeBuildClientTypes.BuildArtifacts? = nil,
             buildBatchConfig: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
@@ -2211,7 +2149,7 @@ extension CodeBuildClientTypes.BuildBatchFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.StatusType.self, forKey: .status)
         status = statusDecoded
@@ -2224,7 +2162,7 @@ extension CodeBuildClientTypes {
         /// The status of the batch builds to retrieve. Only batch builds that have this status will be retrieved.
         public var status: CodeBuildClientTypes.StatusType?
 
-        public init (
+        public init(
             status: CodeBuildClientTypes.StatusType? = nil
         )
         {
@@ -2269,7 +2207,7 @@ extension CodeBuildClientTypes.BuildBatchPhase: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let phaseTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.BuildBatchPhaseType.self, forKey: .phaseType)
         phaseType = phaseTypeDecoded
@@ -2311,7 +2249,7 @@ extension CodeBuildClientTypes {
         /// When the batch build phase started, expressed in Unix time format.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             contexts: [CodeBuildClientTypes.PhaseContext]? = nil,
             durationInSeconds: Swift.Int? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -2412,7 +2350,7 @@ extension CodeBuildClientTypes.BuildGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -2459,7 +2397,7 @@ extension CodeBuildClientTypes {
         /// An array of BuildSummary objects that contain summaries of previous build groups.
         public var priorBuildSummaryList: [CodeBuildClientTypes.BuildSummary]?
 
-        public init (
+        public init(
             currentBuildSummary: CodeBuildClientTypes.BuildSummary? = nil,
             dependsOn: [Swift.String]? = nil,
             identifier: Swift.String? = nil,
@@ -2493,7 +2431,7 @@ extension CodeBuildClientTypes.BuildNotDeleted: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2510,7 +2448,7 @@ extension CodeBuildClientTypes {
         /// Additional information about the build that could not be successfully deleted.
         public var statusCode: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             statusCode: Swift.String? = nil
         )
@@ -2557,7 +2495,7 @@ extension CodeBuildClientTypes.BuildPhase: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let phaseTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.BuildPhaseType.self, forKey: .phaseType)
         phaseType = phaseTypeDecoded
@@ -2599,7 +2537,7 @@ extension CodeBuildClientTypes {
         /// When the build phase started, expressed in Unix time format.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             contexts: [CodeBuildClientTypes.PhaseContext]? = nil,
             durationInSeconds: Swift.Int? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -2694,7 +2632,7 @@ extension CodeBuildClientTypes.BuildStatusConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .context)
         context = contextDecoded
@@ -2711,7 +2649,7 @@ extension CodeBuildClientTypes {
         /// Specifies the target url of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider. Bitbucket This parameter is used for the url parameter in the Bitbucket commit status. For more information, see [build](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bnode%7D/statuses/build) in the Bitbucket API documentation. GitHub/GitHub Enterprise Server This parameter is used for the target_url parameter in the GitHub commit status. For more information, see [Create a commit status](https://developer.github.com/v3/repos/statuses/#create-a-commit-status) in the GitHub developer guide.
         public var targetUrl: Swift.String?
 
-        public init (
+        public init(
             context: Swift.String? = nil,
             targetUrl: Swift.String? = nil
         )
@@ -2754,7 +2692,7 @@ extension CodeBuildClientTypes.BuildSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -2792,7 +2730,7 @@ extension CodeBuildClientTypes {
         /// An array of ResolvedArtifact objects that represents the secondary build artifacts for the build group.
         public var secondaryArtifacts: [CodeBuildClientTypes.ResolvedArtifact]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             buildStatus: CodeBuildClientTypes.StatusType? = nil,
             primaryArtifact: CodeBuildClientTypes.ResolvedArtifact? = nil,
@@ -2900,7 +2838,7 @@ extension CodeBuildClientTypes.CloudWatchLogsConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.LogsConfigStatusType.self, forKey: .status)
         status = statusDecoded
@@ -2926,7 +2864,7 @@ extension CodeBuildClientTypes {
         /// The prefix of the stream name of the CloudWatch Logs. For more information, see [Working with Log Groups and Log Streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html).
         public var streamName: Swift.String?
 
-        public init (
+        public init(
             groupName: Swift.String? = nil,
             status: CodeBuildClientTypes.LogsConfigStatusType? = nil,
             streamName: Swift.String? = nil
@@ -2988,7 +2926,7 @@ extension CodeBuildClientTypes.CodeCoverage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3037,7 +2975,7 @@ extension CodeBuildClientTypes {
         /// The ARN of the report.
         public var reportARN: Swift.String?
 
-        public init (
+        public init(
             branchCoveragePercentage: Swift.Double? = nil,
             branchesCovered: Swift.Int? = nil,
             branchesMissed: Swift.Int? = nil,
@@ -3097,7 +3035,7 @@ extension CodeBuildClientTypes.CodeCoverageReportSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lineCoveragePercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lineCoveragePercentage)
         lineCoveragePercentage = lineCoveragePercentageDecoded
@@ -3130,7 +3068,7 @@ extension CodeBuildClientTypes {
         /// The number of lines that are not covered by your tests.
         public var linesMissed: Swift.Int?
 
-        public init (
+        public init(
             branchCoveragePercentage: Swift.Double? = nil,
             branchesCovered: Swift.Int? = nil,
             branchesMissed: Swift.Int? = nil,
@@ -3362,7 +3300,7 @@ public struct CreateProjectInput: Swift.Equatable {
     /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
     public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
-    public init (
+    public init(
         artifacts: CodeBuildClientTypes.ProjectArtifacts? = nil,
         badgeEnabled: Swift.Bool? = nil,
         buildBatchConfig: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
@@ -3459,7 +3397,7 @@ extension CreateProjectInputBody: Swift.Decodable {
         case vpcConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3551,35 +3489,22 @@ extension CreateProjectInputBody: Swift.Decodable {
     }
 }
 
-extension CreateProjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateProjectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountLimitExceededException" : self = .accountLimitExceededException(try AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateProjectOutputError: Swift.Error, Swift.Equatable {
-    case accountLimitExceededException(AccountLimitExceededException)
-    case invalidInputException(InvalidInputException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.project = output.project
@@ -3593,7 +3518,7 @@ public struct CreateProjectOutputResponse: Swift.Equatable {
     /// Information about the build project that was created.
     public var project: CodeBuildClientTypes.Project?
 
-    public init (
+    public init(
         project: CodeBuildClientTypes.Project? = nil
     )
     {
@@ -3610,7 +3535,7 @@ extension CreateProjectOutputResponseBody: Swift.Decodable {
         case project
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Project.self, forKey: .project)
         project = projectDecoded
@@ -3664,7 +3589,7 @@ public struct CreateReportGroupInput: Swift.Equatable {
     /// This member is required.
     public var type: CodeBuildClientTypes.ReportType?
 
-    public init (
+    public init(
         exportConfig: CodeBuildClientTypes.ReportExportConfig? = nil,
         name: Swift.String? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
@@ -3693,7 +3618,7 @@ extension CreateReportGroupInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3715,35 +3640,22 @@ extension CreateReportGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateReportGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateReportGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountLimitExceededException" : self = .accountLimitExceededException(try AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateReportGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateReportGroupOutputError: Swift.Error, Swift.Equatable {
-    case accountLimitExceededException(AccountLimitExceededException)
-    case invalidInputException(InvalidInputException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateReportGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateReportGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportGroup = output.reportGroup
@@ -3757,7 +3669,7 @@ public struct CreateReportGroupOutputResponse: Swift.Equatable {
     /// Information about the report group that was created.
     public var reportGroup: CodeBuildClientTypes.ReportGroup?
 
-    public init (
+    public init(
         reportGroup: CodeBuildClientTypes.ReportGroup? = nil
     )
     {
@@ -3774,7 +3686,7 @@ extension CreateReportGroupOutputResponseBody: Swift.Decodable {
         case reportGroup
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGroupDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ReportGroup.self, forKey: .reportGroup)
         reportGroup = reportGroupDecoded
@@ -3829,7 +3741,7 @@ public struct CreateWebhookInput: Swift.Equatable {
     /// This member is required.
     public var projectName: Swift.String?
 
-    public init (
+    public init(
         branchFilter: Swift.String? = nil,
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
@@ -3858,7 +3770,7 @@ extension CreateWebhookInputBody: Swift.Decodable {
         case projectName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
@@ -3889,37 +3801,23 @@ extension CreateWebhookInputBody: Swift.Decodable {
     }
 }
 
-extension CreateWebhookOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateWebhookOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OAuthProviderException" : self = .oAuthProviderException(try OAuthProviderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OAuthProviderException": return try await OAuthProviderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateWebhookOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case oAuthProviderException(OAuthProviderException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWebhookOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webhook = output.webhook
@@ -3933,7 +3831,7 @@ public struct CreateWebhookOutputResponse: Swift.Equatable {
     /// Information about a webhook that connects repository events to a build project in CodeBuild.
     public var webhook: CodeBuildClientTypes.Webhook?
 
-    public init (
+    public init(
         webhook: CodeBuildClientTypes.Webhook? = nil
     )
     {
@@ -3950,7 +3848,7 @@ extension CreateWebhookOutputResponseBody: Swift.Decodable {
         case webhook
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webhookDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Webhook.self, forKey: .webhook)
         webhook = webhookDecoded
@@ -4002,7 +3900,7 @@ extension CodeBuildClientTypes.DebugSession: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sessionEnabled)
         sessionEnabled = sessionEnabledDecoded
@@ -4019,7 +3917,7 @@ extension CodeBuildClientTypes {
         /// Contains the identifier of the Session Manager session used for the build. To work with the paused build, you open this session to examine, control, and resume the build.
         public var sessionTarget: Swift.String?
 
-        public init (
+        public init(
             sessionEnabled: Swift.Bool? = nil,
             sessionTarget: Swift.String? = nil
         )
@@ -4055,7 +3953,7 @@ public struct DeleteBuildBatchInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -4072,38 +3970,27 @@ extension DeleteBuildBatchInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension DeleteBuildBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBuildBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBuildBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBuildBatchOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBuildBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBuildBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buildsDeleted = output.buildsDeleted
@@ -4125,7 +4012,7 @@ public struct DeleteBuildBatchOutputResponse: Swift.Equatable {
     /// The status code.
     public var statusCode: Swift.String?
 
-    public init (
+    public init(
         buildsDeleted: [Swift.String]? = nil,
         buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]? = nil,
         statusCode: Swift.String? = nil
@@ -4150,7 +4037,7 @@ extension DeleteBuildBatchOutputResponseBody: Swift.Decodable {
         case statusCode
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusCode)
         statusCode = statusCodeDecoded
@@ -4203,7 +4090,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil
     )
     {
@@ -4220,43 +4107,32 @@ extension DeleteProjectInputBody: Swift.Decodable {
         case name
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
 }
 
-extension DeleteProjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteProjectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteProjectOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteProjectOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteReportGroupInput: Swift.Encodable {
@@ -4289,7 +4165,7 @@ public struct DeleteReportGroupInput: Swift.Equatable {
     /// If true, deletes any reports that belong to a report group before deleting the report group. If false, you must delete any reports in the report group. Use [ListReportsForReportGroup](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ListReportsForReportGroup.html) to get the reports in a report group. Use [DeleteReport](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteReport.html) to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown.
     public var deleteReports: Swift.Bool
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         deleteReports: Swift.Bool = false
     )
@@ -4310,7 +4186,7 @@ extension DeleteReportGroupInputBody: Swift.Decodable {
         case deleteReports
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -4319,36 +4195,25 @@ extension DeleteReportGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteReportGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteReportGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteReportGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteReportGroupOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteReportGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteReportGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteReportInput: Swift.Encodable {
@@ -4375,7 +4240,7 @@ public struct DeleteReportInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -4392,43 +4257,32 @@ extension DeleteReportInputBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
 }
 
-extension DeleteReportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteReportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteReportOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteReportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteReportOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteResourcePolicyInput: Swift.Encodable {
@@ -4455,7 +4309,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -4472,43 +4326,32 @@ extension DeleteResourcePolicyInputBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteResourcePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteSourceCredentialsInput: Swift.Encodable {
@@ -4535,7 +4378,7 @@ public struct DeleteSourceCredentialsInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -4552,40 +4395,28 @@ extension DeleteSourceCredentialsInputBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
 }
 
-extension DeleteSourceCredentialsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSourceCredentialsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSourceCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSourceCredentialsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSourceCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteSourceCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -4599,7 +4430,7 @@ public struct DeleteSourceCredentialsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the token.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -4616,7 +4447,7 @@ extension DeleteSourceCredentialsOutputResponseBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -4647,7 +4478,7 @@ public struct DeleteWebhookInput: Swift.Equatable {
     /// This member is required.
     public var projectName: Swift.String?
 
-    public init (
+    public init(
         projectName: Swift.String? = nil
     )
     {
@@ -4664,47 +4495,34 @@ extension DeleteWebhookInputBody: Swift.Decodable {
         case projectName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
     }
 }
 
-extension DeleteWebhookOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteWebhookOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OAuthProviderException" : self = .oAuthProviderException(try OAuthProviderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OAuthProviderException": return try await OAuthProviderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteWebhookOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case oAuthProviderException(OAuthProviderException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteWebhookOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeCodeCoveragesInput: Swift.Encodable {
@@ -4767,7 +4585,7 @@ public struct DescribeCodeCoveragesInput: Swift.Equatable {
     /// Specifies if the results are sorted in ascending or descending order.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         maxLineCoveragePercentage: Swift.Double? = nil,
         maxResults: Swift.Int? = nil,
         minLineCoveragePercentage: Swift.Double? = nil,
@@ -4808,7 +4626,7 @@ extension DescribeCodeCoveragesInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportArn)
         reportArn = reportArnDecoded
@@ -4827,31 +4645,20 @@ extension DescribeCodeCoveragesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeCodeCoveragesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeCodeCoveragesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeCodeCoveragesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeCodeCoveragesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeCodeCoveragesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeCodeCoveragesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.codeCoverages = output.codeCoverages
@@ -4869,7 +4676,7 @@ public struct DescribeCodeCoveragesOutputResponse: Swift.Equatable {
     /// If there are more items to return, this contains a token that is passed to a subsequent call to DescribeCodeCoverages to retrieve the next set of items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         codeCoverages: [CodeBuildClientTypes.CodeCoverage]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4890,7 +4697,7 @@ extension DescribeCodeCoveragesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4950,7 +4757,7 @@ public struct DescribeTestCasesInput: Swift.Equatable {
     /// This member is required.
     public var reportArn: Swift.String?
 
-    public init (
+    public init(
         filter: CodeBuildClientTypes.TestCaseFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -4979,7 +4786,7 @@ extension DescribeTestCasesInputBody: Swift.Decodable {
         case reportArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportArn)
         reportArn = reportArnDecoded
@@ -4992,33 +4799,21 @@ extension DescribeTestCasesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTestCasesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTestCasesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTestCasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTestCasesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTestCasesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTestCasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -5036,7 +4831,7 @@ public struct DescribeTestCasesOutputResponse: Swift.Equatable {
     /// The returned list of test cases.
     public var testCases: [CodeBuildClientTypes.TestCase]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         testCases: [CodeBuildClientTypes.TestCase]? = nil
     )
@@ -5057,7 +4852,7 @@ extension DescribeTestCasesOutputResponseBody: Swift.Decodable {
         case testCases
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5098,7 +4893,7 @@ extension CodeBuildClientTypes.EnvironmentImage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5128,7 +4923,7 @@ extension CodeBuildClientTypes {
         /// A list of environment image versions.
         public var versions: [Swift.String]?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             versions: [Swift.String]? = nil
@@ -5161,7 +4956,7 @@ extension CodeBuildClientTypes.EnvironmentLanguage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.LanguageType.self, forKey: .language)
         language = languageDecoded
@@ -5187,7 +4982,7 @@ extension CodeBuildClientTypes {
         /// The programming language for the Docker images.
         public var language: CodeBuildClientTypes.LanguageType?
 
-        public init (
+        public init(
             images: [CodeBuildClientTypes.EnvironmentImage]? = nil,
             language: CodeBuildClientTypes.LanguageType? = nil
         )
@@ -5218,7 +5013,7 @@ extension CodeBuildClientTypes.EnvironmentPlatform: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.PlatformType.self, forKey: .platform)
         platform = platformDecoded
@@ -5244,7 +5039,7 @@ extension CodeBuildClientTypes {
         /// The platform's name.
         public var platform: CodeBuildClientTypes.PlatformType?
 
-        public init (
+        public init(
             languages: [CodeBuildClientTypes.EnvironmentLanguage]? = nil,
             platform: CodeBuildClientTypes.PlatformType? = nil
         )
@@ -5317,7 +5112,7 @@ extension CodeBuildClientTypes.EnvironmentVariable: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5346,7 +5141,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             type: CodeBuildClientTypes.EnvironmentVariableType? = nil,
             value: Swift.String? = nil
@@ -5411,7 +5206,7 @@ extension CodeBuildClientTypes.ExportedEnvironmentVariable: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5428,7 +5223,7 @@ extension CodeBuildClientTypes {
         /// The value assigned to the exported environment variable.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -5506,7 +5301,7 @@ public struct GetReportGroupTrendInput: Swift.Equatable {
     /// This member is required.
     public var trendField: CodeBuildClientTypes.ReportGroupTrendFieldType?
 
-    public init (
+    public init(
         numOfReports: Swift.Int? = nil,
         reportGroupArn: Swift.String? = nil,
         trendField: CodeBuildClientTypes.ReportGroupTrendFieldType? = nil
@@ -5531,7 +5326,7 @@ extension GetReportGroupTrendInputBody: Swift.Decodable {
         case trendField
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportGroupArn)
         reportGroupArn = reportGroupArnDecoded
@@ -5542,33 +5337,21 @@ extension GetReportGroupTrendInputBody: Swift.Decodable {
     }
 }
 
-extension GetReportGroupTrendOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetReportGroupTrendOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetReportGroupTrendOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetReportGroupTrendOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetReportGroupTrendOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetReportGroupTrendOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rawData = output.rawData
@@ -5586,7 +5369,7 @@ public struct GetReportGroupTrendOutputResponse: Swift.Equatable {
     /// Contains the accumulated trend data.
     public var stats: CodeBuildClientTypes.ReportGroupTrendStats?
 
-    public init (
+    public init(
         rawData: [CodeBuildClientTypes.ReportWithRawData]? = nil,
         stats: CodeBuildClientTypes.ReportGroupTrendStats? = nil
     )
@@ -5607,7 +5390,7 @@ extension GetReportGroupTrendOutputResponseBody: Swift.Decodable {
         case stats
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statsDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ReportGroupTrendStats.self, forKey: .stats)
         stats = statsDecoded
@@ -5649,7 +5432,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -5666,40 +5449,28 @@ extension GetResourcePolicyInputBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension GetResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourcePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
@@ -5713,7 +5484,7 @@ public struct GetResourcePolicyOutputResponse: Swift.Equatable {
     /// The resource policy for the resource identified by the input ARN parameter.
     public var policy: Swift.String?
 
-    public init (
+    public init(
         policy: Swift.String? = nil
     )
     {
@@ -5730,7 +5501,7 @@ extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
         case policy
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
@@ -5749,7 +5520,7 @@ extension CodeBuildClientTypes.GitSubmodulesConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fetchSubmodulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fetchSubmodules)
         fetchSubmodules = fetchSubmodulesDecoded
@@ -5763,7 +5534,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var fetchSubmodules: Swift.Bool?
 
-        public init (
+        public init(
             fetchSubmodules: Swift.Bool? = nil
         )
         {
@@ -5860,7 +5631,7 @@ public struct ImportSourceCredentialsInput: Swift.Equatable {
     /// The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
     public var username: Swift.String?
 
-    public init (
+    public init(
         authType: CodeBuildClientTypes.AuthType? = nil,
         serverType: CodeBuildClientTypes.ServerType? = nil,
         shouldOverwrite: Swift.Bool? = nil,
@@ -5893,7 +5664,7 @@ extension ImportSourceCredentialsInputBody: Swift.Decodable {
         case username
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
@@ -5908,35 +5679,22 @@ extension ImportSourceCredentialsInputBody: Swift.Decodable {
     }
 }
 
-extension ImportSourceCredentialsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ImportSourceCredentialsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountLimitExceededException" : self = .accountLimitExceededException(try AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportSourceCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ImportSourceCredentialsOutputError: Swift.Error, Swift.Equatable {
-    case accountLimitExceededException(AccountLimitExceededException)
-    case invalidInputException(InvalidInputException)
-    case resourceAlreadyExistsException(ResourceAlreadyExistsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportSourceCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportSourceCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -5950,7 +5708,7 @@ public struct ImportSourceCredentialsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the token.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -5967,7 +5725,7 @@ extension ImportSourceCredentialsOutputResponseBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -5975,37 +5733,41 @@ extension ImportSourceCredentialsOutputResponseBody: Swift.Decodable {
 }
 
 extension InvalidInputException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input value that was provided is not valid.
-public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6018,7 +5780,7 @@ extension InvalidInputExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6049,7 +5811,7 @@ public struct InvalidateProjectCacheInput: Swift.Equatable {
     /// This member is required.
     public var projectName: Swift.String?
 
-    public init (
+    public init(
         projectName: Swift.String? = nil
     )
     {
@@ -6066,45 +5828,33 @@ extension InvalidateProjectCacheInputBody: Swift.Decodable {
         case projectName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
     }
 }
 
-extension InvalidateProjectCacheOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension InvalidateProjectCacheOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum InvalidateProjectCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum InvalidateProjectCacheOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension InvalidateProjectCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct InvalidateProjectCacheOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CodeBuildClientTypes {
@@ -6214,7 +5964,7 @@ public struct ListBuildBatchesForProjectInput: Swift.Equatable {
     /// * DESCENDING: List the batch build identifiers in descending order by identifier.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         filter: CodeBuildClientTypes.BuildBatchFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -6247,7 +5997,7 @@ extension ListBuildBatchesForProjectInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
@@ -6262,33 +6012,21 @@ extension ListBuildBatchesForProjectInputBody: Swift.Decodable {
     }
 }
 
-extension ListBuildBatchesForProjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListBuildBatchesForProjectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListBuildBatchesForProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListBuildBatchesForProjectOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListBuildBatchesForProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListBuildBatchesForProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ids = output.ids
@@ -6306,7 +6044,7 @@ public struct ListBuildBatchesForProjectOutputResponse: Swift.Equatable {
     /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatchesForProject to retrieve the next set of items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6327,7 +6065,7 @@ extension ListBuildBatchesForProjectOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -6390,7 +6128,7 @@ public struct ListBuildBatchesInput: Swift.Equatable {
     /// * DESCENDING: List the batch build identifiers in descending order by identifier.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         filter: CodeBuildClientTypes.BuildBatchFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -6419,7 +6157,7 @@ extension ListBuildBatchesInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.BuildBatchFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -6432,31 +6170,20 @@ extension ListBuildBatchesInputBody: Swift.Decodable {
     }
 }
 
-extension ListBuildBatchesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListBuildBatchesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListBuildBatchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListBuildBatchesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListBuildBatchesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListBuildBatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ids = output.ids
@@ -6474,7 +6201,7 @@ public struct ListBuildBatchesOutputResponse: Swift.Equatable {
     /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatches to retrieve the next set of items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6495,7 +6222,7 @@ extension ListBuildBatchesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -6556,7 +6283,7 @@ public struct ListBuildsForProjectInput: Swift.Equatable {
     /// If the project has more than 100 builds, setting the sort order will result in an error.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
@@ -6581,7 +6308,7 @@ extension ListBuildsForProjectInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
@@ -6592,33 +6319,21 @@ extension ListBuildsForProjectInputBody: Swift.Decodable {
     }
 }
 
-extension ListBuildsForProjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListBuildsForProjectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListBuildsForProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListBuildsForProjectOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListBuildsForProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListBuildsForProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ids = output.ids
@@ -6636,7 +6351,7 @@ public struct ListBuildsForProjectOutputResponse: Swift.Equatable {
     /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6657,7 +6372,7 @@ extension ListBuildsForProjectOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -6708,7 +6423,7 @@ public struct ListBuildsInput: Swift.Equatable {
     /// * DESCENDING: List the build IDs in descending order by build ID.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
     )
@@ -6729,7 +6444,7 @@ extension ListBuildsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sortOrderDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SortOrderType.self, forKey: .sortOrder)
         sortOrder = sortOrderDecoded
@@ -6738,31 +6453,20 @@ extension ListBuildsInputBody: Swift.Decodable {
     }
 }
 
-extension ListBuildsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListBuildsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListBuildsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListBuildsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListBuildsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListBuildsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ids = output.ids
@@ -6780,7 +6484,7 @@ public struct ListBuildsOutputResponse: Swift.Equatable {
     /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6801,7 +6505,7 @@ extension ListBuildsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
         var idsDecoded0:[Swift.String]? = nil
@@ -6835,7 +6539,7 @@ extension ListCuratedEnvironmentImagesInput: ClientRuntime.URLPathProvider {
 
 public struct ListCuratedEnvironmentImagesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct ListCuratedEnvironmentImagesInputBody: Swift.Equatable {
@@ -6843,33 +6547,23 @@ struct ListCuratedEnvironmentImagesInputBody: Swift.Equatable {
 
 extension ListCuratedEnvironmentImagesInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListCuratedEnvironmentImagesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCuratedEnvironmentImagesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCuratedEnvironmentImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCuratedEnvironmentImagesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCuratedEnvironmentImagesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCuratedEnvironmentImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.platforms = output.platforms
@@ -6883,7 +6577,7 @@ public struct ListCuratedEnvironmentImagesOutputResponse: Swift.Equatable {
     /// Information about supported platforms for Docker images that are managed by CodeBuild.
     public var platforms: [CodeBuildClientTypes.EnvironmentPlatform]?
 
-    public init (
+    public init(
         platforms: [CodeBuildClientTypes.EnvironmentPlatform]? = nil
     )
     {
@@ -6900,7 +6594,7 @@ extension ListCuratedEnvironmentImagesOutputResponseBody: Swift.Decodable {
         case platforms
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.EnvironmentPlatform?].self, forKey: .platforms)
         var platformsDecoded0:[CodeBuildClientTypes.EnvironmentPlatform]? = nil
@@ -6967,7 +6661,7 @@ public struct ListProjectsInput: Swift.Equatable {
     /// Use sortBy to specify the criterion to be used to list build project names.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.ProjectSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
@@ -6992,7 +6686,7 @@ extension ListProjectsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sortByDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ProjectSortByType.self, forKey: .sortBy)
         sortBy = sortByDecoded
@@ -7003,31 +6697,20 @@ extension ListProjectsInputBody: Swift.Decodable {
     }
 }
 
-extension ListProjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListProjectsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListProjectsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7045,7 +6728,7 @@ public struct ListProjectsOutputResponse: Swift.Equatable {
     /// The list of build project names, with each build project name representing a single build project.
     public var projects: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         projects: [Swift.String]? = nil
     )
@@ -7066,7 +6749,7 @@ extension ListProjectsOutputResponseBody: Swift.Decodable {
         case projects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7131,7 +6814,7 @@ public struct ListReportGroupsInput: Swift.Equatable {
     /// Used to specify the order to sort the list of returned report groups. Valid values are ASCENDING and DESCENDING.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.ReportGroupSortByType? = nil,
@@ -7160,7 +6843,7 @@ extension ListReportGroupsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sortOrderDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SortOrderType.self, forKey: .sortOrder)
         sortOrder = sortOrderDecoded
@@ -7173,31 +6856,20 @@ extension ListReportGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListReportGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReportGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReportGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReportGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReportGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReportGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7215,7 +6887,7 @@ public struct ListReportGroupsOutputResponse: Swift.Equatable {
     /// The list of ARNs for the report groups in the current Amazon Web Services account.
     public var reportGroups: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         reportGroups: [Swift.String]? = nil
     )
@@ -7236,7 +6908,7 @@ extension ListReportGroupsOutputResponseBody: Swift.Decodable {
         case reportGroups
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7302,7 +6974,7 @@ public struct ListReportsForReportGroupInput: Swift.Equatable {
     /// Use to specify whether the results are returned in ascending or descending order.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         filter: CodeBuildClientTypes.ReportFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -7335,7 +7007,7 @@ extension ListReportsForReportGroupInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportGroupArn)
         reportGroupArn = reportGroupArnDecoded
@@ -7350,33 +7022,21 @@ extension ListReportsForReportGroupInputBody: Swift.Decodable {
     }
 }
 
-extension ListReportsForReportGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReportsForReportGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReportsForReportGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReportsForReportGroupOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReportsForReportGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReportsForReportGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7394,7 +7054,7 @@ public struct ListReportsForReportGroupOutputResponse: Swift.Equatable {
     /// The list of report ARNs.
     public var reports: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         reports: [Swift.String]? = nil
     )
@@ -7415,7 +7075,7 @@ extension ListReportsForReportGroupOutputResponseBody: Swift.Decodable {
         case reports
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7478,7 +7138,7 @@ public struct ListReportsInput: Swift.Equatable {
     /// * DESCENDING: return reports in the reverse chronological order based on their creation date.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         filter: CodeBuildClientTypes.ReportFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -7507,7 +7167,7 @@ extension ListReportsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sortOrderDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SortOrderType.self, forKey: .sortOrder)
         sortOrder = sortOrderDecoded
@@ -7520,31 +7180,20 @@ extension ListReportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListReportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListReportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListReportsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListReportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListReportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7562,7 +7211,7 @@ public struct ListReportsOutputResponse: Swift.Equatable {
     /// The list of returned ARNs for the reports in the current Amazon Web Services account.
     public var reports: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         reports: [Swift.String]? = nil
     )
@@ -7583,7 +7232,7 @@ extension ListReportsOutputResponseBody: Swift.Decodable {
         case reports
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7650,7 +7299,7 @@ public struct ListSharedProjectsInput: Swift.Equatable {
     /// * DESCENDING: List in descending order.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.SharedResourceSortByType? = nil,
@@ -7679,7 +7328,7 @@ extension ListSharedProjectsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sortByDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SharedResourceSortByType.self, forKey: .sortBy)
         sortBy = sortByDecoded
@@ -7692,31 +7341,20 @@ extension ListSharedProjectsInputBody: Swift.Decodable {
     }
 }
 
-extension ListSharedProjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSharedProjectsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSharedProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSharedProjectsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSharedProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSharedProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7734,7 +7372,7 @@ public struct ListSharedProjectsOutputResponse: Swift.Equatable {
     /// The list of ARNs for the build projects shared with the current Amazon Web Services account or user.
     public var projects: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         projects: [Swift.String]? = nil
     )
@@ -7755,7 +7393,7 @@ extension ListSharedProjectsOutputResponseBody: Swift.Decodable {
         case projects
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7822,7 +7460,7 @@ public struct ListSharedReportGroupsInput: Swift.Equatable {
     /// * DESCENDING: List in descending order.
     public var sortOrder: CodeBuildClientTypes.SortOrderType?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.SharedResourceSortByType? = nil,
@@ -7851,7 +7489,7 @@ extension ListSharedReportGroupsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sortOrderDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SortOrderType.self, forKey: .sortOrder)
         sortOrder = sortOrderDecoded
@@ -7864,31 +7502,20 @@ extension ListSharedReportGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListSharedReportGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSharedReportGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSharedReportGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSharedReportGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSharedReportGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSharedReportGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7906,7 +7533,7 @@ public struct ListSharedReportGroupsOutputResponse: Swift.Equatable {
     /// The list of ARNs for the report groups shared with the current Amazon Web Services account or user.
     public var reportGroups: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         reportGroups: [Swift.String]? = nil
     )
@@ -7927,7 +7554,7 @@ extension ListSharedReportGroupsOutputResponseBody: Swift.Decodable {
         case reportGroups
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7961,7 +7588,7 @@ extension ListSourceCredentialsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSourceCredentialsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct ListSourceCredentialsInputBody: Swift.Equatable {
@@ -7969,35 +7596,24 @@ struct ListSourceCredentialsInputBody: Swift.Equatable {
 
 extension ListSourceCredentialsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListSourceCredentialsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSourceCredentialsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSourceCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSourceCredentialsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSourceCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSourceCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sourceCredentialsInfos = output.sourceCredentialsInfos
@@ -8011,7 +7627,7 @@ public struct ListSourceCredentialsOutputResponse: Swift.Equatable {
     /// A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials.
     public var sourceCredentialsInfos: [CodeBuildClientTypes.SourceCredentialsInfo]?
 
-    public init (
+    public init(
         sourceCredentialsInfos: [CodeBuildClientTypes.SourceCredentialsInfo]? = nil
     )
     {
@@ -8028,7 +7644,7 @@ extension ListSourceCredentialsOutputResponseBody: Swift.Decodable {
         case sourceCredentialsInfos
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceCredentialsInfosContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.SourceCredentialsInfo?].self, forKey: .sourceCredentialsInfos)
         var sourceCredentialsInfosDecoded0:[CodeBuildClientTypes.SourceCredentialsInfo]? = nil
@@ -8060,7 +7676,7 @@ extension CodeBuildClientTypes.LogsConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLogsDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.CloudWatchLogsConfig.self, forKey: .cloudWatchLogs)
         cloudWatchLogs = cloudWatchLogsDecoded
@@ -8077,7 +7693,7 @@ extension CodeBuildClientTypes {
         /// Information about logs built to an S3 bucket for a build project. S3 logs are not enabled by default.
         public var s3Logs: CodeBuildClientTypes.S3LogsConfig?
 
-        public init (
+        public init(
             cloudWatchLogs: CodeBuildClientTypes.CloudWatchLogsConfig? = nil,
             s3Logs: CodeBuildClientTypes.S3LogsConfig? = nil
         )
@@ -8161,7 +7777,7 @@ extension CodeBuildClientTypes.LogsLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
         groupName = groupNameDecoded
@@ -8202,7 +7818,7 @@ extension CodeBuildClientTypes {
         /// The name of the CloudWatch Logs stream for the build logs.
         public var streamName: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLogs: CodeBuildClientTypes.CloudWatchLogsConfig? = nil,
             cloudWatchLogsArn: Swift.String? = nil,
             deepLink: Swift.String? = nil,
@@ -8242,7 +7858,7 @@ extension CodeBuildClientTypes.NetworkInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
         subnetId = subnetIdDecoded
@@ -8259,7 +7875,7 @@ extension CodeBuildClientTypes {
         /// The ID of the subnet.
         public var subnetId: Swift.String?
 
-        public init (
+        public init(
             networkInterfaceId: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
@@ -8272,37 +7888,41 @@ extension CodeBuildClientTypes {
 }
 
 extension OAuthProviderException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OAuthProviderExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was a problem with the underlying OAuth provider.
-public struct OAuthProviderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OAuthProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OAuthProviderException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8315,7 +7935,7 @@ extension OAuthProviderExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8338,7 +7958,7 @@ extension CodeBuildClientTypes.PhaseContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusCode)
         statusCode = statusCodeDecoded
@@ -8355,7 +7975,7 @@ extension CodeBuildClientTypes {
         /// The status code for the context of the build phase.
         public var statusCode: Swift.String?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             statusCode: Swift.String? = nil
         )
@@ -8540,7 +8160,7 @@ extension CodeBuildClientTypes.Project: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8717,7 +8337,7 @@ extension CodeBuildClientTypes {
         /// Information about a webhook that connects repository events to a build project in CodeBuild.
         public var webhook: CodeBuildClientTypes.Webhook?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             artifacts: CodeBuildClientTypes.ProjectArtifacts? = nil,
             badge: CodeBuildClientTypes.ProjectBadge? = nil,
@@ -8829,7 +8449,7 @@ extension CodeBuildClientTypes.ProjectArtifacts: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ArtifactsType.self, forKey: .type)
         type = typeDecoded
@@ -8948,7 +8568,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var type: CodeBuildClientTypes.ArtifactsType?
 
-        public init (
+        public init(
             artifactIdentifier: Swift.String? = nil,
             bucketOwnerAccess: CodeBuildClientTypes.BucketOwnerAccess? = nil,
             encryptionDisabled: Swift.Bool? = nil,
@@ -8992,7 +8612,7 @@ extension CodeBuildClientTypes.ProjectBadge: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let badgeEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .badgeEnabled) ?? false
         badgeEnabled = badgeEnabledDecoded
@@ -9009,7 +8629,7 @@ extension CodeBuildClientTypes {
         /// The publicly-accessible URL through which you can access the build badge for your project.
         public var badgeRequestUrl: Swift.String?
 
-        public init (
+        public init(
             badgeEnabled: Swift.Bool = false,
             badgeRequestUrl: Swift.String? = nil
         )
@@ -9049,7 +8669,7 @@ extension CodeBuildClientTypes.ProjectBuildBatchConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceRole)
         serviceRole = serviceRoleDecoded
@@ -9078,7 +8698,7 @@ extension CodeBuildClientTypes {
         /// Specifies the maximum amount of time, in minutes, that the batch build must be completed in.
         public var timeoutInMins: Swift.Int?
 
-        public init (
+        public init(
             batchReportMode: CodeBuildClientTypes.BatchReportModeType? = nil,
             combineArtifacts: Swift.Bool? = nil,
             restrictions: CodeBuildClientTypes.BatchRestrictions? = nil,
@@ -9119,7 +8739,7 @@ extension CodeBuildClientTypes.ProjectCache: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.CacheType.self, forKey: .type)
         type = typeDecoded
@@ -9175,7 +8795,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var type: CodeBuildClientTypes.CacheType?
 
-        public init (
+        public init(
             location: Swift.String? = nil,
             modes: [CodeBuildClientTypes.CacheMode]? = nil,
             type: CodeBuildClientTypes.CacheType? = nil
@@ -9232,7 +8852,7 @@ extension CodeBuildClientTypes.ProjectEnvironment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.EnvironmentType.self, forKey: .type)
         type = typeDecoded
@@ -9334,7 +8954,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var type: CodeBuildClientTypes.EnvironmentType?
 
-        public init (
+        public init(
             certificate: Swift.String? = nil,
             computeType: CodeBuildClientTypes.ComputeType? = nil,
             environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]? = nil,
@@ -9386,7 +9006,7 @@ extension CodeBuildClientTypes.ProjectFileSystemLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FileSystemType.self, forKey: .type)
         type = typeDecoded
@@ -9415,7 +9035,7 @@ extension CodeBuildClientTypes {
         /// The type of the file system. The one supported type is EFS.
         public var type: CodeBuildClientTypes.FileSystemType?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil,
             location: Swift.String? = nil,
             mountOptions: Swift.String? = nil,
@@ -9516,7 +9136,7 @@ extension CodeBuildClientTypes.ProjectSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SourceType.self, forKey: .type)
         type = typeDecoded
@@ -9600,7 +9220,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var type: CodeBuildClientTypes.SourceType?
 
-        public init (
+        public init(
             auth: CodeBuildClientTypes.SourceAuth? = nil,
             buildStatusConfig: CodeBuildClientTypes.BuildStatusConfig? = nil,
             buildspec: Swift.String? = nil,
@@ -9644,7 +9264,7 @@ extension CodeBuildClientTypes.ProjectSourceVersion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentifier)
         sourceIdentifier = sourceIdentifierDecoded
@@ -9674,7 +9294,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var sourceVersion: Swift.String?
 
-        public init (
+        public init(
             sourceIdentifier: Swift.String? = nil,
             sourceVersion: Swift.String? = nil
         )
@@ -9750,7 +9370,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -9771,7 +9391,7 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
@@ -9780,33 +9400,21 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutResourcePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
@@ -9820,7 +9428,7 @@ public struct PutResourcePolicyOutputResponse: Swift.Equatable {
     /// The ARN of the Project or ReportGroup resource that is associated with a resource policy.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -9837,7 +9445,7 @@ extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
         case resourceArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -9860,7 +9468,7 @@ extension CodeBuildClientTypes.RegistryCredential: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let credentialDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credential)
         credential = credentialDecoded
@@ -9886,7 +9494,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var credentialProvider: CodeBuildClientTypes.CredentialProviderType?
 
-        public init (
+        public init(
             credential: Swift.String? = nil,
             credentialProvider: CodeBuildClientTypes.CredentialProviderType? = nil
         )
@@ -9954,7 +9562,7 @@ extension CodeBuildClientTypes.Report: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10011,7 +9619,7 @@ extension CodeBuildClientTypes {
         /// The type of the report that was run. CODE_COVERAGE A code coverage report. TEST A test report.
         public var type: CodeBuildClientTypes.ReportType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             codeCoverageSummary: CodeBuildClientTypes.CodeCoverageReportSummary? = nil,
             created: ClientRuntime.Date? = nil,
@@ -10091,7 +9699,7 @@ extension CodeBuildClientTypes.ReportExportConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportConfigTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ReportExportConfigType.self, forKey: .exportConfigType)
         exportConfigType = exportConfigTypeDecoded
@@ -10112,7 +9720,7 @@ extension CodeBuildClientTypes {
         /// A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported.
         public var s3Destination: CodeBuildClientTypes.S3ReportExportConfig?
 
-        public init (
+        public init(
             exportConfigType: CodeBuildClientTypes.ReportExportConfigType? = nil,
             s3Destination: CodeBuildClientTypes.S3ReportExportConfig? = nil
         )
@@ -10168,7 +9776,7 @@ extension CodeBuildClientTypes.ReportFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ReportStatusType.self, forKey: .status)
         status = statusDecoded
@@ -10181,7 +9789,7 @@ extension CodeBuildClientTypes {
         /// The status used to filter reports. You can filter using one status only.
         public var status: CodeBuildClientTypes.ReportStatusType?
 
-        public init (
+        public init(
             status: CodeBuildClientTypes.ReportStatusType? = nil
         )
         {
@@ -10234,7 +9842,7 @@ extension CodeBuildClientTypes.ReportGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10284,7 +9892,7 @@ extension CodeBuildClientTypes {
         /// The type of the ReportGroup. This can be one of the following values: CODE_COVERAGE The report group contains code coverage reports. TEST The report group contains test reports.
         public var type: CodeBuildClientTypes.ReportType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             created: ClientRuntime.Date? = nil,
             exportConfig: CodeBuildClientTypes.ReportExportConfig? = nil,
@@ -10448,7 +10056,7 @@ extension CodeBuildClientTypes.ReportGroupTrendStats: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let averageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .average)
         average = averageDecoded
@@ -10469,7 +10077,7 @@ extension CodeBuildClientTypes {
         /// Contains the minimum value analyzed.
         public var min: Swift.String?
 
-        public init (
+        public init(
             average: Swift.String? = nil,
             max: Swift.String? = nil,
             min: Swift.String? = nil
@@ -10604,7 +10212,7 @@ extension CodeBuildClientTypes.ReportWithRawData: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportArn)
         reportArn = reportArnDecoded
@@ -10621,7 +10229,7 @@ extension CodeBuildClientTypes {
         /// The ARN of the report.
         public var reportArn: Swift.String?
 
-        public init (
+        public init(
             data: Swift.String? = nil,
             reportArn: Swift.String? = nil
         )
@@ -10653,7 +10261,7 @@ extension CodeBuildClientTypes.ResolvedArtifact: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ArtifactsType.self, forKey: .type)
         type = typeDecoded
@@ -10674,7 +10282,7 @@ extension CodeBuildClientTypes {
         /// Specifies the type of artifact.
         public var type: CodeBuildClientTypes.ArtifactsType?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil,
             location: Swift.String? = nil,
             type: CodeBuildClientTypes.ArtifactsType? = nil
@@ -10689,37 +10297,41 @@ extension CodeBuildClientTypes {
 }
 
 extension ResourceAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10732,7 +10344,7 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10740,37 +10352,41 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified Amazon Web Services resource cannot be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10783,7 +10399,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10825,7 +10441,7 @@ public struct RetryBuildBatchInput: Swift.Equatable {
     /// Specifies the type of retry to perform.
     public var retryType: CodeBuildClientTypes.RetryBuildBatchType?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         retryType: CodeBuildClientTypes.RetryBuildBatchType? = nil
@@ -10850,7 +10466,7 @@ extension RetryBuildBatchInputBody: Swift.Decodable {
         case retryType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -10861,33 +10477,21 @@ extension RetryBuildBatchInputBody: Swift.Decodable {
     }
 }
 
-extension RetryBuildBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RetryBuildBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RetryBuildBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RetryBuildBatchOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RetryBuildBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetryBuildBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buildBatch = output.buildBatch
@@ -10901,7 +10505,7 @@ public struct RetryBuildBatchOutputResponse: Swift.Equatable {
     /// Contains information about a batch build.
     public var buildBatch: CodeBuildClientTypes.BuildBatch?
 
-    public init (
+    public init(
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
     )
     {
@@ -10918,7 +10522,7 @@ extension RetryBuildBatchOutputResponseBody: Swift.Decodable {
         case buildBatch
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildBatchDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.BuildBatch.self, forKey: .buildBatch)
         buildBatch = buildBatchDecoded
@@ -10986,7 +10590,7 @@ public struct RetryBuildInput: Swift.Equatable {
     /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
     public var idempotencyToken: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil
     )
@@ -11007,7 +10611,7 @@ extension RetryBuildInputBody: Swift.Decodable {
         case idempotencyToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -11016,35 +10620,22 @@ extension RetryBuildInputBody: Swift.Decodable {
     }
 }
 
-extension RetryBuildOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RetryBuildOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountLimitExceededException" : self = .accountLimitExceededException(try AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RetryBuildOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RetryBuildOutputError: Swift.Error, Swift.Equatable {
-    case accountLimitExceededException(AccountLimitExceededException)
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RetryBuildOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetryBuildOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.build = output.build
@@ -11058,7 +10649,7 @@ public struct RetryBuildOutputResponse: Swift.Equatable {
     /// Information about a build.
     public var build: CodeBuildClientTypes.Build?
 
-    public init (
+    public init(
         build: CodeBuildClientTypes.Build? = nil
     )
     {
@@ -11075,7 +10666,7 @@ extension RetryBuildOutputResponseBody: Swift.Decodable {
         case build
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Build.self, forKey: .build)
         build = buildDecoded
@@ -11106,7 +10697,7 @@ extension CodeBuildClientTypes.S3LogsConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.LogsConfigStatusType.self, forKey: .status)
         status = statusDecoded
@@ -11143,7 +10734,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var status: CodeBuildClientTypes.LogsConfigStatusType?
 
-        public init (
+        public init(
             bucketOwnerAccess: CodeBuildClientTypes.BucketOwnerAccess? = nil,
             encryptionDisabled: Swift.Bool? = nil,
             location: Swift.String? = nil,
@@ -11191,7 +10782,7 @@ extension CodeBuildClientTypes.S3ReportExportConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
         bucket = bucketDecoded
@@ -11228,7 +10819,7 @@ extension CodeBuildClientTypes {
         /// The path to the exported report's raw data results.
         public var path: Swift.String?
 
-        public init (
+        public init(
             bucket: Swift.String? = nil,
             bucketOwner: Swift.String? = nil,
             encryptionDisabled: Swift.Bool? = nil,
@@ -11363,7 +10954,7 @@ extension CodeBuildClientTypes.SourceAuth: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SourceAuthType.self, forKey: .type)
         type = typeDecoded
@@ -11381,7 +10972,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var type: CodeBuildClientTypes.SourceAuthType?
 
-        public init (
+        public init(
             resource: Swift.String? = nil,
             type: CodeBuildClientTypes.SourceAuthType? = nil
         )
@@ -11442,7 +11033,7 @@ extension CodeBuildClientTypes.SourceCredentialsInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -11463,7 +11054,7 @@ extension CodeBuildClientTypes {
         /// The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
         public var serverType: CodeBuildClientTypes.ServerType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             authType: CodeBuildClientTypes.AuthType? = nil,
             serverType: CodeBuildClientTypes.ServerType? = nil
@@ -11740,7 +11331,7 @@ public struct StartBuildBatchInput: Swift.Equatable {
     /// The version of the batch build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider: CodeCommit The commit ID, branch, or Git tag to use. GitHub The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used. Bitbucket The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used. Amazon S3 The version ID of the object that represents the build input ZIP file to use. If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence. For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html) in the CodeBuild User Guide.
     public var sourceVersion: Swift.String?
 
-    public init (
+    public init(
         artifactsOverride: CodeBuildClientTypes.ProjectArtifacts? = nil,
         buildBatchConfigOverride: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
         buildTimeoutInMinutesOverride: Swift.Int? = nil,
@@ -11877,7 +11468,7 @@ extension StartBuildBatchInputBody: Swift.Decodable {
         case sourceVersion
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
@@ -11980,33 +11571,21 @@ extension StartBuildBatchInputBody: Swift.Decodable {
     }
 }
 
-extension StartBuildBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartBuildBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartBuildBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartBuildBatchOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartBuildBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartBuildBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buildBatch = output.buildBatch
@@ -12020,7 +11599,7 @@ public struct StartBuildBatchOutputResponse: Swift.Equatable {
     /// A BuildBatch object that contains information about the batch build.
     public var buildBatch: CodeBuildClientTypes.BuildBatch?
 
-    public init (
+    public init(
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
     )
     {
@@ -12037,7 +11616,7 @@ extension StartBuildBatchOutputResponseBody: Swift.Decodable {
         case buildBatch
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildBatchDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.BuildBatch.self, forKey: .buildBatch)
         buildBatch = buildBatchDecoded
@@ -12260,7 +11839,7 @@ public struct StartBuildInput: Swift.Equatable {
     /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
     public var timeoutInMinutesOverride: Swift.Int?
 
-    public init (
+    public init(
         artifactsOverride: CodeBuildClientTypes.ProjectArtifacts? = nil,
         buildStatusConfigOverride: CodeBuildClientTypes.BuildStatusConfig? = nil,
         buildspecOverride: Swift.String? = nil,
@@ -12397,7 +11976,7 @@ extension StartBuildInputBody: Swift.Decodable {
         case timeoutInMinutesOverride
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
@@ -12500,35 +12079,22 @@ extension StartBuildInputBody: Swift.Decodable {
     }
 }
 
-extension StartBuildOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartBuildOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccountLimitExceededException" : self = .accountLimitExceededException(try AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartBuildOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartBuildOutputError: Swift.Error, Swift.Equatable {
-    case accountLimitExceededException(AccountLimitExceededException)
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartBuildOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartBuildOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.build = output.build
@@ -12542,7 +12108,7 @@ public struct StartBuildOutputResponse: Swift.Equatable {
     /// Information about the build to be run.
     public var build: CodeBuildClientTypes.Build?
 
-    public init (
+    public init(
         build: CodeBuildClientTypes.Build? = nil
     )
     {
@@ -12559,7 +12125,7 @@ extension StartBuildOutputResponseBody: Swift.Decodable {
         case build
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Build.self, forKey: .build)
         build = buildDecoded
@@ -12634,7 +12200,7 @@ public struct StopBuildBatchInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -12651,40 +12217,28 @@ extension StopBuildBatchInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension StopBuildBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopBuildBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopBuildBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopBuildBatchOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopBuildBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopBuildBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buildBatch = output.buildBatch
@@ -12698,7 +12252,7 @@ public struct StopBuildBatchOutputResponse: Swift.Equatable {
     /// Contains information about a batch build.
     public var buildBatch: CodeBuildClientTypes.BuildBatch?
 
-    public init (
+    public init(
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
     )
     {
@@ -12715,7 +12269,7 @@ extension StopBuildBatchOutputResponseBody: Swift.Decodable {
         case buildBatch
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildBatchDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.BuildBatch.self, forKey: .buildBatch)
         buildBatch = buildBatchDecoded
@@ -12746,7 +12300,7 @@ public struct StopBuildInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -12763,40 +12317,28 @@ extension StopBuildInputBody: Swift.Decodable {
         case id
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension StopBuildOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopBuildOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopBuildOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopBuildOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopBuildOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopBuildOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.build = output.build
@@ -12810,7 +12352,7 @@ public struct StopBuildOutputResponse: Swift.Equatable {
     /// Information about the build.
     public var build: CodeBuildClientTypes.Build?
 
-    public init (
+    public init(
         build: CodeBuildClientTypes.Build? = nil
     )
     {
@@ -12827,7 +12369,7 @@ extension StopBuildOutputResponseBody: Swift.Decodable {
         case build
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let buildDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Build.self, forKey: .build)
         build = buildDecoded
@@ -12850,7 +12392,7 @@ extension CodeBuildClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -12867,7 +12409,7 @@ extension CodeBuildClientTypes {
         /// The tag's value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -12919,7 +12461,7 @@ extension CodeBuildClientTypes.TestCase: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportArn)
         reportArn = reportArnDecoded
@@ -12960,7 +12502,7 @@ extension CodeBuildClientTypes {
         /// The path to the raw data file that contains the test result.
         public var testRawDataPath: Swift.String?
 
-        public init (
+        public init(
             durationInNanoSeconds: Swift.Int? = nil,
             expired: ClientRuntime.Date? = nil,
             message: Swift.String? = nil,
@@ -13000,7 +12542,7 @@ extension CodeBuildClientTypes.TestCaseFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -13027,7 +12569,7 @@ extension CodeBuildClientTypes {
         /// * UNKNOWN
         public var status: Swift.String?
 
-        public init (
+        public init(
             keyword: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -13062,7 +12604,7 @@ extension CodeBuildClientTypes.TestReportSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let totalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .total)
         total = totalDecoded
@@ -13095,7 +12637,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var total: Swift.Int?
 
-        public init (
+        public init(
             durationInNanoSeconds: Swift.Int? = nil,
             statusCounts: [Swift.String:Swift.Int]? = nil,
             total: Swift.Int? = nil
@@ -13279,7 +12821,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
     public var vpcConfig: CodeBuildClientTypes.VpcConfig?
 
-    public init (
+    public init(
         artifacts: CodeBuildClientTypes.ProjectArtifacts? = nil,
         badgeEnabled: Swift.Bool? = nil,
         buildBatchConfig: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
@@ -13376,7 +12918,7 @@ extension UpdateProjectInputBody: Swift.Decodable {
         case vpcConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13468,33 +13010,21 @@ extension UpdateProjectInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateProjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateProjectOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateProjectOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.project = output.project
@@ -13508,7 +13038,7 @@ public struct UpdateProjectOutputResponse: Swift.Equatable {
     /// Information about the build project that was changed.
     public var project: CodeBuildClientTypes.Project?
 
-    public init (
+    public init(
         project: CodeBuildClientTypes.Project? = nil
     )
     {
@@ -13525,7 +13055,7 @@ extension UpdateProjectOutputResponseBody: Swift.Decodable {
         case project
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Project.self, forKey: .project)
         project = projectDecoded
@@ -13569,7 +13099,7 @@ public struct UpdateProjectVisibilityInput: Swift.Equatable {
     /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs and Amazon S3 artifacts for the project's builds.
     public var resourceAccessRole: Swift.String?
 
-    public init (
+    public init(
         projectArn: Swift.String? = nil,
         projectVisibility: CodeBuildClientTypes.ProjectVisibilityType? = nil,
         resourceAccessRole: Swift.String? = nil
@@ -13594,7 +13124,7 @@ extension UpdateProjectVisibilityInputBody: Swift.Decodable {
         case resourceAccessRole
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectArn)
         projectArn = projectArnDecoded
@@ -13605,33 +13135,21 @@ extension UpdateProjectVisibilityInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateProjectVisibilityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateProjectVisibilityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateProjectVisibilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateProjectVisibilityOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateProjectVisibilityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateProjectVisibilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.projectArn = output.projectArn
@@ -13653,7 +13171,7 @@ public struct UpdateProjectVisibilityOutputResponse: Swift.Equatable {
     /// Contains the project identifier used with the public build APIs.
     public var publicProjectAlias: Swift.String?
 
-    public init (
+    public init(
         projectArn: Swift.String? = nil,
         projectVisibility: CodeBuildClientTypes.ProjectVisibilityType? = nil,
         publicProjectAlias: Swift.String? = nil
@@ -13678,7 +13196,7 @@ extension UpdateProjectVisibilityOutputResponseBody: Swift.Decodable {
         case publicProjectAlias
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectArn)
         projectArn = projectArnDecoded
@@ -13732,7 +13250,7 @@ public struct UpdateReportGroupInput: Swift.Equatable {
     /// An updated list of tag key and value pairs associated with this report group. These tags are available for use by Amazon Web Services services that support CodeBuild report group tags.
     public var tags: [CodeBuildClientTypes.Tag]?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         exportConfig: CodeBuildClientTypes.ReportExportConfig? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil
@@ -13757,7 +13275,7 @@ extension UpdateReportGroupInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -13777,33 +13295,21 @@ extension UpdateReportGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateReportGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateReportGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateReportGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateReportGroupOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateReportGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateReportGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportGroup = output.reportGroup
@@ -13817,7 +13323,7 @@ public struct UpdateReportGroupOutputResponse: Swift.Equatable {
     /// Information about the updated report group.
     public var reportGroup: CodeBuildClientTypes.ReportGroup?
 
-    public init (
+    public init(
         reportGroup: CodeBuildClientTypes.ReportGroup? = nil
     )
     {
@@ -13834,7 +13340,7 @@ extension UpdateReportGroupOutputResponseBody: Swift.Decodable {
         case reportGroup
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportGroupDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ReportGroup.self, forKey: .reportGroup)
         reportGroup = reportGroupDecoded
@@ -13895,7 +13401,7 @@ public struct UpdateWebhookInput: Swift.Equatable {
     /// A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
     public var rotateSecret: Swift.Bool
 
-    public init (
+    public init(
         branchFilter: Swift.String? = nil,
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
@@ -13928,7 +13434,7 @@ extension UpdateWebhookInputBody: Swift.Decodable {
         case rotateSecret
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
         projectName = projectNameDecoded
@@ -13961,35 +13467,22 @@ extension UpdateWebhookInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateWebhookOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateWebhookOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OAuthProviderException" : self = .oAuthProviderException(try OAuthProviderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateWebhookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OAuthProviderException": return try await OAuthProviderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateWebhookOutputError: Swift.Error, Swift.Equatable {
-    case invalidInputException(InvalidInputException)
-    case oAuthProviderException(OAuthProviderException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateWebhookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateWebhookOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webhook = output.webhook
@@ -14003,7 +13496,7 @@ public struct UpdateWebhookOutputResponse: Swift.Equatable {
     /// Information about a repository's webhook that is associated with a project in CodeBuild.
     public var webhook: CodeBuildClientTypes.Webhook?
 
-    public init (
+    public init(
         webhook: CodeBuildClientTypes.Webhook? = nil
     )
     {
@@ -14020,7 +13513,7 @@ extension UpdateWebhookOutputResponseBody: Swift.Decodable {
         case webhook
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webhookDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Webhook.self, forKey: .webhook)
         webhook = webhookDecoded
@@ -14053,7 +13546,7 @@ extension CodeBuildClientTypes.VpcConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -14092,7 +13585,7 @@ extension CodeBuildClientTypes {
         /// The ID of the Amazon VPC.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
@@ -14148,7 +13641,7 @@ extension CodeBuildClientTypes.Webhook: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
@@ -14203,7 +13696,7 @@ extension CodeBuildClientTypes {
         /// The URL to the webhook.
         public var url: Swift.String?
 
-        public init (
+        public init(
             branchFilter: Swift.String? = nil,
             buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
             filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
@@ -14277,7 +13770,7 @@ extension CodeBuildClientTypes.WebhookFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.WebhookFilterType.self, forKey: .type)
         type = typeDecoded
@@ -14300,7 +13793,7 @@ extension CodeBuildClientTypes {
         /// This member is required.
         public var type: CodeBuildClientTypes.WebhookFilterType?
 
-        public init (
+        public init(
             excludeMatchedPattern: Swift.Bool? = nil,
             pattern: Swift.String? = nil,
             type: CodeBuildClientTypes.WebhookFilterType? = nil
